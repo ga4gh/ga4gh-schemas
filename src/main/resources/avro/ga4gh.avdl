@@ -145,34 +145,4 @@ record GA4GHRead {
     union { null, array<GA4GHKeyValue> } tags = null;
 }
 
-record BeaconPopulation{
-    //the name of the population
-    union{ null, string } name = null;
-
-    //The version of the reference
-    union{ null, string } referenceVersion = null;
-}
-
-record BeaconRequest{
-    //The targeted population of the request
-    union{ null, BeaconPopulation } population = null;
-
-    //The chromosome of the request
-    union{ null, string } chromosome = null;
-
-    //0-based allele locus
-    union{ null, int } coordinate = null;
-
-    //Allele
-    union{ null, string } allele = null;
-}
-
-record BeaconResponse{
-    //outcome of the existence test
-    union{ null, boolean } exists = null;
-
-    //allele frequency
-    union{ null, int } frequency = null;
-}
-
 }
