@@ -1,0 +1,30 @@
+@namespace("org.ga4gh")
+
+protocol BEACON{
+
+record BEACONRequest{
+    //The name of the targeted population
+    union{ null, string } populationId = null;
+
+    //The version of the reference
+    union{ null, string } referenceVersion = null;
+
+    //The chromosome of the request
+    union{ null, string } chromosome = null;
+
+    //0-based allele locus
+    union{ null, long } coordinate = null;
+
+    //allele
+    union{ null, string } allele = null;
+}
+
+record BEACONResponse{
+    //outcome of the existence test
+    union{ null, boolean } exists = null;
+
+    //allele frequency
+    union{ null, long } frequency = null;
+}
+
+}
