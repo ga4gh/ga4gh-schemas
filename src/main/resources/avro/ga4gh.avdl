@@ -115,7 +115,7 @@ record GA4GHRead {
     union { boolean, null } failedVendorQualityChecks = false;
     union { boolean, null } duplicateRead = false;
 
-    // 0-based reference positions
+    // 1-based reference positions
     union { null, long } position = null;
     union { null, long } matePosition = null;
 
