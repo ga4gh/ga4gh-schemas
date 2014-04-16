@@ -10,6 +10,7 @@ record GA4GHReferenceSequence {
   union { null, string } uri = null;
 }
 
+// Test
 record GA4GHReadGroup {
   union { null, string } date = null;
   union { null, string } description = null;
