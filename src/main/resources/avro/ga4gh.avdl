@@ -6,7 +6,7 @@ record GA4GHReferenceSequence {
   union { null, long } length = null;
   union { null, string } md5checksum = null;
   union { null, string } name = null;
-  union { null, string } species = null;
+  union { null, string } species = null;    // an ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. "9606"=human)
   union { null, string } uri = null;
 }
 
@@ -99,8 +99,8 @@ record GA4GHRead {
     // template name. (QNAME)
     union { null, string } name = null;
 
-    // The ID of the readset this read belongs to.
-    union { null, string } readsetId = null;
+    // The ID of the readset this read belongs to. (Every read must belong to exactly one readset.)
+    string readsetId;
 
     // Read flags (all default to false)
     union { boolean, null } readPaired = false;
