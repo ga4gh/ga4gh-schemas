@@ -64,6 +64,13 @@ record GA4GHHeaderSection {
   union { null, array<GA4GHReferenceSequence> } referenceSequences = null;
 }
 
+
+// A readset is a collection of reads that are intended to be processed together, plus metadata about their source.
+//
+// A common case is that a readset contains all the reads from a single sample, which were stored in a single file.
+// Depending on sequencing technology and sample prep, those reads may have been stored in multiple BAM read groups,
+// all marked with the same sample name.
+
 record GA4GHReadSet {
 
   // The readset ID.
