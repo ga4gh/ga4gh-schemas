@@ -3,7 +3,7 @@ Global Alliance Data Model and RPC
 
 ## Build Status
 
-[![Build Status](https://travis-ci.org/ga4gh/schemas.svg?branch=master)](https://travis-ci.org/ga4gh/schemas)
+[![Build Status](https://travis-ci.org/ga4gh/ReadTaskTeam.svg?branch=master)](https://travis-ci.org/ga4gh/ReadTaskTeam)
 
 ## How to contribute changes
 
