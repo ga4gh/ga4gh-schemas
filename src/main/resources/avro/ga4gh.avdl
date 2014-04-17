@@ -65,10 +65,11 @@ record GA4GHHeaderSection {
 }
 
 
-// A readset is a collection of reads, along with metadata about the sample, any processing that
-// was performed, the reference sequence, etc. In the simplest case, a readset is a FASTQ or BAM
-// file, coming from a single sample, and processed in the same way. When a BAM file contains reads
-// from multiple biological samples, the reads are split up into multiple readsets, one per sample.
+// A readset is a collection of reads that are intended to be processed together, plus metadata about their source.
+//
+// A common case is that a readset contains all the reads from a single sample, which were stored in a single file.
+// Depending on sequencing technology and sample prep, those reads may have been stored in multiple BAM read groups,
+// all marked with the same sample name.
 
 record GA4GHReadSet {
 
