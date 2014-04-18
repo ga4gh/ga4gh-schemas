@@ -33,37 +33,6 @@ record GA4GHProgram {
   union { null, string } version = null;
 }
 
-enum GA4GHSortOrder {
-  UNSORTED,
-  QUERYNAME,
-  COORDINATE
-}
-
-record GA4GHHeader {
-  union { null, GA4GHSortOrder } sortingOrder = null;
-  union { null, string } version;
-}
-
-record GA4GHHeaderSection {
-  // One-line text comments
-  union { null, array<string> } comments = null;
-
-  // File URI
-  union { null, string } fileUri = null;
-
-  // (@HD) header line
-  union { null, array<GA4GHHeader> } headers = null;
-
-  // (@PG) programs
-  union { null, array<GA4GHProgram> } programs = null;
-
-  // (@RG) read group
-  union { null, array<GA4GHReadGroup> } readGroups = null;
-
-  // (@SQ) Reference Sequence Dictionary
-  union { null, array<GA4GHReferenceSequence> } referenceSequences = null;
-}
-
 record GA4GHReadSet {
 
   // The readset ID.
@@ -80,10 +49,18 @@ record GA4GHReadSet {
 
   // The number of reads in this readset.
   union {null, long} readCount = null;
+  
+  // One-line text comments
+  union { null, array<string> } comments = null;
 
-  // File information from the original BAM import.
-  // See the BAM format specification for additional information on each field.
-  union {null, array<GA4GHHeaderSection>} fileData  = null;
+  // (@PG) programs
+  union { null, array<GA4GHProgram> } programs = null;
+
+  // (@RG) read group
+  union { null, array<GA4GHReadGroup> } readGroups = null;
+
+  // (@SQ) Reference Sequence Dictionary
+  union { null, array<GA4GHReferenceSequence> } referenceSequences = null;
 }
 
 record GA4GHKeyValue { 
