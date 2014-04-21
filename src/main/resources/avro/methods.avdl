@@ -28,7 +28,6 @@ record GASearchReadsetsResponse {
 
 // This request maps to the body of POST /reads/search
 record GASearchReadsRequest {
-
   // If specified, will restrict this query to reads within the given datasets.
   // At least one dataset ID or a readset ID must be provided.
   union { null, array<string> } dataset_ids = null;
@@ -61,7 +60,6 @@ record GASearchReadsRequest {
 
 // This is the response from POST /reads/search
 record GASearchReadsResponse {
-
   // The list of matching Reads. The resulting Reads are sorted by position.
   // Unmapped reads, which have no position, are returned last and are further
   // sorted by name.
