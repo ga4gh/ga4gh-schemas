@@ -1,3 +1,4 @@
+@namespace("org.ga4gh")
 protocol GAMethods {
 
 // This request maps to the body of POST /readsets/search
