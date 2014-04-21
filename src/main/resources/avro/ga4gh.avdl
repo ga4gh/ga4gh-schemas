@@ -101,6 +101,10 @@ record GA4GHRead {
 
     // The ID of the readset this read belongs to. (Every read must belong to exactly one readset.)
     string readsetId;
+    
+    // The readgroup ID. Not all reads have readgroups. When they do, this ID 
+    // references the readgroup field on the readset this read belongs to.  
+    union { null, string } readgroupId = null;
 
     // Read flags (all default to false)
     union { boolean, null } readPaired = false;
