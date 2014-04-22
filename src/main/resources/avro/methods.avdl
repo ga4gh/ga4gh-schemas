@@ -1,6 +1,8 @@
 @namespace("org.ga4gh")
 protocol GAMethods {
 
+import idl "ga4gh.avdl";
+
 // This request maps to the body of POST /readsets/search
 record GASearchReadsetsRequest {
   // Restricts this query to readsets within the given datasets.
