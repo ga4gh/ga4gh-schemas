@@ -58,13 +58,13 @@ record GAReadGroup {
   union {null, long} readCount = null;
   
   // The programs used to generate this readgroup.
-  union { null, array<GAProgram> } programs = null;
+  array<GAProgram> programs = [];
 
   // The reference sequences the reads in this readgroup are aligned to.
-  union { null, array<GAReferenceSequence> } referenceSequences = null;
+  array<GAReferenceSequence> referenceSequences = [];
   
   // Additional information
-  union { null, array<GAKeyValue> } tags = null;
+  array<GAKeyValue> tags = [];
 }
 
 enum GACigarOperation {
@@ -142,7 +142,7 @@ record GARead {
     // subtract 33. (QUAL)
     union { null, string } baseQuality = null;
 
-    union { null, array<GAKeyValue> } tags = null;
+    array<GAKeyValue> tags = [];
 }
 
 }
