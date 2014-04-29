@@ -1,7 +1,7 @@
 @namespace("org.ga4gh")
 protocol GA4GH {
 
-record GA4GHReferenceSequence {
+record GAReferenceSequence {
   union { null, string } assemblyId = null;
   union { null, long } length = null;
   union { null, string } md5checksum = null;
@@ -10,7 +10,7 @@ record GA4GHReferenceSequence {
   union { null, string } uri = null;
 }
 
-record GA4GHReadGroup {
+record GAReadGroup {
   union { null, string } date = null;
   union { null, string } description = null;
   union { null, string } flowOrder = null;
@@ -25,7 +25,7 @@ record GA4GHReadGroup {
   union { null, string } sequencingTechnology;
 }
 
-record GA4GHProgram {
+record GAProgram {
   union { null, string } commandLine = null;
   union { null, string } id = null;
   union { null, string } name = null;
@@ -33,7 +33,7 @@ record GA4GHProgram {
   union { null, string } version = null;
 }
 
-record GA4GHReadSet {
+record GAReadSet {
 
   // The readset ID.
   union {null, string} id = null;
@@ -54,21 +54,21 @@ record GA4GHReadSet {
   union { null, array<string> } comments = null;
 
   // (@PG) programs
-  union { null, array<GA4GHProgram> } programs = null;
+  union { null, array<GAProgram> } programs = null;
 
   // (@RG) read group
-  union { null, array<GA4GHReadGroup> } readGroups = null;
+  union { null, array<GAReadGroup> } readGroups = null;
 
   // (@SQ) Reference Sequence Dictionary
-  union { null, array<GA4GHReferenceSequence> } referenceSequences = null;
+  union { null, array<GAReferenceSequence> } referenceSequences = null;
 }
 
-record GA4GHKeyValue { 
+record GAKeyValue { 
     string key;
     string value = null;
 }
 
-record GA4GHRead {
+record GARead {
     // The read ID
     union { null, string } id = null;
   
@@ -119,7 +119,7 @@ record GA4GHRead {
     // subtract 33. (QUAL)
     union { null, string } baseQuality = null;
 
-    union { null, array<GA4GHKeyValue> } tags = null;
+    union { null, array<GAKeyValue> } tags = null;
 }
 
 }
