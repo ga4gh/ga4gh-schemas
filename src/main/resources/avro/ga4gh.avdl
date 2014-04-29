@@ -80,7 +80,7 @@ record GARead {
     string readsetId;
 
     // Read flags (all default to false)
-    union { boolean, null } readPaired = false;
+    union { boolean, null } readPaired = false;   // The paired read must belong to the same readgroup.
     union { boolean, null } properPair = false;
     union { boolean, null } readMapped = false;
     union { boolean, null } mateMapped = false;
