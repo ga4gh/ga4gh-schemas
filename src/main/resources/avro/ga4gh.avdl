@@ -35,7 +35,7 @@ record GAProgram {
 
 record GADataSet {
     string id;
-    union { null, string } description;
+    union { null, string } description = null;
 }
 
 record GAReadSet {
@@ -69,7 +69,15 @@ record GAReadSet {
 }
 
 enum GACigarOperation {
-    M, I, D, S, H, N, P, V, X // V represent the sequence match operation (=) in SAM
+    ALIGNMENT_MATCH,   // M
+	INSERTION,         // I
+	DELETION,          // D
+	REFERENCE_SKIP,    // N
+	SOFT_CLIPPING,     // S
+	HARD_CLIPPING,     // H
+	PADDING,           // P
+	SEQUENCE_MATCH,    // =
+	SEQUENCE_MISMATCH  // X
 }
 
 record GACigarUnit {
