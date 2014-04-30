@@ -78,6 +78,9 @@ record GARead {
 
     // The ID of the readset this read belongs to. (Every read must belong to exactly one readset.)
     string readsetId;
+    
+    // The ID of the readgroup this read belongs to. (Every read must belong to exactly one readgroup.)
+    string readgroupId;
 
     // Read flags (all default to false)
     union { boolean, null } readPaired = false;   // The paired read must belong to the same readgroup.
