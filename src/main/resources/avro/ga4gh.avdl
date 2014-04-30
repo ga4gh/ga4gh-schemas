@@ -18,6 +18,11 @@ record GAProgram {
   union { null, string } version = null;
 }
 
+record GAKeyValue { 
+    string key;
+    string value = null;
+}
+
 record GAReadGroup {
 
   // The readgroup ID.
@@ -55,11 +60,6 @@ record GAReadGroup {
   
   // Additional information
   union { null, array<GAKeyValue> } tags = null;
-}
-
-record GAKeyValue { 
-    string key;
-    string value = null;
 }
 
 record GARead {
