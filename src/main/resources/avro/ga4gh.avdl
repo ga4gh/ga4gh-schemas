@@ -70,14 +70,14 @@ record GAReadSet {
 
 enum GACigarOperation {
     ALIGNMENT_MATCH,   // M
-	INSERTION,         // I
-	DELETION,          // D
-	REFERENCE_SKIP,    // N
-	SOFT_CLIPPING,     // S
-	HARD_CLIPPING,     // H
-	PADDING,           // P
-	SEQUENCE_MATCH,    // =
-	SEQUENCE_MISMATCH  // X
+    INSERT,            // I
+    DELETE,            // D
+    SKIP,              // N
+    CLIP_SOFT,         // S
+    CLIP_HARD,         // H
+    PAD,               // P
+    SEQUENCE_MATCH,    // =
+    SEQUENCE_MISMATCH  // X
 }
 
 record GACigarUnit {
