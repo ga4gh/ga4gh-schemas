@@ -35,12 +35,9 @@ record GAReadGroup {
   // The sample this readgroup's data was generated from.
   union { null, string } sample;
   
-  union { null, string } flowOrder = null;
-  union { null, string } keySequence = null;
   union { null, string } library = null;
   union { null, string } platformUnit = null;
   union { null, int } predictedInsertSize = null;
-  union { null, string } processingProgram;
   union { null, string } sequencingCenter;
   union { null, string } sequencingTechnology;
 
