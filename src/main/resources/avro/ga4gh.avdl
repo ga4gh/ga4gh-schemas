@@ -107,10 +107,6 @@ record GARead {
     // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
     union { null, string } originalBases = null;
 
-    // The originalBases after the cigar field has been applied. Deletions are
-    // represented with '-' and insertions are omitted.
-    union { null, string } alignedBases = null;
-
     // The compact idiosyncratic gapped alignment report (CIGAR)
     union { null, string } cigar = null;
     
