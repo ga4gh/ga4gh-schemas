@@ -1,0 +1,81 @@
+@namespace("org.ga4gh")
+protocol ReferenceGraphTypes {
+    
+    // The schemas here describe reference structures and reference hierarchies.
+    
+    enum Face {
+        // Keeps track of whether we are talking about the left (5') or right
+        // (3') side of a base.
+        LEFT,
+        RIGHT
+    }
+    
+    // Coordinates are longs that identify Positions. They don't need schemas.
+    
+    record Side {
+        // Identifies a side of a unique Position.
+        
+        // What is the coordinate of the position we are talking about?
+        long coordinate;
+        
+        // What face of that position are we talking about (left or right)? 
+        Face face; 
+    }
+    
+    record Edge {
+        // Represents an edge in the reference graph. Can be part of a Position
+        // or Block or Adjacency.
+        
+        // A unique ID for the Edge
+        union { null, long } id = null;
+        
+        // The ID of the 5' side of the Edge. These vertex IDs are just meeting
+        // points for edges; vertices don't need any particular annotations.
+        long left;
+
+        // The ID of the 3' side of the Edge.
+        long right;
+
+    }
+     
+    // Positions are represented by just single-element Blocks.
+    
+    record Block {
+        // Represents several Positions with sequential IDs, connected only to
+        // each other.
+        
+        // What is the ID (coordinate) of the first position in this Block?
+        long start;
+        // How long does it run?
+        long length;
+
+
+        // The Edge in the graph that represents this Block.
+        Edge edge;
+        
+        // The base that this Block represents.
+        string bases;      
+        
+    }
+    
+    record Adjacency {
+        // Represents an Adjacency between two sides of two Blocks.
+
+        // The Edge in the graph that represents this Adjacency.
+        Edge edge;
+    }
+    
+    record Generalization {
+        // Represents homology between ranges of Positions in Blocks. Not a
+        // graph component.
+        
+        // What coordinate do we start at on the lower level? We always go out
+        // to the right from here.
+        long lowerStart;
+        // What coordinate do we start at on the upper level? We go out either
+        // left or right from here depending on the face here.
+        Side upperStart;
+        // How many Positions do we run for?
+        long length;
+    }
+}
