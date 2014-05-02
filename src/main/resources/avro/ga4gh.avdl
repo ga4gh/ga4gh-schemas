@@ -33,6 +33,11 @@ record GAProgram {
   union { null, string } version = null;
 }
 
+record GADataSet {
+    string id;
+    union { null, string } description = null;
+}
+
 record GAReadSet {
 
   // The readset ID.
@@ -61,6 +66,35 @@ record GAReadSet {
 
   // (@SQ) Reference Sequence Dictionary
   union { null, array<GAReferenceSequence> } referenceSequences = null;
+}
+
+enum GACigarOperation {
+    ALIGNMENT_MATCH,   // M
+    INSERT,            // I
+    DELETE,            // D
+    SKIP,              // N
+    CLIP_SOFT,         // S
+    CLIP_HARD,         // H
+    PAD,               // P
+    SEQUENCE_MATCH,    // =
+    SEQUENCE_MISMATCH  // X
+}
+
+record GACigarUnit {
+    GACigarOperation operation;
+    long operationLength;
+
+    // contigSequence is only used at mismatches (X) and deletions (D). Filling
+    // this field replaces the MD tag. If the relevant information is not
+    // available, leave this field as "null".
+    union { null, string } contigSequence = null;
+}
+
+record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
+    string contigName;
+    long position;
+    union { null, int } mappingQuality = null;
+    array<GACigarUnit> cigar = []; 
 }
 
 record GAKeyValue { 
@@ -92,13 +126,15 @@ record GARead {
     union { boolean, null } failedVendorQualityChecks = false;
     union { boolean, null } duplicateRead = false;
 
-    // 0-based reference positions
-    union { null, long } position = null;
-    union { null, long } matePosition = null;
+    // The alignment of this read. If unmapped, the array is empty. If the
+    // alignment is linear (vast majority of alignments), the array is of size
+    // one. If the alignment is composed of multiple simple linear alignments
+    // (i.e. chimeric), the components can be found in the SA tag for mappers
+    // supporting the feature.
+    array<GALinearAlignment> alignment = [];
 
-    // A score up to 255 that represents how likely this read's aligned position
-    // is correct. A higher value is better. (MAPQ)
-    union { null, int } mappingQuality = null;
+    // The mate alignment. 
+    array<GALinearAlignment> mateAlignment = [];
 
     // Length of the original piece of dna that produced both this read and the
     // paired read. (TLEN)
@@ -107,13 +143,6 @@ record GARead {
     // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
     union { null, string } originalBases = null;
 
-    // The originalBases after the cigar field has been applied. Deletions are
-    // represented with '-' and insertions are omitted.
-    union { null, string } alignedBases = null;
-
-    // The compact idiosyncratic gapped alignment report (CIGAR)
-    union { null, string } cigar = null;
-    
     // Represents the quality of each base in this read. Each character represents
     // one base. To get the quality, take the ASCII value of the character and
     // subtract 33. (QUAL)
