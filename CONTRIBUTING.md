@@ -16,12 +16,6 @@ The [Issues Page](https://github.com/ga4gh/ReadTaskTeam/issues) serves as a publ
 
 To directly contribute to the project, please refer to the [contributions section](#pull_request) below.
 
-## User Support and Community Outreach
-
-[Our mailing list](https://groups.google.com/forum/#!forum/dwgreadtaskteam) serves as the place to reach out to the GA4GH developer community about general questions, help with reference implementations, and other issues that are not directly related to development of the formats and API's themselves. 
-
-It will also serve as the place where the GA4GH Read Task Team will make announcements about format, API, and reference implementation releases. Occasionally we will also highlighting related projects that take advantage of the GA4GH standards.     
-
 <a name="pull_request"></a>
 ## Contribute to the GA4GH Reads API Project 
 
