@@ -29,7 +29,7 @@ Some general rules to follow:
 * The first line of commit messages should be a short (<80 character) summary, followed by an empty line and then any details that you want to share about the commit.
 * Please try to follow the [existing syntax style](#syntax_style)
 
-When you submit or change your pull request, the Travis build system will automatically run test to ensure valid schema syntax. If your pull request fails to pass tests, review the test log, make changes and then push them to your feature branch to be tested again.
+When you submit or change your pull request, the Travis build system will automatically run tests to ensure valid schema syntax. If your pull request fails to pass tests, review the test log, make changes and then push them to your feature branch to be tested again.
 
 <a name="syntax_style"></a>
 ## Syntax Style and Conventions
