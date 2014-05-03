@@ -137,7 +137,7 @@ record GARead {
 }
 
 record GAFragment {
-    // The ID of the ReadGroup this read belongs to. (Every read must belong to exactly one ReadGroup.)
+    // The ID of the ReadGroup this fragment belongs to. (Every read must belong to exactly one ReadGroup.)
     string readGroupId;
 
     array<GARead> reads;
