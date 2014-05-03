@@ -137,8 +137,10 @@ record GARead {
 }
 
 record GAFragment {
-	string readGroupId;
-	array<GARead> reads;
+    // The ID of the ReadGroup this read belongs to. (Every read must belong to exactly one ReadGroup.)
+    string readGroupId;
+
+    array<GARead> reads;
 
     // Length of the original piece of dna that produced both this read and the
     // paired read. (TLEN)
