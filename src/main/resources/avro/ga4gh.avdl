@@ -134,10 +134,9 @@ record GARead {
     union { null, array<GAKeyValue> } tags = null;
 }
 
-}
 
 record GAFragment {
-    // The ID of the ReadGroup this fragment belongs to. (Every read must belong to exactly one ReadGroup.)
+    // The ID of the ReadGroup this fragment belongs to. (Every fragment must belong to exactly one ReadGroup.)
     string readGroupId;
 
     array<GARead> reads;
@@ -145,4 +144,6 @@ record GAFragment {
     // Length of the original piece of dna that produced both this read and the
     // paired read. (TLEN)
     union { null, int } templateLength = null; 
+}
+
 }
