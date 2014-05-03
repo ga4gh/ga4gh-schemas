@@ -104,17 +104,8 @@ record GAKeyValue {
 
 record GARead {
     // Read flags (all default to false)
-    union { boolean, null } readPaired = false;   // The paired read must belong to the same readgroup.
-    union { boolean, null } properPair = false;
-    union { boolean, null } readMapped = false;
-    union { boolean, null } mateMapped = false;
     union { boolean, null } readNegativeStrand = false;
-    union { boolean, null } mateNegativeStrand = false;
-    union { boolean, null } firstOfPair = false;
-    union { boolean, null } secondOfPair = false;
-    union { boolean, null } primaryAlignment = false;
     union { boolean, null } failedVendorQualityChecks = false;
-    union { boolean, null } duplicateRead = false;
 
     // The alignment of this read. If unmapped, the array is empty. If the
     // alignment is linear (vast majority of alignments), the array is of size
@@ -134,10 +125,12 @@ record GARead {
     union { null, array<GAKeyValue> } tags = null;
 }
 
-
 record GAFragment {
     // The ID of the ReadGroup this fragment belongs to. (Every fragment must belong to exactly one ReadGroup.)
     string readGroupId;
+
+    union { boolean, null } properPair = false;
+    union { boolean, null } duplicateFragment = false;
 
     array<GARead> reads;
 
