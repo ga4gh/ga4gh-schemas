@@ -103,16 +103,6 @@ record GAKeyValue {
 }
 
 record GARead {
-    // The read ID
-    union { null, string } id = null;
-  
-    // The name of the read. When imported from a BAM file, this is the query
-    // template name. (QNAME)
-    union { null, string } name = null;
-
-    // The ID of the readset this read belongs to. (Every read must belong to exactly one readset.)
-    string readsetId;
-
     // Read flags (all default to false)
     union { boolean, null } readPaired = false;   // The paired read must belong to the same readgroup.
     union { boolean, null } properPair = false;
@@ -133,13 +123,6 @@ record GARead {
     // supporting the feature.
     array<GALinearAlignment> alignment = [];
 
-    // The mate alignment. 
-    array<GALinearAlignment> mateAlignment = [];
-
-    // Length of the original piece of dna that produced both this read and the
-    // paired read. (TLEN)
-    union { null, int } templateLength = null; 
-
     // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
     union { null, string } originalBases = null;
 
@@ -151,4 +134,13 @@ record GARead {
     union { null, array<GAKeyValue> } tags = null;
 }
 
+}
+
+record GAFragment {
+	string readGroupId;
+	array<GARead> reads;
+
+    // Length of the original piece of dna that produced both this read and the
+    // paired read. (TLEN)
+    union { null, int } templateLength = null; 
 }
