@@ -3,28 +3,56 @@ protocol ReferenceGraphTypes {
     
     // The schemas here describe reference structures and reference hierarchies.
     
-    enum Face {
-        // Keeps track of whether we are talking about the left (5') or right
-        // (3') side of a base.
-        LEFT,
-        RIGHT
-    }
+    // A reference structure is a graph-based representation of a reference
+    // genome and a set of common sequence and structural variants. Such a
+    // structure consists of a series of "Blocks" of linear DNA sequence. Each
+    // block has two ends, a left (or 5') and a right (or 3'). Links called
+    // "Adjacencies" connect these ends together. The presence of an adjacency
+    // means that, in at least some people's genomes, the connected blocks of
+    // sequence come one after the other, in the order and orientation defined
+    // by the ends that are connected.
     
-    // Coordinates are longs that identify Positions. They don't need schemas.
+    // The schema represents Blocks and Adjacencies as edges in a graph. The
+    // vertices of this graph are unique (but not necessarily permanent) 64-bit
+    // integer (Long) IDs, which serve only as meeting points for edges, and the
+    // edges are represented by Edge objects, which may belong to either Blocks
+    // or Adjacencies. An Edge is directed; it has a left and a right endpoint.
+    // In addition to the IDs of its two endpoints, each Edge has its own
+    // unique 64-bit integer ID to support annotation of the graph.
     
-    record Side {
-        // Identifies a side of a unique Position.
-        
-        // What is the coordinate of the position we are talking about?
-        long coordinate;
-        
-        // What face of that position are we talking about (left or right)? 
-        Face face; 
-    }
+    // TODO: What if we have to break up a Block? What happens to annotations?
+    
+    // Every DNA base in a block (called a Position, but not represented as a
+    // first-class object in this schema) has a unique, permanent 64-bit integer
+    // identifier. Each Block stores the identifier of the first base in it and
+    // the total length, and all the bases in a block must have sequential
+    // identifiers. Blocks also store the sequence string for the bases they
+    // represent, when read along the forward strand from left to right.
+    
+    // The schema defines "Sides", which serve as references to specific "Faces"
+    // (left or right) of uniquely identified bases within blocks. A Side refers
+    // to a certain base in a certain orientation. The LEFT Face is used to
+    // identify the base in its forward orientation on the forward strand, while
+    // the RIGHT Face is used to identify the base in its reverse orientation
+    // (on the reverse strand). Sides are mostly used by the API to report
+    // mapping results; they aren't necessary in the reference structure itself.
+    
+    // This schema also defines Generalizations, which are used to describe how
+    // the bases in one reference structure can be merged to produce another
+    // reference structure at a higher level in a reference hierarchy. Each
+    // Generalization says that each base in a certain contiguous block of bases
+    // on the lower level (starting at the specified Position and continuing
+    // from left to right for the specified length) is merged into the
+    // corresponding base on the higher level, starting at the specified
+    // Position and continuing forward along the specified strand. If the
+    // specified strand is the reverse strand (i.e. Face RIGHT), corresponding
+    // Positions are merged in in a backwards relative orientation; otherwise
+    // they are merged in in a forwards relative orientation.
+    
     
     record Edge {
-        // Represents an edge in the reference graph. Can be part of a Position
-        // or Block or Adjacency.
+        // Represents an edge in the reference graph. Can be part of a Block or
+        // Adjacency.
         
         // A unique ID for the Edge
         union { null, long } id = null;
@@ -38,8 +66,6 @@ protocol ReferenceGraphTypes {
 
     }
      
-    // Positions are represented by just single-element Blocks.
-    
     record Block {
         // Represents several Positions with sequential IDs, connected only to
         // each other.
@@ -63,6 +89,25 @@ protocol ReferenceGraphTypes {
 
         // The Edge in the graph that represents this Adjacency.
         Edge edge;
+    }
+    
+    enum Face {
+        // Keeps track of whether we are talking about the left (5') or right
+        // (3') side of a base.
+        LEFT,
+        RIGHT
+    }
+    
+    // Coordinates are longs that identify Positions. They don't need schemas.
+    
+    record Side {
+        // Identifies a side of a unique Position.
+        
+        // What is the ID of the position we are talking about?
+        long coordinate;
+        
+        // What face of that position are we talking about (left or right)? 
+        Face face; 
     }
     
     record Generalization {
