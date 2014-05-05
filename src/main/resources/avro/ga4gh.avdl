@@ -68,6 +68,11 @@ record GAReadSet {
   union { null, array<GAReferenceSequence> } referenceSequences = null;
 }
 
+record GAKeyValue { 
+    string key;
+    string value = null;
+}
+
 enum GACigarOperation {
     ALIGNMENT_MATCH,   // M
     INSERT,            // I
@@ -96,15 +101,11 @@ record GALinearAlignment { // a linear alignment can be represented by one CIGAR
     boolean reverseStrand; // the alignment is on the reverse strand of the reference sequence.
     union { null, int } mappingQuality = null;
     array<GACigarUnit> cigar = []; 
-}
-
-record GAKeyValue { 
-    string key;
-    string value = null;
+    array<GAKeyValue> tags = [];
 }
 
 record GARead {
-    // Read flags (all default to false)
+    // This read failed quality control (SAM flag 0x200)
     union { boolean, null } failedVendorQualityChecks = false;
 
     // The alignment of this read. If unmapped, the array is empty. If the
@@ -129,10 +130,16 @@ record GAFragment {
     // The ID of the ReadGroup this fragment belongs to. (Every fragment must belong to exactly one ReadGroup.)
     string readGroupId;
 
-    union { boolean, null } properPlacement = false;
+	// The fragment is suppposed to be free of strucutral variations. For
+	// paired-end reads, this flag is reduced to the "properly paired" SAM flag
+	// (bit 0x2). It is typically set by the mapper to inform downstream tools.
+	union { boolean, null } properPlacement = false;
+
+	// This fragment is a PCR or optical duplicate (SAM flag 0x400)
     union { boolean, null } duplicateFragment = false;
 
-    array<GARead> reads;
+	// Reads sequenced from this fragment. The array order is the sequencing order.
+	array<GARead> reads;
 
     // Length of the original piece of dna that produced both this read and the
     // paired read. (TLEN)
