@@ -17,7 +17,7 @@ record GASearchReadsRequest {
   // specified, this defaults to 0.
   union { null, long } start_position = null;
 
-  // The end position (1-based, inclusive) of this query. If a contig is
+  // The end position (0-based, inclusive) of this query. If a contig is
   // specified, this defaults to the contig's length.
   union { null, long } end_position = null;
 
