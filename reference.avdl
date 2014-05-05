@@ -29,14 +29,30 @@ protocol ReferenceGraphTypes {
     // identifiers. Blocks also store the sequence string for the bases they
     // represent, when read along the forward strand from left to right.
     
-    // The schema defines "Sides", which serve as references to specific "Faces"
-    // (left or right) of uniquely identified bases within blocks. A Side refers
-    // to a certain base in a certain orientation. The LEFT Face is used to
-    // identify the base in its forward orientation on the forward strand, while
-    // the RIGHT Face is used to identify the base in its reverse orientation
-    // (on the reverse strand). Sides are mostly used by the API to report
-    // mapping results; they aren't necessary in the reference structure itself.
+    // For referring to positions, we define a "Face", which is an enumerated
+    // type with values "LEFT" and RIGHT", and we define "Sides" which are
+    // combinations of a Position (i.e. base) ID and a Face. A Side represents
+    // the specified Face of the specified Position. For example:
     
+    //                                                                          
+    //                                                                          
+    //                                                                          
+    //              Side: (#1, LEFT)                                            
+    //                \                                                         
+    //                 \          Side: (#2, RIGHT)                             
+    //                  \           /                                           
+    //                   \         /                                            
+    //                     +---+---+---+---+                                    
+    //     A Block:        |#1 |#2 |#3 |#4 | \                                  
+    //                     | A | C | C | G |  \                                 
+    //                     +---+---+---+---+   \                                
+    //                             /             Side: (#4, RIGHT)              
+    //                            /                                             
+    //                         Side: (#3, LEFT)                                 
+    //                                                                          
+    //                                                                          
+    //                                                                          
+                                                                                
     // This schema also defines Generalizations, which are used to describe how
     // the bases in one reference structure can be merged to produce another
     // reference structure at a higher level in a reference hierarchy. Each
@@ -72,8 +88,9 @@ protocol ReferenceGraphTypes {
         
         // What is the ID (coordinate) of the first position in this Block?
         long start;
-        // How long does it run?
-        long length;
+        // How long does it run? A single block can't be longer than a 32-bit
+        // int can represent.
+        int length;
 
 
         // The Edge in the graph that represents this Block.
@@ -111,16 +128,20 @@ protocol ReferenceGraphTypes {
     }
     
     record Generalization {
-        // Represents homology between ranges of Positions in Blocks. Not a
-        // graph component.
+        // Connects a run of bases at one level in a reference hierarchy with a
+        // run of bases that they merge into at a higher level. Each base in the
+        // lower block is merged into the corresponding base in the higher
+        // block.
         
         // What coordinate do we start at on the lower level? We always go out
         // to the right from here.
         long lowerStart;
         // What coordinate do we start at on the upper level? We go out either
-        // left or right from here depending on the face here.
+        // left or right from here depending on the face here. If we run left
+        // to right we merge bases in the forward orientation, and if we run
+        // right to left we merge in the reverse orientation.
         Side upperStart;
         // How many Positions do we run for?
-        long length;
+        int length;
     }
 }
