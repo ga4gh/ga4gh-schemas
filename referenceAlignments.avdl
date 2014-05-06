@@ -4,7 +4,7 @@ protocol ReferenceAlignmentTypes {
     
     import idl "referenceStructure.avdl";
     
-    // Defines an alignment between the subintervals of two blocks.
+    // Defines an alignment between two equal length subintervals of two blocks.
     record GA4GHAlignmentBlock {
         // The ID of the first aligned position in the first sequence graph.
         long seq1StartPosition;
@@ -12,17 +12,18 @@ protocol ReferenceAlignmentTypes {
         // The ID of the first aligned position in the second sequence graph.
         long seq2StartPosition;
         
-        // How many positions do we run for. 
+        // The length, in terms of positions, of the aligned subintervals.  
         // The ID of the last aligned position in the first sequence graph is seq1StartPosition + length - 1.
         // Similarly, the ID of the last aligned position in the second sequence graph is seq2StartPosition + length - 1.
-        int length;
+        int length, regardless of strand (see strand argument below).
         
         //Positions can be mapped to one another on either strand, it is therefore necessary
-        //to specify the strand of the mapping. A forward mapping is True, a reverse mapping is Negative.
+        //to specify the strand of the mapping. If strand is True the mapping is forward, else the mapping is a 
+        //reverse mapping.
         //For all 0 <= i <= length, if the mapping is forward then the position seq1StartPosition + i 
         //in the first sequence graph is aligned to the position seq2StartPosition + i in the second 
         //sequence graph, else if the mapping is reversed then the position seq1StartPosition + i 
-        //in the first sequence graph is aligned to the position seq2StartPosition + length - 1 + i 
+        //in the first sequence graph is aligned to the position seq2StartPosition + length - 1 - i 
         //in the second sequence graph.
         bool strand;
     }
@@ -30,10 +31,10 @@ protocol ReferenceAlignmentTypes {
     // Generalizations, which are used to describe how the
     // bases in one reference structure can be merged to produce another
     // reference structure at a higher level in a reference hierarchy. Each
-    // Generalization says that each base in a certain contiguous block of bases
+    // GA4GHGeneralization says that each position in a certain contiguous block of positions
     // on the lower level (starting at the specified Position and continuing
     // from left to right for the specified length) is merged into the
-    // corresponding base on the higher level.
+    // corresponding positions at the higher level.
     record GA4GHGeneralization {
         //The alignment block representing the generalization.
         //The first sequence graph represents the generalisation of the second sequence graph.
