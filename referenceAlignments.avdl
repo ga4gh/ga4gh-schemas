@@ -27,8 +27,11 @@ protocol ReferenceAlignmentTypes {
         //For example, if startOffset = 0 the first and subsequent positions are included in the thread.
         int startOffset;
         
-        //The zero-based offset of the last position in the last directed block edge of the thread.
-        //For example, if endOffset = length-1 the last and previous positions are included in the thread.
+        //The zero-based offset of the position one beyond the final aligned position in the last directed 
+        //block edge of the thread.
+        //For example, if endOffset = length the last and previous positions are included in the thread.
+        //If the thread is all within a single block then [startOffset,endOffset) is a semi-open interval 
+        //of length endOffset-startOffset.
         int endOffset;
     }
 
