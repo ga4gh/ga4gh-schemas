@@ -1,11 +1,12 @@
 @namespace("org.ga4gh")
 protocol ReferenceAlignmentTypes {
-    // The schemas here describe a cigar alignment structure to represent alignments between sequence graphs.
+    // The schemas here describe a cigar alignment structure to represent alignments between sequence graphs, and 
+    //between linear strings and sequence graphs.
     
     import idl "referenceStructure.avdl";
     import idl "ga4gh.avdl"; //This needs to properly reference the file in ga4gh/ReadTaskTeam/blob/master/src/main/resources/avro/ga4gh.avdl
     
-     record GA4GHDirectedBlock {
+    record GA4GHDirectedBlock {
         //Unoriented block
         GA4GHBlock block;
         
@@ -31,7 +32,7 @@ protocol ReferenceAlignmentTypes {
         int endOffset;
     }
 
-    record GA4GHCigarGraphAlignment {
+    record GA4GHGraphToGraphAlignment {
         //The aligned thread from the first sequence graph.
         GA4GHThread thread1;
         
@@ -40,5 +41,13 @@ protocol ReferenceAlignmentTypes {
         
         //The cigar string aligning the first thread to the second thread.
         array<GACIGARUnit> cigar = []; 
+    }
+    
+    record GALinearAlignmentToGraph { // a linear alignment can be represented by one CIGAR string
+        //The aligned thread from the sequence graph.
+        GA4GHThread thread1;
+        
+        //The cigar string aligning the sequence to the given thread.
+        array<GACigarUnit> cigar = []; 
     }
 }
