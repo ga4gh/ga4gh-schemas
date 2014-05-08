@@ -6,7 +6,7 @@ record GA4GHReferenceSequence {
   union { null, long } length = null;
   union { null, string } md5checksum = null;
   union { null, string } name = null;
-  union { null, string } ncbi_taxon_id = null;  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. "9606"=human)
+  union { null, int } ncbi_taxon_id = null;  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
   union { null, string } uri = null;
 }
 
