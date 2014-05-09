@@ -57,8 +57,8 @@ The current code conventions for the source files are as follows:
 * `lowerCamelCase` attribute or method names
 * `CONSTANT_CASE` for global and constant values
 * Comments:
-   * Indented at the same level as the surrounding code
-   * Precede the code that they make a comment on
-   * Documentation comments use the `/** ... */` style
-   * Block and multi-line comments must use the `/** ... */` style.
-   * One-line comments prefixed using the `// ...` style will not be output to documentation and are intended for developers of the project only
+     * Indented at the same level as the surrounding code
+     * Precede the code that they make a comment on
+     * Documentation comments use the `/** ... */` style
+     * Block and multi-line comments must use the `/** ... */` style.
+     * One-line comments prefixed using the `// ...` style will not be output to documentation and are intended for developers of the project only
