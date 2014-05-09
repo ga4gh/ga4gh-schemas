@@ -4,7 +4,7 @@
 
 Thank you for taking the time to contribute. We appreciate it!
 
-There are two ways to contribute to this effort. They first way is to use this project's [Issues Page](https://github.com/ga4gh/ReadTaskTeam/issues), which we use as a forum to discuss both major and minor issues related to developing the GA4GH schemas and API definitions. Examples of the type of issues that can be submitted are: 
+There are two ways to contribute to this effort. They first way is to use this project's [Issues Page](https://github.com/ga4gh/ReadTaskTeam/issues), which we use as a forum to discuss both major and minor issues related to developing the GA4GH schemas and API definitions. Examples of the type of issues that can be submitted are:
 
 * Identify use cases that will shape the standards and APIs
 * How to add or delete objects and/or object attributes
@@ -12,12 +12,12 @@ There are two ways to contribute to this effort. They first way is to use this p
 * Report bugs you encounter when using the reference implementations
 
 
-The [Issues Page](https://github.com/ga4gh/ReadTaskTeam/issues) serves as a public forum to discuss and debate topics related to the proposed standards, formats, and APIs. It also serves as the means for collaborating with the group and making contributions such as proposing changes to the formats and APIs. 
+The [Issues Page](https://github.com/ga4gh/ReadTaskTeam/issues) serves as a public forum to discuss and debate topics related to the proposed standards, formats, and APIs. It also serves as the means for collaborating with the group and making contributions such as proposing changes to the formats and APIs.
 
 To directly contribute to the project, please refer to the [contributions section](#pull_request) below.
 
 <a name="pull_request"></a>
-## Contribute to the GA4GH Reads API Project 
+## Contribute to the GA4GH Reads API Project
 
 The way to contribute to the project is via GitHub pull requests. GitHub provides a nice [overview on how to create a pull request](https://help.github.com/articles/creating-a-pull-request).
 
@@ -34,13 +34,15 @@ When you submit or change your pull request, the Travis build system will automa
 <a name="syntax_style"></a>
 ## Syntax Style and Conventions
 
-The current code conventions for the source files are as follows: 
+The current code conventions for the source files are as follows:
 
 * Two-space indentation, no tabs
-* `UpperCamelCase` object names
+* `UpperCamelCase` for object or record names
 * `lowerCamelCase` attribute or method names
 * `CONSTANT_CASE` for global and constant values
-* Comments are indented at the same level as the surrounding code
-* One-line comments are prefixed using the `// ...` style
-* Block and multi-line comments `/* ... */` and subsequent lines must start with `*` aligned with the `*` on the previous line.
-
+* Comments:
+   * Indented at the same level as the surrounding code
+   * Precede the code that they make a comment on
+   * Documentation comments use the `/** ... */` style
+   * Block and multi-line comments must use the `/** ... */` style.
+   * One-line comments prefixed using the `// ...` style will not be output to documentation and are intended for developers of the project only
