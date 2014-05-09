@@ -15,7 +15,7 @@ The [Issues Page](https://github.com/ga4gh/ReadTaskTeam/issues) serves as a publ
 To directly contribute development effort to the project, please refer to the [contributions section](#pull_request) below.
 
 <a name="pull_request"></a>
-## Pull Requests
+## Contributions and Pull Requests
 
 The way to contribute development effort and code to the project is via GitHub pull requests. GitHub provides a nice [overview on how to create a pull request](https://help.github.com/articles/creating-a-pull-request).
 
