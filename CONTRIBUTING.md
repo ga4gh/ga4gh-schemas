@@ -1,6 +1,4 @@
-## How to contribute to the GA4GH Schemas
-
-----
+## How to contribute to the GA4GH ReadTaskTeam project
 
 Thank you for taking the time to contribute. We appreciate it!
 
@@ -12,14 +10,14 @@ There are two ways to contribute to this effort. They first way is to use this p
 * Report bugs you encounter when using the reference implementations
 
 
-The [Issues Page](https://github.com/ga4gh/ReadTaskTeam/issues) serves as a public forum to discuss and debate topics related to the proposed standards, formats, and APIs. It also serves as the means for collaborating with the group and making contributions such as proposing changes to the formats and APIs.
+The [Issues Page](https://github.com/ga4gh/ReadTaskTeam/issues) serves as a public forum to discuss and debate topics related to the proposed standards, formats, and APIs. It also serves as the means for collaborating with the group and making contributions such as proposing changes to the formats and APIs. See the [Issue Resolution](#issue_resolution) section below for specifics on how issues are resolved by the community.
 
-To directly contribute to the project, please refer to the [contributions section](#pull_request) below.
+To directly contribute development effort to the project, please refer to the [contributions section](#pull_request) below.
 
 <a name="pull_request"></a>
-## Contribute to the GA4GH Reads API Project
+## Pull Requests
 
-The way to contribute to the project is via GitHub pull requests. GitHub provides a nice [overview on how to create a pull request](https://help.github.com/articles/creating-a-pull-request).
+The way to contribute development effort and code to the project is via GitHub pull requests. GitHub provides a nice [overview on how to create a pull request](https://help.github.com/articles/creating-a-pull-request).
 
 Some general rules to follow:
 
@@ -30,6 +28,24 @@ Some general rules to follow:
 * Please try to follow the [existing syntax style](#syntax_style)
 
 When you submit or change your pull request, the Travis build system will automatically run tests to ensure valid schema syntax. If your pull request fails to pass tests, review the test log, make changes and then push them to your feature branch to be tested again.
+
+
+<a name="issue_resolution"></a>
+## Issue Resolution
+
+Once a pull request or issue have been submitted, anyone can comment or vote on an issue to express their opinion following the Apache voting system. Quick summary:
+
+- **+1** something you agree with
+- **-1** if you have a strong objection to an issue, which will be taken very seriously. A -1 vote should provide an alternative solution.
+- **+0** or **-0** for neutral comments or weak opinions.
+- It's okay to have input without voting
+- Silence gives assent
+
+A pull request with 2+ people in agreement, and no disagreement, just get merged after three days by someone other than the submitter.
+
+If an issue gets any -1s or objections, the comments on the issue need to reach consensus before the issue can be resolved one way or the other. There isn't any strict time limit on a contentious issue.
+
+The project will strive for full consensus on everything until it runs into a problem with that model.
 
 <a name="syntax_style"></a>
 ## Syntax Style and Conventions
