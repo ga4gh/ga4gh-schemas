@@ -1,7 +1,7 @@
 @namespace("org.ga4gh")
 protocol GA4GH {
 
-record GA4GHReferenceSequence {
+record GAReferenceSequence {
   union { null, string } assemblyId = null;
   union { null, long } length = null;
   union { null, string } md5checksum = null;
@@ -10,22 +10,7 @@ record GA4GHReferenceSequence {
   union { null, string } uri = null;
 }
 
-record GA4GHReadGroup {
-  union { null, string } date = null;
-  union { null, string } description = null;
-  union { null, string } flowOrder = null;
-  union { null, string } id = null;
-  union { null, string } keySequence = null;
-  union { null, string } library = null;
-  union { null, string } platformUnit = null;
-  union { null, int } predictedInsertSize = null;
-  union { null, string } processingProgram;
-  union { null, string } sample;
-  union { null, string } sequencingCenter;
-  union { null, string } sequencingTechnology;
-}
-
-record GA4GHProgram {
+record GAProgram {
   union { null, string } commandLine = null;
   union { null, string } id = null;
   union { null, string } name = null;
@@ -33,65 +18,85 @@ record GA4GHProgram {
   union { null, string } version = null;
 }
 
-enum GA4GHSortOrder {
-  UNSORTED,
-  QUERYNAME,
-  COORDINATE
-}
-
-record GA4GHHeader {
-  union { null, GA4GHSortOrder } sortingOrder = null;
-  union { null, string } version;
-}
-
-record GA4GHHeaderSection {
-  // One-line text comments
-  union { null, array<string> } comments = null;
-
-  // File URI
-  union { null, string } fileUri = null;
-
-  // (@HD) header line
-  union { null, array<GA4GHHeader> } headers = null;
-
-  // (@PG) programs
-  union { null, array<GA4GHProgram> } programs = null;
-
-  // (@RG) read group
-  union { null, array<GA4GHReadGroup> } readGroups = null;
-
-  // (@SQ) Reference Sequence Dictionary
-  union { null, array<GA4GHReferenceSequence> } referenceSequences = null;
-}
-
-record GA4GHReadSet {
-
-  // The readset ID.
-  union {null, string} id = null;
-
-  // The readset name.
-  union {null, string} name = null;
-
-  // The ID of the dataset this readset belongs to.
-  union {null, string} datasetId = null;
-
-  // The date this readset was created.
-  union {null, long} created = null;
-
-  // The number of reads in this readset.
-  union {null, long} readCount = null;
-
-  // File information from the original BAM import.
-  // See the BAM format specification for additional information on each field.
-  union {null, array<GA4GHHeaderSection>} fileData  = null;
-}
-
-record GA4GHKeyValue { 
+record GAKeyValue { 
     string key;
     string value = null;
 }
 
-record GA4GHRead {
+record GADataSet {
+    string id;
+    union { null, string } description = null;
+}
+
+record GAReadGroup {
+
+  // The readgroup ID.
+  string id;
+
+  // The ID of the dataset this readgroup belongs to.
+  union {null, string} datasetId = null;
+
+  // The readgroup name.
+  union {null, string} name = null;
+
+  // The readgroup description.
+  union {null, string} description = null;
+  
+  // The sample this readgroup's data was generated from.
+  union { null, string } sample;
+  
+  union { null, string } library = null;
+  union { null, string } platformUnit = null;
+  union { null, int } predictedInsertSize = null;
+  union { null, string } sequencingCenter;
+  union { null, string } sequencingTechnology;
+
+  // The date this readgroup was created.
+  union {null, long} created = null;
+
+  // The number of reads in this readgroup.
+  union {null, long} readCount = null;
+  
+  // The programs used to generate this readgroup.
+  array<GAProgram> programs = [];
+
+  // The reference sequences the reads in this readgroup are aligned to.
+  array<GAReferenceSequence> referenceSequences = [];
+  
+  // Additional information
+  array<GAKeyValue> tags = [];
+}
+
+enum GACigarOperation {
+    ALIGNMENT_MATCH,   // M
+    INSERT,            // I
+    DELETE,            // D
+    SKIP,              // N
+    CLIP_SOFT,         // S
+    CLIP_HARD,         // H
+    PAD,               // P
+    SEQUENCE_MATCH,    // =
+    SEQUENCE_MISMATCH  // X
+}
+
+record GACigarUnit {
+    GACigarOperation operation;
+    long operationLength;
+
+    // contigSequence is only used at mismatches (X) and deletions (D). Filling
+    // this field replaces the MD tag. If the relevant information is not
+    // available, leave this field as "null".
+    union { null, string } contigSequence = null;
+}
+
+record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
+    string contigName;
+    long position;
+    union { null, int } mappingQuality = null;
+    array<GACigarUnit> cigar = []; 
+}
+
+record GARead {
     // The read ID
     union { null, string } id = null;
   
@@ -99,11 +104,11 @@ record GA4GHRead {
     // template name. (QNAME)
     union { null, string } name = null;
 
-    // The ID of the readset this read belongs to.
-    union { null, string } readsetId = null;
+    // The ID of the readgroup this read belongs to. (Every read must belong to exactly one readgroup.)
+    string readgroupId;
 
     // Read flags (all default to false)
-    union { boolean, null } readPaired = false;
+    union { boolean, null } readPaired = false;   // The paired read must belong to the same readgroup.
     union { boolean, null } properPair = false;
     union { boolean, null } readMapped = false;
     union { boolean, null } mateMapped = false;
@@ -115,13 +120,15 @@ record GA4GHRead {
     union { boolean, null } failedVendorQualityChecks = false;
     union { boolean, null } duplicateRead = false;
 
-    // 0-based reference positions
-    union { null, long } position = null;
-    union { null, long } matePosition = null;
+    // The alignment of this read. If unmapped, the array is empty. If the
+    // alignment is linear (vast majority of alignments), the array is of size
+    // one. If the alignment is composed of multiple simple linear alignments
+    // (i.e. chimeric), the components can be found in the SA tag for mappers
+    // supporting the feature.
+    array<GALinearAlignment> alignment = [];
 
-    // A score up to 255 that represents how likely this read's aligned position
-    // is correct. A higher value is better. (MAPQ)
-    union { null, int } mappingQuality = null;
+    // The mate alignment. 
+    array<GALinearAlignment> mateAlignment = [];
 
     // Length of the original piece of dna that produced both this read and the
     // paired read. (TLEN)
@@ -130,19 +137,12 @@ record GA4GHRead {
     // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
     union { null, string } originalBases = null;
 
-    // The originalBases after the cigar field has been applied. Deletions are
-    // represented with '-' and insertions are omitted.
-    union { null, string } alignedBases = null;
-
-    // The compact idiosyncratic gapped alignment report (CIGAR)
-    union { null, string } cigar = null;
-    
     // Represents the quality of each base in this read. Each character represents
     // one base. To get the quality, take the ASCII value of the character and
     // subtract 33. (QUAL)
     union { null, string } baseQuality = null;
 
-    union { null, array<GA4GHKeyValue> } tags = null;
+    array<GAKeyValue> tags = [];
 }
 
 }
