@@ -40,7 +40,7 @@ These format specifications can be found in the
 
 ## Build Status
 
-[![Build Status](https://travis-ci.org/ga4gh/ReadTaskTeam.svg?branch=master)](https://travis-ci.org/ga4gh/ReadTaskTeam)
+[![Build Status](https://travis-ci.org/ga4gh/schemas.svg?branch=master)](https://travis-ci.org/ga4gh/schemas)
 
 ## How to contribute changes
 
