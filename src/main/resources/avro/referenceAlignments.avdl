@@ -14,10 +14,10 @@ protocol GAReferenceAlignmentTypes {
         // The orientation of the edge. 
         // If True the edge is oriented from the left-to-right sides (i.e. the left side of first position to the 
         // right side of the last position), if False the edge is oriented from the right-to-left sides.
-        bool orientation
+        boolean orientation
     }
     
-    // Defines a path within a sequence graph that represents a sequence.
+    // Defines a path within the graph that represents a sequence.
     record GAThread {
         // A sequence of directed blocks. 
         // Consecutive sides of two directed blocks must be connected by an adjacency edge.
@@ -25,7 +25,6 @@ protocol GAReferenceAlignmentTypes {
         
         // The zero-based offset of the first position in the first directed block edge of the thread.
         // For example, if startOffset = 0 the first and subsequent positions are included in the thread.
-        
         int startOffset;
         
         // The zero-based offset of the position one beyond the final aligned position in the last directed 
@@ -34,6 +33,11 @@ protocol GAReferenceAlignmentTypes {
         // If the thread is all within a single block then [startOffset,endOffset) is a semi-open interval 
         // of length endOffset-startOffset.
         int endOffset;
+        
+        //When a startOffset or endOffset is in a block that is reverse complemented, the reverse complement
+        //operation is performed first.  So if the thread has startOffset = 1 and endOffset = 3 in a block 
+        //with sequence ACCTA the thread sequence is CC, but if the block is reverse complemented to TAGGT
+        //the thread sequence with the same offsets is AG.
     }
 
     // CIGAR style alignment between two threads.
