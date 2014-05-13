@@ -1,7 +1,8 @@
 @namespace("org.ga4gh")
-protocol ReferenceStructureTypes {
+protocol GAReferenceStructureTypes {
     
-    // The schemas here describe reference structures.
+    // This schema describes a reference structure of the type described in:
+    // http://arxiv.org/abs/1404.5010
     
     // A reference structure is a graph-based representation of a reference
     // genome and a set of common sequence and structural variants. Such a
@@ -48,44 +49,41 @@ protocol ReferenceStructureTypes {
     // objects, which may belong to either Blocks or Adjacencies. An Edge is
     // directed; it has a left and a right endpoint.
     
-     enum Face {
-        // Keeps track of whether we are talking about the left (5') or right
-        // (3') side of a Position.
+    // Keeps track of whether we are talking about the left (5') or right
+    // (3') side of a Position.
+    enum GAFace {
         LEFT,
         RIGHT
     }
     
-    record Side {
-        // Identifies a side of a unique Position. Serves as a vertex in the
-        // reference graph.
-        
+    // Identifies a side of a unique Position. Serves as a vertex in the
+    // reference graph.
+    record GASide {
         // What is the ID of the position we are talking about?
         long coordinate;
         
         // What face of that position are we talking about (left or right)? 
-        Face face; 
+        GAFace face; 
     }
     
-    record Edge {
-        // Represents an edge in the reference graph. Can be part of a Block or
-        // Adjacency.
-
+    // Represents an edge in the reference graph. Can be part of a block or
+    // adjacency.
+    record GAEdge {
         // The 5' Side of the Edge.
-        Side left;
+        GASide left;
 
         // The 3' Side of the Edge.
-        Side right;
+        GASide right;
 
     }
-     
-    record Block {
-        // Represents several Positions with sequential IDs, connected only to
-        // each other.
-        
+    
+    // Represents several Positions with sequential IDs, connected only to
+    // each other.
+    record GABlock {
         // The Edge in the graph that represents this Block. This edge must
         // connect two Sides with opposite Faces, and the coordinate of the left
         // Side must be smaller than that of the right Side.
-        Edge edge;
+        GAEdge edge;
         
         // The bases that this Block represents. There must be exactly as many
         // characters in this string as there are consecutive integers between
@@ -94,11 +92,10 @@ protocol ReferenceStructureTypes {
         
     }
     
-    record Adjacency {
-        // Represents an Adjacency between two sides of two Blocks.
-
+    // Represents an Adjacency between two sides of two Blocks.
+    record GAAdjacency {
         // The Edge in the graph that represents this Adjacency. This Edge must
         // connect two Sides which are themselves endpoints of Blocks.
-        Edge edge;
+        GAEdge edge;
     }
 }
