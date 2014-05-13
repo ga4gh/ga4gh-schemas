@@ -14,7 +14,7 @@ protocol GAReferenceAlignmentTypes {
         // The orientation of the edge. 
         // If True the edge is oriented from the left-to-right sides (i.e. the left side of first position to the 
         // right side of the last position), if False the edge is oriented from the right-to-left sides.
-        boolean orientation
+        boolean orientation;
     }
     
     // Defines a path within the graph that represents a sequence.
