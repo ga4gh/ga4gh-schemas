@@ -1,5 +1,5 @@
 @namespace("org.ga4gh")
-protocol GA4GH {
+protocol GAReads {
 
 record GAReferenceSequence {
   union { null, string } assemblyId = null;
