@@ -1,0 +1,104 @@
+@namespace("org.ga4gh")
+protocol ReferenceStructureTypes {
+    
+    // The schemas here describe reference structures.
+    
+    // A reference structure is a graph-based representation of a reference
+    // genome and a set of common sequence and structural variants. Such a
+    // structure consists of a series of "Blocks" of linear DNA sequence. Each
+    // block has two ends, a left (or 5') and a right (or 3'). Links called
+    // "Adjacencies" connect these ends together. The presence of an adjacency
+    // means that, in at least some people's genomes, the connected blocks of
+    // sequence come one after the other, in the order and orientation defined
+    // by the ends that are connected.
+    
+    // Every DNA base in a block (called a Position, but not represented as a
+    // first-class object in this schema) has a unique, permanent 64-bit integer
+    // identifier. Each Block stores the identifier of the first base in it and
+    // the total length, and all the bases in a block must have sequential
+    // identifiers. Blocks also store the sequence string for the bases they
+    // represent, when read along the forward strand from left to right.
+    
+    // For referring to locations in Blocks, we define a "Face", which is an
+    // enumerated type with values "LEFT" and RIGHT", and we define "Sides"
+    // which are combinations of a Position (i.e. base) ID and a Face. A Side
+    // represents the specified Face of the specified Position. For example:
+    
+    //                                                                          
+    //                                                                          
+    //                                                                          
+    //              Side: (#1, LEFT)                                            
+    //                \                                                         
+    //                 \          Side: (#2, RIGHT)                             
+    //                  \           /                                           
+    //                   \         /                                            
+    //                     +---+---+---+---+                                    
+    //     A Block:        |#1 |#2 |#3 |#4 | \                                  
+    //                     | A | C | C | G |  \                                 
+    //                     +---+---+---+---+   \                                
+    //                             /             Side: (#4, RIGHT)              
+    //                            /                                             
+    //                         Side: (#3, LEFT)                                 
+    //                                                                          
+    //                                                                          
+    //                                                                          
+    
+    // The schema represents Blocks and Adjacencies as edges in a graph. The
+    // vertices of this graph are Sides, and the edges are represented by Edge
+    // objects, which may belong to either Blocks or Adjacencies. An Edge is
+    // directed; it has a left and a right endpoint.
+    
+     enum Face {
+        // Keeps track of whether we are talking about the left (5') or right
+        // (3') side of a Position.
+        LEFT,
+        RIGHT
+    }
+    
+    record Side {
+        // Identifies a side of a unique Position. Serves as a vertex in the
+        // reference graph.
+        
+        // What is the ID of the position we are talking about?
+        long coordinate;
+        
+        // What face of that position are we talking about (left or right)? 
+        Face face; 
+    }
+    
+    record Edge {
+        // Represents an edge in the reference graph. Can be part of a Block or
+        // Adjacency.
+
+        // The 5' Side of the Edge.
+        Side left;
+
+        // The 3' Side of the Edge.
+        Side right;
+
+    }
+     
+    record Block {
+        // Represents several Positions with sequential IDs, connected only to
+        // each other.
+        
+        // The Edge in the graph that represents this Block. This edge must
+        // connect two Sides with opposite Faces, and the coordinate of the left
+        // Side must be smaller than that of the right Side.
+        Edge edge;
+        
+        // The bases that this Block represents. There must be exactly as many
+        // characters in this string as there are consecutive integers between
+        // the coordinates of the Sides that this Block connects.
+        string bases;      
+        
+    }
+    
+    record Adjacency {
+        // Represents an Adjacency between two sides of two Blocks.
+
+        // The Edge in the graph that represents this Adjacency. This Edge must
+        // connect two Sides which are themselves endpoints of Blocks.
+        Edge edge;
+    }
+}
