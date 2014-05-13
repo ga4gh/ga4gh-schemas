@@ -1,6 +1,5 @@
 @namespace("org.ga4gh")
 protocol GAReferenceStructureTypes {
-    
     // This schema describes a reference structure of the type described in:
     // http://arxiv.org/abs/1404.5010
     
@@ -74,7 +73,6 @@ protocol GAReferenceStructureTypes {
 
         // The 3' Side of the Edge.
         GASide right;
-
     }
     
     // Represents several Positions with sequential IDs, connected only to
@@ -89,7 +87,6 @@ protocol GAReferenceStructureTypes {
         // characters in this string as there are consecutive integers between
         // the coordinates of the Sides that this Block connects.
         string bases;      
-        
     }
     
     // Represents an Adjacency between two sides of two Blocks.
