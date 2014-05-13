@@ -1,7 +1,7 @@
 ![Image](http://genomicsandhealth.org/files/logo_ga.png)
 
 
-# Schemas for the Global Alliance Data Working Group
+# Schemas for the Data Working Group
 
 
 The [Global Alliance for Genomics and Health][ga4gh] is an international
