@@ -49,7 +49,7 @@ protocol GAReferenceAlignmentTypes {
         GAThread thread2;
         
         // The cigar string aligning the first thread to the second thread.
-        array<GACIGARUnit> cigar = []; 
+        array<GACigarUnit> cigar = []; 
     }
     
     // A linear alignment between an input string and a sequence graph,
