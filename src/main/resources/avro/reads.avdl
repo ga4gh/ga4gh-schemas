@@ -8,6 +8,14 @@ record GAReferenceSequence {
   union { null, string } name = null;
   union { null, int } ncbi_taxon_id = null;  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
   union { null, string } uri = null;
+
+  // The accession number of the official sequence from which this reference
+  // sequence is derived. A sequence X is said to be *derived* from sequence Y,
+  // if X and Y are of the same length and the per-base sequence divergence at
+  // A/C/G/T bases is sufficiently small. Two sequences derived from the same
+  // official sequence share the same coordinates and annotations, and can be
+  // replaced with the official sequence for certain use cases.
+  union { null, string } sourceAccession = null;
 }
 
 record GAProgram {
