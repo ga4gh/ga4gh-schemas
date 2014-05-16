@@ -1,6 +1,8 @@
 @namespace("org.ga4gh")
 protocol GAVariants {
 
+import idl "reads.avdl";
+
 // A Variant represents a change in DNA sequence relative to some reference.
 // For example, a Variant could represent a SNP or an insertion.
 // Variants belong to a Dataset.
@@ -92,4 +94,6 @@ record GACallset {
 
   // A map of additional callset information.
   array<GAKeyValue> info = [];
+}
+
 }
