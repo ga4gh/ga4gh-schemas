@@ -98,6 +98,7 @@ record GALinearAlignment { // a linear alignment can be represented by one CIGAR
     string contigName;
     long position; // 0-based position
     boolean reverseStrand; // the alignment is on the reverse strand of the reference sequence.
+	union { null, boolean } secondary = false; // SAM flag 0x100
     union { null, int } mappingQuality = null;
     array<GACigarUnit> cigar = []; 
     array<GAKeyValue> tags = [];
@@ -114,6 +115,10 @@ record GARead {
     // supporting the feature.
     array<GALinearAlignment> alignment = [];
 
+	// Specify whether all the linear alignments of the read are present in
+	// alignment[]. Set to null (i.e. absent) if unknown.
+	union { null, boolean } complete = null;
+
     // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
     union { null, string } baseSequence = null;
 
@@ -129,6 +134,9 @@ record GAFragment {
     // The ID of the ReadGroup this fragment belongs to. (Every fragment must belong to exactly one ReadGroup.)
     string readGroupId;
 
+	// unique in a ReadGroup
+	union { null, string } fragmentId = null;
+
 	// The fragment is suppposed to be free of strucutral variations. For
 	// paired-end reads, this flag is reduced to the "properly paired" SAM flag
 	// (bit 0x2). It is typically set by the mapper to inform downstream tools.
@@ -139,6 +147,10 @@ record GAFragment {
 
 	// Reads sequenced from this fragment. The array order is the sequencing order.
 	array<GARead> reads;
+
+	// Specify whether all the reads in the fragment are present in reads[].
+	// Set to null (i.e. absent) if unknown. Similar to GARead::complete.
+	union { null, boolean } complete = null;
 
     // Length of the original piece of dna that produced both this read and the
     // paired read. (TLEN)
