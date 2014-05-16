@@ -3,6 +3,7 @@ protocol GAReadMethods {
 
 import idl "reads.avdl";
 
+/***************  /reads/search  ********************/
 // This request maps to the body of POST /reads/search
 record GASearchReadsRequest {
   // If specified, will restrict this query to reads within the given readgroups.
@@ -33,6 +34,32 @@ record GASearchReadsResponse {
   // Unmapped reads, which have no position, are returned last and are further
   // sorted by name.
   union { null, array<GARead> } reads = null;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  union { null, string } next_page_token = null;
+}
+
+/****************  /runs/search  *******************/
+// This request maps to the body of POST /runs/search
+record GASearchRunsRequest {
+  // The list of datasets to search.
+  union { null, array<string> } dataset_ids = null;
+  
+  // If specified, limit the search to the specified run names.
+  union { null, array<string> } run_names = null;
+  
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // "nextPageToken" from the previous response.
+  union { null, string } page_token = null;
+}
+
+// This is the response from POST /runs/search
+record GASearchRunsResponse {
+  // The list of matching Runs.
+  union { null, array<GARun> } runs = null;
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
