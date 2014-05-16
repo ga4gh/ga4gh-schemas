@@ -3,6 +3,41 @@ protocol GAVariants {
 
 import idl "reads.avdl";
 
+// A Call represents the determination of genotype with respect to a particular
+// variant. It may include associated information such as quality and phasing.
+// For example, a Call might assign a probability of 0.32 to the occurrence of
+// a SNP named rs1234 in a callset with the name NA12345.
+record GACall {
+
+  // The ID of the callset this variant call belongs to.
+  string callset_id;
+
+  // The name of the callset this variant call belongs to.
+  union { null, string } callset_name = null;
+
+  // The genotype of this variant call. Each value represents either the value
+  // of the referenceBases field or is a 1-based index into alternateBases.
+  // If a variant had a referenceBases field of "T", an alternateBases
+  // value of ["A", "C"], and the genotype was [2, 1], that would mean the call
+  // represented the heterozygous value "CA" for this variant. If the genotype
+  // was instead [0, 1] the represented value would be "TA". Ordering of the
+  // genotype values is important if the phaseset field is present.
+  array<int> genotype = [];
+
+  // If this field is present, this variant call's genotype ordering implies
+  // the phase of the bases and is consistent with any other variant calls on
+  // the same contig which have the same phaseset value.
+  union { null, string } phaseset = null;
+
+  // The genotype likelihoods for this variant call. Each array entry
+  // represents how likely a specific genotype is for this call. The value
+  // ordering is defined by the GL tag in the VCF spec.
+  array<double> genotype_likelihood = [];
+
+  // A map of additional variant call information.
+  array<GAKeyValue> info = [];
+}
+
 // A Variant represents a change in DNA sequence relative to some reference.
 // For example, a Variant could represent a SNP or an insertion.
 // Variants belong to a Dataset.
@@ -40,41 +75,6 @@ record GAVariant {
   // The variant calls for this particular variant. Each one represents the
   // determination of genotype with respect to this variant.
   array<GACall> calls = [];
-}
-
-// A Call represents the determination of genotype with respect to a particular
-// variant. It may include associated information such as quality and phasing.
-// For example, a Call might assign a probability of 0.32 to the occurrence of
-// a SNP named rs1234 in a callset with the name NA12345.
-record GACall {
-
-  // The ID of the callset this variant call belongs to.
-  string callset_id;
-
-  // The name of the callset this variant call belongs to.
-  union { null, string } callset_name = null;
-
-  // The genotype of this variant call. Each value represents either the value
-  // of the referenceBases field or is a 1-based index into alternateBases.
-  // If a variant had a referenceBases field of "T", an alternateBases
-  // value of ["A", "C"], and the genotype was [2, 1], that would mean the call
-  // represented the heterozygous value "CA" for this variant. If the genotype
-  // was instead [0, 1] the represented value would be "TA". Ordering of the
-  // genotype values is important if the phaseset field is present.
-  array<int> genotype = [];
-
-  // If this field is present, this variant call's genotype ordering implies
-  // the phase of the bases and is consistent with any other variant calls on
-  // the same contig which have the same phaseset value.
-  union { null, string } phaseset = null;
-
-  // The genotype likelihoods for this variant call. Each array entry
-  // represents how likely a specific genotype is for this call. The value
-  // ordering is defined by the GL tag in the VCF spec.
-  array<double> genotype_likelihood = [];
-
-  // A map of additional variant call information.
-  array<GAKeyValue> info = [];
 }
 
 // A Callset is a collection of Variant Calls. It belongs to a Dataset.
