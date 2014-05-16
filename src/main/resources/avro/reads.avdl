@@ -75,21 +75,6 @@ record GAReadGroup {
   array<GAKeyValue> tags = [];
 }
 
-// TODO: pick a better name
-enum GARun {
-  // The run ID.
-  string id;
-
-  // The ID of the dataset this run belongs to.  // TODO: do we need this? 
-  union {null, string} datasetId = null;
-
-  // The run name.
-  union {null, string} name = null;
-
-  // The ReadGroups in this run.
-  array<GAReadGroup> readGroups = [];
-}
-
 enum GACigarOperation {
     ALIGNMENT_MATCH,   // M
     INSERT,            // I
