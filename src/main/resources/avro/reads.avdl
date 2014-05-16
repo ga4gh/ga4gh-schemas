@@ -102,6 +102,7 @@ record GAFlattenedAlignment {
 	string fragmentId;
 	union { null, boolean } properPlacement = false;
 	union { null, boolean } duplicateFragment = false;
+	union { null, int } numberOfReads = false;
 	union { null, int } templateLength = null;
 
 	// read information
