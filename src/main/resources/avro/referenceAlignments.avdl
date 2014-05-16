@@ -1,0 +1,64 @@
+@namespace("org.ga4gh")
+protocol GAReferenceAlignmentTypes {
+    // The schemas here describe a cigar alignment structure to represent alignments between sequence graphs, and 
+    // between linear strings and sequence graphs.
+    
+    import idl "referenceStructure.avdl";
+    import idl "reads.avdl"; 
+    
+    // Wrapping object that gives a block a direction of traversal.
+    record GADirectedBlock {
+        // Unoriented block
+        GABlock block;
+        
+        // The orientation of the edge. 
+        // If True the edge is oriented from the left-to-right sides (i.e. the left side of first position to the 
+        // right side of the last position), if False the edge is oriented from the right-to-left sides.
+        boolean orientation;
+    }
+    
+    // Defines a path within the graph that represents a sequence.
+    record GAThread {
+        // A sequence of directed blocks. 
+        // Consecutive sides of two directed blocks must be connected by an adjacency edge.
+        array <GADirectedBlock> path = [];
+        
+        // The zero-based offset of the first position in the first directed block edge of the thread.
+        // For example, if startOffset = 0 the first and subsequent positions are included in the thread.
+        int startOffset;
+        
+        // The zero-based offset of the position one beyond the final aligned position in the last directed 
+        // block edge of the thread.
+        // For example, if endOffset = length the last and previous positions are included in the thread.
+        // If the thread is all within a single block then [startOffset,endOffset) is a semi-open interval 
+        // of length endOffset-startOffset.
+        int endOffset;
+        
+        //When a startOffset or endOffset is in a block that is reverse complemented, the reverse complement
+        //operation is performed first.  So if the thread has startOffset = 1 and endOffset = 3 in a block 
+        //with sequence ACCTA the thread sequence is CC, but if the block is reverse complemented to TAGGT
+        //the thread sequence with the same offsets is AG.
+    }
+
+    // CIGAR style alignment between two threads.
+    record GAGraphToGraphAlignment {
+        // The aligned thread from the first sequence graph.
+        GAThread thread1;
+        
+        // The aligned thread from the second sequence graph.
+        GAThread thread2;
+        
+        // The cigar string aligning the first thread to the second thread.
+        array<GACigarUnit> cigar = []; 
+    }
+    
+    // A linear alignment between an input string and a sequence graph,
+    // represented by a CIGAR string and a thread in the graph.
+    record GALinearAlignmentToGraph { 
+        // The aligned thread from the sequence graph.
+        GAThread thread1;
+        
+        // The cigar string aligning the sequence to the given thread.
+        array<GACigarUnit> cigar = []; 
+    }
+}
