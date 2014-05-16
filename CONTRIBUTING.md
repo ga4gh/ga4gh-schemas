@@ -1,4 +1,4 @@
-## How to contribute to the GA4GH ReadTaskTeam project
+## How to contribute to the GA4GH Schemas
 
 Thank you for taking the time to contribute. We appreciate it!
 
