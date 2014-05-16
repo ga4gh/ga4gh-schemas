@@ -80,7 +80,7 @@ enum GARun {
   // The run ID.
   string id;
 
-  // The ID of the dataset this run belongs to.  // TODO: do we need this? 
+  // The ID of the dataset this run belongs to. 
   union {null, string} datasetId = null;
 
   // The run name.
