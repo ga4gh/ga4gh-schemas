@@ -51,6 +51,8 @@ protocol GAReferenceStructureTypes {
     // objects, which may belong to either Blocks or Adjacencies. An Edge is
     // directed; it has a left and a right endpoint.
     
+    import idl "reads.avdl"; 
+    
     // Keeps track of whether we are talking about the left (5') or right
     // (3') side of a Position.
     enum GAFace {
