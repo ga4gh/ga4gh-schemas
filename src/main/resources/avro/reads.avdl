@@ -1,28 +1,13 @@
 @namespace("org.ga4gh")
-protocol GA4GH {
+protocol GAReads {
 
 record GAReferenceSequence {
   union { null, string } assemblyId = null;
   union { null, long } length = null;
   union { null, string } md5checksum = null;
   union { null, string } name = null;
-  union { null, string } species = null;
+  union { null, int } ncbi_taxon_id = null;  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
   union { null, string } uri = null;
-}
-
-record GAReadGroup {
-  union { null, string } date = null;
-  union { null, string } description = null;
-  union { null, string } flowOrder = null;
-  union { null, string } id = null;
-  union { null, string } keySequence = null;
-  union { null, string } library = null;
-  union { null, string } platformUnit = null;
-  union { null, int } predictedInsertSize = null;
-  union { null, string } processingProgram;
-  union { null, string } sample;
-  union { null, string } sequencingCenter;
-  union { null, string } sequencingTechnology;
 }
 
 record GAProgram {
@@ -33,39 +18,53 @@ record GAProgram {
   union { null, string } version = null;
 }
 
+record GAKeyValue { 
+    string key;
+    string value = null;
+}
+
 record GADataSet {
     string id;
     union { null, string } description = null;
 }
 
-record GAReadSet {
+record GAReadGroup {
 
-  // The readset ID.
-  union {null, string} id = null;
+  // The readgroup ID.
+  string id;
 
-  // The readset name.
-  union {null, string} name = null;
-
-  // The ID of the dataset this readset belongs to.
+  // The ID of the dataset this readgroup belongs to.
   union {null, string} datasetId = null;
 
-  // The date this readset was created.
+  // The readgroup name.
+  union {null, string} name = null;
+
+  // The readgroup description.
+  union {null, string} description = null;
+  
+  // The sample this readgroup's data was generated from.
+  union { null, string } sample;
+  
+  union { null, string } library = null;
+  union { null, string } platformUnit = null;
+  union { null, int } predictedInsertSize = null;
+  union { null, string } sequencingCenter;
+  union { null, string } sequencingTechnology;
+
+  // The date this readgroup was created.
   union {null, long} created = null;
 
-  // The number of reads in this readset.
+  // The number of reads in this readgroup.
   union {null, long} readCount = null;
   
-  // One-line text comments
-  union { null, array<string> } comments = null;
+  // The programs used to generate this readgroup.
+  array<GAProgram> programs = [];
 
-  // (@PG) programs
-  union { null, array<GAProgram> } programs = null;
-
-  // (@RG) read group
-  union { null, array<GAReadGroup> } readGroups = null;
-
-  // (@SQ) Reference Sequence Dictionary
-  union { null, array<GAReferenceSequence> } referenceSequences = null;
+  // The reference sequences the reads in this readgroup are aligned to.
+  array<GAReferenceSequence> referenceSequences = [];
+  
+  // Additional information
+  array<GAKeyValue> tags = [];
 }
 
 record GAKeyValue { 
