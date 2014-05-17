@@ -104,9 +104,14 @@ record GALinearAlignment { // a linear alignment can be represented by one CIGAR
     array<GACigarUnit> cigar = []; 
 }
 
+record GAMateId { // The information needed to find a Read's mate
+  string contig;
+  long position;
+}
+
 record GARead {
-    // The read ID
-    union { null, string } id = null;
+    // Fragment information
+    // These fields are the same for all Reads in a fragment.
   
     // The name of the read. When imported from a BAM file, this is the query
     // template name. (QNAME)
@@ -114,16 +119,29 @@ record GARead {
 
     // The ID of the readgroup this read belongs to. (Every read must belong to exactly one readgroup.)
     string readgroupId;
+    
+    // The mate ids can be used to lookup other Reads that came from the same fragment.
+    // All mates are in the same readgroup.
+    array<GAMateId> mateIds = [];
+    
+    // Length of the original piece of DNA that produced both this read and its mates. (TLEN)
+    union { null, int } templateLength = null;     
+    
+    
+    // Read information
+    // These fields are specific to each Read.
+    
+    // The index of this Read in the mateIds array
+    // If the read is the first of a pair, the value will be 0. 
+    // If the read is the second of a pair, it would be 1.
+    union { int, null } mateIndex = null;
 
     // Read flags (all default to false)
-    union { boolean, null } readPaired = false;   // The paired read must belong to the same readgroup.
     union { boolean, null } properPair = false;
     union { boolean, null } readMapped = false;
     union { boolean, null } mateMapped = false;
     union { boolean, null } readNegativeStrand = false;
     union { boolean, null } mateNegativeStrand = false;
-    union { boolean, null } firstOfPair = false;
-    union { boolean, null } secondOfPair = false;
     union { boolean, null } primaryAlignment = false;
     union { boolean, null } failedVendorQualityChecks = false;
     union { boolean, null } duplicateRead = false;
@@ -134,13 +152,6 @@ record GARead {
     // (i.e. chimeric), the components can be found in the SA tag for mappers
     // supporting the feature.
     array<GALinearAlignment> alignment = [];
-
-    // The mate alignment. 
-    array<GALinearAlignment> mateAlignment = [];
-
-    // Length of the original piece of dna that produced both this read and the
-    // paired read. (TLEN)
-    union { null, int } templateLength = null; 
 
     // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
     union { null, string } originalBases = null;
