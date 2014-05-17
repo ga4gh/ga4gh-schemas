@@ -75,8 +75,8 @@ record GAReadGroup {
   array<GAKeyValue> tags = [];
 }
 
-// TODO: pick a better name
-enum GARun {
+// TODO: pick a better name than 'run'
+record GARun {
   // The run ID.
   string id;
 
