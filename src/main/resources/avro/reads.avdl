@@ -75,18 +75,17 @@ record GAReadGroup {
   array<GAKeyValue> tags = [];
 }
 
-// TODO: pick a better name than 'run'
-record GARun {
-  // The run ID.
+record GAReadGroupSet {
+  // The readgroupset ID.
   string id;
 
-  // The ID of the dataset this run belongs to. 
+  // The ID of the dataset this readgroupset belongs to. 
   union {null, string} datasetId = null;
 
-  // The run name.
+  // The readgroupset name.
   union {null, string} name = null;
 
-  // The readgroups in this run.
+  // The readgroups in this set.
   array<GAReadGroup> readGroups = [];
 }
 
