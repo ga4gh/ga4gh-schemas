@@ -33,7 +33,6 @@ record GAKeyValue {
 
 enum GACollectionType { // add other types (e.g. experiment/library/sample) if necessary
     RUN, // SRA Run
-    STUDY, // SRA Study
     PROJECT // NCBI BioProject, which is recursive by itself
 }
 
