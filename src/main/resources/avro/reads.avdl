@@ -75,14 +75,14 @@ record GAReadGroup {
   array<GAKeyValue> tags = [];
 }
 
-record GAReadGroupSet {
-  // The readgroupset ID.
+record GAReadgroupSet {
+  // The readgroup set ID.
   string id;
 
-  // The ID of the dataset this readgroupset belongs to. 
+  // The ID of the dataset this readgroup set belongs to. 
   union {null, string} datasetId = null;
 
-  // The readgroupset name.
+  // The readgroup set name.
   union {null, string} name = null;
 
   // The readgroups in this set.
