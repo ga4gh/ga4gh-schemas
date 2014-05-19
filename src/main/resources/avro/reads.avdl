@@ -31,9 +31,26 @@ record GAKeyValue {
     string value = null;
 }
 
-record GADataSet {
-    string id;
-    union { null, string } description = null;
+enum GACollectionType { // add other types (e.g. experiment/library/sample) if necessary
+    RUN, // SRA Run
+	STUDY, // SRA Study
+    PROJECT // NCBI BioProject, which is recursive by itself
+}
+
+// GAReadGroup and GAGroupCollection objects are organized in a tree structure,
+// with an external node being a GAReadGroup object and an internal node being
+// a GAGroupCollection object.
+record GAGroupCollection {
+
+    string collectionId; // unique in a read store instance
+
+	// The parent collection. No loop. Null for the root node only.
+	union { null, string } parentCollectionId;
+
+    union { null, GACollectionType } collectionType = null; // null if type unknown
+
+	// link to an ERR/ERP/SRR/SRP/PRJ* NCBI/EBI accession if applicable
+    union { null, string } accession = null;
 }
 
 record GAReadGroup {
@@ -41,8 +58,8 @@ record GAReadGroup {
   // The readgroup ID.
   string id;
 
-  // The ID of the dataset this readgroup belongs to.
-  union {null, string} datasetId = null;
+  // The ID of the collection this readgroup belongs to.
+  union {null, string} collectionId = null;
 
   // The readgroup name.
   union {null, string} name = null;
