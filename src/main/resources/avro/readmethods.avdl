@@ -41,13 +41,13 @@ record GASearchReadsResponse {
   union { null, string } next_page_token = null;
 }
 
-/****************  /runs/search  *******************/
-// This request maps to the body of POST /runs/search
-record GASearchRunsRequest {
+/****************  /readgroupsets/search  *******************/
+// This request maps to the body of POST /readgroupsets/search
+record GASearchReadgroupSetsRequest {
   // The list of datasets to search.
   array<string> datasetIds = [];
 
-  // Only return runs for which a substring of the name matches this string.
+  // Only return readgroup sets for which a substring of the name matches this string.
   union { null, string } name = null;
 
   // The continuation token, which is used to page through large result sets.
@@ -56,10 +56,10 @@ record GASearchRunsRequest {
   union { null, string } pageToken = null;
 }
 
-// This is the response from POST /runs/search
-record GASearchRunsResponse {
-  // The list of matching runs.
-  array<GARun> runs = [];
+// This is the response from POST /readgroupsets/search
+record GASearchReadgroupSetsResponse {
+  // The list of matching readgroup sets.
+  array<GAReadgroupSet> readgroupSets = [];
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
