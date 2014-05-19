@@ -100,56 +100,35 @@ record GACigarUnit {
 record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
     string contigName;
     long position;
+    boolean reverseStrand; // the alignment is on the reverse strand of the contig
     union { null, int } mappingQuality = null;
     array<GACigarUnit> cigar = []; 
 }
 
-record GARead {
-    // The read ID
-    union { null, string } id = null;
-  
-    // The name of the read. When imported from a BAM file, this is the query
-    // template name. (QNAME)
-    union { null, string } name = null;
+record GAFlattenedAlignment {
+	// fragment information
+	string fragmentId;
+	union { null, boolean } properPlacement = false;
+	union { null, boolean } duplicateFragment = false;
+	union { null, int } numberOfReads = null;
+	union { null, int } templateLength = null;
 
-    // The ID of the readgroup this read belongs to. (Every read must belong to exactly one readgroup.)
-    string readgroupId;
+	// read information
+	union { null, int } readNumber;
+	union { null, boolean } failedVendorQualityChecks = false;
+	union { null, string } baseSequence = null;
+	union { null, string } baseQuality = null;
 
-    // Read flags (all default to false)
-    union { boolean, null } readPaired = false;   // The paired read must belong to the same readgroup.
-    union { boolean, null } properPair = false;
-    union { boolean, null } readMapped = false;
-    union { boolean, null } mateMapped = false;
-    union { boolean, null } readNegativeStrand = false;
-    union { boolean, null } mateNegativeStrand = false;
-    union { boolean, null } firstOfPair = false;
-    union { boolean, null } secondOfPair = false;
-    union { boolean, null } primaryAlignment = false;
-    union { boolean, null } failedVendorQualityChecks = false;
-    union { boolean, null } duplicateRead = false;
+	// information about this linear alignment
+	union { null, GALinearAlignment } alignment = null; // null if unmapped
+	union { null, boolean } secondary = null; // SAM flag 0x100
 
-    // The alignment of this read. If unmapped, the array is empty. If the
-    // alignment is linear (vast majority of alignments), the array is of size
-    // one. If the alignment is composed of multiple simple linear alignments
-    // (i.e. chimeric), the components can be found in the SA tag for mappers
-    // supporting the feature.
-    array<GALinearAlignment> alignment = [];
+	// otherAlignments[i][j] gives the j-th alignment of the i-th read in the
+	// fragment. otherAlignments[readNumber] gives other linear alignments of
+	// this current read.
+	array<array<GALinearAlignment>> otherAlignments = [];
 
-    // The mate alignment. 
-    array<GALinearAlignment> mateAlignment = [];
-
-    // Length of the original piece of dna that produced both this read and the
-    // paired read. (TLEN)
-    union { null, int } templateLength = null; 
-
-    // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
-    union { null, string } originalBases = null;
-
-    // Represents the quality of each base in this read. Each character represents
-    // one base. To get the quality, take the ASCII value of the character and
-    // subtract 33. (QUAL)
-    union { null, string } baseQuality = null;
-
+	// tags could be about this linear alignment, this read or this fragment
     array<GAKeyValue> tags = [];
 }
 
