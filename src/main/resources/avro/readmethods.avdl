@@ -61,8 +61,8 @@ record GASearchReadsResponse {
 
 
 /**
-A method to search for GAReads.  
-This maps to the POST request /reads/search */
+A method to search for GAReads.
+This maps to the POST request /reads/search 
 */
 GASearchReadsResponse gaSearchReads( GASearchReadsRequest request) throws GAException;
 
