@@ -1,6 +1,8 @@
 @namespace("org.ga4gh")
 protocol GAReads {
 
+import idl "common.avdl";
+
 record GAReferenceSequence {
   union { null, string } assemblyId = null;
   union { null, long } length = null;
@@ -26,7 +28,7 @@ record GAProgram {
   union { null, string } version = null;
 }
 
-record GAKeyValue { 
+record GAKeyValue {
     string key;
     string value = null;
 }
@@ -49,10 +51,10 @@ record GAReadGroup {
 
   // The readgroup description.
   union {null, string} description = null;
-  
+
   // The sample this readgroup's data was generated from.
   union { null, string } sample;
-  
+
   union { null, string } library = null;
   union { null, string } platformUnit = null;
   union { null, int } predictedInsertSize = null;
@@ -64,13 +66,13 @@ record GAReadGroup {
 
   // The number of reads in this readgroup.
   union {null, long} readCount = null;
-  
+
   // The programs used to generate this readgroup.
   array<GAProgram> programs = [];
 
   // The reference sequences the reads in this readgroup are aligned to.
   array<GAReferenceSequence> referenceSequences = [];
-  
+
   // Additional information
   array<GAKeyValue> tags = [];
 }
@@ -101,13 +103,13 @@ record GALinearAlignment { // a linear alignment can be represented by one CIGAR
     string contigName;
     long position;
     union { null, int } mappingQuality = null;
-    array<GACigarUnit> cigar = []; 
+    array<GACigarUnit> cigar = [];
 }
 
 record GARead {
     // The read ID
     union { null, string } id = null;
-  
+
     // The name of the read. When imported from a BAM file, this is the query
     // template name. (QNAME)
     union { null, string } name = null;
@@ -135,12 +137,12 @@ record GARead {
     // supporting the feature.
     array<GALinearAlignment> alignment = [];
 
-    // The mate alignment. 
+    // The mate alignment.
     array<GALinearAlignment> mateAlignment = [];
 
     // Length of the original piece of dna that produced both this read and the
     // paired read. (TLEN)
-    union { null, int } templateLength = null; 
+    union { null, int } templateLength = null;
 
     // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
     union { null, string } originalBases = null;

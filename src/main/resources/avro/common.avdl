@@ -1,0 +1,22 @@
+@namespace("org.ga4gh")
+protocol GACommon {
+
+  /**
+  A general exception handler
+  */
+  error GAException {
+    /** The error message */
+    string message;
+    /** The numerical error code */
+    int errorCode = -1;
+  }
+
+  /**
+  A structure for encoding arbitrary Key-Value tuples, or tags, on other record types.
+  */
+  record GAKeyValue {
+    string key;
+    string value = null;
+  }
+
+}
