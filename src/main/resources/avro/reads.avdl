@@ -1,13 +1,21 @@
 @namespace("org.ga4gh")
-protocol GA4GH {
+protocol GAReads {
 
 record GAReferenceSequence {
   union { null, string } assemblyId = null;
   union { null, long } length = null;
   union { null, string } md5checksum = null;
   union { null, string } name = null;
-  union { null, string } species = null;
+  union { null, int } ncbi_taxon_id = null;  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
   union { null, string } uri = null;
+
+  // The accession number of the official sequence from which this reference
+  // sequence is derived. A sequence X is said to be *derived* from sequence Y,
+  // if X and Y are of the same length and the per-base sequence divergence at
+  // A/C/G/T bases is sufficiently small. Two sequences derived from the same
+  // official sequence share the same coordinates and annotations, and can be
+  // replaced with the official sequence for certain use cases.
+  union { null, string } sourceAccession = null;
 }
 
 record GAProgram {
@@ -58,13 +66,13 @@ record GAReadGroup {
   union {null, long} readCount = null;
   
   // The programs used to generate this readgroup.
-  union { null, array<GAProgram> } programs = null;
+  array<GAProgram> programs = [];
 
   // The reference sequences the reads in this readgroup are aligned to.
-  union { null, array<GAReferenceSequence> } referenceSequences = null;
+  array<GAReferenceSequence> referenceSequences = [];
   
   // Additional information
-  union { null, array<GAKeyValue> } tags = null;
+  array<GAKeyValue> tags = [];
 }
 
 enum GACigarOperation {
@@ -142,7 +150,7 @@ record GARead {
     // subtract 33. (QUAL)
     union { null, string } baseQuality = null;
 
-    union { null, array<GAKeyValue> } tags = null;
+    array<GAKeyValue> tags = [];
 }
 
 }

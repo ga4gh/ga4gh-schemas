@@ -1,7 +1,7 @@
 @namespace("org.ga4gh")
-protocol GAMethods {
+protocol GAReadMethods {
 
-import idl "ga4gh.avdl";
+import idl "reads.avdl";
 
 
 error GAException {

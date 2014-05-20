@@ -1,0 +1,162 @@
+@namespace("org.ga4gh")
+protocol GAReferenceStructureTypes {
+    // This schema describes a reference structure of the type described in:
+    // http://arxiv.org/abs/1404.5010
+    
+    // A reference structure is a graph-based representation of a reference
+    // genome and a set of common sequence and structural variants. It is
+    // composed of a set of hierarchically organised sequence graphs, 
+    // and a mapping scheme to the sequence graphs. 
+    
+    // A sequence graph a consists of a series of "Blocks" of linear DNA sequence. Each
+    // block has two ends, a left (or 5') and a right (or 3'). Links called
+    // "Adjacencies" connect these ends together. The presence of an adjacency
+    // means that, in at least some people's genomes, the connected blocks of
+    // sequence come one after the other, in the order and orientation defined
+    // by the ends that are connected.
+    
+    // Every DNA base in a block (called a Position, but not represented as a
+    // first-class object in this schema) has a unique, permanent 64-bit integer
+    // identifier. Each Block stores the identifier of the first base in it and
+    // the total length, and all the bases in a block must have sequential
+    // identifiers. Blocks also store the sequence string for the bases they
+    // represent, when read along the forward strand from left to right.
+    
+    // For referring to locations in Blocks, we define a "Face", which is an
+    // enumerated type with values "LEFT" and RIGHT", and we define "Sides"
+    // which are combinations of a Position (i.e. base) ID and a Face. A Side
+    // represents the specified Face of the specified Position. For example:
+    
+    //                                                                          
+    //                                                                          
+    //                                                                          
+    //              Side: (#1, LEFT)                                            
+    //                \                                                         
+    //                 \          Side: (#2, RIGHT)                             
+    //                  \           /                                           
+    //                   \         /                                            
+    //                     +---+---+---+---+                                    
+    //     A Block:        |#1 |#2 |#3 |#4 | \                                  
+    //                     | A | C | C | G |  \                                 
+    //                     +---+---+---+---+   \                                
+    //                             /             Side: (#4, RIGHT)              
+    //                            /                                             
+    //                         Side: (#3, LEFT)                                 
+    //                                                                          
+    //                                                                          
+    //                                                                          
+    
+    // The schema represents Blocks and Adjacencies as edges in a graph. The
+    // vertices of this graph are Sides, and the edges are represented by Edge
+    // objects, which may belong to either Blocks or Adjacencies. An Edge is
+    // directed; it has a left and a right endpoint.
+    
+    import idl "reads.avdl"; 
+    
+    // Keeps track of whether we are talking about the left (5') or right
+    // (3') side of a Position.
+    enum GAFace {
+        LEFT,
+        RIGHT
+    }
+    
+    // Identifies a side of a unique Position. Serves as a vertex in the
+    // reference graph.
+    record GASide {
+        // The ID of the position we are talking about
+        long coordinate;
+        
+        // The face of that position we are talking about (left or right).
+        GAFace face; 
+    }
+    
+    // Represents an edge in the reference graph. Can be part of a block or
+    // adjacency.
+    record GAEdge {
+        // The 5' Side of the Edge.
+        GASide left;
+
+        // The 3' Side of the Edge.
+        GASide right;
+    }
+    
+    // Represents several Positions with sequential IDs, connected only to
+    // each other.
+    record GABlock {
+        // The Edge in the graph that represents this Block. This edge must
+        // connect two Sides with opposite Faces, and the coordinate of the left
+        // Side must be smaller than that of the right Side.
+        GAEdge edge;
+        
+        // The bases that this Block represents. There must be exactly as many
+        // characters in this string as there are consecutive integers between
+        // the coordinates of the Sides that this Block connects.
+        string bases;      
+    }
+    
+    // Represents an Adjacency between two sides of two Blocks.
+    record GAAdjacency {
+        // The Edge in the graph that represents this Adjacency. This Edge must
+        // connect two Sides which are themselves endpoints of Blocks.
+        GAEdge edge;
+    }
+    
+    // The following portion of the schema describes a CIGAR alignment structure to 
+    // represent alignments between sequence graphs, and 
+    // between linear strings and sequence graphs.
+    
+    // Wrapping object that gives a block a direction of traversal.
+    record GADirectedBlock {
+        // Unoriented block
+        GABlock block;
+        
+        // The orientation of the edge. 
+        // If True the edge is oriented from the left-to-right sides (i.e. the left side of first position to the 
+        // right side of the last position), if False the edge is oriented from the right-to-left sides.
+        boolean orientation;
+    }
+    
+    // Defines a path within a sequence graph that represents a sequence.
+    record GAThread {
+        // A sequence of directed blocks. 
+        array <GADirectedBlock> path = [];
+        
+        // The zero-based offset of the first position in the first directed block edge of the thread.
+        // For example, if startOffset = 0 the first and subsequent positions are included in the thread.
+        int startOffset;
+        
+        // The zero-based offset of the position one beyond the final aligned position in the last directed 
+        // block edge of the thread.
+        // For example, if endOffset = length the last and previous positions are included in the thread.
+        // If the thread is all within a single block then [startOffset,endOffset) is a semi-open interval 
+        // of length endOffset-startOffset.
+        int endOffset;
+        
+        //When a startOffset or endOffset is in a block that is reverse complemented, the reverse complement
+        //operation is performed first.  So if the thread has startOffset = 1 and endOffset = 3 in a block 
+        //with sequence ACCTA the thread sequence is CC, but if the block is reverse complemented to TAGGT
+        //the thread sequence with the same offsets is AG.
+    }
+
+    // CIGAR style alignment between two threads.
+    record GAGraphToGraphAlignment {
+        // The aligned thread from the first sequence graph.
+        GAThread thread1;
+        
+        // The aligned thread from the second sequence graph.
+        GAThread thread2;
+        
+        // The cigar string aligning the first thread to the second thread.
+        array<GACigarUnit> cigar = []; 
+    }
+    
+    // A linear alignment between an input string and a sequence graph,
+    // represented by a CIGAR string and a thread in the graph.
+    record GAStringToGraphAlignment { 
+        // The aligned thread from the sequence graph.
+        GAThread thread1;
+        
+        // The cigar string aligning the string to the given thread.
+        array<GACigarUnit> cigar = []; 
+    }
+}
