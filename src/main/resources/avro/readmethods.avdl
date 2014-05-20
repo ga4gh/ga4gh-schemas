@@ -9,6 +9,38 @@ error GAException {
   int error_code = -1;
 }
 
+/**  This request maps to the body of POST /reads/search */
+record GASearchReadsRequest {
+
+  /**  If specified, will restrict this query to reads within the given readgroups. */
+  union { null, array<string> } readgroup_ids = null;
+
+  /**
+  The contig to query. (e.g. 'X' for the X chromosome)
+  Leaving this blank returns results from all contigs, including
+  unmapped reads.
+  */
+  union { null, string } contig = null;
+
+  /**
+  The start position (0-based) of this query. If a contig is
+  specified, this defaults to 0.
+  */
+  union { null, long } start_position = null;
+
+  /**
+  The end position (0-based, inclusive) of this query. If a contig is
+  specified, this defaults to the contig's length.
+  */
+  union { null, long } end_position = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  "nextPageToken" from the previous response.
+  */
+  union { null, string } page_token = null;
+}
 
 /** A response object from calls to the `gaSearchReads` method. */
 record GASearchReadsResponse {
@@ -28,22 +60,7 @@ record GASearchReadsResponse {
 }
 
 
-/**
-  A method to search for GAReads.
-
-  @param readgroup_ids   If specified, will restrict this query to reads within the given readgroups.
-  @param contig          The contig to query. (e.g. 'X' for the X chromosome) Leaving this blank returns results from all contigs, including unmapped reads.
-  @param start_position  The start position (0-based) of this query. If a contig is specified, this defaults to 0.
-  @param end_position    The end position (0-based, inclusive) of this query. If a contig is specified, this defaults to the contig's length.
-  @param page_token      The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response.
-  @return the `GASearchReadsResponse` object that contains a `GARead` iterator, and the `next_page_token` that can be used to fetch a particular set of results
-
-  */
-GASearchReadsResponse gaSearchReads(array<string> readgroup_ids=null,
-                          string contig=null,
-                          long start_position=null,
-                          long end_position=null,
-                          string page_token=null ) throws GAException;
-
+/** A method to search for GAReads.  */
+GASearchReadsResponse gaSearchReads( GASearchReadsRequest request) throws GAException;
 
 }
