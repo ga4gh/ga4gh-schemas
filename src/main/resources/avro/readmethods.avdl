@@ -3,41 +3,67 @@ protocol GAReadMethods {
 
 import idl "reads.avdl";
 
-// This request maps to the body of POST /reads/search
-record GASearchReadsRequest {
-  // If specified, will restrict this query to reads within the given readgroups.
-  union { null, array<string> } readgroup_ids = null;
 
-  // The contig to query. (e.g. 'X' for the X chromosome)
-  // Leaving this blank returns results from all contigs, including
-  // unmapped reads.
+error GAException {
+  string message;
+  int error_code = -1;
+}
+
+/**  This request maps to the body of POST /reads/search */
+record GASearchReadsRequest {
+
+  /**  If specified, will restrict this query to reads within the given readgroups. */
+  union { null, array<string> } readgroupIds = null;
+
+  /**
+  The contig to query. (e.g. 'X' for the X chromosome)
+  Leaving this blank returns results from all contigs, including
+  unmapped reads.
+  */
   union { null, string } contig = null;
 
-  // The start position (0-based) of this query. If a contig is
-  // specified, this defaults to 0.
-  union { null, long } start_position = null;
+  /**
+  The start position (0-based) of this query. If a contig is
+  specified, this defaults to 0.
+  */
+  union { null, long } startPosition = null;
 
-  // The end position (0-based, inclusive) of this query. If a contig is
-  // specified, this defaults to the contig's length.
-  union { null, long } end_position = null;
+  /**
+  The end position (0-based, inclusive) of this query. If a contig is
+  specified, this defaults to the contig's length.
+  */
+  union { null, long } endPosition = null;
 
-  // The continuation token, which is used to page through large result sets.
-  // To get the next page of results, set this parameter to the value of
-  // "nextPageToken" from the previous response.
-  union { null, string } page_token = null;
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  "nextPageToken" from the previous response.
+  */
+  union { null, string } nextPageToken = null;
 }
 
-// This is the response from POST /reads/search
+/** A response object from calls to the `gaSearchReads` method. */
 record GASearchReadsResponse {
-  // The list of matching Reads. The resulting Reads are sorted by position.
-  // Unmapped reads, which have no position, are returned last and are further
-  // sorted by name.
+  /**
+  The list of matching Reads. The resulting Reads are sorted by position.
+  Unmapped reads, which have no position, are returned last and are further
+  sorted by name.
+  */
   union { null, array<GARead> } reads = null;
 
-  // The continuation token, which is used to page through large result sets.
-  // Provide this value in a subsequent request to return the next page of
-  // results. This field will be empty if there aren't any additional results.
-  union { null, string } next_page_token = null;
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
 }
+
+
+/**
+A method to search for GAReads.
+This maps to the POST request /reads/search
+*/
+GASearchReadsResponse gaSearchReads( GASearchReadsRequest request) throws GAException;
 
 }
