@@ -1,7 +1,7 @@
 @namespace("org.ga4gh")
-protocol GAMethods {
+protocol GAReadMethods {
 
-import idl "ga4gh.avdl";
+import idl "reads.avdl";
 
 // This request maps to the body of POST /reads/search
 record GASearchReadsRequest {
