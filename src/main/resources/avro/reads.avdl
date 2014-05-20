@@ -28,11 +28,6 @@ record GAProgram {
   union { null, string } version = null;
 }
 
-record GAKeyValue {
-    string key;
-    string value = null;
-}
-
 record GADataSet {
     string id;
     union { null, string } description = null;
