@@ -100,7 +100,8 @@ record GACigarUnit {
 record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
     string contigName;
     long position;
-	boolean reverseStrand; // the alignment is on the reverse strand of the contig
+    boolean reverseStrand; // the alignment is on the reverse strand of the contig
+    union { null, boolean } secondaryAlignment = null; // SAM flag 0x100
     union { null, int } mappingQuality = null;
     array<GACigarUnit> cigar = []; 
 
@@ -116,16 +117,22 @@ record GAAlignmentRecord {
   
     // fragment attributes
     string fragmentName;
-    union { null, boolean } properPlacement = false;
-    union { null, boolean } duplicateFragment = false;
+    union { null, boolean } properPlacement = false; // extension of SAM flag 0x2
+    union { null, boolean } duplicateFragment = false; // SAM flag 0x400
+	int numberReads; // number of reads in the fragment
     union { null, int } templateLength = null;
 
     // read attributes
     union { null, int } readNumber;
-    union { null, boolean } failedVendorQualityChecks = false;
+    union { null, boolean } failedVendorQualityChecks = false; // SAM flag 0x200
 
     // this linear alignment
     union { null, GALinearAlignment } alignment = null; // null if unmapped
+
+    // Each read has one and only one primary record. The full read sequence
+	// and quality are present in the primary record by convention. In SAM, the
+	// flag of a primary record satisfies (flag&0x900)==0.
+	union { null, boolean } primaryRecord = true;
 
     // otherAlignments[i][j] gives the j-th alignment of the i-th read in the
     // fragment. otherAlignments[readNumber] gives other linear alignments of

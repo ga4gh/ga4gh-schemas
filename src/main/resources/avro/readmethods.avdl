@@ -29,10 +29,9 @@ record GASearchReadsRequest {
 
 // This is the response from POST /reads/search
 record GASearchReadsResponse {
-  // The list of matching Reads. The resulting Reads are sorted by position.
-  // Unmapped reads, which have no position, are returned last and are further
-  // sorted by name.
-  union { null, array<GARead> } reads = null;
+  // The list of matching Reads. The resulting alignment records are sorted by
+  // position.  Unmapped reads, which have no position, are returned last.
+  union { null, array<GAAlignmentRecord> } alignments = null;
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
