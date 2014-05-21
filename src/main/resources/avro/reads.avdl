@@ -97,47 +97,58 @@ record GACigarUnit {
     union { null, string } contigSequence = null;
 }
 
-record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
-    string contigName;
+record GAMappingPosition {
+    string contig;
     long position;
-    boolean reverseStrand; // the alignment is on the reverse strand of the contig
-    union { null, boolean } secondaryAlignment = null; // SAM flag 0x100
-    union { null, int } mappingQuality = null;
-    array<GACigarUnit> cigar = []; 
-
-    // the portion of the read sequence and quality being described by cigar[]
-    union { null, string } alignedSequence = null;
-    union { null, string } alignedQuality = null;
+    boolean reverseStrand;
 }
 
-// Each alignment record describes a linear alignment with additional
-// information about the fragment and the read. An alignment record is
-// equivalent to a line in a SAM file.
-record GAAlignmentRecord {
+record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
+    GAMappingPosition position;
+    union { null, int } mappingQuality = null;
+    array<GACigarUnit> cigar = []; 
+}
+
+// Each read alignment describes a linear alignment with additional information
+// about the fragment and the read. A read alignment object is equivalent to a
+// line in a SAM file.
+record GAReadAlignment {
   
     // fragment attributes
+
     string fragmentName;
     union { null, boolean } properPlacement = false; // extension of SAM flag 0x2
     union { null, boolean } duplicateFragment = false; // SAM flag 0x400
-	int numberReads; // number of reads in the fragment
+    int numberReads; // number of reads in the fragment; extension of SAM flag 0x1
     union { null, int } templateLength = null;
 
     // read attributes
-    union { null, int } readNumber;
+
+	// The read number in sequencing. 0-based and less than numberReads. This field
+	// replaces SAM flag 0x40 and 0x80.
+    union { null, int } readNumber = null;
+
     union { null, boolean } failedVendorQualityChecks = false; // SAM flag 0x200
 
     // this linear alignment
+
     union { null, GALinearAlignment } alignment = null; // null if unmapped
 
-    // Each read has one and only one primary record. The full read sequence
-	// and quality are present in the primary record by convention. In SAM, the
-	// flag of a primary record satisfies (flag&0x900)==0.
-	union { null, boolean } primaryRecord = true;
+	// By convention, each read has one and only one alignment with both of the
+	// two following flags being flase. The full read sequence and quality
+	// should be present in this alignment.
+	union { null, boolean } secondaryAlignment = false;  // SAM flag 0x100
+    union { null, boolean } supplementAlignment = false; // SAM flag 0x800
 
-    // otherAlignments[i][j] gives the j-th alignment of the i-th read in the
-    // fragment. otherAlignments[readNumber] gives other linear alignments of
-    // this current read.
-    array<array<GALinearAlignment>> otherAlignments = [];
+	// The portion of the read sequence and quality in the alignment. In a
+	// supplementary or seconday alignment, alignedSequence and alignedQuality
+	// may be shorter than the read sequence and quality, or even absent.
+	union { null, string } alignedSequence = null;
+    array<int> alignedQuality = [];
+
+	// The mapping of the primary alignment of the (readNumber+1)%numberReads
+	// read in the fragment.
+    union { null, GAMappingPosition } nextMatePosition = null;
 
     array<GAKeyValue> tags = [];
 }
