@@ -75,6 +75,20 @@ record GAReadGroup {
   array<GAKeyValue> tags = [];
 }
 
+record GAReadgroupSet {
+  // The readgroup set ID.
+  string id;
+
+  // The ID of the dataset this readgroup set belongs to. 
+  union {null, string} datasetId = null;
+
+  // The readgroup set name.
+  union {null, string} name = null;
+
+  // The readgroups in this set.
+  array<GAReadGroup> readGroups = [];
+}
+
 enum GACigarOperation {
     ALIGNMENT_MATCH,   // M
     INSERT,            // I
