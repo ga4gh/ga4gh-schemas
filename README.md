@@ -17,7 +17,7 @@ Each area of genomics and health has a dedicated team working to define those st
 The [Reads Task Team](https://groups.google.com/forum/#!forum/dwgreadtaskteam) is focused on standards for accessing genomic read data -- collections of primary data collected from sequencing machines.
 
 The team will deliver:
-  1. Data model. An abstract, mathematically complete and precise model of the data that is manipulated by the API. See the [AVRO directory](src/main/resources/avro) for our in-progress work on defining v0.5 of the data model. 
+  1. Data model. An abstract, mathematically complete and precise model of the data that is manipulated by the API. See the [Avro directory](src/main/resources/avro) for our in-progress work on defining v0.5 of the data model. 
   2. API Specification. A human-readable document introducing and defining the API, accompanied by a formal specification. See the [documentation page](https://ga4gh.github.io/apis/reads/v0.1/) for the published v0.1 API.
   3. Reference Implementation. Open source working code demonstrating the API, ideally which can underpin real world working implementations.
 
