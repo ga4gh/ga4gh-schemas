@@ -3,6 +3,7 @@ protocol GAReadMethods {
 
 import idl "reads.avdl";
 
+/***************  /reads/search  ********************/
 // This request maps to the body of POST /reads/search
 record GASearchReadsRequest {
   // If specified, will restrict this query to reads within the given readgroups.
@@ -38,6 +39,32 @@ record GASearchReadsResponse {
   // Provide this value in a subsequent request to return the next page of
   // results. This field will be empty if there aren't any additional results.
   union { null, string } next_page_token = null;
+}
+
+/****************  /readgroupsets/search  *******************/
+// This request maps to the body of POST /readgroupsets/search
+record GASearchReadgroupSetsRequest {
+  // The list of datasets to search.
+  array<string> datasetIds = [];
+
+  // Only return readgroup sets for which a substring of the name matches this string.
+  union { null, string } name = null;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // "nextPageToken" from the previous response.
+  union { null, string } pageToken = null;
+}
+
+// This is the response from POST /readgroupsets/search
+record GASearchReadgroupSetsResponse {
+  // The list of matching readgroup sets.
+  array<GAReadgroupSet> readgroupSets = [];
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  union { null, string } nextPageToken = null;
 }
 
 }
