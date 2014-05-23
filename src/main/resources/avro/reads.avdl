@@ -114,13 +114,24 @@ record GALinearAlignment { // a linear alignment can be represented by one CIGAR
 // line in a SAM file.
 record GAReadAlignment {
   
+    string readGroupId;
+
     // fragment attributes
 
+    // The fragment name. Equivalent to QNAME (query template name) in SAM.
     string fragmentName;
-    union { null, boolean } properPlacement = false; // extension of SAM flag 0x2
-    union { null, boolean } duplicateFragment = false; // SAM flag 0x400
-    int numberReads; // number of reads in the fragment; extension of SAM flag 0x1
-    union { null, int } templateLength = null;
+
+    // The orientation and the distance between reads from the fragment are
+    // consistent with the sequencing protocol (extension to SAM flag 0x2)
+    union { null, boolean } properPlacement = false;
+
+    // The fragment is a PCR or optical duplicate (SAM flag 0x400)
+    union { null, boolean } duplicateFragment = false;
+
+    // The number of reads in the fragment (extension to SAM flag 0x1)
+    union { null, int } numberReads = null;
+
+    union { null, int } templateLength = null; // equivalent to TLEN in SAM
 
     // read attributes
 
@@ -147,7 +158,7 @@ record GAReadAlignment {
     array<int> alignedQuality = [];
 
     // The mapping of the primary alignment of the (readNumber+1)%numberReads
-    // read in the fragment.
+    // read in the fragment. It replaces mate position and mate strand in SAM.
     union { null, GAMappingPosition } nextMatePosition = null;
 
     array<GAKeyValue> tags = [];
