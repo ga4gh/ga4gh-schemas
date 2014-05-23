@@ -41,7 +41,7 @@ Once a pull request or issue have been submitted, anyone can comment or vote on 
 - It's okay to have input without voting
 - Silence gives assent
 
-A pull request with at least two **+1** votes, and no **-1** votes, is ready to be merged. The merge should be done by someone from a different organization than the submitter.
+A pull request with at least two **+1** votes, no **-1** votes, and that has been open for at least 3 days, is ready to be merged. The merge should be done by someone from a different organization than the submitter. (We sometimes waive the 3 days for cosmetic-only cleanups -- use good judgment.)
 
 If an issue gets any **-1** votes, the comments on the issue need to reach consensus before the issue can be resolved one way or the other. There isn't any strict time limit on a contentious issue.
 
