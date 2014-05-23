@@ -1,6 +1,8 @@
 @namespace("org.ga4gh")
 protocol GAReads {
 
+import idl "common.avdl";
+
 record GAReferenceSequence {
   union { null, string } assemblyId = null;
   union { null, long } length = null;
@@ -24,11 +26,6 @@ record GAProgram {
   union { null, string } name = null;
   union { null, string } prevProgramId = null;
   union { null, string } version = null;
-}
-
-record GAKeyValue {
-    string key;
-    string value = null;
 }
 
 record GADataSet {
@@ -79,7 +76,7 @@ record GAReadgroupSet {
   // The readgroup set ID.
   string id;
 
-  // The ID of the dataset this readgroup set belongs to. 
+  // The ID of the dataset this readgroup set belongs to.
   union {null, string} datasetId = null;
 
   // The readgroup set name.
