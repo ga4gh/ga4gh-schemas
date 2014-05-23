@@ -72,6 +72,20 @@ record GAReadGroup {
   array<GAKeyValue> tags = [];
 }
 
+record GAReadgroupSet {
+  // The readgroup set ID.
+  string id;
+
+  // The ID of the dataset this readgroup set belongs to.
+  union {null, string} datasetId = null;
+
+  // The readgroup set name.
+  union {null, string} name = null;
+
+  // The readgroups in this set.
+  array<GAReadGroup> readGroups = [];
+}
+
 enum GACigarOperation {
     ALIGNMENT_MATCH,   // M
     INSERT,            // I
@@ -142,10 +156,11 @@ record GARead {
     // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
     union { null, string } originalBases = null;
 
-    // Represents the quality of each base in this read. Each character represents
-    // one base. To get the quality, take the ASCII value of the character and
-    // subtract 33. (QUAL)
-    union { null, string } baseQuality = null;
+    /**
+    An array of the [Phred quality score](http://en.wikipedia.org/wiki/Phred_quality_score)
+    for each base of `originalBases`
+    */
+    array<int> baseQuality = [];
 
     array<GAKeyValue> tags = [];
 }
