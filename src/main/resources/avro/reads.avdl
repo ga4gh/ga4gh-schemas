@@ -2,24 +2,24 @@
 protocol GAReads {
 
 /*
- * This file defines the objects used to represent the hierarchy of reads and alignments:
+ * This file defines the objects used to represent a hierarchy of reads and alignments:
  *    GAReadgroupSet -< GAReadgroup -< fragment -< read -< alignment -< GAReadAlignment
  *
- * A `GAReadgroupSet` is a logical collection of `GAReadgroup`s.
- * A `GAReadgroup` is all the data that’s processed the same way by the sequencer.
- *    There are typically 1-10 `GAReadgroup`s in a `GAReadgroupSet`.
+ * A GAReadgroupSet is a logical collection of GAReadgroup's.
+ * A GAReadgroup is all the data that’s processed the same way by the sequencer.
+ *    There are typically 1-10 GAReadgroup's in a GAReadgroupSet.
  * A *fragment* is a single stretch of a DNA molecule.
- *    There are typically many (e.g. millions) of fragments in a `GAReadgroup`.
- *    A fragment has a name (`QNAME` in BAM spec), a length (`TLEN` in BAM spec), and an array of reads.
+ *    There are typically millions of fragments in a GAReadgroup.
+ *    A fragment has a name (QNAME in BAM spec), a length (TLEN in BAM spec), and an array of reads.
  * A *read* is a contiguous sequence of bases.
  *    There are typically only one or two reads in a fragment. If there are two reads, they’re known as a mate pair.
  *    A read has an array of base values, an array of base qualities, and alignment information.
  * An *alignment* is the way alignment software maps a read to a reference.
- *    There’s one primary alignment.
- *    There can also be one or more secondary alignments, representing alternate possible mappings, but that’s rare.
- * A `GAReadAlignment` is a *linear alignment* -- it maps a string of bases to an area of reference using a single CIGAR string.
- *    There’s one representative alignment.
- *    There can also be one or more supplementary alignments in the case of a chimeric read, but that’s rare.
+ *    There’s one primary alignment, and can be one or more secondary alignments.
+ *    Secondary alignments are rare -- they represent alternate possible mappings.
+ * A GAReadAlignment is a *linear alignment*, mapping a string of bases to a reference using a single CIGAR string.
+ *    There’s one representative alignment, and can be one or more supplementary alignments.
+ *    Supplementary alignments are rare -- they represent chimeric reads.
  */
 
 record GAReferenceSequence {
