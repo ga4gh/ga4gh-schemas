@@ -4,20 +4,45 @@ protocol GAReads {
 import idl "common.avdl";
 
 record GAReferenceSequence {
-  union { null, string } assemblyId = null;
-  union { null, long } length = null;
-  union { null, string } md5checksum = null;
-  union { null, string } name = null;
-  union { null, int } ncbi_taxon_id = null;  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
-  union { null, string } uri = null;
+  string name ; // must be unique within any ReferenceSequenceSet that contains this
+  long length ;
 
-  // The accession number of the official sequence from which this reference
-  // sequence is derived. A sequence X is said to be *derived* from sequence Y,
-  // if X and Y are of the same length and the per-base sequence divergence at
-  // A/C/G/T bases is sufficiently small. Two sequences derived from the same
-  // official sequence share the same coordinates and annotations, and can be
-  // replaced with the official sequence for certain use cases.
-  union { null, string } sourceAccession = null;
+  // The literal sequence, or the uri from which the sequence can be obtained, or 
+  // the accession number of the sequence or the sequence from which this sequence is derived.
+  union { null, string } sequence = null;
+  union { null, string } uri = null; // ** we need to specify the protocol to retrieve the sequence from this uri
+  union { null, string } sourceAccession = null; // in INSDC (GenBank/ENA/DDBJ), ideally with version number
+  
+  // A sequence X is said to be *derived* from sequence Y, if X and Y are of the same length 
+  // and the per-base sequence divergence at A/C/G/T bases is sufficiently small. Two sequences 
+  // derived from the same official sequence share the same coordinates and annotations, and 
+  // can be replaced with the official sequence for certain use cases.
+  union { null, float } sourceDivergence = null; // fraction of bases that are different when aligned without indels
+
+  // We require either sequence, or either a uri or sourceAccession here, or a uri or sourceAccession in
+  // the ReferenceSequenceSet containing this reference sequence.  If sourceDivergence is not null then 
+  // sequence or uri should be given (or we could allow a cigar string to create it from the sourceAccession?).
+}
+
+record GAReferenceSequenceSet {
+  string id;
+  array<GAReferenceSequence> referenceSequences = [];
+  union { null, string } assemblyId = null;
+  union { null, string } md5checksum = null; // ** we need to specify how this is derived from the contents
+  union { null, int } ncbi_taxon_id = null;  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
+  union { null, string } uri = null; // ** we need to specify the protocol to retrieve sequences from this uri
+
+  // The accession number of this sequence, or the sequence from which this sequence is derived, if no uri is given
+  // Accession numbers can be given here, or in ReferenceSequence for individual sequences.
+  union { null, string } sourceAccession = null; // in INSDC (GenBank/ENA/DDBJ), ideally with version number
+  
+  // We require either uri, or sourceAccession, or literal sequences to be given for each contained sequence.
+  
+  // A ReferenceSequenceSet may be derived from an accession if it contains additional sequences, or some
+  // of the sequences within it are derived (see the definition of *derived* in GAReferenceSequence).
+  // Semantics are that if isDerived is true then any contained sequence with literal sequence or a uri
+  // will replace the sequence from the accession with the same name, if there is one, else add to the set.
+  boolean isDerived = false; // set to true if sourceAccession is given and there is any difference from sourceAccession 
 }
 
 record GAProgram {
@@ -65,8 +90,8 @@ record GAReadGroup {
   // The programs used to generate this readgroup.
   array<GAProgram> programs = [];
 
-  // The reference sequences the reads in this readgroup are aligned to.
-  array<GAReferenceSequence> referenceSequences = [];
+  // The reference sequence set the reads in this readgroup are aligned to.
+  string referenceSequenceSetId;
 
   // Additional information
   array<GAKeyValue> tags = [];
@@ -84,6 +109,8 @@ record GAReadgroupSet {
 
   // The readgroups in this set.
   array<GAReadGroup> readGroups = [];
+  
+  // NB: we require that all readgroups in the set are mapped to the same referenceSequenceSet.
 }
 
 enum GACigarOperation {
@@ -105,11 +132,11 @@ record GACigarUnit {
     // contigSequence is only used at mismatches (X) and deletions (D). Filling
     // this field replaces the MD tag. If the relevant information is not
     // available, leave this field as "null".
-    union { null, string } contigSequence = null;
+    union { null, string } referenceSequence = null;
 }
 
 record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
-    string contigName;
+    string referenceSequenceName;
     long position;
     union { null, int } mappingQuality = null;
     array<GACigarUnit> cigar = [];
