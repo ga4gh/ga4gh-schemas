@@ -58,7 +58,7 @@ record GAVariant {
   // The contig on which this variant occurs. (e.g. 'chr20' or 'X')
   union { null, string } contig = null;
 
-  // The position at which this variant occurs (1-based).
+  // The position at which this variant occurs (0-based).
   // This corresponds to the first base of the string of reference bases.
   union { null, long } position = null;
 
