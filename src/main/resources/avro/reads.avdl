@@ -3,7 +3,7 @@ protocol GAReads {
 
 /*
  * This file defines the objects used to represent a hierarchy of reads and alignments:
- *    GAReadgroupSet -< GAReadgroup -< fragment -< read -< alignment -< GAReadAlignment
+ *    GAReadgroupSet >--< GAReadgroup --< fragment --< read --< alignment --< linear alignment
  *
  * A GAReadgroupSet is a logical collection of GAReadgroup's.
  * A GAReadgroup is all the data that’s processed the same way by the sequencer.
@@ -16,10 +16,14 @@ protocol GAReads {
  *    A read has an array of base values, an array of base qualities, and alignment information.
  * An *alignment* is the way alignment software maps a read to a reference.
  *    There’s one primary alignment, and can be one or more secondary alignments.
- *    Secondary alignments are rare -- they represent alternate possible mappings.
- * A GAReadAlignment is a *linear alignment*, mapping a string of bases to a reference using a single CIGAR string.
+ *    Secondary alignments represent alternate possible mappings -- they are rarely reported by aligners.
+ * A *linear alignment* maps a string of bases to a reference using a single CIGAR string.
  *    There’s one representative alignment, and can be one or more supplementary alignments.
- *    Supplementary alignments are rare -- they represent chimeric reads.
+ *    Supplementary alignments represent chimeric reads -- they are rare.
+ *
+ * A GAReadAlignment object is a flattened representation of the bottom layers of this hierarchy.
+ *    There's exactly one such object per *linear alignment*.
+ *    The object contains alignment info, plus fragment and read info for easy access.
  */
 
 record GAReferenceSequence {
