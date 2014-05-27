@@ -6,20 +6,20 @@ import idl "variants.avdl";
 // This request maps to the body of POST /variants/search
 record SearchVariantsRequest {
   // Required. The ID of the dataset to search over.
-  string dataset_id;
+  string datasetId;
 
   // Only return variants which have exactly this name.
-  union { null, string } variant_name = null;
+  union { null, string } variantName = null;
 
   // Only return variant calls which belong to callsets which have exactly
   // these names. Leaving this blank returns all variant calls.
   // At most one of callsetNames or callsetIds should be provided.
-  array<string> callset_names = [];
+  array<string> callsetNames = [];
 
   // Only return variant calls which belong to callsets with these ids.
   // Leaving this blank returns all variant calls.
   // At most one of callsetNames or callsetIds should be provided.
-  array<string> callset_ids = [];
+  array<string> callsetIds = [];
 
   // Required. Only return variants on this contig.
   string contig;
@@ -35,10 +35,10 @@ record SearchVariantsRequest {
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
   // "nextPageToken" from the previous response.
-  union { null, string } page_token = null;
+  union { null, string } pageToken = null;
 
   // The maximum number of variants to return.
-  union { null, long } max_results = 10;
+  union { null, long } maxResults = 10;
 }
 
 // This is the response from POST /variants/search
@@ -49,14 +49,14 @@ record SearchVariantsResponse {
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
   // results. This field will be empty if there aren't any additional results.
-  union { null, string } next_page_token = null;
+  union { null, string } nextPageToken = null;
 }
 
 // This request maps to the body of POST /callsets/search
 record SearchCallsetsRequest {
   // If specified, will restrict the query to callsets within the
   // given datasets.
-  array<string> dataset_ids = [];
+  array<string> datasetIds = [];
 
   // Only return callsets for which a substring of the name matches this string.
   union { null, string } name = null;
@@ -64,7 +64,7 @@ record SearchCallsetsRequest {
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
   // "nextPageToken" from the previous response.
-  union { null, string } page_token = null;
+  union { null, string } pageToken = null;
 }
 
 // This is the response from POST /callsets/search
@@ -75,7 +75,7 @@ record SearchCallsetsResponse {
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
   // results. This field will be empty if there aren't any additional results.
-  union { null, string } next_page_token = null;
+  union { null, string } nextPageToken = null;
 }
 
 }
