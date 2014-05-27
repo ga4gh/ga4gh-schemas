@@ -21,17 +21,22 @@ record GAReferenceSequence {
 
   // We require either sequence, or either a uri or sourceAccession here, or a uri or sourceAccession in
   // the ReferenceSequenceSet containing this reference sequence.  If sourceDivergence is not null then 
-  // sequence or uri should be given (or we could allow a cigar string to create it from the sourceAccession?).
+  // sequence or uri should be given (in future we could allow a cigar string to create it from the sourceAccession).
 }
 
 record GAReferenceSequenceSet {
-  string id;
-  array<GAReferenceSequence> referenceSequences = [];
-  union { null, string } assemblyId = null;
-  union { null, string } md5checksum = null; // ** we need to specify how this is derived from the contents
-  union { null, int } ncbi_taxon_id = null;  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
-  union { null, string } uri = null; // ** we need to specify the protocol to retrieve sequences from this uri
+  string id;  // private identifier to the repository and unique in it; external users access via accession or uri
 
+  array<GAReferenceSequence> referenceSequences = []; // the sequences themselves
+  string md5checksum; // from the concatenation of 0-terminated { name, literal sequence } sorted by name
+
+  union { null, int } ncbi_taxon_id = null;  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
+  union { null, string } description = null; // optional free text description
+  union { null, string } assemblyId = null;  // public id such as GRCh38 - can search via this
+ 
+  // next information about the source of the sequences
+
+  union { null, string } uri = null; // ** we need to specify the protocol to retrieve sequences from this uri
   // The accession number of this sequence, or the sequence from which this sequence is derived, if no uri is given
   // Accession numbers can be given here, or in ReferenceSequence for individual sequences.
   union { null, string } sourceAccession = null; // in INSDC (GenBank/ENA/DDBJ), ideally with version number
