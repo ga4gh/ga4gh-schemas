@@ -87,7 +87,7 @@ record GACallset {
   union { null, string } name = null;
 
   // The ID of the dataset this callset belongs to.
-  union { null, string } datasetTd = null;
+  union { null, string } datasetId = null;
 
   // The date this callset was created in milliseconds from the epoch.
   union { null, long } created = null;
