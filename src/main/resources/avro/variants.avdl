@@ -64,7 +64,7 @@ record GAVariant {
 
   // The reference bases for this variant. They start at the given
   // position.
-  union { null, string } reference_bases = null;
+  string reference_bases;
 
   // The bases that appear instead of the reference bases.
   array<string> alternate_bases = [];
