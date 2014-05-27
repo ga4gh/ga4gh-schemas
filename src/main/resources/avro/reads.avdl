@@ -6,6 +6,7 @@ import idl "common.avdl";
 record GAReferenceSequence {
   string name ; // must be unique within any ReferenceSequenceSet that contains this
   long length ;
+  string md5checksum ; // of just the literal sequence
 
   // The literal sequence, or the uri from which the sequence can be obtained, or 
   // the accession number of the sequence or the sequence from which this sequence is derived.
