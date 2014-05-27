@@ -10,10 +10,10 @@ import idl "reads.avdl";
 record GACall {
 
   // The ID of the callset this variant call belongs to.
-  string callset_id;
+  string callsetId;
 
   // The name of the callset this variant call belongs to.
-  union { null, string } callset_name = null;
+  union { null, string } callsetName = null;
 
   // The genotype of this variant call. Each value represents either the value
   // of the referenceBases field or is a 1-based index into alternateBases.
@@ -32,7 +32,7 @@ record GACall {
   // The genotype likelihoods for this variant call. Each array entry
   // represents how likely a specific genotype is for this call. The value
   // ordering is defined by the GL tag in the VCF spec.
-  array<double> genotype_likelihood = [];
+  array<double> genotypeLikelihood = [];
 
   // A map of additional variant call information.
   array<GAKeyValue> info = [];
@@ -47,7 +47,7 @@ record GAVariant {
   string id;
 
   // The ID of the dataset this variant belongs to.
-  union { null, string } dataset_id = null;
+  union { null, string } datasetId = null;
 
   // Names for the variant, for example a RefSNP ID.
   array<string> names = [];
@@ -64,10 +64,10 @@ record GAVariant {
 
   // The reference bases for this variant. They start at the given
   // position.
-  string reference_bases;
+  string referenceBases;
 
   // The bases that appear instead of the reference bases.
-  array<string> alternate_bases = [];
+  array<string> alternateBases = [];
 
   // A map of additional variant information.
   array<GAKeyValue> info = [];
@@ -87,7 +87,7 @@ record GACallset {
   union { null, string } name = null;
 
   // The ID of the dataset this callset belongs to.
-  union { null, string } dataset_id = null;
+  union { null, string } datasetTd = null;
 
   // The date this callset was created in milliseconds from the epoch.
   union { null, long } created = null;
