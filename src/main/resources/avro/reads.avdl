@@ -108,59 +108,71 @@ record GACigarUnit {
     union { null, string } contigSequence = null;
 }
 
-record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
-    string contigName;
+record GAMappingPosition {
+    string contig;
     long position;
+    boolean reverseStrand;
+}
+
+record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
+    GAMappingPosition position;
     union { null, int } mappingQuality = null;
     array<GACigarUnit> cigar = [];
 }
 
-record GARead {
-    // The read ID
-    union { null, string } id = null;
-
-    // The name of the read. When imported from a BAM file, this is the query
-    // template name. (QNAME)
-    union { null, string } name = null;
-
+// Each read alignment describes a linear alignment with additional information
+// about the fragment and the read. A read alignment object is equivalent to a
+// line in a SAM file.
+record GAReadAlignment {
+  
     // The ID of the readgroup this read belongs to. (Every read must belong to exactly one readgroup.)
-    string readgroupId;
+    string readGroupId;
 
-    // Read flags (all default to false)
-    union { boolean, null } readPaired = false;   // The paired read must belong to the same readgroup.
-    union { boolean, null } properPair = false;
-    union { boolean, null } readMapped = false;
-    union { boolean, null } mateMapped = false;
-    union { boolean, null } readNegativeStrand = false;
-    union { boolean, null } mateNegativeStrand = false;
-    union { boolean, null } firstOfPair = false;
-    union { boolean, null } secondOfPair = false;
-    union { boolean, null } primaryAlignment = false;
-    union { boolean, null } failedVendorQualityChecks = false;
-    union { boolean, null } duplicateRead = false;
+    // fragment attributes
 
-    // The alignment of this read. If unmapped, the array is empty. If the
-    // alignment is linear (vast majority of alignments), the array is of size
-    // one. If the alignment is composed of multiple simple linear alignments
-    // (i.e. chimeric), the components can be found in the SA tag for mappers
-    // supporting the feature.
-    array<GALinearAlignment> alignment = [];
+    // The fragment name. Equivalent to QNAME (query template name) in SAM.
+    string fragmentName;
 
-    // The mate alignment.
-    array<GALinearAlignment> mateAlignment = [];
+    // The orientation and the distance between reads from the fragment are
+    // consistent with the sequencing protocol (extension to SAM flag 0x2)
+    union { null, boolean } properPlacement = false;
 
-    // Length of the original piece of dna that produced both this read and the
-    // paired read. (TLEN)
-    union { null, int } templateLength = null;
+    // The fragment is a PCR or optical duplicate (SAM flag 0x400)
+    union { null, boolean } duplicateFragment = false;
 
-    // The list of bases that this read represents (e.g. 'CATCGA'). (SEQ)
-    union { null, string } originalBases = null;
+    // The number of reads in the fragment (extension to SAM flag 0x1)
+    union { null, int } numberReads = null;
 
-    /**
-    An array of the [Phred quality score](http://en.wikipedia.org/wiki/Phred_quality_score)
-    for each base of `originalBases`
-    */
-    array<int> baseQuality = [];
+    // The observed length of the fragment, equivalent to TLEN in SAM.
+    union { null, int } fragmentLength = null;
+
+    // read attributes
+
+    // The read number in sequencing. 0-based and less than numberReads. This field
+    // replaces SAM flag 0x40 and 0x80.
+    union { null, int } readNumber = null;
+
+    union { null, boolean } failedVendorQualityChecks = false; // SAM flag 0x200
+
+    // this linear alignment
+
+    union { null, GALinearAlignment } alignment = null; // null if unmapped
+
+    // By convention, each read has one and only one alignment with both of the
+    // two following flags being flase. The full read sequence and quality
+    // should be present in this alignment.
+    union { null, boolean } secondaryAlignment = false;     // SAM flag 0x100
+    union { null, boolean } supplementaryAlignment = false; // SAM flag 0x800
+
+    // The portion of the read sequence and quality in the alignment. In a
+    // supplementary or seconday alignment, alignedSequence and alignedQuality
+    // may be shorter than the read sequence and quality, or even absent.
+    union { null, string } alignedSequence = null;
+    array<int> alignedQuality = [];
+
+    // The mapping of the primary alignment of the (readNumber+1)%numberReads
+    // read in the fragment. It replaces mate position and mate strand in SAM.
+    union { null, GAMappingPosition } nextMatePosition = null;
 
     array<GAKeyValue> tags = [];
 }
