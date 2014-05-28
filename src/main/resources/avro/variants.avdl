@@ -3,10 +3,24 @@ protocol GAVariants {
 
 import idl "reads.avdl";
 
+// Variants and CallSamples both belong to a VariantSet.
+// VariantSets belong to a Dataset.
+// This is equivalent to a VCF file.
+record GAVariantSet {
+  // The variant set ID.
+  string id;
+  
+  // The ID of the dataset this variant set belongs to.
+  string datasetId;
+  
+  // TODO: Add reference sequence ID information once resolved.
+}
+
 // A Call represents the determination of genotype with respect to a particular
 // variant. It may include associated information such as quality and phasing.
 // For example, a Call might assign a probability of 0.32 to the occurrence of
 // a SNP named rs1234 in a callset with the name NA12345.
+// TODO: Nest this object under GAVariant
 record GACall {
 
   // The ID of the callset this variant call belongs to.
@@ -40,14 +54,15 @@ record GACall {
 
 // A Variant represents a change in DNA sequence relative to some reference.
 // For example, a Variant could represent a SNP or an insertion.
-// Variants belong to a Dataset.
+// Variants belong to a VariantSet. 
+// This is equivalent to a row in VCF.
 record GAVariant {
 
   // The variant ID.
   string id;
 
-  // The ID of the dataset this variant belongs to.
-  union { null, string } datasetId = null;
+  // The ID of the variant set this variant belongs to.
+  union { null, string } variantSetId = null;
 
   // Names for the variant, for example a RefSNP ID.
   array<string> names = [];
@@ -55,8 +70,8 @@ record GAVariant {
   // The date this variant was created in milliseconds from the epoch.
   union { null, long } created = null;
 
-  // The contig on which this variant occurs. (e.g. 'chr20' or 'X')
-  union { null, string } contig = null;
+  // The reference sequence on which this variant occurs. (e.g. 'chr20' or 'X')
+  union { null, string } referenceSequenceName = null;
 
   // The position at which this variant occurs (0-based).
   // This corresponds to the first base of the string of reference bases.
@@ -77,22 +92,25 @@ record GAVariant {
   array<GACall> calls = [];
 }
 
-// A Callset is a collection of Variant Calls. It belongs to a Dataset.
-record GACallset {
+// A CallSample is a collection of Variant Calls for a particular sample. 
+// It belongs to a VariantSet. This is equivalent to one column in VCF.
+record GACallSample {
 
-  // The callset ID.
+  // The callsample ID.
   string id;
 
-  // The callset name.
+  // The callsample name.
   union { null, string } name = null;
+  
+  // TODO: Add Sample ID once there is a GASample object (or equivalent)
 
-  // The ID of the dataset this callset belongs to.
-  union { null, string } datasetId = null;
+  // The ID of the variant set this callsample belongs to.
+  union { null, string } variantSetId = null;
 
-  // The date this callset was created in milliseconds from the epoch.
+  // The date this callsample was created in milliseconds from the epoch.
   union { null, long } created = null;
 
-  // A map of additional callset information.
+  // A map of additional callsample information.
   array<GAKeyValue> info = [];
 }
 
