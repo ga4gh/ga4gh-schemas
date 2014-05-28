@@ -22,7 +22,7 @@ protocol GACommon {
   record GASample {
     // TODO: Add other fields from the metadata team
     
-    /** The IDs of readsets genereated from this sample. */
+    /** The IDs of readgroups generated from this sample. */
     array<string> readgroupIds = [];
     
     /** The IDs of callsets generated from this sample. */
