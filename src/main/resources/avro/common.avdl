@@ -18,5 +18,15 @@ protocol GACommon {
     string key;
     string value = null;
   }
+  
+  record GASample {
+    // TODO: Add other fields from the metadata team
+    
+    /** The IDs of readgroups generated from this sample. */
+    array<string> readgroupIds = [];
+    
+    /** The IDs of callsets generated from this sample. */
+    array<string> callsetIds = [];
+  }
 
 }
