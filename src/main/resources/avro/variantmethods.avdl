@@ -5,24 +5,24 @@ import idl "variants.avdl";
 
 // This request maps to the body of POST /variants/search
 record SearchVariantsRequest {
-  // Required. The ID of the dataset to search over.
-  string datasetId;
+  // Required. The IDs of the variant sets to search over.
+  array<string> variantSetIds;
 
   // Only return variants which have exactly this name.
   union { null, string } variantName = null;
 
-  // Only return variant calls which belong to callsets which have exactly
+  // Only return variant calls which belong to callsamples which have exactly
   // these names. Leaving this blank returns all variant calls.
-  // At most one of callsetNames or callsetIds should be provided.
-  array<string> callsetNames = [];
+  // At most one of callSampleNames or callSampleIds should be provided.
+  array<string> callSampleNames = [];
 
-  // Only return variant calls which belong to callsets with these ids.
+  // Only return variant calls which belong to callsamples with these ids.
   // Leaving this blank returns all variant calls.
-  // At most one of callsetNames or callsetIds should be provided.
-  array<string> callsetIds = [];
+  // At most one of callSampleNames or callSampleIds should be provided.
+  array<string> callSampleIds = [];
 
-  // Required. Only return variants on this contig.
-  string contig;
+  // Required. Only return variants on this reference sequence.
+  string referenceSequenceName;
 
   // Required. The beginning of the window (0-based) for which overlapping
   // variants should be returned.
@@ -52,13 +52,13 @@ record SearchVariantsResponse {
   union { null, string } nextPageToken = null;
 }
 
-// This request maps to the body of POST /callsets/search
-record SearchCallsetsRequest {
-  // If specified, will restrict the query to callsets within the
-  // given datasets.
-  array<string> datasetIds = [];
+// This request maps to the body of POST /callsamples/search
+record SearchCallSamplesRequest {
+  // If specified, will restrict the query to callsamples within the
+  // given variant sets.
+  array<string> variantSetIds = [];
 
-  // Only return callsets for which a substring of the name matches this string.
+  // Only return callsamples for which a substring of the name matches this string.
   union { null, string } name = null;
 
   // The continuation token, which is used to page through large result sets.
@@ -67,10 +67,10 @@ record SearchCallsetsRequest {
   union { null, string } pageToken = null;
 }
 
-// This is the response from POST /callsets/search
-record SearchCallsetsResponse {
-  // The list of matching callsets.
-  array<GACallset> callsets = [];
+// This is the response from POST /callsamples/search
+record SearchCallSamplesResponse {
+  // The list of matching callsamples.
+  array<GACallSample> callSamples = [];
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
