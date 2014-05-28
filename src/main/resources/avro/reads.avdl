@@ -128,6 +128,7 @@ record GALinearAlignment { // a linear alignment can be represented by one CIGAR
 // line in a SAM file.
 record GAReadAlignment {
   
+    // The ID of the readgroup this read belongs to. (Every read must belong to exactly one readgroup.)
     string readGroupId;
 
     // fragment attributes
@@ -145,7 +146,8 @@ record GAReadAlignment {
     // The number of reads in the fragment (extension to SAM flag 0x1)
     union { null, int } numberReads = null;
 
-    union { null, int } templateLength = null; // equivalent to TLEN in SAM
+    // The observed length of the fragment, equivalent to TLEN in SAM.
+    union { null, int } fragmentLength = null;
 
     // read attributes
 
@@ -162,8 +164,8 @@ record GAReadAlignment {
     // By convention, each read has one and only one alignment with both of the
     // two following flags being flase. The full read sequence and quality
     // should be present in this alignment.
-    union { null, boolean } secondaryAlignment = false;  // SAM flag 0x100
-    union { null, boolean } supplementAlignment = false; // SAM flag 0x800
+    union { null, boolean } secondaryAlignment = false;     // SAM flag 0x100
+    union { null, boolean } supplementaryAlignment = false; // SAM flag 0x800
 
     // The portion of the read sequence and quality in the alignment. In a
     // supplementary or seconday alignment, alignedSequence and alignedQuality
