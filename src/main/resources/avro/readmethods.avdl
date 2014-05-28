@@ -82,7 +82,7 @@ record GASearchReferenceSequenceSetRequest {
   // If present return records for which the accession matches this string.
   // Best to give a version number e.g. GCF_000001405.26.  
   // If only the main accession number is given then return all records with that main accession, whichever version.
-  // NB in this case the set of sequences may not be fully guaranteed.
+  // NB different versions will have different sequences.
   union { null, string } accession = null;
 
   // If present return records for which the assemblyId contains this string.
