@@ -7,25 +7,28 @@ import idl "reads.avdl";
 // This request maps to the body of POST /reads/search
 record GASearchReadsRequest {
   // If specified, will restrict this query to reads within the given readgroups.
-  union { null, array<string> } readgroup_ids = null;
+  union { null, array<string> } readgroupIds = null;
 
-  // The contig to query. (e.g. 'X' for the X chromosome)
+  // The referenceSequence to query.  Either give a referenceSequenceId or 
+  // a referenceSequenceSetId and referenceSequenceName.
   // Leaving this blank returns results from all contigs, including
-  // unmapped reads.
-  union { null, string } contig = null;
+  // unmapped reads - this could be very large.
+  union { null, string } referenceSequenceSetId = null;
+  union { null, string } referenceSequenceName = null;
+  union { null, string } referenceSequenceId = null;
 
-  // The start position (0-based) of this query. If a contig is
+  // The start position (0-based) of this query. If a referenceSequence is
   // specified, this defaults to 0.
-  union { null, long } start_position = null;
+  union { null, long } startPosition = null;
 
-  // The end position (0-based, inclusive) of this query. If a contig is
-  // specified, this defaults to the contig's length.
-  union { null, long } end_position = null;
+  // The end position (0-based, exclusive) of this query. If a referenceSequence is
+  // specified, this defaults to the referenceSequence's length.
+  union { null, long } endPosition = null;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
   // "nextPageToken" from the previous response.
-  union { null, string } page_token = null;
+  union { null, string } pageToken = null;
 }
 
 // This is the response from POST /reads/search
@@ -33,12 +36,12 @@ record GASearchReadsResponse {
   // The list of matching Reads. The resulting Reads are sorted by position.
   // Unmapped reads, which have no position, are returned last and are further
   // sorted by name.
-  union { null, array<GARead> } reads = null;
+  array<GARead> reads = [];
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
   // results. This field will be empty if there aren't any additional results.
-  union { null, string } next_page_token = null;
+  union { null, string } nextPageToken = null;
 }
 
 /****************  /readgroupsets/search  *******************/
@@ -65,6 +68,61 @@ record GASearchReadgroupSetsResponse {
   // Provide this value in a subsequent request to return the next page of
   // results. This field will be empty if there aren't any additional results.
   union { null, string } nextPageToken = null;
+}
+
+/****************  /referenceSequenceSet/search  *******************/
+// This request maps to the body of POST /referenceSequenceSet/search
+record GASearchReferenceSequenceSetRequest {
+  // If present return the record for this id.  This is the normal use of this method.
+  union { null, string } id = null;
+  
+  // If present return the record for which the md5sum matches (see record definition for md5sum construction details)
+  union { null, string } md5sum = null;
+
+  // If present return records for which the accession matches this string.
+  // Best to give a version number e.g. GCF_000001405.26.  
+  // If only the main accession number is given then return all records with that main accession, whichever version.
+  // NB in this case the set of sequences may not be fully guaranteed.
+  union { null, string } accession = null;
+
+  // If present return records for which the assemblyId contains this string.
+  union { null, string } assemblyId = null;
+
+  union { null, string } pageToken = null; // give nextPageToken from preceding call for continuation pages
+}
+
+// This is the response from POST /referenceSequenceSet/search
+record GASearchReferenceSequenceSetResponse {
+  // The list of matching referenceSequenceSets.
+  array<GAReferenceSequenceSet> referenceSequenceSets = [];
+
+  union { null, string } nextPageToken = null; // return token for next page if there is further data, else null
+}
+
+/****************  /referenceSequence/search  *******************/
+// This request maps to the body of POST /referenceSequence/search
+record GASearchReferenceSequenceRequest {
+  // If present return the records for these ids.  This is the normal use of this method.
+  union { null, array<string> } ids = null;
+
+  // If present return records for which the md5sum of the upper case sequence matches one of these strings.
+  union { null, array<string> } md5sums = null;
+
+  // If present return records for which the accession matches one of these strings.
+  // Best to give a version number e.g. GCF_000001405.26.  
+  // If only the main accession number is given then return all records with that main accession, whichever version.
+  // NB different versions will have different sequences.
+  union { null, array<string> } accessions = null;
+
+  union { null, string } pageToken = null; // give nextPageToken from preceding call for continuation pages
+}
+
+// This is the response from POST /referenceSequence/search
+record GASearchReferenceSequenceResponse {
+  // The list of matching referenceSequences.
+  array<GAReferenceSequence> referenceSequences = [];
+
+  union { null, string } nextPageToken = null; // return token for next page if there is further data, else null
 }
 
 }
