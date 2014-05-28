@@ -5,7 +5,7 @@ import idl "reads.avdl";
 
 // Variants and CallSamples both belong to a VariantSet.
 // VariantSets belong to a Dataset.
-// This is equivalent to a VCF file.
+// The VariantSet is equivalent to a VCF file.
 record GAVariantSet {
   // The variant set ID.
   string id;
@@ -14,6 +14,28 @@ record GAVariantSet {
   string datasetId;
   
   // TODO: Add reference sequence ID information once resolved.
+}
+
+// A CallSample is a collection of Variant Calls for a particular sample. 
+// It belongs to a VariantSet. This is equivalent to one column in VCF.
+record GACallSample {
+
+  // The callsample ID.
+  string id;
+
+  // The callsample name.
+  union { null, string } name = null;
+  
+  // TODO: Add Sample ID once there is a GASample object (or equivalent)
+
+  // The ID of the variant set this callsample belongs to.
+  union { null, string } variantSetId = null;
+
+  // The date this callsample was created in milliseconds from the epoch.
+  union { null, long } created = null;
+
+  // A map of additional callsample information.
+  array<GAKeyValue> info = [];
 }
 
 // A Call represents the determination of genotype with respect to a particular
@@ -90,28 +112,6 @@ record GAVariant {
   // The variant calls for this particular variant. Each one represents the
   // determination of genotype with respect to this variant.
   array<GACall> calls = [];
-}
-
-// A CallSample is a collection of Variant Calls for a particular sample. 
-// It belongs to a VariantSet. This is equivalent to one column in VCF.
-record GACallSample {
-
-  // The callsample ID.
-  string id;
-
-  // The callsample name.
-  union { null, string } name = null;
-  
-  // TODO: Add Sample ID once there is a GASample object (or equivalent)
-
-  // The ID of the variant set this callsample belongs to.
-  union { null, string } variantSetId = null;
-
-  // The date this callsample was created in milliseconds from the epoch.
-  union { null, long } created = null;
-
-  // A map of additional callsample information.
-  array<GAKeyValue> info = [];
 }
 
 }
