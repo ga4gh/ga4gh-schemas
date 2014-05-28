@@ -15,9 +15,6 @@ record GAVariantSet {
   
   // TODO: Add reference sequence ID information once resolved.
   
-  // IDs of the variants that belong to this variant set.
-  array<string> variantIds = [];
-
   // IDs of the call samples that belong to this variant set.
   array<string> callSampleIds = [];
 }
