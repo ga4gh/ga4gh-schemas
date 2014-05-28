@@ -19,15 +19,15 @@ record GAVariantSet {
 // A Call represents the determination of genotype with respect to a particular
 // variant. It may include associated information such as quality and phasing.
 // For example, a Call might assign a probability of 0.32 to the occurrence of
-// a SNP named rs1234 in a callset with the name NA12345.
+// a SNP named rs1234 in a callsample with the name NA12345.
 // TODO: Nest this object under GAVariant
 record GACall {
 
-  // The ID of the callset this variant call belongs to.
-  string callsetId;
+  // The ID of the callsample this variant call belongs to.
+  string callSampleId;
 
-  // The name of the callset this variant call belongs to.
-  union { null, string } callsetName = null;
+  // The name of the callsample this variant call belongs to.
+  union { null, string } callSampleName = null;
 
   // The genotype of this variant call. Each value represents either the value
   // of the referenceBases field or is a 1-based index into alternateBases.
