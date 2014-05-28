@@ -62,7 +62,7 @@ record GAVariant {
   string id;
 
   // The ID of the variant set this variant belongs to.
-  union { null, string } variantSetId = null;
+  string variantSetId;
 
   // Names for the variant, for example a RefSNP ID.
   array<string> names = [];
@@ -71,11 +71,11 @@ record GAVariant {
   union { null, long } created = null;
 
   // The reference sequence on which this variant occurs. (e.g. 'chr20' or 'X')
-  union { null, string } referenceSequenceName = null;
+  string referenceSequenceName;
 
   // The position at which this variant occurs (0-based).
   // This corresponds to the first base of the string of reference bases.
-  union { null, long } position = null;
+  long position;
 
   // The reference bases for this variant. They start at the given
   // position.
