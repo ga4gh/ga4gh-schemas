@@ -16,7 +16,14 @@ record GAVariantSet {
   // TODO: Add reference sequence ID information once resolved.
   
   // IDs of the call samples that belong to this variant set.
+  // TODO: This field is under ongoing discussion and needs to be resolved
+  // before this API is final.
   array<string> callSampleIds = [];
+  
+  // Names of the call samples that belong to this variant set.
+  // TODO: This field is under ongoing discussion and needs to be resolved
+  // before this API is final.
+  array<string> callSampleNames = [];
 }
 
 // A CallSample is a collection of Variant Calls for a particular sample. 
@@ -24,9 +31,13 @@ record GAVariantSet {
 record GACallSample {
 
   // The callsample ID.
+  // TODO: This field is under ongoing discussion and needs to be resolved
+  // before this API is final.
   string id;
 
   // The callsample name.
+  // TODO: This field is under ongoing discussion and needs to be resolved
+  // before this API is final.
   union { null, string } name = null;
   
   // TODO: Add Sample ID once there is a GASample object (or equivalent)
