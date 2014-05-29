@@ -24,11 +24,11 @@ record SearchVariantsRequest {
   // Required. Only return variants on this reference sequence.
   string referenceSequenceName;
 
-  // Required. The beginning of the window (0-based) for which overlapping
+  // Required. The beginning of the window (0-based, inclusive) for which overlapping
   // variants should be returned.
   long startPosition;
 
-  // Required. The end of the window (0-based, inclusive) for which overlapping
+  // Required. The end of the window (0-based, exclusive) for which overlapping
   // variants should be returned.
   long endPosition;
 
