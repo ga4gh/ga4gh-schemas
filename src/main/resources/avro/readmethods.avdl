@@ -6,8 +6,8 @@ import idl "reads.avdl";
 /***************  /reads/search  ********************/
 // This request maps to the body of POST /reads/search
 record GASearchReadsRequest {
-  // If specified, will restrict this query to reads within the given readgroups.
-  union { null, array<string> } readgroup_ids = null;
+  // If specified, will restrict this query to reads within the given read groups.
+  union { null, array<string> } readGroupIds = null;
 
   // The contig to query. (e.g. 'X' for the X chromosome)
   // Leaving this blank returns results from all contigs, including
@@ -42,11 +42,11 @@ record GASearchReadsResponse {
 
 /****************  /readgroupsets/search  *******************/
 // This request maps to the body of POST /readgroupsets/search
-record GASearchReadgroupSetsRequest {
+record GASearchReadGroupSetsRequest {
   // The list of datasets to search.
   array<string> datasetIds = [];
 
-  // Only return readgroup sets for which a substring of the name matches this string.
+  // Only return read group sets for which a substring of the name matches this string.
   union { null, string } name = null;
 
   // The continuation token, which is used to page through large result sets.
@@ -56,9 +56,9 @@ record GASearchReadgroupSetsRequest {
 }
 
 // This is the response from POST /readgroupsets/search
-record GASearchReadgroupSetsResponse {
-  // The list of matching readgroup sets.
-  array<GAReadgroupSet> readgroupSets = [];
+record GASearchReadGroupSetsResponse {
+  // The list of matching read group sets.
+  array<GAReadGroupSet> readGroupSets = [];
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
