@@ -7,7 +7,7 @@
 The [Global Alliance for Genomics and Health][ga4gh] is an international
 coalition, formed to enable the sharing of genomic and clinical data.
 
-The [Data Working Group](http://genomicsandhealth.org/files/public/Priorities%20-%20without%20membership%20DWG_0.pdf) concentrates on data representation, storage, and analysis, including working with platform development partners and industry leaders to develop standards that will facilitate interoperability.
+The [Data Working Group](http://genomicsandhealth.org/our-work/working-groups/data-working-group) concentrates on data representation, storage, and analysis, including working with platform development partners and industry leaders to develop standards that will facilitate interoperability.
 
 Each area of genomics and health has a dedicated team working to define those standards.
 
