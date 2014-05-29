@@ -1,0 +1,81 @@
+@namespace("org.ga4gh")
+protocol GAVariantMethods {
+
+import idl "variants.avdl";
+
+// This request maps to the body of POST /variants/search
+record SearchVariantsRequest {
+  // Required. The IDs of the variant sets to search over.
+  array<string> variantSetIds;
+
+  // Only return variants which have exactly this name.
+  union { null, string } variantName = null;
+
+  // Only return variant calls which belong to callsamples which have exactly
+  // these names. Leaving this blank returns all variant calls.
+  // At most one of callSampleNames or callSampleIds should be provided.
+  array<string> callSampleNames = [];
+
+  // Only return variant calls which belong to callsamples with these ids.
+  // Leaving this blank returns all variant calls.
+  // At most one of callSampleNames or callSampleIds should be provided.
+  array<string> callSampleIds = [];
+
+  // Required. Only return variants on this reference sequence.
+  string referenceSequenceName;
+
+  // Required. The beginning of the window (0-based, inclusive) for which overlapping
+  // variants should be returned.
+  long startPosition;
+
+  // Required. The end of the window (0-based, exclusive) for which overlapping
+  // variants should be returned.
+  long endPosition;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // "nextPageToken" from the previous response.
+  union { null, string } pageToken = null;
+
+  // The maximum number of variants to return.
+  union { null, long } maxResults = 10;
+}
+
+// This is the response from POST /variants/search
+record SearchVariantsResponse {
+  // The list of matching Variants.
+  array<GAVariant> variants = [];
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  union { null, string } nextPageToken = null;
+}
+
+// This request maps to the body of POST /callsamples/search
+record SearchCallSamplesRequest {
+  // If specified, will restrict the query to callsamples within the
+  // given variant sets.
+  array<string> variantSetIds = [];
+
+  // Only return callsamples for which a substring of the name matches this string.
+  union { null, string } name = null;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // "nextPageToken" from the previous response.
+  union { null, string } pageToken = null;
+}
+
+// This is the response from POST /callsamples/search
+record SearchCallSamplesResponse {
+  // The list of matching callsamples.
+  array<GACallSample> callSamples = [];
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  union { null, string } nextPageToken = null;
+}
+
+}

@@ -1,0 +1,131 @@
+@namespace("org.ga4gh")
+protocol GAVariants {
+
+import idl "reads.avdl";
+
+// Variants and CallSamples both belong to a VariantSet.
+// VariantSets belong to a Dataset.
+// The VariantSet is equivalent to a VCF file.
+record GAVariantSet {
+  // The variant set ID.
+  string id;
+  
+  // The ID of the dataset this variant set belongs to.
+  string datasetId;
+  
+  // TODO: Add reference sequence ID information once resolved.
+  
+  // IDs of the call samples that belong to this variant set.
+  // TODO: This field is under ongoing discussion and needs to be resolved
+  // before this API is final.
+  array<string> callSampleIds = [];
+  
+  // Names of the call samples that belong to this variant set.
+  // TODO: This field is under ongoing discussion and needs to be resolved
+  // before this API is final.
+  array<string> callSampleNames = [];
+}
+
+// A CallSample is a collection of Variant Calls for a particular sample. 
+// It belongs to a VariantSet. This is equivalent to one column in VCF.
+record GACallSample {
+
+  // The callsample ID.
+  string id;
+
+  // The callsample name.
+  union { null, string } name = null;
+  
+  // TODO: Add Sample ID once there is a GASample object (or equivalent)
+
+  // The IDs of the variant sets this callsample has calls in.
+  array<string> variantSetIds = [];
+
+  // The date this callsample was created in milliseconds from the epoch.
+  union { null, long } created = null;
+
+  // A map of additional callsample information.
+  array<GAKeyValue> info = [];
+}
+
+// A Call represents the determination of genotype with respect to a particular
+// variant. It may include associated information such as quality and phasing.
+// For example, a Call might assign a probability of 0.32 to the occurrence of
+// a SNP named rs1234 in a callsample with the name NA12345.
+// TODO: Nest this object under GAVariant
+record GACall {
+
+  // The ID of the callsample this variant call belongs to.
+  // TODO: This field is under ongoing discussion and needs to be resolved
+  // before this API is final.
+  string callSampleId;
+
+  // The name of the callsample this variant call belongs to.
+  // TODO: This field is under ongoing discussion and needs to be resolved
+  // before this API is final.
+  union { null, string } callSampleName = null;
+
+  // The genotype of this variant call. Each value represents either the value
+  // of the referenceBases field or is a 1-based index into alternateBases.
+  // If a variant had a referenceBases field of "T", an alternateBases
+  // value of ["A", "C"], and the genotype was [2, 1], that would mean the call
+  // represented the heterozygous value "CA" for this variant. If the genotype
+  // was instead [0, 1] the represented value would be "TA". Ordering of the
+  // genotype values is important if the phaseset field is present.
+  array<int> genotype = [];
+
+  // If this field is present, this variant call's genotype ordering implies
+  // the phase of the bases and is consistent with any other variant calls on
+  // the same contig which have the same phaseset value.
+  union { null, string } phaseset = null;
+
+  // The genotype likelihoods for this variant call. Each array entry
+  // represents how likely a specific genotype is for this call. The value
+  // ordering is defined by the GL tag in the VCF spec.
+  array<double> genotypeLikelihood = [];
+
+  // A map of additional variant call information.
+  array<GAKeyValue> info = [];
+}
+
+// A Variant represents a change in DNA sequence relative to some reference.
+// For example, a Variant could represent a SNP or an insertion.
+// Variants belong to a VariantSet. 
+// This is equivalent to a row in VCF.
+record GAVariant {
+
+  // The variant ID.
+  string id;
+
+  // The ID of the variant set this variant belongs to.
+  string variantSetId;
+
+  // Names for the variant, for example a RefSNP ID.
+  array<string> names = [];
+
+  // The date this variant was created in milliseconds from the epoch.
+  union { null, long } created = null;
+
+  // The reference sequence on which this variant occurs. (e.g. 'chr20' or 'X')
+  string referenceSequenceName;
+
+  // The position at which this variant occurs (0-based).
+  // This corresponds to the first base of the string of reference bases.
+  long position;
+
+  // The reference bases for this variant. They start at the given
+  // position.
+  string referenceBases;
+
+  // The bases that appear instead of the reference bases.
+  array<string> alternateBases = [];
+
+  // A map of additional variant information.
+  array<GAKeyValue> info = [];
+
+  // The variant calls for this particular variant. Each one represents the
+  // determination of genotype with respect to this variant.
+  array<GACall> calls = [];
+}
+
+}
