@@ -10,23 +10,23 @@ record GASearchReadsRequest {
   union { null, array<string> } readgroupIds = null;
 
   /* The contig to query (e.g. 'X' for the X chromosome).
-   * Leaving this blank returns results from all contigs, including unmapped reads.
+     Leaving this blank returns results from all contigs, including unmapped reads.
    */
   union { null, string } contig = null;
 
   /* The start position (0-based) of this query.
-   * If a contig is specified, this defaults to 0.
+     If a contig is specified, this defaults to 0.
    */
   union { null, long } startPosition = null;
 
   /* The end position (0-based, inclusive) of this query.
-   * If a contig is specified, this defaults to the contig's length.
+     If a contig is specified, this defaults to the contig's length.
    */
   union { null, long } endPosition = null;
 
   /* The continuation token, which is used to page through large result sets.
-   * To get the next page of results, set this parameter to the value of
-   * "nextPageToken" from the previous response.
+     To get the next page of results, set this parameter to the value of
+     `nextPageToken` from the previous response.
    */
   union { null, string } pageToken = null;
 }
@@ -34,13 +34,13 @@ record GASearchReadsRequest {
 /* This is the response from POST /reads/search. */
 record GASearchReadsResponse {
   /* The list of matching alignment records, sorted by position.
-   * Unmapped reads, which have no position, are returned last.
+     Unmapped reads, which have no position, are returned last.
    */
   union { null, array<GAReadAlignment> } alignments = null;
 
   /* The continuation token, which is used to page through large result sets.
-   * Provide this value in a subsequent request to return the next page of results.
-   * This field will be empty if there aren't any additional results.
+     Provide this value in a subsequent request to return the next page of results.
+     This field will be empty if there aren't any additional results.
    */
   union { null, string } nextPageToken = null;
 }
@@ -55,8 +55,8 @@ record GASearchReadgroupSetsRequest {
   union { null, string } name = null;
 
   /* The continuation token, which is used to page through large result sets.
-   * To get the next page of results, set this parameter to the value of
-   * "nextPageToken" from the previous response.
+     To get the next page of results, set this parameter to the value of
+     `nextPageToken` from the previous response.
    */
   union { null, string } pageToken = null;
 }
@@ -67,8 +67,8 @@ record GASearchReadgroupSetsResponse {
   array<GAReadgroupSet> readgroupSets = [];
 
   /* The continuation token, which is used to page through large result sets.
-   * Provide this value in a subsequent request to return the next page of results.
-   * This field will be empty if there aren't any additional results.
+     Provide this value in a subsequent request to return the next page of results.
+     This field will be empty if there aren't any additional results.
    */
   union { null, string } nextPageToken = null;
 }
