@@ -10,20 +10,20 @@ record GAVariantSet {
   // The variant set ID.
   string id;
   
-  // The ID of the dataset this variant set belongs to.
-  string datasetId;
-  
-  // TODO: Add reference sequence ID information once resolved.
+  // The ID of GAReferenceSequenceSet used to call the variants
+  string referenceSequenceSetId;
   
   // IDs of the call samples that belong to this variant set.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
   array<string> callSampleIds = [];
   
   // Names of the call samples that belong to this variant set.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
+  // Arrays callSampleIds[] and callSampleNames[] are required to have the same
+  // length as GAVariant::calls[] below. GAVariant::calls[i] is always the call
+  // for callSampleIds[i].
   array<string> callSampleNames = [];
+
+  // The date this callsample was created in milliseconds from the epoch.
+  union { null, long } created = null;
 }
 
 // A CallSample is a collection of Variant Calls for a particular sample. 
@@ -41,8 +41,8 @@ record GACallSample {
   // The IDs of the variant sets this callsample has calls in.
   array<string> variantSetIds = [];
 
-  // The date this callsample was created in milliseconds from the epoch.
-  union { null, long } created = null;
+  // List of read groups from which the calls for this sample are made.
+  array<string> readGroupIds = [];
 
   // A map of additional callsample information.
   array<GAKeyValue> info = [];
@@ -54,16 +54,6 @@ record GACallSample {
 // a SNP named rs1234 in a callsample with the name NA12345.
 // TODO: Nest this object under GAVariant
 record GACall {
-
-  // The ID of the callsample this variant call belongs to.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
-  string callSampleId;
-
-  // The name of the callsample this variant call belongs to.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
-  union { null, string } callSampleName = null;
 
   // The genotype of this variant call. Each value represents either the value
   // of the referenceBases field or is a 1-based index into alternateBases.
@@ -103,9 +93,6 @@ record GAVariant {
   // Names for the variant, for example a RefSNP ID.
   array<string> names = [];
 
-  // The date this variant was created in milliseconds from the epoch.
-  union { null, long } created = null;
-
   // The reference sequence on which this variant occurs. (e.g. 'chr20' or 'X')
   string referenceSequenceName;
 
@@ -113,8 +100,7 @@ record GAVariant {
   // This corresponds to the first base of the string of reference bases.
   long position;
 
-  // The reference bases for this variant. They start at the given
-  // position.
+  // The reference bases for this variant. They start at the given position.
   string referenceBases;
 
   // The bases that appear instead of the reference bases.
@@ -124,7 +110,8 @@ record GAVariant {
   array<GAKeyValue> info = [];
 
   // The variant calls for this particular variant. Each one represents the
-  // determination of genotype with respect to this variant.
+  // determination of genotype with respect to this variant. The length of
+  // this array is identical to the length of GAVariantSet::callSampleIds[].
   array<GACall> calls = [];
 }
 

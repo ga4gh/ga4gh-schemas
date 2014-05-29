@@ -43,7 +43,8 @@ record SearchVariantsRequest {
 
 // This is the response from POST /variants/search
 record SearchVariantsResponse {
-  // The list of matching Variants.
+  // The list of matching Variants. For each variant, GAVariant::calls[i]
+  // is a call for sample SearchVariantsRequest::callSampleIds[i].
   array<GAVariant> variants = [];
 
   // The continuation token, which is used to page through large result sets.
