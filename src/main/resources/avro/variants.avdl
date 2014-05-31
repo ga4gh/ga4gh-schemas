@@ -17,9 +17,6 @@ record GAVariantSet {
   array<string> callSampleIds = [];
   
   // Names of the call samples that belong to this variant set.
-  // Arrays callSampleIds[] and callSampleNames[] are required to have the same
-  // length as GAVariant::calls[] below. GAVariant::calls[i] is always the call
-  // for callSampleIds[i].
   array<string> callSampleNames = [];
 
   // The date this callsample was created in milliseconds from the epoch.
@@ -54,6 +51,13 @@ record GACallSample {
 // a SNP named rs1234 in a callsample with the name NA12345.
 // TODO: Nest this object under GAVariant
 record GACall {
+
+  // The ID of the callsample this variant call belongs to. See the comment on
+  // GAVariant::calls[] about more details.
+  union { null, string } callSampleId = null;
+
+  // The name of the callsample this variant call belongs to.
+  union { null, string } callSampleName = null;
 
   // The genotype of this variant call. Each value represents either the value
   // of the referenceBases field or is a 1-based index into alternateBases.
@@ -110,8 +114,9 @@ record GAVariant {
   array<GAKeyValue> info = [];
 
   // The variant calls for this particular variant. Each one represents the
-  // determination of genotype with respect to this variant. The length of
-  // this array is identical to the length of GAVariantSet::callSampleIds[].
+  // determination of genotype with respect to this variant. If
+  // calls[i].callSampleId is absent, calls[i] is a call for
+  // GAVariantSet::callSampleId[i].
   array<GACall> calls = [];
 }
 

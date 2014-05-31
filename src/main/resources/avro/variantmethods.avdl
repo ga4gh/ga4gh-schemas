@@ -11,6 +11,12 @@ record SearchVariantsRequest {
   // Only return variants which have exactly this name.
   union { null, string } variantName = null;
 
+  // If true, SearchVariantsResponse::variants[j].calls[i].callSampleId will
+  // be set for all j and i. If false, this field will be absent and
+  // SearchVariantsResponse::variants[j].calls[i] is a call for
+  // SearchVariantsRequest::callSampleIds[i].
+  boolean sparseResponse = false;
+
   // Only return variant calls which belong to callsamples which have exactly
   // these names. Leaving this blank returns all variant calls.
   // At most one of callSampleNames or callSampleIds should be provided.
@@ -43,8 +49,7 @@ record SearchVariantsRequest {
 
 // This is the response from POST /variants/search
 record SearchVariantsResponse {
-  // The list of matching Variants. For each variant, GAVariant::calls[i]
-  // is a call for sample SearchVariantsRequest::callSampleIds[i].
+  // The list of matching Variants.
   array<GAVariant> variants = [];
 
   // The continuation token, which is used to page through large result sets.
