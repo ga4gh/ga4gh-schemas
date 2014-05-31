@@ -53,18 +53,13 @@ record GAProgram {
   union { null, string } version = null;
 }
 
-record GADataSet {
-    string id;
-    union { null, string } description = null;
-}
-
 record GAReadGroup {
 
   // The readgroup ID.
   string id;
 
-  // The ID of the dataset this readgroup belongs to.
-  union {null, string} datasetId = null;
+  // The ID of the project this readgroup belongs to.
+  union {null, string} projectId = null;
 
   // The readgroup name.
   union {null, string} name = null;
@@ -72,8 +67,8 @@ record GAReadGroup {
   // The readgroup description.
   union {null, string} description = null;
 
-  // The sample this readgroup's data was generated from.
-  union { null, string } sample;
+  // The GASample this readgroup's data was generated from.
+  union { null, string } sampleId = null;
 
   union { null, string } library = null;
   union { null, string } platformUnit = null;
@@ -101,8 +96,8 @@ record GAReadgroupSet {
   // The readgroup set ID.
   string id;
 
-  // The ID of the dataset this readgroup set belongs to.
-  union {null, string} datasetId = null;
+  // The ID of the project this readgroup set belongs to.
+  union {null, string} projectId = null;
 
   // The readgroup set name.
   union {null, string} name = null;
