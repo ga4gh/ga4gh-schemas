@@ -60,19 +60,19 @@ record GADataset {
 
 record GAReadGroup {
 
-  // The read group ID.
+  /** The read group ID. */
   string id;
 
-  // The ID of the dataset this read group belongs to.
+  /** The ID of the dataset this read group belongs to. */
   union { null, string } datasetId = null;
 
-  // The read group name.
+  /** The read group name. */
   union { null, string } name = null;
 
-  // The read group description.
+  /** The read group description. */
   union { null, string } description = null;
 
-  // The sample this read group's data was generated from.
+  /** The sample this read group's data was generated from. */
   union { null, string } sample;
 
   union { null, string } library = null;
@@ -81,33 +81,33 @@ record GAReadGroup {
   union { null, string } sequencingCenter;
   union { null, string } sequencingTechnology;
 
-  // The date this read group was created.
+  /** The date this read group was created. */
   union { null, long } created = null;
 
-  // The number of reads in this read group.
+  /** The number of reads in this read group. */
   union { null, long } readCount = null;
 
-  // The programs used to generate this read group.
+  /** The programs used to generate this read group. */
   array<GAProgram> programs = [];
 
-  // The reference sequences the reads in this read group are aligned to.
+  /** The reference sequences the reads in this read group are aligned to. */
   array<GAReferenceSequence> referenceSequences = [];
 
-  // Additional information
+  /** Additional information */
   array<GAKeyValue> tags = [];
 }
 
 record GAReadGroupSet {
-  // The read group set ID.
+  /** The read group set ID. */
   string id;
 
-  // The ID of the dataset this read group set belongs to.
+  /** The ID of the dataset this read group set belongs to. */
   union { null, string } datasetId = null;
 
-  // The read group set name.
+  /** The read group set name. */
   union { null, string } name = null;
 
-  // The read groups in this set.
+  /** The read groups in this set. */
   array<GAReadGroup> readGroups = [];
 }
 
@@ -127,9 +127,10 @@ record GACigarUnit {
     GACigarOperation operation;
     long operationLength;
 
-    // contigSequence is only used at mismatches (X) and deletions (D). Filling
-    // this field replaces the MD tag. If the relevant information is not
-    // available, leave this field as "null".
+    /** contigSequence is only used at mismatches (X) and deletions (D). Filling
+     this field replaces the MD tag. If the relevant information is not
+     available, leave this field as "null".
+    */
     union { null, string } contigSequence = null;
 }
 
@@ -139,64 +140,73 @@ record GAMappingPosition {
     boolean reverseStrand;
 }
 
-record GALinearAlignment { // a linear alignment can be represented by one CIGAR string
+/** a linear alignment can be represented by one CIGAR string */
+record GALinearAlignment {
     GAMappingPosition position;
     union { null, int } mappingQuality = null;
     array<GACigarUnit> cigar = [];
 }
 
-// Each read alignment describes a linear alignment with additional information
-// about the fragment and the read. A read alignment object is equivalent to a
-// line in a SAM file.
+/** Each read alignment describes a linear alignment with additional information
+ about the fragment and the read. A read alignment object is equivalent to a
+ line in a SAM file. */
 record GAReadAlignment {
   
-    // The ID of the read group this read belongs to. (Every read must belong to exactly one read group.)
+    /** The ID of the read group this read belongs to. (Every read must belong to exactly one read group.) */
     string readGroupId;
 
     // fragment attributes
 
-    // The fragment name. Equivalent to QNAME (query template name) in SAM.
+    /** The fragment name. Equivalent to QNAME (query template name) in SAM.*/
     string fragmentName;
 
-    // The orientation and the distance between reads from the fragment are
-    // consistent with the sequencing protocol (extension to SAM flag 0x2)
+    /** The orientation and the distance between reads from the fragment are
+     consistent with the sequencing protocol (extension to SAM flag 0x2) */
     union { null, boolean } properPlacement = false;
 
-    // The fragment is a PCR or optical duplicate (SAM flag 0x400)
+    /** The fragment is a PCR or optical duplicate (SAM flag 0x400) */
     union { null, boolean } duplicateFragment = false;
 
-    // The number of reads in the fragment (extension to SAM flag 0x1)
+    /** The number of reads in the fragment (extension to SAM flag 0x1) */
     union { null, int } numberReads = null;
 
-    // The observed length of the fragment, equivalent to TLEN in SAM.
+    /** The observed length of the fragment, equivalent to TLEN in SAM. */
     union { null, int } fragmentLength = null;
 
     // read attributes
 
-    // The read number in sequencing. 0-based and less than numberReads. This field
-    // replaces SAM flag 0x40 and 0x80.
+    /** The read number in sequencing. 0-based and less than numberReads. This field
+     replaces SAM flag 0x40 and 0x80. */
     union { null, int } readNumber = null;
 
-    union { null, boolean } failedVendorQualityChecks = false; // SAM flag 0x200
+    /** SAM flag 0x200 */
+    union { null, boolean } failedVendorQualityChecks = false;
 
     // this linear alignment
 
-    union { null, GALinearAlignment } alignment = null; // null if unmapped
+    /** null if unmapped */
+    union { null, GALinearAlignment } alignment = null;
 
-    // By convention, each read has one and only one alignment with both of the
-    // two following flags being flase. The full read sequence and quality
-    // should be present in this alignment.
-    union { null, boolean } secondaryAlignment = false;     // SAM flag 0x100
-    union { null, boolean } supplementaryAlignment = false; // SAM flag 0x800
+    /** Whether this alignment is secondary. Equivalent to SAM flag 0x100.
+     By convention, each read has one and only one alignment where both
+     secondaryAlignment and supplementaryAlignment are false. In that case, 
+     the full read sequence and quality should be present. */
+    union { null, boolean } secondaryAlignment = false;
+    
+    /** Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
+     By convention, each read has one and only one alignment where both
+     secondaryAlignment and supplementaryAlignment are false. In that case, 
+     the full read sequence and quality should be present. */    
+    union { null, boolean } supplementaryAlignment = false;
 
-    // The portion of the read sequence and quality in the alignment. In a
-    // supplementary or seconday alignment, alignedSequence and alignedQuality
-    // may be shorter than the read sequence and quality, or even absent.
+    /** The portion of the read sequence and quality in the alignment. In a
+     supplementary or seconday alignment, alignedSequence and alignedQuality
+     may be shorter than the read sequence and quality, or even absent. */
     union { null, string } alignedSequence = null;
     array<int> alignedQuality = [];
 
-    // The mapping of the primary alignment of the (readNumber+1)%numberReads
-    // read in the fragment. It replaces mate position and mate strand in SAM.
+    /** The mapping of the primary alignment of the (readNumber+1)%numberReads
+     read in the fragment. It replaces mate position and mate strand in SAM. */
     union { null, GAMappingPosition } nextMatePosition = null;
 
     array<GAKeyValue> tags = [];
