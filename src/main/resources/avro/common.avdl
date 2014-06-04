@@ -19,4 +19,59 @@ protocol GACommon {
     string value = null;
   }
 
+  /**
+   A GAProject is defined by a submitter. It is typically a collection of data
+   obtained from the same type of experiment (e.g. whole-genome resequencing)
+   for the same research goal (e.g. pilot SNP discovery or discovery of de novo
+   mutations). GAProjects are disjoint. Examples: "1000g pilot2 low-coverage
+   sequencing", "1000g low-coverage sequencing" and "1000g exome sequencing"
+   are three different GAProjects.
+  */
+  record GAProject {
+
+  	/** Internal project ID. Unique in a read store instance. */
+    string id;
+
+	/** Project common names. Not necessarily unique. All the three 1000g
+	 sub-projects in the example above may have the same project names
+	 ["1000g", "1kg"]. */
+	array<string> names = [];
+
+	/** Project description */
+	union { null, string } description = null;
+
+	/** Other project attributes */
+	array<GAKeyValue> info = [];
+
+	/** Accessions in the BioProject database */
+	array<string> accessions = [];
+  }
+
+  /**
+   A GASample is a tuple (project,sample), where "sample" is the sample name
+   (typically on a @RG line in a SAM file) submitted under a "project". It
+   effectively represents the molecular material from which sequence data are
+   obtained. It is common that multiple GASamples have an identical sample
+   name. The data submitted under the same sample name will be assigned to
+   different GASample IDs, one ID for each project.
+  */
+  record GASample {
+
+  	/** Internal ExperimentSample ID. Unique in a read store instance. */
+  	string id;
+
+	/** The ID of GAProject under which the sample is submitted. */
+	string projectId;
+
+	/** The submitted sample name, typically on a @RG line in a SAM file.
+	 By the definition of GASample, tuple (projectId,name) is unique across a
+	 read store instance. This puts a constraint on the scope of GAProject. */
+	string name;
+
+	/** Accessions in the BioSample database. It is possible that two
+	 GASamples have the same BioSample accession and one GASample is associated
+	 with multiple BioSample accessions (there is a hierarchy in BioSample). */
+	array<string> accessions = [];
+  }
+
 }

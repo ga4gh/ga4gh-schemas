@@ -10,9 +10,6 @@ record GAVariantSet {
   // The variant set ID.
   string id;
   
-  // The ID of the dataset this variant set belongs to.
-  string datasetId;
-  
   // TODO: Add reference sequence ID information once resolved.
   
   // IDs of the call samples that belong to this variant set.
@@ -36,7 +33,11 @@ record GACallSample {
   // The callsample name.
   union { null, string } name = null;
   
-  // TODO: Add Sample ID once there is a GASample object (or equivalent)
+  // The GASample IDs from which the calls for this sample are made. It is
+  // possible that one GACallSample is associated with multiple GASamples. This
+  // may happen when we merge sequence data of the same individual across
+  // multiple projects.
+  array<string> sampleIds = [];
 
   // The IDs of the variant sets this callsample has calls in.
   array<string> variantSetIds = [];
