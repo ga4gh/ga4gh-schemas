@@ -179,8 +179,8 @@ record GAReadAlignment {
      replaces SAM flag 0x40 and 0x80. */
     union { null, int } readNumber = null;
 
-    /** SAM flag 0x200 */
-    union { null, boolean } failedVendorQualityChecks = false;
+    /** Whether this read is low quality. In SAM this is flag 0x200 - failed vendor quality checks. */
+    union { null, boolean } lowQualityRead = false;
 
     // this linear alignment
 
