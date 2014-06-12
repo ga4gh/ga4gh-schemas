@@ -11,14 +11,8 @@ record SearchVariantsRequest {
   // Only return variants which have exactly this name.
   union { null, string } variantName = null;
 
-  // Only return variant calls which belong to callsamples which have exactly
-  // these names. Leaving this blank returns all variant calls.
-  // At most one of callSampleNames or callSampleIds should be provided.
-  array<string> callSampleNames = [];
-
   // Only return variant calls which belong to callsamples with these ids.
   // Leaving this blank returns all variant calls.
-  // At most one of callSampleNames or callSampleIds should be provided.
   array<string> callSampleIds = [];
 
   // Required. Only return variants on this reference sequence.
