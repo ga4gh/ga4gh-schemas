@@ -1,8 +1,12 @@
 @namespace("org.ga4gh")
+/**
+  This protocol defines common types used in the other GA4GH protocols. It does
+  not have any methods; it is merely a library of types.
+*/
 protocol GACommon {
 
   /**
-  A general exception handler
+    A general exception type.
   */
   error GAException {
     /** The error message */
@@ -12,11 +16,76 @@ protocol GACommon {
   }
 
   /**
-  A structure for encoding arbitrary Key-Value tuples, or tags, on other record types.
+    A structure for encoding arbitrary Key-Value tuples, or tags, on other
+    record types.
   */
   record GAKeyValue {
+    /** The key for which a value is being defined. */
     string key;
+    /** The value of the key. */
     string value = null;
+  }
+  
+  /**
+    An abstraction for referring to a genomic position, in relation to some
+    already known reference. For now, represents a genomic position as a contig
+    name, a base number on that contig (0-based), and a flag to say if it's the
+    forward or reverse strand that we're talking about.
+    
+    TODO: Add support here for universally unique base IDs.
+  */
+  record GAPosition {
+    /**
+      The name of the contig (or, more technically, the scaffold) in whatever
+      reference is being used. Does not generally include a "chr" prefix, so for
+      example "X" would be used for the X chromosome.
+    */
+    string contig;
+    
+    /**
+      The 0-based offset from the start of the forward strand for that contig.
+    */
+    long position;
+    
+    /**
+      A flag to indicate if we are on the forward strand (false) or reverse
+      strand (true).
+    */
+    boolean reverseStrand;
+    
+  }
+  
+  /** 
+    An enum for the different types of CIGAR alignment operations that exist.
+    Used wherever CIGAR alignments are used.
+  */
+  enum GACigarOperation {
+    ALIGNMENT_MATCH,   // M
+    INSERT,            // I
+    DELETE,            // D
+    SKIP,              // N
+    CLIP_SOFT,         // S
+    CLIP_HARD,         // H
+    PAD,               // P
+    SEQUENCE_MATCH,    // =
+    SEQUENCE_MISMATCH  // X
+  }
+
+  /**
+    A structure for an instance of a CIGAR operation.
+  */
+  record GACigarUnit {
+    /** The operation type */
+    GACigarOperation operation;
+    /** The number of bases that the operation runs for */
+    long operationLength;
+
+    /** 
+      contigSequence is only used at mismatches (X) and deletions (D). Filling
+      this field replaces the MD tag. If the relevant information is not
+      available, leave this field as "null".
+    */
+    union { null, string } contigSequence = null;
   }
 
 }

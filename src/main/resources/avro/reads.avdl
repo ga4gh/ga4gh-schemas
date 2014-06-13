@@ -111,38 +111,9 @@ record GAReadGroupSet {
   array<GAReadGroup> readGroups = [];
 }
 
-enum GACigarOperation {
-    ALIGNMENT_MATCH,   // M
-    INSERT,            // I
-    DELETE,            // D
-    SKIP,              // N
-    CLIP_SOFT,         // S
-    CLIP_HARD,         // H
-    PAD,               // P
-    SEQUENCE_MATCH,    // =
-    SEQUENCE_MISMATCH  // X
-}
-
-record GACigarUnit {
-    GACigarOperation operation;
-    long operationLength;
-
-    /** contigSequence is only used at mismatches (X) and deletions (D). Filling
-     this field replaces the MD tag. If the relevant information is not
-     available, leave this field as "null".
-    */
-    union { null, string } contigSequence = null;
-}
-
-record GAMappingPosition {
-    string contig;
-    long position;
-    boolean reverseStrand;
-}
-
 /** a linear alignment can be represented by one CIGAR string */
 record GALinearAlignment {
-    GAMappingPosition position;
+    GAPosition position;
     union { null, int } mappingQuality = null;
     array<GACigarUnit> cigar = [];
 }
@@ -207,7 +178,7 @@ record GAReadAlignment {
 
     /** The mapping of the primary alignment of the (readNumber+1)%numberReads
      read in the fragment. It replaces mate position and mate strand in SAM. */
-    union { null, GAMappingPosition } nextMatePosition = null;
+    union { null, GAPosition } nextMatePosition = null;
 
     array<GAKeyValue> tags = [];
 }
