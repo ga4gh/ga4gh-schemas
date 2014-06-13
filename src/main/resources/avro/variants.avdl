@@ -14,16 +14,6 @@ record GAVariantSet {
   string datasetId;
   
   // TODO: Add reference sequence ID information once resolved.
-  
-  // IDs of the call samples that belong to this variant set.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
-  array<string> callSampleIds = [];
-  
-  // Names of the call samples that belong to this variant set.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
-  array<string> callSampleNames = [];
 }
 
 // A CallSample is a collection of Variant Calls for a particular sample. 
@@ -56,13 +46,13 @@ record GACallSample {
 record GACall {
 
   // The ID of the callsample this variant call belongs to.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
-  string callSampleId;
+  // If this field is not present, the ordering of the samples from a `SearchCallSamplesRequest`
+  // over this `GAVariantSet` is guaranteed to match the ordering of the calls on this `GAVariant`.
+  union { null, string } callSampleId;
 
   // The name of the callsample this variant call belongs to.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
+  // If this field is not present, the ordering of the samples from a `SearchCallSamplesRequest`
+  // over this `GAVariantSet` is guaranteed to match the ordering of the calls on this `GAVariant`.
   union { null, string } callSampleName = null;
 
   // The genotype of this variant call. Each value represents either the value
