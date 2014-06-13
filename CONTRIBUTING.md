@@ -52,13 +52,38 @@ The project will strive for full consensus on everything until it runs into a pr
 
 The current code conventions for the source files are as follows:
 
-* Two-space indentation, no tabs
-* `UpperCamelCase` for object or record names
-* `lowerCamelCase` attribute or method names
-* `CONSTANT_CASE` for global and constant values
+* Use two-space indentation, and no tabs.
+* Hard-wrap code to 80 characters per line.
+* Use `UpperCamelCase` for object or record names.
+* Use `lowerCamelCase` attribute or method names.
+* Use `CONSTANT_CASE` for global and constant values.
 * Comments:
-     * Indented at the same level as the surrounding code
-     * Precede the code that they make a comment on
-     * Documentation comments use the `/** ... */` style
-     * Block and multi-line comments must use the `/** ... */` style.
-     * One-line comments prefixed using the `// ...` style will not be output to documentation and are intended for developers of the project only
+     * Comments should be indented at the same level as the surrounding code.
+     * Comments should precede the code that they make a comment on. Documentation comments will not work otherwise.
+     * Documentation comments, which are intended to be processed by avrodoc and displayed in the user-facing API documentation, must use the `/** ... */` style, and must not have a leading `*` on each internal line:
+        
+        ````
+        /** This documentation comment will be 
+        processed correctly by avrodoc. */
+        ````
+
+        ````
+        /**
+         * This documentation comment will have a
+         * bullet point at the start of every line
+         * when processed by avrodoc.
+         */
+        ````
+        
+     * Block and multi-line non-documentation comments, intended for schema developers only, must use the `/* ... */` style.
+     
+        ````
+        /*
+          This multi-line comment will not appear in the 
+          avrodoc documentation and is intended for 
+          schema developers.
+        */
+        ````
+     
+     * One-line non-documentation comments, intended for schema developers only, must use the `// ...` style.
+
