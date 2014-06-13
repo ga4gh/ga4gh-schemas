@@ -45,6 +45,14 @@ record GASearchReadsResponse {
   union { null, string } nextPageToken = null;
 }
 
+/**
+  Gets a list of `GAReadAlignments` matching the search criteria.
+  
+  POST /reads/search takes a `GASearchReadsRequest` as its body and 
+  returns a `GASearchReadsResponse`. 
+*/
+GASearchReadsResponse searchReads(GASearchReadsRequest request) throws GAException;
+
 /******************  /readgroupsets/search  *********************/
 /** This request maps to the body of POST /readgroupsets/search. */
 record GASearchReadGroupSetsRequest {
@@ -73,4 +81,11 @@ record GASearchReadGroupSetsResponse {
   union { null, string } nextPageToken = null;
 }
 
+/** 
+  Gets a list of `GAReadGroupSets` matching the search criteria.
+  
+  POST /readgroupsets/search takes a `GASearchReadGroupSetsResponse` as its 
+  body and returns a `GASearchReadGroupSetsRequest`. 
+*/
+GASearchReadGroupSetsResponse searchReadGroupSets(GASearchReadGroupSetsRequest request) throws GAException;
 }
