@@ -43,7 +43,13 @@ record SearchVariantsRequest {
 
 // This is the response from POST /variants/search
 record SearchVariantsResponse {
-  // The list of matching Variants.
+  /**
+    The list of matching Variants.
+    If the `callSampleId` field on the returned calls is not present, 
+    the ordering of the samples from a `SearchCallSamplesRequest`
+    over the parent `GAVariantSet` is guaranteed to match the ordering 
+    of the calls on each `GAVariant`.
+  */
   array<GAVariant> variants = [];
 
   // The continuation token, which is used to page through large result sets.
