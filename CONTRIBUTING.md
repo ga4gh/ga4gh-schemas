@@ -63,8 +63,10 @@ The current code conventions for the source files are as follows:
      * Documentation comments, which are intended to be processed by avrodoc and displayed in the user-facing API documentation, must use the `/** ... */` style, and must not have a leading `*` on each internal line:
         
         ````
-        /** This documentation comment will be 
-        processed correctly by avrodoc. */
+        /** 
+          This documentation comment will be 
+          processed correctly by avrodoc.
+        */
         ````
 
         ````
@@ -85,5 +87,6 @@ The current code conventions for the source files are as follows:
         */
         ````
      
+     * All multi-line comments should have the comment text indented relative to the comment delimeters.
      * One-line non-documentation comments, intended for schema developers only, must use the `// ...` style.
 
