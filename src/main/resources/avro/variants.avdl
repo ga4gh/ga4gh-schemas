@@ -1,7 +1,7 @@
 @namespace("org.ga4gh")
 protocol GAVariants {
 
-import idl "reads.avdl";
+import idl "common.avdl";
 
 // Variants and CallSamples both belong to a VariantSet.
 // VariantSets belong to a Dataset.
