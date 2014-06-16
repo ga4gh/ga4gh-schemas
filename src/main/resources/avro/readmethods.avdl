@@ -84,8 +84,8 @@ record GASearchReadGroupSetsResponse {
 /** 
   Gets a list of `GAReadGroupSets` matching the search criteria.
   
-  POST /readgroupsets/search takes a `GASearchReadGroupSetsResponse` as its 
-  body and returns a `GASearchReadGroupSetsRequest`. 
+  POST /readgroupsets/search takes a `GASearchReadGroupSetsRequest` as its 
+  body and returns a `GASearchReadGroupSetsResponse`. 
 */
 GASearchReadGroupSetsResponse searchReadGroupSets(GASearchReadGroupSetsRequest request) throws GAException;
 }
