@@ -14,7 +14,9 @@ The `avrodoc` tool expects Avro schemas in JSON format. The Maven plugin we use 
 
 ```shell
 # For a full list of mirrors, see http://www.apache.org/dyn/closer.cgi/avro/
-curl -O http://www.us.apache.org/dist/avro/avro-1.7.6/java/avro-tools-1.7.6.jar
+
+curl -o /opt/avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.6/java/avro-tools-1.7.6.jar
+
 ```
 
 Once you have dowloaded the Avro tools, you can use them to create JSON formatted Avro schema like so:
@@ -43,10 +45,10 @@ curl -o /opt/avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.6/java/
 
 # creating the JSON schema for the reads API
 mkdir -p target/schemas
-java -jar /path/to/avro-tools-1.7.6.jar idl src/main/resources/avro/reads.avdl target/schema/reads.avpr
+java -jar /path/to/avro-tools-1.7.6.jar idl src/main/resources/avro/reads.avdl target/schemas/reads.avpr
 
 # creating the documentation for the reads API
 mkdir -p target/documentation
-avrodoc target/schema/reads.avpr > target/documentation/reads.html
+avrodoc target/schemas/reads.avpr > target/documentation/reads.html
 
 ```
