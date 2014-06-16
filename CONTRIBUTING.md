@@ -55,7 +55,7 @@ The current code conventions for the source files are as follows:
 * Use two-space indentation, and no tabs.
 * Hard-wrap code to 80 characters per line.
 * Use `UpperCamelCase` for object or record names.
-* Use `lowerCamelCase` attribute or method names.
+* Use `lowerCamelCase` for attribute or method names.
 * Use `CONSTANT_CASE` for global and constant values.
 * Comments:
      * Comments should be indented at the same level as the surrounding code.
