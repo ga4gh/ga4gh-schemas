@@ -48,7 +48,7 @@ record SearchVariantsResponse {
     If the `callSampleId` field on the returned calls is not present, 
     the ordering of the samples from a `SearchCallSamplesRequest`
     over the parent `GAVariantSet` is guaranteed to match the ordering 
-    of the calls on each `GAVariant`.
+    of the calls on each `GAVariant`. The number of results will also be the same.
   */
   array<GAVariant> variants = [];
 
