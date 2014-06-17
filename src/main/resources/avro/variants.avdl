@@ -45,14 +45,22 @@ record GACallSample {
 // TODO: Nest this object under GAVariant
 record GACall {
 
-  // The ID of the callsample this variant call belongs to.
-  // If this field is not present, the ordering of the samples from a `SearchCallSamplesRequest`
-  // over this `GAVariantSet` is guaranteed to match the ordering of the calls on this `GAVariant`.
+  /**
+    The ID of the callsample this variant call belongs to.
+    If this field is not present, the ordering of the samples from a 
+    `SearchCallSamplesRequest` over this `GAVariantSet` is guaranteed to match 
+    the ordering of the calls on this `GAVariant`. 
+    The number of results will also be the same.
+  */
   union { null, string } callSampleId;
 
-  // The name of the callsample this variant call belongs to.
-  // If this field is not present, the ordering of the samples from a `SearchCallSamplesRequest`
-  // over this `GAVariantSet` is guaranteed to match the ordering of the calls on this `GAVariant`.
+  /**
+    The name of the callsample this variant call belongs to.
+    If this field is not present, the ordering of the samples from a 
+    `SearchCallSamplesRequest` over this `GAVariantSet` is guaranteed to match 
+    the ordering of the calls on this `GAVariant`.
+    The number of results will also be the same.
+  */
   union { null, string } callSampleName = null;
 
   // The genotype of this variant call. Each value represents either the value
