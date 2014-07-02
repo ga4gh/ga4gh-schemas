@@ -28,22 +28,22 @@ protocol GACommon {
   
   /**
     An abstraction for referring to a genomic position, in relation to some
-    already known reference. For now, represents a genomic position as a contig
-    name, a base number on that contig (0-based), and a flag to say if it's the
+    already known reference. For now, represents a genomic position as a reference sequence
+    name, a base number on that reference sequence (0-based), and a flag to say if it's the
     forward or reverse strand that we're talking about.
     
     TODO: Add support here for universally unique base IDs.
   */
   record GAPosition {
     /**
-      The name of the contig (or, more technically, the scaffold) in whatever
+      The name of the reference sequence (or, more technically, the scaffold) in whatever
       reference is being used. Does not generally include a "chr" prefix, so for
       example "X" would be used for the X chromosome.
     */
-    string contig;
+    string referenceSequenceName;
     
     /**
-      The 0-based offset from the start of the forward strand for that contig.
+      The 0-based offset from the start of the forward strand for that reference sequence.
     */
     long position;
     
@@ -81,11 +81,11 @@ protocol GACommon {
     long operationLength;
 
     /** 
-      contigSequence is only used at mismatches (X) and deletions (D). Filling
+      referenceSequence is only used at mismatches (X) and deletions (D). Filling
       this field replaces the MD tag. If the relevant information is not
       available, leave this field as "null".
     */
-    union { null, string } contigSequence = null;
+    union { null, string } referenceSequence = null;
   }
 
 }
