@@ -34,18 +34,6 @@ enum GAVariantSide {
   MINUS 	   // reverse-complement, direction of decreasing coordinates
 }
 
-/* This rule for mapping a base in a new string to a reference base
-   is that matching either a left context or a right context of
-   any reference base is sufficient, so long as globally all such
-   matches point to the same reference base.
-*/
-record GAVariantContext {
-  GADNAbase base ;
-  array <GADNAsequence> leftFlanks ; // possible sequences immediately preceding base
-  array <GADNAsequence> rightFlanks ; // reverse-complement of possible sequences immediately following base
-  //Context arrays could be quite large if mismatches were allowed. Possibly it would be better to not have them
-  //explicitly defined, but rather instead defined algorithmically?
-}
 
 record GAVariantJoinLocation {
   string variantId ;	// id of the variant in which this location is based
@@ -66,12 +54,10 @@ record GAVariant {
   // from a global identifier such as a versioned INSDC accession stored in info.
   // [Propose adding additional object to define the latter in common.avdl]
 
-  // The context that identifies each base in this sequence
-  // This is optional - it is only required to support variants that are part of a 
-  // reference to which new sequences (e.g. reads) are being mapped using contexts.
-  array<GAVariantContext> contexts = [] ; // same length as sequence, or empty if missing
-  // This array could be really large, better to have a function to retrieve contexts
-  // or test to determine what contexts an input string matches. 
+   // For variants that are part of a reference to which new sequences (e.g. reads) are being mapped, 
+   // a context function must be defined in referenceVariationMethods.avdl so that bases in the reads 
+   // can be mapped to bases in the reference variant.
+   
 
   // We may need to say other things about the variant, e.g. origin, dbSNP...
   array<GAKeyValue> info = [] ;
@@ -124,7 +110,7 @@ record GASegment {
   // So start <= x < end if end > start, or end < x <= start if end < start.
   GAVariantSide side ; 
   int length ;	// alternative to end
-  // I suggest that if start == 0 and end == 0 then this is the whole Variant
+  // if start == 0 and end == 0 then this is the whole Variant
   // and otherwise we require end != start (and equivalently that length > 0)
 }
 
@@ -138,8 +124,8 @@ record GAAllele {
   string id ;	// if this Allele is a clean variant, then reuse variantId
 
   array<GASegment> sequence ; 	// require that segments abut in order
-  //Should these segments be required to be maximal? 
-  //i.e. that consecutive elements of the array can not be replaced by a single element.
+  // also require they are maximal, i.e. that consecutive elements of the array 
+  // can not be replaced by a single element.
 }
 
 record GACallSet {
@@ -149,7 +135,7 @@ record GACallSet {
 
   string sampleId ;  // can use the name here in absence of better sample structure
   enum { GENOTYPE, HAPLOTYPE} type = GENOTYPE ; // must be one or the other
-  // Not clear how a genotype is specified since every allele is unary
+  // for diploid genotypes the copy number of an allele will typically be 0, 1 or 2; for haplotypes it will be 0 or 1
 
   // We may need to say other things about the callset, e.g. derivation
   array<GAKeyValue> info ;
@@ -160,11 +146,11 @@ record GACall {
   string alleleID ;  // references an id of GAAllele
 
   // not all of the following will be present, but at least one should be
-  int copyNumber = 0 ;	     // 0 for not present, 
-  float dosage = 0 ;
+  union { null, int } copyNumber = null ; // 0 for not present in callSet, 1 for single copy, 2 for 2 copies etc. 
+  union { null, float } dosage = null ; // expected value of copyNumber
   array<float> probability = [] ; // probability that copy number is k: 0..n
   array<float> likelihood = [] ;  // likelihood of data given copy number k
-  int readCount  = 0;	     // number of reads supporting this allele (DP in VCF)
+  union { null, int } readCount = null ; // number of reads supporting this allele (DP in VCF)
   array<GAKeyValue> evidence = [] ; // potential other evidence for the call
 }
 
@@ -179,7 +165,7 @@ record GAVariantScaffold {
 
   array<GAAllele> alleles ;
   array<boolean> isForwards ; 	// orientation of each allele
-  array<GAScaffoldGap> gaps;   //of gaps between alleles, length is 1 less than no. of alleles
+  array<int> gapSizes = [];   //sizes of gaps between alleles, array length is 1 less than no. of alleles
 }
 
 /* Finally, note that while typically an Allele is short, this
