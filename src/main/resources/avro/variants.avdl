@@ -3,7 +3,7 @@ protocol GAVariants {
 
 import idl "common.avdl";
 
-// Variants and Callsets both belong to a VariantSet.
+// Variants and CallSets both belong to a VariantSet.
 // VariantSets belong to a Dataset.
 // The VariantSet is equivalent to a VCF file.
 record GAVariantSet {
@@ -15,55 +15,55 @@ record GAVariantSet {
   
   // TODO: Add reference sequence ID information once resolved.
   
-  // IDs of the callsets that belong to this variant set.
+  // IDs of the call sets that belong to this variant set.
   // TODO: This field is under ongoing discussion and needs to be resolved
   // before this API is final.
-  array<string> callsetIds = [];
+  array<string> callSetIds = [];
   
-  // Names of the callsets that belong to this variant set.
+  // Names of the call sets that belong to this variant set.
   // TODO: This field is under ongoing discussion and needs to be resolved
   // before this API is final.
-  array<string> callsetNames = [];
+  array<string> callSetNames = [];
 }
 
-// A Callset is a collection of Variant Calls for a particular sample. 
+// A CallSet is a collection of Variant Calls for a particular sample. 
 // It belongs to a VariantSet. This is equivalent to one column in VCF.
-record GACallset {
+record GACallSet {
 
-  // The callset ID.
+  // The call set ID.
   string id;
 
-  // The callset name.
+  // The call set name.
   union { null, string } name = null;
   
   // TODO: Add Sample ID once there is a GASample object (or equivalent)
 
-  // The IDs of the variant sets this callset has calls in.
+  // The IDs of the variant sets this call set has calls in.
   array<string> variantSetIds = [];
 
-  // The date this callset was created in milliseconds from the epoch.
+  // The date this call set was created in milliseconds from the epoch.
   union { null, long } created = null;
 
-  // A map of additional callset information.
+  // A map of additional call set information.
   array<GAKeyValue> info = [];
 }
 
 // A Call represents the determination of genotype with respect to a particular
 // variant. It may include associated information such as quality and phasing.
 // For example, a Call might assign a probability of 0.32 to the occurrence of
-// a SNP named rs1234 in a callset with the name NA12345.
+// a SNP named rs1234 in a CallSet with the name NA12345.
 // TODO: Nest this object under GAVariant
 record GACall {
 
-  // The ID of the callset this variant call belongs to.
+  // The ID of the call set this variant call belongs to.
   // TODO: This field is under ongoing discussion and needs to be resolved
   // before this API is final.
-  string callsetId;
+  string callSetId;
 
-  // The name of the callset this variant call belongs to.
+  // The name of the call set this variant call belongs to.
   // TODO: This field is under ongoing discussion and needs to be resolved
   // before this API is final.
-  union { null, string } callsetName = null;
+  union { null, string } callSetName = null;
 
   // The genotype of this variant call. Each value represents either the value
   // of the referenceBases field or is a 1-based index into alternateBases.
