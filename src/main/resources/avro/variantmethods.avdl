@@ -13,10 +13,10 @@ record SearchVariantsRequest {
   union { null, string } variantName = null;
 
   /** 
-    Only return variant calls which belong to callsets with these ids.
+    Only return variant calls which belong to call sets with these ids.
     Leaving this blank returns all variant calls.
   */
-  array<string> callsetIds = [];
+  array<string> callSetIds = [];
 
   /** Required. Only return variants on this reference sequence. */
   string referenceSequenceName;
@@ -48,8 +48,8 @@ record SearchVariantsRequest {
 record SearchVariantsResponse {
   /**
     The list of matching Variants.
-    If the `callsetId` field on the returned calls is not present, 
-    the ordering of the callsets from a `SearchCallsetsRequest`
+    If the `callSetId` field on the returned calls is not present, 
+    the ordering of the call sets from a `SearchCallSetsRequest`
     over the parent `GAVariantSet` is guaranteed to match the ordering 
     of the calls on each `GAVariant`. The number of results will also be the same.
   */
@@ -74,14 +74,14 @@ SearchVariantsResponse searchVariants(SearchVariantsRequest request) throws GAEx
 
 /******************  /callsets/search  *********************/
 /** This request maps to the body of POST /callsets/search. */
-record SearchCallsetsRequest {
+record SearchCallSetsRequest {
   /** 
-    If specified, will restrict the query to callsets within the
+    If specified, will restrict the query to call sets within the
     given variant sets.
   */
   array<string> variantSetIds = [];
 
-  /** Only return callsets for which a substring of the name matches this string. */
+  /** Only return call sets for which a substring of the name matches this string. */
   union { null, string } name = null;
 
   /** 
@@ -93,9 +93,9 @@ record SearchCallsetsRequest {
 }
 
 /** This is the response from POST /callsets/search. */
-record SearchCallsetsResponse {
-  /** The list of matching callsets. */
-  array<GACallsets> callsets = [];
+record SearchCallSetsResponse {
+  /** The list of matching call ets. */
+  array<GACallSets> callSets = [];
 
   /** 
     The continuation token, which is used to page through large result sets.
@@ -106,11 +106,11 @@ record SearchCallsetsResponse {
 }
 
 /**
-  Gets a list of `GACallsets` matching the search criteria.
+  Gets a list of `GACallSets` matching the search criteria.
   
-  POST /callsets/search takes a `SearchCallsetsRequest` as its body and 
-  returns a `SearchCallsetsResponse`. 
+  POST /callsets/search takes a `SearchCallSetsRequest` as its body and 
+  returns a `SearchCallSetsResponse`. 
 */
-SearchCallsetsResponse searchCallsets(SearchCallsetsRequest request) throws GAException;
+SearchCallSetsResponse searchCallSets(SearchCallSetsRequest request) throws GAException;
 
 }
