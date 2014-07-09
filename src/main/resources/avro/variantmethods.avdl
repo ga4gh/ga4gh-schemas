@@ -95,7 +95,7 @@ record SearchCallSetsRequest {
 /** This is the response from POST /callsets/search. */
 record SearchCallSetsResponse {
   /** The list of matching call ets. */
-  array<GACallSets> callSets = [];
+  array<GACallSet> callSets = [];
 
   /** 
     The continuation token, which is used to page through large result sets.
