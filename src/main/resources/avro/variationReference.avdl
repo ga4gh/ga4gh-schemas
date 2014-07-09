@@ -89,16 +89,6 @@ record GAVariant {
    callSets, which we hope can be lightweight, each piece of partial
    phasing (as for example supported by phase sets in VCF) will be a
    separate haplotype CallSet on the same sample.
-
-   Third, note that the call values in a callset are not explicitly
-   ordered and oriented.  This reflects typically the data we have
-   about them.  In many cases we can infer order and orientation from
-   the reference graph on which the alleles are defined, for example
-   for a sequence of simple variants (SNPs, indels etc) along a
-   reference.  But in the general case with multiple copies of alleles
-   and rearrangements this is not the case.  For when we do want to
-   explicitly state the order and orientation of alleles we define a
-   VariantScaffold record.
 */
 
 /* A Segment is a basic piece of sequence from the graph out of which
@@ -154,11 +144,16 @@ record GACall {
   array<GAKeyValue> evidence = [] ; // potential other evidence for the call
 }
 
-/* Represents a gap between two consecutive alleles in a scaffold. 
- */
-record GAScaffoldGap {
-   union { null, int } gapSize = 0 ; // null means unknown, 0 means they abut.  
-}
+/* The call values in a callset are not explicitly
+   ordered and oriented.  This reflects typically the data we have
+   about them.  In many cases we can infer order and orientation from
+   the reference graph on which the alleles are defined, for example
+   for a sequence of simple variants (SNPs, indels etc) along a
+   reference.  But in the general case with multiple copies of alleles
+   and rearrangements this is not the case.  For when we do want to
+   explicitly state the order and orientation of alleles we define a
+   VariantScaffold record.
+*/
 
 record GAVariantScaffold {
   string id ;
