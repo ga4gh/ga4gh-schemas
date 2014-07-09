@@ -205,6 +205,9 @@ record GALinearAlignment {
  about the fragment and the read. A read alignment object is equivalent to a
  line in a SAM file. */
 record GAReadAlignment {
+    /** The read alignment ID. */
+    string id;
+
   
     /** The ID of the read group this read belongs to. (Every read must belong to exactly one read group.) */
     string readGroupId;
