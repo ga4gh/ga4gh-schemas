@@ -1,11 +1,11 @@
 @namespace("org.ga4gh")
-protocol GAReadMethods {
+protocol ReadMethods {
 
 import idl "reads.avdl";
 
 /******************  /reads/search  *********************/
 /** This request maps to the body of POST /reads/search. */
-record GASearchReadsRequest {
+record SearchReadsRequest {
   /** If specified, restrict this query to reads within the given readgroups. */
   union { null, array<string> } readGroupIds = null;
 
@@ -51,11 +51,11 @@ record GASearchReadsRequest {
 }
 
 /** This is the response from POST /reads/search. */
-record GASearchReadsResponse {
+record SearchReadsResponse {
   /** The list of matching alignment records, sorted by position.
       Unmapped reads, which have no position, are returned last.
    */
-  array<GAReadAlignment> alignments = [];
+  array<ReadAlignment> alignments = [];
 
   /** The continuation token, which is used to page through large result sets.
       Provide this value in a subsequent request to return the next page of results.
@@ -65,16 +65,16 @@ record GASearchReadsResponse {
 }
 
 /**
-  Gets a list of `GAReadAlignments` matching the search criteria.
+  Gets a list of `ReadAlignments` matching the search criteria.
   
-  POST /reads/search takes a `GASearchReadsRequest` as its body and 
-  returns a `GASearchReadsResponse`. 
+  POST /reads/search takes a `SearchReadsRequest` as its body and 
+  returns a `SearchReadsResponse`. 
 */
-GASearchReadsResponse searchReads(GASearchReadsRequest request) throws GAException;
+SearchReadsResponse searchReads(SearchReadsRequest request) throws GAException;
 
 /******************  /readgroupsets/search  *********************/
 /** This request maps to the body of POST /readgroupsets/search. */
-record GASearchReadGroupSetsRequest {
+record SearchReadGroupSetsRequest {
   /** The list of datasets to search. */
   array<string> datasetIds = [];
 
@@ -89,9 +89,9 @@ record GASearchReadGroupSetsRequest {
 }
 
 /** This is the response from POST /readgroupsets/search */
-record GASearchReadGroupSetsResponse {
+record SearchReadGroupSetsResponse {
   /** The list of matching read group sets. */
-  array<GAReadGroupSet> readGroupSets = [];
+  array<ReadGroupSet> readGroupSets = [];
 
   /** The continuation token, which is used to page through large result sets.
       Provide this value in a subsequent request to return the next page of results.
@@ -101,16 +101,16 @@ record GASearchReadGroupSetsResponse {
 }
 
 /** 
-  Gets a list of `GAReadGroupSets` matching the search criteria.
+  Gets a list of `ReadGroupSets` matching the search criteria.
   
-  POST /readgroupsets/search takes a `GASearchReadGroupSetsRequest` as its 
-  body and returns a `GASearchReadGroupSetsResponse`. 
+  POST /readgroupsets/search takes a `SearchReadGroupSetsRequest` as its 
+  body and returns a `SearchReadGroupSetsResponse`. 
 */
-GASearchReadGroupSetsResponse searchReadGroupSets(GASearchReadGroupSetsRequest request) throws GAException;
+SearchReadGroupSetsResponse searchReadGroupSets(SearchReadGroupSetsRequest request) throws GAException;
 
 /****************  /referenceSequenceSets/search  *******************/
 /** This request maps to the body of POST /referenceSequenceSets/search. */
-record GASearchReferenceSequenceSetsRequest {
+record SearchReferenceSequenceSetsRequest {
   /** If present return the record for this id.  This is the normal use of this method. */
   union { null, string } id = null;
   
@@ -137,9 +137,9 @@ record GASearchReferenceSequenceSetsRequest {
 }
 
 /** This is the response from POST /referenceSequenceSets/search. */
-record GASearchReferenceSequenceSetsResponse {
+record SearchReferenceSequenceSetsResponse {
   /** The list of matching referenceSequenceSets. */
-  array<GAReferenceSequenceSet> referenceSequenceSets = [];
+  array<ReferenceSequenceSet> referenceSequenceSets = [];
 
   /**
     The continuation token, which is used to page through large result sets.
@@ -150,16 +150,16 @@ record GASearchReferenceSequenceSetsResponse {
 }
 
 /**
-  Gets a list of `GAReadReferenceSequenceSets` matching the search criteria.
+  Gets a list of `ReadReferenceSequenceSets` matching the search criteria.
   
-  POST /referenceSequenceSets/search takes a `GASearchReferenceSequenceSetsRequest` as its body and 
-  returns a `GASearchReferenceSequenceSetsResponse`. 
+  POST /referenceSequenceSets/search takes a `SearchReferenceSequenceSetsRequest` as its body and 
+  returns a `SearchReferenceSequenceSetsResponse`. 
 */
-GASearchReferenceSequenceSetsResponse searchReferenceSequenceSets(GASearchReferenceSequenceSetsRequest request) throws GAException;
+SearchReferenceSequenceSetsResponse searchReferenceSequenceSets(SearchReferenceSequenceSetsRequest request) throws GAException;
 
 /****************  /referenceSequences/search  *******************/
 /** This request maps to the body of POST /referenceSequences/search. */
-record GASearchReferenceSequencesRequest {
+record SearchReferenceSequencesRequest {
   /** If present return the records for these ids.  This is the normal use of this method. */
   union { null, array<string> } ids = null;
 
@@ -183,9 +183,9 @@ record GASearchReferenceSequencesRequest {
 }
 
 /** This is the response from POST /referenceSequences/search. */
-record GASearchReferenceSequencesResponse {
+record SearchReferenceSequencesResponse {
   /** The list of matching referenceSequences. */
-  array<GAReferenceSequence> referenceSequences = [];
+  array<ReferenceSequence> referenceSequences = [];
 
   /**
     The continuation token, which is used to page through large result sets.
@@ -196,10 +196,10 @@ record GASearchReferenceSequencesResponse {
 }
 
 /**
-  Gets a list of `GAReadReferenceSequences` matching the search criteria.
+  Gets a list of `ReadReferenceSequences` matching the search criteria.
   
-  POST /referenceSequences/search takes a `GASearchReferenceSequencesRequest` as its body and 
-  returns a `GASearchReferenceSequencesResponse`. 
+  POST /referenceSequences/search takes a `SearchReferenceSequencesRequest` as its body and 
+  returns a `SearchReferenceSequencesResponse`. 
 */
-GASearchReferenceSequencesResponse searchReferenceSequences(GASearchReferenceSequencesRequest request) throws GAException;
+SearchReferenceSequencesResponse searchReferenceSequences(SearchReferenceSequencesRequest request) throws GAException;
 }

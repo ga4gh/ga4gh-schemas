@@ -1,5 +1,5 @@
 @namespace("org.ga4gh")
-protocol GAVariantMethods {
+protocol VariantMethods {
 
 import idl "variants.avdl";
 
@@ -38,7 +38,7 @@ record SearchVariantsRequest {
 // This is the response from POST /variants/search
 record SearchVariantsResponse {
   // The list of matching Variants.
-  array<GAVariant> variants = [];
+  array<Variant> variants = [];
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
@@ -64,7 +64,7 @@ record SearchCallSamplesRequest {
 // This is the response from POST /callsamples/search
 record SearchCallSamplesResponse {
   // The list of matching callsamples.
-  array<GACallSample> callSamples = [];
+  array<CallSample> callSamples = [];
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of

@@ -1,5 +1,5 @@
 @namespace("org.ga4gh")
-protocol GAReferenceStructureTypes {
+protocol ReferenceStructureTypes {
     // This schema describes a reference structure of the type described in:
     // http://arxiv.org/abs/1404.5010
     
@@ -55,38 +55,38 @@ protocol GAReferenceStructureTypes {
     
     // Keeps track of whether we are talking about the left (5') or right
     // (3') side of a Position.
-    enum GAFace {
+    enum Face {
         LEFT,
         RIGHT
     }
     
     // Identifies a side of a unique Position. Serves as a vertex in the
     // reference graph.
-    record GASide {
+    record Side {
         // The ID of the position we are talking about
         long coordinate;
         
         // The face of that position we are talking about (left or right).
-        GAFace face; 
+        Face face; 
     }
     
     // Represents an edge in the reference graph. Can be part of a block or
     // adjacency.
-    record GAEdge {
+    record Edge {
         // The 5' Side of the Edge.
-        GASide left;
+        Side left;
 
         // The 3' Side of the Edge.
-        GASide right;
+        Side right;
     }
     
     // Represents several Positions with sequential IDs, connected only to
     // each other.
-    record GABlock {
+    record Block {
         // The Edge in the graph that represents this Block. This edge must
         // connect two Sides with opposite Faces, and the coordinate of the left
         // Side must be smaller than that of the right Side.
-        GAEdge edge;
+        Edge edge;
         
         // The bases that this Block represents. There must be exactly as many
         // characters in this string as there are consecutive integers between
@@ -95,20 +95,20 @@ protocol GAReferenceStructureTypes {
     }
     
     // Represents an Adjacency between two sides of two Blocks.
-    record GAAdjacency {
+    record Adjacency {
         // The Edge in the graph that represents this Adjacency. This Edge must
         // connect two Sides which are themselves endpoints of Blocks.
-        GAEdge edge;
+        Edge edge;
     }
     
-    // The following portion of the schema describes a CIGAR alignment structure to 
+    // The following portion of the schema describes a CIR alignment structure to 
     // represent alignments between sequence graphs, and 
     // between linear strings and sequence graphs.
     
     // Wrapping object that gives a block a direction of traversal.
-    record GADirectedBlock {
+    record DirectedBlock {
         // Unoriented block
-        GABlock block;
+        Block block;
         
         // The orientation of the edge. 
         // If True the edge is oriented from the left-to-right sides (i.e. the left side of first position to the 
@@ -117,9 +117,9 @@ protocol GAReferenceStructureTypes {
     }
     
     // Defines a path within a sequence graph that represents a sequence.
-    record GAThread {
+    record Thread {
         // A sequence of directed blocks. 
-        array <GADirectedBlock> path = [];
+        array <DirectedBlock> path = [];
         
         // The zero-based offset of the first position in the first directed block edge of the thread.
         // For example, if startOffset = 0 the first and subsequent positions are included in the thread.
@@ -138,25 +138,25 @@ protocol GAReferenceStructureTypes {
         //the thread sequence with the same offsets is AG.
     }
 
-    // CIGAR style alignment between two threads.
-    record GAGraphToGraphAlignment {
+    // CIR style alignment between two threads.
+    record GraphToGraphAlignment {
         // The aligned thread from the first sequence graph.
-        GAThread thread1;
+        Thread thread1;
         
         // The aligned thread from the second sequence graph.
-        GAThread thread2;
+        Thread thread2;
         
         // The cigar string aligning the first thread to the second thread.
-        array<GACigarUnit> cigar = []; 
+        array<CigarUnit> cigar = []; 
     }
     
     // A linear alignment between an input string and a sequence graph,
-    // represented by a CIGAR string and a thread in the graph.
-    record GAStringToGraphAlignment { 
+    // represented by a CIR string and a thread in the graph.
+    record StringToGraphAlignment { 
         // The aligned thread from the sequence graph.
-        GAThread thread1;
+        Thread thread1;
         
         // The cigar string aligning the string to the given thread.
-        array<GACigarUnit> cigar = []; 
+        array<CigarUnit> cigar = []; 
     }
 }

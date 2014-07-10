@@ -3,7 +3,7 @@
   This protocol defines common types used in the other GA4GH protocols. It does
   not have any methods; it is merely a library of types.
 */
-protocol GACommon {
+protocol Common {
 
   /**
     A general exception type.
@@ -19,7 +19,7 @@ protocol GACommon {
     A structure for encoding arbitrary Key-Value tuples, or tags, on other
     record types.
   */
-  record GAKeyValue {
+  record KeyValue {
     /** The key for which a value is being defined. */
     string key;
     /** The value of the key. */
@@ -34,7 +34,7 @@ protocol GACommon {
     
     TODO: Add support here for universally unique base IDs.
   */
-  record GAPosition {
+  record Position {
     /**
       The name of the reference sequence (or, more technically, the scaffold) in whatever
       reference is being used. Does not generally include a "chr" prefix, so for
@@ -59,7 +59,7 @@ protocol GACommon {
     An enum for the different types of CIGAR alignment operations that exist.
     Used wherever CIGAR alignments are used.
   */
-  enum GACigarOperation {
+  enum CigarOperation {
     ALIGNMENT_MATCH,   // M
     INSERT,            // I
     DELETE,            // D
@@ -74,9 +74,9 @@ protocol GACommon {
   /**
     A structure for an instance of a CIGAR operation.
   */
-  record GACigarUnit {
+  record CigarUnit {
     /** The operation type */
-    GACigarOperation operation;
+    CigarOperation operation;
     /** The number of bases that the operation runs for */
     long operationLength;
 

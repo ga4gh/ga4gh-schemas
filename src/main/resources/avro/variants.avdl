@@ -1,12 +1,12 @@
 @namespace("org.ga4gh")
-protocol GAVariants {
+protocol Variants {
 
 import idl "common.avdl";
 
 // Variants and CallSamples both belong to a VariantSet.
 // VariantSets belong to a Dataset.
 // The VariantSet is equivalent to a VCF file.
-record GAVariantSet {
+record VariantSet {
   // The variant set ID.
   string id;
   
@@ -28,7 +28,7 @@ record GAVariantSet {
 
 // A CallSample is a collection of Variant Calls for a particular sample. 
 // It belongs to a VariantSet. This is equivalent to one column in VCF.
-record GACallSample {
+record CallSample {
 
   // The callsample ID.
   string id;
@@ -36,7 +36,7 @@ record GACallSample {
   // The callsample name.
   union { null, string } name = null;
   
-  // TODO: Add Sample ID once there is a GASample object (or equivalent)
+  // TODO: Add Sample ID once there is a Sample object (or equivalent)
 
   // The IDs of the variant sets this callsample has calls in.
   array<string> variantSetIds = [];
@@ -45,15 +45,15 @@ record GACallSample {
   union { null, long } created = null;
 
   // A map of additional callsample information.
-  array<GAKeyValue> info = [];
+  array<KeyValue> info = [];
 }
 
 // A Call represents the determination of genotype with respect to a particular
 // variant. It may include associated information such as quality and phasing.
 // For example, a Call might assign a probability of 0.32 to the occurrence of
 // a SNP named rs1234 in a callsample with the name NA12345.
-// TODO: Nest this object under GAVariant
-record GACall {
+// TODO: Nest this object under Variant
+record Call {
 
   // The ID of the callsample this variant call belongs to.
   // TODO: This field is under ongoing discussion and needs to be resolved
@@ -85,14 +85,14 @@ record GACall {
   array<double> genotypeLikelihood = [];
 
   // A map of additional variant call information.
-  array<GAKeyValue> info = [];
+  array<KeyValue> info = [];
 }
 
 // A Variant represents a change in DNA sequence relative to some reference.
 // For example, a Variant could represent a SNP or an insertion.
 // Variants belong to a VariantSet. 
 // This is equivalent to a row in VCF.
-record GAVariant {
+record Variant {
 
   // The variant ID.
   string id;
@@ -121,11 +121,11 @@ record GAVariant {
   array<string> alternateBases = [];
 
   // A map of additional variant information.
-  array<GAKeyValue> info = [];
+  array<KeyValue> info = [];
 
   // The variant calls for this particular variant. Each one represents the
   // determination of genotype with respect to this variant.
-  array<GACall> calls = [];
+  array<Call> calls = [];
 }
 
 }
