@@ -114,6 +114,7 @@ record GAVariant {
   long start;
 
   // The end position (exclusive), resulting in [start, end) closed-open interval.
+  // This is typically calculated by start + referenceBases.length.
   long end;
 
   // The reference bases for this variant. They start at the given
