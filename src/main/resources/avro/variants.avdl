@@ -107,9 +107,13 @@ record GAVariant {
   // The reference sequence on which this variant occurs. (e.g. 'chr20' or 'X')
   string referenceSequenceName;
 
-  // The position at which this variant occurs (0-based).
+  // The start position at which this variant occurs (0-based).
   // This corresponds to the first base of the string of reference bases.
-  long position;
+  long start;
+
+  // The end position (exclusive), resulting in [start, end) closed-open interval.
+  // This is typically calculated by start + referenceBases.length.
+  long end;
 
   // The reference bases for this variant. They start at the given
   // position.
