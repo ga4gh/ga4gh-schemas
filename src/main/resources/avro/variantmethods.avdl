@@ -94,7 +94,7 @@ record SearchCallSetsRequest {
 
 /** This is the response from POST /callsets/search. */
 record SearchCallSetsResponse {
-  /** The list of matching call ets. */
+  /** The list of matching call sets. */
   array<GACallSet> callSets = [];
 
   /** 
