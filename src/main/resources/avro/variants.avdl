@@ -14,16 +14,6 @@ record GAVariantSet {
   string datasetId;
   
   // TODO: Add reference sequence ID information once resolved.
-  
-  // IDs of the call sets that belong to this variant set.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
-  array<string> callSetIds = [];
-  
-  // Names of the call sets that belong to this variant set.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
-  array<string> callSetNames = [];
 }
 
 // A CallSet is a collection of Variant Calls for a particular sample. 
@@ -55,14 +45,22 @@ record GACallSet {
 // TODO: Nest this object under GAVariant
 record GACall {
 
-  // The ID of the call set this variant call belongs to.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
-  string callSetId;
+  /**
+    The ID of the call set this variant call belongs to.
+    If this field is not present, the ordering of the call sets from a 
+    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match 
+    the ordering of the calls on this `GAVariant`. 
+    The number of results will also be the same.
+  */
+  union { null, string } callSetId;
 
-  // The name of the call set this variant call belongs to.
-  // TODO: This field is under ongoing discussion and needs to be resolved
-  // before this API is final.
+  /**
+    The name of the call set this variant call belongs to.
+    If this field is not present, the ordering of the call sets from a 
+    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match 
+    the ordering of the calls on this `GAVariant`.
+    The number of results will also be the same.
+  */
   union { null, string } callSetName = null;
 
   // The genotype of this variant call. Each value represents either the value
