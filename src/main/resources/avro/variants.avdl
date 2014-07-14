@@ -3,7 +3,7 @@ protocol GAVariants {
 
 import idl "common.avdl";
 
-// Variants and CallSamples both belong to a VariantSet.
+// Variants and CallSets both belong to a VariantSet.
 // VariantSets belong to a Dataset.
 // The VariantSet is equivalent to a VCF file.
 record GAVariantSet {
@@ -16,52 +16,52 @@ record GAVariantSet {
   // TODO: Add reference sequence ID information once resolved.
 }
 
-// A CallSample is a collection of Variant Calls for a particular sample. 
+// A CallSet is a collection of Variant Calls for a particular sample. 
 // It belongs to a VariantSet. This is equivalent to one column in VCF.
-record GACallSample {
+record GACallSet {
 
-  // The callsample ID.
+  // The call set ID.
   string id;
 
-  // The callsample name.
+  // The call set name.
   union { null, string } name = null;
   
   // TODO: Add Sample ID once there is a GASample object (or equivalent)
 
-  // The IDs of the variant sets this callsample has calls in.
+  // The IDs of the variant sets this call set has calls in.
   array<string> variantSetIds = [];
 
-  // The date this callsample was created in milliseconds from the epoch.
+  // The date this call set was created in milliseconds from the epoch.
   union { null, long } created = null;
 
-  // A map of additional callsample information.
+  // A map of additional call set information.
   array<GAKeyValue> info = [];
 }
 
 // A Call represents the determination of genotype with respect to a particular
 // variant. It may include associated information such as quality and phasing.
 // For example, a Call might assign a probability of 0.32 to the occurrence of
-// a SNP named rs1234 in a callsample with the name NA12345.
+// a SNP named rs1234 in a CallSet with the name NA12345.
 // TODO: Nest this object under GAVariant
 record GACall {
 
   /**
-    The ID of the callsample this variant call belongs to.
-    If this field is not present, the ordering of the samples from a 
-    `SearchCallSamplesRequest` over this `GAVariantSet` is guaranteed to match 
+    The ID of the call set this variant call belongs to.
+    If this field is not present, the ordering of the call sets from a 
+    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match 
     the ordering of the calls on this `GAVariant`. 
     The number of results will also be the same.
   */
-  union { null, string } callSampleId;
+  union { null, string } callSetId;
 
   /**
-    The name of the callsample this variant call belongs to.
-    If this field is not present, the ordering of the samples from a 
-    `SearchCallSamplesRequest` over this `GAVariantSet` is guaranteed to match 
+    The name of the call set this variant call belongs to.
+    If this field is not present, the ordering of the call sets from a 
+    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match 
     the ordering of the calls on this `GAVariant`.
     The number of results will also be the same.
   */
-  union { null, string } callSampleName = null;
+  union { null, string } callSetName = null;
 
   // The genotype of this variant call. Each value represents either the value
   // of the referenceBases field or is a 1-based index into alternateBases.

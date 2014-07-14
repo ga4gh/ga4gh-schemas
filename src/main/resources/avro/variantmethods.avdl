@@ -13,10 +13,10 @@ record SearchVariantsRequest {
   union { null, string } variantName = null;
 
   /** 
-    Only return variant calls which belong to callsamples with these ids.
+    Only return variant calls which belong to call sets with these ids.
     Leaving this blank returns all variant calls.
   */
-  array<string> callSampleIds = [];
+  array<string> callSetIds = [];
 
   /** Required. Only return variants on this reference sequence. */
   string referenceSequenceName;
@@ -48,8 +48,8 @@ record SearchVariantsRequest {
 record SearchVariantsResponse {
   /**
     The list of matching Variants.
-    If the `callSampleId` field on the returned calls is not present, 
-    the ordering of the samples from a `SearchCallSamplesRequest`
+    If the `callSetId` field on the returned calls is not present, 
+    the ordering of the call sets from a `SearchCallSetsRequest`
     over the parent `GAVariantSet` is guaranteed to match the ordering 
     of the calls on each `GAVariant`. The number of results will also be the same.
   */
@@ -72,16 +72,16 @@ record SearchVariantsResponse {
 SearchVariantsResponse searchVariants(SearchVariantsRequest request) throws GAException;
 
 
-/******************  /callsamples/search  *********************/
-/** This request maps to the body of POST /callsamples/search. */
-record SearchCallSamplesRequest {
+/******************  /callsets/search  *********************/
+/** This request maps to the body of POST /callsets/search. */
+record SearchCallSetsRequest {
   /** 
-    If specified, will restrict the query to callsamples within the
+    If specified, will restrict the query to call sets within the
     given variant sets.
   */
   array<string> variantSetIds = [];
 
-  /** Only return callsamples for which a substring of the name matches this string. */
+  /** Only return call sets for which a substring of the name matches this string. */
   union { null, string } name = null;
 
   /** 
@@ -92,10 +92,10 @@ record SearchCallSamplesRequest {
   union { null, string } pageToken = null;
 }
 
-/** This is the response from POST /callsamples/search. */
-record SearchCallSamplesResponse {
-  /** The list of matching call samples. */
-  array<GACallSample> callSamples = [];
+/** This is the response from POST /callsets/search. */
+record SearchCallSetsResponse {
+  /** The list of matching call sets. */
+  array<GACallSet> callSets = [];
 
   /** 
     The continuation token, which is used to page through large result sets.
@@ -106,11 +106,11 @@ record SearchCallSamplesResponse {
 }
 
 /**
-  Gets a list of `GACallSamples` matching the search criteria.
+  Gets a list of `GACallSets` matching the search criteria.
   
-  POST /callsamples/search takes a `SearchCallSamplesRequest` as its body and 
-  returns a `SearchCallSamplesResponse`. 
+  POST /callsets/search takes a `SearchCallSetsRequest` as its body and 
+  returns a `SearchCallSetsResponse`. 
 */
-SearchCallSamplesResponse searchCallSamples(SearchCallSamplesRequest request) throws GAException;
+SearchCallSetsResponse searchCallSets(SearchCallSetsRequest request) throws GAException;
 
 }
