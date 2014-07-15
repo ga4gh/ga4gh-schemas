@@ -4,26 +4,26 @@ protocol GAVariantMethods {
 import idl "variants.avdl";
 
 /******************  /variants/search  *********************/
-/** This request maps to the body of POST /variants/search. */
+/** This request maps to the body of `POST /variants/search` as JSON. */
 record SearchVariantsRequest {
   /** Required. The IDs of the variant sets to search over. */
-  array<string> variantSetIds;
+  array<string> variantSetIds = [];
 
   /** Only return variants which have exactly this name. */
   union { null, string } variantName = null;
 
   /** 
-    Only return variant calls which belong to callsamples with these ids.
+    Only return variant calls which belong to call sets with these IDs.
     Leaving this blank returns all variant calls.
   */
-  array<string> callSampleIds = [];
+  array<string> callSetIds = [];
 
   /** Required. Only return variants on this reference sequence. */
   string referenceSequenceName;
 
   /** 
-    Required. The beginning of the window (0-based, inclusive) for which overlapping
-    variants should be returned.
+    Required. The beginning of the window (0-based, inclusive) for
+    which overlapping variants should be returned.
   */
   long startPosition;
 
@@ -41,17 +41,18 @@ record SearchVariantsRequest {
   union { null, string } pageToken = null;
 
   /** The maximum number of variants to return. */
-  union { null, long } maxResults = 10;
+  long maxResults = 10;
 }
 
-/** This is the response from POST /variants/search. */
+/** This is the response from `POST /variants/search` expressed as JSON. */
 record SearchVariantsResponse {
   /**
-    The list of matching Variants.
-    If the `callSampleId` field on the returned calls is not present, 
-    the ordering of the samples from a `SearchCallSamplesRequest`
+    The list of matching variants.
+    If the `callSetId` field on the returned calls is not present, 
+    the ordering of the call sets from a `SearchCallSetsRequest`
     over the parent `GAVariantSet` is guaranteed to match the ordering 
-    of the calls on each `GAVariant`. The number of results will also be the same.
+    of the calls on each `GAVariant`. The number of results will also be
+    the same.
   */
   array<GAVariant> variants = [];
 
@@ -64,24 +65,29 @@ record SearchVariantsResponse {
 }
 
 /**
-  Gets a list of `GAVariants` matching the search criteria.
-  
-  POST /variants/search takes a `SearchVariantsRequest` as its body and 
-  returns a `SearchVariantsResponse`. 
+  Gets a list of `GAVariant` matching the search criteria.
+
+  `POST /variants/search` must accept a JSON version of `SearchVariantsRequest`
+  as the post body and will return a JSON version of `SearchVariantsResponse`.
 */
-SearchVariantsResponse searchVariants(SearchVariantsRequest request) throws GAException;
+SearchVariantsResponse searchVariants(
+    /** This request maps to the body of `POST /variants/search` as JSON. */
+    SearchVariantsRequest request) throws GAException;
 
 
-/******************  /callsamples/search  *********************/
-/** This request maps to the body of POST /callsamples/search. */
-record SearchCallSamplesRequest {
+/******************  /callsets/search  *********************/
+/** This request maps to the body of `POST /callsets/search` as JSON. */
+record SearchCallSetsRequest {
   /** 
-    If specified, will restrict the query to callsamples within the
+    If specified, will restrict the query to call sets within the
     given variant sets.
   */
   array<string> variantSetIds = [];
 
-  /** Only return callsamples for which a substring of the name matches this string. */
+  /**
+    Only return call sets for which a substring of the name matches this
+    string.
+  */
   union { null, string } name = null;
 
   /** 
@@ -92,10 +98,10 @@ record SearchCallSamplesRequest {
   union { null, string } pageToken = null;
 }
 
-/** This is the response from POST /callsamples/search. */
-record SearchCallSamplesResponse {
-  /** The list of matching call samples. */
-  array<GACallSample> callSamples = [];
+/** This is the response from `POST /callsets/search` expressed as JSON. */
+record SearchCallSetsResponse {
+  /** The list of matching call sets. */
+  array<GACallSet> callSets = [];
 
   /** 
     The continuation token, which is used to page through large result sets.
@@ -106,11 +112,13 @@ record SearchCallSamplesResponse {
 }
 
 /**
-  Gets a list of `GACallSamples` matching the search criteria.
-  
-  POST /callsamples/search takes a `SearchCallSamplesRequest` as its body and 
-  returns a `SearchCallSamplesResponse`. 
+  Gets a list of `GACallSet` matching the search criteria.
+
+  `POST /callsets/search` must accept a JSON version of `SearchCallSetsRequest`
+  as the post body and will return a JSON version of `SearchCallSetsResponse`.
 */
-SearchCallSamplesResponse searchCallSamples(SearchCallSamplesRequest request) throws GAException;
+SearchCallSetsResponse searchCallSets(
+    /** This request maps to the body of `POST /callsets/search` as JSON. */
+    SearchCallSetsRequest request) throws GAException;
 
 }
