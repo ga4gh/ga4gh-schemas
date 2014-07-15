@@ -120,5 +120,4 @@ record SearchCallSetsResponse {
 SearchCallSetsResponse searchCallSets(
     /** This request maps to the body of `POST /callsets/search` as JSON. */
     SearchCallSetsRequest request) throws GAException;
-
 }
