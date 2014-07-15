@@ -40,7 +40,11 @@ record SearchVariantsRequest {
   */
   union { null, string } pageToken = null;
 
-  /** The maximum number of variants to return. */
+  /** 
+    The maximum number of variants to return in each response.
+    If more variants match this request, the `pageToken` can be used to 
+    fetch the next page of responses.
+   */
   long maxResults = 10;
 }
 

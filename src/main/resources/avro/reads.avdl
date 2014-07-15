@@ -74,8 +74,8 @@ record GAReferenceSequence {
   boolean isDerived = false;
 
   /**
-    The `sourceDivergence` is the fraction of bases that are different
-    when aligned without indels.
+    The `sourceDivergence` is the fraction of bases that do not match the 
+    reference this record was derived from when aligned without indels.
   */
   union { null, float } sourceDivergence = null;
 
@@ -252,7 +252,10 @@ record GALinearAlignment {
     /** The mapping quality of this alignment */
     union { null, int } mappingQuality = null;
 
-    /** Represents how well this alignment maps to the reference. */
+    /**
+      Represents the local alignment (alignment matches, indels, etc) 
+      versus the reference. 
+    */
     array<GACigarUnit> cigar = [];
 }
 
@@ -325,15 +328,15 @@ record GAReadAlignment {
     union { null, boolean } supplementaryAlignment = false;
 
     /**
-      The portion of the read sequence in this alignment. In a
-      supplementary or secondary alignment, alignedSequence and alignedQuality
+      The bases of the read sequence contained in this alignment record. In a
+      supplementary or secondary alignment, `alignedSequence` and `alignedQuality`
       may be shorter than the read sequence and quality, or even absent.
     */
     union { null, string } alignedSequence = null;
 
     /**
-      The portion of the quality in this alignment. In a
-      supplementary or secondary alignment, alignedSequence and alignedQuality
+      The quality of the read sequence contained in this alignment record. In a
+      supplementary or secondary alignment, `alignedSequence` and `alignedQuality`
       may be shorter than the read sequence and quality, or even absent.
     */
     array<int> alignedQuality = [];

@@ -37,7 +37,7 @@ record GASearchReadsRequest {
     The start position (0-based) of this query.
     If a reference sequence is specified, this defaults to 0.
    */
-  union { null, long } startPosition = null;
+  union { null, long } startPosition = 0;
 
   /**
     The end position (0-based, exclusive) of this query.
