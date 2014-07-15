@@ -5,7 +5,7 @@ import idl "variants.avdl";
 
 /******************  /variants/search  *********************/
 /** This request maps to the body of POST /variants/search. */
-record SearchVariantsRequest {
+record GASearchVariantsRequest {
   /** Required. The IDs of the variant sets to search over. */
   array<string> variantSetIds;
 
@@ -45,7 +45,7 @@ record SearchVariantsRequest {
 }
 
 /** This is the response from POST /variants/search. */
-record SearchVariantsResponse {
+record GASearchVariantsResponse {
   /**
     The list of matching Variants.
     If the `callSetId` field on the returned calls is not present, 
@@ -66,15 +66,15 @@ record SearchVariantsResponse {
 /**
   Gets a list of `GAVariants` matching the search criteria.
   
-  POST /variants/search takes a `SearchVariantsRequest` as its body and 
-  returns a `SearchVariantsResponse`. 
+  POST /variants/search takes a `GASearchVariantsRequest` as its body and 
+  returns a `GASearchVariantsResponse`. 
 */
-SearchVariantsResponse searchVariants(SearchVariantsRequest request) throws GAException;
+GASearchVariantsResponse searchVariants(GASearchVariantsRequest request) throws GAException;
 
 
 /******************  /callsets/search  *********************/
 /** This request maps to the body of POST /callsets/search. */
-record SearchCallSetsRequest {
+record GASearchCallSetsRequest {
   /** 
     If specified, will restrict the query to call sets within the
     given variant sets.
@@ -93,7 +93,7 @@ record SearchCallSetsRequest {
 }
 
 /** This is the response from POST /callsets/search. */
-record SearchCallSetsResponse {
+record GASearchCallSetsResponse {
   /** The list of matching call sets. */
   array<GACallSet> callSets = [];
 
@@ -108,9 +108,9 @@ record SearchCallSetsResponse {
 /**
   Gets a list of `GACallSets` matching the search criteria.
   
-  POST /callsets/search takes a `SearchCallSetsRequest` as its body and 
-  returns a `SearchCallSetsResponse`. 
+  POST /callsets/search takes a `GASearchCallSetsRequest` as its body and 
+  returns a `GASearchCallSetsResponse`. 
 */
-SearchCallSetsResponse searchCallSets(SearchCallSetsRequest request) throws GAException;
+GASearchCallSetsResponse searchCallSets(GASearchCallSetsRequest request) throws GAException;
 
 }
