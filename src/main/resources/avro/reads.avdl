@@ -175,7 +175,7 @@ record GAReadGroup {
   union {null, string } referenceSequenceSetId = null;
 
   /** Additional information */
-  array<GAKeyValue> tags = [];
+  array<GAKeyValue> info = [];
 }
 
 record GAReadGroupSet {
@@ -264,7 +264,7 @@ record GAReadAlignment {
     union { null, GAPosition } nextMatePosition = null;
 
     /** Additional information */
-    array<GAKeyValue> tags = [];
+    array<GAKeyValue> info = [];
 }
 
 }
