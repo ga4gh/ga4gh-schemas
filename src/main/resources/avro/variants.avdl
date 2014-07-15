@@ -125,10 +125,10 @@ record GAVariant {
   union { null, long } created = null;
 
   /**
-    The reference sequence on which this variant occurs.
+    The reference on which this variant occurs.
     (e.g. `chr20` or `X`)
   */
-  string referenceSequenceName;
+  string referenceName;
 
   /**
     The start position at which this variant occurs (0-based).

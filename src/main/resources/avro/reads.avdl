@@ -28,11 +28,11 @@ protocol GAReads {
 
 import idl "common.avdl";
 
-record GAReferenceSequence {
-  /** The reference sequence ID. Unique within the repository. */
+record GAReference {
+  /** The reference ID. Unique within the repository. */
   string id;
 
-  /** The bases that make up this reference sequence. */
+  /** The bases that make up this reference. */
   string sequence;
 
   /** The length of this reference sequence. */
@@ -45,21 +45,21 @@ record GAReferenceSequence {
   string md5checksum;
 
   /**
-    The description of this reference sequence. (e.g. '22') Also see the
-    `names` field on the parent `GAReferenceSequenceSet`.
+    The description of this reference. (e.g. '22') Also see the
+    `names` field on the parent `GAReferenceSet`.
   */
   union { null, string } description = null;
   
   /**
     The URI from which the sequence was obtained, if not given in the
-    containing `GAReferenceSequenceSet`.
+    containing `GAReferenceSet`.
     Specifies a FASTA format file/string with one name, sequence pair.
   */
   union { null, string } sourceURI = null;
 
   /** 
     The accession from which the sequence was obtained, if not given in the
-    containing `GAReferenceSequenceSet`.
+    containing `GAReferenceSet`.
     In INSDC (GenBank/ENA/DDBJ) with version number as `GCF_000001405.26`.
   */
   union { null, string } sourceAccession = null;
@@ -82,13 +82,13 @@ record GAReferenceSequence {
   /** 
     ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
     If not present, use the `ncbiTaxonId` from the containing
-    reference sequence set(s).
+    reference set(s).
   */
   union { null, int } ncbiTaxonId = null;
 }
 
-record GAReferenceSequenceSet {
-  /** The reference sequence ID. Unique in the repository. */
+record GAReferenceSet {
+  /** The reference set ID. Unique in the repository. */
   string id;
 
   // Keep names and lengths of sequences here, as in a BAM header.
@@ -113,37 +113,37 @@ record GAReferenceSequenceSet {
 
   /**
     ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) 
-    `ncbiTaxonId` can be overridden for specific contained
-    `GAReferenceSequence` records,
+    `ncbiTaxonId` can be overridden for specific contained 
+    `GAReference` records,
     e.g. for EBV in a human reference genome
   */
   union { null, int } ncbiTaxonId = null;
 
-  /** Optional free text description of this reference sequence set. */
+  /** Optional free text description of this reference set. */
   union { null, string } description = null; 
  
   // next information about the source of the sequences
 
-  /** Public id of this reference sequence set, such as `GRCh37`. */
+  /** Public id of this reference set, such as `GRCh37`. */
   union { null, string } assemblyId = null;
 
   /**
     Specifies a FASTA format file/string.
-    Can be overriden by the `sourceURI` field in a specific `GAReferenceSequence`.
+    Can be overriden by the `sourceURI` field in a specific `GAReference`.
   */
   union { null, string } sourceURI = null;
 
   /**
    In INSDC (GenBank/ENA/DDBJ), ideally with version number.
    Can be overriden by the `sourceAccession` field in a specific
-   `GAReferenceSequence`.
+   `GAReference`.
   */
   union { null, string } sourceAccession = null;
   
   /** 
-    A reference sequence set may be derived from a source if it contains
+    A reference set may be derived from a source if it contains
     additional sequences, or some of the sequences within it are derived
-    (see the definition of `isDerived` in `GAReferenceSequence`).
+    (see the definition of `isDerived` in `GAReference`).
   */
   boolean isDerived = false;
 }
@@ -215,10 +215,10 @@ record GAReadGroup {
   array<GAProgram> programs = [];
 
   /**
-    The reference sequence set the reads in this read group are aligned to.
+    The reference set the reads in this read group are aligned to.
     Required if there are any read alignments.
   */
-  union {null, string } referenceSequenceSetId = null;
+  union {null, string } referenceSetId = null;
 
   /**
     A map of additional read group information. In JSON, this looks like:
@@ -241,7 +241,7 @@ record GAReadGroupSet {
   array<GAReadGroup> readGroups = [];
   
   // NB: we require that all readgroups in the set are mapped to the same
-  // referenceSequenceSet.
+  // referenceSet.
 }
 
 /** A linear alignment can be represented by one CIGAR string. */
