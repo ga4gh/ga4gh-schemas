@@ -249,7 +249,10 @@ record GALinearAlignment {
     /** The position of this alignment. */
     GAPosition position;
 
-    /** The mapping quality of this alignment */
+    /**
+      The mapping quality of this alignment. Represents how likely
+      the read maps to this position as opposed to other locations.
+    */
     union { null, int } mappingQuality = null;
 
     /**
