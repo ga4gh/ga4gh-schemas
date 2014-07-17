@@ -1,30 +1,32 @@
 @namespace("org.ga4gh")
-protocol GAReads {
 
-/*
- * This file defines the objects used to represent a hierarchy of reads and alignments:
- *    GAReadGroupSet >--< GAReadGroup --< fragment --< read --< alignment --< linear alignment
- *
+/**
+ This file defines the objects used to represent a hierarchy of reads and alignments:
+    GAReadGroupSet >--< GAReadGroup --< fragment --< read --< alignment --< linear alignment
+ 
  * A GAReadGroupSet is a logical collection of GAReadGroup's.
  * A GAReadGroup is all the data that’s processed the same way by the sequencer.
- *    There are typically 1-10 GAReadGroup's in a GAReadGroupSet.
- * A *fragment* is a single stretch of a DNA molecule.
- *    There are typically millions of fragments in a GAReadGroup.
- *    A fragment has a name (QNAME in BAM spec), a length (TLEN in BAM spec), and an array of reads.
- * A *read* is a contiguous sequence of bases.
- *    There are typically only one or two reads in a fragment. If there are two reads, they’re known as a mate pair.
- *    A read has an array of base values, an array of base qualities, and alignment information.
+   There are typically 1-10 GAReadGroup's in a GAReadGroupSet.
+ * A *fragment* is a single stretch of a DNA molecule. There are typically
+   millions of fragments in a GAReadGroup. A fragment has a name (QNAME in BAM
+   spec), a length (TLEN in BAM spec), and an array of reads.
+ * A *read* is a contiguous sequence of bases. There are typically only one or
+   two reads in a fragment. If there are two reads, they’re known as a mate pair.
+   A read has an array of base values, an array of base qualities, and alignment
+   information.
  * An *alignment* is the way alignment software maps a read to a reference.
- *    There’s one primary alignment, and can be one or more secondary alignments.
- *    Secondary alignments represent alternate possible mappings -- they are rarely reported by aligners.
- * A *linear alignment* maps a string of bases to a reference using a single CIGAR string.
- *    There’s one representative alignment, and can be one or more supplementary alignments.
- *    Supplementary alignments represent chimeric reads -- they are rare.
- *
- * A GAReadAlignment object is a flattened representation of the bottom layers of this hierarchy.
- *    There's exactly one such object per *linear alignment*.
- *    The object contains alignment info, plus fragment and read info for easy access.
+   There’s one primary alignment, and can be one or more secondary or
+   supplimentary alignments.  Secondary alignments represent alternate possible
+   mappings. Supplimentary alignments represent linear alignments that are subsets
+   of a chimeric alignment.
+ * A *linear alignment* maps a string of bases to a reference using a single
+   CIGAR string. There’s one representative alignment, and can be one or more
+   supplementary alignments. Supplementary alignments represent chimeric reads.
+ * A GAReadAlignment object is a flattened representation of the bottom layers
+   of this hierarchy. There's exactly one such object per *linear alignment*.
+   The object contains alignment info, plus fragment and read info for easy access.
  */
+protocol GAReads {
 
 import idl "common.avdl";
 
@@ -74,8 +76,8 @@ record GAReferenceSequence {
   boolean isDerived = false;
 
   /**
-    The `sourceDivergence` is the fraction of bases that do not match the 
-    reference this record was derived from when aligned without indels.
+    The `sourceDivergence` is the fraction of non-indel bases that do not match the 
+    reference this record was derived from.
   */
   union { null, float } sourceDivergence = null;
 
@@ -256,7 +258,7 @@ record GALinearAlignment {
     union { null, int } mappingQuality = null;
 
     /**
-      Represents the local alignment (alignment matches, indels, etc) 
+      Represents the local alignment of this sequence (alignment matches, indels, etc) 
       versus the reference. 
     */
     array<GACigarUnit> cigar = [];
@@ -309,38 +311,50 @@ record GAReadAlignment {
     /** SAM flag 0x200 */
     union { null, boolean } failedVendorQualityChecks = false;
 
-    // this linear alignment
-
-    /** null if unmapped */
+    /**
+      The linear alignment for this alignment record. This field will be
+      null if the read is unmapped.
+    */
     union { null, GALinearAlignment } alignment = null;
 
     /**
       Whether this alignment is secondary. Equivalent to SAM flag 0x100.
-      By convention, each read has one and only one alignment where both
-      secondaryAlignment and supplementaryAlignment are false. In that case,
-      the full read sequence and quality should be present.
+      A secondary alignment represents an alternative to the primary alignment
+      for this read. Aligners may return secondary alignments if a read can map
+      ambiguously to multiple coordinates in the genome.
     */
     union { null, boolean } secondaryAlignment = false;
     
     /**
       Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
-      By convention, each read has one and only one alignment where both
-      secondaryAlignment and supplementaryAlignment are false. In that case,
-      the full read sequence and quality should be present.
+      Supplementary alignments are used in the representation of a chimeric
+      alignment. In a chimeric alignment, a read is split into multiple
+      linear alignments that map to different reference contigs. The first
+      linear alignment in the read will be designated as the primary alignment;
+      the remaining linear alignments will be designated as supplementary alignments.
+      These alignments may have different mapping quality scores.
+      
+      In each linear alignment in a chimeric alignment, the read will be hard clipped.
+      The `alignedSequence` and `alignedQuality` fields in the alignment record will
+      only represent the bases for its respective linear alignment.
     */
     union { null, boolean } supplementaryAlignment = false;
 
     /**
-      The bases of the read sequence contained in this alignment record. In a
-      supplementary or secondary alignment, `alignedSequence` and `alignedQuality`
-      may be shorter than the read sequence and quality, or even absent.
+      The bases of the read sequence contained in this alignment record.
+      `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
+      and quality. This will occur if the alignment is part of a chimeric alignment,
+      or if the read was trimmed. When this occurs, the CIGAR for this read will
+      begin/end with a hard clip operator that will indicate the length of the excised sequence.
     */
     union { null, string } alignedSequence = null;
 
     /**
-      The quality of the read sequence contained in this alignment record. In a
-      supplementary or secondary alignment, `alignedSequence` and `alignedQuality`
-      may be shorter than the read sequence and quality, or even absent.
+      The quality of the read sequence contained in this alignment record.
+      `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
+      and quality. This will occur if the alignment is part of a chimeric alignment,
+      or if the read was trimmed. When this occurs, the CIGAR for this read will
+      begin/end with a hard clip operator that will indicate the length of the excised sequence.
     */
     array<int> alignedQuality = [];
 
