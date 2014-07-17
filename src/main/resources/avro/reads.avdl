@@ -222,9 +222,9 @@ record GAReadGroup {
 
   /**
     A map of additional read group information. In JSON, this looks like:
-    `tags: {key1: value1, key2: value2}`
+    `info: {key1: value1, key2: value2}`
   */
-  array<GAKeyValue> tags = [];
+  array<GAKeyValue> info = [];
 }
 
 record GAReadGroupSet {
@@ -352,9 +352,9 @@ record GAReadAlignment {
 
     /**
       A map of additional read alignment information. In JSON, this looks like:
-      `tags: {key1: value1, key2: value2}`
+      `info: {key1: value1, key2: value2}`
     */
-    array<GAKeyValue> tags = [];
+    array<GAKeyValue> info = [];
 }
 
 }

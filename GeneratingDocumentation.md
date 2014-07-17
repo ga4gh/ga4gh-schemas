@@ -45,7 +45,7 @@ curl -o /opt/avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.6/java/
 
 # creating the JSON schema for the reads API
 mkdir -p target/schemas
-java -jar /path/to/avro-tools-1.7.6.jar idl src/main/resources/avro/reads.avdl target/schemas/reads.avpr
+java -jar /opt/avro-tools.jar idl src/main/resources/avro/reads.avdl target/schemas/reads.avpr
 
 # creating the documentation for the reads API
 mkdir -p target/documentation
