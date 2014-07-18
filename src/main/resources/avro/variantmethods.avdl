@@ -78,7 +78,6 @@ GASearchVariantsResponse searchVariants(
     /** This request maps to the body of `POST /variants/search` as JSON. */
     GASearchVariantsRequest request) throws GAException;
 
-
 /******************  /callsets/search  *********************/
 /** This request maps to the body of `POST /callsets/search` as JSON. */
 record GASearchCallSetsRequest {
