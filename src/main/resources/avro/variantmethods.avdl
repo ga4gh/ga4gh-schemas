@@ -25,13 +25,13 @@ record SearchVariantsRequest {
     Required. The beginning of the window (0-based, inclusive) for which overlapping
     variants should be returned.
   */
-  long startPosition;
+  long start;
 
   /**
     Required. The end of the window (0-based, exclusive) for which overlapping
     variants should be returned.
   */
-  long endPosition;
+  long end;
 
   /** 
     The continuation token, which is used to page through large result sets.
