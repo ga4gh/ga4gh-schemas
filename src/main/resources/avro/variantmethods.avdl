@@ -5,7 +5,7 @@ import idl "variants.avdl";
 
 /******************  /variants/search  *********************/
 /** This request maps to the body of `POST /variants/search` as JSON. */
-record SearchVariantsRequest {
+record GASearchVariantsRequest {
   /** Required. The IDs of the variant sets to search over. */
   array<string> variantSetIds = [];
 
@@ -49,7 +49,7 @@ record SearchVariantsRequest {
 }
 
 /** This is the response from `POST /variants/search` expressed as JSON. */
-record SearchVariantsResponse {
+record GASearchVariantsResponse {
   /**
     The list of matching variants.
     If the `callSetId` field on the returned calls is not present, 
@@ -71,17 +71,17 @@ record SearchVariantsResponse {
 /**
   Gets a list of `GAVariant` matching the search criteria.
 
-  `POST /variants/search` must accept a JSON version of `SearchVariantsRequest`
-  as the post body and will return a JSON version of `SearchVariantsResponse`.
+  `POST /variants/search` must accept a JSON version of `GASearchVariantsRequest`
+  as the post body and will return a JSON version of `GASearchVariantsResponse`.
 */
-SearchVariantsResponse searchVariants(
+GASearchVariantsResponse searchVariants(
     /** This request maps to the body of `POST /variants/search` as JSON. */
-    SearchVariantsRequest request) throws GAException;
+    GASearchVariantsRequest request) throws GAException;
 
 
 /******************  /callsets/search  *********************/
 /** This request maps to the body of `POST /callsets/search` as JSON. */
-record SearchCallSetsRequest {
+record GASearchCallSetsRequest {
   /** 
     If specified, will restrict the query to call sets within the
     given variant sets.
@@ -103,7 +103,7 @@ record SearchCallSetsRequest {
 }
 
 /** This is the response from `POST /callsets/search` expressed as JSON. */
-record SearchCallSetsResponse {
+record GASearchCallSetsResponse {
   /** The list of matching call sets. */
   array<GACallSet> callSets = [];
 
@@ -118,10 +118,10 @@ record SearchCallSetsResponse {
 /**
   Gets a list of `GACallSet` matching the search criteria.
 
-  `POST /callsets/search` must accept a JSON version of `SearchCallSetsRequest`
-  as the post body and will return a JSON version of `SearchCallSetsResponse`.
+  `POST /callsets/search` must accept a JSON version of `GASearchCallSetsRequest`
+  as the post body and will return a JSON version of `GASearchCallSetsResponse`.
 */
-SearchCallSetsResponse searchCallSets(
+GASearchCallSetsResponse searchCallSets(
     /** This request maps to the body of `POST /callsets/search` as JSON. */
-    SearchCallSetsRequest request) throws GAException;
+    GASearchCallSetsRequest request) throws GAException;
 }
