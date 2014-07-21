@@ -31,9 +31,8 @@ protocol GACommon {
     already known reference. For now, represents a genomic position as a reference sequence
     name, a base number on that reference sequence (0-based), and a flag to say if it's the
     forward or reverse strand that we're talking about.
-    
-    TODO: Add support here for universally unique base IDs.
   */
+  // TODO: Add support here for universally unique base IDs.
   record GAPosition {
     /**
       The name of the reference sequence (or, more technically, the scaffold) in whatever
@@ -48,8 +47,8 @@ protocol GACommon {
     long position;
     
     /**
-      A flag to indicate if we are on the forward strand (false) or reverse
-      strand (true).
+      A flag to indicate if we are on the forward strand (`false`) or reverse
+      strand (`true`).
     */
     boolean reverseStrand;
     
@@ -75,15 +74,15 @@ protocol GACommon {
     A structure for an instance of a CIGAR operation.
   */
   record GACigarUnit {
-    /** The operation type */
+    /** The operation type. */
     GACigarOperation operation;
-    /** The number of bases that the operation runs for */
+    /** The number of bases that the operation runs for. */
     long operationLength;
 
     /** 
-      referenceSequence is only used at mismatches (X) and deletions (D). Filling
-      this field replaces the MD tag. If the relevant information is not
-      available, leave this field as "null".
+      `referenceSequence` is only used at mismatches (`SEQUENCE_MISTMATCH`, X)
+      and deletions (`DELETE`, D). Filling this field replaces the MD tag.
+      If the relevant information is not available, leave this field as `null`.
     */
     union { null, string } referenceSequence = null;
   }
