@@ -10,39 +10,39 @@ record GASearchReadsRequest {
   array<string> readGroupIds = [];
 
   /** 
-    The reference sequence to query.  Either give a `referenceSequenceId` or
-    a `referenceSequenceSetId` and `referenceSequenceName`.
-    Leaving this blank returns results from all reference sequences, including
+    The reference to query.  Either give a `referenceId` or
+    a `referenceSetId` and `referenceName`.
+    Leaving this blank returns results from all references, including
     unmapped reads - this could be very large.
   */
-  union { null, string } referenceSequenceSetId = null;
+  union { null, string } referenceSetId = null;
 
   /** 
-    The reference sequence to query.  Either give a `referenceSequenceId` or
-    a `referenceSequenceSetId` and `referenceSequenceName`.
-    Leaving this blank returns results from all reference sequences, including
+    The reference to query.  Either give a `referenceId` or
+    a `referenceSetId` and `referenceName`.
+    Leaving this blank returns results from all references, including
     unmapped reads - this could be very large.
   */
-  union { null, string } referenceSequenceName = null;
+  union { null, string } referenceName = null;
 
   /** 
-    The reference sequence to query.  Either give a `referenceSequenceId` or
-    a `referenceSequenceSetId` and `referenceSequenceName`.
-    Leaving this blank returns results from all reference sequences, including
+    The reference to query.  Either give a `referenceId` or
+    a `referenceSetId` and `referenceName`.
+    Leaving this blank returns results from all references, including
     unmapped reads - this could be very large.
   */
-  union { null, string } referenceSequenceId = null;
+  union { null, string } referenceId = null;
 
   /**
     The start position (0-based) of this query.
-    If a reference sequence is specified, this defaults to 0.
+    If a reference is specified, this defaults to 0.
    */
   union { null, long } start = 0;
 
   /**
     The end position (0-based, exclusive) of this query.
-    If a reference sequence is specified, this defaults to the
-    reference sequence's length.
+    If a reference is specified, this defaults to the
+    reference's length.
    */
   union { null, long } end = null;
 
@@ -126,23 +126,23 @@ GASearchReadGroupSetsResponse searchReadGroupSets(
     */
     GASearchReadGroupSetsRequest request) throws GAException;
 
-/****************  /referenceSequenceSets/search  *******************/
+/****************  /referencesets/search  *******************/
 /**
-  This request maps to the body of `POST /referenceSequenceSets/search`
+  This request maps to the body of `POST /referencesets/search`
   as JSON.
 */
-record GASearchReferenceSequenceSetsRequest {
-  /** If present, get the reference sequence set which has this ID. */
+record GASearchReferenceSetsRequest {
+  /** If present, get the reference set which has this ID. */
   union { null, string } id = null;
   
   /**
-    If present, return the reference sequence sets for which the `md5sum`
+    If present, return the reference sets for which the `md5sum`
     matches (see record definition for md5sum construction details).
   */
   union { null, string } md5sum = null;
 
   /**
-    If present, return reference sequence sets for which the accession
+    If present, return reference sets for which the accession
     matches this string. Best to give a version number e.g. `GCF_000001405.26`.
     If only the main accession number is given then all records with
     that main accession will be returned, whichever version.
@@ -151,7 +151,7 @@ record GASearchReferenceSequenceSetsRequest {
   union { null, string } accession = null;
 
   /**
-    If present, return reference sequence sets for which the `assemblyId`
+    If present, return reference sets for which the `assemblyId`
     contains this string.
   */
   union { null, string } assemblyId = null;
@@ -165,12 +165,12 @@ record GASearchReferenceSequenceSetsRequest {
 }
 
 /**
-  This is the response from `POST /referenceSequenceSets/search`
+  This is the response from `POST /referencesets/search`
   expressed as JSON.
 */
-record GASearchReferenceSequenceSetsResponse {
-  /** The list of matching reference sequence sets. */
-  array<GAReferenceSequenceSet> referenceSequenceSets = [];
+record GASearchReferenceSetsResponse {
+  /** The list of matching reference sets. */
+  array<GAReferenceSet> referenceSets = [];
 
   /**
     The continuation token, which is used to page through large result sets.
@@ -181,36 +181,36 @@ record GASearchReferenceSequenceSetsResponse {
 }
 
 /**
-  Gets a list of `GAReadReferenceSequenceSet` matching the search criteria.
+  Gets a list of `GAReadReferenceSets` matching the search criteria.
 
-  `POST /referenceSequenceSets/search` must accept a JSON version of
-  `GASearchReferenceSequenceSetsRequest` as the post body and will return a JSON
-  version of `GASearchReferenceSequenceSetsResponse`.
+  `POST /referencesets/search` must accept a JSON version of
+  `GASearchReferenceSetsRequest` as the post body and will return a JSON
+  version of `GASearchReferenceSetsResponse`.
 */
-GASearchReferenceSequenceSetsResponse searchReferenceSequenceSets(
+GASearchReferenceSetsResponse searchReferenceSets(
     /**
-      This request maps to the body of `POST /referenceSequenceSets/search`
+      This request maps to the body of `POST /referencesets/search`
       as JSON.
     */
-    GASearchReferenceSequenceSetsRequest request) throws GAException;
+    GASearchReferenceSetsRequest request) throws GAException;
 
-/****************  /referenceSequences/search  *******************/
+/****************  /references/search  *******************/
 /**
-  This request maps to the body of `POST /referenceSequences/search`
+  This request maps to the body of `POST /references/search`
   as JSON.
 */
-record GASearchReferenceSequencesRequest {
-  /** If present, get the reference sequences which have these IDs. */
+record GASearchReferencesRequest {
+  /** If present, get the references which have these IDs. */
   array<string> ids = [];
 
   /**
-    If present, return reference sequences for which the `md5sum`
+    If present, return references for which the `md5sum`
     matches (see record definition for md5sum construction details).
   */
   array<string> md5sums = [];
 
   /**
-    If present, return reference sequences for which the accession
+    If present, return references for which the accession
     matches this string. Best to give a version number e.g. `GCF_000001405.26`.
     If only the main accession number is given then all records with
     that main accession will be returned, whichever version.
@@ -227,11 +227,11 @@ record GASearchReferenceSequencesRequest {
 }
 
 /**
-  This is the response from `POST /referenceSequences/search` expressed as JSON.
+  This is the response from `POST /references/search` expressed as JSON.
 */
-record GASearchReferenceSequencesResponse {
-  /** The list of matching reference sequences. */
-  array<GAReferenceSequence> referenceSequences = [];
+record GASearchReferencesResponse {
+  /** The list of matching references. */
+  array<GAReference> references = [];
 
   /**
     The continuation token, which is used to page through large result sets.
@@ -242,16 +242,16 @@ record GASearchReferenceSequencesResponse {
 }
 
 /**
-  Gets a list of `GAReadReferenceSequence` matching the search criteria.
+  Gets a list of `GAReference` matching the search criteria.
 
-  `POST /referenceSequences/search` must accept a JSON version of
-  `GASearchReferenceSequencesRequest` as the post body and will return a JSON
-  version of `GASearchReferenceSequencesResponse`.
+  `POST /references/search` must accept a JSON version of
+  `GASearchReferencesRequest` as the post body and will return a JSON
+  version of `GASearchReferencesResponse`.
 */
-GASearchReferenceSequencesResponse searchReferenceSequences(
+GASearchReferencesResponse searchReferences(
     /**
-      This request maps to the body of `POST /referenceSequences/search`
+      This request maps to the body of `POST /references/search`
       as JSON.
     */
-    GASearchReferenceSequencesRequest request) throws GAException;
+    GASearchReferencesRequest request) throws GAException;
 }

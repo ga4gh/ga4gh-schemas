@@ -18,8 +18,8 @@ record GASearchVariantsRequest {
   */
   array<string> callSetIds = [];
 
-  /** Required. Only return variants on this reference sequence. */
-  string referenceSequenceName;
+  /** Required. Only return variants on this reference. */
+  string referenceName;
 
   /** 
     Required. The beginning of the window (0-based, inclusive) for
