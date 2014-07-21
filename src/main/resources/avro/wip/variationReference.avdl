@@ -4,13 +4,13 @@ protocol GAVariationReference {
 import idl "../common.avdl" ;
 
 /* A sequence graph is made progressively joining new sequence pieces,
-   which we call variants, into an existing graph.  This starts with a  
-   primary sequence.  For example consider the primary sequence in
-   GRCh38 for a chromosome.  Then variants can be joined into it,
+   which we call variants, into an existing graph.  This starts with one  
+   or more primary sequences.  For example consider a GRCh38 primary
+   chromosome sequence.  Then variants can be joined into it,
    starting on a defined side of a defined base in the existing
    structure, containing new sequence (potentially empty if a pure
-   deletion or breakpoint) and then joining back to another defined
-   side of another base in the current graph.
+   deletion or breakpoint) and then most likely joining back to another 
+   defined side of another base in the current graph.
 
    An arbitrarily complex reference graph is built this way, but we
    can also use the same construction to specify individual variants
@@ -32,7 +32,7 @@ enum GAVariantSide {
 
 
 record GAVariantJoinLocation {
-  string variantId ;	// id of the variant in which this location is based
+  union { null, string } variantId ;	// id of the variant in which this location is based
   int position ;	// 0-based
   GAVariantSide side ;
 }
@@ -40,20 +40,22 @@ record GAVariantJoinLocation {
 record GAVariant {
   string id ;
 
-  // start and end locations of how this variant fits into the existing graph
-  // start and end are {0,0,FORWARD} for a primary sequence
-  // note that the variantId for start and end may not be the same
+  // Start and end locations of how this variant fits into the existing graph.
+  // start and end are both {null,0,FORWARD} for a primary sequence
+  // Any other variant must have startJoin.variantId not null (variants joined 
+  // at only one end must join at start). This enables traversal by following startJoins.
+  // Note that the variantId for start and end may not be the same.
   GAVariantJoinLocation startJoin, endJoin ;  
 
   string sequence ; // the sequence to insert between startJoin and endJoin.
+  // sequence may be empty, for example for a simple deletion.
   // We must be able to access sequence, but could allow it to be generated
   // from a global identifier such as a versioned INSDC accession stored in info.
   // [Propose adding additional object to define the latter in common.avdl]
 
-   // For variants that are part of a reference to which new sequences (e.g. reads) are being mapped, 
-   // a context function must be defined in referenceVariationMethods.avdl so that bases in the reads 
-   // can be mapped to bases in the reference variant.
-   
+  // For variants that are part of a reference to which new sequences (e.g. reads) are being mapped, 
+  // a context function must be defined in referenceVariationMethods.avdl so that bases in the reads 
+  // can be mapped to bases in the reference variant.
 
   // We may need to say other things about the variant, e.g. origin, dbSNP...
   array<org.ga4gh.GAKeyValue> info = [] ;
