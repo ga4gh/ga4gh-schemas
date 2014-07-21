@@ -37,14 +37,14 @@ record GASearchReadsRequest {
     The start position (0-based) of this query.
     If a reference sequence is specified, this defaults to 0.
    */
-  union { null, long } startPosition = 0;
+  union { null, long } start = 0;
 
   /**
     The end position (0-based, exclusive) of this query.
     If a reference sequence is specified, this defaults to the
     reference sequence's length.
    */
-  union { null, long } endPosition = null;
+  union { null, long } end = null;
 
   /**
     The continuation token, which is used to page through large result sets.
