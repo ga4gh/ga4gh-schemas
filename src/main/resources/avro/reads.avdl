@@ -35,20 +35,20 @@ record GAReference {
   /** The bases that make up this reference. */
   string sequence;
 
-  /** The length of this reference sequence. */
+  /** The length of this reference's sequence. */
   long length;
 
   /**
     MD5 of the upper-case sequence excluding all whitespace characters
-    (as SQ:M5 in SAM).
+    (this is equivalent to SQ:M5 in SAM).
   */
   string md5checksum;
 
   /**
-    The description of this reference. (e.g. '22') Also see the
+    The name of this reference. (e.g. '22') Also see the
     `names` field on the parent `GAReferenceSet`.
   */
-  union { null, string } description = null;
+  union { null, string } name = null;
   
   /**
     The URI from which the sequence was obtained, if not given in the
@@ -60,7 +60,7 @@ record GAReference {
   /** 
     The accession from which the sequence was obtained, if not given in the
     containing `GAReferenceSet`.
-    In INSDC (GenBank/ENA/DDBJ) with version number as `GCF_000001405.26`.
+    In INSDC (GenBank/ENA/DDBJ) with a version number. (e.g. `GCF_000001405.26`)
   */
   union { null, string } sourceAccession = null;
   
@@ -81,8 +81,7 @@ record GAReference {
 
   /** 
     ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
-    If not present, use the `ncbiTaxonId` from the containing
-    reference set(s).
+    if not given in the containing `GAReferenceSet`.
   */
   union { null, int } ncbiTaxonId = null;
 }
@@ -95,15 +94,21 @@ record GAReferenceSet {
   // Actual sequences can be retrieved from ids.
   // This means we can process read alignments without fetching an
   // entire genome's worth of sequences.
+
+  /** The IDs of the `GAReference` objects that are part of this set. */
+  array<string> referenceIds = [];
  
-  /** The names of the sequences, as used in MappingPosition. */
+  /** 
+    The names of the `GAReference` objects that are part of this set.
+    (e.g. '22')
+  */
   array<string> names = [];
  
-  /** The corresponding lengths of the sequences. */
+  /** 
+    The sequence lengths of the `GAReference` objects that are 
+    part of this set.
+  */
   array<long> lengths = [];
- 
-  /** The corresponding IDs for the sequences themselves. */
-  array<string> sequenceIds = [];
  
   /**
     MD5 of the concatenation of { name, literal sequence } in array order,
@@ -113,9 +118,8 @@ record GAReferenceSet {
 
   /**
     ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) 
-    `ncbiTaxonId` can be overridden for specific contained 
-    `GAReference` records,
-    e.g. for EBV in a human reference genome
+    Can be overridden by the `ncbiTaxonId` field in a specific `GAReference`.
+    (e.g. for EBV in a human reference genome)
   */
   union { null, int } ncbiTaxonId = null;
 
@@ -134,7 +138,8 @@ record GAReferenceSet {
   union { null, string } sourceURI = null;
 
   /**
-   In INSDC (GenBank/ENA/DDBJ), ideally with version number.
+   In INSDC (GenBank/ENA/DDBJ), ideally with a version number. 
+   (e.g. `GCF_000001405.26`)
    Can be overriden by the `sourceAccession` field in a specific
    `GAReference`.
   */
