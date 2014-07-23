@@ -282,8 +282,13 @@ record GALinearAlignment {
 */
 record GAReadAlignment {
   
-    /** The read alignment ID. */
-    string id;
+    /** 
+      The read alignment ID. This ID is unique within the read group this 
+      alignment belongs to. This field may not be provided by all backends.
+      Its intended use is to make caching and UI display easier for 
+      genome browsers and other light weight clients.
+    */
+    union { null, string } id;
 
     /**
       The ID of the read group this read belongs to.
