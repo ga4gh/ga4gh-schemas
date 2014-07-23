@@ -30,13 +30,20 @@ record GACallSet {
   /** The call set name. */
   union { null, string } name = null;
   
-  // TODO: Add Sample ID once there is a GASample object (or equivalent)
+  /** The sample this call set's data was generated from. */
+  union { null, string } sampleId;
 
   /** The IDs of the variant sets this call set has calls in. */
   array<string> variantSetIds = [];
 
   /** The date this call set was created in milliseconds from the epoch. */
   union { null, long } created = null;
+  
+  /** 
+    The time at which this call set was last updated in 
+    milliseconds from the epoch.
+  */
+  union { null, long } updated = null;
 
   /**
     A map of additional call set information. In JSON, this looks like:
@@ -123,6 +130,12 @@ record GAVariant {
 
   /** The date this variant was created in milliseconds from the epoch. */
   union { null, long } created = null;
+  
+  /** 
+    The time at which this variant was last updated in 
+    milliseconds from the epoch.
+  */
+  union { null, long } updated = null;
 
   /**
     The reference on which this variant occurs.

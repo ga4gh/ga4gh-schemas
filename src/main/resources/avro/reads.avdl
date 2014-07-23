@@ -188,10 +188,10 @@ record GAReadGroup {
   union { null, string } description = null;
 
   /** The sample this read group's data was generated from. */
-  union { null, string } sample;
+  union { null, string } sampleId;
 
   /** The library used to generate this read group. */
-  union { null, string } library = null;
+  union { null, string } libraryId = null;
 
   /** The platform unit used to generate this read group. */
   union { null, string } platformUnit = null;
@@ -202,11 +202,22 @@ record GAReadGroup {
   /** The sequencing center used to generate this read group. */
   union { null, string } sequencingCenter;
 
-  /** The sequencing technology used to generate this read group. */
-  union { null, string } sequencingTechnology;
+  /** 
+    The instrument model used to generate this read group. 
+    This maps to sequencing technology in BAM.
+  */
+  union { null, string } instrumentModel;
 
-  /** The date this read group was created. */
+  /** 
+    The time at which this read group was created in milliseconds from the epoch. 
+  */
   union { null, long } created = null;
+
+  /** 
+    The time at which this read group was last updated in milliseconds 
+    from the epoch. 
+  */
+  union { null, long } updated = null;
 
   /** The number of reads in this read group. */
   union { null, long } readCount = null;
