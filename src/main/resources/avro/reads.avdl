@@ -337,6 +337,9 @@ record GAReadAlignment {
       A secondary alignment represents an alternative to the primary alignment
       for this read. Aligners may return secondary alignments if a read can map
       ambiguously to multiple coordinates in the genome.
+      
+      By convention, each read has one and only one alignment where both
+      secondaryAlignment and supplementaryAlignment are false. 
     */
     union { null, boolean } secondaryAlignment = false;
     
