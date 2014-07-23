@@ -15,13 +15,12 @@
    A read has an array of base values, an array of base qualities, and alignment
    information.
  * An *alignment* is the way alignment software maps a read to a reference.
-   There’s one primary alignment, and can be one or more secondary or
-   supplimentary alignments.  Secondary alignments represent alternate possible
-   mappings. Supplimentary alignments represent linear alignments that are subsets
-   of a chimeric alignment.
+   There’s one primary alignment, and can be one or more secondary alignments.
+   Secondary alignments represent alternate possible mappings.
  * A *linear alignment* maps a string of bases to a reference using a single
    CIGAR string. There’s one representative alignment, and can be one or more
-   supplementary alignments. Supplementary alignments represent chimeric reads.
+   supplementary alignments. Supplementary alignments represent linear alignments
+   that are subsets of a chimeric alignment.
  * A GAReadAlignment object is a flattened representation of the bottom layers
    of this hierarchy. There's exactly one such object per *linear alignment*.
    The object contains alignment info, plus fragment and read info for easy access.
@@ -346,7 +345,7 @@ record GAReadAlignment {
       Supplementary alignments are used in the representation of a chimeric
       alignment. In a chimeric alignment, a read is split into multiple
       linear alignments that map to different reference contigs. The first
-      linear alignment in the read will be designated as the primary alignment;
+      linear alignment in the read will be designated as the representative alignment;
       the remaining linear alignments will be designated as supplementary alignments.
       These alignments may have different mapping quality scores.
       
