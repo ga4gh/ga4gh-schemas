@@ -179,6 +179,23 @@ record GADataset {
   union { null, string } description = null;
 }
 
+record GAExperiment {
+  /** The library used as part of this experiment. */
+  union { null, string } libraryId = null;
+
+  /** The platform unit used as part of this experiment. */
+  union { null, string } platformUnit = null;
+
+  /** The sequencing center used as part of this experiment. */
+  union { null, string } sequencingCenter;
+
+  /** 
+    The instrument model used as part of this experiment. 
+    This maps to sequencing technology in BAM.
+  */
+  union { null, string } instrumentModel;
+}
+
 record GAReadGroup {
 
   /** The read group ID. */
@@ -196,23 +213,11 @@ record GAReadGroup {
   /** The sample this read group's data was generated from. */
   union { null, string } sampleId;
 
-  /** The library used to generate this read group. */
-  union { null, string } libraryId = null;
-
-  /** The platform unit used to generate this read group. */
-  union { null, string } platformUnit = null;
+  /** The experiment used to generate this read group. */
+  union { null, GAExperiment } experiment;
 
   /** The predicted insert size of this read group. */
   union { null, int } predictedInsertSize = null;
-
-  /** The sequencing center used to generate this read group. */
-  union { null, string } sequencingCenter;
-
-  /** 
-    The instrument model used to generate this read group. 
-    This maps to sequencing technology in BAM.
-  */
-  union { null, string } instrumentModel;
 
   /** 
     The time at which this read group was created in milliseconds from the epoch. 
