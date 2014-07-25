@@ -132,9 +132,6 @@ GASearchReadGroupSetsResponse searchReadGroupSets(
   as JSON.
 */
 record GASearchReferenceSetsRequest {
-  /** If present, get the reference set which has this ID. */
-  union { null, string } id = null;
-  
   /**
     If present, return the reference sets for which the `md5sum`
     matches (see record definition for md5sum construction details).
@@ -143,7 +140,7 @@ record GASearchReferenceSetsRequest {
 
   /**
     If present, return reference sets for which the accession
-    matches this string. Best to give a version number e.g. `GCF_000001405.26`.
+    matches this string. Best to give a version number (e.g. `GCF_000001405.26`).
     If only the main accession number is given then all records with
     that main accession will be returned, whichever version.
     Note that different versions will have different sequences.
@@ -181,7 +178,7 @@ record GASearchReferenceSetsResponse {
 }
 
 /**
-  Gets a list of `GAReadReferenceSets` matching the search criteria.
+  Gets a list of `GAReferenceSet` matching the search criteria.
 
   `POST /referencesets/search` must accept a JSON version of
   `GASearchReferenceSetsRequest` as the post body and will return a JSON
@@ -194,15 +191,23 @@ GASearchReferenceSetsResponse searchReferenceSets(
     */
     GASearchReferenceSetsRequest request) throws GAException;
 
+/****************  /referencesets/{id}  *******************/
+/**
+  Gets a `GAReferenceSet` by ID.
+  `GET /referencesets/{id}` will return a JSON version of `GAReferenceSet`.
+*/
+GAReferenceSet getReferenceSet(
+    /**
+      The ID of the `GAReferenceSet`.
+    */
+    string id) throws GAException;
+
 /****************  /references/search  *******************/
 /**
   This request maps to the body of `POST /references/search`
   as JSON.
 */
 record GASearchReferencesRequest {
-  /** If present, get the references which have these IDs. */
-  array<string> ids = [];
-
   /**
     If present, return references for which the `md5sum`
     matches (see record definition for md5sum construction details).
@@ -254,4 +259,16 @@ GASearchReferencesResponse searchReferences(
       as JSON.
     */
     GASearchReferencesRequest request) throws GAException;
+
+/****************  /references/{id}  *******************/
+/**
+  Gets a `GAReference` by ID.
+  `GET /references/{id}` will return a JSON version of `GAReference`.
+*/
+GAReference getReference(
+    /**
+      The ID of the `GAReference`.
+    */
+    string id) throws GAException;
+
 }
