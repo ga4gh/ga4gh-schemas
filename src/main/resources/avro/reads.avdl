@@ -230,9 +230,6 @@ record GAReadGroup {
   */
   union { null, long } updated = null;
 
-  /** The number of reads in this read group. */
-  union { null, long } readCount = null;
-
   /** The programs used to generate this read group. */
   array<GAProgram> programs = [];
 
