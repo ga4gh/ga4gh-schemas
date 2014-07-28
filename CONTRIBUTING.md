@@ -41,7 +41,7 @@ Once a pull request or issue have been submitted, anyone can comment or vote on 
 - It's okay to have input without voting
 - Silence gives assent
 
-A pull request with at least two **+1** votes, and no **-1** votes, is ready to be merged. The merge should be done by someone from a different organization than the submitter.
+A pull request with at least two **+1** votes, no **-1** votes, and that has been open for at least 3 days, is ready to be merged. The merge should be done by someone from a different organization than the submitter. (We sometimes waive the 3 days for cosmetic-only changes -- use good judgment.)
 
 If an issue gets any **-1** votes, the comments on the issue need to reach consensus before the issue can be resolved one way or the other. There isn't any strict time limit on a contentious issue.
 
@@ -52,13 +52,41 @@ The project will strive for full consensus on everything until it runs into a pr
 
 The current code conventions for the source files are as follows:
 
-* Two-space indentation, no tabs
-* `UpperCamelCase` for object or record names
-* `lowerCamelCase` attribute or method names
-* `CONSTANT_CASE` for global and constant values
+* Use two-space indentation, and no tabs.
+* Hard-wrap code to 80 characters per line.
+* Use `UpperCamelCase` for object or record names.
+* Use `lowerCamelCase` for attribute or method names.
+* Use `CONSTANT_CASE` for global and constant values.
 * Comments:
-     * Indented at the same level as the surrounding code
-     * Precede the code that they make a comment on
-     * Documentation comments use the `/** ... */` style
-     * Block and multi-line comments must use the `/** ... */` style.
-     * One-line comments prefixed using the `// ...` style will not be output to documentation and are intended for developers of the project only
+     * Comments should be indented at the same level as the surrounding code.
+     * Comments should precede the code that they make a comment on. Documentation comments will not work otherwise.
+     * Documentation comments, which are intended to be processed by avrodoc and displayed in the user-facing API documentation, must use the `/** ... */` style, and must not have a leading `*` on each internal line:
+        
+        ````
+        /** 
+          This documentation comment will be 
+          processed correctly by avrodoc.
+        */
+        ````
+
+        ````
+        /**
+         * This documentation comment will have a
+         * bullet point at the start of every line
+         * when processed by avrodoc.
+         */
+        ````
+        
+     * Block and multi-line non-documentation comments, intended for schema developers only, must use the `/* ... */` style.
+     
+        ````
+        /*
+          This multi-line comment will not appear in the 
+          avrodoc documentation and is intended for 
+          schema developers.
+        */
+        ````
+     
+     * All multi-line comments should have the comment text indented relative to the comment delimeters.
+     * One-line non-documentation comments, intended for schema developers only, must use the `// ...` style.
+
