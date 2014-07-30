@@ -346,8 +346,8 @@ record GAReadAlignment {
       for this read. Aligners may return secondary alignments if a read can map
       ambiguously to multiple coordinates in the genome.
 
-      By convention, each read has one and only one alignment where both
-      secondaryAlignment and supplementaryAlignment are false.
+   By convention, each read has one and only one alignment where both
+   secondaryAlignment and supplementaryAlignment are false.
     */
     union { null, boolean } secondaryAlignment = false;
 
@@ -360,9 +360,9 @@ record GAReadAlignment {
       the remaining linear alignments will be designated as supplementary alignments.
       These alignments may have different mapping quality scores.
 
-      In each linear alignment in a chimeric alignment, the read will be hard clipped.
-      The `alignedSequence` and `alignedQuality` fields in the alignment record will
-      only represent the bases for its respective linear alignment.
+   In each linear alignment in a chimeric alignment, the read will be hard clipped.
+   The `alignedSequence` and `alignedQuality` fields in the alignment record will
+   only represent the bases for its respective linear alignment.
     */
     union { null, boolean } supplementaryAlignment = false;
 
