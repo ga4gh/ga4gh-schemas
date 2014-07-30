@@ -2,23 +2,24 @@
 
 /**
  This file defines the objects used to represent a hierarchy of reads and alignments:
-    GAReadGroupSet >--< GAReadGroup --< fragment --< read --< alignment --< linear alignment
- 
+
+ GAReadGroupSet >--< GAReadGroup --< fragment --< read --< alignment --< linear alignment
+
  * A GAReadGroupSet is a logical collection of GAReadGroup's.
- * A GAReadGroup is all the data that’s processed the same way by the sequencer.
+ * A GAReadGroup is all the data that's processed the same way by the sequencer.
    There are typically 1-10 GAReadGroup's in a GAReadGroupSet.
  * A *fragment* is a single stretch of a DNA molecule. There are typically
    millions of fragments in a GAReadGroup. A fragment has a name (QNAME in BAM
    spec), a length (TLEN in BAM spec), and an array of reads.
  * A *read* is a contiguous sequence of bases. There are typically only one or
-   two reads in a fragment. If there are two reads, they’re known as a mate pair.
+   two reads in a fragment. If there are two reads, they're known as a mate pair.
    A read has an array of base values, an array of base qualities, and alignment
    information.
  * An *alignment* is the way alignment software maps a read to a reference.
-   There’s one primary alignment, and can be one or more secondary alignments.
+   There's one primary alignment, and can be one or more secondary alignments.
    Secondary alignments represent alternate possible mappings.
  * A *linear alignment* maps a string of bases to a reference using a single
-   CIGAR string. There’s one representative alignment, and can be one or more
+   CIGAR string. There's one representative alignment, and can be one or more
    supplementary alignments. Supplementary alignments represent linear alignments
    that are subsets of a chimeric alignment.
  * A GAReadAlignment object is a flattened representation of the bottom layers
@@ -50,7 +51,7 @@ record GAReference {
     `names` field on the parent `GAReferenceSet`.
   */
   union { null, string } name = null;
-  
+
   /**
     The URI from which the sequence was obtained, if not given in the
     containing `GAReferenceSet`.
@@ -58,14 +59,14 @@ record GAReference {
   */
   union { null, string } sourceURI = null;
 
-  /** 
+  /**
     The accession from which the sequence was obtained, if not given in the
     containing `GAReferenceSet`.
     In INSDC (GenBank/ENA/DDBJ) with a version number. (e.g. `GCF_000001405.26`)
   */
   union { null, string } sourceAccession = null;
-  
-  /** 
+
+  /**
     A sequence X is said to be derived from source sequence Y, if X and Y
     are of the same length and the per-base sequence divergence at A/C/G/T bases
     is sufficiently small. Two sequences derived from the same official
@@ -75,12 +76,12 @@ record GAReference {
   boolean isDerived = false;
 
   /**
-    The `sourceDivergence` is the fraction of non-indel bases that do not match the 
+    The `sourceDivergence` is the fraction of non-indel bases that do not match the
     reference this record was derived from.
   */
   union { null, float } sourceDivergence = null;
 
-  /** 
+  /**
     ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
     if not given in the containing `GAReferenceSet`.
   */
@@ -98,19 +99,19 @@ record GAReferenceSet {
 
   /** The IDs of the `GAReference` objects that are part of this set. */
   array<string> referenceIds = [];
- 
-  /** 
+
+  /**
     The names of the `GAReference` objects that are part of this set.
     (e.g. '22')
   */
   array<string> names = [];
- 
-  /** 
-    The sequence lengths of the `GAReference` objects that are 
+
+  /**
+    The sequence lengths of the `GAReference` objects that are
     part of this set.
   */
   array<long> lengths = [];
- 
+
   /**
     MD5 of the concatenation of { name, literal sequence } in array order,
     all strings 0-terminated.
@@ -118,15 +119,15 @@ record GAReferenceSet {
   string md5checksum;
 
   /**
-    ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) 
+    ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human)
     Can be overridden by the `ncbiTaxonId` field in a specific `GAReference`.
     (e.g. for EBV in a human reference genome)
   */
   union { null, int } ncbiTaxonId = null;
 
   /** Optional free text description of this reference set. */
-  union { null, string } description = null; 
- 
+  union { null, string } description = null;
+
   // next information about the source of the sequences
 
   /** Public id of this reference set, such as `GRCh37`. */
@@ -139,14 +140,14 @@ record GAReferenceSet {
   union { null, string } sourceURI = null;
 
   /**
-   In INSDC (GenBank/ENA/DDBJ), ideally with a version number. 
+   In INSDC (GenBank/ENA/DDBJ), ideally with a version number.
    (e.g. `GCF_000001405.26`)
    Can be overriden by the `sourceAccession` field in a specific
    `GAReference`.
   */
   union { null, string } sourceAccession = null;
-  
-  /** 
+
+  /**
     A reference set may be derived from a source if it contains
     additional sequences, or some of the sequences within it are derived
     (see the definition of `isDerived` in `GAReference`).
@@ -189,8 +190,8 @@ record GAExperiment {
   /** The sequencing center used as part of this experiment. */
   union { null, string } sequencingCenter;
 
-  /** 
-    The instrument model used as part of this experiment. 
+  /**
+    The instrument model used as part of this experiment.
     This maps to sequencing technology in BAM.
   */
   union { null, string } instrumentModel;
@@ -219,14 +220,14 @@ record GAReadGroup {
   /** The predicted insert size of this read group. */
   union { null, int } predictedInsertSize = null;
 
-  /** 
-    The time at which this read group was created in milliseconds from the epoch. 
+  /**
+    The time at which this read group was created in milliseconds from the epoch.
   */
   union { null, long } created = null;
 
-  /** 
-    The time at which this read group was last updated in milliseconds 
-    from the epoch. 
+  /**
+    The time at which this read group was last updated in milliseconds
+    from the epoch.
   */
   union { null, long } updated = null;
 
@@ -258,7 +259,7 @@ record GAReadGroupSet {
 
   /** The read groups in this set. */
   array<GAReadGroup> readGroups = [];
-  
+
   // NB: we require that all readgroups in the set are mapped to the same
   // referenceSet.
 }
@@ -275,8 +276,8 @@ record GALinearAlignment {
     union { null, int } mappingQuality = null;
 
     /**
-      Represents the local alignment of this sequence (alignment matches, indels, etc) 
-      versus the reference. 
+      Represents the local alignment of this sequence (alignment matches, indels, etc)
+      versus the reference.
     */
     array<GACigarUnit> cigar = [];
 }
@@ -287,11 +288,11 @@ record GALinearAlignment {
   line in a SAM file.
 */
 record GAReadAlignment {
-  
-    /** 
-      The read alignment ID. This ID is unique within the read group this 
+
+    /**
+      The read alignment ID. This ID is unique within the read group this
       alignment belongs to. This field may not be provided by all backends.
-      Its intended use is to make caching and UI display easier for 
+      Its intended use is to make caching and UI display easier for
       genome browsers and other light weight clients.
     */
     union { null, string } id;
@@ -344,12 +345,12 @@ record GAReadAlignment {
       A secondary alignment represents an alternative to the primary alignment
       for this read. Aligners may return secondary alignments if a read can map
       ambiguously to multiple coordinates in the genome.
-      
+
       By convention, each read has one and only one alignment where both
-      secondaryAlignment and supplementaryAlignment are false. 
+      secondaryAlignment and supplementaryAlignment are false.
     */
     union { null, boolean } secondaryAlignment = false;
-    
+
     /**
       Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
       Supplementary alignments are used in the representation of a chimeric
@@ -358,7 +359,7 @@ record GAReadAlignment {
       linear alignment in the read will be designated as the representative alignment;
       the remaining linear alignments will be designated as supplementary alignments.
       These alignments may have different mapping quality scores.
-      
+
       In each linear alignment in a chimeric alignment, the read will be hard clipped.
       The `alignedSequence` and `alignedQuality` fields in the alignment record will
       only represent the bases for its respective linear alignment.
