@@ -11,10 +11,10 @@ import idl "common.avdl";
 record GAVariantSet {
   /** The variant set ID. */
   string id;
-  
+
   /** The ID of the dataset this variant set belongs to. */
   string datasetId;
-  
+
   // TODO: Add reference sequence ID information once resolved.
 }
 
@@ -29,7 +29,7 @@ record GACallSet {
 
   /** The call set name. */
   union { null, string } name = null;
-  
+
   /** The sample this call set's data was generated from. */
   union { null, string } sampleId;
 
@@ -38,9 +38,9 @@ record GACallSet {
 
   /** The date this call set was created in milliseconds from the epoch. */
   union { null, long } created = null;
-  
-  /** 
-    The time at which this call set was last updated in 
+
+  /**
+    The time at which this call set was last updated in
     milliseconds from the epoch.
   */
   union { null, long } updated = null;
@@ -63,17 +63,17 @@ record GACall {
 
   /**
     The ID of the call set this variant call belongs to.
-    If this field is not present, the ordering of the call sets from a 
-    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match 
-    the ordering of the calls on this `GAVariant`. 
+    If this field is not present, the ordering of the call sets from a
+    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match
+    the ordering of the calls on this `GAVariant`.
     The number of results will also be the same.
   */
   union { null, string } callSetId;
 
   /**
     The name of the call set this variant call belongs to.
-    If this field is not present, the ordering of the call sets from a 
-    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match 
+    If this field is not present, the ordering of the call sets from a
+    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match
     the ordering of the calls on this `GAVariant`.
     The number of results will also be the same.
   */
@@ -130,9 +130,9 @@ record GAVariant {
 
   /** The date this variant was created in milliseconds from the epoch. */
   union { null, long } created = null;
-  
-  /** 
-    The time at which this variant was last updated in 
+
+  /**
+    The time at which this variant was last updated in
     milliseconds from the epoch.
   */
   union { null, long } updated = null;

@@ -9,7 +9,7 @@ record GASearchReadsRequest {
   /** If specified, restrict this query to reads within the given readgroups. */
   array<string> readGroupIds = [];
 
-  /** 
+  /**
     The reference to query.  Either give a `referenceId` or
     a `referenceSetId` and `referenceName`.
     Leaving this blank returns results from all references, including
@@ -17,7 +17,7 @@ record GASearchReadsRequest {
   */
   union { null, string } referenceSetId = null;
 
-  /** 
+  /**
     The reference to query.  Either give a `referenceId` or
     a `referenceSetId` and `referenceName`.
     Leaving this blank returns results from all references, including
@@ -25,7 +25,7 @@ record GASearchReadsRequest {
   */
   union { null, string } referenceName = null;
 
-  /** 
+  /**
     The reference to query.  Either give a `referenceId` or
     a `referenceSetId` and `referenceName`.
     Leaving this blank returns results from all references, including
@@ -113,7 +113,7 @@ record GASearchReadGroupSetsResponse {
   union { null, string } nextPageToken = null;
 }
 
-/** 
+/**
   Gets a list of `GAReadGroupSet` matching the search criteria.
 
   `POST /readgroupsets/search` must accept a JSON version of
@@ -153,7 +153,7 @@ record GASearchReferenceSetsRequest {
   */
   union { null, string } assemblyId = null;
 
-  /** 
+  /**
     The continuation token, which is used to page through large result sets.
     To get the next page of results, set this parameter to the value of
     `nextPageToken` from the previous response.
@@ -223,7 +223,7 @@ record GASearchReferencesRequest {
   */
   array<string> accessions = [];
 
-  /** 
+  /**
     The continuation token, which is used to page through large result sets.
     To get the next page of results, set this parameter to the value of
     `nextPageToken` from the previous response.
