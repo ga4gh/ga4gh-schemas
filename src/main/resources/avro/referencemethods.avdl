@@ -1,0 +1,152 @@
+@namespace("org.ga4gh")
+protocol GAReferenceMethods {
+
+import idl "common.avdl";
+import idl "references.avdl";
+
+/****************  /referencesets/search  *******************/
+/**
+  This request maps to the body of `POST /referencesets/search`
+  as JSON.
+*/
+record GASearchReferenceSetsRequest {
+  /**
+    If present, return the reference sets for which the `md5sum`
+    matches (see record definition for md5sum construction details).
+  */
+  union { null, string } md5sum = null;
+
+  /**
+    If present, return reference sets for which the accession
+    matches this string. Best to give a version number (e.g. `GCF_000001405.26`).
+    If only the main accession number is given then all records with
+    that main accession will be returned, whichever version.
+    Note that different versions will have different sequences.
+  */
+  union { null, string } accession = null;
+
+  /**
+    If present, return reference sets for which the `assemblyId`
+    contains this string.
+  */
+  union { null, string } assemblyId = null;
+
+  /**
+    The continuation token, which is used to page through large result sets.
+    To get the next page of results, set this parameter to the value of
+    `nextPageToken` from the previous response.
+   */
+  union { null, string } pageToken = null;
+}
+
+/**
+  This is the response from `POST /referencesets/search`
+  expressed as JSON.
+*/
+record GASearchReferenceSetsResponse {
+  /** The list of matching reference sets. */
+  array<GAReferenceSet> referenceSets = [];
+
+  /**
+    The continuation token, which is used to page through large result sets.
+    Provide this value in a subsequent request to return the next page of
+    results. This field will be empty if there aren't any additional results.
+   */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+  Gets a list of `GAReferenceSet` matching the search criteria.
+
+  `POST /referencesets/search` must accept a JSON version of
+  `GASearchReferenceSetsRequest` as the post body and will return a JSON
+  version of `GASearchReferenceSetsResponse`.
+*/
+GASearchReferenceSetsResponse searchReferenceSets(
+    /**
+      This request maps to the body of `POST /referencesets/search`
+      as JSON.
+    */
+    GASearchReferenceSetsRequest request) throws GAException;
+
+/****************  /referencesets/{id}  *******************/
+/**
+  Gets a `GAReferenceSet` by ID.
+  `GET /referencesets/{id}` will return a JSON version of `GAReferenceSet`.
+*/
+GAReferenceSet getReferenceSet(
+    /**
+      The ID of the `GAReferenceSet`.
+    */
+    string id) throws GAException;
+
+/****************  /references/search  *******************/
+/**
+  This request maps to the body of `POST /references/search`
+  as JSON.
+*/
+record GASearchReferencesRequest {
+  /**
+    If present, return references for which the `md5sum`
+    matches (see record definition for md5sum construction details).
+  */
+  array<string> md5sums = [];
+
+  /**
+    If present, return references for which the accession
+    matches this string. Best to give a version number e.g. `GCF_000001405.26`.
+    If only the main accession number is given then all records with
+    that main accession will be returned, whichever version.
+    Note that different versions will have different sequences.
+  */
+  array<string> accessions = [];
+
+  /**
+    The continuation token, which is used to page through large result sets.
+    To get the next page of results, set this parameter to the value of
+    `nextPageToken` from the previous response.
+   */
+  union { null, string } pageToken = null;
+}
+
+/**
+  This is the response from `POST /references/search` expressed as JSON.
+*/
+record GASearchReferencesResponse {
+  /** The list of matching references. */
+  array<GAReference> references = [];
+
+  /**
+    The continuation token, which is used to page through large result sets.
+    Provide this value in a subsequent request to return the next page of
+    results. This field will be empty if there aren't any additional results.
+   */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+  Gets a list of `GAReference` matching the search criteria.
+
+  `POST /references/search` must accept a JSON version of
+  `GASearchReferencesRequest` as the post body and will return a JSON
+  version of `GASearchReferencesResponse`.
+*/
+GASearchReferencesResponse searchReferences(
+    /**
+      This request maps to the body of `POST /references/search`
+      as JSON.
+    */
+    GASearchReferencesRequest request) throws GAException;
+
+/****************  /references/{id}  *******************/
+/**
+  Gets a `GAReference` by ID.
+  `GET /references/{id}` will return a JSON version of `GAReference`.
+*/
+GAReference getReference(
+    /**
+      The ID of the `GAReference`.
+    */
+    string id) throws GAException;
+
+}
