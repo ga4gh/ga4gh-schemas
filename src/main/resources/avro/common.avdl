@@ -25,7 +25,7 @@ protocol GACommon {
     /** The value of the key. */
     string value = null;
   }
-  
+
   /**
     An abstraction for referring to a genomic position, in relation to some
     already known reference. For now, represents a genomic position as a reference
@@ -40,21 +40,21 @@ protocol GACommon {
       example "X" would be used for the X chromosome.
     */
     string referenceName;
-    
+
     /**
       The 0-based offset from the start of the forward strand for that reference.
     */
     long position;
-    
+
     /**
       A flag to indicate if we are on the forward strand (`false`) or reverse
       strand (`true`).
     */
     boolean reverseStrand;
-    
+
   }
-  
-  /** 
+
+  /**
     An enum for the different types of CIGAR alignment operations that exist.
     Used wherever CIGAR alignments are used. The different enumerated values
     have the following usage:
@@ -116,7 +116,7 @@ protocol GACommon {
     /** The number of bases that the operation runs for. */
     long operationLength;
 
-    /** 
+    /**
       `referenceSequence` is only used at mismatches (`SEQUENCE_MISMATCH`)
       and deletions (`DELETE`). Filling this field replaces the MD tag.
       If the relevant information is not available, leave this field as `null`.
