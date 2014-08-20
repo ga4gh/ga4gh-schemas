@@ -4,25 +4,27 @@ protocol GAAnnotations {
 import idl "common.avdl";
 
 /**
-  A sorted list of GAAnnotation
-*/
-record GAAnnotationList {
-  /** The variant ID. */
-  string id;
+  Variant effect priritization
+  Brief decription of putative impact used to quickly priotize variants
 
-  /** 
-    Sorted list of annotations. 
-    Annotations should be sorted by
-      * Impact
-      * Effect type
-      * Genomic coordinates of affected features
-  */
-  array<GAAnnotation> annotations = [];
+  IMPORTANT:
+    Prioritization methods are a crude estimates and are not assumed to be 
+    reliable (e.g a 'HIGH' impact variant may actually not cause any 
+    disruption in protein function or expression.
+*/
+enum GAImpact {
+  CLINCAL,   // Variant related phenotype of clinical interest
+  NMD,       // Variant triggers nonsense mediated decay
+  HIGH,      // Variant highly disrupts prtein function
+  EQTL,      // Variant alters protein expression
+  MODERATE,  // Moderately disrupts protein function
+  LOW,       // Low disruption of protein impact
+  MODIFIER   // No known effect
 }
 
 /**
   Putative effect (or consequence) of a variant
-  These represent capitalized terms from Sequence ontology
+  These represent capitalized terms from Sequence Ontology (SO)
   Reference: http://www.sequenceontology.org/
 
   Order:
@@ -35,7 +37,7 @@ record GAAnnotationList {
     This order is used to sort results, thus showing "more important" results 
     first.
 */
-enum Effect {
+enum GAEffect {
   EXON_LOSS_VARIANT,
   FRAMESHIFT_VARIANT,
   STOP_GAINED,
@@ -49,20 +51,16 @@ enum Effect {
   DISRUPTIVE_INFRAME_INSERTION,
   INFRAME_DELETION,
   DISRUPTIVE_INFRAME_DELETION,
-  5_PRIME_UTR_TRUNCATION+EXON_LOSS_VARIANT,
-  3_PRIME_UTR_TRUNCATION+EXON_LOSS,
-  SPLICE_REGION_VARIANT,
-  SPLICE_REGION_VARIANT,
+  FIVE_PRIME_UTR_TRUNCATION,
+  THREE_PRIME_UTR_TRUNCATION,
   SPLICE_REGION_VARIANT,
   STOP_RETAINED_VARIANT,
   INITIATOR_CODON_VARIANT,
   SYNONYMOUS_VARIANT,
-  INITIATOR_CODON_VARIANT+NON_CANONICAL_START_CODON,
-  STOP_RETAINED_VARIANT,
-  CODING_SEQUENCE_VARIANT,
-  5_PRIME_UTR_VARIANT,
-  3_PRIME_UTR_VARIANT,
-  5_PRIME_UTR_PREMATURE_START_CODON_GAIN_VARIANT,
+  NON_CANONICAL_START_CODON,
+  FIVE_PRIME_UTR_VARIANT,
+  THREE_PRIME_UTR_VARIANT,
+  FIVE_PRIME_UTR_PREMATURE_START_CODON_GAIN_VARIANT,
   UPSTREAM_GENE_VARIANT,
   DOWNSTREAM_GENE_VARIANT,
   TF_BINDING_SITE_VARIANT,
@@ -76,11 +74,62 @@ enum Effect {
   INTERGENIC_REGION,
   CODING_SEQUENCE_VARIANT,
   NON_CODING_EXON_VARIANT,
-  NC_TRANSCRIPT_VARIANT,
-  GENE_VARIANT,
-  CHROMOSOME,
+  NC_TRANSCRIPT_VARIANT
 }
 
+/**
+  Coding annotation
+*/
+record GAAnnotationCoding {
+  /**
+    Codon information
+  */
+  string codonsOld;       // Affected codons (unmodified, as in reference genome)
+  string codonsNew;       // Modified codons 
+
+  /**
+    Codon start coordinate
+    Start CDS base number = codonStartNumber * 3 + codonStartIndex
+  */
+  int codonStartNumber;   // First codon affected
+  int codonStartIndex;    // Base index within codon
+
+  /**
+    Codon end coordinate
+    End CDS base number = codonEndNumber * 3 + codonEndIndex
+  */
+  int codonEndNumber;     // Last codon affected
+  int codonEndIndex;      // Base index within codon
+
+  /**
+    Amino acid information
+  */
+  string aaOld;  // Affected amino acids (unmodified, as in reference genome)
+  string aaNew;  // Modified amino acids
+
+  /**
+    Effect expressed in HGVS nomenclature
+    Reference: http://www.hgvs.org/mutnomen/
+  */
+  string hgvsProt;  // HGVS nomenclature for protein 
+  string hgvsDna;   // HGVS nomenclature for DNA
+}
+
+/**
+  Non-Coding annotation
+*/
+record GAAnnotationNonCoding {
+  /**
+    Distance to closest transcript. 
+    If two transcripts are at the same distance the preference order is
+      * Coding transcript is prefered over non-coding transcript
+      * Cannonical transcript is prefered over non-canonical
+      * Upstream transcript is prefered over downstream transcript
+      * Longer transcript is prefered over shorter transcript (coding bases)
+      * Longer transcript is prefered over shorter transcript (exon bases)
+  */
+  int distance;
+}
 
 /**
   A `GAAnnotation` represents a variant annotations such as putative effects
@@ -95,50 +144,77 @@ record GAAnnotation {
   /** The variant ID. */
   string id;
 
-  /** The date this variant was created in milliseconds from the epoch. */
-  union { null, long } created = null;
+  /**
+    Genotype
+  */
+  int genotypeAlt;
 
   /**
-    The time at which this variant was last updated in
-    milliseconds from the epoch.
+    Reference variant.
+    This is used when a reference (different than the standard reference genome) 
+    is used to calculate the effects, typically for cancer samples when 
+    germline and somatic differ from reference genome. Since we are interested 
+    in the effect of cancer, we want to calculate the effect of somatic variant
+    respect to germline (thus germinle variant acts as reference -instead of 
+    the reference genome-).
   */
-  union { null, long } updated = null;
+  union {null, int} genotypeRef = null;
 
   /**
-    The reference on which this variant occurs.
-    (e.g. `chr20` or `X`)
+    Gene name according to HUGO nomenclature (e.g. 'BRCA1')
   */
-  string referenceName;
+  string geneName;
 
   /**
-    The start position at which this variant occurs (0-based).
-    This corresponds to the first base of the string of reference bases.
+    Transcript ID using version if avaialble
+    (e.g. 'NM_007294.3' or 'ENST00000357654')
   */
-  long start;
+  string transcriptId;
 
   /**
-    The end position (exclusive), resulting in [start, end) closed-open interval.
-    This is typically calculated by `start + referenceBases.length`.
+    Transcript biotype
   */
-  long end;
-
-  /** The reference bases for this variant. They start at the given position. */
-  string referenceBases;
-
-  /** The bases that appear instead of the reference bases. */
-  array<string> alternateBases = [];
+  string biotype;
 
   /**
-    A map of additional variant information. In JSON, this looks like:
-    `info: {key1: value1, key2: value2}`
+    Is transcript protein coding?
   */
-  array<GAKeyValue> info = [];
+  boolean proteinCoding;
+
+  /** Highest impact from effects */
+  GAImpact impact;
+
+  /** 
+    Effects: A sorted list of effects respect to transcript ID (highest first)
+    Mutiple effects based on different transcripts are listed in different 
+    GAAnnotation. 
+  */
+  array<GAEffect> effects;
 
   /**
-    The variant calls for this particular variant. Each one represents the
-    determination of genotype with respect to this variant.
+     Coding or non-coding annotaiton (depending on 'proteinCoding' field)
   */
-  array<GACall> calls = [];
+  union { null, GAAnnotationCoding, GAAnnotationNonCoding } details = null;
+}
+
+
+/**
+  A sorted list of GAAnnotation
+  A GAVariant has GAAnnotationList listing all GAAnnotation for different 
+  trancript IDs that might be affected by the same variant.
+*/
+record GAAnnotationList {
+  /** The variant ID. */
+  string id;
+
+  /** 
+    Sorted list of annotations. 
+    Annotations should be sorted by
+      * Impact
+      * Effect type
+      * Genomic coordinates of affected features
+  */
+  array<GAAnnotation> annotations = [];
 }
 
 }
