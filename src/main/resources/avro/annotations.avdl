@@ -175,7 +175,7 @@ record GAAnnotationCoding {
   GAAnnotationEqtl: EQTL annotations describe variants that affect 
   gene/transcript expression
 */
-record GAAnnotationEqtl {
+record GAEqtl {
   string gene; // Gene name in HUGO format
   string transcriptId; // Transcript ID
   string tissue;  // Tissue
@@ -183,12 +183,27 @@ record GAAnnotationEqtl {
 }
 
 /**
+  A list of EQTLs
+*/
+record GAAnnotationEqtls {
+  array<GAEqtl> eqtls;
+}
+
+/**
   Non-Coding annotation
 */
 record GAAnnotationNonCoding {
   /**
-    Distance to closest transcript. 
-    If two transcripts are at the same distance the preference order is
+    Distance (in bases) to closest feature.
+
+    Distance measurement depends on effect type:
+
+    * Upstream: distance to transcript start
+    * 5'UTR: distance to TSS
+    * 3'UTE: distance to last coding base (last base of stop codon)
+    * Downstream: distance to transcript end
+    * Intergenic: Distance to closest transcript.
+      If two transcripts are at the same distance the preference order is:
       * Coding transcript is prefered over non-coding transcript
       * Cannonical transcript is prefered over non-canonical
       * Upstream transcript is prefered over downstream transcript
@@ -212,12 +227,12 @@ record GAAnnotation {
   string id;
 
   /**
-    Genotype
+    Genotype number
   */
   int genotypeAlt;
 
   /**
-    Reference variant.
+    Genotype reference number.
     This is used when a reference (different than the standard reference genome) 
     is used to calculate the effects, typically for cancer samples when 
     germline and somatic differ from reference genome. Since we are interested 
@@ -274,8 +289,8 @@ record GAAnnotation {
   */
   union { null, GAAnnotationExon } exonInfo;
   union { null, GAAnnotationIntron } intronInfo;
+  union { null, GAAnnotationEqtls } eqtls;
   union { null, GAAnnotationClincal } clinicalInfo;
-  union { null, GAAnnotationEqtl } eqtlInfo;
 }
 
 /**
