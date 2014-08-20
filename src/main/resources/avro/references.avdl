@@ -22,7 +22,7 @@ record GAReference {
     The name of this reference. (e.g. '22') Also see the
     `names` field on the parent `GAReferenceSet`.
   */
-  union { null, string } name = null;
+  string name;
 
   /**
     The URI from which the sequence was obtained, if not given in the
@@ -85,8 +85,9 @@ record GAReferenceSet {
   array<long> lengths = [];
 
   /**
-    MD5 of the concatenation of { name, literal sequence } in array order,
-    all strings 0-terminated.
+    MD5 of the concatenation of { `reference.name`, `reference.md5checksum` } for
+    all `reference` in this `GAReferenceSet`, in array ordering consistent with
+    `referenceIds`. Reference names are 0-terminated for this computation.
   */
   string md5checksum;
 
