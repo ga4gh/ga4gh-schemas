@@ -77,6 +77,57 @@ enum GAEffect {
   NC_TRANSCRIPT_VARIANT
 }
 
+enum GAExonSpliceType {
+  NONE, // Not spliced
+  RETAINED, // All transcripts have this exon
+  SKIPPED, // Some transcripts skip it
+  ALTTENATIVE_3SS, // Some transcripts have and alternative 3' exon start
+  ALTTENATIVE_5SS, // Some transcripts have and alternative 5' exon end
+  MUTUALLY_EXCLUSIVE, // Mutually exclusive (respect to other exon)
+  ALTTENATIVE_PROMOMOTER, // The first exon is different in some transcripts
+  ALTTENATIVE_POLY_A // The last exon
+}
+
+/**
+  Exon annotation information
+*/
+record GAAnnotationExon {
+  int rank;  // Exon number, form 5' to 3', one-based (first exon is 1)
+
+  /**
+    Distance to exon's 5' side
+    (variant's closest base)
+  */
+  int distanceTo5Prime;
+
+  /**
+    Distance to exon's 3' side
+    (variant's closest base)
+  */
+  int distanceTo3Prime;
+
+  GAExonSpliceType spliceType;
+}
+
+/**
+  Intron annotaion information
+*/
+record GAAnnotationIntron {
+  int rank;  // Intron number, form 5' to 3', one-based (first intron is 1)
+
+  /**
+    Distance to intron's 5' side
+    (variant's closest base)
+  */
+  int distanceTo5Prime;
+
+  /**
+    Distance to intron's 3' side
+    (variant's closest base)
+  */
+  int distanceTo3Prime;
+}
+
 /**
   Coding annotation
 */
@@ -195,6 +246,12 @@ record GAAnnotation {
      Coding or non-coding annotaiton (depending on 'proteinCoding' field)
   */
   union { null, GAAnnotationCoding, GAAnnotationNonCoding } details = null;
+
+  /**
+    Additional exon / intron annotations
+  */
+  union { null, GAAnnotationExon } exonInfo;
+  union { null, GAAnnotationIntron } intronInfo;
 }
 
 
