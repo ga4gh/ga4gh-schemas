@@ -195,7 +195,11 @@ record GAReadAlignment {
     /** The number of reads in the fragment (extension to SAM flag 0x1) */
     union { null, int } numberReads = null;
 
-    /** The observed length of the fragment, equivalent to TLEN in SAM. */
+    /**
+      The observed length of the fragment alignment, or the distance from the left-most
+      to the right-most aligned base of the reference for all alignments belonging to this
+      fragment. Equivalent to TLEN in SAM.
+    */
     union { null, int } fragmentLength = null;
 
     // read attributes
