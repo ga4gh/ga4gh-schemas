@@ -1,0 +1,144 @@
+@namespace("org.ga4gh")
+protocol GAAnnotations {
+
+import idl "common.avdl";
+
+/**
+  A sorted list of GAAnnotation
+*/
+record GAAnnotationList {
+  /** The variant ID. */
+  string id;
+
+  /** 
+    Sorted list of annotations. 
+    Annotations should be sorted by
+      * Impact
+      * Effect type
+      * Genomic coordinates of affected features
+  */
+  array<GAAnnotation> annotations = [];
+}
+
+/**
+  Putative effect (or consequence) of a variant
+  These represent capitalized terms from Sequence ontology
+  Reference: http://www.sequenceontology.org/
+
+  Order:
+    Terms are order by impact. This means that a term appearing 
+    at the beginnig of the list is assumeed to have a higher impact 
+    on protein function than ones appearing at the end of the list.
+    (e.g. FRAMESHIFT_VARIANT is assumed to have a higher impact than 
+    a SYNONYMOUS_VARIANT).
+
+    This order is used to sort results, thus showing "more important" results 
+    first.
+*/
+enum Effect {
+  EXON_LOSS_VARIANT,
+  FRAMESHIFT_VARIANT,
+  STOP_GAINED,
+  STOP_LOST,
+  START_LOST,
+  SPLICE_ACCEPTOR_VARIANT,
+  SPLICE_DONOR_VARIANT,
+  RARE_AMINO_ACID_VARIANT,
+  MISSENSE_VARIANT,
+  INFRAME_INSERTION,
+  DISRUPTIVE_INFRAME_INSERTION,
+  INFRAME_DELETION,
+  DISRUPTIVE_INFRAME_DELETION,
+  5_PRIME_UTR_TRUNCATION+EXON_LOSS_VARIANT,
+  3_PRIME_UTR_TRUNCATION+EXON_LOSS,
+  SPLICE_REGION_VARIANT,
+  SPLICE_REGION_VARIANT,
+  SPLICE_REGION_VARIANT,
+  STOP_RETAINED_VARIANT,
+  INITIATOR_CODON_VARIANT,
+  SYNONYMOUS_VARIANT,
+  INITIATOR_CODON_VARIANT+NON_CANONICAL_START_CODON,
+  STOP_RETAINED_VARIANT,
+  CODING_SEQUENCE_VARIANT,
+  5_PRIME_UTR_VARIANT,
+  3_PRIME_UTR_VARIANT,
+  5_PRIME_UTR_PREMATURE_START_CODON_GAIN_VARIANT,
+  UPSTREAM_GENE_VARIANT,
+  DOWNSTREAM_GENE_VARIANT,
+  TF_BINDING_SITE_VARIANT,
+  REGULATORY_REGION_VARIANT,
+  MIRNA,
+  SEQUENCE_FEATURE,
+  CONSERVED_INTRON_VARIANT,
+  INTRON_VARIANT,
+  INTRAGENIC_VARIANT,
+  CONSERVED_INTERGENIC_VARIANT,
+  INTERGENIC_REGION,
+  CODING_SEQUENCE_VARIANT,
+  NON_CODING_EXON_VARIANT,
+  NC_TRANSCRIPT_VARIANT,
+  GENE_VARIANT,
+  CHROMOSOME,
+}
+
+
+/**
+  A `GAAnnotation` represents a variant annotations such as putative effects
+  (also called consequences) and impact. For example, an annotation could 
+  represent nonsense mutation or a frame shift. 
+
+  Note: This is equivalent to an 'EFF' (SnpEff) or 'CSQ' (ENSEMBL's VEP) INFO 
+        field in an annotated VCF file.
+*/
+record GAAnnotation {
+
+  /** The variant ID. */
+  string id;
+
+  /** The date this variant was created in milliseconds from the epoch. */
+  union { null, long } created = null;
+
+  /**
+    The time at which this variant was last updated in
+    milliseconds from the epoch.
+  */
+  union { null, long } updated = null;
+
+  /**
+    The reference on which this variant occurs.
+    (e.g. `chr20` or `X`)
+  */
+  string referenceName;
+
+  /**
+    The start position at which this variant occurs (0-based).
+    This corresponds to the first base of the string of reference bases.
+  */
+  long start;
+
+  /**
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+    This is typically calculated by `start + referenceBases.length`.
+  */
+  long end;
+
+  /** The reference bases for this variant. They start at the given position. */
+  string referenceBases;
+
+  /** The bases that appear instead of the reference bases. */
+  array<string> alternateBases = [];
+
+  /**
+    A map of additional variant information. In JSON, this looks like:
+    `info: {key1: value1, key2: value2}`
+  */
+  array<GAKeyValue> info = [];
+
+  /**
+    The variant calls for this particular variant. Each one represents the
+    determination of genotype with respect to this variant.
+  */
+  array<GACall> calls = [];
+}
+
+}
