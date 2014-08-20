@@ -6,7 +6,7 @@ protocol GAAnnotations {
   (also called consequences) and simple prioritization (also called impact). 
 
   For example, an annotation can represent a frame shift variant (having 
-  a high impact) or a synonimous variant (having a low impact).
+  a high impact) or a synonymous variant (having a low impact).
 
   Note: These records are based on annotated VCF files, such as those produced
         by SnpEff or ENSEMBL's VEP, having VCF INFO tags 'EFF' and 'CSQ' 
@@ -15,7 +15,7 @@ protocol GAAnnotations {
         strictly. For instance, HGVS nomenclature suggests that 
         "silent changes" are represented as "p.=", but the equal sign is 
         not allowed in VCF fields. In these cases an alternative (sometimes 
-        discurraged) representation may be used.
+        discouraged) representation may be used.
 
   References:
       - SnpEff       : http://snpeff.sourceforge.net/
@@ -42,6 +42,21 @@ import idl "common.avdl";
 
     This order is used to sort results, thus showing "more important" results 
     first.
+
+  TODO: @lh3 proposed to use a string tuple (SO,name) instead of an enum. 
+        It might be a good idea, here are some pros and cons.
+
+    +tuple : Far more flexible. It does not require o update the spec. to 
+             incorporate a new term.
+
+    +tuple : We don't need to modigy SO term names (capitalize or replace
+             numbers by letters)
+
+    +enum  : Downstream programs know what to expect.
+
+    +enum  : We can use a simple 'priority order' (can be done with tuples 
+             as well, it is just slightly more laborious)
+
 */
 enum GAEffect {
   EXON_LOSS_VARIANT,
@@ -84,6 +99,15 @@ enum GAEffect {
 }
 
 /**
+  Sequence ontology term
+  This can be used instead on the previous 'enum'
+*/
+record GASoTerm {
+  string id;    // SO term ID (e.g. 'SO:0002008')
+  string name;  // SO name (e.g. 'rare_amino_acid_variant')
+}
+
+/**
   GAImpact is a simple prioritization for GAEffect.
 
   IMPORTANT:
@@ -92,7 +116,7 @@ enum GAEffect {
     in protein function or expression.
 */
 enum GAImpact {
-  HIGH,      // Variant highly disrupts prtein function
+  HIGH,      // Variant highly disrupts protein function
   MODERATE,  // Moderately disrupts protein function
   LOW,       // Low disruption of protein impact
   MODIFIER   // No known effect
@@ -106,28 +130,26 @@ enum GAExonSpliceType {
   NONE,                   // Not spliced
   RETAINED,               // All transcripts have this exon
   SKIPPED,                // Some transcripts skip it
-  ALTTENATIVE_3SS,        // Some transcripts have and alternative 3' exon start
-  ALTTENATIVE_5SS,        // Some transcripts have and alternative 5' exon end
+  ALTERNATIVE_3SS,        // Some transcripts have and alternative 3' exon start
+  ALTERNATIVE_5SS,        // Some transcripts have and alternative 5' exon end
   MUTUALLY_EXCLUSIVE,     // Mutually exclusive (respect to other exon)
-  ALTTENATIVE_PROMOMOTER, // The first exon is different in some transcripts
-  ALTTENATIVE_POLY_A      // The last exon (poly-A tail)
+  ALTERNATIVE_PROMOMOTER, // The first exon is different in some transcripts
+  ALTERNATIVE_POLY_A      // The last exon (poly-A tail)
 }
 
 /**
-  GAClinicalSignificance: Clinical significance annotations
-  References: ClinVar's CLNSIG tag
-              http://www.ncbi.nlm.nih.gov/clinvar/
+  GAClinicalSignificance: "Clinical Significance" terms from ClinVar
+  References: https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/
 */
 enum GAClinicalSignificance {
-  UNKNOWN,
-  UNTESTED,
-  NON_PATHOGENIC,
-  PROBABLE_NON_PATHOGENIC,
-  PROBABLE_PATHOGENIC,
-  PATHOGENIC,
+  OTHER,
+  BENIGN,
+  PROTECTIVE,
+  ASSOCIATION,
   DRUG_RESPONSE,
-  HISTOCOMPATIBILITY,
-  OTHER
+  RISK_FACTOR,
+  UNCERTAIN,
+  PATHOGENIC
 }
 
 /**
@@ -243,6 +265,29 @@ record GAAnnotationEqtls {
 }
 
 /**
+  GAScoringAlgorithm: An algorithm used for scoring variants 
+  (e.g. SIFT, Polyphen, etc.)
+*/
+record GAScoringAlgorithm {
+  string name;    // Algorithm name
+  string version; // Algorithm version
+}
+
+/**
+  GAAnnotationScores: Scores from prioritization agorithms
+
+  Note: Why do we need 'GAImpact' for each score?
+        Some methods use a consensus of scores from several algorithms.
+        For instance, it is common to declare a variant 'HIGH impact' 
+        only if at least 3 out of 5 known algorithms.
+*/
+record GAAnnotationScores {
+  GAScoringAlgorithm algorithm;  // Algorithm used
+  double rawScore;               // Raw score
+  GAImpact impact;               // Raw score interpretation
+}
+
+/**
   GAAnnotationClincal: Annotation of clinicaly relevant information
   References: Mostly informaton from ClinVar
               http://www.ncbi.nlm.nih.gov/clinvar/
@@ -336,6 +381,11 @@ record GAAnnotation {
     GAAnnotation. 
   */
   array<GAEffect> effects;
+
+  /* Uncomment this line (and remove previous one) if we decide to use a 
+     tuple instead of an enum
+  */
+  // array<GASoTerm> effects; 
 
   /** Highest GAImpact from 'effects' */
   GAImpact impact;
