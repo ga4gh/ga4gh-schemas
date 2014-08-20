@@ -189,7 +189,6 @@ record GAAnnotationEqtls {
   array<GAEqtl> eqtls;
 }
 
-
 /**
   Clinical significance
   References: ClinVar's CLNSIG tag
@@ -250,6 +249,10 @@ record GAAnnotationNonCoding {
 
   Note: This is equivalent to an 'EFF' (SnpEff) or 'CSQ' (ENSEMBL's VEP) INFO 
         field in an annotated VCF file.
+
+
+  TODO: Add infoamtion about Nonsense mediated decay predictions (NMD) and
+        loss of function preditions (LOF). Should these be SO terms or Impact?
 */
 record GAAnnotation {
 
