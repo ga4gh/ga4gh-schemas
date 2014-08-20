@@ -1,6 +1,27 @@
 @namespace("org.ga4gh")
 protocol GAAnnotations {
 
+/**
+  These records represent variant annotations such as putative effects
+  (also called consequences) and simple prioritization (also called impact). 
+
+  For example, an annotation can represent a frame shift variant (having 
+  a high impact) or a synonimous variant (having a low impact).
+
+  Note: These records are based on annotated VCF files, such as those produced
+        by SnpEff or ENSEMBL's VEP, having VCF INFO tags 'EFF' and 'CSQ' 
+        respectively.
+        As such, some of the standards refered to may not be followed 
+        strictly. For instance, HGVS nomenclature suggests that 
+        "silent changes" are represented as "p.=", but the equal sign is 
+        not allowed in VCF fields. In these cases an alternative (sometimes 
+        discurraged) representation may be used.
+
+  References:
+      - SnpEff       : http://snpeff.sourceforge.net/
+      - ENSEMBL's VEP: http://www.ensembl.org/info/docs/tools/vep/index.html 
+*/
+
 import idl "common.avdl";
 
 /**
@@ -8,8 +29,8 @@ import idl "common.avdl";
 
   IMPORTANT:
     Prioritization methods are a crude estimates and are not assumed to be 
-    reliable: e.g a 'HIGH' impact GAEffect may actually not cause any 
-    disruption in protein function or expression.
+    reliable: e.g a 'HIGH' GAImpact may actually not cause any disruption 
+    in protein function or expression.
 */
 enum GAImpact {
   HIGH,      // Variant highly disrupts prtein function
@@ -21,18 +42,18 @@ enum GAImpact {
 /**
   GAEffect: Putative effect (or consequence) of a variant
 
-  This enumeration represents capitalized terms from Sequence Ontology (SO)
+  This enumeration represents capitalized Sequence Ontology (SO) term
   Reference: http://www.sequenceontology.org/
 
   Due to Avro restrictions, terms starting with number (such as 5_prime_* or 
-  3_prime) were converted to letters (FIVE_PRIME_*, THREE_PRIME_*)
+  3_prime) are converted to letters (FIVE_PRIME_*, THREE_PRIME_*)
 
   Order:
-    Terms are order by 'estimated' impact. This means that a term appearing 
-    at the beginnig of the list is assumeed to have a higher impact 
-    on protein function than ones appearing at the end of the list.
-    (e.g. FRAMESHIFT_VARIANT is assumed to have a higher impact than 
-    a SYNONYMOUS_VARIANT).
+    Terms are order by 'estimated' biological impact. This means that a term 
+    appearing at the beginnig of the list is assumeed to have a higher impact 
+    on protein function than ones appearing at the end of the list (e.g. 
+    FRAMESHIFT_VARIANT is assumed to have a higher impact than 
+    SYNONYMOUS_VARIANT).
 
     This order is used to sort results, thus showing "more important" results 
     first.
@@ -82,14 +103,14 @@ enum GAEffect {
   References: http://en.wikipedia.org/wiki/Alternative_splicing#Modes
 */
 enum GAExonSpliceType {
-  NONE, // Not spliced
-  RETAINED, // All transcripts have this exon
-  SKIPPED, // Some transcripts skip it
-  ALTTENATIVE_3SS, // Some transcripts have and alternative 3' exon start
-  ALTTENATIVE_5SS, // Some transcripts have and alternative 5' exon end
-  MUTUALLY_EXCLUSIVE, // Mutually exclusive (respect to other exon)
+  NONE,                   // Not spliced
+  RETAINED,               // All transcripts have this exon
+  SKIPPED,                // Some transcripts skip it
+  ALTTENATIVE_3SS,        // Some transcripts have and alternative 3' exon start
+  ALTTENATIVE_5SS,        // Some transcripts have and alternative 5' exon end
+  MUTUALLY_EXCLUSIVE,     // Mutually exclusive (respect to other exon)
   ALTTENATIVE_PROMOMOTER, // The first exon is different in some transcripts
-  ALTTENATIVE_POLY_A // The last exon
+  ALTTENATIVE_POLY_A      // The last exon (poly-A tail)
 }
 
 /**
@@ -97,16 +118,20 @@ enum GAExonSpliceType {
   lie onto an exon
 */
 record GAAnnotationExon {
-  int rank;  // Exon number, form 5' to 3', one-based (first exon is 1)
+  /** 
+    Exon rank (one based). 
+    Exons are sorted from 5' to 3', first exon is 1
+  */
+  int rank;
 
   /**
-    Distance to exon's 5' side
+    Distance in bases to exon's 5' edge
     (variant's closest base)
   */
   int distanceTo5Prime;
 
   /**
-    Distance to exon's 3' side
+    Distance in bases to exon's 3' edge
     (variant's closest base)
   */
   int distanceTo3Prime;
@@ -119,16 +144,20 @@ record GAAnnotationExon {
   lie onto an intron
 */
 record GAAnnotationIntron {
-  int rank;  // Intron number, form 5' to 3', one-based (first intron is 1)
+  /** 
+    Intron rank (one based). 
+    Intron are sorted from 5' to 3', first intron is 1
+  */
+  int rank;
 
   /**
-    Distance to intron's 5' side
+    Distance in bases to intron's 5' edge
     (variant's closest base)
   */
   int distanceTo5Prime;
 
   /**
-    Distance to intron's 3' side
+    Distance in bases to intron's 3' edge
     (variant's closest base)
   */
   int distanceTo3Prime;
@@ -138,6 +167,13 @@ record GAAnnotationIntron {
   GAAnnotationCoding: Information for coding variants
 */
 record GAAnnotationCoding {
+
+  /**
+    Positions relative to first base in pre-mRNA and CDs
+  */
+  int posPreMrna;
+  int posCds;
+
   /**
     Codon information
   */
@@ -146,7 +182,7 @@ record GAAnnotationCoding {
 
   /**
     Codon start coordinate
-    Start CDS base number = codonStartNumber * 3 + codonStartIndex
+    posCds = codonStartNumber * 3 + codonStartIndex
   */
   int codonStartNumber;   // First codon affected
   int codonStartIndex;    // Base index within codon
@@ -161,11 +197,11 @@ record GAAnnotationCoding {
   /**
     Amino acid information
   */
-  string aaOld;  // Affected amino acids (unmodified, as in reference genome)
-  string aaNew;  // Modified amino acids
+  string aaOld;           // Affected amino acids (as in reference genome)
+  string aaNew;           // Modified amino acids
 
   /**
-    Protein variant & effect expressed in HGVS nomenclature
+    Protein variant and effect expressed in HGVS nomenclature
     Reference: http://www.hgvs.org/mutnomen/
   */
   string hgvsProt;
@@ -176,10 +212,10 @@ record GAAnnotationCoding {
   gene/transcript expression
 */
 record GAEqtl {
-  string gene; // Gene name in HUGO format
-  string transcriptId; // Transcript ID
-  string tissue;  // Tissue
-  double log2fold;  // Estimated fold change (log2)
+  union {null, string} gene;         // Gene name in HUGO format
+  union {null, string} transcriptId; // Transcript ID
+  union {null, string} tissue;       // Tissue
+  union {null, double} log2fold;     // Estimated fold change (log2)
 }
 
 /**
@@ -190,9 +226,9 @@ record GAAnnotationEqtls {
 }
 
 /**
-  Clinical significance
+  GAClinicalSignificance: Clinical significance annotations
   References: ClinVar's CLNSIG tag
-  http://www.ncbi.nlm.nih.gov/clinvar/
+              http://www.ncbi.nlm.nih.gov/clinvar/
 */
 enum GAClinicalSignificance {
   UNKNOWN,
@@ -207,31 +243,31 @@ enum GAClinicalSignificance {
 }
 
 /**
-  Clinical relevant information
-  Mostly informaton from ClinVar
-  http://www.ncbi.nlm.nih.gov/clinvar/
+  GAAnnotationClincal: Annotation of clinicaly relevant information
+  References: Mostly informaton from ClinVar
+              http://www.ncbi.nlm.nih.gov/clinvar/
 */
 record GAAnnotationClincal {
-  string id;  // Clinical information ID (ClinVar ID)
-  boolean cda; // Variation is interrogated in a clinical diagnostic assay
+  string id;      // Clinical information ID (ClinVar ID)
+  boolean cda;    // Variation is interrogated in a clinical diagnostic assay
   GAClinicalSignificance significance;  // Clinical Significance (CLNSIG)
   string disease; // Variant disease name (CLNDBN)
 }
 
 /**
-  Non-Coding annotation
+  GAAnnotationNonCoding: Additional information for non-coding annotations
 */
 record GAAnnotationNonCoding {
   /**
-    Distance (in bases) to closest feature.
+    Distance (in bases) to closest "feature".
 
-    Distance measurement depends on effect type:
+    Distance measurement depends on the feature referred by GAEffect:
 
-    * Upstream: distance to transcript start
-    * 5'UTR: distance to TSS
-    * 3'UTE: distance to last coding base (last base of stop codon)
-    * Downstream: distance to transcript end
-    * Intergenic: Distance to closest transcript.
+    * Upstream   : Distance to transcript start
+    * 5'UTR      : Distance to TSS
+    * 3'UTE      : Distance to last coding base (last base of stop codon)
+    * Downstream : Distance to transcript end
+    * Intergenic : Distance to closest transcript
       If two transcripts are at the same distance the preference order is:
       * Coding transcript is prefered over non-coding transcript
       * Cannonical transcript is prefered over non-canonical
@@ -244,15 +280,10 @@ record GAAnnotationNonCoding {
 
 /**
   A `GAAnnotation` represents a variant annotations such as putative effects
-  (also called consequences) and impact. For example, an annotation could 
-  represent nonsense mutation or a frame shift. 
+  (also called consequences) and a simple prioritization (also called impact). 
 
-  Note: This is equivalent to an 'EFF' (SnpEff) or 'CSQ' (ENSEMBL's VEP) INFO 
-        field in an annotated VCF file.
-
-
-  TODO: Add infoamtion about Nonsense mediated decay predictions (NMD) and
-        loss of function preditions (LOF). Should these be SO terms or Impact?
+  TODO: Add infromation about "Nonsense Mediated Decay" predictions (NMD) and
+        "Loss Of Function" predictions (LOF). Should these be SO terms or Impact?
 */
 record GAAnnotation {
 
@@ -281,13 +312,16 @@ record GAAnnotation {
   string geneName;
 
   /**
-    Transcript ID using version if avaialble
-    (e.g. 'NM_007294.3' or 'ENST00000357654')
+    Transcript ID (e.g. 'NM_007294.3' or 'ENST00000357654')
+    Note: Transcript IDs MUST include version number. 
+          This means that 'NM_007294.3' must be used instead of 'NM_007294'
   */
   string transcriptId;
 
   /**
-    Transcript biotype
+    Transcript biotype according to HAVANA types
+    Reference: 
+      http://vega.sanger.ac.uk/info/about/gene_and_transcript_types.html
   */
   string biotype;
 
@@ -296,9 +330,6 @@ record GAAnnotation {
   */
   boolean proteinCoding;
 
-  /** Highest impact from effects */
-  GAImpact impact;
-
   /** 
     Effects: A sorted list of effects respect to transcript ID (highest first)
     Mutiple effects based on different transcripts are listed in different 
@@ -306,8 +337,11 @@ record GAAnnotation {
   */
   array<GAEffect> effects;
 
+  /** Highest GAImpact from 'effects' */
+  GAImpact impact;
+
   /**
-    DNA variant & effect expressed in HGVS nomenclature
+    Variant and effect expressed in HGVS nomenclature (DNA level)
     Reference: http://www.hgvs.org/mutnomen/
   */
   string hgvsDna;
@@ -327,9 +361,9 @@ record GAAnnotation {
 }
 
 /**
-  A sorted list of GAAnnotation
-  A GAVariant has GAAnnotationList listing all GAAnnotation for different 
-  trancript IDs that might be affected by the same variant.
+  GAAnnotationList: A sorted list of GAAnnotation.
+  This referes to all GAAnnotation for different trancript IDs that 
+  might be affected a GAVariant.
 */
 record GAAnnotationList {
   /** The variant ID. */
