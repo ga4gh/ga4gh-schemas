@@ -25,21 +25,6 @@ protocol GAAnnotations {
 import idl "common.avdl";
 
 /**
-  GAImpact is a simple prioritization for GAEffect.
-
-  IMPORTANT:
-    Prioritization methods are a crude estimates and are not assumed to be 
-    reliable: e.g a 'HIGH' GAImpact may actually not cause any disruption 
-    in protein function or expression.
-*/
-enum GAImpact {
-  HIGH,      // Variant highly disrupts prtein function
-  MODERATE,  // Moderately disrupts protein function
-  LOW,       // Low disruption of protein impact
-  MODIFIER   // No known effect
-}
-
-/**
   GAEffect: Putative effect (or consequence) of a variant
 
   This enumeration represents capitalized Sequence Ontology (SO) term
@@ -99,6 +84,21 @@ enum GAEffect {
 }
 
 /**
+  GAImpact is a simple prioritization for GAEffect.
+
+  IMPORTANT:
+    Prioritization methods are a crude estimates and are not assumed to be 
+    reliable: e.g a 'HIGH' GAImpact may actually not cause any disruption 
+    in protein function or expression.
+*/
+enum GAImpact {
+  HIGH,      // Variant highly disrupts prtein function
+  MODERATE,  // Moderately disrupts protein function
+  LOW,       // Low disruption of protein impact
+  MODIFIER   // No known effect
+}
+
+/**
   GAExonSpliceType: Exon categories based on splice types
   References: http://en.wikipedia.org/wiki/Alternative_splicing#Modes
 */
@@ -111,6 +111,23 @@ enum GAExonSpliceType {
   MUTUALLY_EXCLUSIVE,     // Mutually exclusive (respect to other exon)
   ALTTENATIVE_PROMOMOTER, // The first exon is different in some transcripts
   ALTTENATIVE_POLY_A      // The last exon (poly-A tail)
+}
+
+/**
+  GAClinicalSignificance: Clinical significance annotations
+  References: ClinVar's CLNSIG tag
+              http://www.ncbi.nlm.nih.gov/clinvar/
+*/
+enum GAClinicalSignificance {
+  UNKNOWN,
+  UNTESTED,
+  NON_PATHOGENIC,
+  PROBABLE_NON_PATHOGENIC,
+  PROBABLE_PATHOGENIC,
+  PATHOGENIC,
+  DRUG_RESPONSE,
+  HISTOCOMPATIBILITY,
+  OTHER
 }
 
 /**
@@ -223,23 +240,6 @@ record GAEqtl {
 */
 record GAAnnotationEqtls {
   array<GAEqtl> eqtls;
-}
-
-/**
-  GAClinicalSignificance: Clinical significance annotations
-  References: ClinVar's CLNSIG tag
-              http://www.ncbi.nlm.nih.gov/clinvar/
-*/
-enum GAClinicalSignificance {
-  UNKNOWN,
-  UNTESTED,
-  NON_PATHOGENIC,
-  PROBABLE_NON_PATHOGENIC,
-  PROBABLE_PATHOGENIC,
-  PATHOGENIC,
-  DRUG_RESPONSE,
-  HISTOCOMPATIBILITY,
-  OTHER
 }
 
 /**
