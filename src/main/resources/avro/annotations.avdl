@@ -189,6 +189,36 @@ record GAAnnotationEqtls {
   array<GAEqtl> eqtls;
 }
 
+
+/**
+  Clinical significance
+  References: ClinVar's CLNSIG tag
+  http://www.ncbi.nlm.nih.gov/clinvar/
+*/
+enum GAClinicalSignificance {
+  UNKNOWN,
+  UNTESTED,
+  NON_PATHOGENIC,
+  PROBABLE_NON_PATHOGENIC,
+  PROBABLE_PATHOGENIC,
+  PATHOGENIC,
+  DRUG_RESPONSE,
+  HISTOCOMPATIBILITY,
+  OTHER
+}
+
+/**
+  Clinical relevant information
+  Mostly informaton from ClinVar
+  http://www.ncbi.nlm.nih.gov/clinvar/
+*/
+record GAAnnotationClincal {
+  string id;  // Clinical information ID (ClinVar ID)
+  boolean cda; // Variation is interrogated in a clinical diagnostic assay
+  GAClinicalSignificance significance;  // Clinical Significance (CLNSIG)
+  string disease; // Variant disease name (CLNDBN)
+}
+
 /**
   Non-Coding annotation
 */
