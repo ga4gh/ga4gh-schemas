@@ -274,17 +274,24 @@ record GAScoringAlgorithm {
 }
 
 /**
-  GAAnnotationScores: Scores from prioritization agorithms
+  GAAnnotationScore: Scores from prioritization agorithms
 
   Note: Why do we need 'GAImpact' for each score?
         Some methods use a consensus of scores from several algorithms.
         For instance, it is common to declare a variant 'HIGH impact' 
         only if at least 3 out of 5 known algorithms.
 */
-record GAAnnotationScores {
+record GAAnnotationScore {
   GAScoringAlgorithm algorithm;  // Algorithm used
   double rawScore;               // Raw score
   GAImpact impact;               // Raw score interpretation
+}
+
+/**
+  GAAnnotationScores: A list of annotation scores
+*/
+record GAAnnotationScores {
+	array<GAAnnotationScore> scores;
 }
 
 /**
@@ -408,6 +415,7 @@ record GAAnnotation {
   union { null, GAAnnotationIntron } intronInfo;
   union { null, GAAnnotationEqtls } eqtls;
   union { null, GAAnnotationClincal } clinicalInfo;
+  union { null, GAAnnotationScores } scores;
 }
 
 /**
