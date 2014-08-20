@@ -4,31 +4,31 @@ protocol GAAnnotations {
 import idl "common.avdl";
 
 /**
-  Variant effect priritization
-  Brief decription of putative impact used to quickly priotize variants
+  GAImpact is a simple prioritization for GAEffect.
 
   IMPORTANT:
     Prioritization methods are a crude estimates and are not assumed to be 
-    reliable (e.g a 'HIGH' impact variant may actually not cause any 
+    reliable: e.g a 'HIGH' impact GAEffect may actually not cause any 
     disruption in protein function or expression.
 */
 enum GAImpact {
-  CLINCAL,   // Variant related phenotype of clinical interest
-  NMD,       // Variant triggers nonsense mediated decay
   HIGH,      // Variant highly disrupts prtein function
-  EQTL,      // Variant alters protein expression
   MODERATE,  // Moderately disrupts protein function
   LOW,       // Low disruption of protein impact
   MODIFIER   // No known effect
 }
 
 /**
-  Putative effect (or consequence) of a variant
-  These represent capitalized terms from Sequence Ontology (SO)
+  GAEffect: Putative effect (or consequence) of a variant
+
+  This enumeration represents capitalized terms from Sequence Ontology (SO)
   Reference: http://www.sequenceontology.org/
 
+  Due to Avro restrictions, terms starting with number (such as 5_prime_* or 
+  3_prime) were converted to letters (FIVE_PRIME_*, THREE_PRIME_*)
+
   Order:
-    Terms are order by impact. This means that a term appearing 
+    Terms are order by 'estimated' impact. This means that a term appearing 
     at the beginnig of the list is assumeed to have a higher impact 
     on protein function than ones appearing at the end of the list.
     (e.g. FRAMESHIFT_VARIANT is assumed to have a higher impact than 
@@ -77,6 +77,10 @@ enum GAEffect {
   NC_TRANSCRIPT_VARIANT
 }
 
+/**
+  GAExonSpliceType: Exon categories based on splice types
+  References: http://en.wikipedia.org/wiki/Alternative_splicing#Modes
+*/
 enum GAExonSpliceType {
   NONE, // Not spliced
   RETAINED, // All transcripts have this exon
@@ -89,7 +93,8 @@ enum GAExonSpliceType {
 }
 
 /**
-  Exon annotation information
+  GAAnnotationExon: Additional information when annotating variants that 
+  lie onto an exon
 */
 record GAAnnotationExon {
   int rank;  // Exon number, form 5' to 3', one-based (first exon is 1)
@@ -110,7 +115,8 @@ record GAAnnotationExon {
 }
 
 /**
-  Intron annotaion information
+  GAAnnotationIntron: Additional information when annotating variants that 
+  lie onto an intron
 */
 record GAAnnotationIntron {
   int rank;  // Intron number, form 5' to 3', one-based (first intron is 1)
@@ -129,7 +135,7 @@ record GAAnnotationIntron {
 }
 
 /**
-  Coding annotation
+  GAAnnotationCoding: Information for coding variants
 */
 record GAAnnotationCoding {
   /**
@@ -159,11 +165,21 @@ record GAAnnotationCoding {
   string aaNew;  // Modified amino acids
 
   /**
-    Effect expressed in HGVS nomenclature
+    Protein variant & effect expressed in HGVS nomenclature
     Reference: http://www.hgvs.org/mutnomen/
   */
-  string hgvsProt;  // HGVS nomenclature for protein 
-  string hgvsDna;   // HGVS nomenclature for DNA
+  string hgvsProt;
+}
+
+/**
+  GAAnnotationEqtl: EQTL annotations describe variants that affect 
+  gene/transcript expression
+*/
+record GAAnnotationEqtl {
+  string gene; // Gene name in HUGO format
+  string transcriptId; // Transcript ID
+  string tissue;  // Tissue
+  double log2fold;  // Estimated fold change (log2)
 }
 
 /**
@@ -243,17 +259,24 @@ record GAAnnotation {
   array<GAEffect> effects;
 
   /**
+    DNA variant & effect expressed in HGVS nomenclature
+    Reference: http://www.hgvs.org/mutnomen/
+  */
+  string hgvsDna;
+
+  /**
      Coding or non-coding annotaiton (depending on 'proteinCoding' field)
   */
   union { null, GAAnnotationCoding, GAAnnotationNonCoding } details = null;
 
   /**
-    Additional exon / intron annotations
+    Additional annotations
   */
   union { null, GAAnnotationExon } exonInfo;
   union { null, GAAnnotationIntron } intronInfo;
+  union { null, GAAnnotationClincal } clinicalInfo;
+  union { null, GAAnnotationEqtl } eqtlInfo;
 }
-
 
 /**
   A sorted list of GAAnnotation
