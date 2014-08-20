@@ -295,11 +295,11 @@ record GAAnnotationScores {
 }
 
 /**
-  GAAnnotationClincal: Annotation of clinicaly relevant information
+  GAAnnotationClinical: Annotation of clinicaly relevant information
   References: Mostly informaton from ClinVar
               http://www.ncbi.nlm.nih.gov/clinvar/
 */
-record GAAnnotationClincal {
+record GAAnnotationClinical {
   string id;      // Clinical information ID (ClinVar ID)
   boolean cda;    // Variation is interrogated in a clinical diagnostic assay
   GAClinicalSignificance significance;  // Clinical Significance (CLNSIG)
@@ -414,7 +414,7 @@ record GAAnnotation {
   union { null, GAAnnotationExon } exonInfo;
   union { null, GAAnnotationIntron } intronInfo;
   union { null, GAAnnotationEqtls } eqtls;
-  union { null, GAAnnotationClincal } clinicalInfo;
+  union { null, GAAnnotationClinical } clinicalInfo;
   union { null, GAAnnotationScores } scores;
 }
 
