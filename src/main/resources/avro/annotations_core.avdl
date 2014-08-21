@@ -1,0 +1,196 @@
+@namespace("org.ga4gh")
+
+/**
+  This protocol represents generic annotations components
+*/
+
+protocol GAAnnotationsCore {
+
+/**
+  GAClinicalSignificance: "Clinical Significance" terms from ClinVar
+  References: https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/
+*/
+enum GAClinicalSignificance {
+  UNCERTAIN_SIGNIFICANCE,
+  NOT_PROVIDED,
+  BENIGN,
+  LIKELY_BENIGN,
+  LIKELY_PATHOGENIC,
+  PATHOGENIC,
+  DRUG_RESPONSE,
+  HISTOCOMPATIBILITY,
+  OTHER,
+  CONFERS_SENSITIVITY,
+  RISK_FACTOR,
+  ASSOCIATION,
+  PROTECTIVE
+}
+
+/**
+  GAExonSpliceType: Exon categories based on splice types
+  References: http://en.wikipedia.org/wiki/Alternative_splicing#Modes
+*/
+enum GAExonSpliceType {
+  NONE,                   // Not spliced
+  RETAINED,               // All transcripts have this exon
+  SKIPPED,                // Some transcripts skip it
+  ALTERNATIVE_3SS,        // Some transcripts have and alternative 3' exon start
+  ALTERNATIVE_5SS,        // Some transcripts have and alternative 5' exon end
+  MUTUALLY_EXCLUSIVE,     // Mutually exclusive (respect to other exon)
+  ALTERNATIVE_PROMOMOTER, // The first exon is different in some transcripts
+  ALTERNATIVE_POLY_A      // The last exon (poly-A tail)
+}
+
+/**
+  GAImpact is a simple prioritization for GAEffect.
+
+  IMPORTANT:
+    Prioritization methods are a crude estimates and are not assumed to be 
+    reliable: e.g a 'HIGH' GAImpact may actually not cause any disruption 
+    in protein function or expression.
+*/
+enum GAImpact {
+  HIGH,      // Variant highly disrupts protein function
+  MODERATE,  // Moderately disrupts protein function
+  LOW,       // Low disruption of protein impact
+  MODIFIER   // No known effect
+}
+
+/**
+  GAClinical: Annotation of clinicaly relevant information
+  References: Mostly informaton from ClinVar
+              http://www.ncbi.nlm.nih.gov/clinvar/
+*/
+record GAClinical {
+  string id;      // Clinical information ID (ClinVar ID)
+  boolean cda;    // Variation is interrogated in a clinical diagnostic assay
+  GAClinicalSignificance significance;  // Clinical Significance (CLNSIG)
+  string disease; // Variant disease name (CLNDBN)
+}
+
+/**
+  GAAnnotationEqtl: EQTL annotations describe variants that affect
+  gene/transcript expression
+*/
+record GAEqtl {
+  union {null, string} geneId;       // Gene name in HUGO format
+  union {null, string} transcriptId; // Transcript ID
+  union {null, string} tissueId;     // Tissue
+  union {null, double} log2fold;     // Estimated fold change (log2)
+}
+
+/**
+  A list of EQTLs, sorted by log2fold
+*/
+record GAEqtls {
+  array<GAEqtl> eqtls;
+}
+
+/**
+  Genomic interval 
+  chr:[start,end)
+*/
+record GAInterval {
+  /** Reference name (e.g. chromosome name) */
+  string referenceName;
+
+  /**
+    The start position at which this variant occurs (0-based).
+  */
+  long start;
+
+  /**
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+  */
+  long end;
+}
+
+/**
+  GAGene: Gene
+*/
+record GAGene {
+  string id;       // Gene ID (e.g. 'ENSG00000012048')
+  string name;     // Gene names (HUGO)
+  GAInterval pos;
+}
+
+/**
+  GAScoringAlgorithm: An algorithm used for scoring variants 
+  (e.g. SIFT, Polyphen, etc.)
+*/
+record GAScoringAlgorithm {
+  string id;      // Algorithm ID
+  string name;    // Algorithm name
+  string version; // Algorithm version
+}
+
+/**
+  GAScore: Scores from prioritization agorithms
+
+  Note: Why do we need 'GAImpact' for each score?
+        Some methods use a consensus of scores from several algorithms.
+        For instance, it is common to declare a variant 'HIGH impact' 
+        only if at least 3 out of 5 known algorithms.
+*/
+record GAScore {
+  GAScoringAlgorithm algorithmId;  // Algorithm used
+  double rawScore;                 // Raw score
+  string category;                 // Raw score category name
+}
+
+/**
+  GAScores: A list of annotation scores
+*/
+record GAScores {
+ array<GAScore> scores;
+}
+
+/**
+  GASoTerm: Sequence ontology term
+  Reference: http://www.sequenceontology.org/
+*/
+record GASoTerm {
+  string id;    // SO term ID (e.g. 'SO:0002008')
+  string name;  // SO name (e.g. 'rare_amino_acid_variant')
+}
+
+/**
+  GATissue: A tissue
+  TODO: Which ontology should we use for tissues? 
+        Is BRENDA ontology a good fit?
+*/
+record GATissue {
+  string id;     // Tissue ID (BRENDA Ontology)
+  string name;  // Common name
+}
+
+/**
+  GATranscript: A transcript
+*/
+record GATranscript {
+  string id;      // Transcript ID (should include version)
+  string geneId;  // Gene ID
+  GAInterval pos;
+
+  /**
+    Transcript biotype according to HAVANA types
+    Reference:
+      http://vega.sanger.ac.uk/info/about/gene_and_transcript_types.html
+  */
+  string biotype;
+
+  /**
+    Is transcript protein coding?
+  */
+  boolean proteinCoding;
+
+  /**
+    Is this a 'canonical' transcript for 'geneId'?
+    Canonical transcripts are defined as the longest CDS of amongst the 
+    protein coding transcripts. If none of the transcripts is protein 
+    coding, then it is the transcript having the longest cDNA.
+  */
+  boolean canonical;
+}
+
+}

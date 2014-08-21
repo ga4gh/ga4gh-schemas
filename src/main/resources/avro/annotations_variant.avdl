@@ -1,0 +1,247 @@
+@namespace("org.ga4gh")
+
+/**
+  Protocol: Variant annotations
+
+  This protocol represents variant annotations such as putative effects
+  (also called consequences) and simple prioritization (also called impact). 
+
+  For example, an annotation can represent a frame shift variant (having 
+  a high impact) or a synonymous variant (having a low impact).
+
+  Note: These records are based on annotated VCF files, such as those produced
+        by SnpEff or ENSEMBL's VEP, having VCF INFO tags 'EFF' and 'CSQ' 
+        respectively.
+        As such, some of the standards refered to may not be followed 
+        strictly. For instance, HGVS nomenclature suggests that 
+        "silent changes" are represented as "p.=", but the equal sign is 
+        not allowed in VCF fields. In these cases an alternative (sometimes 
+        discouraged) representation may be used.
+
+  References:
+      - SnpEff       : http://snpeff.sourceforge.net/
+      - ENSEMBL's VEP: http://www.ensembl.org/info/docs/tools/vep/index.html 
+*/
+
+protocol GAAnnotationVariants {
+
+import idl "common.avdl";
+import idl "annotations_core.avdl";
+
+/**
+  GAExonInfo: Additional information when annotating variants that 
+  lie onto an exon
+*/
+record GAExonInfo {
+  /** 
+    Exon rank (one based). 
+    Exons are sorted from 5' to 3', first exon is 1
+  */
+  int rank;
+
+  /**
+    Distance in bases to exon's 5' edge
+    (variant's closest base)
+  */
+  int distanceTo5Prime;
+
+  /**
+    Distance in bases to exon's 3' edge
+    (variant's closest base)
+  */
+  int distanceTo3Prime;
+
+  GAExonSpliceType spliceType;
+}
+
+/**
+  GAIntronInfo: Additional information when annotating variants that 
+  lie onto an intron
+*/
+record GAIntronInfo {
+  /** 
+    Intron rank (one based). 
+    Intron are sorted from 5' to 3', first intron is 1
+  */
+  int rank;
+
+  /**
+    Distance in bases to intron's 5' edge
+    (variant's closest base)
+  */
+  int distanceTo5Prime;
+
+  /**
+    Distance in bases to intron's 3' edge
+    (variant's closest base)
+  */
+  int distanceTo3Prime;
+}
+
+/**
+  GACoding: Information for coding variants
+*/
+record GACoding {
+
+  /**
+    Positions relative to first base in pre-mRNA and CDs
+  */
+  int posPreMrna;
+  int posCds;
+
+  /**
+    Codon information
+  */
+  string codonsRef;       // Affected codons (unmodified, as in reference genome)
+  string codonsAlt;       // Modified codons 
+
+  /**
+    Codon start coordinate
+    posCds = codonStartNumber * 3 + codonStartIndex
+  */
+  int codonStartNumber;   // First codon affected
+  int codonStartIndex;    // Base index within codon
+
+  /**
+    Codon end coordinate
+    End CDS base number = codonEndNumber * 3 + codonEndIndex
+  */
+  int codonEndNumber;     // Last codon affected
+  int codonEndIndex;      // Base index within codon
+
+  /**
+    Amino acid information
+  */
+  string aaRef;           // Affected amino acids (as in reference genome)
+  string aaAlt;           // Modified amino acids
+
+  /**
+    Protein variant and effect expressed in HGVS nomenclature
+    Reference: http://www.hgvs.org/mutnomen/
+  */
+  string hgvsProt;
+}
+
+/**
+  GANonCoding: Additional information for non-coding annotations
+*/
+record GANonCoding {
+  /**
+    Distance (in bases) to closest "feature".
+
+    Distance measurement depends on the feature referred by GAEffect:
+
+    * Upstream   : Distance to transcript start
+    * 5'UTR      : Distance to TSS
+    * 3'UTE      : Distance to last coding base (last base of stop codon)
+    * Downstream : Distance to transcript end
+    * Intergenic : Distance to closest transcript
+      If two transcripts are at the same distance the preference order is:
+      * Coding transcript is prefered over non-coding transcript
+      * Cannonical transcript is prefered over non-canonical
+      * Upstream transcript is prefered over downstream transcript
+      * Longer transcript is prefered over shorter transcript (coding bases)
+      * Longer transcript is prefered over shorter transcript (exon bases)
+  */
+  int distance;
+}
+
+/**
+  A `GAAnnotationVariant` represents a variant annotations such as putative effects
+  (also called consequences) and a simple prioritization (also called impact). 
+
+  TODO: Add infromation about "Nonsense Mediated Decay" predictions (NMD) and
+        "Loss Of Function" predictions (LOF). Should these be SO terms or Impact?
+*/
+record GAAnnotationVariant {
+
+  /** The variant ID. */
+  string id;
+
+  /**
+    Genotype number
+  */
+  int genotypeAlt;
+
+  /**
+    Genotype reference number.
+    This is used when a reference (different than the standard reference genome) 
+    is used to calculate the effects, typically for cancer samples when 
+    germline and somatic differ from reference genome. Since we are interested 
+    in the effect of cancer, we want to calculate the effect of somatic variant
+    respect to germline (thus germinle variant acts as reference -instead of 
+    the reference genome-).
+  */
+  union {null, int} genotypeRef = null;
+
+  /**
+    Gene name according to HUGO nomenclature (e.g. 'BRCA1')
+  */
+  string geneName;
+
+  /**
+    Transcript ID (e.g. 'NM_007294.3')
+    Note: Transcript IDs should include version number. 
+          This means that 'NM_007294.3' is prefered over 'NM_007294'
+  */
+  string transcriptId;
+
+  /** 
+    Effects: A sorted list of effects respect to transcript ID (highest first)
+    Mutiple effects based on different transcripts are listed in different 
+    GAAnnotationVariant. 
+  */
+  array<GASoTerm> effects; 
+
+  /** Highest GAImpact from 'effects' */
+  GAImpact impact;
+
+  /**
+    Variant and effect expressed in HGVS nomenclature, DNA level 
+    ("c." or "n." notation)
+    
+    Reference: http://www.hgvs.org/mutnomen/
+  */
+  string hgvsDna;
+
+  /**
+     Coding or non-coding annotaiton (depending on 'proteinCoding' field)
+  */
+  union { null, GACoding, GANonCoding } details = null;
+
+  /**
+    Additional annotations
+  */
+  union { null, GAExonInfo } exonInfo;
+  union { null, GAIntronInfo } intronInfo;
+  union { null, GAEqtls } eqtls;
+  union { null, GAClinical } clinicalInfo;
+  union { null, GAScores } scores;
+
+  /**
+    Additional generic annotations
+  */
+  union {null, GAKeyValue } nameValue;
+
+}
+
+/**
+  GAAnnotationVariantList: A sorted list of GAAnnotationVariant.
+  This referes to all GAAnnotationVariant for different trancript IDs that 
+  might be affected a GAVariant.
+*/
+record GAAnnotationVariantList {
+  /** The variant ID. */
+  string id;
+
+  /** 
+    Sorted list of annotations. 
+    Annotations should be sorted by
+      * Impact
+      * Effect type
+      * Genomic coordinates of affected features
+  */
+  array<GAAnnotationVariant> annotations = [];
+}
+
+}

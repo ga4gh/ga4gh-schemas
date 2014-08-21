@@ -1,0 +1,30 @@
+@namespace("org.ga4gh")
+
+/**
+  This protocol represents annotations on genomic intervals
+*/
+
+protocol GAAnnotationsInterval {
+
+import idl "common.avdl";
+import idl "annotations_core.avdl";
+
+/**
+  Generic annotation on a genomic interval
+*/
+
+record GAAnnotationInterval {
+  GAInterval interval;
+  array<GAScore> scores;
+  GAKeyValue nameValue;
+}
+
+/**
+  Transcription factor binding site
+*/
+record GATfbs {
+  string tfId;     // Transcription factor ID
+  GAInterval pos;  // Gneomic position
+}
+
+}
