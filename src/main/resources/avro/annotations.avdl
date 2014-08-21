@@ -364,9 +364,9 @@ record GAAnnotation {
   string geneName;
 
   /**
-    Transcript ID (e.g. 'NM_007294.3' or 'ENST00000357654')
-    Note: Transcript IDs MUST include version number. 
-          This means that 'NM_007294.3' must be used instead of 'NM_007294'
+    Transcript ID (e.g. 'NM_007294.3')
+    Note: Transcript IDs should include version number. 
+          This means that 'NM_007294.3' is prefered over 'NM_007294'
   */
   string transcriptId;
 
