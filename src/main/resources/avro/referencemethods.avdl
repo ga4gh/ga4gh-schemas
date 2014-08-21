@@ -149,4 +149,61 @@ GAReference getReference(
     */
     string id) throws GAException;
 
+/****************  /references/{id}/bases  *******************/
+/**
+  The query parameters for a request to `GET /references/{id}/bases`, for
+  example:
+
+  `GET /references/{id}/bases?start=100&end=200`
+*/
+record GAListReferenceBasesRequest {
+  /**
+    The start position (0-based) of this query. Defaults to 0.
+   */
+  long start = 0;
+
+  /**
+    The end position (0-based, exclusive) of this query. Defaults
+    to the length of this `GAReference`.
+   */
+  union { null, long } end = null;
+
+  /**
+    The continuation token, which is used to page through large result sets.
+    To get the next page of results, set this parameter to the value of
+    `nextPageToken` from the previous response.
+   */
+  union { null, string } pageToken = null;
+}
+
+/** The response from `GET /references/{id}/bases` expressed as JSON. */
+record GAListReferenceBasesResponse {
+  /**
+    The offset position (0-based) of the given `sequence` from the start of this
+    `GAReference`. This value will differ for each page in a paginated request.
+   */
+  long offset = 0;
+
+  /** A substring of the bases that make up this reference. */
+  string sequence;
+
+  /**
+    The continuation token, which is used to page through large result sets.
+    Provide this value in a subsequent request to return the next page of
+    results. This field will be empty if there aren't any additional results.
+   */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+  Lists `GAReference` bases by ID and optional range.
+  `GET /references/{id}/bases` will return a JSON version of
+  `GAListReferenceBasesResponse`.
+*/
+GAListReferenceBasesResponse getReferenceBases(
+    /** The ID of the `GAReference`. */
+    string id,
+    /** Additional request parameters to restrict the query. */
+    GAListReferenceBasesRequest request) throws GAException;
+
 }
