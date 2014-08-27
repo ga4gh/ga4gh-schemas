@@ -6,9 +6,6 @@ record GAReference {
   /** The reference ID. Unique within the repository. */
   string id;
 
-  /** The bases that make up this reference. */
-  string sequence;
-
   /** The length of this reference's sequence. */
   long length;
 
