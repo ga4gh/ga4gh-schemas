@@ -184,7 +184,10 @@ record GAListReferenceBasesResponse {
    */
   long offset = 0;
 
-  /** A substring of the bases that make up this reference. */
+  /**
+    A substring of the bases that make up this reference. Bases are represented
+    as IUPAC-IUB codes; this string matches the regexp `[ACGTMRWSYKVHDBN]*`.
+  */
   string sequence;
 
   /**
