@@ -34,18 +34,17 @@ record GASearchVariantsRequest {
   long end;
 
   /**
+    Specifies the maximum number of results to return in a single page.
+    If unspecified, a system default will be used.
+   */
+  union { null, int } pageSize = null;
+
+  /**
     The continuation token, which is used to page through large result sets.
     To get the next page of results, set this parameter to the value of
     `nextPageToken` from the previous response.
   */
   union { null, string } pageToken = null;
-
-  /**
-    The maximum number of variants to return in each response.
-    If more variants match this request, the `pageToken` can be used to
-    fetch the next page of responses.
-   */
-  long maxResults = 10;
 }
 
 /** This is the response from `POST /variants/search` expressed as JSON. */
@@ -92,6 +91,12 @@ record GASearchCallSetsRequest {
     string.
   */
   union { null, string } name = null;
+
+  /**
+    Specifies the maximum number of results to return in a single page.
+    If unspecified, a system default will be used.
+   */
+  union { null, int } pageSize = null;
 
   /**
     The continuation token, which is used to page through large result sets.
