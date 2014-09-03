@@ -5,32 +5,28 @@ import idl "common.avdl";
 import idl "reads.avdl";
 
 /******************  /reads/search  *********************/
-/** This request maps to the body of `POST /reads/search` as JSON. */
+/**
+  This request maps to the body of `POST /reads/search` as JSON.
+
+  If a reference is specified, all queried `GAReadGroup`s must be aligned
+  to `GAReferenceSet`s containing that same `GAReference`. If no reference is
+  specified, all `GAReadGroup`s must be aligned to the same `GAReferenceSet`.
+*/
 record GASearchReadsRequest {
   /** If specified, restrict this query to reads within the given readgroups. */
   array<string> readGroupIds = [];
 
   /**
-    The reference to query.  Either give a `referenceId` or
-    a `referenceSetId` and `referenceName`.
-    Leaving this blank returns results from all references, including
-    unmapped reads - this could be very large.
-  */
-  union { null, string } referenceSetId = null;
-
-  /**
-    The reference to query.  Either give a `referenceId` or
-    a `referenceSetId` and `referenceName`.
-    Leaving this blank returns results from all references, including
-    unmapped reads - this could be very large.
+    The reference to query. Provide at most one of `referenceId` and
+    `referenceName`. Leaving both blank returns results from all references,
+    including unmapped reads - this could be very large.
   */
   union { null, string } referenceName = null;
 
   /**
-    The reference to query.  Either give a `referenceId` or
-    a `referenceSetId` and `referenceName`.
-    Leaving this blank returns results from all references, including
-    unmapped reads - this could be very large.
+    The reference to query. Provide at most one of `referenceId` and
+    `referenceName`. Leaving both blank returns results from all
+    references, including unmapped reads - this could be very large.
   */
   union { null, string } referenceId = null;
 
