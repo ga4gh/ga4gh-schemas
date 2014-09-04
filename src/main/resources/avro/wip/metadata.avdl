@@ -8,6 +8,8 @@ import idl "../common.avdl";
 
 /**
 An enum that represents biological sex.
+TODO: This is moving to common in https://github.com/ga4gh/schemas/pull/138
+and should be removed from this file.
 */
 enum GASex {
   FEMALE,
@@ -43,7 +45,7 @@ An individual (or subject) typically corresponds to an individual
 human or other organism.
 */
 record GAIndividual {
-  /** The individual ID. Unique within the repository. */
+  /** The individual UUID. This is globally unique. */
   string id;
 
   /** The IDs of the individual groups this individual belongs to. */
@@ -124,7 +126,7 @@ A biological sample used in an experiment. (e.g. whole blood from
 an affected individual)
 */
 record GASample {
-   /** The sample ID. Unique within the repository. */
+   /** The sample UUID. This is globally unique. */
   string id;
 
   /** The ID of the individual this sample belongs to. */
@@ -195,7 +197,7 @@ record GASample {
 An experimental preparation of a `GASample`.
 */
 record GAExperiment {
-  /** The experiment ID. Unique within the repository. */
+  /** The experiment UUID. This is globally unique. */
   string id;
 
   /** The name of the experiment. */
@@ -277,7 +279,7 @@ record GAExperiment {
 Represents a group of individuals. (e.g. a trio)
 */
 record GAIndividualGroup {
-  /** The individual group ID. Unique within the repository. */
+  /** The individual group UUID. This is globally unique. */
   string id;
 
   /** The name of the individual group. */
@@ -314,7 +316,7 @@ An analysis contains an interpretation of one or several experiments.
 information about the methodology used.
 */
 record GAAnalysis {
-  /** The analysis ID. Unique within the repository. */
+  /** The analysis UUID. This is globally unique. */
   string id;
 
   /** The name of the analysis. */
