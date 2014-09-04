@@ -4,9 +4,9 @@ protocol GAVariants {
 import idl "common.avdl";
 
 /**
-  `GAVariant` and `GACallSet` both belong to a `GAVariantSet`.
-  `GAVariantSet` belongs to a `GADataset`.
-  The variant set is equivalent to a VCF file.
+`GAVariant` and `GACallSet` both belong to a `GAVariantSet`.
+`GAVariantSet` belongs to a `GADataset`.
+The variant set is equivalent to a VCF file.
 */
 record GAVariantSet {
   /** The variant set ID. */
@@ -19,8 +19,8 @@ record GAVariantSet {
 }
 
 /**
-  A `GACallSet` is a collection of variant calls for a particular sample.
-  It belongs to a `GAVariantSet`. This is equivalent to one column in VCF.
+A `GACallSet` is a collection of variant calls for a particular sample.
+It belongs to a `GAVariantSet`. This is equivalent to one column in VCF.
 */
 record GACallSet {
 
@@ -40,82 +40,81 @@ record GACallSet {
   union { null, long } created = null;
 
   /**
-    The time at which this call set was last updated in
-    milliseconds from the epoch.
+  The time at which this call set was last updated in
+  milliseconds from the epoch.
   */
   union { null, long } updated = null;
 
   /**
-    A map of additional call set information. In JSON, this looks like:
-    `info: {key1: value1, key2: value2}`
+  A map of additional call set information. In JSON, this looks like:
+  `info: {key1: value1, key2: value2}`
   */
   array<GAKeyValue> info = [];
 }
 
 /**
-  A `GACall` represents the determination of genotype with respect to a
-  particular variant. It may include associated information such as quality
-  and phasing. For example, a call might assign a probability of 0.32 to
-  the occurrence of a SNP named rs1234 in a call set with the name NA12345.
+A `GACall` represents the determination of genotype with respect to a
+particular variant. It may include associated information such as quality
+and phasing. For example, a call might assign a probability of 0.32 to
+the occurrence of a SNP named rs1234 in a call set with the name NA12345.
 */
-// TODO: Nest this object under GAVariant
 record GACall {
 
   /**
-    The ID of the call set this variant call belongs to.
-    If this field is not present, the ordering of the call sets from a
-    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match
-    the ordering of the calls on this `GAVariant`.
-    The number of results will also be the same.
+  The ID of the call set this variant call belongs to.
+  If this field is not present, the ordering of the call sets from a
+  `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match
+  the ordering of the calls on this `GAVariant`.
+  The number of results will also be the same.
   */
   union { null, string } callSetId;
 
   /**
-    The name of the call set this variant call belongs to.
-    If this field is not present, the ordering of the call sets from a
-    `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match
-    the ordering of the calls on this `GAVariant`.
-    The number of results will also be the same.
+  The name of the call set this variant call belongs to.
+  If this field is not present, the ordering of the call sets from a
+  `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match
+  the ordering of the calls on this `GAVariant`.
+  The number of results will also be the same.
   */
   union { null, string } callSetName = null;
 
   /**
-    The genotype of this variant call. Each value represents either the value
-    of the referenceBases field or is a 1-based index into alternateBases.
-    If a variant had a referenceBases field of "T", an alternateBases
-    value of ["A", "C"], and the genotype was [2, 1], that would mean the call
-    represented the heterozygous value "CA" for this variant. If the genotype
-    was instead [0, 1] the represented value would be "TA". Ordering of the
-    genotype values is important if the phaseset field is present.
+  The genotype of this variant call. Each value represents either the value
+  of the referenceBases field or is a 1-based index into alternateBases.
+  If a variant had a referenceBases field of "T", an alternateBases
+  value of ["A", "C"], and the genotype was [2, 1], that would mean the call
+  represented the heterozygous value "CA" for this variant. If the genotype
+  was instead [0, 1] the represented value would be "TA". Ordering of the
+  genotype values is important if the phaseset field is present.
   */
   array<int> genotype = [];
 
   /**
-    If this field is present, this variant call's genotype ordering implies
-    the phase of the bases and is consistent with any other variant calls on
-    the same contig which have the same phaseset value.
+  If this field is present, this variant call's genotype ordering implies
+  the phase of the bases and is consistent with any other variant calls on
+  the same contig which have the same phaseset value.
   */
   union { null, string } phaseset = null;
 
   /**
-    The genotype likelihoods for this variant call. Each array entry
-    represents how likely a specific genotype is for this call. The value
-    ordering is defined by the GL tag in the VCF spec.
+  The genotype likelihoods for this variant call. Each array entry
+  represents how likely a specific genotype is for this call. The value
+  ordering is defined by the GL tag in the VCF spec.
   */
   array<double> genotypeLikelihood = [];
 
   /**
-    A map of additional variant call information. In JSON, this looks like:
-    `info: {key1: value1, key2: value2}`
+  A map of additional variant call information. In JSON, this looks like:
+  `info: {key1: value1, key2: value2}`
   */
   array<GAKeyValue> info = [];
 }
 
 /**
-  A `GAVariant` represents a change in DNA sequence relative to some reference.
-  For example, a variant could represent a SNP or an insertion.
-  Variants belong to a `GAVariantSet`.
-  This is equivalent to a row in VCF.
+A `GAVariant` represents a change in DNA sequence relative to some reference.
+For example, a variant could represent a SNP or an insertion.
+Variants belong to a `GAVariantSet`.
+This is equivalent to a row in VCF.
 */
 record GAVariant {
 
@@ -132,26 +131,26 @@ record GAVariant {
   union { null, long } created = null;
 
   /**
-    The time at which this variant was last updated in
-    milliseconds from the epoch.
+  The time at which this variant was last updated in
+  milliseconds from the epoch.
   */
   union { null, long } updated = null;
 
   /**
-    The reference on which this variant occurs.
-    (e.g. `chr20` or `X`)
+  The reference on which this variant occurs.
+  (e.g. `chr20` or `X`)
   */
   string referenceName;
 
   /**
-    The start position at which this variant occurs (0-based).
-    This corresponds to the first base of the string of reference bases.
+  The start position at which this variant occurs (0-based).
+  This corresponds to the first base of the string of reference bases.
   */
   long start;
 
   /**
-    The end position (exclusive), resulting in [start, end) closed-open interval.
-    This is typically calculated by `start + referenceBases.length`.
+  The end position (exclusive), resulting in [start, end) closed-open interval.
+  This is typically calculated by `start + referenceBases.length`.
   */
   long end;
 
@@ -162,14 +161,14 @@ record GAVariant {
   array<string> alternateBases = [];
 
   /**
-    A map of additional variant information. In JSON, this looks like:
-    `info: {key1: value1, key2: value2}`
+  A map of additional variant information. In JSON, this looks like:
+  `info: {key1: value1, key2: value2}`
   */
   array<GAKeyValue> info = [];
 
   /**
-    The variant calls for this particular variant. Each one represents the
-    determination of genotype with respect to this variant.
+  The variant calls for this particular variant. Each one represents the
+  determination of genotype with respect to this variant.
   */
   array<GACall> calls = [];
 }
