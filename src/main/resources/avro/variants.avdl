@@ -48,7 +48,7 @@ record GACallSet {
   /**
   A map of additional call set information.
   */
-  map<string> info = {}; 
+  map<string> info = {};
 }
 
 /**
@@ -103,9 +103,9 @@ record GACall {
   array<double> genotypeLikelihood = [];
 
   /**
-  A map of additional variant call information. 
+  A map of additional variant call information.
   */
-  map<string> info = {}; 
+  map<string> info = {};
 }
 
 /**
@@ -161,7 +161,7 @@ record GAVariant {
   /**
   A map of additional variant information.
   */
-  map<string> info = {}; 
+  map<string> info = {};
 
   /**
   The variant calls for this particular variant. Each one represents the
