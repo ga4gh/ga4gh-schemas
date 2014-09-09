@@ -46,10 +46,9 @@ record GACallSet {
   union { null, long } updated = null;
 
   /**
-  A map of additional call set information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional call set information.
   */
-  array<GAKeyValue> info = [];
+  map<string> info = {}; 
 }
 
 /**
@@ -104,10 +103,9 @@ record GACall {
   array<double> genotypeLikelihood = [];
 
   /**
-  A map of additional variant call information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional variant call information. 
   */
-  array<GAKeyValue> info = [];
+  map<string> info = {}; 
 }
 
 /**
@@ -161,10 +159,9 @@ record GAVariant {
   array<string> alternateBases = [];
 
   /**
-  A map of additional variant information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional variant information.
   */
-  array<GAKeyValue> info = [];
+  map<string> info = {}; 
 
   /**
   The variant calls for this particular variant. Each one represents the

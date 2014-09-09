@@ -17,18 +17,6 @@ error GAException {
 }
 
 /**
-A structure for encoding arbitrary Key-Value tuples, or tags, on other
-record types.
-*/
-record GAKeyValue {
-  /** The key for which a value is being defined. */
-  string key;
-
-  /** The value of the key. */
-  string value = null;
-}
-
-/**
 An abstraction for referring to a genomic position, in relation to some
 already known reference. For now, represents a genomic position as a reference
 name, a base number on that reference (0-based), and a flag to say if it's the
