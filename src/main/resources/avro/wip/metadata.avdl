@@ -7,19 +7,6 @@ protocol GAMetadata {
 import idl "../common.avdl";
 
 /**
-An enum that represents biological sex.
-TODO: This is moving to common in https://github.com/ga4gh/schemas/pull/138
-and should be removed from this file.
-*/
-enum GASex {
-  FEMALE,
-  MALE,
-  MIXED,
-  BISEX,
-  ASEX
-}
-
-/**
 An ontology term describing an attribute. (e.g. the phenotype attribute
 'polydactyly' from HPO)
 */
@@ -75,8 +62,8 @@ record GAIndividual {
   */
   union { null, GAOntologyTerm } species = null;
 
-  /** The biological sex of this individual. Use `null` when unknown. */
-  union { null, GASex } sex = null;
+  /** The genetic sex of this individual. */
+  union { null, GAGeneticSex } sex = null;
 
   /**
   The developmental stage of this individual. Using Uberon is recommended.
