@@ -116,10 +116,9 @@ record GAReadGroup {
   union {null, string } referenceSetId = null;
 
   /**
-  A map of additional read group information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional read group information.
   */
-  array<GAKeyValue> info = [];
+  map<string> info = {};
 }
 
 record GAReadGroupSet {
@@ -266,10 +265,9 @@ record GAReadAlignment {
   union { null, GAPosition } nextMatePosition = null;
 
   /**
-  A map of additional read alignment information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional read alignment information.
   */
-  array<GAKeyValue> info = [];
+  map<string> info = {};
 }
 
 }

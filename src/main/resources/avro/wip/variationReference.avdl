@@ -56,7 +56,7 @@ record GAVariant {
    
 
   // We may need to say other things about the variant, e.g. origin, dbSNP...
-  array<org.ga4gh.GAKeyValue> info = [] ;
+  map<string> info = {};
 }
 
 /**********************************************************************/
@@ -131,7 +131,7 @@ record GACallSet {
   // for diploid genotypes the copy number of an allele will typically be 0, 1 or 2; for haplotypes it will be 0 or 1
 
   // We may need to say other things about the callset, e.g. derivation
-  array<org.ga4gh.GAKeyValue> info ;
+  map<string> info = {};
 }
 
 record GACall {
@@ -144,7 +144,7 @@ record GACall {
   array<float> probability = [] ; // probability that copy number is k: 0..n
   array<float> likelihood = [] ;  // likelihood of data given copy number k
   union { null, int } readCount = null ; // number of reads supporting this allele (DP in VCF)
-  array<org.ga4gh.GAKeyValue> evidence = [] ; // potential other evidence for the call
+  map<string> evidence = {}; // potential other evidence for the call
 }
 
 /* The call values in a callset are not explicitly
