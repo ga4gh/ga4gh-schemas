@@ -102,11 +102,11 @@ record GAInterval {
   long start;
 
   /**
-    The end position (exclusive), resulting in [start, end) closed-open interval.
-	Coordiantes are 0-based, non-negative numbers lower than 
-    chromosome reference length. 
-    Intervals spanning the join of circular genomes are represented as made of two 
-    intervals, one on each side of the join.
+    The end position (exclusive), resulting in [start, end) closed-open 
+    interval. Coordiantes are 0-based, non-negative numbers lower than 
+    reference length. 
+    Intervals spanning the join of circular genomes are represented as made 
+    of two intervals, one on each side of the join.
   */
   long end;
 }
