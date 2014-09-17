@@ -13,34 +13,66 @@ import idl "annotations_core.avdl";
   Generic gene annotations
 */
 record GAAnnotationGene {
-  string id;
+  string geneId;
+
+  /**
+     Scores associated with this gene
+  */
   array<GAScore> scores;
-  GAKeyValue nameValue;
+
+  /**
+     Generic 'key=value' pairs for other annotations
+  */
+  array<GAKeyValue> info = [];  
 }
 
 /**
   Generic transcript annotations
 */
 record GAAnnotationTranscript {
-  string id;
+  string transcriptId;
+
+  /**
+     Scores associated with this transcript
+  */
   array<GAScore> scores;
-  GAKeyValue nameValue;
+
+  /**
+     Generic 'key=value' pairs for other annotations
+  */
+  array<GAKeyValue> info = [];  
 }
 
 /**
   Gene set
 */
 record GAGeneSet {
-  string id;
+  string geneSetId;
+
+  /**
+     Gene Set name (e.g. 'REGULATION_OF_LIPID_METABOLIC_PROCESS')
+  */
   string name;
-  array<string> geneIds;
+
+  /** 
+     Gene names (HUGO) with in this gene set
+  */
+  array<string> geneNames;  
 }
 
 /**
   Gene set collection (e.g. MSigDb)
 */
 record GAGeneSetCollection {
+
+  /**
+    Gene set collection name, e.g. 'MSigDb_C7' or 'Reactome'
+  */
   string name;
+
+  /**
+    Gene sets in this collection
+  */
   array<GAGeneSet> geneSets;
 }
 

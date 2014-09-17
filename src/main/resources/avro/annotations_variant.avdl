@@ -19,8 +19,9 @@
         discouraged) representation may be used.
 
   References:
-      - SnpEff       : http://snpeff.sourceforge.net/
-      - ENSEMBL's VEP: http://www.ensembl.org/info/docs/tools/vep/index.html 
+      - SnpEff        : http://snpeff.sourceforge.net/
+      - ENSEMBL's VEP : http://www.ensembl.org/info/docs/tools/vep/index.html 
+      - Annovar       : http://www.openbioinformatics.org/annovar/
 */
 
 protocol GAAnnotationVariants {
@@ -29,10 +30,10 @@ import idl "common.avdl";
 import idl "annotations_core.avdl";
 
 /**
-  GAExonInfo: Additional information when annotating variants that 
-  lie onto an exon
+  GAExonIntronInfo: Additional information when annotating variants that 
+  lie onto an exon/intron
 */
-record GAExonInfo {
+record GAExonIntronInfo {
   /** 
     Exon rank (one based). 
     Exons are sorted from 5' to 3', first exon is 1
@@ -51,31 +52,10 @@ record GAExonInfo {
   */
   int distanceTo3Prime;
 
-  GAExonSpliceType spliceType;
-}
-
-/**
-  GAIntronInfo: Additional information when annotating variants that 
-  lie onto an intron
-*/
-record GAIntronInfo {
-  /** 
-    Intron rank (one based). 
-    Intron are sorted from 5' to 3', first intron is 1
-  */
-  int rank;
-
   /**
-    Distance in bases to intron's 5' edge
-    (variant's closest base)
+     Exon splice type (not used for introns)
   */
-  int distanceTo5Prime;
-
-  /**
-    Distance in bases to intron's 3' edge
-    (variant's closest base)
-  */
-  int distanceTo3Prime;
+  union{ null, GAExonSpliceType} spliceType;
 }
 
 /**
@@ -164,6 +144,14 @@ record GAAnnotationVariant {
   int genotypeAlt;
 
   /**
+    Is this variant ancestral?
+    E.g.: At the time of writing, Ensembl predicts the ancestral allele 
+          based on a multiple alignment of 7 primate genomes (it can't 
+          be done for all loci)
+  */
+  union {null, boolean} isANcestral;
+
+  /**
     Genotype reference number.
     This is used when a reference (different than the standard reference genome) 
     is used to calculate the effects, typically for cancer samples when 
@@ -181,8 +169,15 @@ record GAAnnotationVariant {
 
   /**
     Transcript ID (e.g. 'NM_007294.3')
-    Note: Transcript IDs should include version number. 
-          This means that 'NM_007294.3' is prefered over 'NM_007294'
+    Note: Transcript IDs must include version number when reference does 
+          not include an explicit 'transcript set version':
+          E.g.: 
+             - 'NM_007294.3' is required instead of 'NM_007294' for 
+               reference genome hg38. 
+
+             - 'ENST00000357654.4' is required if reference genome is 'GRCh38'
+
+             - 'ENST00000357654' is allowed if reference genome is 'GRCh38.76'
   */
   string transcriptId;
 
@@ -212,8 +207,7 @@ record GAAnnotationVariant {
   /**
     Additional annotations
   */
-  union { null, GAExonInfo } exonInfo;
-  union { null, GAIntronInfo } intronInfo;
+  union { null, GAExonIntronInfo } exonIntronInfo;
   union { null, GAEqtls } eqtls;
   union { null, GAClinical } clinicalInfo;
   union { null, GAScores } scores;

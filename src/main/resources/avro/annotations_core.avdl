@@ -115,16 +115,6 @@ record GAGene {
 }
 
 /**
-  GAScoringAlgorithm: An algorithm used for scoring variants 
-  (e.g. SIFT, Polyphen, etc.)
-*/
-record GAScoringAlgorithm {
-  string id;      // Algorithm ID
-  string name;    // Algorithm name
-  string version; // Algorithm version
-}
-
-/**
   GAScore: Scores from prioritization agorithms
 
   Note: Why do we need 'GAImpact' for each score?
@@ -133,7 +123,7 @@ record GAScoringAlgorithm {
         only if at least 3 out of 5 known algorithms.
 */
 record GAScore {
-  GAScoringAlgorithm algorithmId;  // Algorithm used
+  string algorithm;                // Algorithm used (must include version)
   double rawScore;                 // Raw score
   string category;                 // Raw score category name
 }
@@ -146,7 +136,7 @@ record GAScores {
 }
 
 /**
-  GASoTerm: Sequence ontology term
+  GASoTerm: Sequence Ontology term
   Reference: http://www.sequenceontology.org/
 */
 record GASoTerm {
