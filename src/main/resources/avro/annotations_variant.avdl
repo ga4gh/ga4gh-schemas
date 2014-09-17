@@ -146,7 +146,7 @@ record GAAnnotationVariant {
           based on a multiple alignment of 7 primate genomes (it can't 
           be done for all loci)
   */
-  union {null, boolean} isANcestral;
+  union {null, boolean} isAncestral;
 
   /**
     Genotype reference number.
