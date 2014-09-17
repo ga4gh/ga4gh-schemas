@@ -212,7 +212,7 @@ record GAAnnotationVariant {
   /**
     Additional generic annotations
   */
-  union {null, GAKeyValue } nameValue;
+  array<GAKeyValue> info = [];  
 
 }
 
