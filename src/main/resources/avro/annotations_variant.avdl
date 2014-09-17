@@ -129,9 +129,6 @@ record GANonCoding {
 /**
   A `GAAnnotationVariant` represents a variant annotations such as putative effects
   (also called consequences) and a simple prioritization (also called impact). 
-
-  TODO: Add infromation about "Nonsense Mediated Decay" predictions (NMD) and
-        "Loss Of Function" predictions (LOF). Should these be SO terms or Impact?
 */
 record GAAnnotationVariant {
 
