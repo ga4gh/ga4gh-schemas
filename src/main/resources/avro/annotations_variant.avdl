@@ -113,7 +113,7 @@ record GANonCoding {
 
     * Upstream   : Distance to transcript start
     * 5'UTR      : Distance to TSS
-    * 3'UTE      : Distance to last coding base (last base of stop codon)
+    * 3'UTR      : Distance to last coding base (last base of stop codon)
     * Downstream : Distance to transcript end
     * Intergenic : Distance to closest transcript
       If two transcripts are at the same distance the preference order is:
