@@ -4,6 +4,39 @@ protocol GAVariants {
 import idl "common.avdl";
 
 /**
+This metadata represents VCF header information.
+*/
+record GAVariantSetMetadata {
+  /** The top-level key. */
+  string key;
+
+  /** The value field for simple metadata. */
+  string value;
+
+  /**
+  User-provided ID field, not enforced by this API.
+  Two or more pieces of structured metadata with identical
+  id and key fields are considered equivalent.
+  */
+  string id;
+
+  /** The type of data. */
+  string type;
+
+  /**
+  The number of values that can be included in a field described by this
+  metadata.
+  */
+  string number;
+
+  /** A textual description of this metadata. */
+  string description;
+
+  /** Remaining structured metadata key-value pairs. */
+  map<array<string>> info = {};
+}
+
+/**
 `GAVariant` and `GACallSet` both belong to a `GAVariantSet`.
 `GAVariantSet` belongs to a `GADataset`.
 The variant set is equivalent to a VCF file.
@@ -15,7 +48,13 @@ record GAVariantSet {
   /** The ID of the dataset this variant set belongs to. */
   string datasetId;
 
-  // TODO: Add reference sequence ID information once resolved.
+  // TODO: Add reference sequence ID information.
+
+  /**
+  The metadata associated with this variant set. This is equivalent to
+  the VCF header information not already presented in first class fields.
+  */
+  array<GAVariantSetMetadata> metadata = [];
 }
 
 /**
@@ -48,7 +87,7 @@ record GACallSet {
   /**
   A map of additional call set information.
   */
-  map<string> info = {};
+  map<array<string>> info = {};
 }
 
 /**
@@ -105,7 +144,7 @@ record GACall {
   /**
   A map of additional variant call information.
   */
-  map<string> info = {};
+  map<array<string>> info = {};
 }
 
 /**
@@ -161,7 +200,7 @@ record GAVariant {
   /**
   A map of additional variant information.
   */
-  map<string> info = {};
+  map<array<string>> info = {};
 
   /**
   The variant calls for this particular variant. Each one represents the

@@ -118,7 +118,7 @@ record GAReadGroup {
   /**
   A map of additional read group information.
   */
-  map<string> info = {};
+  map<array<string>> info = {};
 }
 
 record GAReadGroupSet {
@@ -267,7 +267,7 @@ record GAReadAlignment {
   /**
   A map of additional read alignment information.
   */
-  map<string> info = {};
+  map<array<string>> info = {};
 }
 
 }
