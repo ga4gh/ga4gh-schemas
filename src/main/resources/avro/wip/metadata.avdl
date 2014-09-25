@@ -115,10 +115,9 @@ record GAIndividual {
   union { null, string } strain = null;
 
   /**
-  A map of additional individual information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional individual information.
   */
-  array<GAKeyValue> info = [];
+  map<array<string>> info = {};
 }
 
 /**
@@ -187,10 +186,9 @@ record GASample {
   union { null, GAOntologyTerm } organismPart = null;
 
   /**
-  A map of additional sample information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional sample information.
   */
-  array<GAKeyValue> info = [];
+  map<array<string>> info = {};
 }
 
 /**
@@ -269,10 +267,9 @@ record GAExperiment {
   union { null, string } platformUnit = null;
 
   /**
-  A map of additional experiment information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional experiment information.
   */
-  array<GAKeyValue> info = [];
+  map<array<string>> info = {};
 }
 
 /**
@@ -304,10 +301,9 @@ record GAIndividualGroup {
   union { null, string } type = null;
 
   /**
-  A map of additional individual group information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional individual group information.
   */
-  array<GAKeyValue> info = [];
+  map<array<string>> info = {};
 }
 
 /**
@@ -343,10 +339,9 @@ record GAAnalysis {
   array<string> software = null;
 
   /**
-  A map of additional analysis information. In JSON, this looks like:
-  `info: {key1: value1, key2: value2}`
+  A map of additional analysis information.
   */
-  array<GAKeyValue> info = [];
+  map<array<string>> info = {};
 }
 
 }
