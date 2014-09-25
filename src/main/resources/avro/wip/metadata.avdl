@@ -1,0 +1,352 @@
+@namespace("org.ga4gh")
+/**
+This protocol defines metadata used in the other GA4GH protocols.
+*/
+protocol GAMetadata {
+
+import idl "../common.avdl";
+
+/**
+An enum that represents biological sex.
+TODO: This is moving to common in https://github.com/ga4gh/schemas/pull/138
+and should be removed from this file.
+*/
+enum GASex {
+  FEMALE,
+  MALE,
+  MIXED,
+  BISEX,
+  ASEX
+}
+
+/**
+An ontology term describing an attribute. (e.g. the phenotype attribute
+'polydactyly' from HPO)
+*/
+record GAOntologyTerm {
+  /**
+  The source of the onotology term.
+  (e.g. `Ontology for Biomedical Investigation`)
+  */
+  string ontologySource;
+
+  /**
+  The ID defined by the external onotology source.
+  (e.g. `http://purl.obolibrary.org/obo/OBI_0001271`)
+  */
+  string id;
+
+  /** The name of the onotology term. (e.g. `RNA-seq assay`) */
+  union { null, string } name = null;
+}
+
+/**
+An individual (or subject) typically corresponds to an individual
+human or other organism.
+*/
+record GAIndividual {
+  /** The individual UUID. This is globally unique. */
+  string id;
+
+  /** The IDs of the individual groups this individual belongs to. */
+  array<string> groupIds = [];
+
+  /** The name of the individual. */
+  union { null, string } name = null;
+
+  /** A description of the individual. */
+  union { null, string } description = null;
+
+  /**
+  The time at which this individual was created in milliseconds from the epoch.
+  */
+  union { null, long } created = null;
+
+  /**
+  The time at which this individual was last updated in milliseconds
+  from the epoch.
+  */
+  union { null, long } updated = null;
+
+  /**
+  The species of this individual. Using
+  [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
+  TODO: Is this the right representation?
+  */
+  union { null, GAOntologyTerm } species = null;
+
+  /** The biological sex of this individual. Use `null` when unknown. */
+  union { null, GASex } sex = null;
+
+  /**
+  The developmental stage of this individual. Using Uberon is recommended.
+  TODO: Add link to uberon
+  */
+  union { null, GAOntologyTerm } developmentalStage = null;
+
+  /**
+  The date of birth of this individual in milliseconds from the epoch.
+  This field may be approximate.
+  */
+  union { null, long } dateOfBirth = null;
+
+  /**
+  Diseases with which the individual has been diagnosed.
+  TODO: Is this the right representation?
+  */
+  array<GAOntologyTerm> diseases = [];
+
+  /**
+  Phenotypes for this individual.
+  TODO: Is this the right representation?
+  */
+  array<GAOntologyTerm> phenotypes = [];
+
+  /**
+  Disease area specific classification (e.g. classification of cancer samples
+  such as Dukes)
+  */
+  union { null, string } stagingSystem = null;
+
+  /** A description of the clinical treatment used for this individual. */
+  union { null, string } clinicalTreatment = null;
+
+  /** The strain of this individual, for non-humans. */
+  union { null, string } strain = null;
+
+  /**
+  A map of additional individual information. In JSON, this looks like:
+  `info: {key1: value1, key2: value2}`
+  */
+  array<GAKeyValue> info = [];
+}
+
+/**
+A biological sample used in an experiment. (e.g. whole blood from
+an affected individual)
+*/
+record GASample {
+   /** The sample UUID. This is globally unique. */
+  string id;
+
+  /** The ID of the individual this sample belongs to. */
+  union { null, string } individualId = null;
+
+  /** Public identifiers for this sample. */
+  array<string> accessions = [];
+
+  /** The name of the sample. */
+  union { null, string } name = null;
+
+  /** A description of the sample. */
+  union { null, string } description = null;
+
+  /**
+  The time at which this sample was created in milliseconds from the epoch.
+  */
+  union { null, long } created = null;
+
+  /**
+  The time at which this sample was last updated in milliseconds
+  from the epoch.
+  */
+  union { null, long } updated = null;
+
+  /**
+  The time at which this sample was taken from the individual, in milliseconds
+  from the epoch.
+  */
+  union { null, long } samplingDate = null;
+
+  /**
+  The age of this sample in months. TODO: is months the right format?
+  This field may be approximate.
+  */
+  union { null, long } age = null;
+
+  /** The cell type of this sample. */
+  union { null, string } cellType = null;
+
+  /** The cell line of this sample. */
+  union { null, string } cellLine = null;
+
+  /**
+  Geographic coordinates from which the individual was obtained.
+  TODO: Figure out the right type for this field.
+  */
+  union { null, string } geocode = null;
+
+  /** A descriptor of the sample type. (e.g. `frozen`) */
+  union { null, string } sampleType = null;
+
+  /**
+  The anatomical part of the individual from which this sample derives.
+  Using Uberon is recommended.
+  TODO: Add link to uberon
+  */
+  union { null, GAOntologyTerm } organismPart = null;
+
+  /**
+  A map of additional sample information. In JSON, this looks like:
+  `info: {key1: value1, key2: value2}`
+  */
+  array<GAKeyValue> info = [];
+}
+
+/**
+An experimental preparation of a `GASample`.
+*/
+record GAExperiment {
+  /** The experiment UUID. This is globally unique. */
+  string id;
+
+  /** The name of the experiment. */
+  union { null, string } name = null;
+
+  /** A description of the experiment. */
+  union { null, string } description = null;
+
+  /**
+  The time at which this experiment was created in milliseconds from the epoch.
+  */
+  union { null, long } created = null;
+
+  /**
+  The time at which this experiment was last updated in milliseconds
+  from the epoch.
+  */
+  union { null, long } updated = null;
+
+  /**
+  The time at which this experiment was performed in milliseconds
+  from the epoch.
+  */
+  union { null, long } runDate = null;
+
+  /**
+  The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
+  */
+  union { null, string } molecule = null;
+
+  /**
+  The experiment technique or strategy applied to the sample.
+  (e.g. whole genome sequencing, RNA-seq, RIP-seq)
+  */
+  union { null, string } strategy = null;
+
+  /**
+  The method used to enrich the target. (e.g. immunoprecipitation, size
+  fractionation, MNase digestion)
+  */
+  union { null, string } selection = null;
+
+  /** The name of the library used as part of this experiment. */
+  union { null, string } library = null;
+
+  /** The configuration of sequenced reads. (e.g. Single or Paired) */
+  union { null, string } libraryLayout = null;
+
+  /**
+    The instrument model used as part of this experiment.
+    This maps to sequencing technology in BAM.
+  */
+  union { null, string } instrumentModel;
+
+  /**
+  The data file generated by the instrument.
+  TODO: This isn't actually a file is it?
+  Should this be `instrumentData` instead?
+  */
+  union { null, string } instrumentDataFile = null;
+
+  /** The sequencing center used as part of this experiment. */
+  union { null, string } sequencingCenter;
+
+  /**
+  The platform unit used as part of this experiment. This is a flowcell-barcode
+  or slide unique identifier.
+  */
+  union { null, string } platformUnit = null;
+
+  /**
+  A map of additional experiment information. In JSON, this looks like:
+  `info: {key1: value1, key2: value2}`
+  */
+  array<GAKeyValue> info = [];
+}
+
+/**
+Represents a group of individuals. (e.g. a trio)
+*/
+record GAIndividualGroup {
+  /** The individual group UUID. This is globally unique. */
+  string id;
+
+  /** The name of the individual group. */
+  union { null, string } name = null;
+
+  /** A description of the individual group. */
+  union { null, string } description = null;
+
+  /**
+  The time at which this individual group was created in milliseconds from
+  the epoch.
+  */
+  union { null, long } created = null;
+
+  /**
+  The time at which this individual group was last updated in milliseconds
+  from the epoch.
+  */
+  union { null, long } updated = null;
+
+  /** The type of individual group. */
+  union { null, string } type = null;
+
+  /**
+  A map of additional individual group information. In JSON, this looks like:
+  `info: {key1: value1, key2: value2}`
+  */
+  array<GAKeyValue> info = [];
+}
+
+/**
+An analysis contains an interpretation of one or several experiments.
+(e.g. SNVs, copy number variations, methylation status) together with
+information about the methodology used.
+*/
+record GAAnalysis {
+  /** The analysis UUID. This is globally unique. */
+  string id;
+
+  /** The name of the analysis. */
+  union { null, string } name = null;
+
+  /** A description of the analysis. */
+  union { null, string } description = null;
+
+  /**
+  The time at which this analysis was created in milliseconds from the epoch.
+  */
+  union { null, long } created = null;
+
+  /**
+  The time at which this analysis was last updated in milliseconds
+  from the epoch.
+  */
+  union { null, long } updated = null;
+
+  /** The type of analysis. */
+  union { null, string } type = null;
+
+  /** The software run to generate this analysis. */
+  array<string> software = null;
+
+  /**
+  A map of additional analysis information. In JSON, this looks like:
+  `info: {key1: value1, key2: value2}`
+  */
+  array<GAKeyValue> info = [];
+}
+
+}
