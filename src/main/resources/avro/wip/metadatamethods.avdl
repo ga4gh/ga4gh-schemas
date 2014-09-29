@@ -1,0 +1,278 @@
+@namespace("org.ga4gh")
+protocol GAMetadataMethods {
+
+import idl "metadata.avdl";
+
+/******************  /individuals/search  *********************/
+/** This request maps to the body of `POST /individuals/search` as JSON. */
+record GASearchIndividualsRequest {
+  /**
+  If specified, restrict this query to individuals within the given
+  individual groups.
+  */
+  array<string> groupIds = [];
+
+  /**
+  Only return individuals for which a substring of the name matches
+  this string.
+  */
+  union { null, string } name = null;
+
+  // TODO: What other search parameters should be here?
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+   */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+   */
+  union { null, string } pageToken = null;
+}
+
+/** This is the response from `POST /individuals/search` expressed as JSON. */
+record GASearchIndividualsResponse {
+  /**
+  The list of matching individuals.
+   */
+  array<GAIndividual> individuals = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+   */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `GAIndividual` matching the search criteria.
+
+`POST /individuals/search` must accept a JSON version of 
+`GASearchIndividualsRequest` as the post body and will return a JSON version of 
+`GASearchIndividualsResponse`.
+*/
+GASearchIndividualsResponse searchIndividuals(
+    /** This request maps to the body of `POST /individuals/search` as JSON. */
+    GASearchIndividualsRequest request) throws GAException;
+
+
+/******************  /samples/search  *********************/
+/** This request maps to the body of `POST /samples/search` as JSON. */
+record GASearchSamplesRequest {
+  /** If specified, restrict this query to samples for the given individuals. */
+  array<string> individualIds = [];
+
+  /**
+  Only return samples for which a substring of the name matches
+  this string.
+  */
+  union { null, string } name = null;
+
+  // TODO: What other search parameters should be here?
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+   */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+   */
+  union { null, string } pageToken = null;
+}
+
+/** This is the response from `POST /samples/search` expressed as JSON. */
+record GASearchSamplesResponse {
+  /**
+  The list of matching samples.
+   */
+  array<GASample> samples = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+   */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `GASample` matching the search criteria.
+
+`POST /samples/search` must accept a JSON version of 
+`GASearchSamplesRequest` as the post body and will return a JSON version of 
+`GASearchSamplesResponse`.
+*/
+GASearchSamplesResponse searchSamples(
+    /** This request maps to the body of `POST /samples/search` as JSON. */
+    GASearchSamplesRequest request) throws GAException;
+
+
+/******************  /experiments/search  *********************/
+/** This request maps to the body of `POST /experiments/search` as JSON. */
+record GASearchExperimentsRequest {
+  /**
+  Only return experiments for which a substring of the name matches
+  this string.
+  */
+  union { null, string } name = null;
+
+  // TODO: What other search parameters should be here?
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+   */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+   */
+  union { null, string } pageToken = null;
+}
+
+/** This is the response from `POST /experiments/search` expressed as JSON. */
+record GASearchExperimentsResponse {
+  /**
+  The list of matching experiments.
+   */
+  array<GAExperiment> experiments = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+   */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `GAExperiment` matching the search criteria.
+
+`POST /experiments/search` must accept a JSON version of 
+`GASearchExperimentsRequest` as the post body and will return a JSON version of 
+`GASearchExperimentsResponse`.
+*/
+GASearchExperimentsResponse searchExperiments(
+    /** This request maps to the body of `POST /experiments/search` as JSON. */
+    GASearchExperimentsRequest request) throws GAException;
+
+
+/******************  /individualgroups/search  *********************/
+/** This request maps to the body of `POST /individualgroups/search` as JSON. */
+record GASearchIndividualGroupsRequest {
+  /**
+  Only return individual groups for which a substring of the name matches
+  this string.
+  */
+  union { null, string } name = null;
+
+  // TODO: What other search parameters should be here?
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+   */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+   */
+  union { null, string } pageToken = null;
+}
+
+/**
+This is the response from `POST /individualgroups/search` expressed as JSON.
+*/
+record GASearchIndividualGroupsResponse {
+  /**
+  The list of matching individual groups.
+   */
+  array<GAIndividualGroup> individualGroups = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+   */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `GAIndividualGroup` matching the search criteria.
+
+`POST /individualgroups/search` must accept a JSON version of
+`GASearchIndividualGroupsRequest` as the post body and will return a JSON
+version of `GASearchIndividualGroupsResponse`.
+*/
+GASearchIndividualGroupsResponse searchIndividuals(
+    /**
+    This request maps to the body of `POST /individualgroups/search` as JSON.
+    */
+    GASearchIndividualGroupsRequest request) throws GAException;
+
+
+/******************  /analyses/search  *********************/
+/** This request maps to the body of `POST /analyses/search` as JSON. */
+record GASearchAnalysesRequest {
+  /**
+  Only return analyses for which a substring of the name matches
+  this string.
+  */
+  union { null, string } name = null;
+
+  // TODO: What other search parameters should be here?
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+   */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+   */
+  union { null, string } pageToken = null;
+}
+
+/** This is the response from `POST /analyses/search` expressed as JSON. */
+record GASearchAnalysesResponse {
+  /**
+  The list of matching analyses.
+   */
+  array<GAAnalysis> analyses = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+   */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `GAAnalysis` matching the search criteria.
+
+`POST /analyses/search` must accept a JSON version of
+`GASearchAnalysesRequest` as the post body and will return a JSON version of
+`GASearchAnalysesResponse`.
+*/
+GASearchAnalysesResponse searchAnalyses(
+    /** This request maps to the body of `POST /analyses/search` as JSON. */
+    GASearchAnalysesRequest request) throws GAException;
+
+}

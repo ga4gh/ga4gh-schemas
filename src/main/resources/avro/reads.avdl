@@ -1,31 +1,31 @@
 @namespace("org.ga4gh")
 
 /**
- This file defines the objects used to represent a hierarchy of reads and alignments:
+This file defines the objects used to represent a hierarchy of reads and alignments:
 
- GAReadGroupSet >--< GAReadGroup --< fragment --< read --< alignment --< linear alignment
+GAReadGroupSet >--< GAReadGroup --< fragment --< read --< alignment --< linear alignment
 
- * A GAReadGroupSet is a logical collection of GAReadGroup's.
- * A GAReadGroup is all the data that's processed the same way by the sequencer.
-   There are typically 1-10 GAReadGroup's in a GAReadGroupSet.
- * A *fragment* is a single stretch of a DNA molecule. There are typically
-   millions of fragments in a GAReadGroup. A fragment has a name (QNAME in BAM
-   spec), a length (TLEN in BAM spec), and an array of reads.
- * A *read* is a contiguous sequence of bases. There are typically only one or
-   two reads in a fragment. If there are two reads, they're known as a mate pair.
-   A read has an array of base values, an array of base qualities, and alignment
-   information.
- * An *alignment* is the way alignment software maps a read to a reference.
-   There's one primary alignment, and can be one or more secondary alignments.
-   Secondary alignments represent alternate possible mappings.
- * A *linear alignment* maps a string of bases to a reference using a single
-   CIGAR string. There's one representative alignment, and can be one or more
-   supplementary alignments. Supplementary alignments represent linear alignments
-   that are subsets of a chimeric alignment.
- * A GAReadAlignment object is a flattened representation of the bottom layers
-   of this hierarchy. There's exactly one such object per *linear alignment*.
-   The object contains alignment info, plus fragment and read info for easy access.
- */
+* A GAReadGroupSet is a logical collection of GAReadGroup's.
+* A GAReadGroup is all the data that's processed the same way by the sequencer.
+ There are typically 1-10 GAReadGroup's in a GAReadGroupSet.
+* A *fragment* is a single stretch of a DNA molecule. There are typically
+ millions of fragments in a GAReadGroup. A fragment has a name (QNAME in BAM
+ spec), a length (TLEN in BAM spec), and an array of reads.
+* A *read* is a contiguous sequence of bases. There are typically only one or
+ two reads in a fragment. If there are two reads, they're known as a mate pair.
+ A read has an array of base values, an array of base qualities, and alignment
+ information.
+* An *alignment* is the way alignment software maps a read to a reference.
+ There's one primary alignment, and can be one or more secondary alignments.
+ Secondary alignments represent alternate possible mappings.
+* A *linear alignment* maps a string of bases to a reference using a single
+ CIGAR string. There's one representative alignment, and can be one or more
+ supplementary alignments. Supplementary alignments represent linear alignments
+ that are subsets of a chimeric alignment.
+* A GAReadAlignment object is a flattened representation of the bottom layers
+ of this hierarchy. There's exactly one such object per *linear alignment*.
+ The object contains alignment info, plus fragment and read info for easy access.
+*/
 protocol GAReads {
 
 import idl "common.avdl";
@@ -66,8 +66,8 @@ record GAExperiment {
   union { null, string } sequencingCenter;
 
   /**
-    The instrument model used as part of this experiment.
-    This maps to sequencing technology in BAM.
+  The instrument model used as part of this experiment.
+  This maps to sequencing technology in BAM.
   */
   union { null, string } instrumentModel;
 }
@@ -96,13 +96,13 @@ record GAReadGroup {
   union { null, int } predictedInsertSize = null;
 
   /**
-    The time at which this read group was created in milliseconds from the epoch.
+  The time at which this read group was created in milliseconds from the epoch.
   */
   union { null, long } created = null;
 
   /**
-    The time at which this read group was last updated in milliseconds
-    from the epoch.
+  The time at which this read group was last updated in milliseconds
+  from the epoch.
   */
   union { null, long } updated = null;
 
@@ -110,16 +110,15 @@ record GAReadGroup {
   array<GAProgram> programs = [];
 
   /**
-    The reference set the reads in this read group are aligned to.
-    Required if there are any read alignments.
+  The reference set the reads in this read group are aligned to.
+  Required if there are any read alignments.
   */
   union {null, string } referenceSetId = null;
 
   /**
-    A map of additional read group information. In JSON, this looks like:
-    `info: {key1: value1, key2: value2}`
+  A map of additional read group information.
   */
-  array<GAKeyValue> info = [];
+  map<array<string>> info = {};
 }
 
 record GAReadGroupSet {
@@ -141,135 +140,134 @@ record GAReadGroupSet {
 
 /** A linear alignment can be represented by one CIGAR string. */
 record GALinearAlignment {
-    /** The position of this alignment. */
-    GAPosition position;
+  /** The position of this alignment. */
+  GAPosition position;
 
-    /**
-      The mapping quality of this alignment. Represents how likely
-      the read maps to this position as opposed to other locations.
-    */
-    union { null, int } mappingQuality = null;
+  /**
+  The mapping quality of this alignment. Represents how likely
+  the read maps to this position as opposed to other locations.
+  */
+  union { null, int } mappingQuality = null;
 
-    /**
-      Represents the local alignment of this sequence (alignment matches, indels, etc)
-      versus the reference.
-    */
-    array<GACigarUnit> cigar = [];
+  /**
+  Represents the local alignment of this sequence (alignment matches, indels, etc)
+  versus the reference.
+  */
+  array<GACigarUnit> cigar = [];
 }
 
 /**
-  Each read alignment describes a linear alignment with additional information
-  about the fragment and the read. A read alignment object is equivalent to a
-  line in a SAM file.
+Each read alignment describes a linear alignment with additional information
+about the fragment and the read. A read alignment object is equivalent to a
+line in a SAM file.
 */
 record GAReadAlignment {
 
-    /**
-      The read alignment ID. This ID is unique within the read group this
-      alignment belongs to. This field may not be provided by all backends.
-      Its intended use is to make caching and UI display easier for
-      genome browsers and other light weight clients.
-    */
-    union { null, string } id;
+  /**
+  The read alignment ID. This ID is unique within the read group this
+  alignment belongs to. This field may not be provided by all backends.
+  Its intended use is to make caching and UI display easier for
+  genome browsers and other light weight clients.
+  */
+  union { null, string } id;
 
-    /**
-      The ID of the read group this read belongs to.
-      (Every read must belong to exactly one read group.)
-    */
-    string readGroupId;
+  /**
+  The ID of the read group this read belongs to.
+  (Every read must belong to exactly one read group.)
+  */
+  string readGroupId;
 
-    // fragment attributes
+  // fragment attributes
 
-    /** The fragment name. Equivalent to QNAME (query template name) in SAM.*/
-    string fragmentName;
+  /** The fragment name. Equivalent to QNAME (query template name) in SAM.*/
+  string fragmentName;
 
-    /**
-      The orientation and the distance between reads from the fragment are
-      consistent with the sequencing protocol (extension to SAM flag 0x2)
-    */
-    union { null, boolean } properPlacement = false;
+  /**
+  The orientation and the distance between reads from the fragment are
+  consistent with the sequencing protocol (extension to SAM flag 0x2)
+  */
+  union { null, boolean } properPlacement = false;
 
-    /** The fragment is a PCR or optical duplicate (SAM flag 0x400) */
-    union { null, boolean } duplicateFragment = false;
+  /** The fragment is a PCR or optical duplicate (SAM flag 0x400) */
+  union { null, boolean } duplicateFragment = false;
 
-    /** The number of reads in the fragment (extension to SAM flag 0x1) */
-    union { null, int } numberReads = null;
+  /** The number of reads in the fragment (extension to SAM flag 0x1) */
+  union { null, int } numberReads = null;
 
-    /** The observed length of the fragment, equivalent to TLEN in SAM. */
-    union { null, int } fragmentLength = null;
+  /** The observed length of the fragment, equivalent to TLEN in SAM. */
+  union { null, int } fragmentLength = null;
 
-    // read attributes
+  // read attributes
 
-    /**
-      The read number in sequencing. 0-based and less than numberReads. This field
-      replaces SAM flag 0x40 and 0x80.
-    */
-    union { null, int } readNumber = null;
+  /**
+  The read number in sequencing. 0-based and less than numberReads. This field
+  replaces SAM flag 0x40 and 0x80.
+  */
+  union { null, int } readNumber = null;
 
-    /** SAM flag 0x200 */
-    union { null, boolean } failedVendorQualityChecks = false;
+  /** SAM flag 0x200 */
+  union { null, boolean } failedVendorQualityChecks = false;
 
-    /**
-      The linear alignment for this alignment record. This field will be
-      null if the read is unmapped.
-    */
-    union { null, GALinearAlignment } alignment = null;
+  /**
+  The linear alignment for this alignment record. This field will be
+  null if the read is unmapped.
+  */
+  union { null, GALinearAlignment } alignment = null;
 
-    /**
-      Whether this alignment is secondary. Equivalent to SAM flag 0x100.
-      A secondary alignment represents an alternative to the primary alignment
-      for this read. Aligners may return secondary alignments if a read can map
-      ambiguously to multiple coordinates in the genome.
+  /**
+  Whether this alignment is secondary. Equivalent to SAM flag 0x100.
+  A secondary alignment represents an alternative to the primary alignment
+  for this read. Aligners may return secondary alignments if a read can map
+  ambiguously to multiple coordinates in the genome.
 
-      By convention, each read has one and only one alignment where both
-      secondaryAlignment and supplementaryAlignment are false.
-    */
-    union { null, boolean } secondaryAlignment = false;
+  By convention, each read has one and only one alignment where both
+  secondaryAlignment and supplementaryAlignment are false.
+  */
+  union { null, boolean } secondaryAlignment = false;
 
-    /**
-      Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
-      Supplementary alignments are used in the representation of a chimeric
-      alignment. In a chimeric alignment, a read is split into multiple
-      linear alignments that map to different reference contigs. The first
-      linear alignment in the read will be designated as the representative alignment;
-      the remaining linear alignments will be designated as supplementary alignments.
-      These alignments may have different mapping quality scores.
+  /**
+  Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
+  Supplementary alignments are used in the representation of a chimeric
+  alignment. In a chimeric alignment, a read is split into multiple
+  linear alignments that map to different reference contigs. The first
+  linear alignment in the read will be designated as the representative alignment;
+  the remaining linear alignments will be designated as supplementary alignments.
+  These alignments may have different mapping quality scores.
 
-      In each linear alignment in a chimeric alignment, the read will be hard clipped.
-      The `alignedSequence` and `alignedQuality` fields in the alignment record will
-      only represent the bases for its respective linear alignment.
-    */
-    union { null, boolean } supplementaryAlignment = false;
+  In each linear alignment in a chimeric alignment, the read will be hard clipped.
+  The `alignedSequence` and `alignedQuality` fields in the alignment record will
+  only represent the bases for its respective linear alignment.
+  */
+  union { null, boolean } supplementaryAlignment = false;
 
-    /**
-      The bases of the read sequence contained in this alignment record.
-      `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
-      and quality. This will occur if the alignment is part of a chimeric alignment,
-      or if the read was trimmed. When this occurs, the CIGAR for this read will
-      begin/end with a hard clip operator that will indicate the length of the excised sequence.
-    */
-    union { null, string } alignedSequence = null;
+  /**
+  The bases of the read sequence contained in this alignment record.
+  `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
+  and quality. This will occur if the alignment is part of a chimeric alignment,
+  or if the read was trimmed. When this occurs, the CIGAR for this read will
+  begin/end with a hard clip operator that will indicate the length of the excised sequence.
+  */
+  union { null, string } alignedSequence = null;
 
-    /**
-      The quality of the read sequence contained in this alignment record.
-      `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
-      and quality. This will occur if the alignment is part of a chimeric alignment,
-      or if the read was trimmed. When this occurs, the CIGAR for this read will
-      begin/end with a hard clip operator that will indicate the length of the excised sequence.
-    */
-    array<int> alignedQuality = [];
+  /**
+  The quality of the read sequence contained in this alignment record.
+  `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
+  and quality. This will occur if the alignment is part of a chimeric alignment,
+  or if the read was trimmed. When this occurs, the CIGAR for this read will
+  begin/end with a hard clip operator that will indicate the length of the excised sequence.
+  */
+  array<int> alignedQuality = [];
 
-    /**
-      The mapping of the primary alignment of the `(readNumber+1)%numberReads`
-      read in the fragment. It replaces mate position and mate strand in SAM.
-    */
-    union { null, GAPosition } nextMatePosition = null;
+  /**
+  The mapping of the primary alignment of the `(readNumber+1)%numberReads`
+  read in the fragment. It replaces mate position and mate strand in SAM.
+  */
+  union { null, GAPosition } nextMatePosition = null;
 
-    /**
-      A map of additional read alignment information. In JSON, this looks like:
-      `info: {key1: value1, key2: value2}`
-    */
-    array<GAKeyValue> info = [];
+  /**
+  A map of additional read alignment information.
+  */
+  map<array<string>> info = {};
 }
 
 }
