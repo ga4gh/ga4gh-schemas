@@ -94,6 +94,9 @@ record GASegment {
   string variantId ;  //references an id of a GAVariant
   int start, end ;   	// start is 0-based and inclusive, end is exclusive
   // So start <= x < end if end > start, or end < x <= start if end < start.
+  // Genomic positions are non-negative integers less than reference length.
+  // Segments spanning the join of circular genomes are represented as 
+  // two segments, one on each side of the join (position 0).
   GAVariantSide side ; 
   int length ;	// alternative to end
   // if start == 0 and end == 0 then this is the whole Variant
