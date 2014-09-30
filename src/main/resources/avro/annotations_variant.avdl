@@ -222,7 +222,7 @@ record GAAnnotationVariant {
   might be affected a GAVariant.
 */
 record GAAnnotationVariantList {
-  /** The variant ID. */
+  /** The variant list ID */
   string id;
 
   /** 
