@@ -57,6 +57,32 @@ enum GAImpact {
 }
 
 /**
+  Coding, non-coding variants (a sub-set of 'biotype')
+*/
+enum GACoding {
+  CODING,      // Variant highly disrupts protein function
+  NON_CODING   // Moderately disrupts protein function
+}
+
+/**
+  Biotype. Using a 'coarse' clasification (coding / non-coding)
+  and a detailed biotypes (optional) according to HAVANA definitions
+*/
+record GABiotype {
+  /**
+    At least it should be clasified as 'coding' / 'non-coding'
+  */
+  GACoding coding;
+
+  /**
+    Detailed biotype according to HAVANA types
+    Reference:
+      http://vega.sanger.ac.uk/info/about/gene_and_transcript_types.html
+  */
+  union { null, string } biotype;
+}
+
+/**
   GAClinical: Annotation of clinicaly relevant information
   References: Mostly informaton from ClinVar
               http://www.ncbi.nlm.nih.gov/clinvar/
@@ -122,11 +148,6 @@ record GAGene {
 
 /**
   GAScore: Scores from prioritization agorithms
-
-  Note: Why do we need 'GAImpact' for each score?
-        Some methods use a consensus of scores from several algorithms.
-        For instance, it is common to declare a variant 'HIGH impact' 
-        only if at least 3 out of 5 known algorithms.
 */
 record GAScore {
   string algorithm;                // Algorithm used (must include version)
@@ -169,11 +190,9 @@ record GATranscript {
   GAInterval pos;
 
   /**
-    Transcript biotype according to HAVANA types
-    Reference:
-      http://vega.sanger.ac.uk/info/about/gene_and_transcript_types.html
+    Transcript biotype.
   */
-  string biotype;
+  GABiotype biotype;
 
   /**
     Is transcript protein coding?

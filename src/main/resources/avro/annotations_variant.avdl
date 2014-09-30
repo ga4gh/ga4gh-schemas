@@ -59,9 +59,9 @@ record GAExonIntronInfo {
 }
 
 /**
-  GACoding: Information for coding variants
+  GACodingAnnotation: Information for coding variants
 */
-record GACoding {
+record GACodingAnnotation {
 
   /**
     Positions relative to first base in pre-mRNA and CDs
@@ -72,7 +72,7 @@ record GACoding {
   /**
     Codon information
   */
-  string codonsRef;       // Affected codons (unmodified, as in reference genome)
+  string codonsRef;       // Affected codons (as in reference genome)
   string codonsAlt;       // Modified codons 
 
   /**
@@ -103,9 +103,9 @@ record GACoding {
 }
 
 /**
-  GANonCoding: Additional information for non-coding annotations
+  GANonCodingAnnptation: Additional information for non-coding annotations
 */
-record GANonCoding {
+record GANonCodingAnnptation {
   /**
     Distance (in bases) to closest "feature".
 
@@ -199,7 +199,7 @@ record GAAnnotationVariant {
   /**
      Coding or non-coding annotaiton (depending on 'proteinCoding' field)
   */
-  union { null, GACoding, GANonCoding } details = null;
+  union { null, GACodingAnnotation, GANonCodingAnnptation } details = null;
 
   /**
     Additional annotations
@@ -210,9 +210,9 @@ record GAAnnotationVariant {
   union { null, GAScores } scores;
 
   /**
-    Additional generic annotations
+  A map of additional variant annotation information
   */
-  array<GAKeyValue> info = [];  
+  map<array<string>> info = {};
 
 }
 

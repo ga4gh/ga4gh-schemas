@@ -15,8 +15,16 @@ import idl "annotations_core.avdl";
 
 record GAAnnotationInterval {
   GAInterval interval;
+
+  /**
+  Scores annotated on this genomic interval
+  */
   array<GAScore> scores;
-  GAKeyValue nameValue;
+
+  /**
+  A map of additional information.
+  */
+  map<array<string>> info = {};
 }
 
 /**
@@ -24,7 +32,11 @@ record GAAnnotationInterval {
 */
 record GATfbs {
   string tfId;     // Transcription factor ID
-  GAInterval pos;  // Gneomic position
+
+  /**
+  Genomic position where transcription factor is expected / predicted to bind
+  */
+  GAInterval pos;
 }
 
 }

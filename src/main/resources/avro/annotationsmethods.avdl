@@ -1,0 +1,136 @@
+@namespace("org.ga4gh")
+protocol GAAnnotationMethods {
+
+import idl "annotations.avdl";
+
+/**
+  GAScoreRange: A range of scores for queries
+*/
+record GAScoreRange {
+  /**
+    Reference to algorithm used in GAScore
+  */
+  string algorithm;                
+
+  /**
+    Minimum raw score to query.
+    If null, defaults to MINUS_INFINITE
+  */
+  union { null, double } rawScoreMin;                 
+
+  /**
+    Maximum raw score to query.
+    If null, defaults to PLUS_INFINITE
+  */
+  union { null, double } rawScoreMax;                 
+    
+  /**
+    Catergory names
+  */
+  union { null, array<string> } categories;
+}
+
+/******************  /variantannotations/search  *********************/
+/** This request maps to the body of `POST /variantannotations/search` as JSON. */
+record GASearchVariantAnnotationsRequest {
+  /** 
+  Required. The IDs of the variant sets to search over. 
+  */
+  array<string> variantSetIds = [];
+
+  /** 
+  Optional. Only return variant annotations for variant having exactly 
+  these IDs 
+  */
+  union { null, array<string> } variantIds = null;
+
+  /**
+  Optional. The beginning of the window (0-based, inclusive) for
+  which overlapping variant annotations should be returned.
+  Note: Partially overlapping variants are included (e.g. any variant 
+  starting before, but ending after 'start')
+  Default value is 0
+  */
+  long start = 0;
+
+  /**
+  Optional. The end of the window (0-based, exclusive) for which 
+  overlapping variant annotations should be returned.
+  Default is '-1' meaninig 'refernce length'
+  */
+  long end = -1;
+
+  /**
+  Optional. Return variants annotated with any of these impacts
+  */
+  union { null, array<GAImpact> } imapcts;
+
+  /**
+  Optional. Return variants annotated with any of these effects (SO term IDs)
+  */
+  union { null, array<string> } effects;
+
+  /**
+  Optional. Return variants having any of these biotypes
+  */
+  union {null, array<GABiotype>} biotypes = null; 
+
+  /**
+  Optional. Return variants annotated with any of these genes
+  */
+  union { null, array<string> } geneNames;
+
+  /**
+  Optional. Return variants annotated with any of these transcript IDs
+  */
+  union { null, array<string> } transcriptIds;
+
+  /**
+  Optional. Return variants annotates with any of the following 'info' fields
+  */
+  map<array<string>> info = {};
+
+  /**
+  Optional. Return variants annotates with any score within these ranges
+  */
+  union { null, array<GAScoreRange> } scoreRanges;
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;
+}
+
+/** This is the response from `POST /variantannotations/search` expressed as JSON. */
+record GASearchVariantAnnotationsResponse {
+  /**
+  The list of matching variant annotations.
+  */
+  array<GAAnnotationVariant> variantannotations = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `GAAnnotationVariant` matching the search criteria.
+
+`POST /variantannotations/search` must accept a JSON version of `GASearchVariantAnnotationsRequest`
+as the post body and will return a JSON version of `GASearchVariantAnnotationsResponse`.
+*/
+GASearchVariantAnnotationsResponse searchVariantAnnotations(
+    /** This request maps to the body of `POST /variantannotations/search` as JSON. */
+    GASearchVariantAnnotationsRequest request) throws GAException;
+
+}

@@ -21,9 +21,9 @@ record GAAnnotationGene {
   array<GAScore> scores;
 
   /**
-     Generic 'key=value' pairs for other annotations
+  A map of additional gene information.
   */
-  array<GAKeyValue> info = [];  
+  map<array<string>> info = {};
 }
 
 /**
@@ -38,9 +38,9 @@ record GAAnnotationTranscript {
   array<GAScore> scores;
 
   /**
-     Generic 'key=value' pairs for other annotations
+  A map of additional transcript information.
   */
-  array<GAKeyValue> info = [];  
+  map<array<string>> info = {};
 }
 
 /**
