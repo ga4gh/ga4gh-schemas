@@ -33,6 +33,7 @@ record GAPosition {
 
   /**
   The 0-based offset from the start of the forward strand for that reference.
+  Genomic positions are non-negative integers less than reference length.
   */
   long position;
 

@@ -171,6 +171,9 @@ example:
 record GAListReferenceBasesRequest {
   /**
   The start position (0-based) of this query. Defaults to 0.
+  Genomic positions are non-negative integers less than reference length.
+  Requests spanning the join of circular genomes are represented as
+  two requests one on each side of the join (position 0).
   */
   long start = 0;
 

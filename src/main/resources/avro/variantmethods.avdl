@@ -71,6 +71,9 @@ record GASearchVariantsRequest {
   /**
   Required. The beginning of the window (0-based, inclusive) for
   which overlapping variants should be returned.
+  Genomic positions are non-negative integers less than reference length.
+  Requests spanning the join of circular genomes are represented as
+  two requests one on each side of the join (position 0).
   */
   long start;
 

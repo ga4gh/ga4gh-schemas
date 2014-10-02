@@ -182,6 +182,9 @@ record GAVariant {
   /**
   The start position at which this variant occurs (0-based).
   This corresponds to the first base of the string of reference bases.
+  Genomic positions are non-negative integers less than reference length.
+  Variants spanning the join of circular genomes are represented as
+  two variants one on each side of the join (position 0).
   */
   long start;
 
