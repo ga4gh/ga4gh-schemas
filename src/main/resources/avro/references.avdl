@@ -11,8 +11,14 @@ record GAReference {
   /** The reference ID. Unique within the repository. */
   string id;
 
+  /** The ID of the reference set that contains this reference contig. */
+  string referenceSetId;
+
   /** The length of this reference's sequence. */
   long length;
+
+  /** The ID of the assembled sequence of this contig. */
+  string sequenceId;
 
   /**
   MD5 of the upper-case sequence excluding all whitespace characters
@@ -21,8 +27,7 @@ record GAReference {
   string md5checksum;
 
   /**
-  The name of this reference. (e.g. '22') Also see the
-  `names` field on the parent `GAReferenceSet`.
+  The name of this reference. (e.g. '22').
   */
   string name;
 
@@ -44,17 +49,19 @@ record GAReference {
   is sufficiently small. Two sequences derived from the same official
   sequence share the same coordinates and annotations, and
   can be replaced with the official sequence for certain use cases.
+
+  This field contains the IDs of the references that this reference is derived
+  from. If this reference sequence is not derived from any other reference sequences,
+  this array should be empty.
   */
-  boolean isDerived = false;
+  array<string> derivedFrom = [];
 
   /**
   The `sourceDivergence` is the fraction of non-indel bases that do not match the
-  reference this record was derived from.
+  reference this record was derived from. This array should have the same length
+  as the derivedFrom array.
   */
-  union { null, float } sourceDivergence = null;
-
-  /** ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human). */
-  union { null, int } ncbiTaxonId = null;
+  array<float> sourceDivergence = [];
 }
 
 /**
@@ -65,17 +72,6 @@ coordinate space for comparing reference-aligned experimental data.
 record GAReferenceSet {
   /** The reference set ID. Unique in the repository. */
   string id;
-
-  /** The IDs of the `GAReference` objects that are part of this set. */
-  array<string> referenceIds = [];
-
-  /**
-  Order-independent MD5 checksum which identifies this `GAReferenceSet`. The
-  checksum is computed by sorting all `reference.md5checksum` (for all
-  `reference` in this set) in ascending lexicographic order, concatenating,
-  and taking the MD5 of that value.
-  */
-  string md5checksum;
 
   /**
   ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) indicating
@@ -101,14 +97,14 @@ record GAReferenceSet {
   All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
   with a version number, e.g. `NC_000001.11`.
   */
-  array<string> sourceAccessions;
+  array<string> sourceAccessions = [];
 
   /**
-  A reference set may be derived from a source if it contains
-  additional sequences, or some of the sequences within it are derived
-  (see the definition of `isDerived` in `GAReference`).
+  The IDs of the reference sets that this reference set is derived from.
+  If this reference set is not derived from another reference set, this
+  field should be empty.
   */
-  boolean isDerived = false;
+  array<string> derivedFrom = [];
 }
 
 }
