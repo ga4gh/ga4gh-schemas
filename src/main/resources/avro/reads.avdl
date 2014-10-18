@@ -72,6 +72,20 @@ record GAExperiment {
   union { null, string } instrumentModel;
 }
 
+record GAReadStats {
+  /** The number of aligned reads. */
+  union { null, long } alignedReadCount = null;
+
+  /** The number of unaligned reads. */
+  union { null, long } unalignedReadCount = null;
+
+  /**
+  The total number of bases.
+  This is equivalent to the sum of `alignedSequence.length` for all reads.
+  */
+  union { null, long } baseCount = null;
+}
+
 record GAReadGroup {
 
   /** The read group ID. */
@@ -106,6 +120,9 @@ record GAReadGroup {
   */
   union { null, long } updated = null;
 
+  /** Statistical data on reads in this read group. */
+  union { null, GAReadStats } stats = null;
+
   /** The programs used to generate this read group. */
   array<GAProgram> programs = [];
 
@@ -130,6 +147,9 @@ record GAReadGroupSet {
 
   /** The read group set name. */
   union { null, string } name = null;
+
+  /** Statistical data on reads in this read group set. */
+  union { null, GAReadStats } stats = null;
 
   /** The read groups in this set. */
   array<GAReadGroup> readGroups = [];
