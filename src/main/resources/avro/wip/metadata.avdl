@@ -183,8 +183,12 @@ record Sample {
   */
   union { null, GAOntologyTerm } cellType = null;
 
-  /** The cell line of this sample. */
-  union { null, string } cellLine = null;
+  /** 
+  The cell line of this sample. 
+  Using the Cell Line Ontology (CLO) is a possibility. See https://code.google.com/p/clo-ontology/
+  TODO: discuss further. Other possibilities: Cellosaurus (nextprot), BRENDA/BTO, EFO (EBI)
+  */
+  union { null, GAOntologyTerm } cellLine = null;
 
   /**
   Geographic coordinates from which the individual was obtained.
