@@ -177,8 +177,11 @@ record Sample {
   */
   union { null, long } age = null;
 
-  /** The cell type of this sample. */
-  union { null, string } cellType = null;
+  /**
+  The cell type of this sample.
+  Using the Cell Ontology (CL) is recommended. See http://cellontology.org/
+  */
+  union { null, GAOntologyTerm } cellType = null;
 
   /** The cell line of this sample. */
   union { null, string } cellLine = null;
