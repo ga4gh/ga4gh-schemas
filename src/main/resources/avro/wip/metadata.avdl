@@ -182,13 +182,13 @@ record Sample {
 
   /**
   The cell type of this sample.
-  Using the Cell Ontology (CL) is recommended. See http://cellontology.org/
+  Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended. See 
   */
   union { null, GAOntologyTerm } cellType = null;
 
   /** 
   The cell line of this sample. 
-  Using the Cell Line Ontology (CLO) is a possibility. See https://code.google.com/p/clo-ontology/
+  Using the [Cell Line Ontology](https://code.google.com/p/clo-ontology/) is a possibility.
   TODO: discuss further. Other possibilities: Cellosaurus (nextprot), BRENDA/BTO, EFO (EBI)
   */
   union { null, GAOntologyTerm } cellLine = null;
