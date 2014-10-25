@@ -204,7 +204,7 @@ record Sample {
 
   /**
   The anatomical part of the individual from which this sample derives.
-  Using Uberon (http://uberon.org) is recommended.
+  Using [Uberon](http://uberon.org) is recommended.
   */
   union { null, OntologyTerm } organismPart = null;
 
