@@ -1,0 +1,61 @@
+@namespace("org.ga4gh")
+
+protocol GASequences {
+
+/**
+A `GASequence` is a contiguous sequence of bases, which is made up by a
+set of `GASequenceFragments`. A `GASequence` could correspond to a
+reference contig, bases from a de novo assembly, etc.
+*/
+record GASequence {
+
+  /** The sequence ID. Unique within the repository. */
+  string id;
+
+  /** The name of the sequence. */
+  union { null, string } name = null;
+
+  /** A description of the sequence. */
+  union { null, string } description = null;
+
+  /**
+  The IDs of the data sources from which this sequence is generated. 
+  This can include IDs for any combination of the following (and more):
+  
+  * A GAReadSet (if the sequence was de novo assembled from reads)
+  * A GAReference (if the sequence was taken from a reference assembly)
+  * A GAVariantSet (if variants were spliced in to a reference assembly)
+  */
+  array<string> sourceIds = [];
+  
+  /**
+  The length of this sequence. Sequences are assumed to start at 0.
+  */
+  long length;
+}
+
+/**
+A `GASequenceFragment` represents a subsection of a sequence.
+*/
+record GASequenceFragment {
+
+  /** The ID of this sequence fragment. Unique within the repository. */
+  string id;
+
+  /**
+  The bases in this sequence. Bases are represented as IUPAC-IUB codes;
+  this string matches the regexp `[ACGTMRWSYKVHDBN]*`.
+  */
+  string bases;
+
+  /**
+  The start position of this fragment, within the sequence. The fragment's
+  end position will be `start + len(bases)`.
+  */
+  long start;
+
+  /** The ID of the sequence which contains this fragment. */
+  string sequenceId;
+}
+
+}

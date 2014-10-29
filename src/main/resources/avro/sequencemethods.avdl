@@ -1,0 +1,133 @@
+@namespace("org.ga4gh")
+protocol GAReferenceMethods {
+
+import idl "common.avdl";
+import idl "sequences.avdl";
+
+/****************  /sequences/search  *******************/
+/**
+This request maps to the body of `POST /sequences/search`
+as JSON.
+*/
+record GASearchSequencesRequest {
+  /** If present, the names of the sequences to search for. */
+  array<string> names = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;  
+}
+
+/**
+This is the response from `POST /sequences/search` expressed as JSON.
+*/
+record GASearchSequencesResponse {
+  /** The list of matching sequences. */
+  array<GASequence> sequences = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `GASequence` matching the search criteria.
+
+`POST /sequences/search` must accept a JSON version of
+`GASearchSequencesRequest` as the post body and will return a JSON
+version of `GASearchSequencesResponse`
+*/
+GASearchSequencesResponse searchSequences(
+    /**
+    This request maps to the body of `POST /sequences/search` as JSON.
+    */
+    GASearchSequencesRequest request) throws GAException;
+
+/****************  /sequences/{id}  *******************/
+/**
+Gets a `GASequence` by ID. `GET /sequences/{id}` will return a
+JSON version of `GASequence`.
+*/
+GASequence getSequence(
+    /**
+    The ID of the `GASequence`.
+    */
+    string id) throws GAException;
+
+/****************  /sequencefragments/search  *******************/
+/**
+This request maps to the body of `POST /sequencefragments/search`
+as JSON.
+*/
+record GASearchSequenceFragmentsRequest {
+  /** If present, the IDs of the sequences to search for. */
+  array<string> sequenceIds = [];
+
+  /**
+  The start position (0-based) of this query. Defaults to 0.
+  Genomic positions are non-negative integers less than reference length.
+  Requests spanning the join of circular genomes are represented as
+  two requests one on each side of the join (position 0).
+  */
+  long start = 0;
+
+  /**
+  The end position (0-based, exclusive) of this query. Defaults
+  to the length of this `GAReference`.
+  */
+  union { null, long } end = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;  
+}
+
+/**
+This is the response from `POST /sequencefragments/search` expressed as JSON.
+*/
+record GASearchSequenceFragmentsResponse {
+  /** The list of matching sequence fragments. */
+  array<GASequenceFragment> sequenceFragments = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `GASequenceFragments` matching the search criteria.
+
+`POST /sequencefragments/search` must accept a JSON version of
+`GASearchSequenceFragmentsRequest` as the post body and will return a JSON
+version of `GASearchSequenceFragmentsResponse`
+*/
+GASearchSequenceFragmentsResponse searchSequenceFragments(
+    /**
+    This request maps to the body of `POST /sequencefragments/search` as JSON.
+    */
+    GASearchSequenceFragmentsRequest request) throws GAException;
+
+/****************  /sequencefragments/{id}  *******************/
+/**
+Gets a `GASequenceFragment` by ID. `GET /sequencefragments/{id}` will return a
+JSON version of `GASequenceFragment`.
+*/
+GASequenceFragment getSequenceFragment(
+    /**
+    The ID of the `GASequenceFragment`.
+    */
+    string id) throws GAException;
+
+}
