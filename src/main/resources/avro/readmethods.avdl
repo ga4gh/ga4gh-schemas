@@ -1,5 +1,5 @@
 @namespace("org.ga4gh")
-protocol GAReadMethods {
+protocol ReadMethods {
 
 import idl "common.avdl";
 import idl "reads.avdl";
@@ -8,11 +8,11 @@ import idl "reads.avdl";
 /**
 This request maps to the body of `POST /reads/search` as JSON.
 
-If a reference is specified, all queried `GAReadGroup`s must be aligned
-to `GAReferenceSet`s containing that same `GAReference`. If no reference is
-specified, all `GAReadGroup`s must be aligned to the same `GAReferenceSet`.
+If a reference is specified, all queried `ReadGroup`s must be aligned
+to `ReferenceSet`s containing that same `Reference`. If no reference is
+specified, all `ReadGroup`s must be aligned to the same `ReferenceSet`.
 */
-record GASearchReadsRequest {
+record SearchReadsRequest {
   /** If specified, restrict this query to reads within the given readgroups. */
   array<string> readGroupIds = [];
 
@@ -61,12 +61,12 @@ record GASearchReadsRequest {
 }
 
 /** This is the response from `POST /reads/search` expressed as JSON. */
-record GASearchReadsResponse {
+record SearchReadsResponse {
   /**
   The list of matching alignment records, sorted by position.
   Unmapped reads, which have no position, are returned last.
   */
-  array<GAReadAlignment> alignments = [];
+  array<ReadAlignment> alignments = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -77,18 +77,18 @@ record GASearchReadsResponse {
 }
 
 /**
-Gets a list of `GAReadAlignment` matching the search criteria.
+Gets a list of `ReadAlignment` matching the search criteria.
 
-`POST /reads/search` must accept a JSON version of `GASearchReadsRequest` as
-the post body and will return a JSON version of `GASearchReadsResponse`.
+`POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
+the post body and will return a JSON version of `SearchReadsResponse`.
 */
-GASearchReadsResponse searchReads(
+SearchReadsResponse searchReads(
     /** This request maps to the body of `POST /reads/search` as JSON. */
-    GASearchReadsRequest request) throws GAException;
+    SearchReadsRequest request) throws Exception;
 
 /******************  /readgroupsets/search  *********************/
 /** This request maps to the body of `POST /readgroupsets/search` as JSON. */
-record GASearchReadGroupSetsRequest {
+record SearchReadGroupSetsRequest {
   /** The list of datasets to search. */
   array<string> datasetIds = [];
 
@@ -113,9 +113,9 @@ record GASearchReadGroupSetsRequest {
 }
 
 /** This is the response from `POST /readgroupsets/search` expressed as JSON. */
-record GASearchReadGroupSetsResponse {
+record SearchReadGroupSetsResponse {
   /** The list of matching read group sets. */
-  array<GAReadGroupSet> readGroupSets = [];
+  array<ReadGroupSet> readGroupSets = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -126,16 +126,16 @@ record GASearchReadGroupSetsResponse {
 }
 
 /**
-Gets a list of `GAReadGroupSet` matching the search criteria.
+Gets a list of `ReadGroupSet` matching the search criteria.
 
 `POST /readgroupsets/search` must accept a JSON version of
-`GASearchReadGroupSetsRequest` as the post body and will return a JSON
-version of `GASearchReadGroupSetsResponse`.
+`SearchReadGroupSetsRequest` as the post body and will return a JSON
+version of `SearchReadGroupSetsResponse`.
 */
-GASearchReadGroupSetsResponse searchReadGroupSets(
+SearchReadGroupSetsResponse searchReadGroupSets(
     /**
     This request maps to the body of `POST /readgroupsets/search` as JSON.
     */
-    GASearchReadGroupSetsRequest request) throws GAException;
+    SearchReadGroupSetsRequest request) throws Exception;
 
 }
