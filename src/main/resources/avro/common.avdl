@@ -114,5 +114,22 @@ record GACigarUnit {
   */
   union { null, string } referenceSequence = null;
 }
+  
+/**
+An enum that represents the sex of a person based on genotyping.
+
+* `FEMALE`: Genetic female
+* `MALE`: Genetic male
+* `MIXED_SAMPLE`: Multiple samples
+* `NOT_AVAILABLE`: Used when information is withheld or not determined. 
+* `NOT_APPLICABLE`: Used for prokaryotes, snails, etc. Not used for humans.
+*/
+enum GAGeneticSex {
+  FEMALE,
+  MALE,
+  MIXED_SAMPLE,
+  NOT_AVAILABLE,
+  NOT_APPLICABLE
+}
 
 }
