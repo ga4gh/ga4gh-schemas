@@ -84,7 +84,7 @@ the post body and will return a JSON version of `SearchReadsResponse`.
 */
 SearchReadsResponse searchReads(
     /** This request maps to the body of `POST /reads/search` as JSON. */
-    SearchReadsRequest request) throws Exception;
+    SearchReadsRequest request) throws GAException;
 
 /******************  /readgroupsets/search  *********************/
 /** This request maps to the body of `POST /readgroupsets/search` as JSON. */
@@ -136,6 +136,6 @@ SearchReadGroupSetsResponse searchReadGroupSets(
     /**
     This request maps to the body of `POST /readgroupsets/search` as JSON.
     */
-    SearchReadGroupSetsRequest request) throws Exception;
+    SearchReadGroupSetsRequest request) throws GAException;
 
 }

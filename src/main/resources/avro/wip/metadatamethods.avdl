@@ -58,7 +58,7 @@ Gets a list of `Individual` matching the search criteria.
 */
 SearchIndividualsResponse searchIndividuals(
     /** This request maps to the body of `POST /individuals/search` as JSON. */
-    SearchIndividualsRequest request) throws Exception;
+    SearchIndividualsRequest request) throws GAException;
 
 
 /******************  /samples/search  *********************/
@@ -113,7 +113,7 @@ Gets a list of `Sample` matching the search criteria.
 */
 SearchSamplesResponse searchSamples(
     /** This request maps to the body of `POST /samples/search` as JSON. */
-    SearchSamplesRequest request) throws Exception;
+    SearchSamplesRequest request) throws GAException;
 
 
 /******************  /experiments/search  *********************/
@@ -165,7 +165,7 @@ Gets a list of `Experiment` matching the search criteria.
 */
 SearchExperimentsResponse searchExperiments(
     /** This request maps to the body of `POST /experiments/search` as JSON. */
-    SearchExperimentsRequest request) throws Exception;
+    SearchExperimentsRequest request) throws GAException;
 
 
 /******************  /individualgroups/search  *********************/
@@ -221,7 +221,7 @@ SearchIndividualGroupsResponse searchIndividuals(
     /**
     This request maps to the body of `POST /individualgroups/search` as JSON.
     */
-    SearchIndividualGroupsRequest request) throws Exception;
+    SearchIndividualGroupsRequest request) throws GAException;
 
 
 /******************  /analyses/search  *********************/
@@ -273,6 +273,6 @@ Gets a list of `Analysis` matching the search criteria.
 */
 SearchAnalysesResponse searchAnalyses(
     /** This request maps to the body of `POST /analyses/search` as JSON. */
-    SearchAnalysesRequest request) throws Exception;
+    SearchAnalysesRequest request) throws GAException;
 
 }

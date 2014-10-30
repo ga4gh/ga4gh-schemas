@@ -48,7 +48,7 @@ record SearchVariantSetsResponse {
 */
 SearchVariantSetsResponse searchVariantSets(
     /** This request maps to the body of `POST /variantsets/search` as JSON. */
-    SearchVariantSetsRequest request) throws Exception;
+    SearchVariantSetsRequest request) throws GAException;
 
 /******************  /variants/search  *********************/
 /** This request maps to the body of `POST /variants/search` as JSON. */
@@ -126,7 +126,7 @@ as the post body and will return a JSON version of `SearchVariantsResponse`.
 */
 SearchVariantsResponse searchVariants(
     /** This request maps to the body of `POST /variants/search` as JSON. */
-    SearchVariantsRequest request) throws Exception;
+    SearchVariantsRequest request) throws GAException;
 
 /******************  /callsets/search  *********************/
 /** This request maps to the body of `POST /callsets/search` as JSON. */
@@ -178,5 +178,5 @@ as the post body and will return a JSON version of `SearchCallSetsResponse`.
 */
 SearchCallSetsResponse searchCallSets(
     /** This request maps to the body of `POST /callsets/search` as JSON. */
-    SearchCallSetsRequest request) throws Exception;
+    SearchCallSetsRequest request) throws GAException;
 }

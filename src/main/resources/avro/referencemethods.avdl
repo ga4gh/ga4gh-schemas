@@ -73,7 +73,7 @@ SearchReferenceSetsResponse searchReferenceSets(
     This request maps to the body of `POST /referencesets/search`
     as JSON.
     */
-    SearchReferenceSetsRequest request) throws Exception;
+    SearchReferenceSetsRequest request) throws GAException;
 
 /****************  /referencesets/{id}  *******************/
 /**
@@ -84,7 +84,7 @@ ReferenceSet getReferenceSet(
     /**
     The ID of the `ReferenceSet`.
     */
-    string id) throws Exception;
+    string id) throws GAException;
 
 /****************  /references/search  *******************/
 /**
@@ -148,7 +148,7 @@ SearchReferencesResponse searchReferences(
     This request maps to the body of `POST /references/search`
     as JSON.
     */
-    SearchReferencesRequest request) throws Exception;
+    SearchReferencesRequest request) throws GAException;
 
 /****************  /references/{id}  *******************/
 /**
@@ -159,7 +159,7 @@ Reference getReference(
     /**
     The ID of the `Reference`.
     */
-    string id) throws Exception;
+    string id) throws GAException;
 
 /****************  /references/{id}/bases  *******************/
 /**
@@ -222,6 +222,6 @@ ListReferenceBasesResponse getReferenceBases(
     /** The ID of the `Reference`. */
     string id,
     /** Additional request parameters to restrict the query. */
-    ListReferenceBasesRequest request) throws Exception;
+    ListReferenceBasesRequest request) throws GAException;
 
 }

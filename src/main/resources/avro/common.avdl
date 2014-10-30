@@ -8,7 +8,7 @@ protocol Common {
 /**
 A general exception type.
 */
-error Exception {
+error GAException {
   /** The error message */
   string message;
 
