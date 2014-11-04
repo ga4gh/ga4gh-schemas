@@ -25,14 +25,14 @@ protocol GAVariationReference {
 import idl "../common.avdl";
 
 enum GAVariantSide {
-  PLUS,      // forwards, direction of increasing coordinates
-  MINUS      // reverse-complement, direction of decreasing coordinates
+  PLUS, // forwards, direction of increasing coordinates
+  MINUS // reverse-complement, direction of decreasing coordinates
 }
 
 
 record GAVariantJoinLocation {
-  string variantId;  // id of the variant in which this location is based
-  int position;  // 0-based
+  string variantId; // id of the variant in which this location is based
+  int position;     // 0-based
   GAVariantSide side;
 }
 
@@ -145,8 +145,8 @@ enum GACallSetType {
 }
 
 record GACallSet {
-  //Would be good to clarify how this relates to the GACallSample object in
-  //variants.avdl
+  // Would be good to clarify how this relates to the GACallSample object in
+  // variants.avdl
   
   string id;
 
