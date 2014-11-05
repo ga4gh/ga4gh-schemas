@@ -24,9 +24,13 @@ protocol VariationReference {
 
 import idl "../common.avdl";
 
+/**
+PLUS represents forwards, or the direction of increasing coordinates, while
+MINUS represents reverse-complement, or the direction of decreasing coordinates.
+*/
 enum VariantSide {
-  PLUS, // forwards, direction of increasing coordinates
-  MINUS // reverse-complement, direction of decreasing coordinates
+  PLUS,
+  MINUS
 }
 
 
@@ -156,7 +160,8 @@ record CallSet {
   string sampleId; 
 
   /**
-  Must be one or the other.
+  A CallSet must be either a genotype or a haplotype. This field specifies
+  which.
   */
   CallSetType callsetType; 
 
