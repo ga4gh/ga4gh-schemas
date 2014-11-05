@@ -2,7 +2,7 @@
 /**
 This protocol defines metadata used in the other GA4GH protocols.
 */
-protocol GAMetadata {
+protocol Metadata {
 
 import idl "../common.avdl";
 
@@ -11,7 +11,7 @@ An enum that represents biological sex.
 TODO: This is moving to common in https://github.com/ga4gh/schemas/pull/138
 and should be removed from this file.
 */
-enum GASex {
+enum Sex {
   FEMALE,
   MALE,
   MIXED,
@@ -23,7 +23,7 @@ enum GASex {
 An ontology term describing an attribute. (e.g. the phenotype attribute
 'polydactyly' from HPO)
 */
-record GAOntologyTerm {
+record OntologyTerm {
   /**
   The source of the onotology term.
   (e.g. `Ontology for Biomedical Investigation`)
@@ -44,7 +44,7 @@ record GAOntologyTerm {
 An individual (or subject) typically corresponds to an individual
 human or other organism.
 */
-record GAIndividual {
+record Individual {
   /** The individual UUID. This is globally unique. */
   string id;
 
@@ -73,16 +73,16 @@ record GAIndividual {
   [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
   TODO: Is this the right representation?
   */
-  union { null, GAOntologyTerm } species = null;
+  union { null, OntologyTerm } species = null;
 
   /** The biological sex of this individual. Use `null` when unknown. */
-  union { null, GASex } sex = null;
+  union { null, Sex } sex = null;
 
   /**
   The developmental stage of this individual. Using Uberon is recommended.
   TODO: Add link to uberon
   */
-  union { null, GAOntologyTerm } developmentalStage = null;
+  union { null, OntologyTerm } developmentalStage = null;
 
   /**
   The date of birth of this individual in milliseconds from the epoch.
@@ -94,13 +94,13 @@ record GAIndividual {
   Diseases with which the individual has been diagnosed.
   TODO: Is this the right representation?
   */
-  array<GAOntologyTerm> diseases = [];
+  array<OntologyTerm> diseases = [];
 
   /**
   Phenotypes for this individual.
   TODO: Is this the right representation?
   */
-  array<GAOntologyTerm> phenotypes = [];
+  array<OntologyTerm> phenotypes = [];
 
   /**
   Disease area specific classification (e.g. classification of cancer samples
@@ -124,7 +124,7 @@ record GAIndividual {
 A biological sample used in an experiment. (e.g. whole blood from
 an affected individual)
 */
-record GASample {
+record Sample {
    /** The sample UUID. This is globally unique. */
   string id;
 
@@ -183,7 +183,7 @@ record GASample {
   Using Uberon is recommended.
   TODO: Add link to uberon
   */
-  union { null, GAOntologyTerm } organismPart = null;
+  union { null, OntologyTerm } organismPart = null;
 
   /**
   A map of additional sample information.
@@ -192,9 +192,9 @@ record GASample {
 }
 
 /**
-An experimental preparation of a `GASample`.
+An experimental preparation of a `Sample`.
 */
-record GAExperiment {
+record Experiment {
   /** The experiment UUID. This is globally unique. */
   string id;
 
@@ -275,7 +275,7 @@ record GAExperiment {
 /**
 Represents a group of individuals. (e.g. a trio)
 */
-record GAIndividualGroup {
+record IndividualGroup {
   /** The individual group UUID. This is globally unique. */
   string id;
 
@@ -311,7 +311,7 @@ An analysis contains an interpretation of one or several experiments.
 (e.g. SNVs, copy number variations, methylation status) together with
 information about the methodology used.
 */
-record GAAnalysis {
+record Analysis {
   /** The analysis UUID. This is globally unique. */
   string id;
 

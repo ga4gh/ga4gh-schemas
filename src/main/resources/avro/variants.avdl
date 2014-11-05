@@ -1,12 +1,12 @@
 @namespace("org.ga4gh")
-protocol GAVariants {
+protocol Variants {
 
 import idl "common.avdl";
 
 /**
 This metadata represents VCF header information.
 */
-record GAVariantSetMetadata {
+record VariantSetMetadata {
   /** The top-level key. */
   string key;
 
@@ -37,11 +37,11 @@ record GAVariantSetMetadata {
 }
 
 /**
-`GAVariant` and `GACallSet` both belong to a `GAVariantSet`.
-`GAVariantSet` belongs to a `GADataset`.
+`Variant` and `CallSet` both belong to a `VariantSet`.
+`VariantSet` belongs to a `Dataset`.
 The variant set is equivalent to a VCF file.
 */
-record GAVariantSet {
+record VariantSet {
   /** The variant set ID. */
   string id;
 
@@ -54,14 +54,14 @@ record GAVariantSet {
   The metadata associated with this variant set. This is equivalent to
   the VCF header information not already presented in first class fields.
   */
-  array<GAVariantSetMetadata> metadata = [];
+  array<VariantSetMetadata> metadata = [];
 }
 
 /**
-A `GACallSet` is a collection of variant calls for a particular sample.
-It belongs to a `GAVariantSet`. This is equivalent to one column in VCF.
+A `CallSet` is a collection of variant calls for a particular sample.
+It belongs to a `VariantSet`. This is equivalent to one column in VCF.
 */
-record GACallSet {
+record CallSet {
 
   /** The call set ID. */
   string id;
@@ -91,18 +91,18 @@ record GACallSet {
 }
 
 /**
-A `GACall` represents the determination of genotype with respect to a
+A `Call` represents the determination of genotype with respect to a
 particular variant. It may include associated information such as quality
 and phasing. For example, a call might assign a probability of 0.32 to
 the occurrence of a SNP named rs1234 in a call set with the name NA12345.
 */
-record GACall {
+record Call {
 
   /**
   The ID of the call set this variant call belongs to.
   If this field is not present, the ordering of the call sets from a
-  `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match
-  the ordering of the calls on this `GAVariant`.
+  `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
+  the ordering of the calls on this `Variant`.
   The number of results will also be the same.
   */
   union { null, string } callSetId;
@@ -110,8 +110,8 @@ record GACall {
   /**
   The name of the call set this variant call belongs to.
   If this field is not present, the ordering of the call sets from a
-  `SearchCallSetsRequest` over this `GAVariantSet` is guaranteed to match
-  the ordering of the calls on this `GAVariant`.
+  `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
+  the ordering of the calls on this `Variant`.
   The number of results will also be the same.
   */
   union { null, string } callSetName = null;
@@ -148,12 +148,12 @@ record GACall {
 }
 
 /**
-A `GAVariant` represents a change in DNA sequence relative to some reference.
+A `Variant` represents a change in DNA sequence relative to some reference.
 For example, a variant could represent a SNP or an insertion.
-Variants belong to a `GAVariantSet`.
+Variants belong to a `VariantSet`.
 This is equivalent to a row in VCF.
 */
-record GAVariant {
+record Variant {
 
   /** The variant ID. */
   string id;
@@ -209,7 +209,7 @@ record GAVariant {
   The variant calls for this particular variant. Each one represents the
   determination of genotype with respect to this variant.
   */
-  array<GACall> calls = [];
+  array<Call> calls = [];
 }
 
 }

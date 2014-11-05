@@ -3,7 +3,7 @@
 This protocol defines common types used in the other GA4GH protocols. It does
 not have any methods; it is merely a library of types.
 */
-protocol GACommon {
+protocol Common {
 
 /**
 A general exception type.
@@ -23,7 +23,7 @@ name, a base number on that reference (0-based), and a flag to say if it's the
 forward or reverse strand that we're talking about.
 */
 // TODO: Add support here for universally unique base IDs.
-record GAPosition {
+record Position {
   /**
   The name of the reference (or, more technically, the scaffold) in whatever
   reference set is being used. Does not generally include a "chr" prefix, so for
@@ -85,7 +85,7 @@ have the following usage:
   mismatch (e.g., the bases are not equal to the reference). This can
   indicate a SNP or a read error. This operator is equivalent to SAM's 'X'.
 */
-enum GACigarOperation {
+enum CigarOperation {
   ALIGNMENT_MATCH,
   INSERT,
   DELETE,
@@ -100,9 +100,9 @@ enum GACigarOperation {
 /**
 A structure for an instance of a CIGAR operation.
 */
-record GACigarUnit {
+record CigarUnit {
   /** The operation type. */
-  GACigarOperation operation;
+  CigarOperation operation;
 
   /** The number of bases that the operation runs for. */
   long operationLength;

@@ -20,23 +20,23 @@ We support a context model for uniquely identifying bases in the graph.
 Currently this is the UCSC left-right mapping proposal as proposed by Paten,
 Haussler et al. - http://arxiv.org/abs/1404.5010
 */
-protocol GAVariationReference {
+protocol VariationReference {
 
 import idl "../common.avdl";
 
-enum GAVariantSide {
+enum VariantSide {
   PLUS, // forwards, direction of increasing coordinates
   MINUS // reverse-complement, direction of decreasing coordinates
 }
 
 
-record GAVariantJoinLocation {
+record VariantJoinLocation {
   string variantId; // id of the variant in which this location is based
   int position;     // 0-based
-  GAVariantSide side;
+  VariantSide side;
 }
 
-record GAVariant {
+record Variant {
   string id;
 
   /**
@@ -44,7 +44,7 @@ record GAVariant {
   start and end are {0,0,FORWARD} for a primary sequence. Note that the
   variantId for start and end may not be the same.
   */
-  GAVariantJoinLocation startJoin, endJoin;  
+  VariantJoinLocation startJoin, endJoin;  
 
 
   /**
@@ -95,9 +95,9 @@ CallSet on the same sample.
 A Segment is a basic piece of sequence from the graph out of which more complex
 things can be made.
 */
-record GASegment {
+record Segment {
   /**
-  References an id of a GAVariant.
+  References an id of a Variant.
   */
   string variantId;
   
@@ -111,7 +111,7 @@ record GASegment {
   */
   int start, end;
        
-  GAVariantSide side; 
+  VariantSide side; 
   
   /**
   Alternatie to end.
@@ -126,7 +126,7 @@ be a variant, but it can also be a segment of the reference, or of another
 variant, or in the general case a contigous series of segments running across
 variant boundaries.
 */
-record GAAllele {
+record Allele {
   /**
   If this Allele is a clean variant, then reuse variantId.
   */
@@ -136,16 +136,16 @@ record GAAllele {
   Require that segments abut in order. Also require they are maximal, i.e. that
   consecutive elements of the array can not be replaced by a single element.
   */
-  array<GASegment> sequence;   
+  array<Segment> sequence;   
 }
 
-enum GACallSetType {
+enum CallSetType {
   GENOTYPE,
   HAPLOTYPE
 }
 
-record GACallSet {
-  // Would be good to clarify how this relates to the GACallSample object in
+record CallSet {
+  // Would be good to clarify how this relates to the CallSample object in
   // variants.avdl
   
   string id;
@@ -158,7 +158,7 @@ record GACallSet {
   /**
   Must be one or the other.
   */
-  GACallSetType callsetType; 
+  CallSetType callsetType; 
 
   // For diploid genotypes the copy number of an allele will typically be 0, 1
   // or 2; for haplotypes it will be 0 or 1
@@ -169,14 +169,14 @@ record GACallSet {
   map<string> info = {};
 }
 
-record GACall {
+record Call {
   /**
-  References an id of GACallSet
+  References an id of CallSet
   */
   string callSetId;
   
   /**
-  References an id of GAAllele
+  References an id of Allele
   */ 
   string alleleID;
 
@@ -223,10 +223,10 @@ rearrangements this is not the case.  For when we do want to explicitly state
 the order and orientation of alleles we define a VariantScaffold record.
 */
 
-record GAVariantScaffold {
+record VariantScaffold {
   string id;
 
-  array<GAAllele> alleles;
+  array<Allele> alleles;
   
   /**
   Orientation of each allele.
