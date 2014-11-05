@@ -1,0 +1,349 @@
+@namespace("org.ga4gh.match")
+
+protocol GAMatchmaker {
+
+/**
+An enum representing how often a match search should be performed.
+
+* `once`: only search once in the current database
+* `periodic`: repeat the search monthly until cancelled, reporting new and
+  updated matches
+*/
+enum GAQueryType {
+  once,
+  periodic
+}
+
+
+/**
+An enum representing mode of inheritance.
+
+* `ad`: Autosomal dominant
+* `ar`: Autosomal recessive
+* `xd`: X-linked dominant
+* `xr`: X-linked recessive
+* `yl`: Y-linked
+* `mi`: Mitochondrial
+* `ic`: Isolated cases
+* `un`: Uncertain
+*/
+enum GAInheritanceMode {
+  ad, ar, xd, xr, yl, mi, ic, un
+}
+
+
+/**
+An enum representing the type of mutation.
+
+* `TRUNCATING`: (e.g. stopgain, stoploss, startloss, frameshift indel)
+* `ALTERING`: (e.g. missense, non-frameshift indel)
+* `SPLICING`
+* `UTR`: 3' or 5' UTR
+* `INTRONIC`
+* `PROXIMAL`: (e.g. upstream, downstream)
+* `OTHER`: (e.g. motif disruption, synonymous)
+*/
+enum GAMutationType {
+  TRUNCATING,
+  ALTERING,
+  SPLICING,
+  UTR,
+  INTRONIC,
+  PROXIMAL,
+  OTHER
+}
+
+
+/**
+The response type.
+
+* `inline`: responses are sent in the same response (the default value if
+  the results property exists)
+* `asynchronous`: responses will be sent by the remote server at a later time,
+  in a separate request to the origin server (the default value if the results
+  property is missing)
+* `email`: responses will be sent by email directly to the contact email, in
+  a human readable format
+*/
+enum GAResponseType {
+  inline, asynchronous, email
+}
+
+
+/**
+Contact information. The contact information is for transmitting match
+results only, and may not be collected and/or used for any other purposes.
+*/
+record GASubmitter {
+  /**
+  Required. The email address where matches can be sent; the values must
+  conform to the RFC 2822 address specification mailbox format (no group)
+  */
+  string email;
+
+  /** The first and last name. */
+  union { null, string } name = null;
+
+  /** Human-readable institution name. */
+  union { null, string } institution = null;
+}
+
+/** 
+  A feature. More metadata can be later added to each feature if necessary.
+  By default we shouldn't sent any features with the observed status `unknown`.
+*/
+record GAFeature {
+  /** Required. An ICHPT or HPO term identifier. */
+  string id;
+
+  /** Whether the feature was observed: `yes`, `no`, or `unknown` */
+  union { null, string } observed = null;
+
+  /**
+  An age interval
+  [as defined by the HPO](http://www.human-phenotype-ontology.org/hpoweb/showterm?id=HP:0011007)
+  when the majority of the symptoms manifested.
+  Optional; systems which do not support this type of information per symptom
+  should ignore it.
+  */
+  union { null, string } ageOfOnset = null;
+}
+
+/* A gene or variant. */
+record GAGene {
+  /**
+  Required. A <gene symbol> from the [HGNC database](http://www.genenames.org/)
+  OR <ensembl gene ID> OR <entrez gene ID>
+  */
+  string gene;
+
+  /**
+  The chromosome this gene is on. 
+  TODO: Update this representation with assistance from issue #112
+  */
+  union { null, string } referenceName = null;
+
+  /** The start position of this gene. (0-based) */
+  union { null, long } start = null;
+
+  /** The end position of this gene. (0-based, exclusive) */
+  union { null, long } end = null;
+
+  /**
+  The reference bases for a single allele, in VCF format, including at
+  least one base of context (e.g. `A`, `ACG`, ...).
+  */
+  union { null, string } referenceBases = null;
+
+  /**
+  The alternate bases for a single allele, in VCF format, including at
+  least one base of context (e.g. `A`, `ACG`, ...).
+  */
+  union { null, string } alternateBases = null;
+
+  /** 
+  The allelic dosage (1 for heterozygous or hemizygous, 2 for homozygous). 
+  */
+  union { null, int } zygosity = null;
+
+  /**
+  The type of mutation, as a means to describe the broad category of cDNA 
+  effect predicted to result from a mutation to improve matchmaking, 
+  without disclosing the actual mutation.
+  */
+  union { null, GAMutationType } type = null;
+
+  /**
+  Required. The Genome Reference Consortium identifier of the reference
+  assembly, including patch number if relevant (e.g. `NCBI36`, `GRCh37`, `GRCh37.p13`, `GRCh38`, `GRCh38.p1`). If the patch is not provided, the assembly is assumed to represent the initial (unpatched) release of that assembly.
+  */
+  string assembly;
+}
+
+/** A match. */
+record GAMatch {
+  /**
+  A name/identifier assigned by the user which can be used to reference the
+  patient in a recognizable manner (in an email for example); it should not
+  contain any personally identifiable information.
+  */
+  union { null, string } label = null;
+
+  /**
+  Consists of contact information of the person that submitted the search.
+  Required if an email response is expected, optional otherwise.
+  */
+  union { null, GASubmitter } submitter = null;
+
+  /** The biological gender at birth. Accepted values are `M` and `F`, with 
+  any other value treated as `unknown`. 
+  TODO: update reprentation to match PR #138.
+  */
+  union { null, string } gender = null;
+
+  /**
+  An age interval
+  [as defined by the HPO](http://www.human-phenotype-ontology.org/hpoweb/showterm?id=HP:0011007)
+  when the majority of the symptoms manifested.
+  */
+  union { null, string } ageOfOnset = null;
+
+  /**
+  The mode of inheritance of the disease, if known.
+  */
+  union { null, GAInheritanceMode } modeOfInheritance = null;
+
+  /**
+  Is a list of OMIM (MIM:######) or OrphaNet (ORPHA#####) identifiers,
+  can be empty. Note: we may want to support other sources later.
+  */
+  array<string> disorders = [];
+
+  /**
+  A list of features. At least one of `features` or `genes` is required
+  (having both is preferred).
+  */
+  array<GAFeature> features = [];
+
+  /**
+  A list of possible causes. At least one of `features` or `genes` is
+  required (having both is preferred).
+  */
+  array<GAGene> genes = [];
+}
+
+/** The match request. */
+record GAMatchRequest {
+  /**
+  Required. The internal identifier (obfuscated or not) that can be used by
+  the originating system to reference the patient data.
+  */
+  string id;
+
+  /**
+  How often a match search should be performed. If a system doesn’t support
+  the requested type, the once behavior is used.
+  */
+  GAQueryType queryType = "once";
+
+  /* Required. The match to search against. */
+  GAMatch match;
+}
+
+/** 
+The match response. Either a synchronous application/json response to a 
+`/match` request, an asynchronous application/json HTTP POST request to 
+`<baseOriginURL>/mmapi/v1/matchResults`, or a human-readable email sent to 
+the user’s email address.
+*/
+record GAMatchResponse {
+  /**
+  Required. Helps match the results to the original query for asynchronous
+  results, and allows to manage the search submission. This does not have to
+  be the same as the id sent in the request since it represents how the
+  remote host stores queries.
+  */
+  string queryId;
+
+  /** The type of this response. */
+  GAResponseType responseType = "inline";
+
+  /**
+  A list of matches. Absent for asynchronous results.
+  Required for inline results, but can be empty.
+  */
+  array<GAMatch> results = [];
+}
+
+
+/** A representation of a single match as part of an asynchronous response. */
+record GAAsynchronousMatch {
+  /**
+  Required. The same queryId initially returned in the `GAMatchResponse`.
+  */
+  string queryId;
+
+  /**
+  A list of matches. Required, but can be empty.
+  */
+  array<GAMatch> results = [];
+}
+
+/**
+Asynchronous responses are sent through a HTTPS request to the originating 
+server.
+*/
+record GAAsynchronousResponse {
+  /**
+  Required. A list of responses to different match requests.
+  */
+  array<GAAsynchronousMatch> responses = [];
+}
+
+
+/**
+Creates a match request on a remote server.
+
+`POST /mmapi/v1/match` must accept a JSON version of `GAMatchRequest`
+as the post body and will return a JSON version of `GAMatchResponse`.
+
+For example: `POST https://phenomecentral.org/mmapi/v1/match`
+*/
+GAMatchResponse createMatchRequest(
+    /** This request maps to the body of `POST /match` as JSON. */
+    GAMatchRequest request);
+
+
+/**
+Returns asynchronous match results to a remote server over HTTPS.
+
+`POST /mmapi/v1/matchResults` must accept a JSON version of 
+`GAAsynchronousResponse` as the post body.
+
+For example: `POST https://yourmatchmaker.org/mmapi/v1/matchResults`
+
+The request returns an OK (200) status to indicate that the results were 
+received, nothing more.
+*/
+GAMatchResponse returnMatchResults(
+    /** This request maps to the body of `POST /match` as JSON. */
+    GAAsynchronousResponse response);
+
+
+/**
+Updates a match request with the specified ID.
+
+`PUT /mmapi/v1/match/{queryId}` must accept a JSON version of `GAMatchRequest`
+as the post body and will return a JSON version of `GAMatchResponse`.
+
+For example: `PUT https://phenomecentral.org/mmapi/v1/match/a32fa90vd`
+*/
+GAMatchResponse updateMatchRequest(
+    /**
+    The query ID of the match request to update.
+    This parameter comes from the URL path.
+    */
+    string queryId,
+
+    /** This request maps to the body of `PUT /match/{queryId}` as JSON. */
+    GAMatchRequest request);
+
+
+/**
+Deletes a match request with the specified ID.
+
+`DELETE /mmapi/v1/match/{queryId}` will use the ID provided in the URL path.
+
+For example: `DELETE https://phenomecentral.org/mmapi/v1/match/a32fa90vd`
+
+The search request delete returns an OK (200) status to indicate that the 
+search was deleted, nothing more.
+*/
+void deleteMatchRequest(
+    /**
+    The query ID of the match request to delete.
+    This parameter comes from the URL path.
+    */
+    string queryId);
+
+}
