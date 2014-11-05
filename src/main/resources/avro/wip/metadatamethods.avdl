@@ -1,11 +1,11 @@
 @namespace("org.ga4gh")
-protocol GAMetadataMethods {
+protocol MetadataMethods {
 
 import idl "metadata.avdl";
 
 /******************  /individuals/search  *********************/
 /** This request maps to the body of `POST /individuals/search` as JSON. */
-record GASearchIndividualsRequest {
+record SearchIndividualsRequest {
   /**
   If specified, restrict this query to individuals within the given
   individual groups.
@@ -35,11 +35,11 @@ record GASearchIndividualsRequest {
 }
 
 /** This is the response from `POST /individuals/search` expressed as JSON. */
-record GASearchIndividualsResponse {
+record SearchIndividualsResponse {
   /**
   The list of matching individuals.
    */
-  array<GAIndividual> individuals = [];
+  array<Individual> individuals = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -50,20 +50,20 @@ record GASearchIndividualsResponse {
 }
 
 /**
-Gets a list of `GAIndividual` matching the search criteria.
+Gets a list of `Individual` matching the search criteria.
 
 `POST /individuals/search` must accept a JSON version of 
-`GASearchIndividualsRequest` as the post body and will return a JSON version of 
-`GASearchIndividualsResponse`.
+`SearchIndividualsRequest` as the post body and will return a JSON version of 
+`SearchIndividualsResponse`.
 */
-GASearchIndividualsResponse searchIndividuals(
+SearchIndividualsResponse searchIndividuals(
     /** This request maps to the body of `POST /individuals/search` as JSON. */
-    GASearchIndividualsRequest request) throws GAException;
+    SearchIndividualsRequest request) throws GAException;
 
 
 /******************  /samples/search  *********************/
 /** This request maps to the body of `POST /samples/search` as JSON. */
-record GASearchSamplesRequest {
+record SearchSamplesRequest {
   /** If specified, restrict this query to samples for the given individuals. */
   array<string> individualIds = [];
 
@@ -90,11 +90,11 @@ record GASearchSamplesRequest {
 }
 
 /** This is the response from `POST /samples/search` expressed as JSON. */
-record GASearchSamplesResponse {
+record SearchSamplesResponse {
   /**
   The list of matching samples.
    */
-  array<GASample> samples = [];
+  array<Sample> samples = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -105,20 +105,20 @@ record GASearchSamplesResponse {
 }
 
 /**
-Gets a list of `GASample` matching the search criteria.
+Gets a list of `Sample` matching the search criteria.
 
 `POST /samples/search` must accept a JSON version of 
-`GASearchSamplesRequest` as the post body and will return a JSON version of 
-`GASearchSamplesResponse`.
+`SearchSamplesRequest` as the post body and will return a JSON version of 
+`SearchSamplesResponse`.
 */
-GASearchSamplesResponse searchSamples(
+SearchSamplesResponse searchSamples(
     /** This request maps to the body of `POST /samples/search` as JSON. */
-    GASearchSamplesRequest request) throws GAException;
+    SearchSamplesRequest request) throws GAException;
 
 
 /******************  /experiments/search  *********************/
 /** This request maps to the body of `POST /experiments/search` as JSON. */
-record GASearchExperimentsRequest {
+record SearchExperimentsRequest {
   /**
   Only return experiments for which a substring of the name matches
   this string.
@@ -142,11 +142,11 @@ record GASearchExperimentsRequest {
 }
 
 /** This is the response from `POST /experiments/search` expressed as JSON. */
-record GASearchExperimentsResponse {
+record SearchExperimentsResponse {
   /**
   The list of matching experiments.
    */
-  array<GAExperiment> experiments = [];
+  array<Experiment> experiments = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -157,20 +157,20 @@ record GASearchExperimentsResponse {
 }
 
 /**
-Gets a list of `GAExperiment` matching the search criteria.
+Gets a list of `Experiment` matching the search criteria.
 
 `POST /experiments/search` must accept a JSON version of 
-`GASearchExperimentsRequest` as the post body and will return a JSON version of 
-`GASearchExperimentsResponse`.
+`SearchExperimentsRequest` as the post body and will return a JSON version of 
+`SearchExperimentsResponse`.
 */
-GASearchExperimentsResponse searchExperiments(
+SearchExperimentsResponse searchExperiments(
     /** This request maps to the body of `POST /experiments/search` as JSON. */
-    GASearchExperimentsRequest request) throws GAException;
+    SearchExperimentsRequest request) throws GAException;
 
 
 /******************  /individualgroups/search  *********************/
 /** This request maps to the body of `POST /individualgroups/search` as JSON. */
-record GASearchIndividualGroupsRequest {
+record SearchIndividualGroupsRequest {
   /**
   Only return individual groups for which a substring of the name matches
   this string.
@@ -196,11 +196,11 @@ record GASearchIndividualGroupsRequest {
 /**
 This is the response from `POST /individualgroups/search` expressed as JSON.
 */
-record GASearchIndividualGroupsResponse {
+record SearchIndividualGroupsResponse {
   /**
   The list of matching individual groups.
    */
-  array<GAIndividualGroup> individualGroups = [];
+  array<IndividualGroup> individualGroups = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -211,22 +211,22 @@ record GASearchIndividualGroupsResponse {
 }
 
 /**
-Gets a list of `GAIndividualGroup` matching the search criteria.
+Gets a list of `IndividualGroup` matching the search criteria.
 
 `POST /individualgroups/search` must accept a JSON version of
-`GASearchIndividualGroupsRequest` as the post body and will return a JSON
-version of `GASearchIndividualGroupsResponse`.
+`SearchIndividualGroupsRequest` as the post body and will return a JSON
+version of `SearchIndividualGroupsResponse`.
 */
-GASearchIndividualGroupsResponse searchIndividuals(
+SearchIndividualGroupsResponse searchIndividuals(
     /**
     This request maps to the body of `POST /individualgroups/search` as JSON.
     */
-    GASearchIndividualGroupsRequest request) throws GAException;
+    SearchIndividualGroupsRequest request) throws GAException;
 
 
 /******************  /analyses/search  *********************/
 /** This request maps to the body of `POST /analyses/search` as JSON. */
-record GASearchAnalysesRequest {
+record SearchAnalysesRequest {
   /**
   Only return analyses for which a substring of the name matches
   this string.
@@ -250,11 +250,11 @@ record GASearchAnalysesRequest {
 }
 
 /** This is the response from `POST /analyses/search` expressed as JSON. */
-record GASearchAnalysesResponse {
+record SearchAnalysesResponse {
   /**
   The list of matching analyses.
    */
-  array<GAAnalysis> analyses = [];
+  array<Analysis> analyses = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -265,14 +265,14 @@ record GASearchAnalysesResponse {
 }
 
 /**
-Gets a list of `GAAnalysis` matching the search criteria.
+Gets a list of `Analysis` matching the search criteria.
 
 `POST /analyses/search` must accept a JSON version of
-`GASearchAnalysesRequest` as the post body and will return a JSON version of
-`GASearchAnalysesResponse`.
+`SearchAnalysesRequest` as the post body and will return a JSON version of
+`SearchAnalysesResponse`.
 */
-GASearchAnalysesResponse searchAnalyses(
+SearchAnalysesResponse searchAnalyses(
     /** This request maps to the body of `POST /analyses/search` as JSON. */
-    GASearchAnalysesRequest request) throws GAException;
+    SearchAnalysesRequest request) throws GAException;
 
 }
