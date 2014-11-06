@@ -138,4 +138,26 @@ SearchReadGroupSetsResponse searchReadGroupSets(
     */
     SearchReadGroupSetsRequest request) throws GAException;
 
+/****************  /readgroupsets/{id}  *******************/
+/**
+Gets a `ReadGroupSet` by ID.
+`GET /readgroupsets/{id}` will return a JSON version of `ReadGroupSet`.
+*/
+ReadGroupSet getReadGroupSet(
+    /**
+    The ID of the `ReadGroupSet`.
+    */
+    string id) throws GAException;
+
+/****************  /datasets/{id}  *******************/
+/**
+Gets a `Dataset` by ID.
+`GET /datasets/{id}` will return a JSON version of `Dataset`.
+*/
+Dataset getDataset(
+    /**
+    The ID of the `Dataset`.
+    */
+    string id) throws GAException;
+
 }
