@@ -93,6 +93,11 @@ as JSON.
 */
 record SearchReferencesRequest {
   /**
+  If present, return only references which belong to this reference set.
+  */
+  union { null, string } referenceSetId = null;
+
+  /**
   If present, return references which match any of the given `md5checksums`.
   See `Reference::md5checksum` for details.
   */
