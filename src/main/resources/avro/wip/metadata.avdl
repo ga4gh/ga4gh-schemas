@@ -1,4 +1,5 @@
 @namespace("org.ga4gh")
+
 /**
 This protocol defines metadata used in the other GA4GH protocols.
 */
@@ -14,24 +15,28 @@ This is a major sample query/sort parameter, but cannot cover the full extent of
 sex determining variations, which should be annotated separately in 'phenotype'
 or "disease' attributes.
 */
-+* `FEMALE`: Genetic/chromosomal female
-+* `MALE`: Genetic/chromosomal male
-+* `OTHER`: sex information ambiguous, e.g. not clear XX/XY/ZZ...
-+* `MIXED_SAMPLE`: Multiple samples, e.g. pooled, environmental
-+* `NOT_APPLICABLE`: Used for prokaryotes, snails, etc. Not used for humans.
-+*/
-+enum geneticSex {
-+  FEMALE,
-+  MALE,
-+  OTHER,
-+  MIXED_SAMPLE,
-+  NOT_APPLICABLE
-+}
+
+/**
+* `FEMALE`: Genetic/chromosomal female
+* `MALE`: Genetic/chromosomal male
+* `OTHER`: sex information ambiguous, e.g. not clear XX/XY/ZZ...
+* `MIXED_SAMPLE`: Multiple samples, e.g. pooled, environmental
+* `NOT_APPLICABLE`: Used for prokaryotes, snails, etc. Not used for humans.
+*/
+
+enum geneticSex {
+  FEMALE,
+  MALE,
+  OTHER,
+  MIXED_SAMPLE,
+  NOT_APPLICABLE
+}
 
 /**
 An ontology term describing an attribute. (e.g. the phenotype attribute
 'polydactyly' from HPO)
 */
+
 record OntologyTerm {
   /**
   The source of the onotology term.
