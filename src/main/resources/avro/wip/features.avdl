@@ -1,0 +1,84 @@
+@namespace("org.ga4gh")
+
+/**
+This file describes objects used to represent sequence features (e.g., BED,
+GFF data)
+*/
+
+protocol Features {
+
+enum Strand {
+  Forward,
+  Reverse,
+  Independent
+}
+
+record Dbxref {
+  string accession;
+  string db;
+}
+
+record Feature {
+  /**
+   The contig this feature is located on
+   */
+  string referenceName;
+  
+  /**
+   Start coordinate on the contig
+   */
+  long start;
+  
+  /**
+   End coordinate on the contig
+   */
+  long end;
+  
+  /**
+   Strand information for this feature
+   */
+  union { null, Strand } strand = null;
+  
+  /**
+   Preferably unique ID for this Feature object
+   */
+  union { null, string } featureId = null;
+  
+  /**
+   The type of feature this is (aka, "track").
+   
+   Examples are "conservation", "centipede", "gene"
+   */
+  union { null, string } featureType = null;
+  
+  /**
+   The original source for this feature.
+   
+   Path/filename/URL and/or the file type (e.g., BED, GFF, etc.)
+   */
+  union { null, string } source = null;
+  
+  /**
+   The value associated with this feature (if double)
+   */
+  union { null, double } value = null;
+  
+  /**
+   Cross-references into other databases.
+   */
+  array<Dbxref> dbxrefs = [];
+  
+  /**
+   List of parent featureIds, for implementing feature hierachies/graphs.
+   */
+  array<string> parentIds = [];
+  
+  /**
+   Additional feature info that doesn't fit into the standard fields above.
+   
+   They are all encoded as (string, string) key-value pairs.
+   */
+  map<string> attributes = {};
+}
+
+}
