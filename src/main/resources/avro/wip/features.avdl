@@ -7,6 +7,8 @@ GFF data)
 
 protocol Features {
 
+import idl "metadata.avdl";
+
 enum Strand {
   Forward,
   Reverse,
@@ -43,6 +45,11 @@ record Feature {
    Preferably unique ID for this Feature object
    */
   union { null, string } featureId = null;
+  
+  /**
+   Ontology term associated with this feature
+   */
+  union { null, OntologyTerm } ontologyTerm = null;
   
   /**
    The type of feature this is (aka, "track").
