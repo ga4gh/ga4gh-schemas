@@ -239,7 +239,7 @@ record MatchRequest {
 /** 
 The match response. Either a synchronous application/json response to a 
 `/match` request, an asynchronous application/json HTTP POST request to 
-`<baseOriginURL>/mmapi/v1/matchResults`, or a human-readable email sent to 
+`<baseOriginURL>/v1/matchResults`, or a human-readable email sent to 
 the user’s email address.
 */
 record MatchResponse {
@@ -290,10 +290,10 @@ record AsynchronousResponse {
 /**
 Creates a match request on a remote server.
 
-`POST /mmapi/v1/match` must accept a JSON version of `MatchRequest`
+`POST /v1/match` must accept a JSON version of `MatchRequest`
 as the post body and will return a JSON version of `MatchResponse`.
 
-For example: `POST https://phenomecentral.org/mmapi/v1/match`
+For example: `POST https://phenomecentral.org/api/v1/match`
 */
 MatchResponse createMatchRequest(
     /** This request maps to the body of `POST /match` as JSON. */
@@ -303,10 +303,10 @@ MatchResponse createMatchRequest(
 /**
 Returns asynchronous match results to a remote server over HTTPS.
 
-`POST /mmapi/v1/matchResults` must accept a JSON version of 
+`POST /v1/matchResults` must accept a JSON version of 
 `AsynchronousResponse` as the post body.
 
-For example: `POST https://yourmatchmaker.org/mmapi/v1/matchResults`
+For example: `POST https://yourmatchmaker.org/api/v1/matchResults`
 
 The request returns an OK (200) status to indicate that the results were 
 received, nothing more.
@@ -319,10 +319,10 @@ MatchResponse returnMatchResults(
 /**
 Updates a match request with the specified ID.
 
-`PUT /mmapi/v1/match/{queryId}` must accept a JSON version of `MatchRequest`
+`PUT /v1/match/{queryId}` must accept a JSON version of `MatchRequest`
 as the post body and will return a JSON version of `MatchResponse`.
 
-For example: `PUT https://phenomecentral.org/mmapi/v1/match/a32fa90vd`
+For example: `PUT https://phenomecentral.org/api/v1/match/a32fa90vd`
 */
 MatchResponse updateMatchRequest(
     /**
@@ -338,9 +338,9 @@ MatchResponse updateMatchRequest(
 /**
 Deletes a match request with the specified ID.
 
-`DELETE /mmapi/v1/match/{queryId}` will use the ID provided in the URL path.
+`DELETE /v1/match/{queryId}` will use the ID provided in the URL path.
 
-For example: `DELETE https://phenomecentral.org/mmapi/v1/match/a32fa90vd`
+For example: `DELETE https://phenomecentral.org/api/v1/match/a32fa90vd`
 
 The search request delete returns an OK (200) status to indicate that the 
 search was deleted, nothing more.
