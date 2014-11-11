@@ -14,29 +14,6 @@ enum QueryType {
   periodic
 }
 
-
-/**
-An enum representing the type of mutation.
-
-* `TRUNCATING`: (e.g. stopgain, stoploss, startloss, frameshift indel)
-* `ALTERING`: (e.g. missense, non-frameshift indel)
-* `SPLICING`
-* `UTR`: 3' or 5' UTR
-* `INTRONIC`
-* `PROXIMAL`: (e.g. upstream, downstream)
-* `OTHER`: (e.g. motif disruption, synonymous)
-*/
-enum MutationType {
-  TRUNCATING,
-  ALTERING,
-  SPLICING,
-  UTR,
-  INTRONIC,
-  PROXIMAL,
-  OTHER
-}
-
-
 /**
 The response type.
 
@@ -51,7 +28,6 @@ The response type.
 enum ResponseType {
   inline, asynchronous, email
 }
-
 
 /**
 Contact information. The contact information is for transmitting match
@@ -136,11 +112,11 @@ record Gene {
   union { null, int } zygosity = null;
 
   /**
-  The type of mutation, as a means to describe the broad category of cDNA
-  effect predicted to result from a mutation to improve matchmaking,
-  without disclosing the actual mutation.
+  The effect of the mutation, expressed as a Sequence Ontology term identifier
+  (`SO:#######`). This will usually (but not necessarily) be a descendant of
+  [SO:0001576, transcript variant](http://www.sequenceontology.org/browser/current_svn/term/SO:0001576).
   */
-  union { null, MutationType } type = null;
+  union { null, string } type = null;
 
   /**
   Required. The Genome Reference Consortium identifier of the reference
