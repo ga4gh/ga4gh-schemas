@@ -88,7 +88,7 @@ record Submitter {
   union { null, string } institution = null;
 }
 
-/** 
+/**
 A feature. More metadata can be later added to each feature if necessary.
 By default we shouldn't sent features with the observed status `null`.
 */
@@ -124,7 +124,7 @@ record Gene {
   string gene;
 
   /**
-  The chromosome this gene is on. 
+  The chromosome this gene is on.
   TODO: Update this representation with assistance from issue #112
   */
   union { null, string } referenceName = null;
@@ -147,14 +147,14 @@ record Gene {
   */
   union { null, string } alternateBases = null;
 
-  /** 
-  The allelic dosage (1 for heterozygous or hemizygous, 2 for homozygous). 
+  /**
+  The allelic dosage (1 for heterozygous or hemizygous, 2 for homozygous).
   */
   union { null, int } zygosity = null;
 
   /**
-  The type of mutation, as a means to describe the broad category of cDNA 
-  effect predicted to result from a mutation to improve matchmaking, 
+  The type of mutation, as a means to describe the broad category of cDNA
+  effect predicted to result from a mutation to improve matchmaking,
   without disclosing the actual mutation.
   */
   union { null, MutationType } type = null;
@@ -181,8 +181,8 @@ record Match {
   */
   union { null, Submitter } submitter = null;
 
-  /** The biological gender at birth. Accepted values are `M` and `F`, with 
-  any other value treated as `unknown`. 
+  /** The biological gender at birth. Accepted values are `M` and `F`, with
+  any other value treated as `unknown`.
   TODO: update reprentation to match PR #138.
   */
   union { null, string } gender = null;
@@ -236,10 +236,10 @@ record MatchRequest {
   Match match;
 }
 
-/** 
-The match response. Either a synchronous application/json response to a 
-`/match` request, an asynchronous application/json HTTP POST request to 
-`<baseOriginURL>/v1/matchResults`, or a human-readable email sent to 
+/**
+The match response. Either a synchronous application/json response to a
+`/match` request, an asynchronous application/json HTTP POST request to
+`<baseOriginURL>/v1/matchResults`, or a human-readable email sent to
 the user’s email address.
 */
 record MatchResponse {
@@ -276,7 +276,7 @@ record AsynchronousMatch {
 }
 
 /**
-Asynchronous responses are sent through a HTTPS request to the originating 
+Asynchronous responses are sent through a HTTPS request to the originating
 server.
 */
 record AsynchronousResponse {
@@ -303,12 +303,12 @@ MatchResponse createMatchRequest(
 /**
 Returns asynchronous match results to a remote server over HTTPS.
 
-`POST /v1/matchResults` must accept a JSON version of 
+`POST /v1/matchResults` must accept a JSON version of
 `AsynchronousResponse` as the post body.
 
 For example: `POST https://yourmatchmaker.org/api/v1/matchResults`
 
-The request returns an OK (200) status to indicate that the results were 
+The request returns an OK (200) status to indicate that the results were
 received, nothing more.
 */
 MatchResponse returnMatchResults(
@@ -342,7 +342,7 @@ Deletes a match request with the specified ID.
 
 For example: `DELETE https://phenomecentral.org/api/v1/match/a32fa90vd`
 
-The search request delete returns an OK (200) status to indicate that the 
+The search request delete returns an OK (200) status to indicate that the
 search was deleted, nothing more.
 */
 void deleteMatchRequest(
