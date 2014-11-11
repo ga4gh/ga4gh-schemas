@@ -16,23 +16,6 @@ enum QueryType {
 
 
 /**
-An enum representing mode of inheritance.
-
-* `ad`: Autosomal dominant
-* `ar`: Autosomal recessive
-* `xd`: X-linked dominant
-* `xr`: X-linked recessive
-* `yl`: Y-linked
-* `mi`: Mitochondrial
-* `ic`: Isolated cases
-* `un`: Uncertain
-*/
-enum InheritanceMode {
-  ad, ar, xd, xr, yl, mi, ic, un
-}
-
-
-/**
 An enum representing the type of mutation.
 
 * `TRUNCATING`: (e.g. stopgain, stoploss, startloss, frameshift indel)
@@ -195,9 +178,10 @@ record Match {
   union { null, string } ageOfOnset = null;
 
   /**
-  The mode of inheritance of the disease, if known.
+  The mode of inheritance of the disease, if known, specified as an HPO term
+  identifier (any descendant of [HP:0000005](http://www.human-phenotype-ontology.org/hpoweb/showterm?id=HP:0000005), e.g. `HP:0003745`).
   */
-  union { null, InheritanceMode } modeOfInheritance = null;
+  union { null, string } modeOfInheritance = null;
 
   /**
   Is a list of OMIM (MIM:######) or OrphaNet (ORPHA#####) identifiers,
