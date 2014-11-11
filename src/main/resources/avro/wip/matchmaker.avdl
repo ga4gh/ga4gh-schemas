@@ -89,15 +89,21 @@ record Submitter {
 }
 
 /** 
-  A feature. More metadata can be later added to each feature if necessary.
-  By default we shouldn't sent any features with the observed status `unknown`.
+A feature. More metadata can be later added to each feature if necessary.
+By default we shouldn't sent features with the observed status `null`.
 */
 record Feature {
   /** Required. An ICHPT or HPO term identifier. */
   string id;
 
-  /** Whether the feature was observed: `yes`, `no`, or `unknown` */
-  union { null, string } observed = null;
+  /**
+  Whether or not the feature was observed in the patient.
+
+  * `true`: the feature was observed in the patient
+  * `false`: the feature was tested and was not observed in patient
+  * `null`: the feature is unknown/untested
+  */
+  union { null, boolean } observed = null;
 
   /**
   An age interval
