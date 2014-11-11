@@ -30,6 +30,18 @@ enum ResponseType {
 }
 
 /**
+TODO: unify with the main GA4GH representation of sex, once it is committed.
+For now, we'll use the representation in [PR #185](https://github.com/ga4gh/schemas/pull/185).
+*/
+enum geneticSex {
+  FEMALE,
+  MALE,
+  OTHER,
+  MIXED_SAMPLE,
+  NOT_APPLICABLE
+}
+
+/**
 Contact information. The contact information is for transmitting match
 results only, and may not be collected and/or used for any other purposes.
 */
@@ -140,11 +152,10 @@ record Match {
   */
   union { null, Submitter } submitter = null;
 
-  /** The biological gender at birth. Accepted values are `M` and `F`, with
-  any other value treated as `unknown`.
-  TODO: update reprentation to match PR #138.
+  /**
+  The genetic sex of this individual. Use `null` when unknown.
   */
-  union { null, string } gender = null;
+  union { null, geneticSex } sex = null;
 
   /**
   An age interval
