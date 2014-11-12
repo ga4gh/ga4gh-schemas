@@ -109,8 +109,8 @@ record Feature {
   union { null, string } ageOfOnset = null;
 }
 
-/* A gene or variant. */
-record Gene {
+/* A gene or genomic variant. */
+record GenomicFeature {
   /**
   Required. A <gene symbol> from the [HGNC database](http://www.genenames.org/)
   OR <ensembl gene ID> OR <entrez gene ID>
@@ -118,15 +118,15 @@ record Gene {
   string gene;
 
   /**
-  The chromosome this gene is on. 
+  The chromosome this genomic feature is on.
   TODO: Update this representation with assistance from issue #112
   */
   union { null, string } referenceName = null;
 
-  /** The start position of this gene. (0-based) */
+  /** The start position of the variant. (0-based) */
   union { null, long } start = null;
 
-  /** The end position of this gene. (0-based, exclusive) */
+  /** The end position of the variant. (0-based, exclusive) */
   union { null, long } end = null;
 
   /**
@@ -200,16 +200,16 @@ record Match {
   array<string> disorders = [];
 
   /**
-  A list of features. At least one of `features` or `genes` is required
+  A list of features. At least one of `features` or `genomicFeatures` is required
   (having both is preferred).
   */
   array<Feature> features = [];
 
   /**
-  A list of possible causes. At least one of `features` or `genes` is
+  A list of possible causes. At least one of `features` or `genomicFeatures` is
   required (having both is preferred).
   */
-  array<Gene> genes = [];
+  array<GenomicFeature> genomicFeatures = [];
 }
 
 /** The match request. */
