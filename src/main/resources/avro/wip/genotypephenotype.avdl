@@ -2,36 +2,49 @@
 /**
 This protocol defines genotype to phenotype relationships
 */
-protocol GAGenotypePhenotype {
+protocol GenotypePhenotype {
 
 import idl "../common.avdl";
 import idl "../variants.avdl";
 import idl "metadata.avdl";
 
-record GAVariantPhenotype {
+/**
+An association between a variant or variant set and a phenotype
+*/
+record VariantPhenotype {
   string id;
 
-  /** The set of variants of the organism that bears the phenotype. */
-  /** If the goal is to associate a single variant, then a singleton VariantSet is used */
-  GAVariantSet variantSet;
+  /** 
+    The set of variants of the organism that bears the phenotype.
+    If the goal is to associate a single variant, then a singleton VariantSet is used 
+  */
+  VariantSet variantSet;
 
-  /** The phenotypic component of this association */
-  GAPhenotypeAssociation phenotypeAssociation;
+  /** 
+    The phenotypic component of this association.
+    Note that we delegate this to a separate record to allow us the flexibility to composition of phenotype
+    associations with records that are not variant sets - for example, diseases.
+  */
+  PhenotypeAssociation phenotypeAssociation;
 
 }
 
-record GAPhenotypeAssociation {
-  string id;
+/**
+An association to a phenotype and related information.
+This record is intended primarily to be used in conjunction with variants, but the record can
+also be composed with other kinds of entities such as diseases
+*/
+record PhenotypeAssociation {
 
   /** HPO is recommended */
-  GAOntologyTerm phenotype;
+  OntologyTerm phenotype;
 
   /** HPO is recommended */
-  GAOntologyTerm qualifier;
+  union { null, OntologyTerm } qualifier = null;
 
   /** HPO is recommended */
   /** TODO: also allow quantitative recording? */
-  GAOntologyTerm ageOfOnset;
+  union { null, OntologyTerm } ageOfOnset = null;
 
   /** A textual description of the phenotype. This is used to complement the structured phenotype description in the phenotype field */
   string description;
