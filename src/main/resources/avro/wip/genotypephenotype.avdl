@@ -47,7 +47,28 @@ record PhenotypeAssociation {
   union { null, OntologyTerm } ageOfOnset = null;
 
   /** A textual description of the phenotype. This is used to complement the structured phenotype description in the phenotype field */
-  string description;
+  union { null, string } description = null;
+
+  /** 
+    the environmental context in which the phenotype arises.
+    multiple contexts can be specified - these are assumed to all hold together
+  */
+  array<EnvironmentContext> environmentalContexts;
+
+}
+
+/**
+The context in which a genotype gives rise to a phenotype.
+This is fairly open-ended; as a stub we have a simple ontology term.
+For example, a controlled term for a drug
+*/
+record EnvironmentalContext {
+
+  /** TODO: define potential ontologies */
+  OntologyTerm environmentDescriptor;
+
+  /** A textual description of the environment. This is used to complement the structured description in the environmentalDescriptor field */
+  union { null, string } description = null;
 
 }
 
