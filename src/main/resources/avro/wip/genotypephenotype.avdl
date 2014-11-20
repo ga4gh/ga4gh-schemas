@@ -1,6 +1,6 @@
 @namespace("org.ga4gh")
 /**
-This protocol defines genotype to phenotype relationships
+This protocol defines genotype to phenotype relationships 
 */
 protocol GenotypePhenotype {
 
