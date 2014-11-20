@@ -55,6 +55,8 @@ record PhenotypeAssociation {
   */
   array<EnvironmentContext> environmentalContexts;
 
+  array<Evidence> evidenceSet;
+
 }
 
 /**
@@ -65,9 +67,22 @@ For example, a controlled term for a drug
 record EnvironmentalContext {
 
   /** TODO: define potential ontologies */
-  OntologyTerm environmentDescriptor;
+  OntologyTerm environmentType;
 
-  /** A textual description of the environment. This is used to complement the structured description in the environmentalDescriptor field */
+  /** A textual description of the environment. This is used to complement the structured description in the environmentType field */
+  union { null, string } description = null;
+
+}
+
+/**
+Evidence for the phenotype association. 
+*/
+record Evidence {
+
+  /** ECO or OBI is recommended */
+  OntologyTerm evidenceType;
+
+  /** A textual description of the evidence. This is used to complement the structured description in the evidenceType field */
   union { null, string } description = null;
 
 }
