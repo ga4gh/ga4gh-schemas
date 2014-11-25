@@ -1,28 +1,42 @@
 @namespace("org.ga4gh")
+
 /**
 This protocol defines metadata used in the other GA4GH protocols.
 */
+
 protocol Metadata {
 
 import idl "../common.avdl";
 
 /**
-An enum that represents biological sex.
-TODO: This is moving to common in https://github.com/ga4gh/schemas/pull/138
-and should be removed from this file.
+An enum that represents the genetic sex of an organism, sample or other object 
+as attributed based on genotyping/chromosomal evaluation.
+This is a major sample query/sort parameter, but cannot cover the full extent of 
+sex determining variations, which should be annotated separately in 'phenotype'
+or "disease' attributes.
 */
-enum Sex {
+
+/**
+* `FEMALE`: Genetic/chromosomal female
+* `MALE`: Genetic/chromosomal male
+* `OTHER`: sex information ambiguous, e.g. not clear XX/XY/ZZ...
+* `MIXED_SAMPLE`: Multiple samples, e.g. pooled, environmental
+* `NOT_APPLICABLE`: Used for prokaryotes, snails, etc. Not used for humans.
+*/
+
+enum GeneticSex {
   FEMALE,
   MALE,
-  MIXED,
-  BISEX,
-  ASEX
+  OTHER,
+  MIXED_SAMPLE,
+  NOT_APPLICABLE
 }
 
 /**
 An ontology term describing an attribute. (e.g. the phenotype attribute
 'polydactyly' from HPO)
 */
+
 record OntologyTerm {
   /**
   The source of the onotology term.
@@ -75,8 +89,8 @@ record Individual {
   */
   union { null, OntologyTerm } species = null;
 
-  /** The biological sex of this individual. Use `null` when unknown. */
-  union { null, Sex } sex = null;
+  /** The genetic sex of this individual. Use `null` when unknown. */
+  GeneticSex sex = null;
 
   /**
   The developmental stage of this individual. Using Uberon is recommended.
