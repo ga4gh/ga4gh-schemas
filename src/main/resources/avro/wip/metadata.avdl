@@ -184,14 +184,14 @@ record Sample {
   The cell type of this sample.
   Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended. See 
   */
-  union { null, GAOntologyTerm } cellType = null;
+  union { null, OntologyTerm } cellType = null;
 
   /** 
   The cell line of this sample. 
   Using the [Cell Line Ontology](https://code.google.com/p/clo-ontology/) is a possibility.
   TODO: discuss further. Other possibilities: Cellosaurus (nextprot), BRENDA/BTO, EFO (EBI)
   */
-  union { null, GAOntologyTerm } cellLine = null;
+  union { null, OntologyTerm } cellLine = null;
 
   /**
   Geographic coordinates from which the individual was obtained.
