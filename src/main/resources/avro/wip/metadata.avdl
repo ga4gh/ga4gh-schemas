@@ -24,7 +24,7 @@ or "disease' attributes.
 * `NOT_APPLICABLE`: Used for prokaryotes, snails, etc. Not used for humans.
 */
 
-enum geneticSex {
+enum GeneticSex {
   FEMALE,
   MALE,
   OTHER,
@@ -90,7 +90,7 @@ record Individual {
   union { null, OntologyTerm } species = null;
 
   /** The genetic sex of this individual. Use `null` when unknown. */
-  union { null, geneticSex } sex = null;
+  GeneticSex sex = null;
 
   /**
   The developmental stage of this individual. Using Uberon is recommended.
