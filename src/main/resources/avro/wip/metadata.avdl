@@ -85,7 +85,10 @@ record Individual {
   /**
   The species of this individual. Using
   [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
-  TODO: Is this the right representation?
+  For a representation of an NCBI Taxon ID as an OntologyTerm, see
+  [NCBITaxon Ontology](http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page).
+  For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for this is
+  NCBITaxon:9606, which has the URI http://purl.obolibrary.org/obo/NCBITaxon_9606
   */
   union { null, OntologyTerm } species = null;
 
@@ -177,11 +180,18 @@ record Sample {
   */
   union { null, long } age = null;
 
-  /** The cell type of this sample. */
-  union { null, string } cellType = null;
+  /**
+  The cell type of this sample.
+  Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended. See 
+  */
+  union { null, OntologyTerm } cellType = null;
 
-  /** The cell line of this sample. */
-  union { null, string } cellLine = null;
+  /** 
+  The cell line of this sample. 
+  Using the [Cell Line Ontology](https://code.google.com/p/clo-ontology/) is a possibility.
+  TODO: discuss further. Other possibilities: Cellosaurus (nextprot), BRENDA/BTO, EFO (EBI)
+  */
+  union { null, OntologyTerm } cellLine = null;
 
   /**
   Geographic coordinates from which the individual was obtained.
@@ -194,8 +204,7 @@ record Sample {
 
   /**
   The anatomical part of the individual from which this sample derives.
-  Using Uberon is recommended.
-  TODO: Add link to uberon
+  Using [Uberon](http://uberon.org) is recommended.
   */
   union { null, OntologyTerm } organismPart = null;
 
