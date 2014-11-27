@@ -34,10 +34,10 @@ record SearchReadsRequest {
   The start position (0-based) of this query.
   If a reference is specified, this defaults to 0.
   Genomic positions are non-negative integers less than reference length.
-  Requests spanning the join of circular genomes are represented as 
+  Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
   */
-  union { null, long } start = 0;
+  union { long, null } start = 0;
 
   /**
   The end position (0-based, exclusive) of this query.
