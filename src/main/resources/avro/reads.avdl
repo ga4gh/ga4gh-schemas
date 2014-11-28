@@ -204,7 +204,7 @@ record ReadAlignment {
 
   /**
   The orientation and the distance between reads from the fragment are
-  consistent with the sequencing protocol (extension to SAM flag 0x2)
+  consistent with the sequencing protocol (equivalent to SAM flag 0x2)
   */
   union { null, boolean } properPlacement = false;
 
