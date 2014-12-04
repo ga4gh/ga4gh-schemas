@@ -29,6 +29,13 @@ Some general rules to follow:
 
 When you submit or change your pull request, the Travis build system will automatically run tests to ensure valid schema syntax. If your pull request fails to pass tests, review the test log, make changes and then push them to your feature branch to be tested again.
 
+### Topic Branches
+
+If you wish to collaborate on a new feature with other GA4GH members, you can ask that a topic branch be created in this repository. Since Github does not allow pull requests against branches that do not yet exist, you will have to create an issue asking for the topic branch to be created.
+
+Once the topic branch exists, pull requests can be made against it as normal. It may also be brought up to date with new changes merged into master by anyone with commit access, if the changes merge cleanly; the same commits shouldn't normally need to go through the issue resolution process for each active topic branch.
+
+Changes made in a topic branch can be merged into master by creating and then [resolving in the normal way](#issue_resolution) a pull request against the master branch.
 
 <a name="issue_resolution"></a>
 ## Issue Resolution
