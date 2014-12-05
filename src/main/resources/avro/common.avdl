@@ -1,20 +1,9 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.models")
 /**
 This protocol defines common types used in the other GA4GH protocols. It does
 not have any methods; it is merely a library of types.
 */
 protocol Common {
-
-/**
-A general exception type.
-*/
-error GAException {
-  /** The error message */
-  string message;
-
-  /** The numerical error code */
-  int errorCode = -1;
-}
 
 /**
 An abstraction for referring to a genomic position, in relation to some

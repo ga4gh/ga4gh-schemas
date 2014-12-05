@@ -1,4 +1,4 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.models")
 
 protocol References {
 

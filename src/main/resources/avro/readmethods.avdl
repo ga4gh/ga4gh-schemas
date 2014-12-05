@@ -1,7 +1,8 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.methods")
 protocol ReadMethods {
 
 import idl "common.avdl";
+import idl "methods.avdl";
 import idl "reads.avdl";
 
 /******************  /reads/search  *********************/
@@ -66,7 +67,7 @@ record SearchReadsResponse {
   The list of matching alignment records, sorted by position.
   Unmapped reads, which have no position, are returned last.
   */
-  array<ReadAlignment> alignments = [];
+  array<org.ga4gh.models.ReadAlignment> alignments = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -115,7 +116,7 @@ record SearchReadGroupSetsRequest {
 /** This is the response from `POST /readgroupsets/search` expressed as JSON. */
 record SearchReadGroupSetsResponse {
   /** The list of matching read group sets. */
-  array<ReadGroupSet> readGroupSets = [];
+  array<org.ga4gh.models.ReadGroupSet> readGroupSets = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -140,10 +141,10 @@ SearchReadGroupSetsResponse searchReadGroupSets(
 
 /****************  /readgroupsets/{id}  *******************/
 /**
-Gets a `ReadGroupSet` by ID.
+Gets a `org.ga4gh.models.ReadGroupSet` by ID.
 `GET /readgroupsets/{id}` will return a JSON version of `ReadGroupSet`.
 */
-ReadGroupSet getReadGroupSet(
+org.ga4gh.models.ReadGroupSet getReadGroupSet(
     /**
     The ID of the `ReadGroupSet`.
     */
@@ -154,7 +155,7 @@ ReadGroupSet getReadGroupSet(
 Gets a `Dataset` by ID.
 `GET /datasets/{id}` will return a JSON version of `Dataset`.
 */
-Dataset getDataset(
+org.ga4gh.models.Dataset getDataset(
     /**
     The ID of the `Dataset`.
     */

@@ -1,0 +1,18 @@
+@namespace("org.ga4gh.methods")
+
+protocol RPC {
+
+/**
+A general exception type.
+*/
+error GAException {
+  /** The error message */
+  string message;
+
+  /** The numerical error code */
+  int errorCode = -1;
+}
+
+
+
+}

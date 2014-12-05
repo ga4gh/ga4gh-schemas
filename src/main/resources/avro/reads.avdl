@@ -1,4 +1,4 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.models")
 
 /**
 This file defines the objects used to represent a hierarchy of reads and alignments:
