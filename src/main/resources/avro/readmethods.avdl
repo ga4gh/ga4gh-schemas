@@ -14,7 +14,7 @@ to `ReferenceSet`s containing that same `Reference`. If no reference is
 specified, all `ReadGroup`s must be aligned to the same `ReferenceSet`.
 */
 record SearchReadsRequest {
-  /** If specified, restrict this query to reads within the given readgroups. */
+  /** If nonempty, restrict this query to reads within the given readgroups. */
   array<string> readGroupIds = [];
 
   /**

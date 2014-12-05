@@ -8,7 +8,7 @@ import idl "variants.avdl";
 /** This request maps to the body of `POST /variantsets/search` as JSON. */
 record SearchVariantSetsRequest {
   /**
-  If specified, will restrict the query to variant sets within the
+  If nonempty, will restrict the query to variant sets within the
   given datasets.
   */
   array<string> datasetIds = [];
@@ -314,7 +314,7 @@ org.ga4gh.models.Allele getAllele(
 /** This request maps to the body of `POST /callsets/search` as JSON. */
 record SearchCallSetsRequest {
   /**
-  If specified, will restrict the query to call sets within the
+  If nonempty, will restrict the query to call sets within the
   given variant sets.
   */
   array<string> variantSetIds = [];
