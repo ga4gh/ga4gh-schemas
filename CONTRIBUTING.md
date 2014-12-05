@@ -33,7 +33,7 @@ When you submit or change your pull request, the Travis build system will automa
 
 If you wish to collaborate on a new feature with other GA4GH members, you can ask that a topic branch be created in this repository. Since Github does not allow pull requests against branches that do not yet exist, you will have to create an issue asking for the topic branch to be created.
 
-Once the topic branch exists, pull requests can be made against it as normal. It may also be brought up to date with new changes merged into master by anyone with commit access, if the changes merge cleanly; the same commits shouldn't normally need to go through the issue resolution process for each active topic branch.
+Once the topic branch exists, pull requests can be made against it as normal. It may also be brought up to date with new changes merged into master by anyone with commit access, if the changes produce merely a fast-forward merge; the same commits shouldn't normally need to go through the issue resolution process for each active topic branch. However, if changes from the master branch create a new merge commit, that commit needs to be reviewed in a pull request.
 
 Changes made in a topic branch can be merged into master by creating and then [resolving in the normal way](#issue_resolution) a pull request against the master branch.
 
