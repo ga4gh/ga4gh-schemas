@@ -14,46 +14,6 @@ enum QueryType {
   periodic
 }
 
-
-/**
-An enum representing mode of inheritance.
-
-* `ad`: Autosomal dominant
-* `ar`: Autosomal recessive
-* `xd`: X-linked dominant
-* `xr`: X-linked recessive
-* `yl`: Y-linked
-* `mi`: Mitochondrial
-* `ic`: Isolated cases
-* `un`: Uncertain
-*/
-enum InheritanceMode {
-  ad, ar, xd, xr, yl, mi, ic, un
-}
-
-
-/**
-An enum representing the type of mutation.
-
-* `TRUNCATING`: (e.g. stopgain, stoploss, startloss, frameshift indel)
-* `ALTERING`: (e.g. missense, non-frameshift indel)
-* `SPLICING`
-* `UTR`: 3' or 5' UTR
-* `INTRONIC`
-* `PROXIMAL`: (e.g. upstream, downstream)
-* `OTHER`: (e.g. motif disruption, synonymous)
-*/
-enum MutationType {
-  TRUNCATING,
-  ALTERING,
-  SPLICING,
-  UTR,
-  INTRONIC,
-  PROXIMAL,
-  OTHER
-}
-
-
 /**
 The response type.
 
@@ -69,6 +29,17 @@ enum ResponseType {
   inline, asynchronous, email
 }
 
+/**
+TODO: unify with the main GA4GH representation of sex, once it is committed.
+For now, we'll use the representation in [PR #185](https://github.com/ga4gh/schemas/pull/185).
+*/
+enum geneticSex {
+  FEMALE,
+  MALE,
+  OTHER,
+  MIXED_SAMPLE,
+  NOT_APPLICABLE
+}
 
 /**
 Contact information. The contact information is for transmitting match
@@ -88,16 +59,22 @@ record Submitter {
   union { null, string } institution = null;
 }
 
-/** 
-  A feature. More metadata can be later added to each feature if necessary.
-  By default we shouldn't sent any features with the observed status `unknown`.
+/**
+A feature. More metadata can be later added to each feature if necessary.
+By default we shouldn't sent features with the observed status `null`.
 */
 record Feature {
   /** Required. An ICHPT or HPO term identifier. */
   string id;
 
-  /** Whether the feature was observed: `yes`, `no`, or `unknown` */
-  union { null, string } observed = null;
+  /**
+  Whether or not the feature was observed in the patient.
+
+  * `true`: the feature was observed in the patient
+  * `false`: the feature was tested and was not observed in patient
+  * `null`: the feature is unknown/untested
+  */
+  union { null, boolean } observed = null;
 
   /**
   An age interval
@@ -109,7 +86,9 @@ record Feature {
   union { null, string } ageOfOnset = null;
 }
 
-/* A gene or variant. */
+/**
+A candidate gene or genomic variant.
+*/
 record Gene {
   /**
   Required. A <gene symbol> from the [HGNC database](http://www.genenames.org/)
@@ -118,15 +97,15 @@ record Gene {
   string gene;
 
   /**
-  The chromosome this gene is on. 
+  The chromosome this variant or gene is on.
   TODO: Update this representation with assistance from issue #112
   */
   union { null, string } referenceName = null;
 
-  /** The start position of this gene. (0-based) */
+  /** The start position of the variant. (0-based) */
   union { null, long } start = null;
 
-  /** The end position of this gene. (0-based, exclusive) */
+  /** The end position of the variant. (0-based, exclusive) */
   union { null, long } end = null;
 
   /**
@@ -141,27 +120,27 @@ record Gene {
   */
   union { null, string } alternateBases = null;
 
-  /** 
-  The allelic dosage (1 for heterozygous or hemizygous, 2 for homozygous). 
+  /**
+  The allelic dosage (1 for heterozygous or hemizygous, 2 for homozygous).
   */
   union { null, int } zygosity = null;
 
   /**
-  The type of mutation, as a means to describe the broad category of cDNA 
-  effect predicted to result from a mutation to improve matchmaking, 
-  without disclosing the actual mutation.
+  The effect of the mutation, expressed as a Sequence Ontology term identifier
+  (`SO:#######`). This will usually (but not necessarily) be a descendant of
+  [SO:0001576, transcript variant](http://www.sequenceontology.org/browser/current_svn/term/SO:0001576).
   */
-  union { null, MutationType } type = null;
-
-  /**
-  Required. The Genome Reference Consortium identifier of the reference
-  assembly, including patch number if relevant (e.g. `NCBI36`, `GRCh37`, `GRCh37.p13`, `GRCh38`, `GRCh38.p1`). If the patch is not provided, the assembly is assumed to represent the initial (unpatched) release of that assembly.
-  */
-  string assembly;
+  union { null, string } type = null;
 }
 
 /** A match. */
 record Match {
+  /**
+  Required. The internal identifier (obfuscated or not) that can be used by
+  the originating system to reference the patient data.
+  */
+  string id;
+
   /**
   A name/identifier assigned by the user which can be used to reference the
   patient in a recognizable manner (in an email for example); it should not
@@ -175,11 +154,10 @@ record Match {
   */
   union { null, Submitter } submitter = null;
 
-  /** The biological gender at birth. Accepted values are `M` and `F`, with 
-  any other value treated as `unknown`. 
-  TODO: update reprentation to match PR #138.
+  /**
+  The genetic sex of this individual. Use `null` when unknown.
   */
-  union { null, string } gender = null;
+  union { null, geneticSex } sex = null;
 
   /**
   An age interval
@@ -189,9 +167,10 @@ record Match {
   union { null, string } ageOfOnset = null;
 
   /**
-  The mode of inheritance of the disease, if known.
+  The mode of inheritance of the disease, if known, specified as an HPO term
+  identifier (any descendant of [HP:0000005](http://www.human-phenotype-ontology.org/hpoweb/showterm?id=HP:0000005), e.g. `HP:0003745`).
   */
-  union { null, InheritanceMode } modeOfInheritance = null;
+  union { null, string } modeOfInheritance = null;
 
   /**
   Is a list of OMIM (MIM:######) or OrphaNet (ORPHA#####) identifiers,
@@ -206,6 +185,21 @@ record Match {
   array<Feature> features = [];
 
   /**
+  The Genome Reference Consortium identifier of the reference assembly for
+  all reference-based genomic information provided in the genes list
+  (`referenceName`, `start`, `end`, `referenceBases`, `alternateBases`).
+
+  This is mandatory if any such information is provided.
+  If only gene `name`/`type`/`zygosity` is provided, the assembly is optional.
+
+  The identifier should include patch number if relevant (e.g. `NCBI36`,
+  `GRCh37`, `GRCh37.p13`, `GRCh38`, `GRCh38.p1`).
+  If the patch is not provided, the assembly is assumed to represent the
+  initial (unpatched) release of that assembly.
+  */
+  string assembly;
+
+  /**
   A list of possible causes. At least one of `features` or `genes` is
   required (having both is preferred).
   */
@@ -214,12 +208,6 @@ record Match {
 
 /** The match request. */
 record MatchRequest {
-  /**
-  Required. The internal identifier (obfuscated or not) that can be used by
-  the originating system to reference the patient data.
-  */
-  string id;
-
   /**
   How often a match search should be performed. If a system doesn’t support
   the requested type, the once behavior is used.
@@ -230,10 +218,10 @@ record MatchRequest {
   Match match;
 }
 
-/** 
-The match response. Either a synchronous application/json response to a 
-`/match` request, an asynchronous application/json HTTP POST request to 
-`<baseOriginURL>/mmapi/v1/matchResults`, or a human-readable email sent to 
+/**
+The match response. Either a synchronous application/json response to a
+`/match` request, an asynchronous application/json HTTP POST request to
+`<baseOriginURL>/v1/matchResults`, or a human-readable email sent to
 the user’s email address.
 */
 record MatchResponse {
@@ -270,7 +258,7 @@ record AsynchronousMatch {
 }
 
 /**
-Asynchronous responses are sent through a HTTPS request to the originating 
+Asynchronous responses are sent through a HTTPS request to the originating
 server.
 */
 record AsynchronousResponse {
@@ -284,10 +272,10 @@ record AsynchronousResponse {
 /**
 Creates a match request on a remote server.
 
-`POST /mmapi/v1/match` must accept a JSON version of `MatchRequest`
+`POST /v1/match` must accept a JSON version of `MatchRequest`
 as the post body and will return a JSON version of `MatchResponse`.
 
-For example: `POST https://phenomecentral.org/mmapi/v1/match`
+For example: `POST https://phenomecentral.org/api/v1/match`
 */
 MatchResponse createMatchRequest(
     /** This request maps to the body of `POST /match` as JSON. */
@@ -297,12 +285,12 @@ MatchResponse createMatchRequest(
 /**
 Returns asynchronous match results to a remote server over HTTPS.
 
-`POST /mmapi/v1/matchResults` must accept a JSON version of 
+`POST /v1/matchResults` must accept a JSON version of
 `AsynchronousResponse` as the post body.
 
-For example: `POST https://yourmatchmaker.org/mmapi/v1/matchResults`
+For example: `POST https://yourmatchmaker.org/api/v1/matchResults`
 
-The request returns an OK (200) status to indicate that the results were 
+The request returns an OK (200) status to indicate that the results were
 received, nothing more.
 */
 MatchResponse returnMatchResults(
@@ -313,10 +301,10 @@ MatchResponse returnMatchResults(
 /**
 Updates a match request with the specified ID.
 
-`PUT /mmapi/v1/match/{queryId}` must accept a JSON version of `MatchRequest`
+`PUT /v1/match/{queryId}` must accept a JSON version of `MatchRequest`
 as the post body and will return a JSON version of `MatchResponse`.
 
-For example: `PUT https://phenomecentral.org/mmapi/v1/match/a32fa90vd`
+For example: `PUT https://phenomecentral.org/api/v1/match/a32fa90vd`
 */
 MatchResponse updateMatchRequest(
     /**
@@ -332,11 +320,11 @@ MatchResponse updateMatchRequest(
 /**
 Deletes a match request with the specified ID.
 
-`DELETE /mmapi/v1/match/{queryId}` will use the ID provided in the URL path.
+`DELETE /v1/match/{queryId}` will use the ID provided in the URL path.
 
-For example: `DELETE https://phenomecentral.org/mmapi/v1/match/a32fa90vd`
+For example: `DELETE https://phenomecentral.org/api/v1/match/a32fa90vd`
 
-The search request delete returns an OK (200) status to indicate that the 
+The search request delete returns an OK (200) status to indicate that the
 search was deleted, nothing more.
 */
 void deleteMatchRequest(

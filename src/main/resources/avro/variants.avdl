@@ -48,7 +48,10 @@ record VariantSet {
   /** The ID of the dataset this variant set belongs to. */
   string datasetId;
 
-  // TODO: Add reference sequence ID information.
+  /**
+  The reference set the variants in this variant set are using.
+  */
+  string referenceSetId;
 
   /**
   The metadata associated with this variant set. This is equivalent to
@@ -136,8 +139,9 @@ record Call {
 
   /**
   The genotype likelihoods for this variant call. Each array entry
-  represents how likely a specific genotype is for this call. The value
-  ordering is defined by the GL tag in the VCF spec.
+  represents how likely a specific genotype is for this call as
+  log10(P(data | genotype)), analogous to the GL tag in the VCF spec. The
+  value ordering is defined by the GL tag in the VCF spec.
   */
   array<double> genotypeLikelihood = [];
 

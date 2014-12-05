@@ -179,4 +179,16 @@ as the post body and will return a JSON version of `SearchCallSetsResponse`.
 SearchCallSetsResponse searchCallSets(
     /** This request maps to the body of `POST /callsets/search` as JSON. */
     SearchCallSetsRequest request) throws GAException;
+
+/****************  /callsets/{id}  *******************/
+/**
+Gets a `CallSet` by ID.
+`GET /callsets/{id}` will return a JSON version of `CallSet`.
+*/
+CallSet getCallSet(
+    /**
+    The ID of the `CallSet`.
+    */
+    string id) throws GAException;
+
 }
