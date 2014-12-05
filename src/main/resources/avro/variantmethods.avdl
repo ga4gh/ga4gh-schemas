@@ -326,6 +326,11 @@ record SearchCallSetsRequest {
   union { null, string } name = null;
 
   /**
+  If nonempty, return only `CallSet`s with one of these sampleIds.
+  */
+  array<string> sampleIds = [];
+
+  /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
