@@ -69,11 +69,11 @@ Gets a list of `ReferenceSet` matching the search criteria.
 version of `SearchReferenceSetsResponse`.
 */
 SearchReferenceSetsResponse searchReferenceSets(
-    /**
-    This request maps to the body of `POST /referencesets/search`
-    as JSON.
-    */
-    SearchReferenceSetsRequest request) throws GAException;
+  /**
+  This request maps to the body of `POST /referencesets/search`
+  as JSON.
+  */
+  SearchReferenceSetsRequest request) throws GAException;
 
 /****************  /referencesets/{id}  *******************/
 /**
@@ -81,10 +81,10 @@ Gets a `ReferenceSet` by ID.
 `GET /referencesets/{id}` will return a JSON version of `ReferenceSet`.
 */
 ReferenceSet getReferenceSet(
-    /**
-    The ID of the `ReferenceSet`.
-    */
-    string id) throws GAException;
+  /**
+  The ID of the `ReferenceSet`.
+  */
+  string id) throws GAException;
 
 /****************  /references/search  *******************/
 /**
@@ -149,11 +149,11 @@ Gets a list of `Reference` matching the search criteria.
 version of `SearchReferencesResponse`.
 */
 SearchReferencesResponse searchReferences(
-    /**
-    This request maps to the body of `POST /references/search`
-    as JSON.
-    */
-    SearchReferencesRequest request) throws GAException;
+  /**
+  This request maps to the body of `POST /references/search`
+  as JSON.
+  */
+  SearchReferencesRequest request) throws GAException;
 
 /****************  /references/{id}  *******************/
 /**
@@ -161,10 +161,10 @@ Gets a `Reference` by ID.
 `GET /references/{id}` will return a JSON version of `Reference`.
 */
 Reference getReference(
-    /**
-    The ID of the `Reference`.
-    */
-    string id) throws GAException;
+  /**
+  The ID of the `Reference`.
+  */
+  string id) throws GAException;
 
 /****************  /references/{id}/bases  *******************/
 /**
@@ -224,9 +224,9 @@ Lists `Reference` bases by ID and optional range.
 `ListReferenceBasesResponse`.
 */
 ListReferenceBasesResponse getReferenceBases(
-    /** The ID of the `Reference`. */
-    string id,
-    /** Additional request parameters to restrict the query. */
-    ListReferenceBasesRequest request) throws GAException;
+  /** The ID of the `Reference`. */
+  string id,
+  /** Additional request parameters to restrict the query. */
+  ListReferenceBasesRequest request) throws GAException;
 
 }
