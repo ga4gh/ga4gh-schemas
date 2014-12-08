@@ -177,7 +177,38 @@ record LinearAlignment {
 }
 
 /**
-Each read alignment describes a linear alignment with additional information
+A string-to-reference-graph alignment can be represented by one CIGAR string and
+one `Path` through multiple `Reference`s.
+
+All indels should be represented in the CIGAR string; the `Path` should be used
+to represent only changes between `Reference`s along adjacencies recorded in the
+`ReferenceSet`, and not the skipping of intervening sequences between aligned
+regions on the same `Reference` in the same orientation.
+
+If the `Path` against which you want to align your read would follow adjacencies
+not present in the `ReferenceSet` to which you are aligning, you have a
+"chimeric" alignment, and should use multiple `ReadAlignment`s and the
+supplementaryAlignment flag instead of a single `GraphAlignment`.
+*/
+record GraphAlignment {
+  /** The `Path` against which the read is aligned */
+  Path path;
+
+  /**
+  The mapping quality of this alignment. Represents how likely
+  the read maps to this position as opposed to other locations.
+  */
+  union { null, int } mappingQuality = null;
+
+  /**
+  Represents the local alignment of this sequence (alignment matches, indels,
+  etc) versus the `Path`.
+  */
+  array<CigarUnit> cigar = [];
+}
+
+/**
+Each read alignment describes an alignment with additional information
 about the fragment and the read. A read alignment object is equivalent to a
 line in a SAM file.
 */
@@ -229,10 +260,10 @@ record ReadAlignment {
   union { boolean, null } failedVendorQualityChecks = false;
 
   /**
-  The linear alignment for this alignment record. This field will be
+  The alignment for this alignment record. This field will be
   null if the read is unmapped.
   */
-  union { null, LinearAlignment } alignment = null;
+  union { null, LinearAlignment, GraphAlignment } alignment = null;
 
   /**
   Whether this alignment is secondary. Equivalent to SAM flag 0x100.
@@ -248,7 +279,8 @@ record ReadAlignment {
   /**
   Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
   Supplementary alignments are used in the representation of a chimeric
-  alignment. In a chimeric alignment, a read is split into multiple
+  alignment, which follows nonreference adjacencies not describable as indels.
+  In a chimeric alignment, a read is split into multiple
   linear alignments that map to different reference contigs. The first
   linear alignment in the read will be designated as the representative alignment;
   the remaining linear alignments will be designated as supplementary alignments.
