@@ -18,18 +18,26 @@ error GAException {
 
 /**
 An abstraction for referring to a genomic position, in relation to some
-already known reference. For now, represents a genomic position as a reference
-name, a base number on that reference (0-based), and a flag to say if it's the
+already known `ReferenceSet`. For now, represents a genomic position as a `Reference`
+name or ID, a base number on that reference (0-based), and a flag to say if it's the
 forward or reverse strand that we're talking about.
 */
-// TODO: Add support here for universally unique base IDs.
 record Position {
   /**
-  The name of the reference (or, more technically, the scaffold) in whatever
+  The name of the `Reference` on which the position is located, in whatever
   reference set is being used. Does not generally include a "chr" prefix, so for
-  example "X" would be used for the X chromosome.
+  example "X" would be used for the primary X chromosome.
+
+  If this is null, referenceId must not be null.
   */
-  string referenceName;
+   union { null, string } referenceName = null;
+
+  /**
+  The ID of the `Reference` on which the `Position` is located.
+
+  If this is null, referenceName must not be null.
+  */
+  union { null, string } referenceId = null;
 
   /**
   The 0-based offset from the start of the forward strand for that reference.
@@ -42,6 +50,37 @@ record Position {
   strand (`true`).
   */
   boolean reverseStrand;
+}
+
+/**
+A `Segment` is a substring of a `Reference`. One or more `Segment`s (possibly
+from different `Reference`s) can be strung together end to end to form a `Path`.
+*/
+record Segment {
+  /**
+  At what `Position` does this `Segment` start, and in what direction does it
+  continue?
+  */
+  Position start;
+
+  /**
+  How many bases are covered by this segment?
+  */
+  long length;
+}
+
+/**
+A `Path` is a series of ordered positions in a `Reference`. In general any
+contiguous path through the sequence graph of `Reference`s can be represented by
+a `Path`.
+
+*/
+record Path {
+  /**
+  Require that segments abut in order. Also require they are maximal, i.e. that
+  consecutive elements of the array cannot be replaced by a single element.
+  */
+  array<Segment> segments;
 }
 
 /**
