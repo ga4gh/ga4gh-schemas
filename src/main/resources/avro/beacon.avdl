@@ -1,7 +1,13 @@
 @namespace("org.ga4gh")
 
+/**
+A Beacon is a web service for genetic data sharing that can be queried for information about specific alleles.
+*/
 protocol BEACON {
 
+/**
+A request for information about a specific allele.
+*/
 record BEACONRequest {
   /** The name of the targeted population */
   union{ null, string } populationId = null;
@@ -19,6 +25,9 @@ record BEACONRequest {
   union{ null, string } allele = null;
 }
 
+/**
+A response containing information about the specified allele.
+*/
 record BEACONResponse {
   /** outcome of the existence test */
   union{ null, boolean } exists = null;
