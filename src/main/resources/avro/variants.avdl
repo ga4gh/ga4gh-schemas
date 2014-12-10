@@ -147,40 +147,42 @@ record CallSet {
 }
 
 /**
-Represents a constraint on `Call`s belonging to a particular `Variant` in a
-`CallSet`. Analogous to a `Variant`-level `Call`, as might be found in VCF.
+Represents a `Genotype` integrating over the `Call`s belonging to a particular
+`Variant` in a `CallSet`. Analogous to a `Variant`-level `Call`, as might be
+found in VCF.
 
 Mostly useful for importing VCF annotations, or for giving joint distributions
-on copy numbers of different `Call`s referencing a `Variant`.
+on copy numbers of different `Call`s referencing a `Variant` (like genotype
+likelihoods).
 */
-record VariantConstraint {
+record Genotype {
 
   /**
-  The ID of the call set this `VariantConstraint` belongs to. Either this field
+  The ID of the call set this `Genotype` belongs to. Either this field
   or callSetName must be set.
   */
   union { null, string } callSetId;
 
   /**
-  The name of the call set this `VariantConstraint` belongs to. Either this
+  The name of the call set this `Genotype` belongs to. Either this
   field or callSetId must be set.
   */
   union { null, string } callSetName = null;
 
   /**
-  What is the ID of this constraint? Unique within the repository.
+  What is the ID of this `Genotype`? Unique within the repository.
   */
   string id;
 
   /**
-  What `Variant` are we constraining the `Call`s of?
+  What `Variant` are we genotyping?
   */
   string variantId;
 
   /**
-  What is the total copy number that all `Call`s in this `Variant` must sum to?
-  If your VCF file says that a certain `Variant` has an uncertain but diploid
-  genotype, you can represent that here.
+  What is the total copy number that all `Call`s in this `Variant` should sum
+  to? If your VCF file says that a certain `Variant` has an uncertain but
+  diploid genotype, you can represent that here.
   */
   union { null, long } totalCopyNumber = null;
 

@@ -343,24 +343,24 @@ SearchCallsResponse searchCalls(
   /** This request maps to the body of `POST /calls/search` as JSON. */
   SearchCallsRequest request) throws GAException;
 
-/****************** /variantconstraints/search *********************/
+/****************** /genotypes/search *********************/
 /**
-This request maps to the body of `POST /variantconstraints/search` as JSON.
+This request maps to the body of `POST /genotypes/search` as JSON.
 */
-record SearchVariantConstraintsRequest {
+record SearchGenotypesRequest {
 
   /**
-  If nonempty, only return the `VariantConstriant`s in these `CallSet`s.
+  If nonempty, only return the `Genotype`s in these `CallSet`s.
   */
   array<string> callSetIds = [];
 
   /**
-  If nonempty, return only `VariantConstraint`s in these `VariantSet`s.
+  If nonempty, return only `Genotype`s in these `VariantSet`s.
   */
   array<string> variantSetIds = [];
 
   /**
-  If nonempty, return only `VariantConstraint`s belonging to one of these
+  If nonempty, return only `Genotype`s belonging to one of these
   `Variant`s.
   */
 
@@ -379,11 +379,11 @@ record SearchVariantConstraintsRequest {
 }
 
 /**
-This is the response from `POST /variantconstraints/search` expressed as JSON.
+This is the response from `POST /genotypes/search` expressed as JSON.
 */
-record SearchVariantConstraintsResponse {
-  /** The list of matching `VariantConstraint`s. */
-  array<org.ga4gh.models.VariantConstraint> variantConstraints = [];
+record SearchGenotypesResponse {
+  /** The list of matching `Genotype`s. */
+  array<org.ga4gh.models.Genotype> genotypes = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -394,16 +394,16 @@ record SearchVariantConstraintsResponse {
 }
 
 /**
-Gets a list of `VariantConstriant` matching the search criteria.
-`POST /variantconstraints/search` must accept a JSON version of
-`SearchVariantConstraintsRequest` as the post body and will return a JSON
-version of `SearchVariantConstraintsResponse`.
+Gets a list of `Genotype` matching the search criteria.
+`POST /genotypes/search` must accept a JSON version of
+`SearchGenotypesRequest` as the post body and will return a JSON
+version of `SearchGenotypesResponse`.
 */
-SearchVariantConstraintsResponse searchVariantConstraints(
+SearchGenotypesResponse searchGenotypes(
   /**
-  This request maps to the body of `POST /variantconstraints/search` as JSON.
+  This request maps to the body of `POST /genotypes/search` as JSON.
   */
-  SearchVariantConstraintsRequest request) throws GAException;
+  SearchGenotypesRequest request) throws GAException;
 
 /******************  /allelescaffolds/search  *********************/
 /**
