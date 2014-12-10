@@ -156,16 +156,6 @@ on copy numbers of different `Call`s referencing a `Variant`.
 record VariantConstraint {
 
   /**
-  What is the ID of this constraint? Unique within the repository.
-  */
-  string id;
-
-  /**
-  What `Variant` are we constraining the `Call`s of?
-  */
-  string variantId;
-
-  /**
   The ID of the call set this `VariantConstraint` belongs to. Either this field
   or callSetName must be set.
   */
@@ -176,6 +166,16 @@ record VariantConstraint {
   field or callSetId must be set.
   */
   union { null, string } callSetName = null;
+
+  /**
+  What is the ID of this constraint? Unique within the repository.
+  */
+  string id;
+
+  /**
+  What `Variant` are we constraining the `Call`s of?
+  */
+  string variantId;
 
   /**
   What is the total copy number that all `Call`s in this `Variant` must sum to?
@@ -354,10 +354,12 @@ record Allele {
   If it is a Path, this allele represents the presence or absence of the
   corresponding `Segment`s in that order. Note that a `Segment` in this `Path`
   that is 0-length represents the adjacency immediately before the named base.
+  An `Allele` containing a `Path` is "simple".
 
   If it is an array of strings, this `Allele` represents the presence or absence
   of all the `Allele`s with those IDs, as a unit. Note that cycles are not
   allowed; an `Allele` cannot directly or indirectly reference itself.
+  An `Allele` containing "child" `Allele`s is "composite".
   */
   union { Path, array<string> } contents;
 }
