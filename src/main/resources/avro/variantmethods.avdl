@@ -51,18 +51,18 @@ SearchVariantSetsResponse searchVariantSets(
   /** This request maps to the body of `POST /variantsets/search` as JSON. */
   SearchVariantSetsRequest request) throws GAException;
 
-/******************  /variants/search  *********************/
-/** This request maps to the body of `POST /variants/search` as JSON. */
-record SearchVariantsRequest {
+/******************  /alleles/search  *********************/
+/** This request maps to the body of `POST /alleles/search` as JSON. */
+record SearchAllelesRequest {
   /** Required. The IDs of the variant sets to search over. */
   array<string> variantSetIds = [];
 
-  /** Required. Only return variants on this reference. */
+  /** Required. Only return alleles on this reference. */
   string referenceId;
 
   /**
   Required. The beginning of the window (0-based, inclusive) for
-  which overlapping variants should be returned.
+  which overlapping alleles should be returned.
   Genomic positions are non-negative integers less than reference length.
   Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
@@ -71,7 +71,7 @@ record SearchVariantsRequest {
 
   /**
   Required. The end of the window (0-based, exclusive) for which overlapping
-  variants should be returned.
+  alleles should be returned.
   */
   long end;
 
@@ -89,17 +89,17 @@ record SearchVariantsRequest {
   union { null, string } pageToken = null;
 }
 
-/** This is the response from `POST /variants/search` expressed as JSON. */
-record SearchVariantsResponse {
+/** This is the response from `POST /alleles/search` expressed as JSON. */
+record SearchAllelesResponse {
   /**
-  The list of matching variants.
+  The list of matching alleles.
   If the `callSetId` field on the returned calls is not present,
   the ordering of the call sets from a `SearchCallSetsRequest`
   over the parent `VariantSet` is guaranteed to match the ordering
-  of the calls on each `Variant`. The number of results will also be
+  of the calls on each `Allele`. The number of results will also be
   the same.
   */
-  array<org.ga4gh.models.Variant> variants = [];
+  array<org.ga4gh.models.Allele> alleles = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -110,23 +110,23 @@ record SearchVariantsResponse {
 }
 
 /**
-Gets a list of `Variant` matching the search criteria.
+Gets a list of `Allele`s matching the search criteria.
 
-`POST /variants/search` must accept a JSON version of `SearchVariantsRequest`
-as the post body and will return a JSON version of `SearchVariantsResponse`.
+`POST /alleles/search` must accept a JSON version of `SearchAllelesRequest`
+as the post body and will return a JSON version of `SearchAllelesResponse`.
 */
-SearchVariantsResponse searchVariants(
-  /** This request maps to the body of `POST /variants/search` as JSON. */
-  SearchVariantsRequest request) throws GAException;
+SearchAllelesResponse searchAlleles(
+    /** This request maps to the body of `POST /alleles/search` as JSON. */
+    SearchAllelesRequest request) throws GAException;
 
-/**************** /variants/{id} *******************/
+/**************** /alleles/{id} *******************/
 /**
-Gets a `Variant` by ID.
-`GET /variants/{id}` will return a JSON version of `Variant`.
+Gets an `Allele` by ID.
+`GET /alleles/{id}` will return a JSON version of `Allele`.
 */
-org.ga4gh.models.Variant getVariant(
+org.ga4gh.models.Allele getAllele(
   /**
-  The ID of the `Variant`.
+  The ID of the `Allele`.
   */
   string id) throws GAException;
 
@@ -145,9 +145,9 @@ org.ga4gh.models.Variant getVariant(
   array<string> variantSetIds = [];
 
   /**
-  If nonempty, return only `Call`s invloving one of these `Variant`s.
+  If nonempty, return only `Call`s invloving one of these `Allele`s.
   */
-  array<string> variantIds = [];
+  array<string> alleleIds = [];
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -257,23 +257,23 @@ org.ga4gh.models.CallSet getCallSet(
   */
   string id) throws GAException;
 
-/******************  /variantscaffolds/search  *********************/
+/******************  /allelescaffolds/search  *********************/
 /**
-This request maps to the body of `POST /variantscaffolds/search` as JSON.
+This request maps to the body of `POST /allelescaffolds/search` as JSON.
 */
-record SearchVariantScaffoldsRequest {
+record SearchAlleleScaffoldsRequest {
 
   /**
-  If nonempty, return only `VariantScaffold`s involving calls in one of the
+  If nonempty, return only `AlleleScaffold`s involving calls in one of the
   specified callsets.
   */
   array<string> callSetIds = [];
 
   /**
-  If nonempty, return only `VariantScaffold`s invloving calls on one of the
-  specified `Variant`s.
+  If nonempty, return only `AlleleScaffold`s invloving calls on one of the
+  specified `Allele`s.
   */
-  array<string> variantIds = [];
+  array<string> alleleIds = [];
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -290,11 +290,11 @@ record SearchVariantScaffoldsRequest {
 }
 
 /**
-This is the response from `POST /variantscaffolds/search` expressed as JSON.
+This is the response from `POST /allelescaffolds/search` expressed as JSON.
 */
-record SearchVariantScaffoldsResponse {
-  /** The list of `VariantScaffold`s. */
-  array<org.ga4gh.models.VariantScaffold> VariantScaffolds = [];
+record SearchAlleleScaffoldsResponse {
+  /** The list of `AlleleScaffold`s. */
+  array<org.ga4gh.models.AlleleScaffold> AlleleScaffolds = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -305,16 +305,16 @@ record SearchVariantScaffoldsResponse {
 }
 
 /**
-Gets a list of `VariantScaffold`s matching the search criteria.
+Gets a list of `AlleleScaffold`s matching the search criteria.
 
-`POST /variantscaffolds/search` must accept a JSON version of
-`SearchVariantScaffoldsRequest` as the post body and will return a JSON
-version of `SearchVariantScaffoldsResponse`.
+`POST /allelescaffolds/search` must accept a JSON version of
+`SearchAlleleScaffoldsRequest` as the post body and will return a JSON
+version of `SearchAlleleScaffoldsResponse`.
 */
-SearchVariantScaffoldsResponse searchVariantScaffolds(
+SearchAlleleScaffoldsResponse searchAlleleScaffolds(
   /**
-  This request maps to the body of `POST /variantscaffolds/search` as
+  This request maps to the body of `POST /allelescaffolds/search` as
   JSON.
   */
-  SearchVariantScaffoldsRequest request) throws GAException;
+  SearchAlleleScaffoldsRequest request) throws GAException;
 }
