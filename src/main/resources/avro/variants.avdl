@@ -13,11 +13,11 @@ column, but there are some key differences.
 
 First, we provide information about alleles that may or may not exist in a call
 set, and not sites at which a call set chooses between available alleles, since
-we are using the "unary" or "monoallelic" variant model, in which a variant is a
-single allele that may or may not be present in some copy number. We can
-determine from the graph whether two alleles or sets of alleles are
-incompatible in the same haplotype and hence "allelic" in the standard usage of
-the term.  Note that this is a pairwise relation, not transitive. This avoids
+we are using the "unary" or "allelic" variant model, in which we describe
+variation with single alleles that may or may not be present in some copy
+number. We can determine from the graph whether two alleles or sets of alleles
+are incompatible in the same haplotype and hence "allelic" in the standard usage
+of the term.  Note that this is a pairwise relation, not transitive. This avoids
 the problems when merging sites in VCF. Our merge semantics are simple: only
 merge identical variant sets. Identity can be checked by name when sharing a
 global name and definition space, or recursively by how the alleles are
@@ -211,9 +211,8 @@ record Call {
 }
 
 /**
-`Allele`s are "monoallelic": they are not places at which any of a number of
-alleles may occur, but rather single alleles that are present in some copy
-number.
+`Allele`s are the key component of the "allelic" model of variation: they are
+single objects that are present in some copy number.
 
 An `Allele` is a contigous piece of sequence that we will want to say is present
 (in general at some copy number) or absent in a sample. Very often it will just
