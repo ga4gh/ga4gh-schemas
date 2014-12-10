@@ -20,7 +20,7 @@ record SearchReadsRequest {
   The reference to query. Leaving blank returns results from all
   references, including unmapped reads - this could be very large.
   */
-  union { null, string } referenceID = null;
+  union { null, string } referenceId = null;
 
   /**
   The start position (0-based) of this query.
@@ -129,5 +129,27 @@ SearchReadGroupSetsResponse searchReadGroupSets(
     This request maps to the body of `POST /readgroupsets/search` as JSON.
     */
     SearchReadGroupSetsRequest request) throws GAException;
+
+/****************  /readgroupsets/{id}  *******************/
+/**
+Gets a `ReadGroupSet` by ID.
+`GET /readgroupsets/{id}` will return a JSON version of `ReadGroupSet`.
+*/
+ReadGroupSet getReadGroupSet(
+    /**
+    The ID of the `ReadGroupSet`.
+    */
+    string id) throws GAException;
+
+/****************  /datasets/{id}  *******************/
+/**
+Gets a `Dataset` by ID.
+`GET /datasets/{id}` will return a JSON version of `Dataset`.
+*/
+Dataset getDataset(
+    /**
+    The ID of the `Dataset`.
+    */
+    string id) throws GAException;
 
 }

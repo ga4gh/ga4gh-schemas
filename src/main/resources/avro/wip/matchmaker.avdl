@@ -86,7 +86,9 @@ record Feature {
   union { null, string } ageOfOnset = null;
 }
 
-/* A gene or variant. */
+/**
+A candidate gene or genomic variant.
+*/
 record Gene {
   /**
   Required. A <gene symbol> from the [HGNC database](http://www.genenames.org/)
@@ -95,15 +97,15 @@ record Gene {
   string gene;
 
   /**
-  The chromosome this gene is on.
+  The chromosome this variant or gene is on.
   TODO: Update this representation with assistance from issue #112
   */
   union { null, string } referenceName = null;
 
-  /** The start position of this gene. (0-based) */
+  /** The start position of the variant. (0-based) */
   union { null, long } start = null;
 
-  /** The end position of this gene. (0-based, exclusive) */
+  /** The end position of the variant. (0-based, exclusive) */
   union { null, long } end = null;
 
   /**
