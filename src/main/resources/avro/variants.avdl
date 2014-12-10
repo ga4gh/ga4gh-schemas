@@ -165,9 +165,9 @@ record Call {
   union { null, string } callSetName = null;
 
   /**
-  The IDs of the `Allele`s that this Call reflects the presence of.
+  The ID of the `Allele` that this Call reflects the presence of.
   */
-  array<string> alleleIds;
+  string alleleId;
 
   // HAPLOTYPE-type CallSets double as phase sets, so we don't need phase sets.
 
@@ -235,7 +235,7 @@ record Allele {
   */
   string id;
 
-  /** The ID of the variant set this variant belongs to. */
+  /** The ID of the variant set this allele belongs to. */
   string variantSetId;
 
   /**
@@ -245,12 +245,17 @@ record Allele {
   union { null, long } updated = null;
 
   /**
-  What `Segment`s of what `Reference`s in what order constitute this `Allele`?
+  What is this `Allele` describing the presence or absence of?
 
-  Note that a `Segment` in this `Path` that is 0-length represents the adjacency
-  immediately before the named base.
+  If it is a Path, this allele represents the presence or absence of the
+  corresponding `Segment`s in that order. Note that a `Segment` in this `Path`
+  that is 0-length represents the adjacency immediately before the named base.
+
+  If it is an array of strings, this `Allele` represents the presence or absence
+  of all the `Allele`s with those IDs, as a unit. Note that cycles are not
+  allowed; an `Allele` cannot directly or indirectly reference itself.
   */
-  Path path;
+  union { Path, array<string> } contents;
 }
 
 /**
