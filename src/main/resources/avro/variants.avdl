@@ -223,6 +223,11 @@ common for it to be a `Segment` of a `Reference` not overlapped by another
 sequence graph of `Reference`s.
 
 `Variant`s belong to `VariantSet`s.
+
+Remember that `Path`s cannot follow adjacencies not represented in the
+`Reference`s they use. If you want a `Variant` that spans a novel deletion, say,
+you must include a new `Reference` in your `VariantSet` providing that
+adjacency, which your `Variant` can then follow.
 */
 record Variant {
   /**
