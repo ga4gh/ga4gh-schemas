@@ -147,6 +147,101 @@ record CallSet {
 }
 
 /**
+Represents a constraint on `Call`s belonging to a particular `Variant` in a
+`CallSet`. Analogous to a `Variant`-level `Call`, as might be found in VCF.
+
+Mostly useful for importing VCF annotations, or for giving joint distributions
+on copy numbers of different `Call`s referencing a `Variant`.
+*/
+record VariantConstraint {
+
+  /**
+  What is the ID of this constraint? Unique within the repository.
+  */
+  string id;
+
+  /**
+  What `Variant` are we constraining the `Call`s of?
+  */
+  string variantId;
+
+  /**
+  The ID of the call set this `VariantConstraint` belongs to. Either this field
+  or callSetName must be set.
+  */
+  union { null, string } callSetId;
+
+  /**
+  The name of the call set this `VariantConstraint` belongs to. Either this
+  field or callSetId must be set.
+  */
+  union { null, string } callSetName = null;
+
+  /**
+  What is the total copy number that all `Call`s in this `Variant` must sum to?
+  If your VCF file says that a certain `Variant` has an uncertain but diploid
+  genotype, you can represent that here.
+  */
+  union { null, long } totalCopyNumber = null;
+
+  /**
+  The genotype likelihoods for this variant call. Each array entry
+  represents how likely a specific genotype is for this call as
+  log10(P(data | genotype)), analogous to the GL tag in the VCF spec. The
+  value ordering is defined by the GL tag in the VCF spec.
+  */
+  union { null, array<float> } genotypeLikelihoods = null;
+
+  /**
+  A map of additional variant call information.
+  */
+  map<array<string>> info = {};
+}
+
+/**
+A `Variant` represents a set of alternative `Allele`s that a `Call` can choose
+between.
+
+For example, a variant could represent a SNP or an insertion.
+Variants belong to a `VariantSet`.
+This is equivalent to a row in VCF.
+
+`Call`s on `Variant`s are represented by one `Call` object per `Allele`, with a
+reference to the `Variant` to which the `Call` belongs.
+*/
+record Variant {
+
+  /** The variant ID. */
+  string id;
+
+  /** The ID of the variant set this variant belongs to. */
+  string variantSetId;
+
+  /** Names for the variant, for example a RefSNP ID. */
+  array<string> names = [];
+
+  /** The date this variant was created in milliseconds from the epoch. */
+  union { null, long } created = null;
+
+  /**
+  The time at which this variant was last updated in
+  milliseconds from the epoch.
+  */
+  union { null, long } updated = null;
+
+  /**
+  The `Allele`s available for this `Variant`. The first `Allele` is the
+  reference `Allele`, and the rest are alternate `Allele`s.
+  */
+  array<string> alleleIds;
+
+  /**
+  A map of additional variant information.
+  */
+  map<array<string>> info = {};
+}
+
+/**
 A `Call` represents the determination of genotype with respect to a
 particular `Allele`. It may include associated information such as quality
 and phasing. For example, a call might assign a probability of 0.32 to
@@ -155,19 +250,28 @@ the occurrence of a SNP named rs1234 in a call set with the name NA12345.
 record Call {
 
   /**
-  The ID of the call set this variant call belongs to.
+  The ID of the call set this `Call` belongs to.
   */
   union { null, string } callSetId;
 
   /**
-  The name of the call set this variant call belongs to.
+  The name of the call set this `Call` belongs to.
   */
   union { null, string } callSetName = null;
 
   /**
-  The ID of the `Allele` that this Call reflects the presence of.
+  The ID of the `Allele` that this `Call` reflects the presence of.
   */
   string alleleId;
+
+  /**
+  The ID of the `Variant` in the context of which this `Call` is calling the
+  copy number on the `Allele`. The `Allele` called by this `Call` must be on the
+  list of `Allele` IDs that are allowable alternatives for the `Variant`. Only
+  one `Call` in a `CallSet` can describe a given `Allele` within a particular
+  `Variant`.
+  */
+  union { null, string } variantId = null;
 
   // HAPLOTYPE-type CallSets double as phase sets, so we don't need phase sets.
 
