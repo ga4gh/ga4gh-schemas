@@ -59,14 +59,15 @@ record Segment {
 }
 
 /**
-A `Path` is a series of ordered positions in a `Reference`. In general any
-contiguous path through the sequence graph of `Reference`s can be represented by
+A `Path` is a series of ordered positions in a set of `Reference`s. In general any
+contiguous path through the sequence graph of `Reference`s, with no novel adjacencies, can be represented by
 a `Path`.
 
 */
 record Path {
   /**
-  Require that segments abut in order. Also require they are maximal, i.e. that
+  Require that segments abut in order, changing between `Reference`s only where they actually connect.
+  Also require that segments are maximal, i.e. that
   consecutive elements of the array cannot be replaced by a single element.
   */
   array<Segment> segments;

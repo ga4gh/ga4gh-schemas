@@ -178,17 +178,17 @@ record LinearAlignment {
 
 /**
 A string-to-reference-graph alignment can be represented by one CIGAR string and
-one `Path` through multiple `Reference`s.
+one `Path` through multiple `Reference`s, against which the CIGAR string is
+interpreted.
 
-All indels should be represented in the CIGAR string; the `Path` should be used
-to represent only changes between `Reference`s along adjacencies recorded in the
-`ReferenceSet`, and not the skipping of intervening sequences between aligned
-regions on the same `Reference` in the same orientation.
-
-If the `Path` against which you want to align your read would follow adjacencies
+Note that `Path`s are restricted to following reference adjacencies.
+If you want to align your read following adjacencies that are
 not present in the `ReferenceSet` to which you are aligning, you have a
 "chimeric" alignment, and should use multiple `ReadAlignment`s and the
 supplementaryAlignment flag instead of a single `GraphAlignment`.
+
+Some especially large deletions could be represented just as well as a large
+deletion in the CIGAR string, or as a chimeric alignment.
 */
 record GraphAlignment {
   /** The `Path` against which the read is aligned */
