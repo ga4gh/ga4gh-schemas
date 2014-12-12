@@ -139,7 +139,8 @@ record SearchReferencesRequest {
   array<string> accessions = [];
 
   /**
-  If nonempty, return references that have one of the specified names.
+  If nonempty, return references that have one of the specified names. The name
+  specified must match the reference's name exactly, and is case sensitive.
   */
   array<string> referenceNames = [];
 
