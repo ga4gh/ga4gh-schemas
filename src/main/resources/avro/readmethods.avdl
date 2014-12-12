@@ -17,15 +17,7 @@ record SearchReadsRequest {
   array<string> readGroupIds = [];
 
   /**
-  The reference to query. Provide at most one of `referenceId` and
-  `referenceName`. Leaving both blank returns results from all references,
-  including unmapped reads - this could be very large.
-  */
-  union { null, string } referenceName = null;
-
-  /**
-  The reference to query. Provide at most one of `referenceId` and
-  `referenceName`. Leaving both blank returns results from all
+  The reference to query. Leaving blank returns results from all
   references, including unmapped reads - this could be very large.
   */
   union { null, string } referenceId = null;
