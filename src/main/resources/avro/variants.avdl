@@ -353,17 +353,11 @@ record Allele {
   /**
   What is this `Allele` describing the presence or absence of?
 
-  If it is a Path, this allele represents the presence or absence of the
+  An allele represents the presence or absence of the
   corresponding `Segment`s in that order. Note that a `Segment` in this `Path`
   that is 0-length represents the adjacency immediately before the named base.
-  An `Allele` containing a `Path` is "simple".
-
-  If it is an array of strings, this `Allele` represents the presence or absence
-  of all the `Allele`s with those IDs, as a unit. Note that cycles are not
-  allowed; an `Allele` cannot directly or indirectly reference itself.
-  An `Allele` containing "child" `Allele`s is "composite".
   */
-  union { Path, array<string> } contents;
+  Path path;
 }
 
 /**
