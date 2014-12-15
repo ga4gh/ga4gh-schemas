@@ -6,7 +6,7 @@ This protocol defines metadata used in the other GA4GH protocols.
 
 protocol Metadata {
 
-import idl "../common.avdl";
+import idl "common.avdl";
 
 /**
 An enum that represents the genetic sex of an organism, sample or other object 
