@@ -76,8 +76,8 @@ Gets a list of `ReadAlignment` matching the search criteria.
 the post body and will return a JSON version of `SearchReadsResponse`.
 */
 SearchReadsResponse searchReads(
-    /** This request maps to the body of `POST /reads/search` as JSON. */
-    SearchReadsRequest request) throws GAException;
+  /** This request maps to the body of `POST /reads/search` as JSON. */
+  SearchReadsRequest request) throws GAException;
 
 /******************  /readgroupsets/search  *********************/
 /** This request maps to the body of `POST /readgroupsets/search` as JSON. */
@@ -126,10 +126,10 @@ Gets a list of `ReadGroupSet` matching the search criteria.
 version of `SearchReadGroupSetsResponse`.
 */
 SearchReadGroupSetsResponse searchReadGroupSets(
-    /**
-    This request maps to the body of `POST /readgroupsets/search` as JSON.
-    */
-    SearchReadGroupSetsRequest request) throws GAException;
+  /**
+  This request maps to the body of `POST /readgroupsets/search` as JSON.
+  */
+  SearchReadGroupSetsRequest request) throws GAException;
 
 /****************  /readgroupsets/{id}  *******************/
 /**
@@ -137,10 +137,10 @@ Gets a `org.ga4gh.models.ReadGroupSet` by ID.
 `GET /readgroupsets/{id}` will return a JSON version of `ReadGroupSet`.
 */
 org.ga4gh.models.ReadGroupSet getReadGroupSet(
-    /**
-    The ID of the `ReadGroupSet`.
-    */
-    string id) throws GAException;
+  /**
+  The ID of the `ReadGroupSet`.
+  */
+  string id) throws GAException;
 
 /****************  /datasets/{id}  *******************/
 /**
@@ -148,9 +148,9 @@ Gets a `Dataset` by ID.
 `GET /datasets/{id}` will return a JSON version of `Dataset`.
 */
 org.ga4gh.models.Dataset getDataset(
-    /**
-    The ID of the `Dataset`.
-    */
-    string id) throws GAException;
-
+  /**
+  The ID of the `Dataset`.
+  */
+  string id) throws GAException;
+  
 }
