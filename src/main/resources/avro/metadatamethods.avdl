@@ -64,6 +64,7 @@ SearchIndividualsResponse searchIndividuals(
 
 /******************  /samples/search  *********************/
 /** This request maps to the body of `POST /samples/search` as JSON. */
+
 record SearchSamplesRequest {
   /** If specified, restrict this query to samples for the given individuals. */
   array<string> individualIds = [];
