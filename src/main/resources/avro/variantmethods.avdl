@@ -1,6 +1,7 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.methods")
 protocol VariantMethods {
 
+import idl "methods.avdl";
 import idl "variants.avdl";
 
 /******************  /variantsets/search  *********************/
@@ -29,7 +30,7 @@ record SearchVariantSetsRequest {
 /** This is the response from `POST /variantsets/search` expressed as JSON. */
 record SearchVariantSetsResponse {
   /** The list of matching variant sets. */
-  array<VariantSet> variantSets = [];
+  array<org.ga4gh.models.VariantSet> variantSets = [];
 
   /**
     The continuation token, which is used to page through large result sets.
@@ -108,7 +109,7 @@ record SearchVariantsResponse {
   of the calls on each `Variant`. The number of results will also be
   the same.
   */
-  array<Variant> variants = [];
+  array<org.ga4gh.models.Variant> variants = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -160,7 +161,7 @@ record SearchCallSetsRequest {
 /** This is the response from `POST /callsets/search` expressed as JSON. */
 record SearchCallSetsResponse {
   /** The list of matching call sets. */
-  array<CallSet> callSets = [];
+  array<org.ga4gh.models.CallSet> callSets = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -185,7 +186,7 @@ SearchCallSetsResponse searchCallSets(
 Gets a `CallSet` by ID.
 `GET /callsets/{id}` will return a JSON version of `CallSet`.
 */
-CallSet getCallSet(
+org.ga4gh.models.CallSet getCallSet(
     /**
     The ID of the `CallSet`.
     */

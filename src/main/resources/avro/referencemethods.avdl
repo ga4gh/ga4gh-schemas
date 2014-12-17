@@ -1,7 +1,8 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.methods")
 protocol ReferenceMethods {
 
 import idl "common.avdl";
+import idl "methods.avdl";
 import idl "references.avdl";
 
 /****************  /referencesets/search  *******************/
@@ -51,7 +52,7 @@ expressed as JSON.
 */
 record SearchReferenceSetsResponse {
   /** The list of matching reference sets. */
-  array<ReferenceSet> referenceSets = [];
+  array<org.ga4gh.models.ReferenceSet> referenceSets = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -80,7 +81,7 @@ SearchReferenceSetsResponse searchReferenceSets(
 Gets a `ReferenceSet` by ID.
 `GET /referencesets/{id}` will return a JSON version of `ReferenceSet`.
 */
-ReferenceSet getReferenceSet(
+org.ga4gh.models.ReferenceSet getReferenceSet(
     /**
     The ID of the `ReferenceSet`.
     */
@@ -131,7 +132,7 @@ This is the response from `POST /references/search` expressed as JSON.
 */
 record SearchReferencesResponse {
   /** The list of matching references. */
-  array<Reference> references = [];
+  array<org.ga4gh.models.Reference> references = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -160,7 +161,7 @@ SearchReferencesResponse searchReferences(
 Gets a `Reference` by ID.
 `GET /references/{id}` will return a JSON version of `Reference`.
 */
-Reference getReference(
+org.ga4gh.models.Reference getReference(
     /**
     The ID of the `Reference`.
     */
