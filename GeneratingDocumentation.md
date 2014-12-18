@@ -10,12 +10,12 @@ Assuming that you have [Node.js](http://nodejs.org/) and [NPM](https://www.npmjs
 npm install avrodoc --global
 ```
 
-The `avrodoc` tool expects Avro schemas in JSON format. The Maven plugin we use for generation of artifacts and tests does not produce the JSON formatted Avro schema. You will need to download the [Avro tools JAR file](http://www.us.apache.org/dist/avro/avro-1.7.6/java/avro-tools-1.7.6.jar)
+The `avrodoc` tool expects Avro schemas in JSON format. The Maven plugin we use for generation of artifacts and tests does not produce the JSON formatted Avro schema. You will need to download the [Avro tools JAR file](http://www.us.apache.org/dist/avro/avro-1.7.7/java/avro-tools-1.7.7.jar)
 
 ```shell
 # For a full list of mirrors, see http://www.apache.org/dyn/closer.cgi/avro/
 
-curl -o /opt/avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.6/java/avro-tools-1.7.6.jar
+curl -o /opt/avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.7/java/avro-tools-1.7.7.jar
 
 ```
 
@@ -39,7 +39,7 @@ avrodoc input.avpr > output.html
 npm install avrodoc --global
 
 # download the Avro tools
-curl -o /opt/avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.6/java/avro-tools-1.7.6.jar
+curl -o /opt/avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.7/java/avro-tools-1.7.7.jar
 
 # assumes that $CWD is the ga4gh/schemas project dir
 

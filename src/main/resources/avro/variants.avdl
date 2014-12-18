@@ -1,4 +1,4 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.models")
 protocol Variants {
 
 import idl "common.avdl";
@@ -48,7 +48,10 @@ record VariantSet {
   /** The ID of the dataset this variant set belongs to. */
   string datasetId;
 
-  // TODO: Add reference sequence ID information.
+  /**
+  The reference set the variants in this variant set are using.
+  */
+  string referenceSetId;
 
   /**
   The metadata associated with this variant set. This is equivalent to
