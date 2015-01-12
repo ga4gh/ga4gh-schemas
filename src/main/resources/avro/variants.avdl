@@ -204,6 +204,18 @@ record Variant {
   /** The bases that appear instead of the reference bases. */
   array<string> alternateBases = [];
 
+  /** 
+  A measure of how likely this variant is to be real.
+  A higher value is better.
+  */
+  union { null, double } quality = null;
+
+  /** 
+  A list of filters (normally quality filters) this variant has failed.
+  PASS indicates this variant has passed all filters.
+  */
+  array<string> filter = [];
+
   /**
   A map of additional variant information.
   */
