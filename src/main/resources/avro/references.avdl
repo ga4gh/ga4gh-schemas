@@ -3,7 +3,7 @@
 /**
 We represent reference genomes, or collections therof, by sequence graphs.
 
-A sequence graph is made progressively joining new sequence pieces, which we
+A sequence graph is made by progressively joining new sequence pieces, which we
 call `Reference`s, into an existing graph.  This starts with a primary sequence.
 For example consider the primary sequence in GRCh38 for a chromosome. Then
 additional `Reference`s can be joined into it, starting on a defined side of a
