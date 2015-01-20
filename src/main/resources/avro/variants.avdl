@@ -316,11 +316,6 @@ record Call {
   union { null, int } readCount = null;
 
   /**
-  Potential other evidence for the call.
-  */
-  map<string> evidence = {};
-
-  /**
   A map of additional allele call information.
   */
   map<array<string>> info = {};
