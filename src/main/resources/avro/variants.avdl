@@ -103,8 +103,9 @@ enum CallSetType {
 }
 
 /**
-A `CallSet` is a collection of variant calls for a particular sample.
-It belongs to a `VariantSet`. This is equivalent to one column in VCF.
+A `CallSet` is a collection of variant calls for a particular sample. `CallSet`s
+hold `Call`s for a sample, or one of a sample's haplotypes, in one or more
+`VariantSet`s. This is roughly equivalent to one column in VCF.
 */
 record CallSet {
 
