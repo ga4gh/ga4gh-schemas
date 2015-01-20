@@ -170,19 +170,20 @@ record Genotype {
   union { null, string } callSetName = null;
 
   /**
-  What is the ID of this `Genotype`? Unique within the repository.
+  The ID of this `Genotype`. Unique within the repository.
   */
   string id;
 
   /**
-  What `Variant` are we genotyping?
+  The ID of the `Variant` that this `Genotype` is expressing the `CallSet`'s
+  genotype at.
   */
   string variantId;
 
   /**
-  What is the total copy number that all `Call`s in this `Variant` should sum
-  to? If your VCF file says that a certain `Variant` has an uncertain but
-  diploid genotype, you can represent that here.
+  The total copy number to which the copy numbers of all `Call`s in this
+  `Variant` should sum. Can be used to represent assertions about total ploidy
+  for an uncertain genotype, such as those present implicitly in VCF.
   */
   union { null, long } totalCopyNumber = null;
 
@@ -351,11 +352,9 @@ record Allele {
   union { null, long } updated = null;
 
   /**
-  What is this `Allele` describing the presence or absence of?
-
-  An allele represents the presence or absence of the
-  corresponding `Segment`s in that order. Note that a `Segment` in this `Path`
-  that is 0-length represents the adjacency immediately before the named base.
+  The ordered and oriented `Segment`s of DNA that this `Allele` represents. Note
+  that a `Segment` in this `Path` that is 0-length represents the adjacency
+  immediately before the named base.
   */
   Path path;
 }
