@@ -70,10 +70,9 @@ record Segment {
 }
 
 /**
-A `Path` is a series of ordered positions in a set of `Reference`s. In general any
-contiguous path through the sequence graph of `Reference`s, with no novel adjacencies, can be represented by
-a `Path`.
-
+A `Path` is an ordered list of `Segment`s. In general any contiguous path
+through the sequence graph of `Reference`s, with no novel adjacencies, can be
+represented by a `Path`.
 */
 record Path {
   /**
