@@ -373,8 +373,8 @@ reflects typically the data we have about them. In many cases we can infer order
 and orientation from the reference graph on which the `Allele`s are defined, for
 example for a sequence of simple variants (SNPs, indels etc) along a reference.
 But in the general case with multiple copies of `Allele`s and rearrangements
-this is not the case. For when we do want to explicitly state the order and
-orientation of `Allele`s we define an `AlleleScaffold` record.
+this is not the case. When we do want to explicitly state the order and
+orientation of `Allele`s, we define an `AlleleScaffold` record.
 
 TODO: This is still being worked out; it is not entirely clear how this sort of
 phasing ought to interact with haplotype phasing.
