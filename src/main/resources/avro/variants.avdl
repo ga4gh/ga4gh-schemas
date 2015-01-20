@@ -338,10 +338,10 @@ sequence graph of `Reference`s.
 
 `Allele`s belong to `VariantSet`s.
 
-Remember that `Path`s cannot follow adjacencies not represented in the
-`Reference`s they use. If you want an `Allele` that spans a novel deletion, say,
-you must include a new `Reference` in your `VariantSet` providing that
-adjacency, which your `Allele` can then follow.
+Note that `Path`s cannot follow adjacencies not represented in the `Reference`s
+they use. If  an `Allele` that spans a novel deletion is required, for example,
+a new `Reference` must be included in the `VariantSet` providing that adjacency,
+which this `Allele` can then follow.
 */
 record Allele {
   /**
