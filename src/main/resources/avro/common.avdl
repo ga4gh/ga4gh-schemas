@@ -47,13 +47,13 @@ from different `Reference`s) can be strung together end to end to form a `Path`.
 */
 record Segment {
   /**
-  At what `Position` does this `Segment` start, and in what direction does it
-  continue?
+  The `Position` at which this `Segment` starts. The `Position` also defines the
+  direction in which the segment continues.
   */
   Position start;
 
   /**
-  How many bases are covered by this segment?
+  The number of bases that are covered by this segment.
   */
   long length;
 }
