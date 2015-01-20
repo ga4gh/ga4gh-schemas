@@ -282,24 +282,32 @@ record Call {
   // Not all of the following will be present, but at least one should be
 
   /**
-  0 for not present in callSet, 1 for single copy, 2 for 2 copies etc.
+  Called integer copy number for this `Allele` in this `CallSet`. 0 for not
+  present in `CallSet`, 1 for single copy, 2 for 2 copies, etc.
   */
   union { null, int } copyNumber = null;
 
   /**
-  Expected value of copyNumber.
+  Stores the expected value of the true number of copies of the `Allele` in the
+  `CallSet`.
   */
   union { null, float } dosage = null;
 
   /**
-  Probability that copy number is k: 0..n
+  Holds an array of floats, where each is the probability that the copy number
+  of the `Allele` in the `CallSet` is equal to that 0-based index in the array.
+  If the array is present and its values do not sum to 1, the remaining
+  probability is the probability that the copy number is not any of the values
+  for which probabilities are present.
   */
-  array<float> probability = [];
+  union { null, array<float> } probability = null;
 
   /**
-  Likelihood of data given copy number k.
+  Holds an array of floats, where each is the likelihood of the data given that
+  the copy number of the `Allele` in the `CallSet` is equal to that 0-based
+  index in the array.
   */
-  array<float> likelihood = [];
+  union { null, array<float> } likelihood = null;
 
   /**
   Number of reads supporting this allele (DP in VCF).
