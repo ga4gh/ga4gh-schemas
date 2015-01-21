@@ -53,34 +53,35 @@ record Position {
 }
 
 /**
-A `Segment` is a substring of a `Reference`. One or more `Segment`s (possibly
-from different `Reference`s) can be strung together end to end to form a `Path`.
+A `Subsegment` is a substring of a `Reference`. One or more `Subsegment`s
+(possibly from different `Reference`s) can be strung together end to end to form
+a `Path`.
 */
-record Segment {
+record Subsegment {
   /**
-  The `Position` at which this `Segment` starts. The `Position` also defines the
-  direction in which the segment continues.
+  The `Position` at which this `Subsegment` starts. The `Position` also defines
+  the direction in which the subsegment continues.
   */
   Position start;
 
   /**
-  The number of bases that are covered by this segment.
+  The number of bases that are covered by this `Subsegment`.
   */
   long length;
 }
 
 /**
-A `Path` is an ordered list of `Segment`s. In general any contiguous path
+A `Path` is an ordered list of `Subsegment`s. In general any contiguous path
 through the sequence graph of `Reference`s, with no novel adjacencies, can be
 represented by a `Path`.
 */
 record Path {
   /**
-  Require that segments abut in order, changing between `Reference`s only where they actually connect.
-  Also require that segments are maximal, i.e. that
-  consecutive elements of the array cannot be replaced by a single element.
+  Require that `Subsegment`s abut in order, changing between `Reference`s only
+  where they actually connect. Also require that `Subsegment`s are maximal, i.e.
+  that consecutive elements of the array cannot be replaced by a single element.
   */
-  array<Segment> segments;
+  array<Subsegment> subsegments;
 }
 
 /**

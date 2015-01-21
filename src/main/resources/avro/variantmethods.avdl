@@ -243,8 +243,8 @@ record SearchAllelesRequest {
 /** This is the response from `POST /alleles/search` expressed as JSON. */
 record SearchAllelesResponse {
   /**
-  The list of matching alleles. An `Allele` should be returned if a `Segment` in
-  its `Path` overlaps with the specified range on the `Reference`.
+  The list of matching alleles. An `Allele` should be returned if a `Subsegment`
+  in its `Path` overlaps with the specified range on the `Reference`.
   */
   array<Allele> alleles = [];
 
