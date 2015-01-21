@@ -112,15 +112,11 @@ record Reference {
   union { null, ReferenceJoinLocation } startJoin, endJoin;
 
   /**
-  The sequence to insert between startJoin and endJoin. Must be set if sourceURI
-  is null.
-  */
-  union { null, string } sequence = null;
-
-  /**
-  The URI from which the sequence was obtained.
-  Specifies a FASTA format file/string with one name, sequence pair.
-  Must be set if sequence is null.
+  The URI from which the sequence was obtained. Specifies a FASTA format
+  file/string with one name, sequence pair. This field is primarily for
+  recording provenance. In most cases, clients should call the
+  `ListReferenceBases` method to obtain sequence from a `Reference` instead of
+  attempting retrieve this URI.
   */
   union { null, string } sourceURI = null;
 
