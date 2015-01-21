@@ -70,7 +70,7 @@ record Path {
   where they actually connect. Also require that `Subsegment`s are maximal, i.e.
   that consecutive elements of the array cannot be replaced by a single element.
   */
-  array<Subsegment> subsegments;
+  array<Subsegment> subsegments = [];
 }
 
 /**
