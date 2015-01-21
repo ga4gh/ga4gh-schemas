@@ -208,14 +208,14 @@ record SearchAllelesRequest {
   array<string> variantSetIds = [];
 
   /**
-  Required. Only return `Allele`s on this reference.
+  Required. Only return `Allele`s on this segment.
    */
-  string referenceId;
+  string segmentId;
 
   /**
   Required. The beginning of the window (0-based, inclusive) for
   which overlapping alleles should be returned.
-  Genomic positions are non-negative integers less than reference length.
+  Genomic positions are non-negative integers less than segment length.
   Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
   */
@@ -245,7 +245,7 @@ record SearchAllelesRequest {
 record SearchAllelesResponse {
   /**
   The list of matching alleles. An `Allele` should be returned if a `Subsegment`
-  in its `Path` overlaps with the specified range on the `Reference`.
+  in its `Path` overlaps with the specified range on the `Segment`.
   */
   array<org.ga4gh.models.Allele> alleles = [];
 
@@ -463,4 +463,5 @@ SearchAlleleScaffoldsResponse searchAlleleScaffolds(
   JSON.
   */
   SearchAlleleScaffoldsRequest request) throws GAException;
+
 }

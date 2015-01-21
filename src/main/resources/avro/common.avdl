@@ -6,27 +6,29 @@ not have any methods; it is merely a library of types.
 protocol Common {
 
 /**
-An abstraction for referring to a genomic position, in relation to some
-already known `ReferenceSet`. For now, represents a genomic position as a `Reference`
-name or ID, a base number on that reference (0-based), and a flag to say if it's the
-forward or reverse strand that we're talking about.
+An abstraction for referring to a genomic position on a `Segment`, possibly in
+the context of some `ReferenceSet`. For now, represents a genomic position as a
+`Segment` ID or corresponding `Reference` name, a base number on that `Segment`
+(0-based), and a flag to say if it's the forward or reverse strand that we're
+talking about.
 */
 record Position {
   /**
-  The name of the `Reference` on which the position is located, in whatever
-  reference set is being used. Does not generally include a "chr" prefix, so for
-  example "X" would be used for the primary X chromosome.
+  If this `Position` is on a `Segment` that belongs to a `Reference` in some
+  contextually-defined `ReferenceSet`, we can specify the `Segment` indirectly
+  by giving the name of the `Reference`. Does not generally include a "chr"
+  prefix, so for example "X" would be used for the primary X chromosome.
 
-  If this is null, referenceId must not be null.
+  If this is null, segmentId must not be null.
   */
-   union { null, string } referenceName = null;
+  union { null, string } referenceName = null;
 
   /**
-  The ID of the `Reference` on which the `Position` is located.
+  The ID of the `Segment` on which the `Position` is located.
 
   If this is null, referenceName must not be null.
   */
-  union { null, string } referenceId = null;
+  union { null, string } segmentId = null;
 
   /**
   The 0-based offset from the start of the forward strand for that reference.
@@ -43,7 +45,7 @@ record Position {
 
 /**
 A `Subsegment` is a substring of a `Reference`. One or more `Subsegment`s
-(possibly from different `Reference`s) can be strung together end to end to form
+(possibly from different `Segment`s) can be strung together end to end to form
 a `Path`.
 */
 record Subsegment {
@@ -61,12 +63,12 @@ record Subsegment {
 
 /**
 A `Path` is an ordered list of `Subsegment`s. In general any contiguous path
-through the sequence graph of `Reference`s, with no novel adjacencies, can be
+through the sequence graph of `Segment`s, with no novel adjacencies, can be
 represented by a `Path`.
 */
 record Path {
   /**
-  Require that `Subsegment`s abut in order, changing between `Reference`s only
+  Require that `Subsegment`s abut in order, changing between `Segment`s only
   where they actually connect. Also require that `Subsegment`s are maximal, i.e.
   that consecutive elements of the array cannot be replaced by a single element.
   */
