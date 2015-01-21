@@ -15,13 +15,16 @@ First, we provide information about alleles that may or may not exist in a call
 set, and not sites at which a call set chooses between available alleles, since
 we are using the "unary" or "allelic" variant model, in which we describe
 variation with single alleles that may or may not be present in some copy
-number. We can determine from the graph whether two alleles or sets of alleles
-are incompatible in the same haplotype and hence "allelic" in the standard usage
-of the term.  Note that this is a pairwise relation, not transitive. This avoids
-the problems when merging sites in VCF. Our merge semantics are simple: only
-merge identical variant sets. Identity can be checked by name when sharing a
-global name and definition space, or recursively by how the alleles are
-constructed from global objects when scope is local.
+number. These alleles are embedded in a sequence graph, and we can determine
+from the graph whether two alleles or sets of alleles are incompatible in the
+same haplotype and hence "allelic" in the standard usage of the term. Note that
+this is a pairwise relation, not transitive. This avoids the problems when
+merging sites in VCF. The sequence graph in which the alleles are embedded is
+constructed by augmenting a `ReferenceSet`'s graph with novel
+sequences. Our merge semantics are simple: only merge identical alleles.
+Identity can be checked by name when sharing a global name and definition space,
+or recursively by how the alleles are constructed from global objects when scope
+is local.
 
 Second, we represent phase information by separate haplotype callSets, rather
 than using some sort of | or / notation or equivalent in the calls of a genotype
@@ -69,9 +72,12 @@ record VariantSetMetadata {
 }
 
 /**
-`Allele`s belong to `VariantSet`s. A `CallSet` has calls in a `VariantSet`. Some
-novel `Segment`s can belong to `VariantSet`s. A `VariantSet` belongs to a
-`Dataset`. The variant set is equivalent to a VCF file.
+`Allele`s belong to `VariantSet`s. A `CallSet` has calls in a `VariantSet`. A
+`VariantSet` has an associated list of `Segment`s describing sequences with
+which the `ReferenceSet`'s sequence graph is to be augmented when interpreting
+`Allele`s. These `Segment`s are available through the `searchVariantSetSegments`
+API call. A `VariantSet` belongs to a `Dataset`. The variant set is equivalent
+to a VCF file.
 */
 record VariantSet {
   /** The variant set ID. */
@@ -326,21 +332,21 @@ single objects that are present in some copy number.
 
 An `Allele` is a contigous piece of sequence that we will want to say is present
 (in general at some copy number) or absent in a sample. Very often it will just
-be a single `Subsegment` covering the entirety of a novel `Segment`, but it is
-also common for it to be a `Subsegment` of a `Segment` not overlapped by
-another `Allele`'s `Subsegment`s, or in general to be any contiguous path
-through the sequence graph of `Segment`s.
+be a single `Segment` covering the entirety of a novel sequence, but it is also
+common for it to be a mix of `Segment`s on reference and novel sequences, or in
+general to be any contiguous path through the augmented sequence graph.
 
 `Allele`s belong to `VariantSet`s.
 
-Note that `Path`s cannot follow adjacencies not represented in the `Segment`s
-they use. If  an `Allele` that spans a novel deletion is required, for example,
-a new `Segment` must be included in the `VariantSet` providing that adjacency,
-which this `Allele` can then follow.
+Note that `Path`s cannot follow adjacencies not represented in the augmented
+sequence graph. If  an `Allele` that spans a novel deletion is required, for
+example, a new empty-string sequence should exist to describe that deletion
+adjacency, with a `Segment` describing that sequence available through
+`searchVariantSetSegments`.
 */
 record Allele {
   /**
-  The ID of this `Allele`. If this `Allele` is one `Subsegment` consisting of
+  The ID of this `Allele`. If this `Allele` is one `Segment` consisting of
   the entirety of a `Segment`, this is equal to the ID of that `Segment`.
   */
   string id;
@@ -355,8 +361,8 @@ record Allele {
   union { null, long } updated = null;
 
   /**
-  The ordered and oriented `Subsegment`s of DNA that this `Allele` represents.
-  Note that a `Subsegment` in this `Path` that is 0-length represents the
+  The ordered and oriented `Segment`s of DNA that this `Allele` represents.
+  Note that a `Segment` in this `Path` that is 0-length represents the
   adjacency immediately before the named base.
   */
   Path path;
@@ -365,10 +371,10 @@ record Allele {
 /**
 The `Call`s in a `CallSet` are not explicitly ordered and oriented. This
 reflects typically the data we have about them. In many cases we can infer order
-and orientation from the `ReferenceSet` graph on which the `Allele`s are
+and orientation from the augmented sequence graph on which the `Allele`s are
 defined, for example for a sequence of simple variants (SNPs, indels etc) along
-a `Reference`. But in the general case with multiple copies of `Allele`s and
-rearrangements this is not the case. When we do want to explicitly state the
+a backbone sequence. But in the general case with multiple copies of `Allele`s
+and rearrangements this is not the case. When we do want to explicitly state the
 order and orientation of `Allele`s, we define an `AlleleScaffold` record.
 
 TODO: This is still being worked out; it is not entirely clear how this sort of
@@ -399,7 +405,7 @@ record AlleleScaffold {
   Orientation of each `Allele` (relative to the orientation in which it is
   defined.
   */
-  array<SegmentSide> alleleOrientations;
+  array<Side> alleleOrientations;
 
   /**
   Sizes of gaps between `Allele`s, array length is 1 less than number of
@@ -408,7 +414,7 @@ record AlleleScaffold {
   array<int> gapSizes = [];
 }
 
-// `Segment`s as defined in references.avdl are also used to represent novel
-// allele sequence here.
+// `Segment`s as defined in references.avdl are also used to describe novel
+// allele sequence and adjacencies here.
 
 }
