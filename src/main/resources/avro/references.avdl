@@ -1,109 +1,32 @@
 @namespace("org.ga4gh")
 
 /**
-We represent reference genomes, or collections therof, by sequence graphs.
+We represent reference genomes, or `ReferenceSet`s, by sequence graphs. The
+`Segment`s describing the sequence graphs, one per sequence, are each embedded
+in a `Reference` giving annotations and provenance information.
 
-A sequence graph is made by progressively joining new sequence pieces, which we
-call `Reference`s, into an existing graph.  This starts with a primary sequence.
-For example consider the primary sequence in GRCh38 for a chromosome. Then
-additional `Reference`s can be joined into it, starting on a defined side of a
-defined base in the existing structure, containing new sequence (potentially
-empty if a pure deletion or breakpoint) and then joining back to another defined
-side of another base in the current graph.
-
-Any base in the graph will have a unique identity defined by its `Reference` id
-and 0-based position in the `Reference` sequence. It is oriented in the
-direction of the `Reference` sequence.
-
-We support a context model for uniquely identifying bases in the graph.
-Currently this is the UCSC left-right mapping proposal as proposed by Paten,
-Haussler et al. - http://arxiv.org/abs/1404.5010
+Any base in the graph will have a unique identity defined by its sequence ID and
+its 0-based position in the sequence.
 */
 protocol References {
 
-/**
-Each `Segment` in a sequence graph has two sides, PLUS and MINUS.
-
-`PLUS` represents forwards, or the direction of increasing coordinates, while
-`MINUS` represents reverse-complement, or the direction of decreasing
-coordinates.
-*/
-enum SegmentSide {
-  PLUS,
-  MINUS
-}
-
+import idl "common.avdl";
 
 /**
-`Segment`s are joined into a sequence graph by being connected at their ends
-to positions along other `Segment`s.
-*/
-record SegmentJoinLocation {
-  /**
-  The ID of the `Segment` onto which the join is made.
-  */
-  string segmentId;
-  /**
-  The 0-based position on the target `Segment` at which the join occurs.
-  */
-  int position;
-  /**
-  The face onto which the join is made. `PLUS` means that the join occurs on the
-  downstream face of the indicated base, while `MINUS` means that the join
-  occurs on the upstream face.
-  */
-  SegmentSide side;
-}
-
-/**
-A `Segment` represents a piece of sequence, which is optionally joined onto
-other `Segment`s of sequence at each end, forming a graph. The bases for a
-`Segment` are available through the `ListSegmentBases` API call.
-*/
-record Segment {
-  /**
-  The ID of this `Segment`. Unique within the repository.
-  */
-  string id;
-
-  /**
-  The length of this `Segment`'s sequence.
-  */
-  long length;
-
-  /**
-  Start and end locations of how this `Segment` fits into the existing graph.
-  May be null only for a primary sequence that is not joined onto any other.
-  Note that the segmentId for start and end may not be the same.
-  The `Segment`s onto which this `Segment` is joined are called its "parents".
-  */
-  union { null, SegmentJoinLocation } startJoin, endJoin;
-
-  /**
-  ID of the `VariantSet` that the `Segment` belongs to, if any.
-
-  If null, this `Segment` has an associated `Reference`.
-  */
-  union { null, string } variantSetId = null;
-}
-
-/**
-A `Reference` is a canonical assembled contig, intended to act as a
-reference coordinate space for other genomic annotations. A single
-`Reference` might represent the human chromosome 1 primary path, for instance,
-while other `Reference`s might branch off from it.
+A `Reference` marks a sequence as a canonical assembled contig, intended to act
+as a reference coordinate space for other genomic annotations. A `Reference`
+might describe the human chromosome 1 primary path sequence, for instance, while
+other `Reference`s describing variant sequences might branch off from it.
 */
 record Reference {
   /**
-  The `Segment` representing this `Reference`'s sequence. Also holds the
-  `SegmentJoinLocation`s connecting this `Reference` to its parents. All parents
-  of this `Segment` must have associated `Reference`s.
+  The `Segment` describing this `Reference`'s sequence in the `ReferenceSet`'s
+  sequence graph.
 
-  The ID of the `Segment` also serves as the ID of the `Reference`. The
-  `Segment` must not belong to a `VariantSet`.
+  The sequence ID of the `Segment` also serves as the ID of the `Reference`.
 
-  The actual sequence for a `Reference` is available through the
-  `ListSegmentBases` API call on this `Segment`.
+  The actual sequence bases for a `Reference` are available through the
+  `getSequence` API call on this `Reference`'s sequence.
   */
   Segment segment;
 
@@ -124,13 +47,13 @@ record Reference {
   SegmentJoinLocation is null, an MD5 checksum consisting of 32 "0" chartacters
   is used for its contribution.
 
-  The MD5 checksum of a `SegmentJoinLocation` onto a reference is calculated by
-  MD5 hashing the concatenation of the md5checksum for the `Reference` being
-  joined onto, the position as a decimal string, and "+" or "-" as appropriate
+  The MD5 checksum of a `Position` on a sequence with a `Reference` is
+  calculated by MD5 hashing the concatenation of the md5checksum for that
+  `Reference`, the index as a decimal string, and "+" or "-" as appropriate
   for the `SegmentSide`, in that order.
 
-  Note that a `Reference` may not join onto itself, or anything that joins onto
-  it, or this hash would not be defined.
+  Note that a `Reference`'s sequence may not join onto itself, or anything that
+  joins onto it, or this hash would not be defined.
   */
   string md5checksum;
 
@@ -149,9 +72,9 @@ record Reference {
   /**
   The URI from which the sequence was obtained. Specifies a FASTA format
   file/string with one name, sequence pair. This field is primarily for
-  recording provenance. In most cases, clients should call the
-  `ListSegmentBases` method to obtain sequence from a `Reference` instead of
-  attempting retrieve this URI.
+  recording provenance. In most cases, clients should call the `getSequence`
+  method to obtain sequence bases for a `Reference` instead of attempting
+  retrieve this URI.
   */
   union { null, string } sourceURI = null;
 

@@ -172,91 +172,14 @@ Reference getReference(
     */
     string id) throws GAException;
 
-/****************  /segments/search  *******************/
+/****************  /sequence/{id}  *******************/
 /**
-This request maps to the body of `POST /segments/search`
-as JSON.
-*/
-record SearchSegmentsRequest {
-  /**
-  If nonempty, return only `Segment`s which belong to this `VariantSet`.
-  */
-  array<string> variantSetIds = [];
-
-  /**
-  If specified, return only `Segments` that are or are not part of `Reference`s,
-  as appropriate.
-  */
-  union { null, boolean } hasReference = null;
-
-  /**
-  If nonempty, return `Segment`s that are joined onto `Segment`s with one of the
-  specified IDs.
-  */
-  array<string> parentSegmentIds = [];
-
-  /**
-  Specifies the maximum number of results to return in a single page.
-  If unspecified, a system default will be used.
-  */
-  union { null, int } pageSize = null;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
-}
-
-/**
-This is the response from `POST /segments/search` expressed as JSON.
-*/
-record SearchSegmentsResponse {
-  /** The list of matching `Segment`s. */
-  array<Segment> segments = [];
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
-}
-
-/**
-Gets a list of `Segment` matching the search criteria.
-
-`POST /segments/search` must accept a JSON version of
-`SearchSegmentsRequest` as the post body and will return a JSON
-version of `SearchSegmentsResponse`.
-*/
-SearchSegmentsResponse searchSegments(
-    /**
-    This request maps to the body of `POST /segments/search`
-    as JSON.
-    */
-    SearchSegmentsRequest request) throws GAException;
-
-/****************  /segments/{id}  *******************/
-/**
-Gets a `Segment` by ID.
-`GET /segments/{id}` will return a JSON version of `Segment`.
-*/
-Segment getSegment(
-    /**
-    The ID of the `Segment`.
-    */
-    string id) throws GAException;
-
-/****************  /segments/{id}/bases  *******************/
-/**
-The query parameters for a request to `GET /segments/{id}/bases`, for
+The query parameters for a request to `GET /sequence/{id}`, for
 example:
 
-`GET /segments/{id}/bases?start=100&end=200`
+`GET /sequence/{id}?start=100&end=200`
 */
-record ListSegmentBasesRequest {
+record GetSequenceRequest {
   /**
   The start position (0-based) of this query. Defaults to 0.
   Genomic positions are non-negative integers less than segment length.
@@ -279,17 +202,17 @@ record ListSegmentBasesRequest {
   union { null, string } pageToken = null;
 }
 
-/** The response from `GET /segments/{id}/bases` expressed as JSON. */
-record ListSegmentBasesResponse {
+/** The response from `GET /sequence/{id}` expressed as JSON. */
+record GetSequenceResponse {
   /**
-  The offset position (0-based) of the given `sequence` from the start of this
-  `Segment`. This value will differ for each page in a paginated request.
+  The offset position (0-based) of the returned string in the sequence. This
+  value will differ for each page in a paginated request.
    */
   long offset = 0;
 
   /**
-  A substring of the bases that make up this segment. Bases are represented
-  as IUPAC-IUB codes; this string matches the regexp `[ACGTMRWSYKVHDBN]*`.
+  A substring of the sequence requested. Bases are represented as IUPAC-IUB
+  codes; this string matches the regexp `[ACGTMRWSYKVHDBN]*`.
   */
   string sequence;
 
@@ -302,14 +225,14 @@ record ListSegmentBasesResponse {
 }
 
 /**
-Lists `Segment` bases by ID and optional range.
-`GET /segments/{id}/bases` will return a JSON version of
-`ListSegmentBasesResponse`.
+Lists bases by sequence ID and optional range.
+`GET /sequence/{id}` will return a JSON version of
+`GetSequenceResponse`.
 */
-ListSegmentBasesResponse getSegmentBases(
-    /** The ID of the `Segment`. */
+GetSequenceResponse getSequence(
+    /** The ID of the sequence. */
     string id,
     /** Additional request parameters to restrict the query. */
-    ListSegmentBasesRequest request) throws GAException;
+    GetSequenceRequest request) throws GAException;
 
 }
