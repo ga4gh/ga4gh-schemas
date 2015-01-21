@@ -69,10 +69,9 @@ record VariantSetMetadata {
 }
 
 /**
-`Allele`s belong to `VariantSet`s. A `CallSet` has calls in a `VariantSet`.
-Some novel `Reference`s can belong to `VariantSet`s (while other belong to
-`ReferenceSet`s). A `VariantSet` belongs to a `Dataset`.
-The variant set is equivalent to a VCF file.
+`Allele`s belong to `VariantSet`s. A `CallSet` has calls in a `VariantSet`. Some
+novel `Segment`s can belong to `VariantSet`s. A `VariantSet` belongs to a
+`Dataset`. The variant set is equivalent to a VCF file.
 */
 record VariantSet {
   /** The variant set ID. */
@@ -327,22 +326,22 @@ single objects that are present in some copy number.
 
 An `Allele` is a contigous piece of sequence that we will want to say is present
 (in general at some copy number) or absent in a sample. Very often it will just
-be a single `Subsegment` covering the entirety of a novel `Reference`, but it is
-also common for it to be a `Subsegment` of a `Reference` not overlapped by
+be a single `Subsegment` covering the entirety of a novel `Segment`, but it is
+also common for it to be a `Subsegment` of a `Segment` not overlapped by
 another `Allele`'s `Subsegment`s, or in general to be any contiguous path
-through the sequence graph of `Reference`s.
+through the sequence graph of `Segment`s.
 
 `Allele`s belong to `VariantSet`s.
 
-Note that `Path`s cannot follow adjacencies not represented in the `Reference`s
+Note that `Path`s cannot follow adjacencies not represented in the `Segment`s
 they use. If  an `Allele` that spans a novel deletion is required, for example,
-a new `Reference` must be included in the `VariantSet` providing that adjacency,
+a new `Segment` must be included in the `VariantSet` providing that adjacency,
 which this `Allele` can then follow.
 */
 record Allele {
   /**
   The ID of this `Allele`. If this `Allele` is one `Subsegment` consisting of
-  the entirety of a `Reference`, this is equal to the ID of that `Reference`.
+  the entirety of a `Segment`, this is equal to the ID of that `Segment`.
   */
   string id;
 
@@ -366,11 +365,11 @@ record Allele {
 /**
 The `Call`s in a `CallSet` are not explicitly ordered and oriented. This
 reflects typically the data we have about them. In many cases we can infer order
-and orientation from the reference graph on which the `Allele`s are defined, for
-example for a sequence of simple variants (SNPs, indels etc) along a reference.
-But in the general case with multiple copies of `Allele`s and rearrangements
-this is not the case. When we do want to explicitly state the order and
-orientation of `Allele`s, we define an `AlleleScaffold` record.
+and orientation from the `ReferenceSet` graph on which the `Allele`s are
+defined, for example for a sequence of simple variants (SNPs, indels etc) along
+a `Reference`. But in the general case with multiple copies of `Allele`s and
+rearrangements this is not the case. When we do want to explicitly state the
+order and orientation of `Allele`s, we define an `AlleleScaffold` record.
 
 TODO: This is still being worked out; it is not entirely clear how this sort of
 phasing ought to interact with haplotype phasing.
@@ -400,7 +399,7 @@ record AlleleScaffold {
   Orientation of each `Allele` (relative to the orientation in which it is
   defined.
   */
-  array<ReferenceSide> alleleOrientations;
+  array<SegmentSide> alleleOrientations;
 
   /**
   Sizes of gaps between `Allele`s, array length is 1 less than number of
@@ -409,7 +408,7 @@ record AlleleScaffold {
   array<int> gapSizes = [];
 }
 
-// `Reference`s as defined in references.avdl are also used to represent novel
+// `Segment`s as defined in references.avdl are also used to represent novel
 // allele sequence here.
 
 }
