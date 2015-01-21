@@ -327,10 +327,10 @@ single objects that are present in some copy number.
 
 An `Allele` is a contigous piece of sequence that we will want to say is present
 (in general at some copy number) or absent in a sample. Very often it will just
-be a single segment covering the entirety of a novel `Reference`, but it is also
-common for it to be a `Segment` of a `Reference` not overlapped by another
-`Allele`'s `Segment`s, or in general to be any contiguous path through the
-sequence graph of `Reference`s.
+be a single `Subsegment` covering the entirety of a novel `Reference`, but it is
+also common for it to be a `Subsegment` of a `Reference` not overlapped by
+another `Allele`'s `Subsegment`s, or in general to be any contiguous path
+through the sequence graph of `Reference`s.
 
 `Allele`s belong to `VariantSet`s.
 
@@ -341,8 +341,8 @@ which this `Allele` can then follow.
 */
 record Allele {
   /**
-  The ID of this `Allele`. If this `Allele` is one segment consisting of the
-  entirety of a `Reference`, this is equal to the ID of that `Reference`.
+  The ID of this `Allele`. If this `Allele` is one `Subsegment` consisting of
+  the entirety of a `Reference`, this is equal to the ID of that `Reference`.
   */
   string id;
 
@@ -356,9 +356,9 @@ record Allele {
   union { null, long } updated = null;
 
   /**
-  The ordered and oriented `Segment`s of DNA that this `Allele` represents. Note
-  that a `Segment` in this `Path` that is 0-length represents the adjacency
-  immediately before the named base.
+  The ordered and oriented `Subsegment`s of DNA that this `Allele` represents.
+  Note that a `Subsegment` in this `Path` that is 0-length represents the
+  adjacency immediately before the named base.
   */
   Path path;
 }
