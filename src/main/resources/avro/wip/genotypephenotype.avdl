@@ -6,7 +6,7 @@ protocol GenotypePhenotype {
 
 import idl "../common.avdl";
 import idl "../variants.avdl";
-import idl "metadata.avdl";
+import idl "../metadata.avdl";
 
 /**
 An association between a variant or variant set and a phenotype
