@@ -23,6 +23,10 @@ record Reference {
   The `Segment` describing this `Reference`'s sequence in the `ReferenceSet`'s
   sequence graph.
 
+  The `Segment` will generally cover the entirety of the sequence, but may be
+  shorter if only a subrange of a sequence is to be included in the
+  `ReferenceSet`.
+
   The sequence ID of the `Segment` also serves as the ID of the `Reference`.
 
   The actual sequence bases for a `Reference` are available through the
