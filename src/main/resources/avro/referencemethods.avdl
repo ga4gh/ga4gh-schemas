@@ -1,7 +1,8 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.methods")
 protocol ReferenceMethods {
 
 import idl "common.avdl";
+import idl "methods.avdl";
 import idl "references.avdl";
 
 /****************  /referencesets/search  *******************/
@@ -51,7 +52,7 @@ expressed as JSON.
 */
 record SearchReferenceSetsResponse {
   /** The list of matching reference sets. */
-  array<ReferenceSet> referenceSets = [];
+  array<org.ga4gh.models.ReferenceSet> referenceSets = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -69,22 +70,22 @@ Gets a list of `ReferenceSet` matching the search criteria.
 version of `SearchReferenceSetsResponse`.
 */
 SearchReferenceSetsResponse searchReferenceSets(
-    /**
-    This request maps to the body of `POST /referencesets/search`
-    as JSON.
-    */
-    SearchReferenceSetsRequest request) throws GAException;
+  /**
+  This request maps to the body of `POST /referencesets/search`
+  as JSON.
+  */
+  SearchReferenceSetsRequest request) throws GAException;
 
 /****************  /referencesets/{id}  *******************/
 /**
 Gets a `ReferenceSet` by ID.
 `GET /referencesets/{id}` will return a JSON version of `ReferenceSet`.
 */
-ReferenceSet getReferenceSet(
-    /**
-    The ID of the `ReferenceSet`.
-    */
-    string id) throws GAException;
+org.ga4gh.models.ReferenceSet getReferenceSet(
+  /**
+  The ID of the `ReferenceSet`.
+  */
+  string id) throws GAException;
 
 /****************  /references/search  *******************/
 /**
@@ -92,6 +93,11 @@ This request maps to the body of `POST /references/search`
 as JSON.
 */
 record SearchReferencesRequest {
+  /**
+  If present, return only references which belong to this reference set.
+  */
+  union { null, string } referenceSetId = null;
+
   /**
   If present, return references which match any of the given `md5checksums`.
   See `Reference::md5checksum` for details.
@@ -126,7 +132,7 @@ This is the response from `POST /references/search` expressed as JSON.
 */
 record SearchReferencesResponse {
   /** The list of matching references. */
-  array<Reference> references = [];
+  array<org.ga4gh.models.Reference> references = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -144,22 +150,22 @@ Gets a list of `Reference` matching the search criteria.
 version of `SearchReferencesResponse`.
 */
 SearchReferencesResponse searchReferences(
-    /**
-    This request maps to the body of `POST /references/search`
-    as JSON.
-    */
-    SearchReferencesRequest request) throws GAException;
+  /**
+  This request maps to the body of `POST /references/search`
+  as JSON.
+  */
+  SearchReferencesRequest request) throws GAException;
 
 /****************  /references/{id}  *******************/
 /**
 Gets a `Reference` by ID.
 `GET /references/{id}` will return a JSON version of `Reference`.
 */
-Reference getReference(
-    /**
-    The ID of the `Reference`.
-    */
-    string id) throws GAException;
+org.ga4gh.models.Reference getReference(
+  /**
+  The ID of the `Reference`.
+  */
+  string id) throws GAException;
 
 /****************  /references/{id}/bases  *******************/
 /**
@@ -219,9 +225,9 @@ Lists `Reference` bases by ID and optional range.
 `ListReferenceBasesResponse`.
 */
 ListReferenceBasesResponse getReferenceBases(
-    /** The ID of the `Reference`. */
-    string id,
-    /** Additional request parameters to restrict the query. */
-    ListReferenceBasesRequest request) throws GAException;
+  /** The ID of the `Reference`. */
+  string id,
+  /** Additional request parameters to restrict the query. */
+  ListReferenceBasesRequest request) throws GAException;
 
 }

@@ -1,6 +1,7 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.methods")
 protocol MetadataMethods {
 
+import idl "methods.avdl";
 import idl "metadata.avdl";
 
 /******************  /individuals/search  *********************/
@@ -39,7 +40,7 @@ record SearchIndividualsResponse {
   /**
   The list of matching individuals.
    */
-  array<Individual> individuals = [];
+  array<org.ga4gh.models.Individual> individuals = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -63,6 +64,7 @@ SearchIndividualsResponse searchIndividuals(
 
 /******************  /samples/search  *********************/
 /** This request maps to the body of `POST /samples/search` as JSON. */
+
 record SearchSamplesRequest {
   /** If specified, restrict this query to samples for the given individuals. */
   array<string> individualIds = [];
@@ -94,7 +96,7 @@ record SearchSamplesResponse {
   /**
   The list of matching samples.
    */
-  array<Sample> samples = [];
+  array<org.ga4gh.models.Sample> samples = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -146,7 +148,7 @@ record SearchExperimentsResponse {
   /**
   The list of matching experiments.
    */
-  array<Experiment> experiments = [];
+  array<org.ga4gh.models.Experiment> experiments = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -200,7 +202,7 @@ record SearchIndividualGroupsResponse {
   /**
   The list of matching individual groups.
    */
-  array<IndividualGroup> individualGroups = [];
+  array<org.ga4gh.models.IndividualGroup> individualGroups = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -254,7 +256,7 @@ record SearchAnalysesResponse {
   /**
   The list of matching analyses.
    */
-  array<Analysis> analyses = [];
+  array<org.ga4gh.models.Analysis> analyses = [];
 
   /**
   The continuation token, which is used to page through large result sets.

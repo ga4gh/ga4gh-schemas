@@ -66,3 +66,6 @@ target/
 #********** Travis CI **********
 
 !.travis.yml
+
+#********** IntelliJ files ******
+*.iml
