@@ -160,7 +160,7 @@ record ReadGroupSet {
 
 /** A linear alignment can be represented by one CIGAR string. */
 record LinearAlignment {
-  /** The position of this alignment. */
+  /** The position of this alignment on a `Reference`. */
   Position position;
 
   /**
@@ -181,11 +181,13 @@ A string-to-reference-graph alignment can be represented by one CIGAR string and
 one `Path` through multiple `Reference`s, against which the CIGAR string is
 interpreted.
 
-Note that `Path`s are restricted to following reference adjacencies.
-If you want to align your read following adjacencies that are
-not present in the `ReferenceSet` to which you are aligning, you have a
-"chimeric" alignment, and should use multiple `ReadAlignment`s and the
-supplementaryAlignment flag instead of a single `GraphAlignment`.
+Note that `Path`s in `GraphAlignment`s are restricted to visiting `Reference`s 
+and following reference adjacencies. If a read needs to be aligned to sequences
+that are not present in a `ReferenceSet`, it needs to be aligned to a new
+`ReferenceSet` with those sequences. If a read needs to follow adjacencies that
+are not present in the `ReferenceSet` it's being aligned to, it should be
+represented as a "chimeric" alignment, and should use multiple `ReadAlignment`s
+and the supplementaryAlignment flag instead of a single `GraphAlignment`.
 
 Some especially large deletions could be represented just as well as a large
 deletion in the CIGAR string, or as a chimeric alignment.
