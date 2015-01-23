@@ -2,35 +2,105 @@
 /**
 This protocol defines common types used in the other GA4GH protocols. It does
 not have any methods; it is merely a library of types.
+
+Many of these types are related to defining sequence graphs. A sequence graph is
+a set of linear, possibly empty sequences, where each end of each sequence can
+join onto a side of a base in another sequence. The sequence being joined onto
+is a "parent" of the other sequence, which is a "child", and the graph is
+constrained such that parent-child relationships are acyclic.
+
+A sequence graph here is represented by a set of `Segment`s, each covering
+the entirety of a sequence and describing where its ends are joined.
+
+A `Path` through a sequence graph is an array of `Segment`s covering subregions
+of sequences, connected by joins from the graph.
 */
 protocol Common {
 
 /**
-An abstraction for referring to a genomic position, in relation to some
-already known reference. For now, represents a genomic position as a reference
-name, a base number on that reference (0-based), and a flag to say if it's the
-forward or reverse strand that we're talking about.
+Each base in a sequence graph has two sides, `PLUS` and `MINUS`.
+
+`PLUS` represents forwards, or the direction of increasing coordinates, while
+`MINUS` represents reverse-complement, or the direction of decreasing
+coordinates.
+>>>>>>> Refactoring the way sequence graphs are represented.
 */
-// TODO: Add support here for universally unique base IDs.
+enum Side {
+  PLUS,
+  MINUS
+}
+
+/**
+An abstraction for referring to a genomic position on a sequence.
+
+For now, represents a genomic position as a sequence ID, a base offset on that
+sequence (0-based), and a flag to say if it's the forward or reverse strand that
+we're talking about.
+*/
 record Position {
   /**
-  The name of the reference (or, more technically, the scaffold) in whatever
-  reference set is being used. Does not generally include a "chr" prefix, so for
-  example "X" would be used for the X chromosome.
+  The ID of the sequence on which the `Position` is located.
   */
-  string referenceName;
+  string id;
 
   /**
-  The 0-based offset from the start of the forward strand for that reference.
-  Genomic positions are non-negative integers less than reference length.
+  The 0-based offset from the start of the sequence string.
   */
-  long position;
+  long offset;
 
   /**
-  A flag to indicate if we are on the forward strand (`false`) or reverse
-  strand (`true`).
+  A flag to indicate if we are on the forward strand/downstream face (`PLUS`) or
+  reverse strand/upstream face (`MINUS`).
   */
-  boolean reverseStrand;
+  Side side;
+}
+
+/**
+A `Segment` represents a piece of sequence, which is optionally joined onto
+other `Segment`s of sequence at each end, forming a graph. The bases for a
+`Segment` are available through the `ListSegmentBases` API call.
+*/
+record Segment {
+  /**
+  The sequence ID and start index of this `Segment`. This base is always
+  included in the segment, regardless of strand.
+  */
+  Position start;
+
+  /**
+  The length of this `Segment`'s sequence, walking away from `start` in the
+  direction of `start.side`.
+  */
+  long length;
+
+  /**
+  Start and end `Position`s where this `Segment` attaches to other sequences.
+  Note that the segmentId for start and end might not be the same. The
+  `Segment`s covering the sequences onto which this `Segment` is joined are
+  called its "parents".
+  
+  `startJoin` is the join on the base at `start`, and may only be set if `start`
+  is at one end of the underlying sequence, pointing inwards. Similarly,
+  `endJoin` is the join at on the base at the opposite end of the `Segment`, and
+  may only be set if that base is similarly at one end of the underlying
+  sequence, being read in the appropriate direction.
+  */
+  union { null, Position } startJoin, endJoin;
+}
+
+/**
+A `Path` is an ordered list of `Segment`s. In general any contiguous path
+through a sequence graph, with no novel adjacencies, can be represented by a
+`Path`.
+*/
+record Path {
+  /**
+  We require that each adjacent pair of `Segment`s in a `Path` be related by a
+  join of one onto the end of the other that is present in the underlying
+  sequence graph. We also require that the whole array describes a single linear
+  path.
+  */
+  array<Segment> segments = [];
 }
 
 /**
