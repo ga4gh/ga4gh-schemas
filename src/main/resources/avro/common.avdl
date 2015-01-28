@@ -2,6 +2,325 @@
 /**
 This protocol defines common types used in the other GA4GH protocols. It does
 not have any methods; it is merely a library of types.
+
+##Sequences, Segments, and References
+
+A sequence is a component in a sequence graph, optionally joined at its ends to
+other sequences. Sequences are not directly retrievable through the API, but
+ranges of their bases can be downloaded.
+
+A `Segment` is a range on a sequence, possibly including the joins at the
+sequence's ends. It does not include base data. When you ask about the novel
+sequences that come in a `VariantSet`, you will get back `Segment`s covering
+them. A `Path` through a sequence graph is a list of `Segment`s.
+
+A `Reference` (defined in references.avdl) is an object that marks a sequence as
+part of a `ReferenceSet`'s sequence graph. It contains a `Segment` covering the
+sequence it belongs to.
+
+##Sequence Graph Concepts
+
+Many of the types defined here are related to defining sequence graphs. Sequence
+graph concepts can be illustrated on a piece of double-stranded DNA with two
+nicks in it, one on the top strand and one on the bottom strand. Here is an
+example where the top strand is GGTGGNG.
+
+```
+            | <- top strand nick at position (2,+)
+5' -------  -------------------  3'
+     G   G   T   G   G   N   G
+     C   C   A   C   C   N   C
+3' ----------------  ----------  5'
+                  | <- bottom strand nick at position (3,-)
+
+    +0- +1- +2- +3- +4- +5- +6- <- coordinates
+```
+
+A sequence is a piece of double-stranded DNA composed of a series of DNA
+basepairs. In the default forward orientation a sequence is specified by the DNA
+letters of its top strand, e.g. in this case GGTGGNG, where N indicates an
+unknown base. The basepairs are indexed left to right from 0 to 6 relative to
+this default orientation.  A sequence containing regions of uncertainty, denoted
+by Ns, is called a scaffold, while a sequence in which every base is known is
+called a contig. This sequence is a scaffold.
+
+In its default forward orientation, each basepair has a left or "+" side and a
+right or "-" side. For example, the left side of the T/A basepair in the above
+example lies immediately to the left of this basepair. The left side of the T/A
+basepair is represented by the position (2,+), where the index 2 is the same as
+that of the basepair itself, and the "+" confirms that we mean the default
+forward orientation. The right side is indicated using the "-" orientation. For
+example, the right side of the following G/C base pair is represented by the
+position (3,-).
+
+One way to think about a position in a sequence is to imagine that the DNA
+double helix is nicked, as shown above. When double stranded DNA is nicked, the
+5'-3' phosphodiester bond between two adjacent bases on one strand is broken,
+leaving  an exposed phosphate group on the 5' side, shown by the vertical bar
+(and an exposed hydroxyl group on the 3' side, not shown). From a chemical point
+of view, you can think of a position in a sequence as the the location in the
+double-stranded DNA of the exposed 5' phosphate group created by a nick. The
+position (2,+) is the exposed phosphate group of the top strand nick in the
+diagram above, and the position (3,-) is the same thing in  the bottom strand
+nick.
+
+Each nonempty sequence has a "start", which is the left side of the first
+basepair, and an "end", which is the right side of the last basepair. Each
+sequence has associated, possibly null, "start join" and "end join" positions,
+which indicate sides from other sequences that have been observed participating
+in phosphodiester bonds with the start and end, respectively, of this sequence.
+The sequence carrying the join is the "child", while the sequence on which the
+join is positioned is the "parent"; parent-child relationships are constrained
+to be acyclic. If a sequence with a start join and end join contains no
+basepairs, it represents a phosphodiester bond directly between the start join
+and end join sides.
+
+We use collections of segments to describe subgraphs of sequence graphs. A set
+of segments can describe an arbitrary sequence subgraph, while an ordered list
+of segments can describe a path through a sequence graph.
+
+A segment consists of a start position on a sequence, and a distance along that
+sequence (implying an end position). The length is interpreted by traversing the
+base of the position first, so a segment that starts on a right side will be
+read right to left, along the bottom strand of the sequence. If a segment begins
+at the start or end of a sequence, it can have a start join equal to the start
+join or end join of its sequence, respectively. Similarly, a segment that ends
+at the start or end of its sequence can carry an end join.
+
+For example, the graph consisting of just the sequence in the above example can
+be described as follows with a single segment:
+
+```
+Segment with top strand GGTGGNG in the reference sequence:
+startJoin = null
+start = (0,+)
+length = 7
+end = (6,-)
+endJoin = null
+```
+
+Now suppose the DNA given above were broken into 3 parts, and repaired in a new
+configuration such that the middle piece is inverted and a new C/G basepair is
+inserted at the first break, so the result would look like this:
+
+```
+            |   |       |
+5' -------  --  ------  -----------  3'
+     G   G   C   C   A   G   N   G
+     C   C   G   G   T   C   N   C
+3' --------  --  ------  ----------  5'
+          |   |       |
+    +0- +1-  ?  -3+ -2+ +4- +5- +6- <- coordinates
+```
+
+We would like to take the original sequence graph given above, and extend it
+with additional sequences to also describe this new observed variation.
+
+Since the added C/G basepair is novel DNA, an additional reference sequence must
+be defined to carry it. Let us call the existing GGTGGNG reference sequence
+"ref" and the new reference sequence "nov1". Thus, the new reference sequence
+"nov1" looks like
+
+```
+    "ref": "nov1":  "ref":
+
+      - 3' 5' -  3' 5' -
+ ...  G       C        C  ...
+ ...  C       G        G  ...
+      - 5' 3' -  5' 3' -
+
+     +1-     +0-      -3+   <- coordinates
+```
+
+In other words, it is a 1-basepair sequence, with a start join to the "-" side
+of "ref"'s basepair at coordinate 1, and an end join to the "-" side of "ref"'s
+basepair at coordinate 3.
+
+The subgraph of our new sequence graph involving "nov1" can be described as a
+single segment:
+
+```
+Segment with top strand C in the "nov1" reference sequence:
+startJoin = (1,-), "ref"
+start = (0,+)
+length = 1
+end = (0,-)
+endJoin = (3, -), "ref"
+
+```
+
+To describe the other new phosphodiester bonds that need to be added to the
+graph, between (2,+) and (4,+) in "ref", we need to create a new reference
+sequence which contains no basepairs at all; it is the empty sequence of DNA
+basepairs. Let the reference sequence "nov2" be such a reference sequence, with
+start and end joins set to describe these bonds. The reference sequence "nov2"
+has no coordinates, and no positions. It looks like this
+
+```
+    "ref": "nov2":  "ref":
+
+      - 3' 5'    3' 5' -
+ ...  A                G  ...
+ ...  T                C  ...
+      - 5' 3'    5' 3' -
+
+     -2+              +4-   <- coordinates
+```
+
+A reference sequence with only start and end joins is describable by a segment
+with only start and end joins. A segment from the "nov2" reference sequence
+would look like this:
+
+```
+Segment with empty top strand in the "nov2" reference sequence:
+startJoin = (2,+), "ref"
+start = null
+length = 0
+end = null
+endJoin = (4,+), "ref"
+```
+All its information will be in its startJoin and endJoin values.
+
+Defined by their top strands, we now have three reference sequences:
+
+```
+ref:    GGTGGNG
+nov1:   C
+nov2:   (empty)
+```
+
+Each has its own 0-based coordinate system, although the coordinate system for
+"nov2" is empty.
+
+The sequence graph formed by these three sequences is described by the following
+set of segments:
+
+```
+1. Segment with top strand GGTGGNG in the "ref" reference sequence:
+startJoin = null
+start = (0,+)
+length = 7
+end = (6,-)
+endJoin = null
+
+2. Segment with top strand C in the "nov1" reference sequence:
+startJoin = (1,-), "ref"
+start = (0,+)
+length = 1
+end = (0,-)
+endJoin = (3,-), "ref"
+
+3. Segment with top strand empty in the "nov2" reference sequence:
+startJoin = (2,+), "ref"
+start = null
+length = 0
+end = null
+endJoin = (4,+), "ref"
+```
+
+It looks like this:
+
+```
+      --C--
+     |     |
+=G==G==T==G==G==N==G=
+      |     |
+       -----
+```
+
+In this graph, there are two paths from (0,+) on "ref" to (6,-) on the same
+sequence. One of them proceeds directly along "ref", and represents the un-
+rearranged condition, while one detours through "nov1" and "nov2", and
+represents the new configuration of double-stranded DNA that results from the
+inversion of the middle piece of "ref" and the insertion of the new basepair
+from "nov1".
+
+The un-rearranged path is describable by a list of a single segment:
+
+```
+Segment with top strand GGTGGNG in the "ref" reference sequence:
+startJoin = null
+start = (0,+)
+length = 7
+end = (6,-)
+endJoin = null
+```
+
+It looks like this:
+
+```
+      --C--
+     |     |
+=G>=G=>T=>G=>G>=N>=G>
+      |     |
+       -----
+```
+
+The rearranged path is describable by a list of 5 segments, 3 of which are the
+contiguous pieces of the "ref" sequence, and 2 of which describe the newly added
+"nov1" and "nov2" sequences:
+
+```
+1. Segment with top strand GG in the "ref" reference sequence:
+startJoin = null
+start = (0,+)
+length = 2
+end = (1,-)
+endJoin = null
+
+2. Segment with top strand C in the "nov1" reference sequence, joined to parent
+"ref":
+startJoin = (1,-), "ref"
+start = (0,+)
+length = 1
+end = (0,-)
+endJoin = (3,-), "ref"
+
+3. Segment with top strand TG in the "ref" reference sequence:
+startJoin = null
+start = (3,-)
+length = 2
+end = (2,+)
+endJoin = null
+
+4. Segment with top strand empty in the "nov2" reference sequence, joined to
+parent "ref":
+startJoin = (2,+), "ref"
+start = null
+length = 0
+end = null
+endJoin = (4,+), "ref"
+
+5.  Segment with top strand GNG in the "ref" reference sequence:
+startJoin = null
+start = (4,+)
+length = 3
+end = (6,-)
+endJoin = null
+```
+
+It looks like this:
+
+```
+      --C>-
+     ^     |
+=G>=G=<T=<G==G>=N>=G>
+      |     ^
+       -->--
+```
+
+Notice that we always maintain the coordinate system on the reference sequence.
+The inverted middle segment is specified as starting at a position corresponding
+to a nick in the bottom strand of the reference sequence, and continuing on 2
+basepairs in a right-to-left direction along the reference sequence. It does not
+get new coordinates relative to its final orientation or position in the
+rearranged conformation. Also, all of the novel adjacencies in the sequence
+graph involve actual novel segments, even if some of these are empty. This is
+good for bookkeeping; we want to be able to keep the parent sequences constant
+and add new child sequences to express new variants. Overall, this scheme allows
+us to create sequence graphs describing any number of configurations and
+reconfigurations of reference DNA sequences, and to describe paths through those
+graphs representing particular arrangements.
 */
 protocol Common {
 
@@ -18,30 +337,113 @@ enum Strand {
 }
 
 /**
-An abstraction for referring to a genomic position, in relation to some
-already known reference. For now, represents a genomic position as a reference
-name, a base number on that reference (0-based), and a flag to say if it's the
-forward or reverse strand that we're talking about.
+A `Position` is a side of a base pair in some already known sequence. A
+`Position` is represented by a sequence name or ID, a base number on that
+sequence (0-based), and a `Strand` to indicate the left or right side.
+
+For example, given the sequence "GTGG", the `Position` on that sequence at
+offset 1 in the forward orientation would be the left side of the T/A base pair.
+The base at this `Position` is "T". Alternately, for offset 1 in the reverse
+orientation, the `Position` would be the right side of the T/A base pair, and
+the base at the `Position` is "A".
+
+Offsets added to a `Position` are interpreted as reading along its strand;
+adding to a reverse strand position actually subtracts from its `position`
+member.
 */
-// TODO: Add support here for universally unique base IDs.
 record Position {
   /**
-  The name of the reference (or, more technically, the scaffold) in whatever
-  reference set is being used. Does not generally include a "chr" prefix, so for
-  example "X" would be used for the X chromosome.
+  The name of the reference sequence in whatever reference set is being used.
+  Does not generally include a "chr" prefix, so for example "X" would be used
+  for the X chromosome.
+
+  If `sequenceId` is null, this must not be null.
   */
-  string referenceName;
+  union { null, string } referenceName = null;
 
   /**
-  The 0-based offset from the start of the forward strand for that reference.
-  Genomic positions are non-negative integers less than reference length.
+  The ID of the sequence on which the `Position` is located. This may be a
+  `Reference` sequence, or a novel piece of sequence associated with a
+  `VariantSet`.
+
+  If `referenceName` is null, this must not be null.
+
+  If the server supports the "graph" mode, this must not be null.
+  */
+  union { null, string } sequenceId = null;
+
+  /**
+  The 0-based offset from the start of the forward strand for that sequence.
+  Genomic positions are non-negative integers less than sequence length.
   */
   long position;
 
   /**
-  Strand the position is associated with.
+  Strand the position is associated with. `POS_STRAND` represents the forward
+  strand, or equivalently the left side of a base, and `NEG_STRAND` represents
+  the reverse strand, or equivalently the right side of a base.
   */
   Strand strand;
+}
+
+/**
+A `Segment` is a range on a sequence, possibly including the joins at the
+sequence's ends. It does not include base data. (The bases for a sequence are
+available through the `getSequenceBases()` API call.)
+
+In the sequence "GTGG", the segment starting at index 1 on the forward strand
+with length 2 is the "TG" on the forward strand. The length-2 segment starting
+at index 1 on the reverse strand is "AC", corresponding to the first two base
+pairs of the sequence, or the last two bases of the reverse complement.
+*/
+record Segment {
+  /**
+  The sequence ID and start index of this `Segment`. This base is always
+  included in the segment, regardless of orientation.
+  */
+  Position start;
+
+  /**
+  The length of this `Segment`'s sequence. If `start` is on the forward strand,
+  the `Segment` contains the range [`start.position`, `start.position` +
+  `length`). If `start` is on the reverse strand, the `Segment` contains the
+  range (`start.position` - `length`, `start.position`]. This is equivalent to
+  starting from the side indicated by `start`, and traversing through that base
+  out to the specified length.
+  */
+  long length;
+
+  /**
+  Start and end `Position`s where this `Segment` attaches to other sequences.
+  Note that the segmentId for start and end might not be the same. The
+  `Segment`s covering the sequences onto which this `Segment` is joined are
+  called its "parents", while this segment is a "child".
+
+  Joins may occur on the outer sides of the terminal bases in a sequence: the
+  left side of the base at index 0, and the right side of the base with maximum
+  index. These are the "terminal sides" of the sequence. `startJoin` is the join
+  on the side indicated by `start`, and may only be set if that side is a
+  terminal side. Similarly, `endJoin` is the join on the opposite side of the
+  piece of sequence selected by the segment, and may only be set if that side is
+  a terminal side. The value of `startJoin` or `endJoin`, if set, is the side to
+  which the corresponding side of this `Sequence` is connected.
+  */
+  union { null, Position } startJoin = null;
+  union { null, Position } endJoin = null;
+}
+
+/**
+A `Path` is an ordered list of `Segment`s. In general any contiguous path
+through a sequence graph, with no novel adjacencies, can be represented by a
+`Path`.
+*/
+record Path {
+  /**
+  We require that one of each consecutive pair of `Segment`s in a `Path` be
+  joined onto the other. `Segment`s appear in the order in which they occur when
+  walking the path from one end to the other.
+  */
+  array<Segment> segments = [];
 }
 
 /**
