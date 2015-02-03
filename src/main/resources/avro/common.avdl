@@ -6,6 +6,18 @@ not have any methods; it is merely a library of types.
 protocol Common {
 
 /**
+Indicates the DNA strand associate for some data item.
+* `POS_STRAND`:  The postive (+) strand.
+* `NEG_STRAND`: The negative (-) strand.
+* `NO_STRAND`: Strand-independent data or data where the strand can not be determined.
+*/
+enum Strand {
+  POS_STRAND,
+  NEG_STRAND,
+  NO_STRAND
+}
+
+/**
 An abstraction for referring to a genomic position, in relation to some
 already known reference. For now, represents a genomic position as a reference
 name, a base number on that reference (0-based), and a flag to say if it's the
@@ -27,10 +39,9 @@ record Position {
   long position;
 
   /**
-  A flag to indicate if we are on the forward strand (`false`) or reverse
-  strand (`true`).
+  Strand the position is associated with.
   */
-  boolean reverseStrand;
+  Strand strand;
 }
 
 /**
