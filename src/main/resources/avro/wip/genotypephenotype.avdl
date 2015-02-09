@@ -56,30 +56,6 @@ record Phenotype {
 
 }
 
-/**
-An association between a variant or variant set and a phenotype
-*/
-record VariantPhenotypeAssociation {
-  string id;
-
-  string evidenceSetId;
-
-  /**
-    The set of variants of the organism that bears the phenotype.
-    If the goal is to associate a single variant, then a singleton VariantSet is used
-  */
-  string variantSetId;
-
-  /**
-    The phenotypic component of this association.
-    Note that we delegate this to a separate record to allow us the flexibility to composition of phenotype
-    associations with records that are not variant sets - for example, diseases.
-  */
-  Phenotype phenotypeAssociation;
-
-}
-
-
 
 /**
 Evidence for the phenotype association.
@@ -93,5 +69,30 @@ record Evidence {
   union { null, string } description = null;
 
 }
+
+/**
+An association between a variant or variant set and a phenotype
+*/
+record VariantPhenotypeAssociation {
+  string id;
+
+  /**
+    The set of variants of the organism that bears the phenotype.
+    If the goal is to associate a single variant, then a singleton VariantSet is used
+  */
+  org.ga4gh.models.VariantSet variant;
+
+  Evidence evidence;
+
+  /**
+    The phenotypic component of this association.
+    Note that we delegate this to a separate record to allow us the flexibility to composition of phenotype
+    associations with records that are not variant sets - for example, diseases.
+  */
+  Phenotype phenotype;
+
+}
+
+
 
 }
