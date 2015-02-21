@@ -5,6 +5,25 @@ import idl "common.avdl";
 import idl "methods.avdl";
 import idl "references.avdl";
 
+/****************  /mode/{mode}  *******************/
+/*
+See if the server will return fields necessary for interpreting data in the
+given mode. If the server supports a mode, it must serve the string "true" at
+this URL, and this method will return true on the client side. If the server
+does not support a mode, it must return "false".
+
+If the server supports a mode, all fields that that mode requires must be filled
+in the server's responses.
+
+Valid modes are currently "classic" and "graph", with the "graph" mode to be
+prefered by new client and server implementations.
+*/
+boolean sendsMode(
+  /**
+  The mode to ask about.
+  */
+  string mode) throws GAException;
+
 /****************  /referencesets/search  *******************/
 /**
 This request maps to the body of `POST /referencesets/search`
@@ -103,6 +122,12 @@ record SearchReferencesRequest {
   See `Reference::md5checksum` for details.
   */
   array<string> md5checksums = [];
+
+  /**
+  If nonempty, return references that are joined onto references with one of the
+  specified IDs.
+  */
+  array<string> parentReferenceIds = [];
 
   /**
   If present, return references for which the accession
@@ -229,5 +254,69 @@ ListReferenceBasesResponse getReferenceBases(
   string id,
   /** Additional request parameters to restrict the query. */
   ListReferenceBasesRequest request) throws GAException;
+
+/****************  /sequence/{id}  *******************/
+/**
+The query parameters for a request to `GET /sequence/{id}`, for
+example:
+
+`GET /sequence/c95d4520-8c63-45f1-924d-6a9604a919fb?start=100&end=200`
+*/
+record GetSequenceBasesRequest {
+  /**
+  The start position (0-based) of this query. Defaults to 0.
+  Genomic positions are non-negative integers less than segment length.
+  Requests spanning the join of circular genomes are represented as
+  two requests one on each side of the join (position 0).
+  */
+  long start = 0;
+
+  /**
+  The end position (0-based, exclusive) of this query. Defaults
+  to the length of this `Segment`.
+  */
+  union { null, long } end = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;
+}
+
+/** The response from `GET /sequence/{id}` expressed as JSON. */
+record GetSequenceBasesResponse {
+  /**
+  The offset position (0-based) of the returned string in the sequence. This
+  value will differ for each page in a paginated request.
+   */
+  long offset = 0;
+
+  /**
+  A substring of the sequence requested. Bases are represented as IUPAC-IUB
+  codes; this string matches the regexp `[ACGTMRWSYKVHDBN]*`.
+  */
+  string sequence;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Lists bases by sequence ID and optional range. `GET /sequence/{id}` will return
+a JSON version of `GetSequenceBasesResponse`. Works for sequences with
+associated `Reference`s, as well as novel sequences that come with
+`VariantSet`s.
+*/
+GetSequenceBasesResponse getSequenceBases(
+    /** The ID of the sequence. */
+    string id,
+    /** Additional request parameters to restrict the query. */
+    GetSequenceBasesRequest request) throws GAException;
 
 }
