@@ -146,7 +146,7 @@ record ResponseResource {
   string exists;
 
   /** frequency */
-  double frequency;
+  union{ null, double } frequency;
 
   /** # observed */
   union{ null, int } observed = null;
