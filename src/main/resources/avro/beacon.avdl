@@ -10,7 +10,11 @@ protocol BEACON {
 A request for information about a specific site
 */
 record QueryResource {
-  /** Allele string (might include wildcards). */
+  /** Allele string. Use I<seq> for insertions and Dn for deletions, 
+      where <seq> is the nucleotide sequence inserted after position 
+      and n is a number of nucleotides deleted from the reference 
+      starting at position.  
+   */
   string allele;
 
   /** The chromosome of the request */
@@ -24,18 +28,6 @@ record QueryResource {
 
   /** The name of the targeted population */
   union{ null, string } dataset = null;
-}
-
-
-/**
-Frequencies of alleles
-*/
-record AlleleResource {
-  /** Allele string as per allele property of requests */
-  string allele;
-
-  /** Frequency of the allele. Between 0 and 1 */
-  double frequency;
 }
 
 /**
@@ -153,8 +145,8 @@ record ResponseResource {
   otherwise. */
   string exists;
 
-  /** frequencies */
-  array<AlleleResource> frequencies = [];
+  /** frequency */
+  double frequency;
 
   /** # observed */
   union{ null, int } observed = null;
