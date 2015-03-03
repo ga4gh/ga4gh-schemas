@@ -1,0 +1,263 @@
+@namespace("org.ga4gh.wip")
+
+/**
+A sequence graph is made progressively joining new sequence pieces, which we
+call variants, into an existing graph.  This starts with a primary sequence. For
+example consider the primary sequence in GRCh38 for a chromosome.  Then variants
+can be joined into it, starting on a defined side of a defined base in the
+existing structure, containing new sequence (potentially empty if a pure
+deletion or breakpoint) and then joining back to another defined side of another
+base in the current graph.
+
+An arbitrarily complex reference graph is built this way, but we can also use
+the same construction to specify individual variants from the reference.
+
+Any base in the graph will have a unique identity defined by its variant id and
+0-based position in the variant sequence.  It is oriented in the direction of
+the variant sequence.
+
+We support a context model for uniquely identifying bases in the graph.
+Currently this is the UCSC left-right mapping proposal as proposed by Paten,
+Haussler et al. - http://arxiv.org/abs/1404.5010
+*/
+protocol VariationReference {
+
+import idl "../common.avdl";
+
+/**
+PLUS represents forwards, or the direction of increasing coordinates, while
+MINUS represents reverse-complement, or the direction of decreasing coordinates.
+*/
+enum VariantSide {
+  PLUS,
+  MINUS
+}
+
+
+record VariantJoinLocation {
+  string variantId; // id of the variant in which this location is based
+  int position;     // 0-based
+  VariantSide side;
+}
+
+record Variant {
+  string id;
+
+  /**
+  Start and end locations of how this variant fits into the existing graph.
+  start and end are {0,0,FORWARD} for a primary sequence. Note that the
+  variantId for start and end may not be the same.
+  */
+  VariantJoinLocation startJoin, endJoin;  
+
+
+  /**
+  The sequence to insert between startJoin and endJoin. We must be able to
+  access sequence, but could allow it to be generated from a global identifier
+  such as a versioned INSDC accession stored in info. [Propose adding additional
+  object to define the latter in common.avdl]
+  */
+  string sequence; 
+
+  // For variants that are part of a reference to which new sequences (e.g.
+  // reads) are being mapped, a context function must be defined in
+  // referenceVariationMethods.avdl so that bases in the reads can be mapped to
+  // bases in the reference variant.
+
+  /**
+  We may need to say other things about the variant, e.g. origin, dbSNP...
+  */
+  map<string> info = {};
+}
+
+/*
+Next we show how to provide information about samples.  The core idea is to
+provide Calls which each contain information about an Allele in a CallSet.
+Loosely the alleles correspond to rows in a VCF and the callsets to a column,
+but there are some key differences.
+
+First, we provide information separately about alleles not sites (unary variant
+model).  We can determine from the graph whether two alleles are incompatible in
+the same haplotype and hence "allelic" in the standard usage of the term.  Note
+that this is a pairwise relation, not transitive, so we don't support sites as
+sets of alleles in the way that VCF does.  This avoids the problems when merging
+sites in VCF.  Our merge semantics are simple: only merge identical alleles.
+Identity can be checked by name when sharing a global name and definition space,
+or recursively by how the alleles are constructed from global objects when scope
+is local.
+
+Second, we represent phase information by separate haplotype callSets, rather
+than using some sort of | or / or | notation or equivalent in the calls of a
+genotype callSet.  So genotype callSets just contain allele counts (copy number)
+or dosages.  This is the only way to provide phase data. Because we support
+sparse callSets, which we hope can be lightweight, each piece of partial phasing
+(as for example supported by phase sets in VCF) will be a separate haplotype
+CallSet on the same sample.
+*/
+
+/**
+A Segment is a basic piece of sequence from the graph out of which more complex
+things can be made.
+*/
+record Segment {
+  /**
+  References an id of a Variant.
+  */
+  string variantId;
+  
+  /**
+  start is 0-based and inclusive, end is exclusive. So start <= x < end if end >
+  start, or end < x <= start if end < start. Genomic positions are non-negative
+  integers less than reference length. Segments spanning the join of circular
+  genomes are represented as two segments, one on each side of the join
+  (position 0). If start == 0 and end == 0 then this is the whole Variant, and
+  otherwise we require end != start.
+  */
+  int start, end;
+       
+  VariantSide side; 
+  
+  /**
+  Alternatie to end.
+  */
+  int length;
+}
+
+/*
+An Allele is a contigous piece of sequence that we will want to say is present
+(in general at some copy number) or absent in a sample.  Very often it will just
+be a variant, but it can also be a segment of the reference, or of another
+variant, or in the general case a contigous series of segments running across
+variant boundaries.
+*/
+record Allele {
+  /**
+  If this Allele is a clean variant, then reuse variantId.
+  */
+  string id;  
+
+  /**
+  Require that segments abut in order. Also require they are maximal, i.e. that
+  consecutive elements of the array can not be replaced by a single element.
+  */
+  array<Segment> sequence;   
+}
+
+enum CallSetType {
+  GENOTYPE,
+  HAPLOTYPE
+}
+
+record CallSet {
+  // Would be good to clarify how this relates to the CallSample object in
+  // variants.avdl
+  
+  string id;
+
+  /**
+  Can use the name here in absence of better sample structure.
+  */
+  string sampleId; 
+
+  /**
+  A CallSet must be either a genotype or a haplotype. This field specifies
+  which.
+  */
+  CallSetType callsetType; 
+
+  // For diploid genotypes the copy number of an allele will typically be 0, 1
+  // or 2; for haplotypes it will be 0 or 1
+
+  /**
+  We may need to say other things about the callset, e.g. derivation.
+  */
+  map<string> info = {};
+}
+
+record Call {
+  /**
+  References an id of CallSet
+  */
+  string callSetId;
+  
+  /**
+  References an id of Allele
+  */ 
+  string alleleID;
+
+  // not all of the following will be present, but at least one should be
+  
+  /**
+  0 for not present in callSet, 1 for single copy, 2 for 2 copies etc. 
+  */
+  union { null, int } copyNumber = null; 
+  
+  /**
+  Expected value of copyNumber.
+  */
+  union { null, float } dosage = null;
+  
+  /**
+  Probability that copy number is k: 0..n
+  */ 
+  array<float> probability = [];
+  
+  /**
+  Likelihood of data given copy number k.
+  */
+  array<float> likelihood = []; 
+  
+  /**
+  Number of reads supporting this allele (DP in VCF).
+  */
+  union { null, int } readCount = null;
+  
+  /**
+  Potential other evidence for the call.
+  */
+  map<string> evidence = {};
+}
+
+/* 
+The call values in a callset are not explicitly ordered and oriented. This
+reflects typically the data we have about them.  In many cases we can infer
+order and orientation from the reference graph on which the alleles are defined,
+for example for a sequence of simple variants (SNPs, indels etc) along a
+reference.  But in the general case with multiple copies of alleles and
+rearrangements this is not the case.  For when we do want to explicitly state
+the order and orientation of alleles we define a VariantScaffold record.
+*/
+
+record VariantScaffold {
+  string id;
+
+  array<Allele> alleles;
+  
+  /**
+  Orientation of each allele.
+  */
+  array<boolean> isForwards;
+  
+  /**
+  Sizes of gaps between alleles, array length is 1 less than no. of alleles.
+  */
+  array<int> gapSizes = [];   
+}
+
+/*
+Finally, note that while typically an Allele is short, this structure also
+allows us to define a long allele as a literal sequence path through the graph
+incorporating (parts of) multiple variants.
+
+For example, it supports defining alleles to represent ALT haplotypes from
+GRCh38 or an LRG (clinical locus-specific reference sequence) that differs from
+the canonical reference.
+
+Other people may want to define variants on these "Allele" sequences.  It would
+be possible to write code to map those onto the reference graph.  This could
+support mapping variants between coordinate systems.  There has been interesting
+discussion about this in the context of dbSNP and representation of variation on
+multiple references.
+*/
+
+} // end of protocol
