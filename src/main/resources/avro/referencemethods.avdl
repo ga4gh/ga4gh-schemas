@@ -261,17 +261,28 @@ ListReferenceBasesResponse getReferenceBases(
   /** Additional request parameters to restrict the query. */
   ListReferenceBasesRequest request) throws GAException;
 
-/****************  /sequence/{id}  *******************/
+/****************  /sequences/{id}  *******************/
 /**
-The query parameters for a request to `GET /sequence/{id}`, for
+Gets a `Sequence` by ID.
+`GET /sequences/{id}` will return a JSON version of `Sequence`.
+*/
+org.ga4gh.models.Sequence getSequence(
+  /**
+  The ID of the `Sequence`.
+  */
+  string id) throws GAException;
+
+/****************  /sequences/{id}/bases  *******************/
+/**
+The query parameters for a request to `GET /sequences/{id}/bases`, for
 example:
 
-`GET /sequence/c95d4520-8c63-45f1-924d-6a9604a919fb?start=100&end=200`
+`GET /sequences/c95d4520-8c63-45f1-924d-6a9604a919fb/bases?start=100&end=200`
 */
 record GetSequenceBasesRequest {
   /**
   The start position (0-based) of this query. Defaults to 0.
-  Genomic positions are non-negative integers less than segment length.
+  Genomic positions are non-negative integers less than `Sequence` length.
   Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
   */
@@ -279,7 +290,7 @@ record GetSequenceBasesRequest {
 
   /**
   The end position (0-based, exclusive) of this query. Defaults
-  to the length of this `Segment`.
+  to the length of this `Sequence`.
   */
   union { null, long } end = null;
 
@@ -291,7 +302,7 @@ record GetSequenceBasesRequest {
   union { null, string } pageToken = null;
 }
 
-/** The response from `GET /sequence/{id}` expressed as JSON. */
+/** The response from `GET /sequences/{id}/bases` expressed as JSON. */
 record GetSequenceBasesResponse {
   /**
   The offset position (0-based) of the returned string in the sequence. This
@@ -314,8 +325,8 @@ record GetSequenceBasesResponse {
 }
 
 /**
-Lists bases by sequence ID and optional range. `GET /sequence/{id}` will return
-a JSON version of `GetSequenceBasesResponse`. Works for sequences with
+Lists bases by sequence ID and optional range. `GET /sequences/{id}/bases` will
+return a JSON version of `GetSequenceBasesResponse`. Works for sequences with
 associated `Reference`s, as well as novel sequences that come with
 `VariantSet`s.
 */

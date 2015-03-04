@@ -5,7 +5,7 @@ Defines types used by the GA4GH References API.
 
 References API servers may implement either or both of two modes: "classic", in
 which all `Reference`s annotate simple linear strings, and "graph", in which
-`Reference`s annotate sequences in sequence graphs. The "graph" mode is to be
+`Reference`s annotate `Sequence`s in sequence graphs. The "graph" mode is to be
 prefered in new client and server implementations.
 */
 protocol References {
@@ -19,9 +19,9 @@ reference coordinate space for other genomic annotations. A single
 
 `Reference`s are designed to be immutable. When extending a `ReferenceSet` with
 new `Reference`s, the existing `References` should not be changed. Newly added
-`Reference` sequences may be children of existing `Reference` sequences, but
-existing `Reference` sequences should not be made to be children of newly added
-`Reference` sequences.
+`Reference` `Sequence`s may be children of existing `Reference` `Sequence`s, but
+existing `Reference` `Sequence`s should not be made to be children of newly
+added `Reference` `Sequence`s.
 
 An API server that supports the "graph" mode must always set the `segment`
 field. An API server that supports the "classic" mode must always set the `id`
@@ -31,32 +31,39 @@ field. New client and server implementations should prefer the "graph" mode.
 record Reference {
 
   /**
-  The `Segment` describing this `Reference`'s sequence in the `ReferenceSet`'s
+  The `Segment` describing this `Reference`'s `Sequence` in the `ReferenceSet`'s
   sequence graph.
 
-  The `Segment` will generally cover the entirety of the sequence, but may be
-  shorter if only a subrange of a sequence is to be included in the
+  The `Segment` will generally cover the entirety of the `Sequence`, but may be
+  shorter if only a subrange of a `Sequence` is to be included in the
   `ReferenceSet`.
 
-  The sequence ID of the `Segment` is equal to ID of the `Reference`. The
-  actual sequence bases for a `Reference` are available through the
-  `getSequenceBases()` API call on this `Reference`'s sequence.
+  The `Sequence` ID of the `Segment` is equal to ID of the `Reference`. The
+  actual `Sequence` bases for a `Reference` are available through the
+  `getSequenceBases()` API call on this `Reference`'s `Sequence`.
 
   If the API server supports the "graph" mode, this field must not be null.
   */
   union { null, Segment } segment = null;
 
   /**
-  The reference ID. Unique within the repository. A sequence with this ID
+  The reference ID. Unique within the repository. A `Sequence` with this ID
   exists, containing the reference's bases. If null, `segment` must be set, and
-  the sequence ID field from `segment` is used.
+  the `Sequence` ID field from `segment` is used.
 
   If the API server supports the "classic" mode, this field must not be null.
   */
   union { null, string } id = null;
 
-  /** The length of this reference's sequence. */
-  long length;
+  /**
+  The number of bases in this `Reference`.
+
+  Ought to agree with `segment.length`, and at least one of the two fields must
+  exist on any `Reference`.
+
+  If the API server supports the "classic" mode, this field must not be null.
+  */
+  union { null, long } length = null;
 
   /**
   The MD5 checksum uniquely representing this `Reference` and its position in
@@ -157,7 +164,7 @@ record ReferenceSet {
   ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) indicating
   the species which this assembly is intended to model. Note that contained
   `Reference`s may specify a different `ncbiTaxonId`, as assemblies may
-  contain reference sequences which do not belong to the modeled species, e.g.
+  contain reference `Sequence`s which do not belong to the modeled species, e.g.
   EBV in a human reference genome.
   */
   union { null, int } ncbiTaxonId = null;
@@ -165,7 +172,7 @@ record ReferenceSet {
   /** Optional free text description of this reference set. */
   union { null, string } description = null;
 
-  // next information about the source of the sequences
+  // next information about the source of the `Sequence`s
 
   /** Public id of this reference set, such as `GRCh37`. */
   union { null, string } assemblyId = null;
@@ -181,7 +188,7 @@ record ReferenceSet {
 
   /**
   A reference set may be derived from a source if it contains
-  additional sequences, or some of the sequences within it are derived
+  additional `Sequence`s, or some of the `Sequence`s within it are derived
   (see the definition of `isDerived` in `Reference`).
   */
   boolean isDerived = false;
