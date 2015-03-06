@@ -84,10 +84,10 @@ JSON.
 */
 record SearchVariantSetSequencesResponse {
   /**
-  The list of `Sequence`s for matching sequences from the novel sequence graph
+  The list of `Segment`s for matching sequences from the novel sequence graph
   for the `VariantSet`.
   */
-  array<org.ga4gh.models.Sequence> sequences = [];
+  array<org.ga4gh.models.Segment> segments = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -98,7 +98,7 @@ record SearchVariantSetSequencesResponse {
 }
 
 /**
-Gets novel `Sequence`s in the `VariantSet` that match the search criteria.
+Gets `Segment`s covering the sequences that match the search criteria.
 
 `POST /variantsets/{id}/sequences/search` must accept a JSON version of
 `SearchVariantSetSequencesRequest` as the post body and will return a JSON
@@ -114,6 +114,25 @@ SearchVariantSetSequencesResponse searchVariantSetSequences(
   JSON.
   */
   SearchVariantSetSequencesRequest request) throws GAException;
+
+/*****************  /variantsets/{id}/sequences/{id}  *******************/
+/**
+Gets a `Segment` describing a novel sequence in a `VariantSet`, by sequence
+ID.
+
+`GET /variantsets/{id}/sequences/{id}` will return a JSON version of a `Segment`
+covering the novel sequence with the given ID, and describing where it is
+joined onto its parent sequences.
+*/
+org.ga4gh.models.Segment getVariantSetSequence(
+  /**
+  The ID of the `VariantSet` which provides the novel sequence.
+  */
+  string variantSetId,
+  /**
+  The ID of the novel sequence to get a covering `Segment` for.
+  */
+  string sequenceId) throws GAException;
 
 /******************  /variants/search  *********************/
 /** This request maps to the body of `POST /variants/search` as JSON. */
@@ -201,8 +220,7 @@ as the post body and will return a JSON version of `SearchVariantsResponse`.
 SearchVariantsResponse searchVariants(
   /** This request maps to the body of `POST /variants/search` as JSON. */
   SearchVariantsRequest request) throws GAException;
-
-/**************** /variants/{id} *******************/
+  /**************** /variants/{id} *******************/
 /**
 Gets a `Variant` by ID.
 `GET /variants/{id}` will return a JSON version of `Variant`.

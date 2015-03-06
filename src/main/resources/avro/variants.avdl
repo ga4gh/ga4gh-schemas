@@ -368,10 +368,10 @@ sequence graph.
 `Allele`s belong to `VariantSet`s. `Allele`s can also be used to represent the
 reference and alternate alleles of `Variant`s.
 
-Note that `Path`s cannot follow adjacencies not represented in the augmented
+Note that `Path`s cannot follow `Join`s not represented in the augmented
 sequence graph. For example, if  an `Allele` that spans a novel deletion is
-required, a new empty-string `Sequence` should exist to describe that deletion
-adjacency, available through `searchVariantSetSequences()`.
+required, a new `Join` should exist to describe that deletion, available through
+`searchJoins()`.
 */
 record Allele {
   /**
@@ -385,12 +385,10 @@ record Allele {
 
   /**
   The ordered and oriented `Segment`s of DNA that this `Allele` represents.
-  Note that a `Segment` in this `Path` that is 0-length represents the
-  adjacency immediately before the named base.
 
   `Segment`s on this `Path` are on either `Reference` `Sequence`s, or
-  `Sequence`s available through the `searchVariantSetSequences()` API call in
-  this `VariantSet`.
+  `Sequence`s associated with this `VariantSet. Both types of `Sequence`s are
+  available through the `searchSequences()` and `getSequence()` API calls.
   */
   Path path;
 }
