@@ -47,56 +47,27 @@ record Reference {
   union { null, Segment } segment = null;
 
   /**
-  The reference ID. Unique within the repository. A `Sequence` with this ID
-  exists, containing the reference's bases. If null, `segment` must be set, and
-  the `Sequence` ID field from `segment` is used.
-
-  If the API server supports the "classic" mode, this field must not be null.
+  The reference ID. Unique within the repository. 
+  In "classic" model a `Sequence` with this ID exists, containing the reference's bases. 
+  In "graph" the sequence is specified via the segment, and this is just an id.
   */
-  union { null, string } id = null;
+  string id;
 
   /**
   The number of bases in this `Reference`.
-
-  Ought to agree with `segment.length`, and at least one of the two fields must
-  exist on any `Reference`.
-
-  If the API server supports the "classic" mode, this field must not be null.
+  In "graph" mode this must equal the segment.length.
   */
-  union { null, long } length = null;
+  long length;
 
   /**
-  The MD5 checksum uniquely representing this `Reference` and its position in
-  the `ReferenceSet`'s sequence graph, as a lower-case hexadecimal string.
-
-  If `segment.startJoin` and `segment.endJoin` are both null, or `segment`
-  itself is null, this is the MD5 of the upper-case sequence excluding all
-  whitespace characters (this is equivalent to SQ:M5 in SAM).
-
-  Otherwise, this hash is to be computed as follows:
-
-  * Initialize a new MD5 hashing state.
-
-  * Add in the the MD5 of the upper-case sequence excluding all whitespace
-  characters, as a lower-case hexadecimal string.
-
-  * If `segment.startJoin` is null, add in 32 '0' characters. Otherwise add in
-  the `md5checksum` of the `Reference` indicated by `segment.startJoin`,
-  `segment.startJoin.position` as a decimal string, and
-  `segment.startJoin.strand` as either "+" or "-".
-
-  * If `segment.endJoin` is null, add in 32 '0' characters. Otherwise add in
-  the `md5checksum` of the `Reference` indicated by `segment.endJoin`,
-  `segment.endJoin.position` as a decimal string, and `segment.endJoin.strand`
-  as either "+" or "-".
-
-  * Compute the digest and represent it as a lower-case hexadecimal string.
+  The MD5 checksum uniquely representing this `Reference` as a lower-case 
+  hexadecimal string, calculated as the MD5 of the upper-case sequence 
+  excluding all whitespace characters (this is equivalent to SQ:M5 in SAM).
   */
   string md5checksum;
 
   /**
-  The name of this reference. (e.g. '22') Also see the
-  `names` field on the parent `ReferenceSet`.
+  The name of this reference. (e.g. '22').
   */
   string name;
 
@@ -132,17 +103,25 @@ record Reference {
 
   /** ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human). */
   union { null, int } ncbiTaxonId = null;
+  
+  /** whether this reference is primary, part of the core coordinate system, or not */
+  boolean isPrimary = true;
 }
 
 /**
 A `ReferenceSet` is a set of `Reference`s which typically comprise a
 reference assembly, such as `GRCh38`. A `ReferenceSet` defines a common
 coordinate space for comparing reference-aligned experimental data.
+
+In classic mode, this is just a set of sequences.  In graph mode, there
+are both sequences and joins, but we only access the joins via method
+getReferenceJoins().
 */
+
 record ReferenceSet {
   /** The reference set ID. Unique in the repository. */
   string id;
-
+  
   /**
   The IDs of the `Reference` objects that are part of this set.
 
@@ -151,12 +130,20 @@ record ReferenceSet {
   `searchReferences()` API call.
   */
   union { null, array<string> } referenceIds = null;
+  
+  /**
+  The IDs of `ReferenceSet`s that are included in this set, allowing extension
+  from a core e.g. provided by GRC or another provider.  In particular this 
+  may provide a basis of primary references for a graph mode reference set.
+  */
+
+  array<string> includedReferenceSets = null;
 
   /**
   Order-independent MD5 checksum which identifies this `ReferenceSet`. The
   checksum is computed by sorting all `reference.md5checksum` (for all
-  `reference` in this set) in ascending lexicographic order, concatenating,
-  and taking the MD5 of that value.
+  `reference` in this set, including any in any included set) in ascending 
+  lexicographic order, concatenating, and taking the MD5 of that value.
   */
   string md5checksum;
 
