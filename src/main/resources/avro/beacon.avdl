@@ -100,7 +100,7 @@ record DataSetResource {
   /** True if this dataset contains data from 2 or more other datasets. */
   boolean multiple;
 
-  /** List of names of each of the datasets that comprises this aggregated dataset. Should be provided if ‘multiple’ is true. */
+  /** List of names of each of the datasets that comprises this aggregated dataset. Should be provided if `multiple` is true. */
   array<string> datasets = [];
 
   /** Data use limitations, specified as a set of DataUseResource. */
