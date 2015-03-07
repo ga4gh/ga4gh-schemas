@@ -10,12 +10,16 @@ protocol BEACON {
 A request for information about a specific site
 */
 record QueryResource {
-  /** Allele string. Use I<seq> for insertions and Dn for deletions, 
-      where <seq> is the nucleotide sequence inserted after position 
-      and n is a number of nucleotides deleted from the reference 
-      starting at position.  
+  /** 
+  The reference bases for this variant, starting from position, in the genome
+  describe by the field `reference`.  (see variants.avdl)
    */
-  string allele;
+  string referenceBases;
+
+  /** 
+  The bases that appear instead of the reference bases. (see variants.avdl)
+   */
+  string alternateBases;
 
   /** The chromosome of the request */
   string chromosome;
