@@ -11,8 +11,8 @@ A request for information about a specific site
 */
 record QueryResource {
   /** 
-  The reference bases for this variant, starting from position, in the genome
-  describe by the field `reference`.  (see variants.avdl)
+  The reference bases for this variant, starting from `position`, in the genome
+  described by the field `reference`.  (see variants.avdl)
    */
   string referenceBases;
 
