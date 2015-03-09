@@ -87,9 +87,9 @@ protocol SequenceAnnotations {
     array<string> parentIds;
 
     /**
-    Identifier for the containing annotation set.
+    Identifier for the containing feature set.
     */
-    string annotationSetId;
+    string featureSetId;
 
     /**
     Genomic location.
