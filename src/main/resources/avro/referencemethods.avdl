@@ -47,7 +47,7 @@ record SearchReferenceSetsRequest {
 
   /**
   If present, return reference sets for which the `assemblyId`
-  contains this string.
+  matches this string (case-sensitive, exact match).
   */
   union { null, string } assemblyId = null;
 
