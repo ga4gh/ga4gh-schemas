@@ -80,7 +80,7 @@ record VariantPhenotypeAssociation {
     The set of variants of the organism that bears the phenotype.
     If the goal is to associate a single variant, then a singleton VariantSet is used
   */
-  org.ga4gh.models.VariantSet variant;
+  union { null, org.ga4gh.models.VariantSet } variant = null;
 
   Evidence evidence;
 
