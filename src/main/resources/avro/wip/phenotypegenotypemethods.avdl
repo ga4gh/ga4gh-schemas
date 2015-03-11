@@ -1,0 +1,48 @@
+
+@namespace("org.ga4gh")
+/**
+This protocol defines genotype to phenotype relationships
+query system
+*/
+protocol PhenotypeGenotypeMethods {
+
+
+import idl "phenotypegenotype.avdl";
+import idl "../methods.avdl";
+
+/******************  /phenotypegenotype/search  *********************/
+
+
+
+/** This request maps to the body of `POST /phenotypegenotype/search` as JSON. */
+record SearchPhenotypeGenotypeRequest {
+
+}
+
+
+/** This is the response from `POST /phenotypegenotype/search` expressed as JSON. */
+record SearchPhenotypeGenotypeResponse {
+  /**
+  The list of matching VariantGenotypeAssociation.
+  */
+  array<org.ga4gh.VariantGenotypeAssociation> associations = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `Variant` matching the search criteria.
+
+`POST /variants/search` must accept a JSON version of `SearchVariantsRequest`
+as the post body and will return a JSON version of `SearchVariantsResponse`.
+*/
+SearchPhenotypeGenotypeResponse searchVariants(
+  /** This request maps to the body of `POST /variants/search` as JSON. */
+  SearchPhenotypeGenotypeRequest request) throws org.ga4gh.methods.GAException;
+
+}

@@ -1,0 +1,40 @@
+@namespace("org.ga4gh")
+/**
+This protocol defines phenotype to genotype relationships
+*/
+protocol PhenotypeGenotype {
+
+import idl "../common.avdl";
+import idl "../variants.avdl";
+import idl "../metadata.avdl";
+
+
+
+/**
+An association to a Genotype and related information.
+*/
+record Genotype {
+  /** The Genotype ID. */
+  string id;
+
+  /** HPO is recommended */
+  org.ga4gh.models.OntologyTerm genotype;
+
+  union { null, string } description = null;
+
+}
+
+
+/**
+An association between a variant or variant set and a Genotype
+*/
+record VariantGenotypeAssociation {
+  string id;
+
+  Genotype genotype;
+
+}
+
+
+
+}
