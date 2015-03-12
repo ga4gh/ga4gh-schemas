@@ -387,6 +387,69 @@ record Position {
 }
 
 /**
+An abstraction for referring to a genomic region, in relation to some already 
+known reference. This will require some significant rework as we move to graph
+coordinates.  
+*/
+// TODO: Add support for paths through the graph.
+record Region {
+  /**
+  The starting point of the region. For the moment the base-pair included in
+  the region, on the 5' end of the oriented region.
+  */
+  Position start;
+
+  /**
+  The length, in base pairs
+  */
+  long length;
+}
+
+/**
+An ontology term describing an attribute. (e.g. the phenotype attribute
+'polydactyly' from HPO)
+*/
+record OntologyTerm {
+  /**
+  The source of the onotology term.
+  (e.g. `Ontology for Biomedical Investigation`)
+  */
+  string ontologySource;
+
+  /**
+  The ID defined by the external onotology source.
+  (e.g. `http://purl.obolibrary.org/obo/OBI_0001271`)
+  */
+  string id;
+
+  /** The name of the onotology term. (e.g. `RNA-seq assay`) */
+  union { null, string } name = null;
+}
+
+/**
+Identifier from a public database
+*/
+record ExternalIdentifier {
+  /**
+  The source of the identifier.
+  (e.g. `Ensembl`)
+  */
+  string database;
+
+  /**
+  The ID defined by the external database.
+  (e.g. `ENST00000000000`)
+  */
+  string identifier;
+
+  /**
+  The version of the object or the database
+  (e.g. `78`)
+  */
+  string version;
+}
+
+/**
 A `Segment` is a range on a sequence, possibly including the joins at the
 sequence's ends. It does not include base data. (The bases for a sequence are
 available through the `getSequenceBases()` API call.)
