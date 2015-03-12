@@ -140,8 +140,8 @@ record SearchVariantsRequest {
   /** Required. The IDs of the variant sets to search over. */
   array<string> variantSetIds = [];
 
-  /** Only return variants which have exactly this name. */
-  union { null, string } variantName = null;
+  /** Only return variants which have exactly this name (case-sensitive, exact match). */
+  union { null, string } name = null;
 
   /**
   Only return variant calls which belong to call sets with these IDs.
@@ -152,7 +152,7 @@ record SearchVariantsRequest {
 
   /**
   Only return variants with reference alleles on the reference with this name.
-  One of this field or `referenceId` is required.
+  One of this field or `referenceId` is required.  (case-sensitive, exact match)
   */
   union { null, string } referenceName = null;
 
@@ -320,8 +320,7 @@ record SearchCallSetsRequest {
   array<string> variantSetIds = [];
 
   /**
-  Only return call sets for which a substring of the name matches this
-  string.
+  Only return call sets with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
 
