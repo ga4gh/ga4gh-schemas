@@ -4,7 +4,7 @@ This protocol defines annotations on GA4GH genomic sequences It includes two
 types of annotations: continuous and discrete hierarchical.
 
 The discrete hierarchical annotations are derived from the Sequence Ontology
-(SO) and GFF3 work 
+(SO) and GFF3 work
 
    http://www.sequenceontology.org/gff3.shtml
 
@@ -19,6 +19,7 @@ core generic record which corresponds to the a GFF3 record.
 protocol SequenceAnnotations {
 
   import idl "common.avdl";
+  import idl "metadata.avdl";
 
   /**
   Type defining a collection of attributes associated with various protocol
@@ -33,7 +34,7 @@ protocol SequenceAnnotations {
     map<array<ExternalIdentifier>> extIdAttrs = {};
     map<array<OntologyTerm>> ontTermAttrs = {};
   }
-  
+
   /**
   Continuous numerical annotation along a region.
   */
@@ -44,7 +45,7 @@ protocol SequenceAnnotations {
     The region is being fully annotated, but can be divided into bins.
     If you have gaps, you need to define a sequence of such Wiggles.
     */
-    Region region;
+    Segment segment;
 
     /**
     The values associated to this region.
@@ -73,7 +74,7 @@ protocol SequenceAnnotations {
   }
 
   /**
-  Node in the annotation graph that annotates a contiguous region of 
+  Node in the annotation graph that annotates a contiguous region of
   */
   record Feature {
     /**
@@ -82,7 +83,7 @@ protocol SequenceAnnotations {
     string id;
 
     /**
-    Ids of the parents of this annotation node.  
+    Ids of the parents of this annotation node.
     */
     array<string> parentIds;
 
@@ -94,7 +95,7 @@ protocol SequenceAnnotations {
     /**
     Genomic location.
     */
-    Region region;
+    Segment segment;
 
     /**
     Feature that is annotated by this region.  Normally, this will be a term in
