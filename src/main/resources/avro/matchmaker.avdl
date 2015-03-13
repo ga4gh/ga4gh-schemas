@@ -286,28 +286,33 @@ record MatchResponse {
 /**
 The remote server should use HTTP status codes to report any errors encoundered
 processing the match request.
-*/
+
+Here are a list of status codes and their meanings with regards to this API:
+
+* `200 (OK)`: no error
+* `400 (Bad Request)`: missing/invalid data
+* `401 (Unauthorized)`: invalid API key
+* `405 (Method Not Allowed)`: invalid method (GET)
+* `406 (Not Acceptable)`: unsupported API version
+* `415 (Unsupported Media Type)`: missing/invalid content type
+* `422 (Unprocessable Entity)`: missing/invalid request body
+* `500 (Internal Server Error)`:  default error
+
+The HTTP message body of the error response should be json-formatted.
+In addition to `message`, additional fields can be provided with further
+information.  For example, if the match request specifies an unsupported
+API version, the server should respond with `Not Acceptable (406)` and an
+HTTP message body such as:
+
+    {
+      "message" : "unsupported API version",
+      "supportedVersions" : [ "0.1", "1.0", "1.1" ]
+    }
+  */
 error MatchmakerException {
   /**
-  The HTTP status code.
-
-  Here are a list of status codes and their meanings with regards to this API:
-  * 200 (OK): no error
-  * 400 (Bad Request): missing/invalid data
-  * 401 (Unauthorized): invalid API key
-  * 405 (Method Not Allowed): invalid method (GET)
-  * 406 (Not Acceptable): unsupported API version
-  * 415 (Unsupported Media Type): missing/invalid content type
-  * 422 (Unprocessable Entity): missing/invalid request body
-  * 500 (Internal Server Error):  default error
-  */
-  int errorCode;
-
-  /**
-  The error response should include a json-formatted body with a human-readable
-  "message" containing further details about the error. The exact error message
-  is up to the implementer, and additional fields can be provided with further
-  information.
+  A human-readable error message containing a description of the error.
+  The exact error message is up to the implementer.
   */
   string message;
 }
