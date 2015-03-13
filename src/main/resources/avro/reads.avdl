@@ -3,7 +3,7 @@
 /**
 This file defines the objects used to represent a hierarchy of reads and alignments:
 
-ReadGroupSet >--< ReadGroup --< fragment --< read --< alignment --< linear alignment
+ReadGroupSet >--< ReadGroup --< fragment --< read --< alignment --< linear/graph alignment
 
 * A ReadGroupSet is a logical collection of ReadGroup's.
 * A ReadGroup is all the data that's processed the same way by the sequencer.
@@ -20,11 +20,17 @@ ReadGroupSet >--< ReadGroup --< fragment --< read --< alignment --< linear align
  Secondary alignments represent alternate possible mappings.
 * A *linear alignment* maps a string of bases to a reference using a single
  CIGAR string. There's one representative alignment, and can be one or more
- supplementary alignments. Supplementary alignments represent linear alignments
- that are subsets of a chimeric alignment.
+ supplementary alignments. Supplementary alignments represent linear or graph
+ alignments that are subsets of a chimeric alignment.
+* A *graph alignment* maps a string of bases to a `Path` through references
+ along reference adjacencies using a single CIGAR string. There's one
+ representative alignment, and can be one or more supplementary alignments.
+ Supplementary alignments represent linear or graph alignments that are subsets
+ of a chimeric alignment.
 * A ReadAlignment object is a flattened representation of the bottom layers
- of this hierarchy. There's exactly one such object per *linear alignment*.
- The object contains alignment info, plus fragment and read info for easy access.
+ of this hierarchy. There's exactly one such object per *linear alignment* or
+ *graph alignment*. The object contains alignment info, plus fragment and read
+ info for easy access.
 */
 protocol Reads {
 
@@ -177,7 +183,41 @@ record LinearAlignment {
 }
 
 /**
-Each read alignment describes a linear alignment with additional information
+A string-to-reference-graph alignment can be represented by one CIGAR string and
+one `Path` through multiple `Reference`s, against which the CIGAR string is
+interpreted.
+
+Note that `Path`s in `GraphAlignment`s are restricted to visiting `Reference`s
+and following reference adjacencies. If a read needs to be aligned to sequences
+that are not present in a `ReferenceSet`, it needs to be aligned to a new
+`ReferenceSet` with those sequences. If a read needs to follow adjacencies that
+are not present in the `ReferenceSet` it's being aligned to, it should be
+represented as a "chimeric" alignment, and should use multiple `ReadAlignment`s
+and the supplementaryAlignment flag instead of a single `GraphAlignment`.
+
+Some especially large deletions could be represented just as well as a large
+deletion in the CIGAR string, or as a chimeric alignment.
+*/
+record GraphAlignment {
+  /** The `Path` against which the read is aligned */
+  Path path;
+
+  /**
+  The mapping quality of this alignment. Represents how likely
+  the read maps to this position as opposed to other locations.
+  */
+  union { null, int } mappingQuality = null;
+
+  /**
+  Represents the local alignment of this sequence (alignment matches, indels,
+  etc) versus the `Path`.
+  */
+  array<CigarUnit> cigar = [];
+}
+
+
+/**
+Each read alignment describes an alignment with additional information
 about the fragment and the read. A read alignment object is equivalent to a
 line in a SAM file.
 */
@@ -229,10 +269,14 @@ record ReadAlignment {
   union { boolean, null } failedVendorQualityChecks = false;
 
   /**
-  The linear alignment for this alignment record. This field will be
+  The alignment for this alignment record. This field will be
   null if the read is unmapped.
+
+  If an API server supports "classic" mode, it must not return `GraphAlignment`
+  objects here. If the API server supports the "graph" mode and does not support
+  the "classic" mode, it must not return `LinearAlignment` objects here.
   */
-  union { null, LinearAlignment } alignment = null;
+  union { null, LinearAlignment, GraphAlignment } alignment = null;
 
   /**
   Whether this alignment is secondary. Equivalent to SAM flag 0x100.
@@ -248,15 +292,16 @@ record ReadAlignment {
   /**
   Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
   Supplementary alignments are used in the representation of a chimeric
-  alignment. In a chimeric alignment, a read is split into multiple
-  linear alignments that map to different reference contigs. The first
-  linear alignment in the read will be designated as the representative alignment;
-  the remaining linear alignments will be designated as supplementary alignments.
-  These alignments may have different mapping quality scores.
+  alignment, which follows nonreference adjacencies not describable as indels.
+  In a chimeric alignment, a read is split into multiple alignments that
+  may map to different reference contigs. The first alignment in the read will
+  be designated as the representative alignment; the remaining alignments will
+  be designated as supplementary alignments. These alignments may have different
+  mapping quality scores.
 
-  In each linear alignment in a chimeric alignment, the read will be hard clipped.
-  The `alignedSequence` and `alignedQuality` fields in the alignment record will
-  only represent the bases for its respective linear alignment.
+  In each alignment in a chimeric alignment, the read will be hard clipped. The
+  `alignedSequence` and `alignedQuality` fields in the alignment record will
+  only represent the bases for its respective alignment.
   */
   union { boolean, null } supplementaryAlignment = false;
 
