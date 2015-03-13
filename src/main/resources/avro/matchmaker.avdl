@@ -1,37 +1,57 @@
 @namespace("org.ga4gh.match")
 
+/**
+The [Matchmaker Exchange](http://matchmakerexchange.org/) API.
+
+The MME API currently adopts a "query by example" approach to matchmaking.
+The request is a (real) patient description, and the response is a list
+of the most similar patients on the remote server (based on the similarity
+of the phenotypic and genotypic features).
+
+Additional information is available [here](https://github.com/MatchmakerExchange/mme-apis).
+
+Considerations for further integration with the main GA4GH API:
+
+* Have the following use (or be represented as) an OntologyTerm:
+  `Feature`, `Disorder`, `GenomicFeatureType`, `ageOfOnset`, `inheritanceMode`,
+  `species`, `sex`.
+  - Obstacle: the `ontologySource`/`id` format is not currently compatible with
+    the CURIE-style ontology IDs we use
+* Utilize the GA4GH Variant record.
+  - Obstacle: we have an allele-based (instead of position-based) representation
+  - Obstacle: our variants seldom have IDs, which are required
+  - Obstacle: our variants are usually curated, not called, so having a
+    `VariantSet` and the notion of a `call` seem excessive
+*/
 protocol Matchmaker {
 
-/**
-An enum representing how often a match search should be performed.
+/** Contact information for the owner of a patient record. */
+record Contact {
+  /**
+  A public (no login required) URL for contacting the owner of the patient
+  record to follow up with a match. This must be a valid URL (of the form
+  `<scheme>:<address>`), and could take a number of forms:
 
-* `once`: only search once in the current database
-* `periodic`: repeat the search monthly until cancelled, reporting new and
-  updated matches
-*/
-enum QueryType {
-  once,
-  periodic
+  * an `HTTP` URL: in this case, the URL could be a contact form which would
+    allow the user to contact the owner of the matched patient.
+  * a `mailto` URL: in this case, the URL could be a (potentially-anonymized)
+    email address to contact regarding the patient match.
+  */
+  string href;
+
+  /**
+  The human-readable name of the clinician or organization that the user is
+  contacting with the provided URL.
+  */
+  string name;
+
+  /** The human-readable institution of the clinician. */
+  union { null, string } institution = null;
 }
 
 /**
-The response type.
-
-* `inline`: responses are sent in the same response (the default value if
-  the results property exists)
-* `asynchronous`: responses will be sent by the remote server at a later time,
-  in a separate request to the origin server (the default value if the results
-  property is missing)
-* `email`: responses will be sent by email directly to the contact email, in
-  a human readable format
-*/
-enum ResponseType {
-  inline, asynchronous, email
-}
-
-/**
-TODO: unify with the main GA4GH representation of sex, once it is committed.
-For now, we'll use the representation in [PR #185](https://github.com/ga4gh/schemas/pull/185).
+The genetic sex of the patient.
+Based on [PR #185](https://github.com/ga4gh/schemas/pull/185).
 */
 enum geneticSex {
   FEMALE,
@@ -41,69 +61,66 @@ enum geneticSex {
   NOT_APPLICABLE
 }
 
-/**
-Contact information. The contact information is for transmitting match
-results only, and may not be collected and/or used for any other purposes.
-*/
-record Submitter {
-  /**
-  Required. The email address where matches can be sent; the values must
-  conform to the RFC 2822 address specification mailbox format (no group)
-  */
-  string email;
-
-  /** The first and last name. */
-  union { null, string } name = null;
-
-  /** Human-readable institution name. */
-  union { null, string } institution = null;
-}
-
-/**
-A feature. More metadata can be later added to each feature if necessary.
-By default we shouldn't sent features with the observed status `null`.
-*/
+/** A phenotypic feature of a patient. */
 record Feature {
-  /** Required. An ICHPT or HPO term identifier. */
+  /** Required. An HPO term identifier (`"HP:#######"`). */
   string id;
 
   /**
   Whether or not the feature was observed in the patient.
 
-  * `true`: the feature was observed in the patient
-  * `false`: the feature was tested and was not observed in patient
-  * `null`: the feature is unknown/untested
+  * `"yes"`: the feature was explicitly observed in the patient
+  * `"no"`: the feature was explicitly not observed in patient
+  * Omission of this optional field assumes the feature has been explicitly observed.
   */
-  union { null, boolean } observed = null;
+  string observed = "yes";
 
   /**
-  An age interval
-  [as defined by the HPO](http://www.human-phenotype-ontology.org/hpoweb/showterm?id=HP:0011007)
-  when the majority of the symptoms manifested.
-  Optional; systems which do not support this type of information per symptom
-  should ignore it.
+  The age of onset of this symptom.
+  See the `ageOfOnset` field of the `Patient` record for details.
+  Systems which do not support this type of information per symptom should ignore it.
   */
   union { null, string } ageOfOnset = null;
 }
 
-/**
-A candidate gene or genomic variant.
-*/
+/** A disorder with which the patient has been diagnosed. */
+record Disorder {
+  /**
+  An OMIM (`"MIM:######"`) or OrphaNet (`"Orphanet:#####"`) identifier.
+  Note: we may want to support other sources later.
+  */
+  string id;
+}
+
+/** A candidate gene. */
 record Gene {
   /**
-  Required. A <gene symbol> from the [HGNC database](http://www.genenames.org/)
-  OR <ensembl gene ID> OR <entrez gene ID>
-  */
-  string gene;
+  A gene symbol or identifier:
 
-  /**
-  The chromosome this variant or gene is on.
-  TODO: Update this representation with assistance from issue #112
+  * `<gene symbol> `from the [HGNC database](http://www.genenames.org/) OR
+  * `<ensembl gene ID>` OR
+  * `<entrez gene ID>`
   */
-  union { null, string } referenceName = null;
+  string id;
+}
+
+/** A candidate variant (a single mutation with respect to the reference). */
+record Variant {
+  /**
+  The Genome Reference Consortium identifier of the reference assembly,
+  including patch number if relevant, of the form: `<assembly>[.<patch>]`
+
+  * e.g. `"NCBI36"`, `"GRCh37"`, `"GRCh37.p13"`, `"GRCh38"`, `"GRCh38.p1"`
+  * If the patch is not provided, the assembly is assumed to represent the
+    initial (unpatched) release of that assembly.
+  */
+  string assembly;
+
+  /** The chromosome this variant is on. */
+  string referenceName;
 
   /** The start position of the variant. (0-based) */
-  union { null, long } start = null;
+  long start;
 
   /** The end position of the variant. (0-based, exclusive) */
   union { null, long } end = null;
@@ -119,6 +136,36 @@ record Gene {
   least one base of context (e.g. `A`, `ACG`, ...).
   */
   union { null, string } alternateBases = null;
+}
+
+/** The type of mutation present in the gene. */
+record GenomicFeatureType {
+  /**
+  A Sequence Ontology term identifier (`SO:#######`).
+  This will usually (but not necessarily) be a descendant of
+  [SO:0001576, transcript variant](http://www.sequenceontology.org/browser/current_svn/term/SO:0001576).
+  */
+  string id;
+
+  /**
+  A human-readable description of the effect.
+  For example, the JANNOVAR effect annotation.
+  */
+  union { null, string } label = null;
+}
+
+/**
+A genotypic feature in a patient. This is used to represent candidate genes
+and candidate variants. At a minimum, this contains the symbol or ID of a candidate
+gene, but can also contain information about the class of variant or the actual
+variant in the gene.
+*/
+record GenomicFeature {
+  /** A gene symbol or identifier. */
+  Gene gene;
+
+  /** A specific variant. */
+  union { null, Variant } variant = null;
 
   /**
   The allelic dosage (1 for heterozygous or hemizygous, 2 for homozygous).
@@ -126,18 +173,24 @@ record Gene {
   union { null, int } zygosity = null;
 
   /**
-  The effect of the mutation, expressed as a Sequence Ontology term identifier
-  (`SO:#######`). This will usually (but not necessarily) be a descendant of
-  [SO:0001576, transcript variant](http://www.sequenceontology.org/browser/current_svn/term/SO:0001576).
+  The effect of the mutation. This enables describing the broad category of
+  cDNA effect predicted to result from a mutation to improve matchmaking,
+  without necessarily disclosing the actual mutation.
   */
-  union { null, string } type = null;
+  union { null, GenomicFeatureType } type = null;
 }
 
-/** A match. */
-record Match {
+/**
+A query or response patient.
+This is similar to the `Individual` record.
+*/
+record Patient {
   /**
-  Required. The internal identifier (obfuscated or not) that can be used by
-  the originating system to reference the patient data.
+  An identifier for the patient record, unique within the matchmaker where the
+  patient data is stored. This identifier should be unchanged by modifications
+  to the patient record over time (e.g. adding phenotypes). It may become
+  invalid (e.g. if the record is deleted), but it should never be "replaced"
+  and refer to a different patient.
   */
   string id;
 
@@ -149,14 +202,18 @@ record Match {
   union { null, string } label = null;
 
   /**
-  Consists of contact information of the person that submitted the search.
-  Required if an email response is expected, optional otherwise.
+  The contact information for the owner of the patient record. This allows both
+  parties to follow up with a match after it has been made.
   */
-  union { null, Submitter } submitter = null;
+  Contact contact;
 
   /**
-  The genetic sex of this individual. Use `null` when unknown.
+  A taxon identifier from the NCBI nomenclature, for the form:
+  `"NCBITaxon:<ID>"`. The default is human: `"NCBITaxon:9606"`
   */
+  union { null, string } species = null;
+
+  /** The genetic sex of this individual, `null` when unknown. */
   union { null, geneticSex } sex = null;
 
   /**
@@ -168,170 +225,103 @@ record Match {
 
   /**
   The mode of inheritance of the disease, if known, specified as an HPO term
-  identifier (any descendant of [HP:0000005](http://www.human-phenotype-ontology.org/hpoweb/showterm?id=HP:0000005), e.g. `HP:0003745`).
+  identifier (any descendant of [HP:0000005](http://www.human-phenotype-ontology.org/hpoweb/showterm?id=HP:0000005),
+  e.g. `"HP:0003745"`).
   */
-  union { null, string } modeOfInheritance = null;
+  union { null, string } inheritanceMode = null;
+
+  /** Disorders with which the patient is diagnosed. */
+  array<Disorder> disorders = [];
 
   /**
-  Is a list of OMIM (MIM:######) or OrphaNet (ORPHA#####) identifiers,
-  can be empty. Note: we may want to support other sources later.
-  */
-  array<string> disorders = [];
-
-  /**
-  A list of features. At least one of `features` or `genes` is required
-  (having both is preferred).
+  A list of phenotypic features.
+  At least one of `features` or `genomicFeatures` is required
+  <(having both is preferred).
   */
   array<Feature> features = [];
 
   /**
-  The Genome Reference Consortium identifier of the reference assembly for
-  all reference-based genomic information provided in the genes list
-  (`referenceName`, `start`, `end`, `referenceBases`, `alternateBases`).
-
-  This is mandatory if any such information is provided.
-  If only gene `name`/`type`/`zygosity` is provided, the assembly is optional.
-
-  The identifier should include patch number if relevant (e.g. `NCBI36`,
-  `GRCh37`, `GRCh37.p13`, `GRCh38`, `GRCh38.p1`).
-  If the patch is not provided, the assembly is assumed to represent the
-  initial (unpatched) release of that assembly.
+  A list of candidate genomic features (causal genes and variants).
+  At least one of `features` or `genomicFeatures` is required
+  (having both is preferred).
   */
-  string assembly;
-
-  /**
-  A list of possible causes. At least one of `features` or `genes` is
-  required (having both is preferred).
-  */
-  array<Gene> genes = [];
+  array<GenomicFeature> genomicFeatures = [];
 }
 
-/** The match request. */
+
+/** The patient match request. */
 record MatchRequest {
-  /**
-  How often a match search should be performed. If a system doesn’t support
-  the requested type, the once behavior is used.
-  */
-  QueryType queryType = "once";
+  /** The patient to match against.*/
+  Patient patient;
+}
 
-  /* Required. The match to search against. */
-  Match match;
+/** The score information for a match result. */
+record MatchResultScore {
+  /**
+  A numerical value corresponding to the overall score of the match.
+  This score must be in the range [0, 1], where 0.0 is a poor match and
+  1.0 is a perfect match.
+  */
+  float patient;
 }
 
 /**
-The match response. Either a synchronous application/json response to a
-`/match` request, an asynchronous application/json HTTP POST request to
-`<baseOriginURL>/v1/matchResults`, or a human-readable email sent to
-the user’s email address.
+A match, containing a `Patient` and a `MatchResultScore` with information
+about how well the patient matched the query.
 */
+record MatchResult {
+  /** The score data for this result of matchmaking. */
+  MatchResultScore score;
+
+  /** The patient that matched the query. */
+  Patient patient;
+}
+
+/** A synchronous application/json response to a `/match` request. */
 record MatchResponse {
-  /**
-  Required. Helps match the results to the original query for asynchronous
-  results, and allows to manage the search submission. This does not have to
-  be the same as the id sent in the request since it represents how the
-  remote host stores queries.
-  */
-  string queryId;
-
-  /** The type of this response. */
-  ResponseType responseType = "inline";
-
-  /**
-  A list of matches. Absent for asynchronous results.
-  Required for inline results, but can be empty.
-  */
-  array<Match> results = [];
-}
-
-
-/** A representation of a single match as part of an asynchronous response. */
-record AsynchronousMatch {
-  /**
-  Required. The same queryId initially returned in the `MatchResponse`.
-  */
-  string queryId;
-
-  /**
-  A list of matches. Required, but can be empty.
-  */
-  array<Match> results = [];
+  /** A list of patients that match the query. */
+  array<MatchResult> results = [];
 }
 
 /**
-Asynchronous responses are sent through a HTTPS request to the originating
-server.
+The remote server should use HTTP status codes to report any errors encoundered
+processing the match request.
 */
-record AsynchronousResponse {
+error MatchmakerException {
   /**
-  Required. A list of responses to different match requests.
+  The HTTP status code.
+
+  Here are a list of status codes and their meanings with regards to this API:
+  * 200 (OK): no error
+  * 400 (Bad Request): missing/invalid data
+  * 401 (Unauthorized): invalid API key
+  * 405 (Method Not Allowed): invalid method (GET)
+  * 406 (Not Acceptable): unsupported API version
+  * 415 (Unsupported Media Type): missing/invalid content type
+  * 422 (Unprocessable Entity): missing/invalid request body
+  * 500 (Internal Server Error):  default error
   */
-  array<AsynchronousMatch> responses = [];
+  int errorCode;
+
+  /**
+  The error response should include a json-formatted body with a human-readable
+  "message" containing further details about the error. The exact error message
+  is up to the implementer, and additional fields can be provided with further
+  information.
+  */
+  string message;
 }
 
-
 /**
-Creates a match request on a remote server.
+Submit a patient matching request to a remote server.
 
-`POST /v1/match` must accept a JSON version of `MatchRequest`
+`POST /match` must accept a JSON version of `MatchRequest`
 as the post body and will return a JSON version of `MatchResponse`.
 
-For example: `POST https://phenomecentral.org/api/v1/match`
+For example: `POST https://phenomecentral.org/rest/remoteMatcher/match`
 */
-MatchResponse createMatchRequest(
+MatchResponse match(
     /** This request maps to the body of `POST /match` as JSON. */
-    MatchRequest request);
-
-
-/**
-Returns asynchronous match results to a remote server over HTTPS.
-
-`POST /v1/matchResults` must accept a JSON version of
-`AsynchronousResponse` as the post body.
-
-For example: `POST https://yourmatchmaker.org/api/v1/matchResults`
-
-The request returns an OK (200) status to indicate that the results were
-received, nothing more.
-*/
-MatchResponse returnMatchResults(
-    /** This request maps to the body of `POST /match` as JSON. */
-    AsynchronousResponse response);
-
-
-/**
-Updates a match request with the specified ID.
-
-`PUT /v1/match/{queryId}` must accept a JSON version of `MatchRequest`
-as the post body and will return a JSON version of `MatchResponse`.
-
-For example: `PUT https://phenomecentral.org/api/v1/match/a32fa90vd`
-*/
-MatchResponse updateMatchRequest(
-    /**
-    The query ID of the match request to update.
-    This parameter comes from the URL path.
-    */
-    string queryId,
-
-    /** This request maps to the body of `PUT /match/{queryId}` as JSON. */
-    MatchRequest request);
-
-
-/**
-Deletes a match request with the specified ID.
-
-`DELETE /v1/match/{queryId}` will use the ID provided in the URL path.
-
-For example: `DELETE https://phenomecentral.org/api/v1/match/a32fa90vd`
-
-The search request delete returns an OK (200) status to indicate that the
-search was deleted, nothing more.
-*/
-void deleteMatchRequest(
-    /**
-    The query ID of the match request to delete.
-    This parameter comes from the URL path.
-    */
-    string queryId);
+    MatchRequest request) throws MatchmakerException;
 
 }
