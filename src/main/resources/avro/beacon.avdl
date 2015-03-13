@@ -7,34 +7,173 @@ information about specific alleles.
 protocol BEACON {
 
 /**
-A request for information about a specific allele.
+A request for information about a specific site
 */
-record BEACONRequest {
-  /** The name of the targeted population */
-  union{ null, string } populationId = null;
+record QueryResource {
+  /** 
+  The reference bases for this variant, starting from `position`, in the genome
+  described by the field `reference`.  (see variants.avdl)
+   */
+  string referenceBases;
 
-  /** The version of the reference */
-  union{ null, string } referenceVersion = null;
+  /** 
+  The bases that appear instead of the reference bases. (see variants.avdl)
+   */
+  string alternateBases;
 
   /** The chromosome of the request */
-  union{ null, string } chromosome = null;
+  string chromosome;
 
   /** 0-based allele locus */
-  union{ null, long } coordinate = null;
+  long position;
 
-  /** allele */
-  union{ null, string } allele = null;
+  /** The version of the reference */
+  string reference;
+
+  /** The name of the targeted population */
+  union{ null, string } dataset = null;
 }
 
 /**
-A response containing information about the specified allele.
+ErrorResource
 */
-record BEACONResponse {
-  /** outcome of the existence test */
-  union{ null, boolean } exists = null;
+record ErrorResource {
+  /** allele */
+  string name;
 
-  /** allele frequency */
-  union{ null, long } frequency = null;
+  /** # observed */
+  union{ null, string } description = null;
+}
+
+/**
+DataUseRequirementResource
+*/
+record DataUseRequirementResource {
+  /** Data Use requirement */
+  string name;
+
+  /** Description of Data Use requirement. */
+  union{ null, string } description = null;
+}
+
+/**
+DataUseResource
+*/
+record DataUseResource {
+  /** Data Use category.*/
+  string category;
+
+  /** Description of Data Use category. */
+  union{ null, string } description = null;
+
+  /** Data Use requirements. */
+  array<DataUseRequirementResource> requirements = [];
+}
+
+/**
+DataSetSizeResource
+*/
+record DataSizeResource {
+  /** Total number of variant positions in the data set */
+  int variants;
+
+  /** Total number of samples in the data set */
+  int samples;
+}
+
+/**
+DataSetResource
+*/
+record DataSetResource {
+  /** Dataset name */
+  string id;
+
+  /** Reference genome */
+  string reference;
+
+  /** Dataset description */
+  union{ null, string } description = null;
+
+  /** Dimensions of the data set. Should be provided if the beacon reports allele frequencies. */
+  union{ null, DataSizeResource } size = null;
+
+  /** True if this dataset contains data from 2 or more other datasets. */
+  boolean multiple;
+
+  /** List of names of each of the datasets that comprises this aggregated dataset. Should be provided if ‘multiple’ is true. */
+  array<string> datasets = [];
+
+  /** Data use limitations, specified as a set of DataUseResource. */
+  array<DataUseResource> data_use = [];
+}
+
+/**
+BeaconInformationResource
+*/
+record BeaconInformationResource {
+  /** (Unique) beacon ID. Recommended pattern: [organization]-[beacon] (no special characters). */
+  string id;
+
+  /** Name of the owning organization. */
+  string organization;
+
+  /** Beacon description. */
+  string description;
+
+  /** Datasets served by the beacon. */
+  array<DataSetResource> datasets = [];
+
+  /** Beacon API version supported. */
+  string api;
+
+  /** URL to the homepage for this beacon. */
+  union{ null, string } homepage = null;
+
+  /** An email address for contact. */
+  union{ null, string } email = null;
+
+  /** Auth type. Expected value - OAUTH2. Defaults to NONE. */
+  union{ null, string } auth = null;
+
+  /** Examples of interesting queries, e.g. a few queries demonstrating different types of responses. */
+  union{ null, string } queries = null;
+}
+
+/**
+The response to the Beacon query
+*/
+record ResponseResource {
+  /** Whether the beacon has observed variants. True if an observation exactly matches request. Overlap if an
+  observation overlaps request, but not exactly, as in the case of indels or if the query used wildcard for
+  allele. False if data are present at the requested position but no observations exactly match or overlap. Null
+  otherwise. */
+  string exists;
+
+  /** frequency */
+  double frequency;
+
+  /** # observed */
+  union{ null, int } observed = null;
+
+  /** Additional message. OK if request succeeded. */
+  union{ null, string } info = null;
+
+  /** Error details. Provided if a beacon encountered an error. */
+  union{ null, ErrorResource } err = null;
+}
+
+/**
+The response from the Beacon
+*/
+record BeaconResponseResource {
+  /** Beacon ID */
+  string beacon;
+
+  /** Query */
+  QueryResource query;
+
+  /** Response */
+  ResponseResource response;
 }
 
 }

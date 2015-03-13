@@ -9,27 +9,25 @@ protocol Metadata {
 import idl "common.avdl";
 
 /**
-An enum that represents the genetic sex of an organism, sample or other object 
-as attributed based on genotyping/chromosomal evaluation.
-This is a major sample query/sort parameter, but cannot cover the full extent of 
-sex determining variations, which should be annotated separately in 'phenotype'
-or "disease' attributes.
+An ontology term describing an attribute. (e.g. the phenotype attribute
+'polydactyly' from HPO)
 */
 
-/**
-* `FEMALE`: Genetic/chromosomal female
-* `MALE`: Genetic/chromosomal male
-* `OTHER`: sex information ambiguous, e.g. not clear XX/XY/ZZ...
-* `MIXED_SAMPLE`: Multiple samples, e.g. pooled, environmental
-* `NOT_APPLICABLE`: Used for prokaryotes, snails, etc. Not used for humans.
-*/
+record OntologyTerm {
+  /**
+  The source of the onotology term.
+  (e.g. `Ontology for Biomedical Investigation`)
+  */
+  string ontologySource;
 
-enum GeneticSex {
-  FEMALE,
-  MALE,
-  OTHER,
-  MIXED_SAMPLE,
-  NOT_APPLICABLE
+  /**
+  The ID defined by the external onotology source.
+  (e.g. `http://purl.obolibrary.org/obo/OBI_0001271`)
+  */
+  string id;
+
+  /** The name of the onotology term. (e.g. `RNA-seq assay`) */
+  union { null, string } name = null;
 }
 
 /**
@@ -71,7 +69,7 @@ record Individual {
   union { null, OntologyTerm } species = null;
 
   /** The genetic sex of this individual. Use `null` when unknown. */
-  GeneticSex sex = null;
+  union { null, OntologyTerm } sex = null;
 
   /**
   The developmental stage of this individual. Using Uberon is recommended.

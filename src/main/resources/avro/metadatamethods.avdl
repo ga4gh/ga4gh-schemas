@@ -14,8 +14,7 @@ record SearchIndividualsRequest {
   array<string> groupIds = [];
 
   /**
-  Only return individuals for which a substring of the name matches
-  this string.
+  Only return individuals with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
 
@@ -70,8 +69,7 @@ record SearchSamplesRequest {
   array<string> individualIds = [];
 
   /**
-  Only return samples for which a substring of the name matches
-  this string.
+  Only return samples with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
 
@@ -122,8 +120,7 @@ SearchSamplesResponse searchSamples(
 /** This request maps to the body of `POST /experiments/search` as JSON. */
 record SearchExperimentsRequest {
   /**
-  Only return experiments for which a substring of the name matches
-  this string.
+  Only return experiments with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
 
@@ -174,8 +171,7 @@ SearchExperimentsResponse searchExperiments(
 /** This request maps to the body of `POST /individualgroups/search` as JSON. */
 record SearchIndividualGroupsRequest {
   /**
-  Only return individual groups for which a substring of the name matches
-  this string.
+  Only return individual groups with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
 
@@ -230,8 +226,7 @@ SearchIndividualGroupsResponse searchIndividuals(
 /** This request maps to the body of `POST /analyses/search` as JSON. */
 record SearchAnalysesRequest {
   /**
-  Only return analyses for which a substring of the name matches
-  this string.
+  Only return analyses with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
 
