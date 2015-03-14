@@ -215,6 +215,16 @@ record GraphAlignment {
   array<CigarUnit> cigar = [];
 }
 
+/**
+Each fragment represents a single stretch of a DNA molecule. This enables
+fragment reconstruction of reads which belong to the same fragment.
+*/
+record Fragment {
+
+  /** The fragment ID. */
+  string id;
+
+}
 
 /**
 Each read alignment describes an alignment with additional information
@@ -238,6 +248,9 @@ record ReadAlignment {
   string readGroupId;
 
   // fragment attributes
+  
+  /** The fragment ID that this ReadAlignment belongs to. */
+  string fragmentId;
 
   /** The fragment name. Equivalent to QNAME (query template name) in SAM.*/
   string fragmentName;
