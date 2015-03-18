@@ -15,6 +15,7 @@ server sends data in a given mode.
 protocol Variants {
 
 import idl "common.avdl";
+import idl "metadata.avdl";
 
 /**
 This metadata represents VCF header information.
@@ -256,6 +257,114 @@ record AlleleCall {
   map<array<string>> info = {};
 }
 
+
+
+/**
+An AnalysisResult record the output of a prediction package such as SIFT on a
+specific allele
+*/
+record AnalysisResult {
+
+  /** Alternate allele - variant may have >1 alt which will have distinct
+  analysis results. This is not be needed for the graph Allele model
+  */
+  union { null, string} alternateBase = null;
+
+  /** The analysis record for this result (defined in metadata schema)
+  */
+  Analysis analysis;
+
+  /** The text-based result for this analysis
+  */
+  union { null, string} analysisResult;
+
+  /** The numeric score for this analysis
+  */
+  union { null, int} analysisScore;
+
+}
+
+
+
+/**
+An annotation record is a set of information describing the effect of an allele
+on another genomic feature
+*/
+record Annotation {
+
+  /*
+  TODO: Use Feature from sequence annotation schema when stable
+  */
+
+  /** The ID of the feature the annotation is relative to
+  */
+  string id;
+
+  /** The feature type
+  */
+  OntologyTerm featureType;
+
+  /** Effect of variant on this feature
+  */
+  array<OntologyTerm> effects;
+
+
+  /** HGVS formatted annotation at genomic level
+  */
+  union { null, string } HGVSg = null;
+
+  /** HGVS formatted annotation at transcript level
+  */
+  union { null, string } HGVSc = null;
+
+  /** HGVS formatted annotation at protein level
+  */
+  union { null, string } HGVSp = null;
+
+
+  /** Relative position of base in cDNA sequence
+  */
+  union { null, int} cDNA_position = null;
+
+  /* Relative position of base in coding sequence
+  */
+  union { null, int} CDS_position = null;
+
+  /** Relative position of amino acid in protein
+  */
+  union { null, int} protein_position = null;
+
+
+
+  /** Alternate allele - variant may have >1 alt which will have distinct
+  annotation. This is not be needed for the graph Allele model
+  */
+  union { null, string} alternateBase = null;
+
+  /**Reference Amino Acid
+  */
+  union { null, string } referenceAminoAcid = null;
+
+  /** Alternate Amino Acid
+  */
+  union { null, string } alternateAminoAcid  = null;
+
+  /** Codon observed in reference
+  */
+  union { null, string } referenceCodon = null;
+
+  /** Codon created by alt alternate allele
+  */
+  union { null, string } alternateCodon = null;
+
+
+  /** Output from prediction packages such as Sift
+  */
+  array<AnalysisResult> analysisResults;
+
+}
+
+
 /**
 A `Variant` represents a change in DNA sequence relative to some reference.
 For example, a variant could represent a SNP or an insertion.
@@ -351,6 +460,15 @@ record Variant {
   If the API server supports the "classic" mode, this field must not be null.
   */
   union { null, array<Call> } calls = null;
+
+
+  /**
+  The annotation for the alleles of this variant. Each one represents
+  effect of an allele on a genomic feature (eg a transcript).
+  */
+  array<Annotation> annotation = [];
+
+
 }
 
 

@@ -178,6 +178,26 @@ record SearchVariantsRequest {
   long end;
 
   /**
+  Only return variants annotated as having these effects (SO terms).
+  If null, return all variants.
+  */
+  union { null, array<string> } effects = null;
+
+  /**
+  Only return variants annotated with any of these genes
+  If null, return all variants.
+  Todo: Merge with genome annotation gene model
+  */
+  union { null, array<string> } geneIds;
+
+  /**
+  Only return variants annotated with any of these transcript IDs
+  If null, return all variants.
+  Todo: Merge with genome annotation transcript model
+  */
+  union { null, array<string> } transcriptIds;
+
+  /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
