@@ -23,24 +23,23 @@ record EvidenceQuery {
 }
 
 
-record VariantQuery {
-
+record FeatureQuery {
+  array<org.ga4gh.models.Feature> features;
 }
 
 
 record PhenotypeQuery {
-
-
+  array<org.ga4gh.PhenotypeInstance> phenotypes;
 }
 
 /** This request maps to the body of `POST /genotyphenotype/search` as JSON. */
 record SearchGenotypePhenotypeRequest {
 
-  union { null, VariantQuery }  variant = null;
+  union { null, FeatureQuery } feature = null;
+
+  union { null, PhenotypeQuery, org.ga4gh.models.OntologyTerm } phenotype = null;
 
   union { null, EvidenceQuery } evidence = null;
-
-  union { null, PhenotypeQuery } phenotype = null;
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -60,9 +59,9 @@ record SearchGenotypePhenotypeRequest {
 /** This is the response from `POST /genotypephenotype/search` expressed as JSON. */
 record SearchGenotypePhenotypeResponse {
   /**
-  The list of matching VariantPhenotypeAssociation.
+  The list of matching FeaturePhenotypeAssociation.
   */
-  array<org.ga4gh.VariantPhenotypeAssociation> associations = [];
+  array<org.ga4gh.FeaturePhenotypeAssociation> associations = [];
 
   /**
   The continuation token, which is used to page through large result sets.

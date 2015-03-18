@@ -7,6 +7,7 @@ protocol GenotypePhenotype {
 import idl "../common.avdl";
 import idl "../variants.avdl";
 import idl "../metadata.avdl";
+import idl "../sequenceAnnotations.avdl";
 
 
 /**
@@ -30,7 +31,7 @@ An association to a phenotype and related information.
 This record is intended primarily to be used in conjunction with variants, but the record can
 also be composed with other kinds of entities such as diseases
 */
-record Phenotype {
+record PhenotypeInstance {
   /** The Phenotype ID. */
   string id;
 
@@ -46,13 +47,6 @@ record Phenotype {
 
   /** A textual description of the phenotype. This is used to complement the structured phenotype description in the phenotype field */
   union { null, string } description = null;
-
-  /**
-    the environmental context in which the phenotype arises.
-    multiple contexts can be specified - these are assumed to all hold together
-  */
-  array<EnvironmentalContext> environmentalContexts;
-
 
 }
 
@@ -73,14 +67,13 @@ record Evidence {
 /**
 An association between a variant or variant set and a phenotype
 */
-record VariantPhenotypeAssociation {
+record FeaturePhenotypeAssociation {
   string id;
 
   /**
-    The set of variants of the organism that bears the phenotype.
-    If the goal is to associate a single variant, then a singleton VariantSet is used
+    The set of features of the organism that bears the phenotype.
   */
-  union { null, org.ga4gh.models.VariantSet } variant = null;
+  array<org.ga4gh.models.Feature> features;
 
   Evidence evidence;
 
@@ -89,7 +82,16 @@ record VariantPhenotypeAssociation {
     Note that we delegate this to a separate record to allow us the flexibility to composition of phenotype
     associations with records that are not variant sets - for example, diseases.
   */
-  Phenotype phenotype;
+  union { org.ga4gh.models.OntologyTerm, PhenotypeInstance } phenotype;
+
+  /** A textual description of the phenotype. This is used to complement the structured phenotype description in the phenotype field */
+  union { null, string } description = null;
+
+  /**
+    the environmental context in which the phenotype arises.
+    multiple contexts can be specified - these are assumed to all hold together
+  */
+  array<EnvironmentalContext> environmentalContexts;
 
 }
 
