@@ -33,10 +33,10 @@ also be composed with other kinds of entities such as diseases
 */
 record PhenotypeInstance {
   /** The Phenotype ID. */
-  string id;
+  union { null, string } id;
 
   /** HPO is recommended */
-  org.ga4gh.models.OntologyTerm phenotype;
+  org.ga4gh.models.OntologyTerm type;
 
   /** HPO is recommended */
   union { null, org.ga4gh.models.OntologyTerm } qualifier = null;
@@ -82,7 +82,7 @@ record FeaturePhenotypeAssociation {
     Note that we delegate this to a separate record to allow us the flexibility to composition of phenotype
     associations with records that are not variant sets - for example, diseases.
   */
-  union { org.ga4gh.models.OntologyTerm, PhenotypeInstance } phenotype;
+  PhenotypeInstance phenotype;
 
   /** A textual description of the phenotype. This is used to complement the structured phenotype description in the phenotype field */
   union { null, string } description = null;
