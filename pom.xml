@@ -81,20 +81,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-            <artifactId>maven-dependency-plugin</artifactId>
-            <executions>
-              <execution>
-                <phase>compile</phase>
-                <goals>
-                  <goal>copy-dependencies</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${project.build.directory}/libsss</outputDirectory>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
     </plugins>
 
   
@@ -132,18 +118,5 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
-
-  <distributionManagement>
-    <repository>
-      <id>BBOPDeployRepository</id>
-      <name>BBOPDeployRepository</name>
-      <url>scp://knife.lbl.gov:/srv/www/htdocs/maven/repository</url>
-    </repository>
-    <snapshotRepository>
-      <id>BBOPSnapshotRepository</id>
-      <name>BBOPSnapshotRepository</name>
-      <url>scp://knife.lbl.gov:/srv/www/htdocs/maven/snapshot-repository</url>
-    </snapshotRepository>
-  </distributionManagement>
 
 </project>

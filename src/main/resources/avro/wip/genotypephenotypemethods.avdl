@@ -24,7 +24,7 @@ record EvidenceQuery {
 
 
 record FeatureQuery {
-  array<org.ga4gh.models.Feature> features;
+  array<org.ga4gh.models.GenomicFeature> features;
 }
 
 

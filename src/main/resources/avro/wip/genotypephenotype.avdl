@@ -5,7 +5,6 @@ This protocol defines genotype to phenotype relationships
 protocol GenotypePhenotype {
 
 import idl "../common.avdl";
-import idl "../variants.avdl";
 import idl "../metadata.avdl";
 import idl "../sequenceAnnotations.avdl";
 
@@ -73,7 +72,7 @@ record FeaturePhenotypeAssociation {
   /**
     The set of features of the organism that bears the phenotype.
   */
-  array<org.ga4gh.models.Feature> features;
+  array<org.ga4gh.models.GenomicFeature> features;
 
   Evidence evidence;
 

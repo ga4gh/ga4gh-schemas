@@ -58,7 +58,7 @@ protocol SequenceAnnotationMethods {
     The list of matching annotations, sorted by start position. Annotations which
     share a start position are returned in a deterministic order.
     */
-    array<org.ga4gh.models.Feature> features = [];
+    array<org.ga4gh.models.GenomicFeature> features = [];
 
     /**
     The continuation token, which is used to page through large result sets.
@@ -82,10 +82,10 @@ protocol SequenceAnnotationMethods {
 
   /****************  /feature/{id}  *******************/
   /**
-  Gets a `org.ga4gh.models.Feature` by ID.
+  Gets a `org.ga4gh.models.GenomicFeature` by ID.
   `GET /feature/{id}` will return a JSON version of `Feature`.
   */
-  org.ga4gh.models.Feature getFeature(
+  org.ga4gh.models.GenomicFeature getFeature(
     /**
     The ID of the `Feature`.
     */

@@ -75,7 +75,7 @@ protocol SequenceAnnotations {
   /**
   Node in the annotation graph that annotates a contiguous region of 
   */
-  record Feature {
+  record GenomicFeature {
     /**
     Id of this annotation node.
     */
