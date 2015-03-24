@@ -33,11 +33,11 @@ record PhenotypeQuery {
 }
 
 /** This request maps to the body of `POST /genotyphenotype/search` as JSON. */
-record SearchGenotypePhenotypeRequest {
+record SearchFeaturesRequest {
 
   union { null, FeatureQuery } feature = null;
 
-  union { null, PhenotypeQuery, org.ga4gh.models.OntologyTerm } phenotype = null;
+  union { null, PhenotypeQuery } phenotype = null;
 
   union { null, EvidenceQuery } evidence = null;
 
@@ -57,7 +57,7 @@ record SearchGenotypePhenotypeRequest {
 
 
 /** This is the response from `POST /genotypephenotype/search` expressed as JSON. */
-record SearchGenotypePhenotypeResponse {
+record SearchFeaturesResponse {
   /**
   The list of matching FeaturePhenotypeAssociation.
   */
@@ -77,8 +77,8 @@ Gets a list of `Variant` matching the search criteria.
 `POST /variants/search` must accept a JSON version of `SearchVariantsRequest`
 as the post body and will return a JSON version of `SearchVariantsResponse`.
 */
-SearchGenotypePhenotypeResponse searchVariants(
+SearchFeaturesResponse searchVariants(
   /** This request maps to the body of `POST /variants/search` as JSON. */
-  SearchGenotypePhenotypeRequest request) throws org.ga4gh.methods.GAException;
+  SearchFeaturesRequest request) throws org.ga4gh.methods.GAException;
 
 }

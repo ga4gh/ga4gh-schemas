@@ -86,8 +86,7 @@ record SearchReadGroupSetsRequest {
   array<string> datasetIds = [];
 
   /**
-  Only return read group sets for which a substring of the name matches
-  this string.
+  Only return read group sets with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
 

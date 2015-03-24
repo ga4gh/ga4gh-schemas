@@ -96,6 +96,15 @@
             </executions>
           </plugin>
     </plugins>
+
+  
+   <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh</artifactId>
+        <version>2.3</version>
+      </extension>
+    </extensions>
   </build>
   <dependencyManagement>
     <dependencies>
@@ -123,5 +132,18 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
+
+  <distributionManagement>
+    <repository>
+      <id>BBOPDeployRepository</id>
+      <name>BBOPDeployRepository</name>
+      <url>scp://knife.lbl.gov:/srv/www/htdocs/maven/repository</url>
+    </repository>
+    <snapshotRepository>
+      <id>BBOPSnapshotRepository</id>
+      <name>BBOPSnapshotRepository</name>
+      <url>scp://knife.lbl.gov:/srv/www/htdocs/maven/snapshot-repository</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>

@@ -71,7 +71,7 @@ record Individual {
   union { null, OntologyTerm } species = null;
 
   /** The genetic sex of this individual. Use `null` when unknown. */
-  GeneticSex sex = null;
+  union { null, OntologyTerm } sex = null;
 
   /**
   The developmental stage of this individual. Using Uberon is recommended.
