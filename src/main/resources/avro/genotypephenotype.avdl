@@ -4,9 +4,9 @@ This protocol defines genotype to phenotype relationships
 */
 protocol GenotypePhenotype {
 
-import idl "../common.avdl";
-import idl "../metadata.avdl";
-import idl "../sequenceAnnotations.avdl";
+import idl "common.avdl";
+import idl "metadata.avdl";
+import idl "sequenceAnnotations.avdl";
 
 
 /**

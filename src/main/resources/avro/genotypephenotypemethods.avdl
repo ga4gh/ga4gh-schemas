@@ -8,7 +8,7 @@ protocol GenotypePhenotypeMethods {
 
 
 import idl "genotypephenotype.avdl";
-import idl "../methods.avdl";
+import idl "methods.avdl";
 
 /******************  /genotypephenotype/search  *********************/
 
