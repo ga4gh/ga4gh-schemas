@@ -32,7 +32,7 @@ record PhenotypeQuery {
   array<org.ga4gh.PhenotypeInstance> phenotypes;
 }
 
-/** This request maps to the body of `POST /genotyphenotype/search` as JSON. */
+/** This request maps to the body of `POST /genotypephenotype/search` as JSON. */
 record SearchFeaturesRequest {
 
   union { null, FeatureQuery } feature = null;
