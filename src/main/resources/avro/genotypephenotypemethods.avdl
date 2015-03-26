@@ -2,7 +2,29 @@
 @namespace("org.ga4gh")
 /**
 This protocol defines genotype to phenotype relationships
-query system
+query system.
+
+The goal here is to allow users to query systems using one
+or more of Genotype, Phenotype, Environment, and Evidence.
+
+A query using one of the above items is to mean, by default,
+that the remainder of the query is as a "wildcard", such
+that all matches to just that query term would come back.
+Combinations of the above are to act like AND rather than OR.
+
+The Genotype part of the query methods can be one or more
+genomic features.  Associations can be made at many
+levels of granularity (from whole genotypes down to individual
+SNVs), but users may use these methods with partial or
+inexact information.  Therefore, the query methods must be
+able to support query of some or all of the associated features.
+Furthermore, use of the relationships between genomic features
+means that when querying for a gene, any varants to that
+gene are also returned.  For example, a query with
+BRCA2 would mean that in addition to any direct associations
+to the BRCA2, all associations to sequence variants of BRCA2 would also
+be returned.
+
 */
 protocol GenotypePhenotypeMethods {
 
@@ -23,11 +45,20 @@ record EvidenceQuery {
 }
 
 
+/**
+The feature collection to search for.  One or more features (variants,
+genes, etc) can be specified.  The idea here is that if a
+query is for a gene, then any alleles to that gene for which
+there are annotation records would be returned.
+*/
 record FeatureQuery {
   array<org.ga4gh.models.GenomicFeature> features;
 }
 
 
+/**
+One or more phenotypes can be queried together.
+*/
 record PhenotypeQuery {
   array<org.ga4gh.PhenotypeInstance> phenotypes;
 }

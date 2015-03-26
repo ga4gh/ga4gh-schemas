@@ -1,6 +1,33 @@
 @namespace("org.ga4gh")
 /**
-This protocol defines genotype to phenotype relationships
+
+This protocol defines the associations between genotype
+and phenotype (G2P).  Associations can be made as a
+result of literature curation, computational modeling,
+inference, etc., and modeled and shared using this schema.
+
+Here, we follow the dogma of:
+
+      Genotype + Environment = Phenotype
+
+where a G2P association is between the G(enotype) in the context of
+some E(environment), which gives rise to a P(henotype). These
+associations have further evidence, provenance, and attribution.
+
+We leverage the GenomicFeature in the sequenceAnnotation schema here
+as it can accomodate any genomic feature from a single nucleotide variation
+(SNV), up through a gene, and/or complex rearrangements.  Each can
+be modeled as genomic features, and generally linked to a phenotype.
+Collections of these features can represent a genotype at different levels
+of completeness.  Therefore, we can represent single allelic variation,
+allelic complement, and multiple variants in a genotype that can each or
+collectively be associated with a phenotype.
+
+To enable standardized integration, this schema relies heavily on
+OntologyTerms, both for typing phenotype (for example, using the HPO or DO)
+but also genomic features (such as using SO) and levels of evidence
+(ECO).
+
 */
 protocol GenotypePhenotype {
 
@@ -37,7 +64,7 @@ record PhenotypeInstance {
   /** HPO is recommended */
   org.ga4gh.models.OntologyTerm type;
 
-  /** HPO is recommended */
+  /** HPO is recommended.  Often this qualifier might be for abnormal/normal, or severity. */
   union { null, org.ga4gh.models.OntologyTerm } qualifier = null;
 
   /** HPO is recommended */
@@ -52,6 +79,7 @@ record PhenotypeInstance {
 
 /**
 Evidence for the phenotype association.
+This is also a stub for further expansion.  We should consider moving this into it's own schema.
 */
 record Evidence {
 
@@ -64,16 +92,27 @@ record Evidence {
 }
 
 /**
-An association between a variant or variant set and a phenotype
+An association between one or more genomic features and a phenotype.
+The instance of association allows us to link a feature to a phenotype,
+multiple times, each bearing potentially different levels of confidence,
+such as resulting from alternative experiments and analysis.
 */
 record FeaturePhenotypeAssociation {
   string id;
 
   /**
     The set of features of the organism that bears the phenotype.
+    This could be as complete as a full complement of variants,
+    or as minimal as the confirmed variants that are known causation
+    for the annotated phenotype.  The set can have one item, but
+    must not be null.
   */
   array<org.ga4gh.models.GenomicFeature> features;
 
+ /**
+    The evidence for this specific instance of association between the
+    features and the phenotype.
+  */
   Evidence evidence;
 
   /**
@@ -83,11 +122,11 @@ record FeaturePhenotypeAssociation {
   */
   PhenotypeInstance phenotype;
 
-  /** A textual description of the phenotype. This is used to complement the structured phenotype description in the phenotype field */
+  /** A textual description of the association. */
   union { null, string } description = null;
 
   /**
-    the environmental context in which the phenotype arises.
+    The context in which the phenotype arises.
     multiple contexts can be specified - these are assumed to all hold together
   */
   array<EnvironmentalContext> environmentalContexts;
