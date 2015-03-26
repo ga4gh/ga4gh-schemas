@@ -5,8 +5,8 @@ Defines types used by the GA4GH References API.
 
 References API servers may implement either or both of two modes: "classic", in
 which all `Reference`s annotate simple linear strings, and "graph", in which
-`Reference`s annotate sequences in sequence graphs. The "graph" mode is to be
-prefered in new client and server implementations.
+`Reference`s annotate `Sequence`s in sequence graphs. The "graph" mode is to be
+preferred in new client and server implementations.
 */
 protocol References {
 
@@ -19,77 +19,52 @@ reference coordinate space for other genomic annotations. A single
 
 `Reference`s are designed to be immutable. When extending a `ReferenceSet` with
 new `Reference`s, the existing `References` should not be changed. Newly added
-`Reference` sequences may be children of existing `Reference` sequences, but
-existing `Reference` sequences should not be made to be children of newly added
-`Reference` sequences.
-
-An API server that supports the "graph" mode must always set the `segment`
-field. An API server that supports the "classic" mode must always set the `id`
-field. New client and server implementations should prefer the "graph" mode.
+`Reference` `Sequence`s may be children of existing `Reference` `Sequence`s, but
+existing `Reference` `Sequence`s should not be made to be children of newly
+added `Reference` `Sequence`s.
 
 */
 record Reference {
 
   /**
-  The `Segment` describing this `Reference`'s sequence in the `ReferenceSet`'s
-  sequence graph.
-
-  The `Segment` will generally cover the entirety of the sequence, but may be
-  shorter if only a subrange of a sequence is to be included in the
-  `ReferenceSet`.
-
-  The sequence ID of the `Segment` is equal to ID of the `Reference`. The
-  actual sequence bases for a `Reference` are available through the
-  `getSequenceBases()` API call on this `Reference`'s sequence.
-
-  If the API server supports the "graph" mode, this field must not be null.
+  The reference ID. Unique within the repository.
   */
-  union { null, Segment } segment = null;
+  string id;
 
   /**
-  The reference ID. Unique within the repository. A sequence with this ID
-  exists, containing the reference's bases. If null, `segment` must be set, and
-  the sequence ID field from `segment` is used.
+  The ID of the `Sequence` on which this `Reference` occurs. May not be null,
+  although it may happen to be the same as the ID of the `Reference`.
 
-  If the API server supports the "classic" mode, this field must not be null.
+  The actual `Sequence` bases for a `Reference` are available through the
+  `getSequenceBases()` API call on this `Reference`'s `Sequence`.
+
+  Multiple `Reference`s on the same `Sequence` may not overlap.
   */
-  union { null, string } id = null;
+  string sequenceId;
 
-  /** The length of this reference's sequence. */
+  /**
+  The 0-based inclusive offset from the left end of the `Sequence` at which the
+  `Reference` begins. This will be 0 unless the `Sequence` contains bases at the
+  left not included in the `Reference`.
+  */
+  long start;
+
+  /**
+  The number of bases in this `Reference`. This will be the length of the
+  `Reference`'s `Sequence` unless the `Sequence` has some bases at one or both
+  ends not included in the `Reference`.
+  */
   long length;
 
   /**
-  The MD5 checksum uniquely representing this `Reference` and its position in
-  the `ReferenceSet`'s sequence graph, as a lower-case hexadecimal string.
-
-  If `segment.startJoin` and `segment.endJoin` are both null, or `segment`
-  itself is null, this is the MD5 of the upper-case sequence excluding all
-  whitespace characters (this is equivalent to SQ:M5 in SAM).
-
-  Otherwise, this hash is to be computed as follows:
-
-  * Initialize a new MD5 hashing state.
-
-  * Add in the the MD5 of the upper-case sequence excluding all whitespace
-  characters, as a lower-case hexadecimal string.
-
-  * If `segment.startJoin` is null, add in 32 '0' characters. Otherwise add in
-  the `md5checksum` of the `Reference` indicated by `segment.startJoin`,
-  `segment.startJoin.position` as a decimal string, and
-  `segment.startJoin.strand` as either "+" or "-".
-
-  * If `segment.endJoin` is null, add in 32 '0' characters. Otherwise add in
-  the `md5checksum` of the `Reference` indicated by `segment.endJoin`,
-  `segment.endJoin.position` as a decimal string, and `segment.endJoin.strand`
-  as either "+" or "-".
-
-  * Compute the digest and represent it as a lower-case hexadecimal string.
+  The MD5 checksum uniquely representing this `Reference` as a lower-case
+  hexadecimal string, calculated as the MD5 of the upper-case sequence
+  excluding all whitespace characters (this is equivalent to SQ:M5 in SAM).
   */
   string md5checksum;
 
   /**
-  The name of this reference. (e.g. '22') Also see the
-  `names` field on the parent `ReferenceSet`.
+  The name of this reference. (e.g. '22').
   */
   string name;
 
@@ -125,13 +100,25 @@ record Reference {
 
   /** ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human). */
   union { null, int } ncbiTaxonId = null;
+
+  /** whether this reference is primary, part of the core coordinate system, or not */
+  boolean isPrimary = true;
 }
 
 /**
 A `ReferenceSet` is a set of `Reference`s which typically comprise a
 reference assembly, such as `GRCh38`. A `ReferenceSet` defines a common
 coordinate space for comparing reference-aligned experimental data.
+
+`ReferenceSet`s are composeable: a `ReferenceSet` may incorporate all of the
+`Reference`s and `Join`s from one or more other `ReferenceSet`s via the
+`includedReferenceSet`s array.
+
+In classic mode, this is just a set of sequences.  In graph mode, there
+are both sequences and joins, but we only access the joins via method
+getReferenceJoins().
 */
+
 record ReferenceSet {
   /** The reference set ID. Unique in the repository. */
   string id;
@@ -146,10 +133,33 @@ record ReferenceSet {
   union { null, array<string> } referenceIds = null;
 
   /**
-  Order-independent MD5 checksum which identifies this `ReferenceSet`. The
-  checksum is computed by sorting all `reference.md5checksum` (for all
-  `reference` in this set) in ascending lexicographic order, concatenating,
-  and taking the MD5 of that value.
+  The IDs of `ReferenceSet`s that are included in this set, allowing extension
+  from a core e.g. provided by GRC or another provider.  In particular this
+  may provide a basis of primary references for a graph mode reference set.
+
+  A `ReferenceSet` is not allowed to include itself, either directly by ID, or
+  indirectly or transitively through another `ReferenceSet`.
+
+  `Reference`s and `Join`s from the included `ReferenceSet`s are considered to
+  be part of this one. If multiple included `ReferenceSet`s provide a
+  `Reference` or `Join`, only one copy is taken to exist in this `ReferenceSet`.
+  Since different `Reference`s on a `Sequence` may not overlap, it is illegal to
+  include `ReferenceSet`s which when taken together would create such an
+  overlap, or to have such an overlap between a `Reference` from an included
+  `ReferenceSet` and one that appears directly in this `ReferenceSet`.
+  */
+  array<string> includedReferenceSets = null;
+
+  /**
+  Order-independent MD5 checksum which identifies this `ReferenceSet`.
+
+  To compute this checksum, make a list of `Reference.md5checksum` for all
+  `Reference`s in this set, including any in any included set. Add to that list
+  a lower-case MD5 checksum for each `Join` in the `ReferenceSet` or any
+  included set, which is calculated by hashing the `md5checksum`, position as a
+  decimal string, and strand as "+" or "-" for the two `Side`s of the `Join`
+  in order. Then sort that list, and take the MD5 hash of all the strings
+  concatenated together. Express the hash as a lower-case hexadecimal string.
   */
   string md5checksum;
 
@@ -157,7 +167,7 @@ record ReferenceSet {
   ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) indicating
   the species which this assembly is intended to model. Note that contained
   `Reference`s may specify a different `ncbiTaxonId`, as assemblies may
-  contain reference sequences which do not belong to the modeled species, e.g.
+  contain reference `Sequence`s which do not belong to the modeled species, e.g.
   EBV in a human reference genome.
   */
   union { null, int } ncbiTaxonId = null;
@@ -165,7 +175,7 @@ record ReferenceSet {
   /** Optional free text description of this reference set. */
   union { null, string } description = null;
 
-  // next information about the source of the sequences
+  // next information about the source of the `Sequence`s
 
   /** Public id of this reference set, such as `GRCh37`. */
   union { null, string } assemblyId = null;
@@ -181,7 +191,7 @@ record ReferenceSet {
 
   /**
   A reference set may be derived from a source if it contains
-  additional sequences, or some of the sequences within it are derived
+  additional `Sequence`s, or some of the `Sequence`s within it are derived
   (see the definition of `isDerived` in `Reference`).
   */
   boolean isDerived = false;
