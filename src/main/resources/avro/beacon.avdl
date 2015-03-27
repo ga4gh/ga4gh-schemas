@@ -38,10 +38,10 @@ record QueryResource {
 ErrorResource
 */
 record ErrorResource {
-  /** allele */
+  /** Error name/code, e.g. "bad_request" or "unauthorized". */
   string name;
 
-  /** # observed */
+  /** Error message. */
   union{ null, string } description = null;
 }
 
@@ -132,7 +132,7 @@ record BeaconInformationResource {
   /** An email address for contact. */
   union{ null, string } email = null;
 
-  /** Auth type. Expected value - OAUTH2. Defaults to NONE. */
+  /** Auth type. Expected value is OAUTH2. Defaults to NONE. */
   union{ null, string } auth = null;
 
   /** Examples of interesting queries, e.g. a few queries demonstrating different types of responses. */
@@ -149,10 +149,10 @@ record ResponseResource {
   otherwise. */
   string exists;
 
-  /** frequency */
-  double frequency;
+  /** Frequency of this allele in the dataset. Between 0 and 1, inclusive. */
+  union{ null, double } frequency;
 
-  /** # observed */
+  /** Number of observations of this allele in the dataset.  */
   union{ null, int } observed = null;
 
   /** Additional message. OK if request succeeded. */

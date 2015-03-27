@@ -51,6 +51,16 @@ SearchVariantSetsResponse searchVariantSets(
   /** This request maps to the body of `POST /variantsets/search` as JSON. */
   SearchVariantSetsRequest request) throws GAException;
 
+/**************** /variantsets/{id} *******************/
+/**
+Gets a `VariantSet` by ID.
+`GET /variantsets/{id}` will return a JSON version of `VariantSet`.
+*/
+org.ga4gh.models.VariantSet getVariantSet(
+  /**
+  The ID of the `VariantSet`.
+  */
+  string id) throws GAException;
 
 /******************  /variantsets/{id}/sequences/search  *********************/
 /**
@@ -220,7 +230,8 @@ as the post body and will return a JSON version of `SearchVariantsResponse`.
 SearchVariantsResponse searchVariants(
   /** This request maps to the body of `POST /variants/search` as JSON. */
   SearchVariantsRequest request) throws GAException;
-  /**************** /variants/{id} *******************/
+
+/**************** /variants/{id} *******************/
 /**
 Gets a `Variant` by ID.
 `GET /variants/{id}` will return a JSON version of `Variant`.

@@ -141,6 +141,17 @@ org.ga4gh.models.ReadGroupSet getReadGroupSet(
   */
   string id) throws GAException;
 
+/****************  /readgroups/{id}  *******************/
+/**
+Gets a `org.ga4gh.models.ReadGroup` by ID.
+`GET /readgroups/{id}` will return a JSON version of `ReadGroup`.
+*/
+org.ga4gh.models.ReadGroup getReadGroup(
+  /**
+  The ID of the `ReadGroup`.
+  */
+  string id) throws GAException;
+
 /******************  /datasets/search  *********************/
 /**
 This request maps to the body of `POST /datasets/search` as JSON.
@@ -201,5 +212,5 @@ org.ga4gh.models.Dataset getDataset(
   The ID of the `Dataset`.
   */
   string id) throws GAException;
-  
+
 }

@@ -167,7 +167,7 @@ record ReadGroupSet {
 /** A linear alignment can be represented by one CIGAR string. */
 record LinearAlignment {
   /** The position of this alignment. */
-  Position position;
+  Side position;
 
   /**
   The mapping quality of this alignment. Represents how likely
@@ -327,7 +327,7 @@ record ReadAlignment {
   The mapping of the primary alignment of the `(readNumber+1)%numberReads`
   read in the fragment. It replaces mate position and mate strand in SAM.
   */
-  union { null, Position } nextMatePosition = null;
+  union { null, Side } nextMatePosition = null;
 
   /**
   A map of additional read alignment information.
