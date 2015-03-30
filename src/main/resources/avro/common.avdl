@@ -353,7 +353,6 @@ record Sequence {
 }
 
 /**
-<<<<<<< HEAD
 An abstraction for referring to a genomic region, in relation to some already 
 known reference. This will require some significant rework as we move to graph
 coordinates.  
