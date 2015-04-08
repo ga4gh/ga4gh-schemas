@@ -24,10 +24,13 @@ allelic complement, and multiple variants in a genotype that can each or
 collectively be associated with a phenotype.
 
 To enable standardized integration, this schema relies heavily on
-OntologyTerms, both for typing phenotype (for example, using the HPO or DO)
-but also genomic features (such as using SO) and levels of evidence
-(ECO).
-
+OntologyTerms, for typing phenotype, genomic features, and levels
+of evidence.  Suggested ontologies to leverage include (with browser links):
+Human Phenotype Ontology (HPO): http://www.ontobee.org/browser/index.php?o=hp
+Disease Ontology (DO): http://purl.obolibrary.org/obo/DOID_4
+Sequence Ontology (SO): http://www.sequenceontology.org/browser/
+Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
+Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
 */
 protocol GenotypePhenotype {
 
@@ -39,14 +42,28 @@ import idl "sequenceAnnotations.avdl";
 /**
 The context in which a genotype gives rise to a phenotype.
 This is fairly open-ended; as a stub we have a simple ontology term.
-For example, a controlled term for a drug
+For example, a controlled term for a drug, or perhaps an instance of a 
+complex environment including temperature and air quality, or perhaps
+the anatomical environment (gut vs tissue type vs whole organism).
 */
 record EnvironmentalContext {
 
-  /** TODO: define potential ontologies */
+  /** The Environment ID. */
+  union { null, string } id = null;
+
+  /**
+  Examples of some environment types could be drawn from:
+  Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
+  Chemical Entities of Interest (ChEBI): http://www.ontobee.org/browser/index.php?o=chebi
+  Environment Ontology (ENVO):  http://www.ontobee.org/browser/index.php?o=ENVO
+  Anatomy (Uberon): http://www.ontobee.org/browser/index.php?o=uberon
+  */
   org.ga4gh.models.OntologyTerm environmentType;
 
-  /** A textual description of the environment. This is used to complement the structured description in the environmentType field */
+  /** 
+	A textual description of the environment. This is used to complement 
+	the structured description in the environmentType field 
+  */
   union { null, string } description = null;
 
 }
@@ -54,8 +71,8 @@ record EnvironmentalContext {
 
 /**
 An association to a phenotype and related information.
-This record is intended primarily to be used in conjunction with variants, but the record can
-also be composed with other kinds of entities such as diseases
+This record is intended primarily to be used in conjunction with variants, but 
+the record can also be composed with other kinds of entities such as diseases
 */
 record PhenotypeInstance {
   /** The Phenotype ID. */
@@ -64,14 +81,25 @@ record PhenotypeInstance {
   /** HPO is recommended */
   org.ga4gh.models.OntologyTerm type;
 
-  /** HPO is recommended.  Often this qualifier might be for abnormal/normal, or severity. */
-  union { null, org.ga4gh.models.OntologyTerm } qualifier = null;
+  /** 
+  PATO is recommended.  Often this qualifier might be for abnormal/normal, 
+  or severity.
+  For example, severe: http://purl.obolibrary.org/obo/PATO_0000396 
+  or abnormal: http://purl.obolibrary.org/obo/PATO_0000460
+  */
+  union { null, array<org.ga4gh.models.OntologyTerm> } qualifier = null;
 
-  /** HPO is recommended */
-  /** TODO: also allow quantitative recording? */
+  //TODO: also allow quantitative recording?
+  /** 
+  HPO is recommended, for example, subclasses of
+  http://purl.obolibrary.org/obo/HP_0011007
+  */
   union { null, org.ga4gh.models.OntologyTerm } ageOfOnset = null;
 
-  /** A textual description of the phenotype. This is used to complement the structured phenotype description in the phenotype field */
+  /** 
+  A textual description of the phenotype. This is used to complement the 
+  structured phenotype description in the type field. 
+  */
   union { null, string } description = null;
 
 }
@@ -79,14 +107,18 @@ record PhenotypeInstance {
 
 /**
 Evidence for the phenotype association.
-This is also a stub for further expansion.  We should consider moving this into it's own schema.
+This is also a stub for further expansion.  We should consider moving this into 
+it's own schema.
 */
 record Evidence {
 
   /** ECO or OBI is recommended */
   org.ga4gh.models.OntologyTerm evidenceType;
 
-  /** A textual description of the evidence. This is used to complement the structured description in the evidenceType field */
+  /** 
+	A textual description of the evidence. This is used to complement the 
+	structured description in the evidenceType field 
+	*/
   union { null, string } description = null;
 
 }
@@ -104,8 +136,13 @@ record FeaturePhenotypeAssociation {
     The set of features of the organism that bears the phenotype.
     This could be as complete as a full complement of variants,
     or as minimal as the confirmed variants that are known causation
-    for the annotated phenotype.  The set can have one item, but
-    must not be null.
+    for the annotated phenotype.  
+    Examples of features could be variations at the nucleotide level, 
+    large rearrangements at the chromosome level, or relevant epigenetic
+    markers.  Relevant genomic feature types are suggested to be 
+    those typed in the Sequence Ontology (SO).
+
+    The feature set can have only one item, and must not be null.
   */
   array<org.ga4gh.models.GenomicFeature> features;
 
@@ -113,12 +150,13 @@ record FeaturePhenotypeAssociation {
     The evidence for this specific instance of association between the
     features and the phenotype.
   */
-  Evidence evidence;
+  array<Evidence> evidence;
 
   /**
     The phenotypic component of this association.
-    Note that we delegate this to a separate record to allow us the flexibility to composition of phenotype
-    associations with records that are not variant sets - for example, diseases.
+    Note that we delegate this to a separate record to allow us the flexibility 
+	to composition of phenotype associations with records that are not 
+	variant sets - for example, diseases.
   */
   PhenotypeInstance phenotype;
 
@@ -126,8 +164,8 @@ record FeaturePhenotypeAssociation {
   union { null, string } description = null;
 
   /**
-    The context in which the phenotype arises.
-    multiple contexts can be specified - these are assumed to all hold together
+  The context in which the phenotype arises.
+  Multiple contexts can be specified - these are assumed to all hold together
   */
   array<EnvironmentalContext> environmentalContexts;
 
