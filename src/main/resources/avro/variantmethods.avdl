@@ -163,8 +163,17 @@ org.ga4gh.models.Variant getVariant(
 /******************  /alleles/search  *********************/
 /** This request maps to the body of `POST /alleles/search` as JSON. */
 record SearchAllelesRequest {
-  /** Required. The IDs of the variant sets to search over. */
+  /**
+  If nonempty, look only at `Allele`s used in at least one of the specified
+  `VariantSet`s. `Allele`s that are not used in any `VariantSet`s may only be
+  returned if this is empty.
+  */
   array<string> variantSetIds = [];
+  
+  /**
+  If present, look only at `Allele`s in the specified dataset.
+  */
+  union { null, string } datasetId = null; 
 
   /**
   Required. Only return `Allele`s on the sequence with this ID.
@@ -238,6 +247,75 @@ org.ga4gh.models.Allele getAllele(
   The ID of the `Allele`.
   */
   string id) throws GAException;
+  
+/******************  /alleles/search/path  *********************/
+/** This request maps to the body of `POST /alleles/search/path` as JSON. */
+record SearchAllelesPathRequest {
+  /**
+  If present, look only at `Allele`s in the specified `Dataset`.
+  */
+  union { null, string } datasetId = null; 
+
+  /**
+  If present, look only at `Allele`s used in the specified `VariantSet`.
+  */
+  union { null, string } variantSetId = null; 
+
+  /**
+  Specifies a search algorithm to use, which defines the exact semantics of what
+  it means for an `Allele` to be "relevant" to a `Path`. If the server does not
+  support the sp[ecified algorithm, it will throw an error.
+  */
+  string algorithm;
+
+  /**
+  Specifies a path. Only alleles "relevant" to the specified `Path` under the
+  specified algorithm will be returned.
+  */
+  org.ga4gh.models.Path query;
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;
+}
+
+/** This is the response from `POST /alleles/search/path` expressed as JSON. */
+record SearchAllelesPathResponse {
+  /**
+  The list of relevant alleles. An `Allele` should be returned if the specified
+  search algorithm deems it relevant to the specified path.
+  */
+  array<org.ga4gh.models.Allele> alleles = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `Allele`s relevant to a path.
+
+`POST /alleles/search/path` must accept a JSON version of
+`SearchAllelesPathRequest` as the post body and will return a JSON version of
+`SearchAllelesPathResponse`.
+*/
+SearchAllelesPathResponse searchAllelesPath(
+    /**
+    This request maps to the body of `POST /alleles/search/path` as JSON.
+    */
+    SearchAllelesPathRequest request) throws GAException;
 
 /******************  /callsets/search  *********************/
 /** This request maps to the body of `POST /callsets/search` as JSON. */

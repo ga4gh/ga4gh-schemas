@@ -56,7 +56,13 @@ The variant set is equivalent to a VCF file.
 
 A `VariantSet` can contain novel `Sequence`s, which are used to augment the
 sequence graph of its `ReferenceSet`, creating the augmented sequence graph
-against which `Allele`s are interpreted.
+against which `Allele`s are interpreted. All `Sequence`s and `Join`s used in
+`Allele`s that the `VariantSet` uses are so included, and musty be available
+through the `searchSequences()` and `searchJoins()` methods on the `VariantSet`.
+
+The novel `Sequence`s and `Join`s in a `VariantSet` must constitute a "simple"
+extension of the `VariantSet`'s `ReferenceSet`. That is, no novel `Join` may
+connect to novel `Sequence`s at both ends.
 */
 record VariantSet {
   /** The variant set ID. */
@@ -365,13 +371,13 @@ it is also common for it to be a mix of `Segment`s on reference and novel
 `Sequence`s, or in general to be any contiguous path through the augmented
 sequence graph.
 
-`Allele`s belong to `VariantSet`s. `Allele`s can also be used to represent the
-reference and alternate alleles of `Variant`s.
+`Allele`s are persistent named objects that may be used in multiple
+`VariantSet`s and/or `Variant`s.
 
 Note that `Path`s cannot follow `Join`s not represented in the augmented
-sequence graph. For example, if  an `Allele` that spans a novel deletion is
-required, a new `Join` should exist to describe that deletion, available through
-`searchJoins()`.
+sequence graph. For example, if  an `Allele` in a `VariantSet` describes a novel
+deletion relative to the applicable `ReferenceSet`, the `Join` describing that
+deletion must be available through `searchJoins()` on the `VariantSet`.
 */
 record Allele {
   /**
@@ -379,16 +385,17 @@ record Allele {
   the entirety of a `Sequence`, this is equal to the ID of that `Sequence`.
   */
   string id;
-
-  /** The ID of the variant set this allele belongs to. */
-  string variantSetId;
+  
+  /**
+  The `Dataset` that this `Allele` belongs to.
+  */
+  string datasetId;
 
   /**
   The ordered and oriented `Segment`s of DNA that this `Allele` represents.
-
-  `Segment`s on this `Path` are on either `Reference` `Sequence`s, or
-  `Sequence`s associated with this `VariantSet. Both types of `Sequence`s are
-  available through the `searchSequences()` and `getSequence()` API calls.
+  Adjacent `Segment`s must be connected by `Join`s that either occur in the
+  `ReferenceSet` associated with a `VariantSet` using this `Allele`, or are
+  available from `searchJoins()` on that `VariantSet`.
   */
   Path path;
 }
