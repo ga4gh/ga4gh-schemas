@@ -19,32 +19,53 @@ core generic record which corresponds to the a GFF3 record.
 protocol SequenceAnnotations {
 
   import idl "common.avdl";
+  import idl "ontologies.avdl";
+
+  /**
+  Identifier from a public database
+  */
+  record ExternalIdentifier {
+    /**
+    The source of the identifier.
+    (e.g. `Ensembl`)
+    */
+    string database;
+
+    /**
+    The ID defined by the external database.
+    (e.g. `ENST00000000000`)
+    */
+    string identifier;
+
+    /**
+    The version of the object or the database
+    (e.g. `78`)
+    */
+    string version;
+  }
 
   /**
   Type defining a collection of attributes associated with various protocol
   records.  Each attribute is a name that maps to an array of one or more
-  values.  To work around Avro restrictions, three fields are define, one for
-  each type of value.  However attribute names must be unique across all three
-  fields.  If possible, multi-part string values should be split into array
-  elements instead of adding separator syntax that need to parsed.
+  values.  Values can be strings, external identifiers, or ontology terms.
+  Values should be split into the array elements instead of using a separator
+  syntax that needs to parsed.
   */
   record Attributes {
-    map<array<string>> strAttrs = {};
-    map<array<ExternalIdentifier>> extIdAttrs = {};
-    map<array<OntologyTerm>> ontTermAttrs = {};
+    map<array<union {string, ExternalIdentifier, OntologyTerm}>> vals = {};
   }
   
   /**
-  Continuous numerical annotation along a region.
+  Continuous numerical annotation along a path.
   */
   record Wiggle {
     /**
-    The region being described
+    The path for the region being annotated.
     Note that we are fusing parts of UCSC BedGraph and Wiggle syntax.
     The region is being fully annotated, but can be divided into bins.
     If you have gaps, you need to define a sequence of such Wiggles.
     */
-    Region region;
+    Path path;
 
     /**
     The values associated to this region.
@@ -73,9 +94,10 @@ protocol SequenceAnnotations {
   }
 
   /**
-  Node in the annotation graph that annotates a contiguous region of 
+  Node in the annotation graph that annotates a contiguous region of a
+  sequence.
   */
-  record GenomicFeature {
+  record Feature {
     /**
     Id of this annotation node.
     */
@@ -94,7 +116,7 @@ protocol SequenceAnnotations {
     /**
     Genomic location.
     */
-    Region region;
+    Path path;
 
     /**
     Feature that is annotated by this region.  Normally, this will be a term in

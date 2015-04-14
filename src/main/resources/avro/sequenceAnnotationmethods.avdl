@@ -2,6 +2,7 @@
 
 protocol SequenceAnnotationMethods {
 
+  import idl "common.avdl";
   import idl "methods.avdl";
   import idl "sequenceAnnotations.avdl";
 
@@ -26,9 +27,9 @@ protocol SequenceAnnotationMethods {
     array<string> parentIds = [];
 
     /**
-    If specified, this query matches only annotations which overlap this range.
+    If specified, this query matches only annotations which overlap this path.
     */
-    union { null, QueryRange } range = null;
+    union { null, org.ga4gh.models.Path } range = null;
 
     // TODO: Fix this field. Clarify semantics around how OntologyTerm matching works, or
     // change the Ontology term field on the feature.
@@ -58,7 +59,7 @@ protocol SequenceAnnotationMethods {
     The list of matching annotations, sorted by start position. Annotations which
     share a start position are returned in a deterministic order.
     */
-    array<org.ga4gh.models.GenomicFeature> features = [];
+    array<org.ga4gh.models.Feature> features = [];
 
     /**
     The continuation token, which is used to page through large result sets.
@@ -82,10 +83,10 @@ protocol SequenceAnnotationMethods {
 
   /****************  /feature/{id}  *******************/
   /**
-  Gets a `org.ga4gh.models.GenomicFeature` by ID.
+  Gets a `org.ga4gh.models.Feature` by ID.
   `GET /feature/{id}` will return a JSON version of `Feature`.
   */
-  org.ga4gh.models.GenomicFeature getFeature(
+  org.ga4gh.models.Feature getFeature(
     /**
     The ID of the `Feature`.
     */

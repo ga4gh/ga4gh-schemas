@@ -1,4 +1,4 @@
-@namespace("org.ga4gh")
+@namespace("org.ga4gh.models")
 /**
 
 This protocol defines the associations between genotype
@@ -144,7 +144,7 @@ record FeaturePhenotypeAssociation {
 
     The feature set can have only one item, and must not be null.
   */
-  array<org.ga4gh.models.GenomicFeature> features;
+  array<org.ga4gh.models.Feature> features;
 
  /**
     The evidence for this specific instance of association between the
