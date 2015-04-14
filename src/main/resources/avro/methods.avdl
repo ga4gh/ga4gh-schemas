@@ -2,35 +2,6 @@
 
 protocol RPC {
 
-/** A query range suitable for inclusion in a positional range request. */
-record QueryRange {
-  /**
-  The identifier for the reference to query. Exactly one of `referenceId` and
-  `referenceName` should be specified.
-  */
-  union { null, string} referenceId;
-
-  /**
-  The name of the reference to query. Exactly one of `referenceId` and
-  `referenceName` should be specified.
-  */
-  union { null, string } referenceName;
-
-  /**
-  The start position (0-based) of this query. Defaults to 0.
-  Genomic positions are non-negative integers less than reference length.
-  Requests spanning the join of circular genomes are represented as
-  two requests one on each side of the join (position 0).
-  */
-  union { long, null } start = 0;
-
-  /**
-  The end position (0-based, exclusive) of this query. Defaults to the
-  reference's length.
-  */
-  union { null, long } end = null;
-}
-
 /**
 A general exception type.
 */
