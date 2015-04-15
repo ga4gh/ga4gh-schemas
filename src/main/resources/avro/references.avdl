@@ -148,7 +148,7 @@ record ReferenceSet {
   overlap, or to have such an overlap between a `Reference` from an included
   `ReferenceSet` and one that appears directly in this `ReferenceSet`.
   */
-  array<string> includedReferenceSets = null;
+  array<string> includedReferenceSets = [];
 
   /**
   Order-independent MD5 checksum which identifies this `ReferenceSet`.

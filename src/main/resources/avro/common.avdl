@@ -206,7 +206,7 @@ added "nov1" `Sequence`:
     start = (3,-), "ref"
     length = 2
 
-    5. Segment with top strand GNG in the "ref" reference sequence:
+    4. Segment with top strand GNG in the "ref" reference sequence:
     start = (4,+)
     length = 3
 
