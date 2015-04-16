@@ -141,14 +141,4 @@ record SearchFeaturesResponse {
   union { null, string } nextPageToken = null;
 }
 
-/**
-Gets a list of `Variant` matching the search criteria.
-
-`POST /variants/search` must accept a JSON version of `SearchVariantsRequest`
-as the post body and will return a JSON version of `SearchVariantsResponse`.
-*/
-SearchFeaturesResponse searchVariants(
-  /** This request maps to the body of `POST /variants/search` as JSON. */
-  SearchFeaturesRequest request) throws org.ga4gh.methods.GAException;
-
 }
