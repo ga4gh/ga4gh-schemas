@@ -314,7 +314,7 @@ record Analysis {
   union { null, string } type = null;
 
   /** The software run to generate this analysis. */
-  array<string> software = null;
+  array<string> software = [];
 
   /**
   A map of additional analysis information.
