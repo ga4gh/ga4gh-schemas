@@ -35,6 +35,7 @@ ReadGroupSet >--< ReadGroup --< fragment --< read --< alignment --< linear/graph
 protocol Reads {
 
 import idl "common.avdl";
+import idl "metadata.avdl";
 
 record Program {
   /** The command line used to run this program. */
@@ -59,23 +60,6 @@ record Dataset {
 
   /** The dataset description. */
   union { null, string } description = null;
-}
-
-record Experiment {
-  /** The library used as part of this experiment. */
-  union { null, string } libraryId = null;
-
-  /** The platform unit used as part of this experiment. */
-  union { null, string } platformUnit = null;
-
-  /** The sequencing center used as part of this experiment. */
-  union { null, string } sequencingCenter;
-
-  /**
-  The instrument model used as part of this experiment.
-  This maps to sequencing technology in BAM.
-  */
-  union { null, string } instrumentModel;
 }
 
 record ReadStats {
