@@ -52,3 +52,29 @@ mkdir -p target/documentation
 avrodoc target/schemas/reads.avpr > target/documentation/reads.html
 
 ```
+
+### Automating the process
+
+Once you have installed Avrodoc, you can run the `contrib/make_avrodoc.sh` script to automate the above process, building Avrodoc HTML files for each `.avdl` in `target/documentation`:
+
+```shell
+contrib/make_avrodoc.sh
+```
+
+## Generating UML Diagrams
+
+There is a UML class diagram, `doc/uml.dia`, that describes the layout of the GA4GH data model.
+
+UML class diagrams can be partially generated from the schemas by using [Doxygen](http://www.doxygen.org/) to generate XML, and then using [Dia](http://live.gnome.org/Dia) to generate a UML from that XML output. Unfortunately, this only imports the Avro types: dependencies and layout still need to be done manually.
+
+The `contrib` folder contains a `Doxyfile` and a rudimentary filter (`avdlDoxyFilter.py`) that can be used to generate Doxygen XML that DIA can import. To use them, simply do:
+
+```shell
+# Go into the contrib directory
+cd contrib
+
+# run Doxygen, which will put XML docs in ../doc/doxygen/XML
+doxygen
+```
+
+Then, open up Dia, do `File -> Open`, set the input file type to `Dox2UML (Multiple)`, and open `doc/doxygen/XML/index.xml`. Dia will generate UML classes for all the schema types, which you can lay out into a UML class diagram.
