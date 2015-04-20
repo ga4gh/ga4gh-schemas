@@ -69,15 +69,6 @@ record Reference {
   string name;
 
   /**
-  The URI from which the sequence was obtained.
-  Specifies a FASTA format file/string with one name, sequence pair.
-  In most cases, clients should call the `getSequenceBases()` or
-  `getReferenceBases()` methods to obtain sequence bases for a `Reference`
-  instead of attempting to retrieve this URI.
-  */
-  union { null, string } sourceURI = null;
-
-  /**
   All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
   with a version number, e.g. `GCF_000001405.26`.
   */
@@ -179,9 +170,6 @@ record ReferenceSet {
 
   /** Public id of this reference set, such as `GRCh37`. */
   union { null, string } assemblyId = null;
-
-  /** Specifies a FASTA format file/string. */
-  union { null, string } sourceURI = null;
 
   /**
   All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
