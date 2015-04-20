@@ -7,28 +7,7 @@ This protocol defines metadata used in the other GA4GH protocols.
 protocol Metadata {
 
 import idl "common.avdl";
-
-/**
-An ontology term describing an attribute. (e.g. the phenotype attribute
-'polydactyly' from HPO)
-*/
-
-record OntologyTerm {
-  /**
-  The source of the onotology term.
-  (e.g. `Ontology for Biomedical Investigation`)
-  */
-  string ontologySource;
-
-  /**
-  The ID defined by the external onotology source.
-  (e.g. `http://purl.obolibrary.org/obo/OBI_0001271`)
-  */
-  string id;
-
-  /** The name of the onotology term. (e.g. `RNA-seq assay`) */
-  union { null, string } name = null;
-}
+import idl "ontologies.avdl";
 
 /**
 An individual (or subject) typically corresponds to an individual
@@ -335,7 +314,7 @@ record Analysis {
   union { null, string } type = null;
 
   /** The software run to generate this analysis. */
-  array<string> software = null;
+  array<string> software = [];
 
   /**
   A map of additional analysis information.

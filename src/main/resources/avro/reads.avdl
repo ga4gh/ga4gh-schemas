@@ -35,6 +35,7 @@ ReadGroupSet >--< ReadGroup --< fragment --< read --< alignment --< linear/graph
 protocol Reads {
 
 import idl "common.avdl";
+import idl "metadata.avdl";
 
 record Program {
   /** The command line used to run this program. */
@@ -59,23 +60,6 @@ record Dataset {
 
   /** The dataset description. */
   union { null, string } description = null;
-}
-
-record Experiment {
-  /** The library used as part of this experiment. */
-  union { null, string } libraryId = null;
-
-  /** The platform unit used as part of this experiment. */
-  union { null, string } platformUnit = null;
-
-  /** The sequencing center used as part of this experiment. */
-  union { null, string } sequencingCenter;
-
-  /**
-  The instrument model used as part of this experiment.
-  This maps to sequencing technology in BAM.
-  */
-  union { null, string } instrumentModel;
 }
 
 record ReadStats {
@@ -167,7 +151,7 @@ record ReadGroupSet {
 /** A linear alignment can be represented by one CIGAR string. */
 record LinearAlignment {
   /** The position of this alignment. */
-  Position position;
+  Side position;
 
   /**
   The mapping quality of this alignment. Represents how likely
@@ -215,6 +199,16 @@ record GraphAlignment {
   array<CigarUnit> cigar = [];
 }
 
+/**
+A fragment represents a contiguous stretch of a DNA or RNA molecule. Reads can
+be associated with a fragment to specify they derive from the same molecule.
+*/
+record Fragment {
+
+  /** The fragment ID. */
+  string id;
+
+}
 
 /**
 Each read alignment describes an alignment with additional information
@@ -238,6 +232,9 @@ record ReadAlignment {
   string readGroupId;
 
   // fragment attributes
+  
+  /** The fragment ID that this ReadAlignment belongs to. */
+  string fragmentId;
 
   /** The fragment name. Equivalent to QNAME (query template name) in SAM.*/
   string fragmentName;
@@ -327,7 +324,7 @@ record ReadAlignment {
   The mapping of the primary alignment of the `(readNumber+1)%numberReads`
   read in the fragment. It replaces mate position and mate strand in SAM.
   */
-  union { null, Position } nextMatePosition = null;
+  union { null, Side } nextMatePosition = null;
 
   /**
   A map of additional read alignment information.

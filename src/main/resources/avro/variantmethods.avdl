@@ -51,88 +51,16 @@ SearchVariantSetsResponse searchVariantSets(
   /** This request maps to the body of `POST /variantsets/search` as JSON. */
   SearchVariantSetsRequest request) throws GAException;
 
-
-/******************  /variantsets/{id}/sequences/search  *********************/
+/**************** /variantsets/{id} *******************/
 /**
-This request maps to the body of `POST /variantsets/{id}/sequences/search` as
-JSON.
+Gets a `VariantSet` by ID.
+`GET /variantsets/{id}` will return a JSON version of `VariantSet`.
 */
-record SearchVariantSetSequencesRequest {
+org.ga4gh.models.VariantSet getVariantSet(
   /**
-  If nonempty, return `Segment`s describing novel sequences in the `VariantSet`
-  that are joined onto sequences with one of the specified IDs.
+  The ID of the `VariantSet`.
   */
-  array<string> parentIds = [];
-
-  /**
-  Specifies the maximum number of results to return in a single page.
-  If unspecified, a system default will be used.
-  */
-  union { null, int } pageSize = null;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
-}
-
-/**
-This is the response from `POST /variantsets/{id}/sequences/search` expressed as
-JSON.
-*/
-record SearchVariantSetSequencesResponse {
-  /**
-  The list of `Segment`s for matching sequences from the novel sequence graph
-  for the `VariantSet`.
-  */
-  array<org.ga4gh.models.Segment> segments = [];
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
-}
-
-/**
-Gets `Segment`s covering the sequences that match the search criteria.
-
-`POST /variantsets/{id}/sequences/search` must accept a JSON version of
-`SearchVariantSetSequencesRequest` as the post body and will return a JSON
-version of `SearchVariantSetSequencesResponse`.
-*/
-SearchVariantSetSequencesResponse searchVariantSetSequences(
-  /**
-  The ID of the `VariantSet` which provides the novel sequences.
-  */
-  string variantSetId,
-  /**
-  This request maps to the body of `POST variantsets/{id}/sequences/search` as
-  JSON.
-  */
-  SearchVariantSetSequencesRequest request) throws GAException;
-
-/*****************  /variantsets/{id}/sequences/{id}  *******************/
-/**
-Gets a `Segment` describing a novel sequence in a `VariantSet`, by sequence
-ID.
-
-`GET /variantsets/{id}/sequences/{id}` will return a JSON version of a `Segment`
-covering the novel sequence with the given ID, and describing where it is
-joined onto its parent sequences.
-*/
-org.ga4gh.models.Segment getVariantSetSequence(
-  /**
-  The ID of the `VariantSet` which provides the novel sequence.
-  */
-  string variantSetId,
-  /**
-  The ID of the novel sequence to get a covering `Segment` for.
-  */
-  string sequenceId) throws GAException;
+  string id) throws GAException;
 
 /******************  /variants/search  *********************/
 /** This request maps to the body of `POST /variants/search` as JSON. */
@@ -240,7 +168,8 @@ as the post body and will return a JSON version of `SearchVariantsResponse`.
 SearchVariantsResponse searchVariants(
   /** This request maps to the body of `POST /variants/search` as JSON. */
   SearchVariantsRequest request) throws GAException;
-  /**************** /variants/{id} *******************/
+
+/**************** /variants/{id} *******************/
 /**
 Gets a `Variant` by ID.
 `GET /variants/{id}` will return a JSON version of `Variant`.
