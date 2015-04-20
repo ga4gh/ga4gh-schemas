@@ -116,7 +116,8 @@ record ReadGroup {
   union { null, int } predictedInsertSize = null;
 
   /**
-  The time at which this read group was created in milliseconds from the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
+  The time at which this read group was created in milliseconds from 
+  the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } created = null;
 
