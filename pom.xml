@@ -29,12 +29,16 @@
     <developer>
       <id>richarddurbin</id>
       <name>Richard Durbin</name>
-      <role>Co-Chair, Data Working Group</role>
+      <roles>
+        <role>Co-Chair, Data Working Group</role>
+      </roles>
     </developer>
     <developer>
       <id>haussler</id>
       <name>David Haussler</name>
-      <role>Co-Chair, Data Working Group</role>
+      <roles>
+        <role>Co-Chair, Data Working Group</role>
+      </roles>
     </developer>
   </developers>
 
