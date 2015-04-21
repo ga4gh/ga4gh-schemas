@@ -25,6 +25,18 @@
     <developerConnection>scm:git:https://github.com/ga4gh/schemas</developerConnection>
     <url>https://github.com/ga4gh/schemas</url>
   </scm>
+  <developers>
+    <developer>
+      <id>richarddurbin</id>
+      <name>Richard Durbin</name>
+      <role>Co-Chair, Data Working Group</role>
+    </developer>
+    <developer>
+      <id>haussler</id>
+      <name>David Haussler</name>
+      <role>Co-Chair, Data Working Group</role>
+    </developer>
+  </developers>
 
   <properties>
     <avro.version>1.7.6</avro.version>
