@@ -3,6 +3,7 @@ protocol VariantMethods {
 
 import idl "methods.avdl";
 import idl "variants.avdl";
+import idl "ontologies.avdl";
 
 /******************  /variantsets/search  *********************/
 /** This request maps to the body of `POST /variantsets/search` as JSON. */
@@ -109,7 +110,7 @@ record SearchVariantsRequest {
   Only return variants annotated as having these effects (SO terms).
   If null, return all variants.
   */
-  union { null, array<string> } effects = null;
+  union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
 
   /**
   Only return variants annotated with any of these genes
