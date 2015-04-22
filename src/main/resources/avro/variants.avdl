@@ -16,6 +16,7 @@ protocol Variants {
 
 import idl "common.avdl";
 import idl "metadata.avdl";
+import idl "sequenceAnnotations.avdl";
 
 /**
 This metadata represents VCF header information.
@@ -292,17 +293,19 @@ on another genomic feature
 */
 record Annotation {
 
-  /*
-  TODO: Use Feature from sequence annotation schema when stable
-  */
 
-  /** The ID of the feature the annotation is relative to
+  /** The ID of the annotation record
   */
   string id;
-
-  /** The feature type
+  /*
+  TODO: derive unique id from digest of data [location, allele, feature?]
   */
-  OntologyTerm featureType;
+
+
+  /** The feature the annotation is relative to
+  */
+  Feature feature;
+
 
   /** Effect of variant on this feature
   */
