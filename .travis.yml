@@ -1,1 +1,12 @@
-language: java
+language: python
+python:
+  - "2.7"
+
+install:
+    - pip install -r requirements.txt
+
+script:
+    - flake8 scripts tests
+    - nosetests tests
+    - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    - mvn test -B
