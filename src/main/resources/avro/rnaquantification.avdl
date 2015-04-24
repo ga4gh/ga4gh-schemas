@@ -1,0 +1,226 @@
+@namespace("org.ga4gh.models")
+/**
+This protocol defines feature expression counts on GA4GH reads. 
+*/
+protocol RnaQuantifications {
+
+import idl "common.avdl";
+import idl "reads.avdl";
+
+/**
+Units for expression level.
+FPKM - number of Fragments Per Kilobase of feature length per Million reads
+FPKM is calculated by dividing the fragment count per feature by the total number of reads in millions (FPM - Fragments Per Million).  FPM is then divided by feature length in kilobases to obtain FPKM.
+
+TPM - Transcripts per kilobase Per Million reads
+TPM is calculated by first dividing the fragment/read count by feature length in kilobases (RPK - Reads Per Kilobase).  The count of all RPKs in the sample are then divided by a million to generate a 'per million' scaling value.  For each feature RPK divided by the 'per million' scaling factor generated TPM.
+*/
+enum ExpressionUnits {
+  FPKM,
+  TPM
+}
+
+/**
+Top level identifying information
+*/
+record RnaQuantification {
+  /** 
+  The unique ID assigned to the results of running the described programs on the
+specified reads and assignment to the listed annotation.
+  */
+  string id;
+ 
+  /**
+  Name
+  */
+  union {null, string} name = null;
+
+  /**
+  Description
+  */
+  union {null, string} description = null;
+
+  /**
+  ID of the ReadGroup providing the reads for the analysis.
+  */
+  string readGroupId;
+
+  /**
+  List of programIds used in the analysis.
+  */
+  array<string> programIds = [];
+
+  /**
+  List of annotations used.
+  */
+  array<string> annotationIds = [];
+}
+
+/**
+Read characterization data.
+*/
+record Characterization {
+  /** 
+  The associated RnaQuantification. 
+  */
+  string analysisId;
+ 
+  /**
+  Distinct uniquely mapped reads as a fraction of total uniquely mapped reads.
+  */ 
+  float complexity;
+
+  /**
+  Fraction of total reads which were mapped.  Values range from 0.0 to 1.0.
+  */
+  float fractionMapped;
+
+  /**
+  Fraction of total reads which were mapped to introns.  Values range from 0.0 to 1.0.
+  */
+  float intronicFraction;
+
+  /**
+  Fraction of total reads which were mapped to exons.  Values range from 0.0 to 1.0.
+  */
+  float exonicFraction;
+
+  /**
+  Fraction of total reads which were mapped to intergenic regions.  Values range from 0.0 to 1.0.
+  */
+  float intergenicFraction;
+}
+
+/**
+Details of the read counts.
+*/
+record ReadCounts {
+  /** 
+  The associated RnaQuantification.
+  */
+  string analysisId;
+
+  /**
+  Total number of mapped reads.
+  */
+  int totalReadCount;
+
+  /**
+  Total number of reads that are uniquely mapped to a position in the reference.
+  */
+  int uniqueCount;
+
+  /**
+  Total number of reads that map to multiple positions in the reference.
+  */
+  int multiCount;
+
+  /**
+  Total number of reads that are uniquely mapped to a splice position in the reference. 
+  */
+  int uniqueSpliceCount;
+
+  /**
+  Total number of reads that map to multiple splice positions in the reference. 
+  */
+  int multiSpliceCount;
+}
+
+/**
+Identifying information for annotated features.
+*/
+record FeatureGroup {
+  /**
+  Feature group ID
+  */
+  string id;
+
+  /** 
+  The associated RnaQuantification.
+  */
+  string analysisId;
+ 
+  /**
+  Name
+  */
+  union {null, string} name = null;
+
+  /**
+  Description
+  */
+  union {null, string} description = null;
+
+  /**
+  The time at which this feature group was created in milliseconds from the epoch.
+  */
+  union { null, long } created = null;
+
+  /**
+  The time at which this feature group was last updated in milliseconds
+  from the epoch.
+  */
+  union { null, long } updated = null;
+
+  /**
+  A map of additional feature group information.
+  */
+  map<array<string>> info = {};
+}
+
+/**
+The actual numerical quantification for each feature.
+*/
+record ExpressionLevel {
+  /**
+  Feature ID
+  */
+  string id;
+
+  /**
+  Name
+  */
+  union {null, string} name = null;
+
+  /** 
+  The associated FeatureGoup. 
+  */
+  string featureGroupId;
+
+  /** 
+  The associated annotation. 
+  */
+  string annotationId;
+
+  /**
+  The number of reads mapped to this feature.
+  */
+  float rawReadCount;
+
+  /**
+  Numerical expression value.
+  */
+  union { null, float } expression = null;
+
+  /**
+  True if the expression value is a normalized value.
+  */
+  union { null, boolean } isNormalized = null;
+
+  /**
+  The units of the expression value if one is given.
+  */
+  union { null, ExpressionUnits } units = null;
+
+  /**
+  Weighted score for the expression value.
+  */
+  union { null, float } score = null;
+
+  /**
+  Confidence interval on the expression value.  Expressed as a sorted array
+  from low to high.
+  */
+  array<float> confInterval = [];
+}
+
+}

@@ -1,0 +1,210 @@
+@namespace("org.ga4gh.methods")
+protocol RnaQuantificationMethods {
+
+import idl "methods.avdl";
+import idl "common.avdl";
+import idl "rnaquantification.avdl";
+
+/****************  /rnaquantification/search  *******************/
+/**
+This request maps to the body of 'POST /rnaquantification/search'
+as JSON.
+*/
+record SearchRnaQuantificationRequest {
+  /**
+  If present, return only Rna Quantifications which belong to this set.
+  */
+  union { null, string } rnaQuantificationId = null;
+
+  /**
+  If present, return only Rna Quantifications which belong to this set.
+  */
+  union { null, string } datasetId = null;
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  'nextPageToken' from the previous response.
+  */
+  union { null, string } pageToken = null;
+}
+
+/**
+This is the response from 'POST /rnaquantification/search' expressed as JSON.
+*/
+record SearchRnaQuantificationResponse {
+  /** The list of matching quantifications. */
+  array<org.ga4gh.models.RnaQuantification> rnaQuantification = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  'nextPageToken' from the previous response.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of 'RnaQuantification' matching the search criteria.
+
+'POST /rnaquantification/search' must accept JSON version of
+'SearchRnaQuantificationRequest' as the post body and will return a JSON
+version of 'SearchRnaQuantificationResponse'.
+*/
+SearchRnaQuantificationResponse searchRnaQuantification(
+    /**
+    This request maps to the body of 'POST /rnaquantification/search'
+    as JSON.
+    */
+    SearchRnaQuantificationRequest request) throws GAException;
+
+/**************** /rnaquantification/{id} *******************/
+/**
+Gets a `RnaQuantification` by ID.
+`GET /rnaquantification/{id}` will return a JSON version of `RnaQuantification`.
+*/
+org.ga4gh.models.RnaQuantification getRnaQuantification(
+  /**
+  The ID of the `RnaQuantification`.
+  */
+  string id) throws GAException;
+
+/****************  /expressionlevel/search  *******************/
+/**
+This request maps to the body of 'POST /expressionlevel/search'
+as JSON.
+*/
+record SearchExpressionLevelRequest {
+  /**
+  If present, return matching Expression Level record.
+  */
+  union { null, string } expressionLevelId = null;
+
+  /**
+  If present return only ExpressionLevel records which belong to this set.
+  */
+  union { null, string } featureGroupId = null;
+
+  /**
+  The rnaQuantification to restrict search to.
+  */
+  string rnaQuantificationId;
+
+  /**
+  If present returns ExpressionLevel records with expressions exceeding
+  this value.
+  */
+  union { null, float } threshold = null;
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  'nextPageToken' from the previous response.
+  */
+union { null, string } pageToken = null;
+}
+
+/**
+This is the response from 'POST /expressionlevel/search' expressed as JSON.
+*/
+record SearchExpressionLevelResponse {
+  /** The list of matching quantifications. */
+  /**
+  The line below is causing problems - naming or something wrong with the
+  import perhaps?
+  */
+  array<org.ga4gh.models.ExpressionLevel> expressionLevel = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  'nextPageToken' from the previous response.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of 'ExpressionLevel' matching the search criteria.
+
+'POST /expressionlevel/search' must accept JSON version of
+'SearchExpressionLevelRequest' as the post body and will return a JSON
+version of 'SearchExpressionLevelResponse'.
+*/
+SearchExpressionLevelResponse searchExpressionLevel(
+    /**
+    This request maps to the body of 'POST /expressionlevel/search'
+    as JSON.
+    */
+    SearchExpressionLevelRequest request) throws GAException;
+
+/****************  /featuregroup/search  *******************/
+/**
+This request maps to the body of 'POST /featuregroup/search'
+as JSON.
+*/
+record SearchFeatureGroupRequest {
+  /**
+  RNA Quantification to search.
+  */
+  string rnaQuantificationId;
+
+  /**
+  Feature Groups of interest.
+  */
+  union { null, string } featureGroupId = null;
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  'nextPageToken' from the previous response.
+  */
+  union { null, string } pageToken = null;
+}
+
+/**
+This is the response from 'POST /featuregroup/search' expressed as JSON.
+*/
+record SearchFeatureGroupResponse {
+  /** The list of matching feature groups. */
+  array<org.ga4gh.models.FeatureGroup> featureGroup = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  'nextPageToken' from the previous response.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of 'FeatureGroup' matching the search criteria.
+
+'POST /featuregroup/search' must accept JSON version of
+'SearchFeatureGroupRequest' as the post body and will return a JSON
+version of 'SearchFeatureGroupResponse'.
+*/
+SearchFeatureGroupResponse searchFeatureGroup(
+    /**
+    This request maps to the body of 'POST /featuregroup/search'
+    as JSON.
+    */
+    SearchFeatureGroupRequest request) throws GAException;
+}
