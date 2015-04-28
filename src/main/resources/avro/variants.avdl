@@ -286,6 +286,31 @@ record AnalysisResult {
 }
 
 
+/**
+An allele location record holds the location of an allele relative to a
+non-genomic coordinate system such as a CDS or protein and holds the
+reference and alternate sequence where appropriate
+*/
+record AlleleLocation {
+
+  /** Relative start position of the allele in this coordinate system
+  */
+  int overlapStart ;
+
+  /** Relative end position of the allele in this coordinate system
+  */
+  int overlapEnd ;
+
+  /** Reference sequence in feature (this should be the codon at CDS level)
+  */
+  union { null, string } referenceSequence = null;
+
+  /** Alternate sequence in feature (this should be the codon at CDS level)
+  */
+  union { null, string } alternateSequence = null;
+
+}
+
 
 /**
 An annotation record is a set of information describing the effect of an allele
@@ -300,7 +325,6 @@ record Annotation {
   /*
   TODO: derive unique id from digest of data [location, allele, feature?]
   */
-
 
   /** The feature the annotation is relative to
   */
@@ -325,40 +349,18 @@ record Annotation {
   union { null, string } HGVSp = null;
 
 
-  /** Relative position of base in cDNA sequence
+  /** Change relative to cDNA
   */
-  union { null, int} cDNA_position = null;
+  union {null, AlleleLocation} cDNALocation =null;
 
-  /* Relative position of base in coding sequence
+  /* Change relative to coding sequence
   */
-  union { null, int} CDS_position = null;
+  union { null, AlleleLocation} CDSLocation = null;
 
-  /** Relative position of amino acid in protein
+  /** Change relative to protein
   */
-  union { null, int} protein_position = null;
+  union { null, AlleleLocation} proteinLocation = null;
 
-
-
-  /** Alternate allele - variant may have >1 alt which will have distinct
-  annotation. This is not be needed for the graph Allele model
-  */
-  union { null, string} alternateBase = null;
-
-  /**Reference Amino Acid
-  */
-  union { null, string } referenceAminoAcid = null;
-
-  /** Alternate Amino Acid
-  */
-  union { null, string } alternateAminoAcid  = null;
-
-  /** Codon observed in reference
-  */
-  union { null, string } referenceCodon = null;
-
-  /** Codon created by alt alternate allele
-  */
-  union { null, string } alternateCodon = null;
 
 
   /** Output from prediction packages such as Sift
