@@ -311,10 +311,24 @@ record AlleleLocation {
 
 }
 
+/**
+Impact is a simple prioritization for the effect of an allele which is used
+in the annotation record.
+IMPORTANT:
+ Prioritization methods are a crude estimates and are not assumed to be
+ reliable: a 'HIGH' Impact may actually not cause any disruption
+ in protein function or expression.
+*/
+enum Impact {
+ HIGH,      // Variant highly disrupts protein function
+ MODERATE,  // Moderately disrupts protein function
+ LOW,       // Low disruption of protein impact
+ MODIFIER   // No known effect
+}
 
 /**
-An annotation set record is a set of information describing the software and reference 
-data used to annotate a set of variants
+An annotation set record is a set of information describing the software and
+reference data used to annotate a set of variants
 */
 record AnnotationSet {
 
@@ -355,6 +369,11 @@ record Annotation {
   /** Effect of variant on this feature
   */
   array<OntologyTerm> effects;
+
+
+  /** Highest Impact from the predicted effects
+  */
+  Impact impact;
 
 
   /** HGVS formatted annotation at genomic level
