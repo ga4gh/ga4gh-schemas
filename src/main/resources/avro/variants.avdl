@@ -313,6 +313,23 @@ record AlleleLocation {
 
 
 /**
+An annotation set record is a set of information describing the software and reference 
+data used to annotate a set of variants
+*/
+record AnnotationSet {
+
+  /** The ID of the annotation set record
+  */
+  string id;
+
+  /** Analysis details
+  */
+  Analysis analysis;
+
+}
+
+
+/**
 An annotation record is a set of information describing the effect of an allele
 on another genomic feature
 */
@@ -325,6 +342,10 @@ record Annotation {
   /*
   TODO: derive unique id from digest of data [location, allele, feature?]
   */
+
+  /** The ID of the annotation set to which this annotation record belongs
+  */
+  string annotationSetId;
 
   /** The feature the annotation is relative to
   */
