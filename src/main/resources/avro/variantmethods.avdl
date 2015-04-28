@@ -223,6 +223,36 @@ AnnotateVariantsResponse annotateVariants(
   AnnotateVariantsRequest request) throws GAException;
 
 
+/****************** /annotationsets/search *********************/
+/** This request maps to the body of `POST /annotationsets/search` as JSON. */
+record SearchAnnotationSetsRequest {
+  /**
+  If non empty, will restrict the query to the specified annotation sets 
+  */
+  array<string> annotationSetIds = [];
+
+}
+
+/** This is the response from `POST /annotationsets/search` expressed as JSON. */
+record SearchAnnotationSetsResponse {
+
+  /** The list of matching annotation sets. */
+  array<org.ga4gh.models.AnnotationSet> annotationSets = [];
+
+}
+
+/**
+Returns a list of available annotation sets 
+`POST /annotationsets/search` must accept a JSON version of
+`SearchAnnotationSetsRequest` as the post body and will return a JSON version
+of `SearchAnnotationSetsResponse`.
+*/
+SearchAnnotationSetsResponse searchAnnotationSets(
+  /** This request maps to the body of `POST /annotationsets/search` as JSON. */
+  SearchAnnotationSetsRequest request) throws GAException;
+
+
+
 /******************  /alleles/search  *********************/
 /** This request maps to the body of `POST /alleles/search` as JSON. */
 record SearchAllelesRequest {
