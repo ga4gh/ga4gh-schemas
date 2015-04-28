@@ -407,6 +407,10 @@ record Annotation {
   */
   array<AnalysisResult> analysisResults;
 
+
+  /** Additional annotation data in key-value pairs. */
+  map<array<string>> info = {};
+
 }
 
 
