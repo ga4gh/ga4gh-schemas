@@ -209,7 +209,7 @@ record Match {
 /** The match request. */
 record MatchRequest {
   /**
-  How often a match search should be performed. If a system doesn’t support
+  How often a match search should be performed. If a system doesn't support
   the requested type, the once behavior is used.
   */
   QueryType queryType = "once";
@@ -222,7 +222,7 @@ record MatchRequest {
 The match response. Either a synchronous application/json response to a
 `/match` request, an asynchronous application/json HTTP POST request to
 `<baseOriginURL>/v1/matchResults`, or a human-readable email sent to
-the user’s email address.
+the user's email address.
 */
 record MatchResponse {
   /**
