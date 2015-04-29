@@ -266,11 +266,6 @@ specific allele
 */
 record AnalysisResult {
 
-  /** Alternate allele - variant may have >1 alt which will have distinct
-  analysis results. This is not be needed for the graph Allele model
-  */
-  union { null, string} alternateBase = null;
-
   /** The analysis record for this result (defined in metadata schema)
   */
   Analysis analysis;
