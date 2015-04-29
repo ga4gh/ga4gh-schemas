@@ -103,3 +103,21 @@ The current code conventions for the source files are as follows:
      * One-line non-documentation comments, intended for schema developers only,
        must use the `// ...` style.
 
+<a name="retired_task_teams"></a>
+## Retired Task Teams
+
+As projects mature, the need to have a standing [Data Working Group](http://ga4gh.org) task team with regular teleconferences and meetings will decline. Mature task teams will enter a **maintenance mode** which will entail the following:
+
+* A task team chair will be appointed to regularly review the `ga4gh#schemas` Github Issues for issue that would effect the outcomes of the retired task team.
+* The chair will tag those issues with the retired group's label
+* Minor pull requests (e.g. documentation enhancements) would follow the same approval process as outlined above
+* Major pull requeusts (e.g. API additions or changes) would be escalated for approval by a larger group that *must* chime in on the issue for it to come to consensus
+
+Issue escalation would proceed as follows: 
+
+* The retired task team chair will label the issue as "Major Enchancement"
+* The retired task team chair will add a **-1** vote on the issue, and list the members of the community that must vote **+1** to remove the associated **-1** vote
+* The retired task team chair will reach out to that list of DWG members and request comment on the issue
+
+All other [issue resolution](#issue_resolution) processes remain the same.
+
