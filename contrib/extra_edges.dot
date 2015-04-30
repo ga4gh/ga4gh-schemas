@@ -1,0 +1,9 @@
+// Extra ID reference edges that we don't autodetect
+// Use fully qualified names, and replace dots with underscores
+
+// Feature has a "parentId"
+org_ga4gh_models_Feature -> org_ga4gh_models_Feature
+
+// Individual has a "groupId"
+org_ga4gh_models_Individual -> org_ga4gh_models_IndividualGroup
+
