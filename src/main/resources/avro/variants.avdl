@@ -360,6 +360,10 @@ record Annotation {
   */
   Feature feature;
 
+  /** Alternate allele - variant may have >1 alt which will have distinct
+  annotation. This is not be needed for the graph Allele model
+  */
+  union { null, string} alternateBases = null;
 
   /** Effect of variant on this feature
   */
