@@ -1,0 +1,88 @@
+@namespace("org.ga4gh.methods")
+
+protocol AnnotateAlleleMethods {
+
+import idl "methods.avdl";
+import idl "variants.avdl";
+import idl "ontologies.avdl";
+
+
+
+/**************** /annotate/variants/*********************/ 
+
+/*  
+The default set of annotation to be returned, where possible, is:
+  - predicted effect of alternate allele on all overlapping transcripts and proteins
+  using Sequence Ontology terms
+  - location and sequence information with respect to cDNA, CDS and protein
+  - HGVS annotation
+Additional annotation can be returned in as key value pairs in the info structure.
+
+Each variant is annotated independently 
+
+All software and reference data versions should be available via the annotation set
+
+This method has no side-effects
+*/
+
+// Should variants outside features be returned without annotation or ommitted?
+
+
+/**
+This request maps to the body of `POST /annotate/variants/` as JSON.
+*/
+
+
+record AnnotateVariantsRequest {
+
+  /** 
+  Required. The variant records to annotate. 
+  */
+  array<org.ga4gh.models.Variant> variants = [];
+
+  /**
+  The annotation sets (eg. RefSeq or Ensembl transcripts) to calculate effect against.
+  If unspecified, a server default will be used.
+  */
+  array<string> featureSetIds = [];  
+
+  // Further configuration options to be supported
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;
+  
+
+}
+
+/** This is the response from `POST /annotate/variants/` expressed as JSON. */
+
+
+record AnnotateVariantsResponse {
+  /**
+  The list of annotated variants.
+  */
+  array<org.ga4gh.models.Variant> variants = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+AnnotateVariantsResponse annotateVariants(
+  /** This request maps to the body of `POST /annotate/variants/` as JSON. */
+  AnnotateVariantsRequest request) throws GAException;
+
+}

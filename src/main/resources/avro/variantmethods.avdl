@@ -182,46 +182,6 @@ org.ga4gh.models.Variant getVariant(
   string id) throws GAException;
 
 
-/**************** /variants/annotate/*********************/ 
-/*This request maps to the body of `POST /variants/annotate` as JSON. */
-
-record AnnotateVariantsRequest {
-  /** Required. The variant records to annotate. */
-  array<org.ga4gh.models.Variant> variants = [];
-
-  /**
-  Specifies the maximum number of results to return in a single page.
-  If unspecified, a system default will be used.
-  */
-  union { null, int } pageSize = null;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
-}
-
-/** This is the response from `POST /variants/annotate` expressed as JSON. */
-record AnnotateVariantsResponse {
-  /**
-  The list of annotated variants.
-  */
-  array<org.ga4gh.models.Variant> variants = [];
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
-}
-
-AnnotateVariantsResponse annotateVariants(
-  /** This request maps to the body of `POST /variants/annotate` as JSON. */
-  AnnotateVariantsRequest request) throws GAException;
-
 
 /****************** /annotationsets/search *********************/
 /** This request maps to the body of `POST /annotationsets/search` as JSON. */
