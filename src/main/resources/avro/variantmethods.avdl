@@ -164,16 +164,21 @@ org.ga4gh.models.Variant getVariant(
 /** This request maps to the body of `POST /alleles/search` as JSON. */
 record SearchAllelesRequest {
   /**
-  If nonempty, look only at `Allele`s used in at least one of the specified
-  `VariantSet`s. `Allele`s that are not used in any `VariantSet`s may only be
-  returned if this is empty.
+  If nonempty, look only at `Allele`s used in the specified `VariantSet`. This
+  includes both `Allele`s novel to that `VariantSet` and `Allele`s from the
+  associated `ReferenceSet` with `AlleleCall`s in that `VariantSet`.
+
+  Either this field or referenceSetId must be set.
   */
-  array<string> variantSetIds = [];
-  
+  union { null, string } variantSetId = null;
+
   /**
-  If present, look only at `Allele`s in the specified dataset.
+  If present, look only at `Allele`s in the specified `ReferenceSet`,
+  including those it inherits from included `ReferenceSet`s.
+
+  Either this field or variantSetId must be set.
   */
-  union { null, string } datasetId = null; 
+  union { null, string } referenceSetId = null;
 
   /**
   Required. Only return `Allele`s on the sequence with this ID.
@@ -247,19 +252,23 @@ org.ga4gh.models.Allele getAllele(
   The ID of the `Allele`.
   */
   string id) throws GAException;
-  
+
 /******************  /alleles/search/path  *********************/
 /** This request maps to the body of `POST /alleles/search/path` as JSON. */
 record SearchAllelesPathRequest {
   /**
-  If present, look only at `Allele`s in the specified `Dataset`.
+  If present, look only at `Allele`s in the specified `ReferenceSet`.
+
+  Exactly one of this and `variantSetId` must be non-null.
   */
-  union { null, string } datasetId = null; 
+  union { null, string } referenceSetId = null;
 
   /**
   If present, look only at `Allele`s used in the specified `VariantSet`.
+
+  Exactly one of this and `referenceSetId` must be non-null.
   */
-  union { null, string } variantSetId = null; 
+  union { null, string } variantSetId = null;
 
   /**
   Specifies a search algorithm to use, which defines the exact semantics of what
@@ -269,8 +278,12 @@ record SearchAllelesPathRequest {
   string algorithm;
 
   /**
-  Specifies a path. Only alleles "relevant" to the specified `Path` under the
+  Specifies a `Path`. Only alleles "relevant" to the specified `Path` under the
   specified algorithm will be returned.
+
+  The `Path` must use only `Sequence`s and `Join`s available in the
+  `ReferenceSet` specified by `referenceSetId` or the `VariantSet` specified by
+  `VariantSetId`.
   */
   org.ga4gh.models.Path query;
 
