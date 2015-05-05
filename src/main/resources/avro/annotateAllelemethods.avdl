@@ -12,15 +12,15 @@ import idl "ontologies.avdl";
 
 /*  
 The default set of annotation to be returned, where possible, is:
-  - predicted effect of alternate allele on all overlapping transcripts and proteins
-  using Sequence Ontology terms
+  - predicted effect of alternate allele on all overlapping transcripts and
+  proteins using Sequence Ontology terms
   - location and sequence information with respect to cDNA, CDS and protein
   - HGVS annotation
-Additional annotation can be returned in as key value pairs in the info structure.
+Additional annotation can be returned in as 'info' key value pairs.
 
 Each variant is annotated independently 
 
-All software and reference data versions should be available via the annotation set
+All software/reference data versions should be available via the annotationSet
 
 This method has no side-effects
 */
@@ -41,8 +41,8 @@ record AnnotateVariantsRequest {
   array<org.ga4gh.models.Variant> variants = [];
 
   /**
-  The annotation sets (eg. RefSeq or Ensembl transcripts) to calculate effect against.
-  If unspecified, a server default will be used.
+  The annotation sets (eg. RefSeq or Ensembl transcripts) to calculate effect
+  against. If unspecified, a server default will be used.
   */
   array<string> featureSetIds = [];  
 
