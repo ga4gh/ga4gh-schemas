@@ -370,9 +370,12 @@ it is also common for it to be a mix of `Segment`s on reference and novel
 `Sequence`s, or in general to be any contiguous path through the augmented
 sequence graph.
 
-`Allele`s are persistent named objects, and may exist either in a `ReferenceSet`
-or be novel to a `VariantSet`. Zero or more `Variant`s in a `VariantSet` may use
-a single `Allele`.
+`Allele`s are persistent named objects, and may be associated with any number of
+`VariantSet`s and/or `ReferenceSet`s. Like `Sequence`s and `Join`s, `Allele`s
+are inherited when one `ReferenceSet` includes another. Zero or more `Variant`s
+in a `VariantSet` may use a single `Allele`.
+
+To get the `Allele`s in a `ReferenceSet` or `VariantSet`, use `searchAlleles()`.
 
 Note that `Path`s cannot follow `Join`s not represented in the relevant sequence
 graph. For example, if  an `Allele` in a `VariantSet` describes a novel deletion
@@ -386,24 +389,6 @@ record Allele {
   the entirety of a `Sequence`, this is equal to the ID of that `Sequence`.
   */
   string id;
-
-  /**
-  The ID of the VariantSet that this `Allele` is novel in, if any.
-
-  Either this or `referenceSetId` must be non-null.
-  */
-  union { null, string } variantSetId = null;
-
-  /**
-  The ID of the `ReferenceSet` that contains this `Allele`. Note that the
-  `Allele` is also inherited by all descendants of that `ReferenceSet`.
-
-  Either this or `referenceSetId` must be non-null.
-
-  TODO: Do we need to allow an `Allele` to exist in multiple `ReferenceSet`s
-  without being inherited from their common ancestor?
-  */
-  union { null, string } referenceSetId = null;
 
   /**
   The ordered and oriented `Segment`s of DNA that this `Allele` represents.
