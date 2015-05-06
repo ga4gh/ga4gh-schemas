@@ -1,0 +1,247 @@
+@namespace("org.ga4gh.methods")
+protocol AlleleAnnotationMethods {
+
+/*This protocol defines methods use to mine pre-calculated annotation sets.*/
+
+import idl "methods.avdl";
+import idl "variants.avdl";
+import idl "alleleAnnotations.avdl";
+import idl "sequenceAnnotations.avdl";
+import idl "ontologies.avdl";
+
+
+
+/******************  /variantannotations/search  *********************/
+/** This request maps to the body of `POST /variantannotations/search` as JSON. */
+record SearchVariantAnnotationsRequest {
+  /** Required. The IDs of the annotation sets to search over. */
+  array<string> annotationSetIds = [];
+
+  /** Only return variants which have exactly this name (case-sensitive, exact match). */
+  union { null, string } name = null;
+
+  /**
+  Only return variants with reference alleles on the reference with this name.
+  One of this field or `referenceId` is required.  (case-sensitive, exact match)
+  */
+  union { null, string } referenceName = null;
+
+  /**
+  Only return variants with reference alleles on the reference with this ID. One
+  of this field or `referenceName` is required.
+  */
+  union { null, string } referenceId = null;
+
+  /**
+  Required. The beginning of the window (0-based, inclusive) for
+  which variants with overlapping reference alleles should be returned.
+  Genomic positions are non-negative integers less than reference length.
+  Requests spanning the join of circular genomes are represented as
+  two requests one on each side of the join (position 0).
+  */
+  long start;
+
+  /**
+  Required. The end of the window (0-based, exclusive) for which variants with
+  overlapping reference alleles should be returned.
+  */
+  long end;
+
+  /**
+  Only return variants annotated as having these effects (SO terms).
+  If null, return all variant annotations.
+  */
+  union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
+
+  /**
+  Only return variant annotations for any of these features
+  If null, return all variant annotations.
+  */
+  union { null, array<org.ga4gh.models.Feature> } Features;
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;
+}
+
+
+/** This is the response from `POST /variantannotations/search` expressed as JSON. */
+record SearchVariantAnnotationsResponse {
+  /**
+  The list of matching variant annotations.
+  */
+  array<org.ga4gh.models.VariantAnnotation> variantAnnotations = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `VariantAnnotations` matching the search criteria.
+
+`POST /variantannotations/search` must accept a JSON version of `SearchVariantAnnotationsRequest`
+as the post body and will return a JSON version of `SearchVariantAnnotationsResponse`.
+*/
+SearchVariantAnnotationsResponse searchVariantAnnotations(
+  /** This request maps to the body of `POST /variantannotations/search` as JSON. */
+  SearchVariantAnnotationsRequest request) throws GAException;
+
+/**************** /variantannotations/{id} *******************/
+/**
+Gets a `VariantAnnotation` by variant ID.
+`GET /variantannotations/{id}` will return a JSON version of `VariantAnnotation`.
+*/
+org.ga4gh.models.VariantAnnotation getVariantAnnotation(
+  /**
+  The ID of the `Variant`.
+  */
+  string id) throws GAException;
+
+
+/******************  /alleleannotations/search  *********************/
+/** This request maps to the body of `POST /alleleannotations/search` as JSON. */
+record SearchAlleleAnnotationsRequest {
+  /** Required. The IDs of the variant sets to search over. */
+  array<string> annotationSetIds = [];
+
+  /**
+  Required. Only return annotations for `Allele`s on the sequence with this ID.
+   */
+  string sequenceId;
+
+  /**
+  Required. The beginning of the window (0-based, inclusive) for
+  which overlapping alleles should be returned.
+  Genomic positions are non-negative integers less than segment length.
+  Requests spanning the join of circular genomes are represented as
+  two requests one on each side of the join (position 0).
+  */
+  long start;
+
+  /**
+  Required. The end of the window (0-based, exclusive) for which overlapping
+  alleles should be returned.
+  */
+  long end;
+
+  /**
+  Only return alleles annotated as having these effects (SO terms).
+  If null, return all allele annotations.
+  */
+  union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
+
+  /**
+  Only return annotation for any of these features
+  If null, return all allele annotations.
+  */
+  union { null, array<org.ga4gh.models.Feature> } Features;
+
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;
+}
+
+/** This is the response from `POST /alleleannotations/search` expressed as JSON. */
+record SearchAlleleAnnotationsResponse {
+  /**
+  The list of matching alleles. An `Allele` should be returned if a `Segment`
+  in its `Path` overlaps with the specified range.
+  */
+  array<org.ga4gh.models.AlleleAnnotation> alleleAnnotations = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `AlleleAnnotation`s matching the search criteria.
+
+`POST /alleleannotations/search` must accept a JSON version of `SearchAlleleAnnotationsRequest` as
+the post body and will return a JSON version of `SearchAlleleAnnotationsResponse`.
+*/
+SearchAlleleAnnotationsResponse searchAlleleAnnotations(
+    /**
+    This request maps to the body of `POST /alleleannotations/search` as JSON.
+    */
+    SearchAlleleAnnotationsRequest request) throws GAException;
+
+
+/**************** /alleleannotations/{id} *******************/
+/**
+Gets an `AlleleAnnotation` by ID.
+`GET /alleleannotations/{id}` will return a JSON version of `AlleleAnnotation`.
+*/
+org.ga4gh.models.AlleleAnnotation getAlleleAnnotation(
+  /**
+  The ID of the `Allele`.
+  */
+  string id) throws GAException;
+
+
+
+
+/****************** /annotationsets/search *********************/
+/** This request maps to the body of `POST /annotationsets/search` as JSON. */
+record SearchAnnotationSetsRequest {
+
+  /**
+  If non empty, will restrict the query to annotation sets within the
+  given datasets.
+  */
+  array<string> datasetIds = [];
+
+  /**
+  If non empty, will restrict the query to the specified annotation sets 
+  */
+  array<string> annotationSetIds = [];
+
+}
+
+/** This is the response from `POST /annotationsets/search` expressed as JSON. */
+record SearchAnnotationSetsResponse {
+
+  /** The list of matching annotation sets. */
+  array<org.ga4gh.models.AnnotationSet> annotationSets = [];
+
+}
+
+/**
+Returns a list of available annotation sets 
+`POST /annotationsets/search` must accept a JSON version of
+`SearchAnnotationSetsRequest` as the post body and will return a JSON version
+of `SearchAnnotationSetsResponse`.
+*/
+SearchAnnotationSetsResponse searchAnnotationSets(
+  /** This request maps to the body of `POST /annotationsets/search` as JSON. */
+  SearchAnnotationSetsRequest request) throws GAException;
+
+
+
+}
