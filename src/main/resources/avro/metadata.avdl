@@ -27,13 +27,14 @@ record Individual {
   union { null, string } description = null;
 
   /**
-  The time at which this individual was created in milliseconds from the epoch.
+  The time at which this individual was created in milliseconds from 
+  the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } created = null;
 
   /**
   The time at which this individual was last updated in milliseconds
-  from the epoch.
+  from the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } updated = null;
 
@@ -57,7 +58,8 @@ record Individual {
   union { null, OntologyTerm } developmentalStage = null;
 
   /**
-  The date of birth of this individual in milliseconds from the epoch.
+  The date of birth of this individual in milliseconds from 
+  the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   This field may be approximate.
   */
   union { null, long } dateOfBirth = null;
@@ -113,19 +115,20 @@ record Sample {
   union { null, string } description = null;
 
   /**
-  The time at which this sample was created in milliseconds from the epoch.
+  The time at which this sample was created in milliseconds from 
+  the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } created = null;
 
   /**
   The time at which this sample was last updated in milliseconds
-  from the epoch.
+  from the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } updated = null;
 
   /**
   The time at which this sample was taken from the individual, in milliseconds
-  from the epoch.
+  from the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } samplingDate = null;
 
@@ -183,19 +186,20 @@ record Experiment {
   union { null, string } description = null;
 
   /**
-  The time at which this experiment was created in milliseconds from the epoch.
+  The time at which this experiment was created in milliseconds from 
+  the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } created = null;
 
   /**
   The time at which this experiment was last updated in milliseconds
-  from the epoch.
+  from the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } updated = null;
 
   /**
   The time at which this experiment was performed in milliseconds
-  from the epoch.
+  from the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } runDate = null;
 
@@ -265,13 +269,13 @@ record IndividualGroup {
 
   /**
   The time at which this individual group was created in milliseconds from
-  the epoch.
+  the[Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } created = null;
 
   /**
   The time at which this individual group was last updated in milliseconds
-  from the epoch.
+  from the[Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } updated = null;
 
@@ -300,13 +304,14 @@ record Analysis {
   union { null, string } description = null;
 
   /**
-  The time at which this analysis was created in milliseconds from the epoch.
+  The time at which this analysis was created in milliseconds from 
+  the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } created = null;
 
   /**
   The time at which this analysis was last updated in milliseconds
-  from the epoch.
+  from the [Unix time epoch](http://en.wikipedia.org/wiki/Unix_time).
   */
   union { null, long } updated = null;
 
