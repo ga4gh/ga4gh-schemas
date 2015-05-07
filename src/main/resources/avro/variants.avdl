@@ -15,8 +15,6 @@ server sends data in a given mode.
 protocol Variants {
 
 import idl "common.avdl";
-import idl "metadata.avdl";
-import idl "sequenceAnnotations.avdl";
 
 /**
 This metadata represents VCF header information.
@@ -258,8 +256,6 @@ record AlleleCall {
   map<array<string>> info = {};
 }
 
-
-
 /**
 A `Variant` represents a change in DNA sequence relative to some reference.
 For example, a variant could represent a SNP or an insertion.
@@ -355,8 +351,6 @@ record Variant {
   If the API server supports the "classic" mode, this field must not be null.
   */
   union { null, array<Call> } calls = null;
-
-
 }
 
 

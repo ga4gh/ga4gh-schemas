@@ -3,7 +3,6 @@ protocol VariantMethods {
 
 import idl "methods.avdl";
 import idl "variants.avdl";
-import idl "ontologies.avdl";
 
 /******************  /variantsets/search  *********************/
 /** This request maps to the body of `POST /variantsets/search` as JSON. */
@@ -106,7 +105,6 @@ record SearchVariantsRequest {
   */
   long end;
 
-
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
@@ -161,8 +159,6 @@ org.ga4gh.models.Variant getVariant(
   The ID of the `Variant`.
   */
   string id) throws GAException;
-
-
 
 /******************  /alleles/search  *********************/
 /** This request maps to the body of `POST /alleles/search` as JSON. */
