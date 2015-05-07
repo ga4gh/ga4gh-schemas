@@ -20,8 +20,6 @@ Additional annotation can be returned in as 'info' key value pairs.
 
 Each variant is annotated independently 
 
-All software/reference data versions should be available via the annotationSet
-
 This method has no side-effects
 
 TO DO: support the submission of a SearchVariantsRequest style request with target 
@@ -39,9 +37,7 @@ This request maps to the body of `POST /annotate/variants/` as JSON.
 
 record AnnotateVariantsRequest {
 
-  /** 
-  Required. The variant records to annotate. 
-  */
+  /** Required. The variant records to annotate. */
   array<org.ga4gh.models.Variant> variants = [];
 
   /**

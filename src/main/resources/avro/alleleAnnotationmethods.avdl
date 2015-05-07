@@ -17,24 +17,29 @@ record SearchVariantAnnotationsRequest {
   /** Required. The IDs of the annotation sets to search over. */
   array<string> annotationSetIds = [];
 
-  /** Only return variants which have exactly this name (case-sensitive, exact match). */
+  /**
+  Only return annotation for variants which have exactly this name
+  (case-sensitive, exact match).
+  */
   union { null, string } name = null;
 
   /**
   Only return variants with reference alleles on the reference with this name.
-  One of this field or `referenceId` is required.  (case-sensitive, exact match)
+  One of this field or `referenceId` or `features` is required.
+  (case-sensitive, exact match)
   */
   union { null, string } referenceName = null;
 
   /**
   Only return variants with reference alleles on the reference with this ID. One
-  of this field or `referenceName` is required.
+  of this field or `referenceName` or `features` is required.
   */
   union { null, string } referenceId = null;
 
   /**
-  Required. The beginning of the window (0-based, inclusive) for
-  which variants with overlapping reference alleles should be returned.
+  Required if referenceName or referenceId supplied.
+  The beginning of the window (0-based, inclusive) for which variants with
+  overlapping reference alleles should be returned.
   Genomic positions are non-negative integers less than reference length.
   Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
@@ -42,22 +47,25 @@ record SearchVariantAnnotationsRequest {
   long start;
 
   /**
-  Required. The end of the window (0-based, exclusive) for which variants with
+  Required if referenceName or referenceId supplied.
+  The end of the window (0-based, exclusive) for which variants with
   overlapping reference alleles should be returned.
   */
   long end;
 
+
   /**
-  Only return variants annotated as having these effects (SO terms).
+  Only return variant annotations for any of these features
+  If null, return all variant annotations in specified window.
+  */
+  union { null, array<org.ga4gh.models.Feature> } features;
+
+  /**
+  Only return variant annotations including these effects (SO terms).
   If null, return all variant annotations.
   */
   union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
 
-  /**
-  Only return variant annotations for any of these features
-  If null, return all variant annotations.
-  */
-  union { null, array<org.ga4gh.models.Feature> } Features;
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -114,17 +122,18 @@ org.ga4gh.models.VariantAnnotation getVariantAnnotation(
 /******************  /alleleannotations/search  *********************/
 /** This request maps to the body of `POST /alleleannotations/search` as JSON. */
 record SearchAlleleAnnotationsRequest {
-  /** Required. The IDs of the variant sets to search over. */
+  /** Required. The IDs of the annotation sets to search over. */
   array<string> annotationSetIds = [];
 
   /**
-  Required. Only return annotations for `Allele`s on the sequence with this ID.
-   */
+  This or features is required. Only return annotations for `Allele`s on the
+  sequence with this ID.
+  */
   string sequenceId;
 
   /**
-  Required. The beginning of the window (0-based, inclusive) for
-  which overlapping alleles should be returned.
+  Required if sequenceId supplied. The beginning of the window (0-based,
+  inclusive) for which overlapping alleles should be returned.
   Genomic positions are non-negative integers less than segment length.
   Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
@@ -132,23 +141,22 @@ record SearchAlleleAnnotationsRequest {
   long start;
 
   /**
-  Required. The end of the window (0-based, exclusive) for which overlapping
-  alleles should be returned.
+  Required if sequenceId supplied. The end of the window (0-based, exclusive)
+  for which overlapping alleles should be returned.
   */
   long end;
 
   /**
-  Only return alleles annotated as having these effects (SO terms).
+  Only return allele annotations for any of these features
+  If null, return all allele annotations in specified window.
+  */
+  union { null, array<org.ga4gh.models.Feature> } features;
+
+  /**
+  Only return allele annotations including these effects (SO terms)
   If null, return all allele annotations.
   */
   union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
-
-  /**
-  Only return annotation for any of these features
-  If null, return all allele annotations.
-  */
-  union { null, array<org.ga4gh.models.Feature> } Features;
-
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -218,7 +226,7 @@ record SearchAnnotationSetsRequest {
   array<string> datasetIds = [];
 
   /**
-  If non empty, will restrict the query to the specified annotation sets 
+  If non empty, will restrict the query to the specified annotation sets
   */
   array<string> annotationSetIds = [];
 
@@ -233,7 +241,7 @@ record SearchAnnotationSetsResponse {
 }
 
 /**
-Returns a list of available annotation sets 
+Returns a list of available annotation set
 `POST /annotationsets/search` must accept a JSON version of
 `SearchAnnotationSetsRequest` as the post body and will return a JSON version
 of `SearchAnnotationSetsResponse`.

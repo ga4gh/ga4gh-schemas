@@ -4,11 +4,11 @@
 This protocol defines types used by the GA4GH Allele Annotation API.
 
 Annotation can be applied to the alternate alleles of classic variants
-or to Alleles 
+or to Alleles
 */
 
 
-protocol AlleleAnnotations{ 
+protocol AlleleAnnotations{
 
 import idl "common.avdl";
 import idl "metadata.avdl";
@@ -20,7 +20,7 @@ import idl "ontologies.avdl";
 
 
 /**
-An AnalysisResult record the output of a prediction package such as SIFT on a
+An AnalysisResult record holds the output of a prediction package such as SIFT on a
 specific allele
 */
 record AnalysisResult {
@@ -74,8 +74,8 @@ enum Impact {
 }
 
 /**
-An annotation set record is a set of information describing the software and
-reference data used to annotate a set of variants.
+An annotation set record groups VariantAnnotation and/or AlleleAnnotation records. It holds
+information describing the software and reference data used in the annotation.
 */
 record AnnotationSet {
 
@@ -85,9 +85,9 @@ record AnnotationSet {
   /** The ID of the dataset to which this annotation set belongs */
   string datasetId;
 
-  /** 
+  /**
   Analysis details. It is essential to supply versions for all software and
-  reference datasets used. 
+  reference datasets used.
   */
   Analysis analysis;
 
@@ -95,7 +95,7 @@ record AnnotationSet {
 
 
 /**
-A transcript effect record is a set of information describing the 
+A transcript effect record is a set of information describing the
 effect of an allele on a transcript
 */
 record TranscriptEffect {
@@ -104,9 +104,8 @@ record TranscriptEffect {
   /** The ID of the transcript effect record
   */
   string id;
-  /*
-  TODO: derive unique id from digest of data [location, allele, transcript?]
-  */
+
+  //TODO: derive unique id from digest of data [location, allele, transcript?]
 
 
   /** The id of the transcript feature the annotation is relative to
@@ -114,13 +113,12 @@ record TranscriptEffect {
   string featureId;
 
 
-  /** Alternate allele - variant may have >1 alt which will have distinct
-  annotation. This is not be needed for the graph Allele model
+  /** Alternate allele - a variant may have more than one alternate allele, each of which
+  will have distinct annotation. This is not be needed for the graph Allele model
   */
   union { null, string} alternateBases = null;
 
-  /** Effect of variant on this feature
-  */
+  /** Effect of variant on this feature */
   array<OntologyTerm> effects;
 
 
@@ -148,7 +146,6 @@ record TranscriptEffect {
   union { null, AlleleLocation} proteinLocation = null;
 
 
-
   /** Output from prediction packages such as Sift */
   array<AnalysisResult> analysisResults;
 
@@ -161,8 +158,6 @@ record TranscriptEffect {
 /**
 A `VariantAnnotation` record represents the result of comparing a variant
 to a set of reference data.
-Annotation attributes include predicted functional consequence of alternate
-alleles on transcript or protein structure
 */
 record VariantAnnotation {
 
@@ -171,22 +166,22 @@ record VariantAnnotation {
 
   /** The ID of the annotation set this record belongs to. */
   string annotationSetId;
-   
+
 
   /** The date this annotation was created in milliseconds from the epoch. */
   union { null, long } created = null;
 
 
   /**
-  The transcript effect annotation for the alleles of this variant. Each one 
-  represents the effect of a single  allele on a single transcript.
+  The transcript effect annotation for the alleles of this variant. Each one
+  represents the effect of a single allele on a single transcript.
   */
   array<TranscriptEffect> transcriptEffects = [];
 
 
   /**
-  The names of known variants which are co-located with this variant. 
-  these can use used to look up disease associations, ClinVar statuses, 
+  The names of known variants which are co-located with this variant.
+  these can use used to look up disease associations, ClinVar statuses,
   allele frequencies in reference panels, etc
   */
   array<string> coLocatedVariants =[];
@@ -198,11 +193,8 @@ record VariantAnnotation {
 }
 
 /**
-A `AlleleAnnotation` record represents the result of comparing a allele
+An `AlleleAnnotation` record represents the result of comparing a allele
 to a set of reference data.
-Annotation attributes include predicted functional consequence of alternate
-alleles on transcript or protein structures or the reporting of information
-such as phenotype association to a co-located feature
 */
 record AlleleAnnotation {
 
@@ -212,7 +204,7 @@ record AlleleAnnotation {
   /** The ID of the annotation set this record belongs to. */
   string annotationSetId;
 
-  /** The date this variant was created in milliseconds from the epoch. */
+  /** The date this allele annotation was created in milliseconds from the epoch. */
   union { null, long } created = null;
 
 
@@ -223,8 +215,8 @@ record AlleleAnnotation {
   array<TranscriptEffect> transcriptEffects = [];
 
   /**
-  The names of known variants which are co-located with this allele.  
-  these can use used to look up disease associations, ClinVar statuses 
+  The names of known variants which are co-located with this allele.
+  these can use used to look up disease associations, ClinVar statuses
   allele frequencies in reference panels, etc
   */
   array<string> coLocatedVariants =[];
