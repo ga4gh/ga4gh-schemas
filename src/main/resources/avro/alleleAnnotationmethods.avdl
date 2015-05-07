@@ -107,16 +107,6 @@ SearchVariantAnnotationsResponse searchVariantAnnotations(
   /** This request maps to the body of `POST /variantannotations/search` as JSON. */
   SearchVariantAnnotationsRequest request) throws GAException;
 
-/**************** /variantannotations/{id} *******************/
-/**
-Gets a `VariantAnnotation` by variant ID.
-`GET /variantannotations/{id}` will return a JSON version of `VariantAnnotation`.
-*/
-org.ga4gh.models.VariantAnnotation getVariantAnnotation(
-  /**
-  The ID of the `Variant`.
-  */
-  string id) throws GAException;
 
 
 /******************  /alleleannotations/search  *********************/
@@ -201,19 +191,6 @@ SearchAlleleAnnotationsResponse searchAlleleAnnotations(
     SearchAlleleAnnotationsRequest request) throws GAException;
 
 
-/**************** /alleleannotations/{id} *******************/
-/**
-Gets an `AlleleAnnotation` by ID.
-`GET /alleleannotations/{id}` will return a JSON version of `AlleleAnnotation`.
-*/
-org.ga4gh.models.AlleleAnnotation getAlleleAnnotation(
-  /**
-  The ID of the `Allele`.
-  */
-  string id) throws GAException;
-
-
-
 
 /****************** /annotationsets/search *********************/
 /** This request maps to the body of `POST /annotationsets/search` as JSON. */
@@ -241,7 +218,7 @@ record SearchAnnotationSetsResponse {
 }
 
 /**
-Returns a list of available annotation set
+Returns a list of available annotation sets
 `POST /annotationsets/search` must accept a JSON version of
 `SearchAnnotationSetsRequest` as the post body and will return a JSON version
 of `SearchAnnotationSetsResponse`.
@@ -249,6 +226,18 @@ of `SearchAnnotationSetsResponse`.
 SearchAnnotationSetsResponse searchAnnotationSets(
   /** This request maps to the body of `POST /annotationsets/search` as JSON. */
   SearchAnnotationSetsRequest request) throws GAException;
+
+
+/**************** /annotationsets/{id} *******************/
+/**
+Gets an `AnnotationSet` by ID.
+`GET /annotationsets/{id}` will return a JSON version of `AnnotationSet`.
+*/
+org.ga4gh.models.AnnotationSet getAnnotationSet(
+  /**
+  The ID of the `AnnotationSet`.
+  */
+  string id) throws GAException;
 
 
 
