@@ -44,6 +44,7 @@ record Individual {
   [NCBITaxon Ontology](http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page).
   For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for this is
   NCBITaxon:9606, which has the URI http://purl.obolibrary.org/obo/NCBITaxon_9606
+  Use `null` for unknown, undetermined or not applicable.
   */
   union { null, OntologyTerm } species = null;
 
@@ -126,6 +127,8 @@ record Sample {
   /**
   The time at which this sample was taken from the individual, in milliseconds
   from the epoch.
+  TODO: should we consider using relative time (e.g. to the start of a study) rather than absolute time?
+  Something like https://github.com/PhenotypeFoundation/GDT/blob/master/src/groovy/org/dbnp/gdt/RelTime.groovy
   */
   union { null, long } samplingDate = null;
 
