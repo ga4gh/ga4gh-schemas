@@ -27,15 +27,18 @@ record Individual {
   union { null, string } description = null;
 
   /**
-  The time at which this individual was created in milliseconds from the epoch.
+  The time at which this record was created. 
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  TODO: The format definition is temporary and will be updated to 
+  the upcoming AVRO time format (timestamp-millis) when this is supported.
   */
-  union { null, long } created = null;
+  string recordCreateTime = null;
 
   /**
-  The time at which this individual was last updated in milliseconds
-  from the epoch.
+  The time at which this record was last updated.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, long } updated = null;
+  string recordUpdateTime = null;
 
   /**
   The species of this individual. Using
@@ -113,27 +116,31 @@ record Sample {
   union { null, string } description = null;
 
   /**
-  The time at which this sample was created in milliseconds from the epoch.
+  The time at which this record was created. 
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, long } created = null;
+  string  recordCreateTime = null;
 
   /**
-  The time at which this sample was last updated in milliseconds
-  from the epoch.
+  The time at which this record was last updated.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, long } updated = null;
+  string recordUpdateTime = null;
 
   /**
-  The time at which this sample was taken from the individual, in milliseconds
-  from the epoch.
+  The time at which this sample was taken from the individual.
+  Granularity here is variabel (e.g. only date would be common for 
+  biopsies, minutes for in vitro time series).
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   */
-  union { null, long } samplingDate = null;
+  union { null, string } samplingDate = null;
 
   /**
-  The age of this sample in months. TODO: is months the right format?
+  The age of the individual (not of the sample) at time of sample collection.
   This field may be approximate.
+  TODO: Fixed unit? Years would be natural in human context.
   */
-  union { null, long } age = null;
+  union { null, long } ageAtSampling = null;
 
   /**
   The cell type of this sample.
@@ -183,21 +190,23 @@ record Experiment {
   union { null, string } description = null;
 
   /**
-  The time at which this experiment was created in milliseconds from the epoch.
+  The time at which this record was created. 
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, long } created = null;
+  string recordCreateTime = null;
 
   /**
-  The time at which this experiment was last updated in milliseconds
-  from the epoch.
+  The time at which this record was last updated.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, long } updated = null;
+  string recordUpdateTime = null;
 
   /**
-  The time at which this experiment was performed in milliseconds
-  from the epoch.
+  The time at which this experiment was performed.
+  Granularity here is variabel (e.g. date only).
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   */
-  union { null, long } runDate = null;
+  union { null, string } runTime = null;
 
   /**
   The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
@@ -264,16 +273,16 @@ record IndividualGroup {
   union { null, string } description = null;
 
   /**
-  The time at which this individual group was created in milliseconds from
-  the epoch.
+  The time at which this record was created. 
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, long } created = null;
+  string recordCreateTime = null;
 
   /**
-  The time at which this individual group was last updated in milliseconds
-  from the epoch.
+  The time at which this record was last updated.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, long } updated = null;
+  string recordUpdateTime = null;
 
   /** The type of individual group. */
   union { null, string } type = null;
@@ -300,15 +309,16 @@ record Analysis {
   union { null, string } description = null;
 
   /**
-  The time at which this analysis was created in milliseconds from the epoch.
+  The time at which this record was created. 
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, long } created = null;
+  string recordCreateTime = null;
 
   /**
-  The time at which this analysis was last updated in milliseconds
-  from the epoch.
+  The time at which this record was last updated.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, long } updated = null;
+  string recordUpdateTime = null;
 
   /** The type of analysis. */
   union { null, string } type = null;
