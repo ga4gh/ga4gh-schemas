@@ -266,14 +266,20 @@ record ReadAlignment {
   union { null, boolean } failedVendorQualityChecks = null;
 
   /**
-  The alignment for this alignment record. This field will be
-  null if the read is unmapped.
+  The alignment for this alignment record served by a server in "classic"
+  mode. This field will be null if the read is unmapped.
 
-  If an API server supports "classic" mode, it must not return `GraphAlignment`
-  objects here. If the API server supports the "graph" mode and does not support
-  the "classic" mode, it must not return `LinearAlignment` objects here.
+  This attribute can only be non-null if `graphAlignment` is null.
   */
-  union { null, LinearAlignment, GraphAlignment } alignment = null;
+  union { null, LinearAlignment } alignment = null;
+
+  /**
+  The alignment for this alignment record served by a server in "graph"
+  mode.
+
+  This attribute can only be non-null if `alignment` is null.
+  */
+  union { null, GraphAlignment } graphAlignment = null;
 
   /**
   Whether this alignment is secondary. Equivalent to SAM flag 0x100.
