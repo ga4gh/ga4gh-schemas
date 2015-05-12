@@ -32,13 +32,13 @@ record Individual {
   TODO: The format definition is temporary and will be updated to 
   the upcoming AVRO time format (timestamp-millis) when this is supported.
   */
-  union { null, string } recordCreateTime = null;
+  string recordCreateTime = null;
 
   /**
   The time at which this record was last updated.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordUpdateTime = null;
+  string recordUpdateTime = null;
 
   /**
   The species of this individual. Using
@@ -119,13 +119,13 @@ record Sample {
   The time at which this record was created. 
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordCreateTime = null;
+  string  recordCreateTime = null;
 
   /**
   The time at which this record was last updated.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordUpdateTime = null;
+  string recordUpdateTime = null;
 
   /**
   The time at which this sample was taken from the individual.
@@ -193,13 +193,13 @@ record Experiment {
   The time at which this record was created. 
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordCreateTime = null;
+  string recordCreateTime = null;
 
   /**
   The time at which this record was last updated.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordUpdateTime = null;
+  string recordUpdateTime = null;
 
   /**
   The time at which this experiment was performed.
@@ -276,13 +276,13 @@ record IndividualGroup {
   The time at which this record was created. 
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordCreateTime = null;
+  string recordCreateTime = null;
 
   /**
   The time at which this record was last updated.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordUpdateTime = null;
+  string recordUpdateTime = null;
 
   /** The type of individual group. */
   union { null, string } type = null;
@@ -312,13 +312,13 @@ record Analysis {
   The time at which this record was created. 
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordCreateTime = null;
+  string recordCreateTime = null;
 
   /**
   The time at which this record was last updated.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordUpdateTime = null;
+  string recordUpdateTime = null;
 
   /** The type of analysis. */
   union { null, string } type = null;
