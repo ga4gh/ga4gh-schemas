@@ -243,10 +243,10 @@ record ReadAlignment {
   The orientation and the distance between reads from the fragment are
   consistent with the sequencing protocol (equivalent to SAM flag 0x2)
   */
-  union { boolean, null } properPlacement = false;
+  union { null, boolean } properPlacement = null;
 
   /** The fragment is a PCR or optical duplicate (SAM flag 0x400) */
-  union { boolean, null } duplicateFragment = false;
+  union { null, boolean } duplicateFragment = null;
 
   /** The number of reads in the fragment (extension to SAM flag 0x1) */
   union { null, int } numberReads = null;
@@ -263,7 +263,7 @@ record ReadAlignment {
   union { null, int } readNumber = null;
 
   /** SAM flag 0x200 */
-  union { boolean, null } failedVendorQualityChecks = false;
+  union { null, boolean } failedVendorQualityChecks = null;
 
   /**
   The alignment for this alignment record. This field will be
@@ -284,7 +284,7 @@ record ReadAlignment {
   By convention, each read has one and only one alignment where both
   secondaryAlignment and supplementaryAlignment are false.
   */
-  union { boolean, null } secondaryAlignment = false;
+  union { null, boolean } secondaryAlignment = null;
 
   /**
   Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
@@ -300,7 +300,7 @@ record ReadAlignment {
   `alignedSequence` and `alignedQuality` fields in the alignment record will
   only represent the bases for its respective alignment.
   */
-  union { boolean, null } supplementaryAlignment = false;
+  union { null, boolean } supplementaryAlignment = null;
 
   /**
   The bases of the read sequence contained in this alignment record.
