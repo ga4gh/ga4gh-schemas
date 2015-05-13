@@ -58,7 +58,7 @@ record EnvironmentalContext {
   Environment Ontology (ENVO):  http://www.ontobee.org/browser/index.php?o=ENVO
   Anatomy (Uberon): http://www.ontobee.org/browser/index.php?o=uberon
   */
-  org.ga4gh.models.OntologyTerm environmentType;
+  OntologyTerm environmentType;
 
   /** 
 	A textual description of the environment. This is used to complement 
@@ -79,7 +79,7 @@ record PhenotypeInstance {
   union { null, string } id;
 
   /** HPO is recommended */
-  org.ga4gh.models.OntologyTerm type;
+  OntologyTerm type;
 
   /** 
   PATO is recommended.  Often this qualifier might be for abnormal/normal, 
@@ -87,14 +87,14 @@ record PhenotypeInstance {
   For example, severe: http://purl.obolibrary.org/obo/PATO_0000396 
   or abnormal: http://purl.obolibrary.org/obo/PATO_0000460
   */
-  union { null, array<org.ga4gh.models.OntologyTerm> } qualifier = null;
+  union { null, array<OntologyTerm> } qualifier = null;
 
   //TODO: also allow quantitative recording?
   /** 
   HPO is recommended, for example, subclasses of
   http://purl.obolibrary.org/obo/HP_0011007
   */
-  union { null, org.ga4gh.models.OntologyTerm } ageOfOnset = null;
+  union { null, OntologyTerm } ageOfOnset = null;
 
   /** 
   A textual description of the phenotype. This is used to complement the 
@@ -113,7 +113,7 @@ it's own schema.
 record Evidence {
 
   /** ECO or OBI is recommended */
-  org.ga4gh.models.OntologyTerm evidenceType;
+  OntologyTerm evidenceType;
 
   /** 
 	A textual description of the evidence. This is used to complement the 
@@ -144,7 +144,7 @@ record FeaturePhenotypeAssociation {
 
     The feature set can have only one item, and must not be null.
   */
-  array<org.ga4gh.models.Feature> features;
+  array<Feature> features;
 
  /**
     The evidence for this specific instance of association between the
