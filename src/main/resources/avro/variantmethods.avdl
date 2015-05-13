@@ -8,10 +8,9 @@ import idl "variants.avdl";
 /** This request maps to the body of `POST /variantsets/search` as JSON. */
 record SearchVariantSetsRequest {
   /**
-  If nonempty, will restrict the query to variant sets within the
-  given datasets.
+  The Dataset to search.
   */
-  array<string> datasetIds = [];
+  string datasetId;
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -62,11 +61,95 @@ org.ga4gh.models.VariantSet getVariantSet(
   */
   string id) throws GAException;
 
+/******************  /variantsets/{id}/sequences/search  *********************/
+/**
+This request maps to the body of `POST /variantsets/{id}/sequences/search` as
+JSON.
+*/
+record SearchVariantSetSequencesRequest {
+  /**
+  Return `Segment`s describing novel sequences in the `VariantSet`
+  that are joined onto the sequence with the specified ID.
+  */
+  string parentId;
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;
+}
+
+/**
+This is the response from `POST /variantsets/{id}/sequences/search` expressed as
+JSON.
+*/
+record SearchVariantSetSequencesResponse {
+  /**
+  The list of `Segment`s for matching sequences from the novel sequence graph
+  for the `VariantSet`.
+  */
+  array<org.ga4gh.models.Segment> segments = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets `Segment`s covering the sequences that match the search criteria.
+
+`POST /variantsets/{id}/sequences/search` must accept a JSON version of
+`SearchVariantSetSequencesRequest` as the post body and will return a JSON
+version of `SearchVariantSetSequencesResponse`.
+*/
+SearchVariantSetSequencesResponse searchVariantSetSequences(
+  /**
+  The ID of the `VariantSet` which provides the novel sequences.
+  */
+  string variantSetId,
+  /**
+  This request maps to the body of `POST variantsets/{id}/sequences/search` as
+  JSON.
+  */
+  SearchVariantSetSequencesRequest request) throws GAException;
+
+/*****************  /variantsets/{id}/sequences/{id}  *******************/
+/**
+Gets a `Segment` describing a novel sequence in a `VariantSet`, by sequence
+ID.
+
+`GET /variantsets/{id}/sequences/{id}` will return a JSON version of a `Segment`
+covering the novel sequence with the given ID, and describing where it is
+joined onto its parent sequences.
+*/
+org.ga4gh.models.Segment getVariantSetSequence(
+  /**
+  The ID of the `VariantSet` which provides the novel sequence.
+  */
+  string variantSetId,
+  /**
+  The ID of the novel sequence to get a covering `Segment` for.
+  */
+  string sequenceId) throws GAException;
+
 /******************  /variants/search  *********************/
 /** This request maps to the body of `POST /variants/search` as JSON. */
 record SearchVariantsRequest {
-  /** Required. The IDs of the variant sets to search over. */
-  array<string> variantSetIds = [];
+  /**
+  The VariantSet to search.
+  */
+  string variantSetId;
 
   /** Only return variants which have exactly this name (case-sensitive, exact match). */
   union { null, string } name = null;
@@ -163,8 +246,10 @@ org.ga4gh.models.Variant getVariant(
 /******************  /alleles/search  *********************/
 /** This request maps to the body of `POST /alleles/search` as JSON. */
 record SearchAllelesRequest {
-  /** Required. The IDs of the variant sets to search over. */
-  array<string> variantSetIds = [];
+  /**
+  The VariantSet to search.
+  */
+  string variantSetId;
 
   /**
   Required. Only return `Allele`s on the sequence with this ID.
@@ -243,10 +328,9 @@ org.ga4gh.models.Allele getAllele(
 /** This request maps to the body of `POST /callsets/search` as JSON. */
 record SearchCallSetsRequest {
   /**
-  If nonempty, will restrict the query to call sets within the
-  given variant sets.
+  The VariantSet to search.
   */
-  array<string> variantSetIds = [];
+  string variantSetId;
 
   /**
   Only return call sets with this name (case-sensitive, exact match).
@@ -300,127 +384,4 @@ org.ga4gh.models.CallSet getCallSet(
   The ID of the `CallSet`.
   */
   string id) throws GAException;
-
-/****************** /calls/search *********************/
-/** This request maps to the body of `POST /calls/search` as JSON. */
-record SearchCallsRequest {
-
-  /**
-  If nonempty, only return the `Call`s in these `CallSet`s.
-  */
-  array<string> callSetIds = [];
-
-  /**
-  If nonempty, return only `Call`s in these `VariantSet`s.
-  */
-  array<string> variantSetIds = [];
-
-  /**
-  If nonempty, return only `Call`s associated with one of these `Variant`s.
-  */
-  array<string> variantIds = [];
-
-  /**
-  Specifies the maximum number of results to return in a single page.
-  If unspecified, a system default will be used.
-  */
-  union { null, int } pageSize = null;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
-}
-
-/**
-This is the response from `POST /calls/search` expressed as JSON.
-*/
-record SearchCallsResponse {
-  /** The list of matching calls. */
-  array<org.ga4gh.models.Call> calls = [];
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
-}
-
-/**
-Gets a list of `Call` matching the search criteria.
-`POST /calls/search` must accept a JSON version of
-`SearchCallsRequest` as the post body and will return a JSON version of
-`SearchCallsResponse`.
-*/
-SearchCallsResponse searchCalls(
-  /** This request maps to the body of `POST /calls/search` as JSON. */
-  SearchCallsRequest request) throws GAException;
-
-/****************** /allelecalls/search *********************/
-/** This request maps to the body of `POST /allelecalls/search` as JSON. */
-record SearchAlleleCallsRequest {
-
-  /**
-  If nonempty, only return the `AlleleCall`s in these `CallSet`s.
-  */
-  array<string> callSetIds = [];
-
-  /**
-  If nonempty, return only `AlleleCall`s in these `VariantSet`s.
-  */
-  array<string> variantSetIds = [];
-
-  /**
-  If nonempty, return only `AlleleCall`s associated with one of these `Allele`s.
-  */
-  array<string> alleleIds = [];
-
-  /**
-  If nonempty, return only `AlleleCall`s associated with one of these
-  `Variant`s.
-  */
-  array<string> variantIds = [];
-
-  /**
-  Specifies the maximum number of results to return in a single page.
-  If unspecified, a system default will be used.
-  */
-  union { null, int } pageSize = null;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
-}
-
-/**
-This is the response from `POST /allelecalls/search` expressed as JSON.
-*/
-record SearchAlleleCallsResponse {
-  /** The list of matching calls. */
-  array<org.ga4gh.models.AlleleCall> alleleCalls = [];
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
-}
-
-/**
-Gets a list of `AlleleCall` matching the search criteria.
-`POST /allelecalls/search` must accept a JSON version of
-`SearchAlleleCallsRequest` as the post body and will return a JSON version of
-`SearchAlleleCallsResponse`.
-*/
-SearchAlleleCallsResponse searchAlleleCalls(
-  /** This request maps to the body of `POST /allelecalls/search` as JSON. */
-  SearchAlleleCallsRequest request) throws GAException;
-
 }
