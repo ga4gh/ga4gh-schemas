@@ -54,7 +54,6 @@ class SchemaProcessor(object):
     """
     def __init__(self, args):
         self.version = args.version
-        self.verbosity = args.verbose
         self.tmpDir = tempfile.mkdtemp(prefix="ga4gh_")
         self.avroJarPath = args.avro_tools_jar
         # Note! The tarball does not contain the leading v
@@ -71,8 +70,6 @@ class SchemaProcessor(object):
         self._initPostSignatures()
 
     def cleanup(self):
-        if self.verbosity > 1:
-            utils.log("Cleaning up tmp dir {}".format(self.tmpDir))
         shutil.rmtree(self.tmpDir)
 
     def getClasses(self):
@@ -94,14 +91,12 @@ class SchemaProcessor(object):
 
     def _convertAvro(self, avdlFile):
         args = ["java", "-jar", self.avroJar, "idl2schemata", avdlFile]
-        if self.verbosity > 0:
-            utils.log("converting {}".format(avdlFile))
-        if self.verbosity > 1:
-            utils.log("running: {}".format(" ".join(args)))
-        if self.verbosity > 1:
-            utils.runCommandSplits(args)
-        else:
-            utils.runCommandSplits(args, silent=True)
+        stdoutLines, stderrLines = utils.runCommandSplitsOutput(args)
+        printableArgs = "'{}'".format(" ".join(args))
+        utils.ensureNoWarnings(
+            stdoutLines, "stdout of {}".format(printableArgs))
+        utils.ensureNoWarnings(
+            stderrLines, "stderr of {}".format(printableArgs))
 
     def _getSchemaFromLocal(self):
         if not os.path.exists(self.avdlDirectory):

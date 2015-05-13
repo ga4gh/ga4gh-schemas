@@ -40,7 +40,6 @@ class TestValidateSchemas(unittest.TestCase):
         args = FakeArgs()
         args.version = "test"
         args.avro_tools_jar = None
-        args.verbose = 2
         return args
 
     def testSchemaProperties(self):

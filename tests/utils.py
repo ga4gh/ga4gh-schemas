@@ -9,6 +9,7 @@ import os
 import shlex
 import subprocess
 import sys
+import tempfile
 
 import requests
 import humanize
@@ -16,6 +17,41 @@ import humanize
 
 def log(message):
     print(message)
+
+
+def getLinesFromLogFile(stream):
+    stream.flush()
+    stream.seek(0)
+    lines = stream.readlines()
+    return lines
+
+
+def ensureNoWarnings(lines, streamName):
+    pattern = '[WARNING]'
+    matchingLines = []
+    for line in lines:
+        if pattern in line:
+            matchingLines.append(line[:-1])
+    if len(matchingLines) != 0:
+        raise Exception("warning(s) detected in {}:\n{}".format(
+            streamName, '\n'.join(matchingLines)))
+
+
+def runCommandSplitsOutput(splits):
+    """
+    Run a shell command and return the stdout and stderr of the command
+    """
+    stdout = tempfile.NamedTemporaryFile()
+    stderr = tempfile.NamedTemporaryFile()
+    try:
+        process = subprocess.Popen(splits, stdout=stdout, stderr=stderr)
+        process.wait()
+        stdoutLines = getLinesFromLogFile(stdout)
+        stderrLines = getLinesFromLogFile(stderr)
+    finally:
+        stdout.close()
+        stderr.close()
+    return stdoutLines, stderrLines
 
 
 def runCommandSplits(splits, silent=False):
