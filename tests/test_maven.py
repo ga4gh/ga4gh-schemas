@@ -12,14 +12,6 @@ import unittest
 import utils
 
 
-def grep(lines, string_):
-    matchingLines = []
-    for line in lines:
-        if string_ in line:
-            matchingLines.append(line[:-1])
-    return matchingLines
-
-
 class TestMaven(unittest.TestCase):
     """
     Uses maven to run tests
@@ -36,9 +28,4 @@ class TestMaven(unittest.TestCase):
         utils.log("Running '{}'".format(cmd))
         splits = shlex.split(cmd)
         output = subprocess.check_output(splits).split('\n')
-        pattern = "[WARNING]"
-        lines = grep(output, pattern)
-        if len(lines) != 0:
-            for line in lines:
-                utils.log(line)
-            self.fail("Command '{}' issued warning(s)".format(cmd))
+        utils.ensureNoWarnings(output, cmd)
