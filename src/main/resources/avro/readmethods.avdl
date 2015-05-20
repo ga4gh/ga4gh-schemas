@@ -43,7 +43,7 @@ record SearchReadsRequest {
   union { null, long } end = null;
 
   /**
-  If nonempty, restrict this query to 'readAlignment's within the given
+  If nonempty, restrict this query to `readAlignment`s within the given
   `Fragment`s. */
   */
   array<string> fragmentId = [];
