@@ -14,7 +14,10 @@ to `ReferenceSet`s containing that same `Reference`. If no reference is
 specified, all `ReadGroup`s must be aligned to the same `ReferenceSet`.
 */
 record SearchReadsRequest {
-  /** If nonempty, restrict this query to reads within the given readgroups. */
+  /**
+  If nonempty, restrict this query to `ReadAlignment`s within the given
+  `ReadGroup`s.
+  */
   array<string> readGroupIds = [];
 
   /**
@@ -56,7 +59,7 @@ record SearchReadsRequest {
 /** This is the response from `POST /reads/search` expressed as JSON. */
 record SearchReadsResponse {
   /**
-  The list of matching alignment records, sorted by position.
+  The list of matching `ReadAlignment` records, sorted by position.
   Unmapped reads, which have no position, are returned last.
   */
   array<org.ga4gh.models.ReadAlignment> alignments = [];
@@ -70,7 +73,7 @@ record SearchReadsResponse {
 }
 
 /**
-Gets a list of `ReadAlignment` matching the search criteria.
+Gets a list of `ReadAlignment`s matching the search criteria.
 
 `POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
 the post body and will return a JSON version of `SearchReadsResponse`.
