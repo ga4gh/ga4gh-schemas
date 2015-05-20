@@ -43,6 +43,12 @@ record SearchReadsRequest {
   union { null, long } end = null;
 
   /**
+  If nonempty, restrict this query to 'readAlignment's within the given
+  `Fragment`s. */
+  */
+  array<string> fragmentId = [];
+
+  /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
