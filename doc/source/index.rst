@@ -14,6 +14,10 @@ Contents
     :maxdepth: 2
 
     introduction
+    explainapi
+    json
+    avro
+    starting
+    samplecode
+    schemadetails
     demo
-    usecase
-    fordummies

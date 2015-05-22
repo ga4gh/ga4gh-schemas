@@ -6,21 +6,123 @@ Introduction
 
 The `Data Working Group <http://ga4gh.org/#/>`_ of the
 `Global Alliance for Genomics and Health <http://genomicsandhealth.org/>`_
-has defined an
-`API <http://ga4gh.org/documentation/api/v0.5.1/ga4gh_api.html#/>`_
-to facilitate interoperable exchange of genomic data.
-This is the the documentation for the API schemas.
+developed this
+`web API <http://ga4gh.org/documentation/api/v0.5.1/ga4gh_api.html#/>`_
+to facilitate access to and exchange of genomics data across remote sites. 
 
-**Some basic terms**
-    | API:
-    | Schema:
-    | Apache Avro:
+--------------------------
+Why use this web API?
+--------------------------
 
-**The GA4GH API**
-    An application programming interface (API) is a set of routines, protocols, and tools for building software applications. 
-    An API expresses a software component in terms of its operations, inputs, outputs, and underlying types.
+This API is specifically designed to allow sharing of genomics data without having to exchange complete experiments.
+With this API, you can
 
-**What is a schema?**
-    The main goal of the API schemas is  to provide abstract, mathematically complete and precise models 
-    of the data that is manipulated by the GA4GH API. 
+* Exchange genome annotations, DNA sequence reads, reference-based alignments, metadata, and variant calls
+* Request alignments and variant calls for one genome or a million.
+* Explore data by slicing alignments and variants by genomic range across one or multiple samples
+* Interactively process entire cohorts
+
+For more details on web APIs, see :ref:`explainapi`
+
+--------------------------
+The GA4GH web API
+--------------------------
+This API was created to enable researchers to better access and exchange genomic data across remote sites. Instead of downloading complete BAM files or
+whole genome annotations, the API allows retrieval of information on, for instance, single genes or genomic regions.
+
+The API consists of a series of :ref:`api_modules`, or schemas, that define datasets, metadata, read group sets, reads, variants, etc. 
+The schemas are written in Avro Interactive Data Language (extension .avdl). 
+
+:ref:`avro` is a data serialization system, it defines how data gets transported across the internet.
+Here, data means both the request ('send me RNASeq for gene X in sample Y') and the response (the BAM file). Apache Avro only sends data in
+:ref:`json` or Binary Avro format, so requests and responses must be converted into one of those formats.
+
+-----------------------
+How to use Avro schemas
+-----------------------
+The GA4GH web API schemas show developers how to make servers and clients interact. 
+They define how the data is organized, and thereby give information on what can be requested.
+The schemas can be used to create code in any programming language.
+
+
++++++++++++++++++++
+A Python Example
++++++++++++++++++++
+Here's the schema definition for Variants (with comments removed)::
+
+  record Variant {
+    string id;
+    string variantSetId;
+    array<string> names = [];
+    union { null, long } created = null;
+    union { null, long } updated = null;
+    union { null, string } referenceName = null;
+    union { null, long } start = null;
+    union { null, long } end = null;
+    union { null, string } referenceBases = null;
+    union { null, array<string> } alternateBases = null;
+    union { null, array<string> } alleleIds;
+    map<array<string>> info = {};
+    union { null, array<Call> } calls = null;
+  }
+
+This means that when you request a single variant by, for example, its ID, you get back a JSON file
+with the information listed above. The JSON can be read using the JSON decoder from the
+Python standard library, which creates (an object?) in which the JSON array becomes Python's list, 
+and any NULL values become None.
+
+.. todo::
+   * add example of decoder output
+   * create a python class, if necessary
+
+Click for more :ref:`samplecode`.
+
+.. _api_modules:
+
+----------------
+API modules
+----------------
+
+Key components include: datasets, read group sets, reads, variants and call sets.
+
+For more details on all of these modules, see the :ref:`schemadetails`.
+
+++++++++++++++++
+Datasets
+++++++++++++++++
+
+A dataset is a logical grouping of genomic data and analysis associated with a project. 
+For example, a dataset might consist of aligned reads and variant calls from the 1000 Genomes project. 
+Data access permissions are set at the dataset level. A dataset can be public or private, meaning access may be restricted.
+
+++++++++++++++++
+Read group sets
+++++++++++++++++
+
+A read group set is a collection of reads, along with metadata about the sample, any processing that was performed, and the reference sequence. 
+In the simplest case, a read group set maps to a FASTQ or BAM file from a single sample, aligned with a particular alignment algorithm and parameters. 
+When a BAM file contains reads from multiple biological samples, the reads are split up into multiple read group sets, one per sample. 
+When multiple BAM files contain reads from the same sample, they must be merged into a single BAM file before import in order to create a single read group set.
+
+++++++++++++++++
+Reads
+++++++++++++++++
+
+Reads are nucleotide sequences generated by a DNA sequencing instrument, along with quality scores and metadata. 
+Reads may be aligned to a reference sequence, or unaligned.
+
+++++++++++++++++
+Variants
+++++++++++++++++
+
+Variants are positions of genetic difference in a collection of call sets. 
+Variants may have standard names, like rs1234. 
+Each variant identifies a position in a reference genome, a type of variant like SNP, 
+insertion or deletion, the alternate allele, and the call sets that contain the variant.
+
+++++++++++++++++
+Call sets
+++++++++++++++++
+
+A call set is a collection of variant calls, coming from a single sample using a particular variant calling algorithm and parameters.
 
