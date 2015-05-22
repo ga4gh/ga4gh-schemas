@@ -330,12 +330,6 @@ record ReadAlignment {
   array<int> alignedQuality = [];
 
   /**
-  The mapping of the primary alignment of the `(readNumber+1)%numberReads`
-  read in the fragment. It replaces mate position and mate strand in SAM.
-  */
-  union { null, Side } nextMatePosition = null;
-
-  /**
   A map of additional read alignment information.
   */
   map<array<string>> info = {};
