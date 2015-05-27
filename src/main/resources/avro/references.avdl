@@ -111,8 +111,8 @@ reference assembly, such as `GRCh38`. A `ReferenceSet` defines a common
 coordinate space for comparing reference-aligned experimental data.
 
 `ReferenceSet`s are composeable: a `ReferenceSet` may incorporate all of the
-`Reference`s and `Join`s from one or more other `ReferenceSet`s via the
-`includedReferenceSet`s array.
+`Reference`s and `Join`s from one other `ReferenceSet` via the
+`includedReferenceSetId` field.
 
 In classic mode, this is just a set of sequences.  In graph mode, there
 are both sequences and joins, but we only access the joins via method
@@ -133,22 +133,19 @@ record ReferenceSet {
   union { null, array<string> } referenceIds = null;
 
   /**
-  The IDs of `ReferenceSet`s that are included in this set, allowing extension
-  from a core e.g. provided by GRC or another provider.  In particular this
-  may provide a basis of primary references for a graph mode reference set.
+  The ID of a `ReferenceSet`s that is included in this set, allowing extension
+  from a core e.g. provided by GRC or another provider.  In particular this may
+  provide a basis of primary references for a graph mode reference set.
 
   A `ReferenceSet` is not allowed to include itself, either directly by ID, or
   indirectly or transitively through another `ReferenceSet`.
 
-  `Reference`s and `Join`s from the included `ReferenceSet`s are considered to
-  be part of this one. If multiple included `ReferenceSet`s provide a
-  `Reference` or `Join`, only one copy is taken to exist in this `ReferenceSet`.
-  Since different `Reference`s on a `Sequence` may not overlap, it is illegal to
-  include `ReferenceSet`s which when taken together would create such an
-  overlap, or to have such an overlap between a `Reference` from an included
-  `ReferenceSet` and one that appears directly in this `ReferenceSet`.
+  `Reference`s and `Join`s from the included `ReferenceSet` are considered to be
+  part of this one. Since different `Reference`s on a `Sequence` may not
+  overlap, it is illegal to have such an overlap between a `Reference` from an
+  included `ReferenceSet` and one that appears directly in this `ReferenceSet`.
   */
-  array<string> includedReferenceSets = [];
+  union { null, string } includedReferenceSetId = null;
 
   /**
   Order-independent MD5 checksum which identifies this `ReferenceSet`.
