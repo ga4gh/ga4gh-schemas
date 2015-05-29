@@ -5,25 +5,6 @@ import idl "common.avdl";
 import idl "methods.avdl";
 import idl "references.avdl";
 
-/****************  /mode/{mode}  *******************/
-/*
-See if the server will return fields necessary for interpreting data in the
-given mode. If the server supports a mode, it must serve the string "true" at
-this URL, and this method will return true on the client side. If the server
-does not support a mode, it must return "false".
-
-If the server supports a mode, all fields that that mode requires must be filled
-in the server's responses.
-
-Valid modes are currently "classic" and "graph", with the "graph" mode to be
-prefered by new client and server implementations.
-*/
-boolean sendsMode(
-  /**
-  The mode to ask about.
-  */
-  string mode) throws GAException;
-
 /****************  /referencesets/search  *******************/
 /**
 This request maps to the body of `POST /referencesets/search`
@@ -370,7 +351,7 @@ number of filters, all of which must be satisfied by each result returned.
 record SearchJoinsRequest {
   /**
   If not null, return only `Join`s which belong to this reference set, or any
-  included `ReferenceSet`s.
+  included `ReferenceSet`.
 
   If null, `variantSetId` must not be null.
   */
@@ -471,7 +452,7 @@ record ExtractSubgraphSegmentsRequest {
 
   /**
   If not null, return only `Segment`s of `Sequence`s which belong to this
-  reference set, or any included `ReferenceSet`s.
+  reference set, or any included `ReferenceSet`.
 
   If null, `variantSetId` must not be null.
   */
@@ -559,7 +540,7 @@ record ExtractSubgraphJoinsRequest {
 
   /**
   If not null, return only `Join`s which belong to this
-  reference set, or any included `ReferenceSet`s.
+  reference set, or any included `ReferenceSet`.
 
   If null, `variantSetId` must not be null.
   */

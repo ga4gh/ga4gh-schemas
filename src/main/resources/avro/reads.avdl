@@ -148,24 +148,6 @@ record ReadGroupSet {
   // referenceSet.
 }
 
-/** A linear alignment can be represented by one CIGAR string. */
-record LinearAlignment {
-  /** The position of this alignment. */
-  Side position;
-
-  /**
-  The mapping quality of this alignment. Represents how likely
-  the read maps to this position as opposed to other locations.
-  */
-  union { null, int } mappingQuality = null;
-
-  /**
-  Represents the local alignment of this sequence (alignment matches, indels, etc)
-  versus the reference.
-  */
-  array<CigarUnit> cigar = [];
-}
-
 /**
 A string-to-reference-graph alignment can be represented by one CIGAR string and
 one `Path` through multiple `Reference`s, against which the CIGAR string is
@@ -266,20 +248,9 @@ record ReadAlignment {
   union { null, boolean } failedVendorQualityChecks = null;
 
   /**
-  The alignment for this alignment record served by a server in "classic"
-  mode. This field will be null if the read is unmapped.
-
-  This attribute can only be non-null if `graphAlignment` is null.
+  The alignment for this alignment record.
   */
-  union { null, LinearAlignment } alignment = null;
-
-  /**
-  The alignment for this alignment record served by a server in "graph"
-  mode.
-
-  This attribute can only be non-null if `alignment` is null.
-  */
-  union { null, GraphAlignment } graphAlignment = null;
+  GraphAlignment alignment;
 
   /**
   Whether this alignment is secondary. Equivalent to SAM flag 0x100.
