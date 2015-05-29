@@ -126,7 +126,7 @@ record ReadStats {
 }
 
 /**
-`FIXME: Add Description of ReadGroup`
+A ReadGroup is a collection of `ReadAlignment`s. This is equivalent to a SAM file.
 
 `FIXME: Explain why nearly all values are allowed to be null. It seems most of them should not be`
 
@@ -175,7 +175,10 @@ record ReadGroup {
 }
 
 /**
-A ReadGroupSet is a logical collection of ReadGroups.
+A ReadGroupSet is a collection of `ReadGroup`s. If read groups are equivalent to SAM files, then a read group set can be a collection
+of SAM files that were generated from a single sequencing run.   
+All read groups in the set are required to map to the same referenceSet.
+
 `FIXME: Add proper description of ReadGroupSet`
 
 `FIXME: Explain why nearly all values are allowed to be null. It seems most of them should not be`
@@ -196,8 +199,6 @@ record ReadGroupSet {
   /** The `ReadGroup`s that make up this read group set. */
   array<ReadGroup> readGroups = [];
 
-  // NB: we require that all readgroups in the set are mapped to the same
-  // referenceSet.
 }
 
 /**
@@ -242,7 +243,7 @@ record ReadAlignment {
 
   /**
   The read alignment ID. This ID is unique within the read group this
-  alignment belongs to. This field may not be provided by all backends.
+  alignment belongs to. This field may not be provided by all backends. `Explain: Why not?`
   Its intended use is to make caching and UI display easier for
   genome browsers and other light weight clients.
   */
@@ -270,7 +271,7 @@ record ReadAlignment {
 
   /**
   The orientation and the distance between reads from the fragment are
-  consistent with the sequencing protocol (equivalent to SAM flag 0x2)
+  consistent with the sequencing protocol (equivalent to SAM flag 0x2). Can only be null if it hasn't been computed.
   */
   union { null, boolean } properPlacement = null;
 
@@ -288,11 +289,11 @@ record ReadAlignment {
   /**
   The read number in sequencing. 0-based and less than numberReads. This field
   replaces SAM flag 0x40 and 0x80. `UNCLEAR, please define better. SAM flags 0x40 and 0x80 are first and second read in pair, respectively. How does this
-  map to readNumber?`
+  map to readNumber?` `Explain: Why can this be null?`
   */
   union { null, int } readNumber = null;
 
-  /** SAM flag 0x200, read fails platform/vendor quality checks */
+  /** SAM flag 0x200, read fails platform or vendor quality checks */
   union { null, boolean } failedVendorQualityChecks = null;
 
   /**
