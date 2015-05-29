@@ -196,7 +196,7 @@ record VariantAnnotation {
 
 
   /**
-  The names of known variants which are co-located with this variant.
+  The IDs of other variants which are co-located with this variant.
   these can use used to look up disease associations, ClinVar statuses,
   allele frequencies in reference panels, etc
   */
@@ -231,7 +231,7 @@ record AlleleAnnotation {
   array<TranscriptEffect> transcriptEffects = [];
 
   /**
-  The names of known variants which are co-located with this allele.
+  The IDs of other variants which are co-located with this allele.
   these can use used to look up disease associations, ClinVar statuses
   allele frequencies in reference panels, etc
   */
