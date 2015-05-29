@@ -242,12 +242,8 @@ record Position {
   The ID of the sequence on which the `Side` is located. This may be a
   `Reference` sequence, or a novel piece of sequence associated with a
   `VariantSet`.
-
-  We allow a null value for sequenceId to support the "classic" model.
-
-  If the server supports the "graph" mode, this must not be null.
   */
-  union { null, string } sequenceId = null;
+  string sequenceId;
 
   /**
   The name of the reference sequence in whatever reference set is being used.
@@ -411,28 +407,24 @@ record Path {
 
 /**
 An abstraction for referring to a genomic region, in relation to some already 
-known reference. This will require some significant rework as we move to graph
-coordinates.  
+known reference.
 */
-// TODO: Add support for paths through the graph.
 record Region {
   /**
-  The starting point of the region. For the moment the base-pair included in
-  the region, on the 5' end of the oriented region.
+  The `ReferenceSet` that this `Region` is articulated in.
   */
-  Position start;
-
+  string referenceSetId;
+  
   /**
-  The length, in base pairs
+  The `Path` that this region follows.
   */
-  long length;
+  Path path;
 }
 
 /**
 An ontology term describing an attribute. (e.g. the phenotype attribute
 'polydactyly' from HPO)
 */
-
 record OntologyTerm {
   /**
   The source of the onotology term.
