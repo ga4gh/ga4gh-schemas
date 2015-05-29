@@ -312,7 +312,7 @@ record Analysis {
   The time at which this record was created. 
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
-  union { null, string } recordCreateTime = null;
+  string recordCreateTime;
 
   /**
   The time at which this record was last updated.
