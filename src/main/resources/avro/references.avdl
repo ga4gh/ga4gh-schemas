@@ -8,15 +8,17 @@ protocol References {
 import idl "common.avdl";
 
 /**
-A `Reference` is a canonical assembled contig, intended to act as a
-reference coordinate space for other genomic annotations. A single
-`Reference` might represent the human chromosome 1, for instance.
+A `Reference` is a canonical assembled contig, intended to act as a reference
+coordinate space for other genomic annotations. A single `Reference` might
+represent the human chromosome 1, for instance.
 
 `Reference`s are designed to be immutable. When extending a `ReferenceSet` with
 new `Reference`s, the existing `References` should not be changed. Newly added
 `Reference` `Sequence`s may be children of existing `Reference` `Sequence`s, but
 existing `Reference` `Sequence`s should not be made to be children of newly
 added `Reference` `Sequence`s.
+
+Every `Reference` is contained in one or more `ReferenceSet`s.
 
 */
 record Reference {

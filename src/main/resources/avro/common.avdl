@@ -10,10 +10,9 @@ A `Sequence` is a component in a sequence graph, optionally joined to other
 base data itself - the base data is obtained with the `getSequenceBases()`
 method call.
 
-A `Segment` is a range on a `Sequence`. When you ask about the novel
-`Sequence`s that come in a `VariantSet`, you will get back `Segment`s covering
-them. A `Path` through a sequence graph is a list of `Segment`s, with the
-requirement that adjacent segments are joined by `Join`s.
+A `Segment` is a range on a `Sequence`. A `Path` through a sequence graph is a
+list of `Segment`s, with the requirement that adjacent segments are joined by
+`Join`s.
 
 A `Reference` (defined in references.avdl) is part of a `ReferenceSet` which
 represents the reference sequence graph. It contains a `Segment` identifying
@@ -238,9 +237,7 @@ is represented by a sequence ID and a base number on that sequence (0-based).
 */
 record Position {
   /**
-  The ID of the sequence on which the `Side` is located. This may be a
-  `Reference` sequence, or a novel piece of sequence associated with a
-  `VariantSet`.
+  The ID of the sequence on which the `Side` is located.
   */
   string sequenceId;
 

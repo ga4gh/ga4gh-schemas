@@ -44,10 +44,6 @@ record VariantSetMetadata {
 `Variant` and `CallSet` both belong to a `VariantSet`.
 `VariantSet` belongs to a `Dataset`.
 The variant set is equivalent to a VCF file.
-
-A `VariantSet` can contain novel `Sequence`s, which are used to augment the
-sequence graph of its `ReferenceSet`, creating the augmented sequence graph
-against which `Allele`s are interpreted.
 */
 record VariantSet {
   /** The variant set ID. */
@@ -107,17 +103,15 @@ single objects that are present in some copy number.
 
 An `Allele` is a contiguous piece of sequence that we will want to say is
 present (in general at some copy number) or absent in a sample. Very often it
-will just be a single `Segment` covering the entirety of a novel `Sequence`, but
-it is also common for it to be a mix of `Segment`s on reference and novel
-`Sequence`s, or in general to be any contiguous path through the augmented
-sequence graph.
+will just be a single `Segment` covering the entirety of a `Sequence`, but it
+may be in general be any contiguous path through the sequence graph.
 
 `Allele`s belong to `VariantSet`s.
 
-Note that `Path`s cannot follow `Join`s not represented in the augmented
-sequence graph. For example, if  an `Allele` that spans a novel deletion is
-required, a new `Join` should exist to describe that deletion, available through
-`searchJoins()`.
+Note that `Path`s cannot follow `Join`s not represented in the `ReferenceSet`.
+For example, if  an `Allele` that spans a newly discovered deletion is required,
+a new `Join` should exist in a new `ReferenceSet` created for this `VariantSet`
+(which might in turn include a more standard parent `ReferenceSet`).
 */
 record Allele {
   /**

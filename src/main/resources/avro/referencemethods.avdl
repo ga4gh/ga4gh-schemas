@@ -96,7 +96,7 @@ record SearchReferencesRequest {
   /**
   If not null, return only references which belong to this reference set.
   */
-  union { null, string } referenceSetId = null;
+  union { null, string } referenceSetId;
 
   /**
   If nonempty, return only `Reference`s on `Sequence`s with IDs in the list.
@@ -248,20 +248,10 @@ number of filters, all of which must be satisfied by each result returned.
 */
 record SearchSequencesRequest {
   /**
-  If not null, return only `Sequence`s that appear in the indicated
-  `ReferenceSet`, or any included `ReferenceSet`s.
-
-  If null, `variantSetId` must not be null.
+  Return only `Sequence`s that appear in the indicated `ReferenceSet`, or any
+  included `ReferenceSet`s.
   */
-  union { null, string } referenceSetId = null;
-
-  /**
-  If not null, return only `Sequence`s that are part of the indicated
-  `VariantSet`.
-
-  If null, `referenceSetId` must not be null.
-  */
-  union { null, string } variantSetId = null;
+  string referenceSetId;
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -332,9 +322,7 @@ record GetSequenceBasesResponse {
 
 /**
 Lists bases by sequence ID and optional range. `GET /sequences/{id}/bases`
-will return a JSON version of `GetSequenceBasesResponse`. Works for sequences
-with associated `Reference`s, as well as novel sequences that come with
-`VariantSet`s.
+will return a JSON version of `GetSequenceBasesResponse`.
 */
 GetSequenceBasesResponse getSequenceBases(
     /** The ID of the sequence. */
@@ -350,19 +338,10 @@ number of filters, all of which must be satisfied by each result returned.
 */
 record SearchJoinsRequest {
   /**
-  If not null, return only `Join`s which belong to this reference set, or any
-  included `ReferenceSet`.
-
-  If null, `variantSetId` must not be null.
+  Return only `Join`s which belong to this reference set, or any included
+  `ReferenceSet`.
   */
-  union { null, string } referenceSetId = null;
-
-  /**
-  If not null, return only `Join`s which belong to this variant set.
-
-  If null, `referenceSetId` must not be null.
-  */
-  union { null, string } variantSetId = null;
+  string referenceSetId;
 
   /**
   If not null, return only `Join`s with at least one `Side` on this sequence.
@@ -451,20 +430,10 @@ walk, as well as `Join`s should be returned.
 record ExtractSubgraphRequest {
 
   /**
-  If not null, return only `Segment`s of `Sequence`s and `Join`s which belong to
-  this reference set, or any included `ReferenceSet`.
-
-  If null, `variantSetId` must not be null.
+  Return only `Segment`s of `Sequence`s and `Join`s which belong to this
+  reference set, or any included `ReferenceSet`.
   */
-  union { null, string } referenceSetId = null;
-
-  /**
-  If not null, return only `Segment`s of `Sequence`s which belong to this
-  variant set.
-
-  If null, `referenceSetId` must not be null.
-  */
-  union { null, string } variantSetId = null;
+  string referenceSetId;
 
   /**
   Base around which the subgraph is to be extracted.

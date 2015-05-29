@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 import glob
 import shlex
 import subprocess
+import sys
 
 import yaml
 
@@ -54,8 +55,9 @@ class TravisSimulator(object):
                 utils.runCommand(expandedCommand)
             except subprocess.CalledProcessError:
                 self.log('ERROR')
-                return
+                return 1
         self.log('SUCCESS')
+        return 0
 
     def log(self, logStr):
         utils.log("{0} {1}".format(self.logStrPrefix, logStr))
@@ -63,4 +65,4 @@ class TravisSimulator(object):
 
 if __name__ == '__main__':
     travisSimulator = TravisSimulator()
-    travisSimulator.runTests()
+    sys.exit(travisSimulator.runTests())
