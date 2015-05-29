@@ -393,22 +393,6 @@ record Path {
 }
 
 /**
-An abstraction for referring to a genomic region, in relation to some already 
-known reference.
-*/
-record Region {
-  /**
-  The `ReferenceSet` that this `Region` is articulated in.
-  */
-  string referenceSetId;
-  
-  /**
-  The `Path` that this region follows.
-  */
-  Path path;
-}
-
-/**
 An ontology term describing an attribute. (e.g. the phenotype attribute
 'polydactyly' from HPO)
 */

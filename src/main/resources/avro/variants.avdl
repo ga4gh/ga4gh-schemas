@@ -181,7 +181,7 @@ record UnaryAlleleCalls {
 Represents a set of calls for a pair of orthogonal `Allele`d on some pre-
 determined list of `CallSet`s.
 */
-record OrthogonalAllelePair {
+record OrthogonalAlleleCalls {
   Allele allele1, allele2;
   // Look up with dense_calls[sample][haplotype]
   array<array<BinaryCall>> dense_calls = [];

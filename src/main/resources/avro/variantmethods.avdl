@@ -142,26 +142,6 @@ org.ga4gh.models.Allele getAllele(
   */
   string id) throws GAException;
   
-/******************  /alleles/orthogonal/search  *********************/
-record SearchOrthogonalAllelePairsRequest {
-    org.ga4gh.models.Region region; // TODO: Probably better to use this than a parseable string?
-    array<string> sample_ids;
-    union { null, array<array<string>> } allele_pairs = null; // The user can ask for particular pairs
-    
-    float min_MAF = 0.0; // only return variants with MAF among requested samples >= this value
-	float max_MAF = 1.0;
-
-}
-
-record SearchOrthogonalAllelePairsResponse {
-	array<org.ga4gh.models.OrthogonalAllelePair> pairs = [];
-
-	// FIXME: no paging - why can't we return a stream? Sensitive to network errors?
-}
-
-SearchOrthogonalAllelePairsResponse searchOrthogonalAllelePairs(
-    SearchOrthogonalAllelePairsRequest request) throws GAException;
-
 /******************  /callsets/search  *********************/
 /** This request maps to the body of `POST /callsets/search` as JSON. */
 record SearchCallSetsRequest {
@@ -222,4 +202,199 @@ org.ga4gh.models.CallSet getCallSet(
   The ID of the `CallSet`.
   */
   string id) throws GAException;
+
+
+/******************  /calls/unary/search  *********************/
+/** This request maps to the body of `POST /calls/unary/search` as JSON. */
+record SearchUnaryAlleleCallsRequest {
+    
+  /**
+  Search within the specified `VaraintSet`.
+  */
+  string variantSetId;
+
+  /**
+  If not null, only return `UnaryAlleleCalls` objects for `Allele`s overlapping
+  this `Path` through the `VariantSet`'s `ReferenceSet`.
+
+  A single-`Segment` `Path` can be used to do a query on a range of a single
+  `Sequence`.
+
+  If `null`, returned `UnaryAlleleCalls`s will not be filtered by location in
+  the `ReferenceSet`.
+  */
+  union { null, org.ga4gh.models.Path } region = null;
+
+  /**
+  Specifies the list of `CallSet`s to retrieve calls for. The calls within the
+  returned `UnaryAlleleCalls` objects will correspond to these `CallSet`s in
+  order.
+  
+  TODO: What if we want to let the user search across a million `CallSet`s
+  without uploading all their IDs?
+  */
+  array<string> callsetIds;
+    
+  /**
+  If not null, must contain an array of `Allele` IDs. Only `UnaryAlleleCalls`
+  for the specified `Allele`s, in the specified order, will be returned.
+
+  If null, the server will return `UnaryAlleleCalls` objects for all `Allele`s
+  in the `VariantSet` passing the `region` filter, if applicable.
+  */
+  union { null, array<string> } alleleIds = null;
+
+
+  /**
+  Only return `UnaryAlleleCalls` objects in which the allele (THIS_ALLELE) has a
+  frequency among the requested samples greater than or equal to this value.
+  */
+  float minFreq = 0.0;
+  /**
+  Only return `UnaryAlleleCalls` objects in which the allele (THIS_ALLELE) has a
+  frequency among the requested samples less than or equal to this value.
+  */
+  float maxFreq = 1.0;
+
+}
+
+/**
+This is the response from `POST /calls/allele/search` expressed as JSON.
+*/
+record SearchUnaryAlleleCallsResponse {
+	
+	/**
+  The `UnaryAlleleCalls` objects for `Allele`s requested, on the `CallSet`s
+  requested.
+  */
+	array<org.ga4gh.models.UnaryAlleleCalls> alelles = [];
+
+	// TODO: Think about revising streaming/continuation across the entire API.
+  // Don't do it for now since we would have to change lots of stuff about the
+  // reference server, and throw away any hope of using Avro RPC.
+  
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `UnaryAlleleCalls` matching the search criteria.
+
+`POST /calls/allele/search` must accept a JSON version of
+`SearchUnaryAlleleCallsRequest` as the post body and will return a JSON version
+of `SearchUnaryAlleleCallsResponse`.
+*/
+SearchUnaryAlleleCallsResponse searchUnaryAlleleCalls(
+  /**
+  This request maps to the body of `POST /calls/unary/search` as JSON.
+  */
+  SearchUnaryAlleleCallsRequest request) throws GAException;
+
+/******************  /calls/orthogonal/search  *********************/
+/** This request maps to the body of `POST /calls/orthogonal/search` as JSON. */
+record SearchOrthogonalAlleleCallsRequest {
+    
+  /**
+  Search within the specified `VaraintSet`.
+  */
+  string variantSetId;
+
+  /**
+  If not null, only return `OrthogonalAlleleCalls` objects for pairs of
+  orthogonal `Allele`s with at least one member overlapping this `Path`
+  through the `VariantSet`'s `ReferenceSet`.
+
+  A single-`Segment` `Path` can be used to do a query on a range of a single
+  `Sequence`.
+
+  If `null`, returned `OrthogonalAlleleCalls` will not be filtered by location
+  in the `ReferenceSet`.
+  */
+  union { null, org.ga4gh.models.Path } region = null;
+
+  /**
+  Specifies the list of `CallSet`s to retrieve calls for. The calls within the
+  returned `OrthogonalAlleleCalls` objects will correspond to these `CallSet`s
+  in order.
+  
+  TODO: What if we want to let the user search across a million `CallSet`s
+  without uploading all their IDs?
+  */
+  array<string> callsetIds;
+
+  /**
+  If not null, must contain an array of two-element arrays, each holding a
+  pair of `Allele` IDs for orthogonal `Allele`s. Only `OrthogonalAlleleCalls`
+  for the specified pairs of `Allele`s, in the specified order, will be
+  returned.
+
+  If null, the server will intellignetly select the pairs of orthogonal
+  `Allele`s to return `OrthogonalAlleleCalls` objects for. In particular, the
+  server is not required to return `OrthogonalAlleleCalls` objects for every
+  pair of orthogonal alleles, because of the large number of possible
+  pairings. Instead, the server should make sure that each `Allele` passing
+  the `region` filter is represented in at least one returned
+  `OrthogonalAlleleCalls`.
+
+  TODO: Specify the server orthogonality algorithm/orthogonality definition
+  better, or give a reference.
+  */
+  union { null, array<array<string>> } alleleIdPairs = null;
+
+  /**
+  Only return `OrthogonalAlleleCalls` objects in which the minor allele
+  (ALLELE2) has a frequency among the requested samples greater than or equal
+  to this value.
+  */
+  float minMAF = 0.0;
+
+  /**
+  Only return `OrthogonalAlleleCalls` objects in which the minor allele
+  (ALLELE2) has a frequency among the requested samples less than or equal to
+  this value.
+  */
+  float maxMAF = 1.0;
+
+}
+
+/**
+This is the response from `POST /calls/orthogonal/search` expressed as JSON.
+*/
+record SearchOrthogonalAlleleCallsResponse {
+  /**
+  The `OrthogonalAlleleCalls` objects for the pairs of orthogonal `Allele`s
+  requested, on the `CallSet`s requested.
+  */
+  array<org.ga4gh.models.OrthogonalAlleleCalls> pairs = [];
+
+
+  // TODO: Think about revising streaming/continuation across the entire API.
+  // Don't do it for now since we would have to change lots of stuff about the
+  // reference server, and throw away any hope of using Avro RPC.
+  
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `OrthogonalAlleleCalls` matching the search criteria.
+
+`POST /calls/orthogonal/search` must accept a JSON version of
+`SearchOrthogonalAlleleCallsRequest` as the post body and will return a JSON
+version of `SearchOrthogonalAlleleCallsResponse`.
+*/
+SearchOrthogonalAlleleCallsResponse searchOrthogonalAlleleCalls(
+  /**
+  This request maps to the body of `POST /calls/orthogonal/search` as JSON.
+  */
+  SearchOrthogonalAlleleCallsRequest request) throws GAException;
+  
 }
