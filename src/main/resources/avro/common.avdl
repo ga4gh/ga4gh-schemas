@@ -233,9 +233,8 @@ particular arrangements.
 protocol Common {
 
 /**
-A `Position` is an unoriented base in some already known sequence. A
-`Position` is represented by a sequence name or ID, and a base number on that
-sequence (0-based).
+A `Position` is an unoriented base in some already known sequence. A `Position`
+is represented by a sequence ID and a base number on that sequence (0-based).
 */
 record Position {
   /**
@@ -244,15 +243,6 @@ record Position {
   `VariantSet`.
   */
   string sequenceId;
-
-  /**
-  The name of the reference sequence in whatever reference set is being used.
-  Does not generally include a "chr" prefix, so for example "X" would be used
-  for the X chromosome.
-
-  If `sequenceId` is null, this must not be null.
-  */
-  union { null, string } referenceName = null;
 
   /**
   The 0-based offset from the start of the forward strand for that sequence.
