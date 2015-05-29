@@ -9,7 +9,18 @@ import idl "alleleAnnotations.avdl";
 import idl "sequenceAnnotations.avdl";
 import idl "ontologies.avdl";
 
+/*
+variantannotations/search returns annotation for the alleles of classic/linear variants
+alleleannotations/search returns annotation for graph alleles
 
+Both allow the mining of allele-specific annotations by either a region or a set of genomic
+features. Where a region is supplied annotation of all alleles vs all features in the region
+is returned. Where a set of features is supplied, only annotations against these features
+(matching on featuretype and id) are returned and other overlapping features are ignored.
+
+annotationsets/search returns information on reference data and software versions used in
+calculating the annotation. It is essential this information is exhaustive.
+*/
 
 /******************  /variantannotations/search  *********************/
 /** This request maps to the body of `POST /variantannotations/search` as JSON. */
@@ -56,6 +67,8 @@ record SearchVariantAnnotationsRequest {
 
   /**
   Only return variant annotations for any of these features
+  Features may include specific transcripts, genes or regulatory elements
+  This or a location (referenceName/referenceId plus start and end) must be supplied
   If null, return all variant annotations in specified window.
   */
   union { null, array<org.ga4gh.models.Feature> } features;
@@ -138,6 +151,8 @@ record SearchAlleleAnnotationsRequest {
 
   /**
   Only return allele annotations for any of these features
+  Features may include specific transcripts, genes or regulatory elements
+  This or a location (referenceName/referenceId plus start and end) must be supplied
   If null, return all allele annotations in specified window.
   */
   union { null, array<org.ga4gh.models.Feature> } features;
