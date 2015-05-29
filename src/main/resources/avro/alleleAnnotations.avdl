@@ -177,8 +177,11 @@ to a set of reference data.
 */
 record VariantAnnotation {
 
-  /** The variant ID. */
+  /** The ID of this VariantAnnotation. */
   string id;
+
+  /** The variant ID. */
+  string variantId;
 
   /** The ID of the annotation set this record belongs to. */
   string annotationSetId;
@@ -214,8 +217,11 @@ to a set of reference data.
 */
 record AlleleAnnotation {
 
-  /** The allele ID. */
+  /** The ID of this AlleleAnnotation. */
   string id;
+
+  /** The allele ID. */
+  string alleleId;
 
   /** The ID of the annotation set this record belongs to. */
   string annotationSetId;
