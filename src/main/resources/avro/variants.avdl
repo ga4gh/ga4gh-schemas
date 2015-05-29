@@ -137,7 +137,7 @@ record Allele {
   reconstructed by the client by parsing the `Path` and calling
   `getSequenceBases()` repeatedly.
   */
-  union { null, string } sequence_bases = null;
+  union { null, string } sequenceBases = null;
   
   /**
   MD5 of the `Path` for the `Region`. TODO: define how this is calculated.
@@ -173,7 +173,7 @@ Represents a set of calls for a single `Allele` on some pre-determined list of
 record UnaryAlleleCalls {
   Allele allele;
   // Look up with dense_calls[sample][haplotype]
-  array<array<UnaryCall>> dense_calls = [];
+  array<array<UnaryCall>> denseCalls = [];
   array<array<int>> quality = []; // quality for each haplotype call; likely to be boolean in implementation
 }
 
@@ -184,7 +184,7 @@ determined list of `CallSet`s.
 record OrthogonalAlleleCalls {
   Allele allele1, allele2;
   // Look up with dense_calls[sample][haplotype]
-  array<array<BinaryCall>> dense_calls = [];
+  array<array<BinaryCall>> denseCalls = [];
   array<array<int>> quality = []; // quality for each haplotype call; likely to be boolean in implementation
 }
 
