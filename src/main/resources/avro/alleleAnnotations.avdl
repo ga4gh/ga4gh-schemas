@@ -17,11 +17,27 @@ import idl "variants.avdl";
 import idl "ontologies.avdl";
 
 
+/*
+This protocol currently attempts to support linear variants and graph alleles by providing
+two grouping records (VariantAnnotation and AlleleAnnotation) which have a similar structure
+of attributes and sub-records.
 
+The TranscriptEffect sub record holds information on the effect of a specific allele on a
+specific transcript.
+As Variants may overlap multiple transcripts, they may have multiple TranscriptEffect records.
+Variants with multiple alternate alleles will have multiple TranscriptEffect records per
+transcript. (2 alternate alleles x 3 transcripts = 6 TranscriptEffect records)
+As graph Alleles may overlap multiple transcripts, they may have multiple TranscriptEffect records.
+
+VariantAnnotation and AlleleAnnotation records belong to AnnotationSets. AnnotationSets contain
+information on reference data and software versions used in calculating the annotation. It is
+essential this information is exhaustive.
+
+*/
 
 /**
 An AnalysisResult record holds the output of a prediction package such as SIFT on a
-specific allele
+specific allele/transcript combination
 */
 record AnalysisResult {
 
