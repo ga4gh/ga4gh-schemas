@@ -7,3 +7,6 @@ org_ga4gh_models_Feature -> org_ga4gh_models_Feature
 // Individual has a "groupId"
 org_ga4gh_models_Individual -> org_ga4gh_models_IndividualGroup
 
+// ReferenceSet has an "includedReferenceSetId"
+org_ga4gh_models_ReferenceSet -> org_ga4gh_models_ReferenceSet
+
