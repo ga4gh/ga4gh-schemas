@@ -1,0 +1,237 @@
+digraph UML {
+node [
+	shape=record
+]
+org_ga4gh_models_ReferenceSet [
+	label="{ReferenceSet|id : string|referenceIds : union&lt;null,array&lt;string&gt;&gt;|includedReferenceSets : array&lt;string&gt;|md5checksum : string|ncbiTaxonId : union&lt;null,int&gt;|description : union&lt;null,string&gt;|assemblyId : union&lt;null,string&gt;|sourceURI : union&lt;null,string&gt;|sourceAccessions : array&lt;string&gt;|isDerived : boolean}"
+]
+org_ga4gh_models_Join [
+	label="{Join|side1 : Side|side2 : Side}"
+]
+org_ga4gh_models_OntologyTerm [
+	label="{OntologyTerm|ontologySource : string|id : string|name : union&lt;null,string&gt;}"
+]
+org_ga4gh_models_Analysis [
+	label="{Analysis|id : string|name : union&lt;null,string&gt;|description : union&lt;null,string&gt;|created : union&lt;null,long&gt;|updated : union&lt;null,long&gt;|type : union&lt;null,string&gt;|software : array&lt;string&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_models_Dataset [
+	label="{Dataset|id : string|description : union&lt;null,string&gt;}"
+]
+org_ga4gh_models_WiggleSet [
+	label="{WiggleSet|id : string|attributes : Attributes}"
+]
+org_ga4gh_beacon_QueryResource [
+	label="{QueryResource|referenceBases : string|alternateBases : string|chromosome : string|position : long|reference : string|dataset : union&lt;null,string&gt;}"
+]
+org_ga4gh_models_Allele [
+	label="{Allele|id : string|variantSetId : string|path : Path}"
+]
+org_ga4gh_models_ReadGroupSet [
+	label="{ReadGroupSet|id : string|datasetId : union&lt;null,string&gt;|name : union&lt;null,string&gt;|stats : union&lt;null,ReadStats&gt;|readGroups : array&lt;ReadGroup&gt;}"
+]
+org_ga4gh_models_FeatureSet [
+	label="{FeatureSet|id : string|datasetId : union&lt;null,string&gt;|referenceSetId : union&lt;null,string&gt;|name : union&lt;null,string&gt;|sourceURI : union&lt;null,string&gt;|attributes : Attributes}"
+]
+org_ga4gh_models_CigarUnit [
+	label="{CigarUnit|operation : CigarOperation|operationLength : long|referenceSequence : union&lt;null,string&gt;}"
+]
+org_ga4gh_models_Reference [
+	label="{Reference|id : string|sequenceId : string|start : long|length : long|md5checksum : string|name : string|sourceURI : union&lt;null,string&gt;|sourceAccessions : array&lt;string&gt;|isDerived : boolean|sourceDivergence : union&lt;null,float&gt;|ncbiTaxonId : union&lt;null,int&gt;|isPrimary : boolean}"
+]
+org_ga4gh_models_Attributes [
+	label="{Attributes|vals : map&lt;array&lt;union&lt;string,ExternalIdentifier,OntologyTerm&gt;&gt;&gt;}"
+]
+org_ga4gh_models_CigarOperation [
+	label="{CigarOperation}"
+]
+org_ga4gh_models_Region [
+	label="{Region|start : Position|length : long}"
+]
+org_ga4gh_beacon_ErrorResource [
+	label="{ErrorResource|name : string|description : union&lt;null,string&gt;}"
+]
+org_ga4gh_models_Program [
+	label="{Program|commandLine : union&lt;null,string&gt;|id : union&lt;null,string&gt;|name : union&lt;null,string&gt;|prevProgramId : union&lt;null,string&gt;|version : union&lt;null,string&gt;}"
+]
+org_ga4gh_models_Path [
+	label="{Path|segments : array&lt;Segment&gt;}"
+]
+org_ga4gh_beacon_DataUseRequirementResource [
+	label="{DataUseRequirementResource|name : string|description : union&lt;null,string&gt;}"
+]
+org_ga4gh_models_GraphAlignment [
+	label="{GraphAlignment|path : Path|mappingQuality : union&lt;null,int&gt;|cigar : array&lt;CigarUnit&gt;}"
+]
+org_ga4gh_models_AlleleCall [
+	label="{AlleleCall|callSetId : string|alleleId : string|variantId : union&lt;null,string&gt;|totalCopies : double|phaseset : array&lt;string&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_models_Position [
+	label="{Position|sequenceId : union&lt;null,string&gt;|referenceName : union&lt;null,string&gt;|position : long}"
+]
+org_ga4gh_models_Variant [
+	label="{Variant|id : string|variantSetId : string|names : array&lt;string&gt;|created : union&lt;null,long&gt;|updated : union&lt;null,long&gt;|referenceName : union&lt;null,string&gt;|start : union&lt;null,long&gt;|end : union&lt;null,long&gt;|referenceBases : union&lt;null,string&gt;|alternateBases : union&lt;null,array&lt;string&gt;&gt;|alleleIds : union&lt;null,array&lt;string&gt;&gt;|info : map&lt;array&lt;string&gt;&gt;|calls : union&lt;null,array&lt;Call&gt;&gt;}"
+]
+org_ga4gh_models_ReadStats [
+	label="{ReadStats|alignedReadCount : union&lt;null,long&gt;|unalignedReadCount : union&lt;null,long&gt;|baseCount : union&lt;null,long&gt;}"
+]
+org_ga4gh_beacon_BeaconInformationResource [
+	label="{BeaconInformationResource|id : string|organization : string|description : string|datasets : array&lt;DataSetResource&gt;|api : string|homepage : union&lt;null,string&gt;|email : union&lt;null,string&gt;|auth : union&lt;null,string&gt;|queries : union&lt;null,string&gt;}"
+]
+org_ga4gh_models_ExternalIdentifier [
+	label="{ExternalIdentifier|database : string|identifier : string|version : string}"
+]
+org_ga4gh_models_Call [
+	label="{Call|callSetId : union&lt;null,string&gt;|callSetName : union&lt;null,string&gt;|variantId : union&lt;null,string&gt;|genotype : array&lt;int&gt;|phaseset : union&lt;null,string,array&lt;string&gt;&gt;|genotypeLikelihood : array&lt;double&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_models_LinearAlignment [
+	label="{LinearAlignment|position : Side|mappingQuality : union&lt;null,int&gt;|cigar : array&lt;CigarUnit&gt;}"
+]
+org_ga4gh_models_Sample [
+	label="{Sample|id : string|individualId : union&lt;null,string&gt;|accessions : array&lt;string&gt;|name : union&lt;null,string&gt;|description : union&lt;null,string&gt;|created : union&lt;null,long&gt;|updated : union&lt;null,long&gt;|samplingDate : union&lt;null,long&gt;|age : union&lt;null,long&gt;|cellType : union&lt;null,OntologyTerm&gt;|cellLine : union&lt;null,OntologyTerm&gt;|geocode : union&lt;null,string&gt;|sampleType : union&lt;null,string&gt;|organismPart : union&lt;null,OntologyTerm&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_models_Feature [
+	label="{Feature|id : string|parentIds : array&lt;string&gt;|featureSetId : string|path : Path|featureType : OntologyTerm|attributes : Attributes}"
+]
+org_ga4gh_models_CallSet [
+	label="{CallSet|id : string|name : union&lt;null,string&gt;|sampleId : union&lt;null,string&gt;|variantSetIds : array&lt;string&gt;|created : union&lt;null,long&gt;|updated : union&lt;null,long&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_beacon_DataUseResource [
+	label="{DataUseResource|category : string|description : union&lt;null,string&gt;|requirements : array&lt;DataUseRequirementResource&gt;}"
+]
+org_ga4gh_models_Side [
+	label="{Side|base : Position|strand : Strand}"
+]
+org_ga4gh_models_IndividualGroup [
+	label="{IndividualGroup|id : string|name : union&lt;null,string&gt;|description : union&lt;null,string&gt;|created : union&lt;null,long&gt;|updated : union&lt;null,long&gt;|type : union&lt;null,string&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_models_Strand [
+	label="{Strand}"
+]
+org_ga4gh_models_ReadGroup [
+	label="{ReadGroup|id : string|datasetId : union&lt;null,string&gt;|name : union&lt;null,string&gt;|description : union&lt;null,string&gt;|sampleId : union&lt;null,string&gt;|experiment : union&lt;null,Experiment&gt;|predictedInsertSize : union&lt;null,int&gt;|created : union&lt;null,long&gt;|updated : union&lt;null,long&gt;|stats : union&lt;null,ReadStats&gt;|programs : array&lt;Program&gt;|referenceSetId : union&lt;null,string&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_models_Fragment [
+	label="{Fragment|id : string}"
+]
+org_ga4gh_models_Individual [
+	label="{Individual|id : string|groupIds : array&lt;string&gt;|name : union&lt;null,string&gt;|description : union&lt;null,string&gt;|created : union&lt;null,long&gt;|updated : union&lt;null,long&gt;|species : union&lt;null,OntologyTerm&gt;|sex : union&lt;null,OntologyTerm&gt;|developmentalStage : union&lt;null,OntologyTerm&gt;|dateOfBirth : union&lt;null,long&gt;|diseases : array&lt;OntologyTerm&gt;|phenotypes : array&lt;OntologyTerm&gt;|stagingSystem : union&lt;null,string&gt;|clinicalTreatment : union&lt;null,string&gt;|strain : union&lt;null,string&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_models_Experiment [
+	label="{Experiment|id : string|name : union&lt;null,string&gt;|description : union&lt;null,string&gt;|created : union&lt;null,long&gt;|updated : union&lt;null,long&gt;|runDate : union&lt;null,long&gt;|molecule : union&lt;null,string&gt;|strategy : union&lt;null,string&gt;|selection : union&lt;null,string&gt;|library : union&lt;null,string&gt;|libraryLayout : union&lt;null,string&gt;|instrumentModel : union&lt;null,string&gt;|instrumentDataFile : union&lt;null,string&gt;|sequencingCenter : union&lt;null,string&gt;|platformUnit : union&lt;null,string&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_models_Sequence [
+	label="{Sequence|id : string|length : long}"
+]
+org_ga4gh_beacon_ResponseResource [
+	label="{ResponseResource|exists : string|frequency : union&lt;null,double&gt;|observed : union&lt;null,int&gt;|info : union&lt;null,string&gt;|err : union&lt;null,ErrorResource&gt;}"
+]
+org_ga4gh_models_Segment [
+	label="{Segment|start : Side|length : long}"
+]
+org_ga4gh_beacon_DataSetResource [
+	label="{DataSetResource|id : string|reference : string|description : union&lt;null,string&gt;|size : union&lt;null,DataSizeResource&gt;|multiple : boolean|datasets : array&lt;string&gt;|data_use : array&lt;DataUseResource&gt;}"
+]
+org_ga4gh_beacon_DataSizeResource [
+	label="{DataSizeResource|variants : int|samples : int}"
+]
+org_ga4gh_models_VariantSet [
+	label="{VariantSet|id : string|datasetId : string|referenceSetId : string|metadata : array&lt;VariantSetMetadata&gt;}"
+]
+org_ga4gh_models_Wiggle [
+	label="{Wiggle|path : Path|values : array&lt;float&gt;}"
+]
+org_ga4gh_beacon_BeaconResponseResource [
+	label="{BeaconResponseResource|beacon : string|query : QueryResource|response : ResponseResource}"
+]
+org_ga4gh_models_ReadAlignment [
+	label="{ReadAlignment|id : union&lt;null,string&gt;|readGroupId : string|fragmentId : string|fragmentName : string|properPlacement : union&lt;boolean,null&gt;|duplicateFragment : union&lt;boolean,null&gt;|numberReads : union&lt;null,int&gt;|fragmentLength : union&lt;null,int&gt;|readNumber : union&lt;null,int&gt;|failedVendorQualityChecks : union&lt;boolean,null&gt;|alignment : union&lt;null,LinearAlignment,GraphAlignment&gt;|secondaryAlignment : union&lt;boolean,null&gt;|supplementaryAlignment : union&lt;boolean,null&gt;|alignedSequence : union&lt;null,string&gt;|alignedQuality : array&lt;int&gt;|nextMatePosition : union&lt;null,Side&gt;|info : map&lt;array&lt;string&gt;&gt;}"
+]
+org_ga4gh_models_VariantSetMetadata [
+	label="{VariantSetMetadata|key : string|value : string|id : string|type : string|number : string|description : string|info : map&lt;array&lt;string&gt;&gt;}"
+]
+edge [
+	dir=both
+	arrowtail=odiamond
+	arrowhead=none
+]
+org_ga4gh_models_Wiggle -> org_ga4gh_models_Path
+org_ga4gh_models_Side -> org_ga4gh_models_Strand
+org_ga4gh_models_Individual -> org_ga4gh_models_OntologyTerm
+org_ga4gh_beacon_DataUseResource -> org_ga4gh_beacon_DataUseRequirementResource
+org_ga4gh_models_ReadAlignment -> org_ga4gh_models_LinearAlignment
+org_ga4gh_models_Region -> org_ga4gh_models_Position
+org_ga4gh_models_ReadAlignment -> org_ga4gh_models_GraphAlignment
+org_ga4gh_models_Variant -> org_ga4gh_models_Call
+org_ga4gh_models_FeatureSet -> org_ga4gh_models_Attributes
+org_ga4gh_models_LinearAlignment -> org_ga4gh_models_Side
+org_ga4gh_models_ReadGroup -> org_ga4gh_models_ReadStats
+org_ga4gh_models_WiggleSet -> org_ga4gh_models_Attributes
+org_ga4gh_models_Segment -> org_ga4gh_models_Side
+org_ga4gh_models_GraphAlignment -> org_ga4gh_models_Path
+org_ga4gh_beacon_DataSetResource -> org_ga4gh_beacon_DataUseResource
+org_ga4gh_models_VariantSet -> org_ga4gh_models_VariantSetMetadata
+org_ga4gh_models_Feature -> org_ga4gh_models_Path
+org_ga4gh_beacon_BeaconInformationResource -> org_ga4gh_beacon_DataSetResource
+org_ga4gh_models_Side -> org_ga4gh_models_Position
+org_ga4gh_models_ReadGroupSet -> org_ga4gh_models_ReadStats
+org_ga4gh_models_Attributes -> org_ga4gh_models_OntologyTerm
+org_ga4gh_models_GraphAlignment -> org_ga4gh_models_CigarUnit
+org_ga4gh_models_ReadGroup -> org_ga4gh_models_Program
+org_ga4gh_models_Allele -> org_ga4gh_models_Path
+org_ga4gh_models_Path -> org_ga4gh_models_Segment
+org_ga4gh_beacon_ResponseResource -> org_ga4gh_beacon_ErrorResource
+org_ga4gh_beacon_BeaconResponseResource -> org_ga4gh_beacon_QueryResource
+org_ga4gh_models_ReadGroup -> org_ga4gh_models_Experiment
+org_ga4gh_beacon_BeaconResponseResource -> org_ga4gh_beacon_ResponseResource
+org_ga4gh_models_Attributes -> org_ga4gh_models_ExternalIdentifier
+org_ga4gh_models_Sample -> org_ga4gh_models_OntologyTerm
+org_ga4gh_models_Join -> org_ga4gh_models_Side
+org_ga4gh_models_Feature -> org_ga4gh_models_OntologyTerm
+org_ga4gh_models_LinearAlignment -> org_ga4gh_models_CigarUnit
+org_ga4gh_models_CigarUnit -> org_ga4gh_models_CigarOperation
+org_ga4gh_beacon_DataSetResource -> org_ga4gh_beacon_DataSizeResource
+org_ga4gh_models_ReadAlignment -> org_ga4gh_models_Side
+org_ga4gh_models_ReadGroupSet -> org_ga4gh_models_ReadGroup
+org_ga4gh_models_Feature -> org_ga4gh_models_Attributes
+edge [
+	dir=both
+	arrowtail=none
+	arrowhead=vee
+	style=dashed
+]
+org_ga4gh_models_Reference -> org_ga4gh_models_Sequence
+org_ga4gh_models_Variant -> org_ga4gh_models_Allele
+org_ga4gh_models_Position -> org_ga4gh_models_Sequence
+org_ga4gh_models_Call -> org_ga4gh_models_Variant
+org_ga4gh_models_ReadGroup -> org_ga4gh_models_Dataset
+org_ga4gh_models_Feature -> org_ga4gh_models_FeatureSet
+org_ga4gh_models_VariantSet -> org_ga4gh_models_Dataset
+org_ga4gh_models_Call -> org_ga4gh_models_CallSet
+org_ga4gh_models_CallSet -> org_ga4gh_models_VariantSet
+org_ga4gh_models_ReferenceSet -> org_ga4gh_models_Reference
+org_ga4gh_models_AlleleCall -> org_ga4gh_models_Allele
+org_ga4gh_models_FeatureSet -> org_ga4gh_models_Dataset
+org_ga4gh_models_AlleleCall -> org_ga4gh_models_CallSet
+org_ga4gh_models_ReadGroup -> org_ga4gh_models_ReferenceSet
+org_ga4gh_models_ReadGroup -> org_ga4gh_models_Sample
+org_ga4gh_models_ReadAlignment -> org_ga4gh_models_Fragment
+org_ga4gh_models_AlleleCall -> org_ga4gh_models_Variant
+org_ga4gh_models_CallSet -> org_ga4gh_models_Sample
+org_ga4gh_models_ReadAlignment -> org_ga4gh_models_ReadGroup
+org_ga4gh_models_FeatureSet -> org_ga4gh_models_ReferenceSet
+org_ga4gh_models_ReadGroupSet -> org_ga4gh_models_Dataset
+org_ga4gh_models_Variant -> org_ga4gh_models_VariantSet
+org_ga4gh_models_Sample -> org_ga4gh_models_Individual
+org_ga4gh_models_VariantSet -> org_ga4gh_models_ReferenceSet
+org_ga4gh_models_Program -> org_ga4gh_models_Program
+org_ga4gh_models_Allele -> org_ga4gh_models_VariantSet
+// Extra ID reference edges that we don't autodetect
+// Use fully qualified names, and replace dots with underscores
+
+// Feature has a "parentId"
+org_ga4gh_models_Feature -> org_ga4gh_models_Feature
+
+// Individual has a "groupId"
+org_ga4gh_models_Individual -> org_ga4gh_models_IndividualGroup
+
+}
