@@ -51,6 +51,8 @@ protocol SequenceAnnotations {
   Values should be split into the array elements instead of using a separator
   syntax that needs to parsed.
   */
+  // TODO: how are multiple instances of a given attribute vs multiple values
+  // for an attribute distinguished
   record Attributes {
     map<array<union {string, ExternalIdentifier, OntologyTerm}>> vals = {};
   }
@@ -65,7 +67,25 @@ protocol SequenceAnnotations {
     The region is being fully annotated, but can be divided into bins.
     If you have gaps, you need to define a sequence of such Wiggles.
     */
-    Path path;
+    /**
+    The reference on which this feature occurs.
+    (e.g. `chr20` or `X`)
+
+    */
+    string referenceName;
+
+    /**
+    The start position at which this feature occurs (0-based).
+    This corresponds to the first base of the string of reference bases.
+    Genomic positions are non-negative integers less than reference length.
+    */
+    long start;
+
+    /**
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+    This is typically calculated by `start + referenceBases.length`.
+    */
+    long end;
 
     /**
     The values associated to this region.
@@ -116,7 +136,33 @@ protocol SequenceAnnotations {
     /**
     Genomic location.
     */
-    Path path;
+
+    /**
+    The reference on which this feature occurs.
+    (e.g. `chr20` or `X`)
+
+    If the API server supports the "classic" mode, this field must not be null.
+    */
+    union { null, string } referenceName = null;
+
+    /**
+    The start position at which this feature occurs (0-based).
+    This corresponds to the first base of the string of reference bases.
+    Genomic positions are non-negative integers less than reference length.
+    Features spanning the join of circular genomes are represented as
+    two features one on each side of the join (position 0).
+
+    If the API server supports the "classic" mode, this field must not be null.
+    */
+    union { null, long } start = null;
+
+    /**
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+    This is typically calculated by `start + referenceBases.length`.
+
+    If the API server supports the "classic" mode, this field must not be null.
+    */
+    union { null, long } end = null;
 
     /**
     Feature that is annotated by this region.  Normally, this will be a term in
@@ -137,14 +183,14 @@ protocol SequenceAnnotations {
   }
 
   /*
-  A set of region annotations
+  A set of sequence features annotations
   */
   record FeatureSet {
     /** The ID of this annotation set. */
     string id;
 
     /** The ID of the dataset this annotation set belongs to. */
-    union { null, string } datasetId = null;
+   union { null, string } datasetId = null;
 
     /**
     The ID of the reference set which defines the coordinate-space for this
