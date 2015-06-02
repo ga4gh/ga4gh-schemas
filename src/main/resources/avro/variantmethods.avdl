@@ -285,45 +285,6 @@ record SearchAllelesRequest {
   union { null, string } pageToken = null;
 }
 
-/** This is the response from `POST /alleles/search` expressed as JSON. */
-record SearchAllelesResponse {
-  /**
-  The list of matching alleles. An `Allele` should be returned if a `Segment`
-  in its `Path` overlaps with the specified range.
-  */
-  array<org.ga4gh.models.Allele> alleles = [];
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
-}
-
-/**
-Gets a list of `Allele`s matching the search criteria.
-
-`POST /alleles/search` must accept a JSON version of `SearchAllelesRequest` as
-the post body and will return a JSON version of `SearchAllelesResponse`.
-*/
-SearchAllelesResponse searchAlleles(
-    /**
-    This request maps to the body of `POST /alleles/search` as JSON.
-    */
-    SearchAllelesRequest request) throws GAException;
-
-/**************** /alleles/{id} *******************/
-/**
-Gets an `Allele` by ID.
-`GET /alleles/{id}` will return a JSON version of `Allele`.
-*/
-org.ga4gh.models.Allele getAllele(
-  /**
-  The ID of the `Allele`.
-  */
-  string id) throws GAException;
-
 /******************  /callsets/search  *********************/
 /** This request maps to the body of `POST /callsets/search` as JSON. */
 record SearchCallSetsRequest {

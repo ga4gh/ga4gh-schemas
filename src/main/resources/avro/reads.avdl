@@ -151,7 +151,7 @@ record ReadGroupSet {
 /** A linear alignment can be represented by one CIGAR string. */
 record LinearAlignment {
   /** The position of this alignment. */
-  Side position;
+  Position position;
 
   /**
   The mapping quality of this alignment. Represents how likely
@@ -162,39 +162,6 @@ record LinearAlignment {
   /**
   Represents the local alignment of this sequence (alignment matches, indels, etc)
   versus the reference.
-  */
-  array<CigarUnit> cigar = [];
-}
-
-/**
-A string-to-reference-graph alignment can be represented by one CIGAR string and
-one `Path` through multiple `Reference`s, against which the CIGAR string is
-interpreted.
-
-Note that `Path`s in `GraphAlignment`s are restricted to visiting `Reference`s
-and following reference adjacencies. If a read needs to be aligned to sequences
-that are not present in a `ReferenceSet`, it needs to be aligned to a new
-`ReferenceSet` with those sequences. If a read needs to follow adjacencies that
-are not present in the `ReferenceSet` it's being aligned to, it should be
-represented as a "chimeric" alignment, and should use multiple `ReadAlignment`s
-and the supplementaryAlignment flag instead of a single `GraphAlignment`.
-
-Some especially large deletions could be represented just as well as a large
-deletion in the CIGAR string, or as a chimeric alignment.
-*/
-record GraphAlignment {
-  /** The `Path` against which the read is aligned */
-  Path path;
-
-  /**
-  The mapping quality of this alignment. Represents how likely
-  the read maps to this position as opposed to other locations.
-  */
-  union { null, int } mappingQuality = null;
-
-  /**
-  Represents the local alignment of this sequence (alignment matches, indels,
-  etc) versus the `Path`.
   */
   array<CigarUnit> cigar = [];
 }
@@ -266,20 +233,10 @@ record ReadAlignment {
   union { null, boolean } failedVendorQualityChecks = null;
 
   /**
-  The alignment for this alignment record served by a server in "classic"
-  mode. This field will be null if the read is unmapped.
-
-  This attribute can only be non-null if `graphAlignment` is null.
+  The alignment for this alignment record. This field will be
+  null if the read is unmapped.
   */
   union { null, LinearAlignment } alignment = null;
-
-  /**
-  The alignment for this alignment record served by a server in "graph"
-  mode.
-
-  This attribute can only be non-null if `alignment` is null.
-  */
-  union { null, GraphAlignment } graphAlignment = null;
 
   /**
   Whether this alignment is secondary. Equivalent to SAM flag 0x100.
@@ -325,12 +282,6 @@ record ReadAlignment {
   begin/end with a hard clip operator that will indicate the length of the excised sequence.
   */
   array<int> alignedQuality = [];
-
-  /**
-  The mapping of the primary alignment of the `(readNumber+1)%numberReads`
-  read in the fragment. It replaces mate position and mate strand in SAM.
-  */
-  union { null, Side } nextMatePosition = null;
 
   /**
   A map of additional read alignment information.
