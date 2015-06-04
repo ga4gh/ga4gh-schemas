@@ -264,6 +264,7 @@ Represents a group of data objects of one or more types (e.g. all Individuals, S
 associated with a clinical study; or e.g. a trio in genetic diagnostics.).
 This concept may be expanded in the future (ontology for describing the type of dataset ...).
 This record replaces and extends the previous "IndividualGroup" record type.
+TODO: Determination of scope, structure, specific attributes.
 */
 record Dataset {
   /** The dataset UUID. This is globally unique. */
@@ -288,29 +289,12 @@ record Dataset {
   string recordUpdateTime;
 
   /**
-  The type of dataset. Examples could be "trio", "metaanalysis", "GWAS"...
-  */
-  union { null, string } datasetType = null;
-
-  /**
-  The uuid's of included records.
-  */
-  array<string> recordsIncluded = [];
-
-  /**
-  The type of included records (ga4gh.Sample, ga4gh.reads ...).
-  TODO: Define necessity of this since types can be derived from the 
-  referenced records.
-  TODO: Define if records are limited to a single type or heterogeneous.
-  */
-  union { null, string } recordsType = null;
-
-  /**
-  A map of additional individual group information.
+  A map of additional information.
   */
   map<array<string>> info = {};
   
 }
+
 /**
 An analysis contains an interpretation of one or several experiments.
 (e.g. SNVs, copy number variations, methylation status) together with
