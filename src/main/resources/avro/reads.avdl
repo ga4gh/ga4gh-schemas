@@ -54,14 +54,6 @@ record Program {
   union { null, string } version = null;
 }
 
-record Dataset {
-  /** The dataset ID. */
-  string id;
-
-  /** The dataset description. */
-  union { null, string } description = null;
-}
-
 record ReadStats {
   /** The number of aligned reads. */
   union { null, long } alignedReadCount = null;
