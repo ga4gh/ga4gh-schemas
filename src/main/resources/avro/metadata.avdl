@@ -294,6 +294,24 @@ record IndividualGroup {
 }
 
 /**
+Represents a group of contextually related data objects of (e.g. all Individuals, Samples, 
+Experiments associated with a particular feature; or e.g. a trio in genetic diagnostics.).
+This concept may be expanded in the future (ontology for describing the type of dataset ...).
+TODO: Determination of scope, structure, specific attributes, e.g. limiting to single 
+record type - see http://purl.obolibrary.org/obo/IAO_0000100 - and providing alternative mechanism 
+for heterogeneous data with external contextualization, e.g. all records of different 
+types associated with a clinical study.
+*/
+record Dataset {
+  /** The dataset UUID. This is globally unique. */
+  string id;
+
+  /** A description of the dataset. */
+  union { null, string } description = null;
+
+}
+
+/**
 An analysis contains an interpretation of one or several experiments.
 (e.g. SNVs, copy number variations, methylation status) together with
 information about the methodology used.
