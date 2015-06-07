@@ -259,39 +259,6 @@ record Experiment {
   map<array<string>> info = {};
 }
 
-/**
-Represents a group of individuals. (e.g. a trio)
-*/
-record IndividualGroup {
-  /** The individual group UUID. This is globally unique. */
-  string id;
-
-  /** The name of the individual group. */
-  union { null, string } name = null;
-
-  /** A description of the individual group. */
-  union { null, string } description = null;
-
-  /**
-  The time at which this record was created. 
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  string recordCreateTime;
-
-  /**
-  The time at which this record was last updated.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  string recordUpdateTime;
-
-  /** The type of individual group. */
-  union { null, string } type = null;
-
-  /**
-  A map of additional individual group information.
-  */
-  map<array<string>> info = {};
-}
 
 /**
 Represents a group of contextually related data objects of (e.g. all Individuals, Samples, 
@@ -306,8 +273,23 @@ record Dataset {
   /** The dataset UUID. This is globally unique. */
   string id;
 
+  /** The name of the dataset. */
+  union { null, string } name = null;
+
   /** A description of the dataset. */
   union { null, string } description = null;
+
+  /**
+  The time at which this record was created. 
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  */
+  string recordCreateTime;
+
+  /**
+  The time at which this record was last updated.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  */
+  string recordUpdateTime;
 
 }
 
