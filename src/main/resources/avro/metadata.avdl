@@ -60,10 +60,12 @@ record Individual {
   union { null, OntologyTerm } developmentalStage = null;
 
   /**
-  The date of birth of this individual in milliseconds from the epoch.
-  This field may be approximate.
+  The date of birth of this individual. Usually would be coded to the day;
+  however, finer (e.g. animal model system) or more approximate (e.g. year 
+  for clinical applications) granularity is possible.
+  Format: ISO 8601, YYYY-MM-DD (e.g. 1967-02-13)
   */
-  union { null, long } dateOfBirth = null;
+  union { null, string } dateOfBirth = null;
 
   /**
   Diseases with which the individual has been diagnosed.
