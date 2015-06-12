@@ -123,9 +123,6 @@ record BeaconInformationResource {
   /** URL to the homepage for this beacon. */
   union{ null, string } homepage = null;
 
-  /** An email address for contact. */
-  union{ null, string } email = null;
-
   /** Auth type. Expected value is OAUTH2. Defaults to NONE. */
   union{ null, string } auth = null;
 
