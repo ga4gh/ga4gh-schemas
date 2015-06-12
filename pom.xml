@@ -143,6 +143,7 @@
             </goals>
             <configuration>
               <sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
+              <stringType>String</stringType>
             </configuration>
           </execution>
         </executions>
