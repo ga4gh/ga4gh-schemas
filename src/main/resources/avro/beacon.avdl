@@ -7,9 +7,9 @@ information about specific alleles.
 protocol BEACON {
 
 /**
-A request for information about a specific site
+Query for information about a specific variant.
 */
-record QueryResource {
+record BeaconQuery {
   /** 
   The reference bases for this variant, starting from `position`, in the genome
   described by the field `reference`. (see variants.avdl)
@@ -31,13 +31,13 @@ record QueryResource {
   string reference;
 
   /** The name of the targeted population */
-  union{ null, string } dataset = null;
+  union{ null, string } dataSet = null;
 }
 
 /**
-ErrorResource
+Indication of an error.
 */
-record ErrorResource {
+record BeaconError {
   /** Error name/code, e.g. "bad_request" or "unauthorized". */
   string name;
 
@@ -46,65 +46,65 @@ record ErrorResource {
 }
 
 /**
-DataUseRequirementResource
+Requirement for a data use.
 */
-record DataUseRequirementResource {
-  /** Data Use requirement */
+record BeaconDataUseRequirement {
+  /** Data use requirement */
   string name;
 
-  /** Description of Data Use requirement. */
+  /** Description of data use requirement. */
   union{ null, string } description = null;
 }
 
 /**
-DataUseResource
+Data use for a beacon data set.
 */
-record DataUseResource {
-  /** Data Use category.*/
+record BeaconDataUse {
+  /** Data use category.*/
   string category;
 
-  /** Description of Data Use category. */
+  /** Description of a data use category. */
   union{ null, string } description = null;
 
-  /** Data Use requirements. */
-  array<DataUseRequirementResource> requirements = [];
+  /** Data use requirements. */
+  array<BeaconDataUseRequirement> requirements = [];
 }
 
 /**
-DataSetSizeResource
+Size of a beacon data set.
 */
-record DataSizeResource {
-  /** Total number of variant positions in the data set */
+record BeaconDataSetSize {
+  /** Total number of variant positions in the data set. */
   int variants;
 
-  /** Total number of samples in the data set */
+  /** Total number of samples in the data set. */
   int samples;
 }
 
 /**
-DataSetResource
+Data set of a beacon.
 */
-record DataSetResource {
-  /** Dataset name */
+record BeaconDataSet {
+  /** Data set name. */
   string id;
 
-  /** Reference genome */
+  /** Reference genome. */
   string reference;
 
-  /** Dataset description */
+  /** Data set description. */
   union{ null, string } description = null;
 
   /** Dimensions of the data set. Should be provided if the beacon reports allele frequencies. */
-  union{ null, DataSizeResource } size = null;
+  union{ null, BeaconDataSetSize } size = null;
 
-  /** Data use limitations, specified as a set of DataUseResource. */
-  array<DataUseResource> data_use = [];
+  /** Data use limitations. */
+  array<BeaconDataUse> data_use = [];
 }
 
 /**
-BeaconInformationResource
+Response to a beacon information request.
 */
-record BeaconInformationResource {
+record BeaconInformationResponse {
   /** (Unique) beacon ID. Recommended pattern: [organization]-[beacon] (no special characters). */
   string id;
 
@@ -114,8 +114,8 @@ record BeaconInformationResource {
   /** Beacon description. */
   string description;
 
-  /** Datasets served by the beacon. */
-  array<DataSetResource> datasets = [];
+  /** Data sets served by the beacon. */
+  array<BeaconDataSet> dataSets = [];
 
   /** Beacon API version supported. */
   string api;
@@ -134,40 +134,40 @@ record BeaconInformationResource {
 }
 
 /**
-The response to the Beacon query
+Result of a beacon query.
 */
-record ResponseResource {
+record BeaconQueryResult {
   /** Whether the beacon has observed variants. True if an observation exactly matches request. Overlap if an
   observation overlaps request, but not exactly, as in the case of indels or if the query used wildcard for
   allele. False if data are present at the requested position but no observations exactly match or overlap. Null
   otherwise. */
   string exists;
 
-  /** Frequency of this allele in the dataset. Between 0 and 1, inclusive. */
+  /** Frequency of this allele in the data set. Between 0 and 1, inclusive. */
   union{ null, double } frequency;
 
-  /** Number of observations of this allele in the dataset.  */
+  /** Number of observations of this allele in the data set. */
   union{ null, int } observed = null;
 
   /** Additional message. OK if request succeeded. */
   union{ null, string } info = null;
 
   /** Error details. Provided if a beacon encountered an error. */
-  union{ null, ErrorResource } err = null;
+  union{ null, BeaconError } err = null;
 }
 
 /**
-The response from the Beacon
+Response to a beacon query request.
 */
-record BeaconResponseResource {
-  /** Beacon ID */
+record BeaconQueryResponse {
+  /** Beacon ID. */
   string beacon;
 
-  /** Query */
-  QueryResource query;
+  /** Query. */
+  BeaconQuery query;
 
-  /** Response */
-  ResponseResource response;
+  /** Response. */
+  BeaconQueryResult response;
 }
 
 }
