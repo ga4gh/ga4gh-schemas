@@ -144,7 +144,7 @@ record ResponseResource {
   string exists;
 
   /** Frequency of this allele in the dataset. Between 0 and 1, inclusive. */
-  union{ null, double } frequency;
+  union{ null, double } frequency = null;
 
   /** Number of observations of this allele in the dataset.  */
   union{ null, int } observed = null;
