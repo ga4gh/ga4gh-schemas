@@ -60,10 +60,12 @@ record Individual {
   union { null, OntologyTerm } developmentalStage = null;
 
   /**
-  The date of birth of this individual in milliseconds from the epoch.
-  This field may be approximate.
+  The date of birth of this individual. Usually would be coded to the day;
+  however, finer (e.g. animal model system) or more approximate (e.g. year 
+  for clinical applications) granularity is possible.
+  Format: ISO 8601, YYYY-MM-DD (e.g. 1967-02-13)
   */
-  union { null, long } dateOfBirth = null;
+  union { null, string } dateOfBirth = null;
 
   /**
   Diseases with which the individual has been diagnosed.
@@ -309,6 +311,24 @@ record IndividualGroup {
   A map of additional individual group information.
   */
   map<array<string>> info = {};
+}
+
+/**
+Represents a group of contextually related data objects of (e.g. all Individuals, Samples, 
+Experiments associated with a particular feature; or e.g. a trio in genetic diagnostics.).
+This concept may be expanded in the future (ontology for describing the type of dataset ...).
+TODO: Determination of scope, structure, specific attributes, e.g. limiting to single 
+record type - see http://purl.obolibrary.org/obo/IAO_0000100 - and providing alternative mechanism 
+for heterogeneous data with external contextualization, e.g. all records of different 
+types associated with a clinical study.
+*/
+record Dataset {
+  /** The dataset UUID. This is globally unique. */
+  string id;
+
+  /** A description of the dataset. */
+  union { null, string } description = null;
+
 }
 
 /**
