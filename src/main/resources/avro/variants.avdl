@@ -2,15 +2,6 @@
 
 /**
 Defines types used by the GA4GH Variants API.
-
-Variants API servers may implement either or both of two modes: "classic", in
-which all variation is described in terms of `Variant`s, and "graph", in which
-all variation is associated with `Allele`s which may participate in `Varaints`
-or be called on their own. The "graph" mode is to be preferred in new client and
-server implementations.
-
-The `sendsMode()` method in the References API may be used to determine if a
-server sends data in a given mode.
 */
 protocol Variants {
 
@@ -53,10 +44,6 @@ record VariantSetMetadata {
 `Variant` and `CallSet` both belong to a `VariantSet`.
 `VariantSet` belongs to a `Dataset`.
 The variant set is equivalent to a VCF file.
-
-A `VariantSet` can contain novel `Sequence`s, which are used to augment the
-sequence graph of its `ReferenceSet`, creating the augmented sequence graph
-against which `Allele`s are interpreted.
 */
 record VariantSet {
   /** The variant set ID. */
@@ -117,37 +104,18 @@ particular `Variant`.
 It may include associated information such as quality
 and phasing. For example, a call might assign a probability of 0.32 to
 the occurrence of a SNP named rs1234 in a call set with the name NA12345.
-
-The genotypes described by `Call`s must be consistent with any `AlleleCall`s in
-the same `CallSet`. If a server supports "classic" mode, it must provide `Call`s
-for all `Variant`s that have associated `AlleleCall`s in the `CallSet`.
 */
 record Call {
 
   /**
   The ID of the call set this variant call belongs to.
-  If this field is not present, the ordering of the call sets from a
-  `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
-  the ordering of the calls on this `Variant`.
-  The number of results will also be the same.
   */
-  union { null, string } callSetId;
+  string callSetId;
 
   /**
-  The name of the call set this variant call belongs to.
-  If this field is not present, the ordering of the call sets from a
-  `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
-  the ordering of the calls on this `Variant`.
-  The number of results will also be the same.
+  The ID of the `Variant` that this `Call` belongs to.
   */
-  union { null, string } callSetName = null;
-
-  /**
-  The ID of the `Variant` that this `Call` belongs to. Must be set in any `Call`
-  that is not being returned from the server already contained within its
-  `Variant`.
-  */
-  union { null, string } variantId;
+  string variantId;
 
   /**
   The genotype of this variant call.
@@ -165,23 +133,11 @@ record Call {
   array<int> genotype = [];
 
   /**
-  If this field is a string, this variant call's genotype ordering implies
+  If this field is not null, this variant call's genotype ordering implies
   the phase of the bases and is consistent with any other variant calls on
   the same contig which have the same phaseset string.
-
-  If this field is an array, each entry is associated with the corresponding
-  entry in the `genotype` array. Allele instances that are associated with the
-  same `phaseset` string occur on the same molecule of DNA.
-
-  For example, if one `Call` has `genotype` [0, 1], another is associated with
-  `Allele` 3, and both have a `phaseset` of ["maternal", "paternal"], then one
-  DNA molecule carries 0, 3 and another carries 1, 3.
-
-  If the API server supports the "classic" mode, this field must not be an
-  array. If the API server supports the "graph" mode and not the "classic" mode,
-  this field must be an array.
   */
-  union { null, string, array<string> } phaseset = null;
+  union { null, string } phaseset = null;
 
   /**
   The genotype likelihoods for this variant call. Each array entry
@@ -198,65 +154,6 @@ record Call {
 }
 
 /**
-An `AlleleCall` represents the determination of the copy number of a particular
-`Allele`, possibly within a certain `Variant`.
-
-It may include associated information such as quality and phasing.
-
-The `Allele` copy numbers described by an `AlleleCall` must be consistent with
-those implied by the `genotype`s of any `Call`s in the same `CallSet`. If a
-server supports "graph" mode, it must provide `Variant`-associated `AlleleCall`s
-for any `Variant` with a `Call` in the `CallSet`.
-*/
-record AlleleCall {
-
-  /**
-  The ID of the call set this `AlleleCall` belongs to.
-  */
-  string callSetId;
-
-  /**
-  The ID of the `Allele` that this `AlleleCall` is calling the copy number of.
-  */
-  string alleleId;
-
-  /**
-  The ID of the `Variant` that this `AlleleCall` belongs to.
-
-  The specified `Variant` must have this `AlleleCall`'s `Allele` as an option.
-
-  Only one `AlleleCall` may be associated with a particular `Variant`-`Allele`
-  combination in a particular `CallSet`. So, one `AlleleCall` for this `Allele`
-  may have a null `variantId`, and one additional `AlleleCall` can use this
-  `Allele` for each `Variant` the `Allele` appears in.
-  */
-  union { null, string } variantId;
-
-  /**
-  Gives the called copy number of the `Allele`. If `variantId` is null, this
-  gives the total copy number of the `Allele`, including copies associated with
-  `Variant`s. Otherwise, it is the copy number of this `Allele` in the specified
-  `Variant`, and must agree with the `genotype` of the `Call` for that
-  `Variant`, if any.
-  */
-  double totalCopies;
-
-  /**
-  Defines the phasing of the copies of this `Allele`. Each entry is associated
-  with an instance of this `AlleleCall`'s `Allele`. Allele instances that are
-  associated with the same `phaseset` string occur on the same molecule of DNA.
-
-  The number of entries should not exceed `totalCopies`.
-  */
-  array<string> phaseset;
-
-  /**
-  A map of additional allele call information.
-  */
-  map<array<string>> info = {};
-}
-
-/**
 A `Variant` represents a change in DNA sequence relative to some reference.
 For example, a variant could represent a SNP or an insertion.
 Variants belong to a `VariantSet`.
@@ -267,7 +164,10 @@ record Variant {
   /** The variant ID. */
   string id;
 
-  /** The ID of the variant set this variant belongs to. */
+  /**
+  The ID of the `VariantSet` this variant belongs to. This transitively defines
+  the `ReferenceSet` against which the `Variant` is to be interpreted.
+  */
   string variantSetId;
 
   /** Names for the variant, for example a RefSNP ID. */
@@ -283,114 +183,29 @@ record Variant {
   union { null, long } updated = null;
 
   /**
-  The reference on which this variant occurs.
-  (e.g. `chr20` or `X`)
-
-  If the API server supports the "classic" mode, this field must not be null.
+  The sequence:start-end region in the `ReferenceSet` that this variant
+  replaces.
   */
-  union { null, string } referenceName = null;
+  Region region;
 
   /**
-  The start position at which this variant occurs (0-based).
-  This corresponds to the first base of the string of reference bases.
-  Genomic positions are non-negative integers less than reference length.
-  Variants spanning the join of circular genomes are represented as
-  two variants one on each side of the join (position 0).
-
-  If the API server supports the "classic" mode, this field must not be null.
+  The reference bases for this variant. They occupy the variant's `Region` in
+  the reference.
   */
-  union { null, long } start = null;
-
+  string referenceBases;
+  
   /**
-  The end position (exclusive), resulting in [start, end) closed-open interval.
-  This is typically calculated by `start + referenceBases.length`.
-
-  If the API server supports the "classic" mode, this field must not be null.
+  The bases that appear instead of the reference bases. Multiple alternate
+  alleles are possible.
   */
-  union { null, long } end = null;
-
-  /**
-  The reference bases for this variant. They occupy the range described by
-  `referenceName`, `start`, and `end`, which all must be set if this field is
-  set.
-
-  If the API server supports the "classic" mode, this field must not be null.
-  */
-  union { null, string } referenceBases = null;
-
-  /**
-  The bases that appear instead of the reference bases. If this field is not
-  null, `referenceBases` must be set.
-
-  If the API server supports the "classic" mode, this field must not be null.
-  */
-  union { null, array<string> } alternateBases = null;
-
-  /**
-  The IDs of the reference and alternate `Allele`s for this `Variant`. The first
-  is the reference allele, and any others are alternates. If this field is set
-  along with `referenceName`, `start`, `end`, `referenceBases`, and/or
-  `alternateBases`, those fields must agree with the `Allele`s given here.
-
-  If the API server supports the "graph" mode, this field must not be null.
-  */
-  union { null, array<string> } alleleIds;
+  array<string> alternateBases = null;
 
   /**
   A map of additional variant information.
   */
   map<array<string>> info = {};
 
-  /**
-  The variant calls for this particular variant. Each one represents the
-  determination of genotype with respect to this variant. `Call`s in this array
-  are implicitly associated with this `Variant`.
-
-  Calls are also available through the `searchCalls()` API method.
-
-  If the API server supports the "classic" mode, this field must not be null.
-  */
-  union { null, array<Call> } calls = null;
-}
-
-
-/**
-`Allele`s are the key component of the "allelic" model of variation: they are
-single objects that are present in some copy number.
-
-An `Allele` is a contiguous piece of sequence that we will want to say is
-present (in general at some copy number) or absent in a sample. Very often it
-will just be a single `Segment` covering the entirety of a novel `Sequence`, but
-it is also common for it to be a mix of `Segment`s on reference and novel
-`Sequence`s, or in general to be any contiguous path through the augmented
-sequence graph.
-
-`Allele`s belong to `VariantSet`s. `Allele`s can also be used to represent the
-reference and alternate alleles of `Variant`s.
-
-Note that `Path`s cannot follow `Join`s not represented in the augmented
-sequence graph. For example, if  an `Allele` that spans a novel deletion is
-required, a new `Join` should exist to describe that deletion, available through
-`searchJoins()`.
-*/
-record Allele {
-  /**
-  The ID of this `Allele`. If this `Allele` is one `Segment` consisting of
-  the entirety of a `Sequence`, this is equal to the ID of that `Sequence`.
-  */
-  string id;
-
-  /** The ID of the variant set this allele belongs to. */
-  string variantSetId;
-
-  /**
-  The ordered and oriented `Segment`s of DNA that this `Allele` represents.
-
-  `Segment`s on this `Path` are on either `Reference` `Sequence`s, or
-  `Sequence`s associated with this `VariantSet. Both types of `Sequence`s are
-  available through the `searchSequences()` and `getSequence()` API calls.
-  */
-  Path path;
+  // Calls are available through the `searchCalls()` API method.
 }
 
 }
