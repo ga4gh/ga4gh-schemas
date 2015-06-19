@@ -69,9 +69,8 @@ record Individual {
 
   /**
   Diseases with which the individual has been diagnosed.
-  TODO: Is this the right representation?
   */
-  array<OntologyTerm> diseases = [];
+  array<Disease> diseases = [];
 
   /**
   Phenotypes for this individual.
@@ -95,6 +94,59 @@ record Individual {
   A map of additional individual information.
   */
   map<array<string>> info = {};
+}
+
+/**
+This is the prototype for the "Disease" record type. This is thought to be the main 
+wrapper for any given diagnosis, and to contain one or several ontologyTerm objects
+for its definition.
+Disease records can be stored/referenced in "Diseases" lists inside parental objects 
+(e.g. Individual, Sample).
+The Disease record type could conceivably used as blueprint for generation of a 
+similarly structured Phenotype object.
+Observations, interventions etc. should be kept external to the "Disease" object 
+but can be referenced using "evidence" type objects (which have yet to be defined).
+TODO: Disease or Disorder?
+*/
+record Disease {
+  
+  /**
+  The globally unique UUID of this disease object.
+  */
+  string id;
+ 
+  /**
+  A textual description of the disease (e.g. "Colorectal carcinoma
+  of the right colonic flexure").
+  A systematic description should be done through the "ontologyTerm"
+  attribute.
+  */
+  union { null, string } description = null;
+  
+  /**
+  The date the diagnosis was first made.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+  This can be an approximation (usually YYYY-MM-DD or YYYY-MM) or missing.
+  */
+  union { null, string } diagnosisDate = null;
+
+  /**
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+  */
+  string recordCreated;
+
+  /**
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+  */
+  string recordUpdated;
+ 
+  /**
+  The ontology term best corresponding to this disease.
+  It can remain undefined, e.g. to allow "import-compatibility" with 
+  later annotation.
+  */
+  union { null, OntologyTerm } ontologyTerm = null;
+
 }
 
 /**
