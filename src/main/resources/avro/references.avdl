@@ -2,11 +2,6 @@
 
 /**
 Defines types used by the GA4GH References API.
-
-References API servers may implement either or both of two modes: "classic", in
-which all `Reference`s annotate simple linear strings, and "graph", in which
-`Reference`s annotate `Sequence`s in sequence graphs. The "graph" mode is to be
-preferred in new client and server implementations.
 */
 protocol References {
 
@@ -55,6 +50,8 @@ record Reference {
   ends not included in the `Reference`.
   */
   long length;
+  
+  // TODO: replace sequence, start, length with a Region
 
   /**
   The MD5 checksum uniquely representing this `Reference` as a lower-case
@@ -111,12 +108,8 @@ reference assembly, such as `GRCh38`. A `ReferenceSet` defines a common
 coordinate space for comparing reference-aligned experimental data.
 
 `ReferenceSet`s are composeable: a `ReferenceSet` may incorporate all of the
-`Reference`s and `Join`s from one or more other `ReferenceSet`s via the
+`Reference`s from one or more other `ReferenceSet`s via the
 `includedReferenceSet`s array.
-
-In classic mode, this is just a set of sequences.  In graph mode, there
-are both sequences and joins, but we only access the joins via method
-getReferenceJoins().
 */
 
 record ReferenceSet {
@@ -134,19 +127,18 @@ record ReferenceSet {
 
   /**
   The IDs of `ReferenceSet`s that are included in this set, allowing extension
-  from a core e.g. provided by GRC or another provider.  In particular this
-  may provide a basis of primary references for a graph mode reference set.
+  from a core e.g. provided by GRC or another provider.
 
   A `ReferenceSet` is not allowed to include itself, either directly by ID, or
   indirectly or transitively through another `ReferenceSet`.
 
-  `Reference`s and `Join`s from the included `ReferenceSet`s are considered to
-  be part of this one. If multiple included `ReferenceSet`s provide a
-  `Reference` or `Join`, only one copy is taken to exist in this `ReferenceSet`.
-  Since different `Reference`s on a `Sequence` may not overlap, it is illegal to
-  include `ReferenceSet`s which when taken together would create such an
-  overlap, or to have such an overlap between a `Reference` from an included
-  `ReferenceSet` and one that appears directly in this `ReferenceSet`.
+  `Reference`s from the included `ReferenceSet`s are considered to be part of
+  this one. If multiple included `ReferenceSet`s provide a `Reference`, only one
+  copy is taken to exist in this `ReferenceSet`. Since different `Reference`s on
+  a `Sequence` may not overlap, it is illegal to include `ReferenceSet`s which
+  when taken together would create such an overlap, or to have such an overlap
+  between a `Reference` from an included `ReferenceSet` and one that appears
+  directly in this `ReferenceSet`.
   */
   array<string> includedReferenceSets = [];
 
@@ -154,12 +146,9 @@ record ReferenceSet {
   Order-independent MD5 checksum which identifies this `ReferenceSet`.
 
   To compute this checksum, make a list of `Reference.md5checksum` for all
-  `Reference`s in this set, including any in any included set. Add to that list
-  a lower-case MD5 checksum for each `Join` in the `ReferenceSet` or any
-  included set, which is calculated by hashing the `md5checksum`, position as a
-  decimal string, and strand as "+" or "-" for the two `Side`s of the `Join`
-  in order. Then sort that list, and take the MD5 hash of all the strings
-  concatenated together. Express the hash as a lower-case hexadecimal string.
+  `Reference`s in this set, including any in any included set. Then sort that
+  list, and take the MD5 hash of all the strings concatenated together. Express
+  the hash as a lower-case hexadecimal string.
   */
   string md5checksum;
 
