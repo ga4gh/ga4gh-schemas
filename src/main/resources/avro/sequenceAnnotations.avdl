@@ -119,6 +119,11 @@ protocol SequenceAnnotations {
     Region location;
 
     /**
+    Strand of the feature, or null if unstranded
+    */
+    union { null, Strand } strand = null;
+
+    /**
     Feature that is annotated by this region.  Normally, this will be a term in
     the Sequence Ontology.
     */

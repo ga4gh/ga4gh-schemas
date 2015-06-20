@@ -106,6 +106,10 @@ and phasing. For example, a call might assign a probability of 0.32 to
 the occurrence of a SNP named rs1234 in a call set with the name NA12345.
 */
 record Call {
+  /**
+   * the id uniquely identifying this call.
+   */
+  string id;
 
   /**
   The ID of the call set this variant call belongs to.
@@ -113,7 +117,7 @@ record Call {
   string callSetId;
 
   /**
-  The ID of the `Variant` that this `Call` belongs to.
+  The ID of the `Variant` that was called.
   */
   string variantId;
 
