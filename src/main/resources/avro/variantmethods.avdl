@@ -76,6 +76,13 @@ record SearchVariantsRequest {
   union { null, string } name = null;
 
   /**
+  Only return variant calls which belong to call sets with these IDs.
+  If an empty array, returns variants without any call objects.
+  If null, returns all variant calls.
+  */
+  union { null, array<string> } callSetIds = null;
+
+  /**
   Only return variants located in this region.
   */
   org.ga4gh.models.Region searchRegion;
@@ -98,6 +105,11 @@ record SearchVariantsRequest {
 record SearchVariantsResponse {
   /**
   The list of matching variants.
+  If the `callSetId` field on the returned calls is not present,
+  the ordering of the call sets from a `SearchCallSetsRequest`
+  over the parent `VariantSet` is guaranteed to match the ordering
+  of the calls on each `Variant`. The number of results will also be
+  the same.
   */
   array<org.ga4gh.models.Variant> variants = [];
 
@@ -142,7 +154,7 @@ record SearchCallSetsRequest {
   Only return call sets with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
-  
+
   // TODO: Add more ways to search by other metadata
 
   /**
@@ -193,64 +205,4 @@ org.ga4gh.models.CallSet getCallSet(
   */
   string id) throws GAException;
 
-/******************  /calls/search  *********************/
-/** This request maps to the body of `POST /calls/search` as JSON. */
-record SearchCallsRequest {
-
-  /**
-  The `Variant` to retrieve `Call`s for.
-  */  
-  string variantId;
-
-  /**
-  The IDs of the `CallSet`s for which `Call`s are to be obtained.
-  
-  If not null, `Call`s for the specified `CallSet`s will be returned in the
-  order in which the IDs are provided here. `CallSet`s with no `Call` on the
-  specified `Variant` will be omitted.
-  
-  If null, all `Call`s on the specified `Variant` will be returned, in arbitrary
-  order.
-  */
-  union { null, array<string> } callSetIds;
-  
-  // TODO: Add more ways to search by other metadata
-
-  /**
-  Specifies the maximum number of results to return in a single page.
-  If unspecified, a system default will be used.
-  */
-  union { null, int } pageSize = null;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
-}
-
-/** This is the response from `POST /calls/search` expressed as JSON. */
-record SearchCallsResponse {
-  /** The list of matching calls. */
-  array<org.ga4gh.models.Call> calls = [];
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
-}
-
-/**
-Gets a list of `Calls` matching the search criteria.
-
-`POST /calls/search` must accept a JSON version of `SearchCallsRequest`
-as the post body and will return a JSON version of `SearchCallsResponse`.
-*/
-SearchCallsResponse searchCalls(
-  /** This request maps to the body of `POST /calls/search` as JSON. */
-  SearchCallsRequest request) throws GAException;
-  
 }
