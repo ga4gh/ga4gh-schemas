@@ -122,22 +122,6 @@ record Segment {
 }
 
 /**
-An abstraction for referring to a genomic region.
-*/
-record Region {
-  /**
-  The starting point of the region. For the moment the base-pair included in
-  the region, on the 5' end of the oriented region.
-  */
-  Position start;
-
-  /**
-  The length, in base pairs
-  */
-  long length;
-}
-
-/**
 Identifier from a public database
 */
 record ExternalIdentifier {

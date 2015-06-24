@@ -27,14 +27,14 @@ record Reference {
   string id;
 
   /**
-  The location in the `Sequence` on which this `Reference` occurs. May not be null,
-  although it may happen to be the same as the ID of the `Reference`.
-  The actual `Sequence` bases for a `Reference` are available through the
+  The location in the `Sequence` on which this `Reference` occurs. May not be
+  null, although it may happen to be the same as the ID of the `Reference`. The
+  actual `Sequence` bases for a `Reference` are available through the
   `getSequenceBases()` API call on this `Reference`'s `Sequence`.
 
   Multiple `Reference`s on the same `Sequence` may not overlap.
   */
-  Region location;
+  Segment location;
 
   /**
   The MD5 checksum uniquely representing this `Reference` as a lower-case

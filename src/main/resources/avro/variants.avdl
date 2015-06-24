@@ -187,10 +187,10 @@ record Variant {
   union { null, long } updated = null;
 
   /**
-  The sequence:start-end region in the `ReferenceSet` that this variant
-  replaces.
+  The sequence:start-end region (with orientation) in the `ReferenceSet` that
+  this variant replaces.
   */
-  Region region;
+  Segment location;
 
   /**
   The reference bases for this variant. They occupy the variant's `Region` in
