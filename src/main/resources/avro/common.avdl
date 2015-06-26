@@ -14,7 +14,7 @@ record Position {
   /**
   The ID of the sequence on which the `Position` is located.
   */
-  string sequenceId = null;
+  string sequenceId;
 
   /**
   The 0-based offset from the start of the forward strand for that `Sequence`.
