@@ -68,10 +68,11 @@ record SearchVariantAnnotationsRequest {
   /**
   Only return variant annotations for any of these features
   Features may include specific transcripts, genes or regulatory elements
-  This or a location (referenceName/referenceId plus start and end) must be supplied
+  This or a location (referenceName/referenceId plus optional start and end) 
+  must be supplied. 
   If null, return all variant annotations in specified window.
   */
-  union { null, array<org.ga4gh.models.Feature> } features;
+  union { null, array<string> } feature_ids;
 
   /**
   Only return variant annotations including these effects (SO terms).
