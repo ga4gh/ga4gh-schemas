@@ -28,7 +28,6 @@ server to allow the annotator to pull variant data from a another server.
 
 // Should submited variants without annotation have empty records returned or be omitted?
 
-
 /**************** /annotate/variants/*********************/
 
 /**
@@ -60,7 +59,6 @@ record AnnotateVariantsRequest {
   `nextPageToken` from the previous response.
   */
   union { null, string } pageToken = null;
-  
 
 }
 
@@ -82,7 +80,6 @@ record AnnotateVariantsResponse {
 AnnotateVariantsResponse annotateVariants(
   /** This request maps to the body of `POST /annotate/variants/` as JSON. */
   AnnotateVariantsRequest request) throws GAException;
-
 
 // TO DO: annotate/alleles
 

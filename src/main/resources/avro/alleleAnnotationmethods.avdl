@@ -64,7 +64,6 @@ record SearchVariantAnnotationsRequest {
   */
   long end;
 
-
   /**
   Only return variant annotations for any of these features
   Features may include specific transcripts, genes or regulatory elements
@@ -80,7 +79,6 @@ record SearchVariantAnnotationsRequest {
   */
   union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
 
-
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
@@ -94,7 +92,6 @@ record SearchVariantAnnotationsRequest {
   */
   union { null, string } pageToken = null;
 }
-
 
 /** This is the response from `POST /variantannotations/search` expressed as JSON. */
 record SearchVariantAnnotationsResponse {
@@ -120,8 +117,6 @@ as the post body and will return a JSON version of `SearchVariantAnnotationsResp
 SearchVariantAnnotationsResponse searchVariantAnnotations(
   /** This request maps to the body of `POST /variantannotations/search` as JSON. */
   SearchVariantAnnotationsRequest request) throws GAException;
-
-
 
 /******************  /alleleannotations/search  *********************/
 /** This request maps to the body of `POST /alleleannotations/search` as JSON. */
@@ -206,8 +201,6 @@ SearchAlleleAnnotationsResponse searchAlleleAnnotations(
     */
     SearchAlleleAnnotationsRequest request) throws GAException;
 
-
-
 /****************** /annotationsets/search *********************/
 /** This request maps to the body of `POST /annotationsets/search` as JSON. */
 record SearchAnnotationSetsRequest {
@@ -258,7 +251,6 @@ SearchAnnotationSetsResponse searchAnnotationSets(
   /** This request maps to the body of `POST /annotationsets/search` as JSON. */
   SearchAnnotationSetsRequest request) throws GAException;
 
-
 /**************** /annotationsets/{id} *******************/
 /**
 Gets an `AnnotationSet` by ID.
@@ -269,7 +261,5 @@ org.ga4gh.models.AnnotationSet getAnnotationSet(
   The ID of the `AnnotationSet`.
   */
   string id) throws GAException;
-
-
 
 }

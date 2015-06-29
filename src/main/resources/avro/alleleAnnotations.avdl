@@ -7,7 +7,6 @@ Annotation can be applied to the alternate alleles of classic variants
 or to Alleles
 */
 
-
 protocol AlleleAnnotations{
 
 import idl "common.avdl";
@@ -15,7 +14,6 @@ import idl "metadata.avdl";
 import idl "sequenceAnnotations.avdl";
 import idl "variants.avdl";
 import idl "ontologies.avdl";
-
 
 /*
 This protocol currently attempts to support linear variants and graph alleles by providing
@@ -52,7 +50,6 @@ record AnalysisResult {
 
 }
 
-
 /**
 An allele location record holds the location of an allele relative to a
 non-genomic coordinate system such as a CDS or protein and holds the
@@ -71,7 +68,6 @@ record AlleleLocation {
 
   /** Alternate sequence in feature (this should be the codon at CDS level) */
   union { null, string } alternateSequence = null;
-
 }
 
 /**
@@ -106,9 +102,7 @@ record AnnotationSet {
   reference datasets used.
   */
   Analysis analysis;
-
 }
-
 
 /**
 A transcript effect record is a set of information describing the
@@ -116,18 +110,15 @@ effect of an allele on a transcript
 */
 record TranscriptEffect {
 
-
   /** The ID of the transcript effect record
   */
   string id;
 
   //TODO: derive unique id from digest of data [location, allele, transcript?]
 
-
   /** The id of the transcript feature the annotation is relative to
   */
   string featureId;
-
 
   /** Alternate allele - a variant may have more than one alternate allele, each of which
   will have distinct annotation. This is not be needed for the graph Allele model
@@ -137,10 +128,8 @@ record TranscriptEffect {
   /** Effect of variant on this feature */
   array<OntologyTerm> effects;
 
-
   /** Highest Impact from the predicted effects */
   Impact impact;
-
 
   /** HGVS formatted annotation at genomic level  */
   union { null, string } HGVSg = null;
@@ -151,7 +140,6 @@ record TranscriptEffect {
   /** HGVS formatted annotation at protein level */
   union { null, string } HGVSp = null;
 
-
   /** Change relative to cDNA  */
   union {null, AlleleLocation} cDNALocation =null;
 
@@ -161,15 +149,9 @@ record TranscriptEffect {
   /** Change relative to protein  */
   union { null, AlleleLocation} proteinLocation = null;
 
-
   /** Output from prediction packages such as Sift */
   array<AnalysisResult> analysisResults;
-
-
 }
-
-
-
 
 /**
 A `VariantAnnotation` record represents the result of comparing a variant
@@ -186,17 +168,14 @@ record VariantAnnotation {
   /** The ID of the annotation set this record belongs to. */
   string annotationSetId;
 
-
   /** The date this annotation was created in milliseconds from the epoch. */
   union { null, long } created = null;
-
 
   /**
   The transcript effect annotation for the alleles of this variant. Each one
   represents the effect of a single allele on a single transcript.
   */
   array<TranscriptEffect> transcriptEffects = [];
-
 
   /**
   The IDs of other variants which are co-located with this variant.
@@ -205,10 +184,8 @@ record VariantAnnotation {
   */
   array<string> coLocatedVariants =[];
 
-
   /** Additional annotation data in key-value pairs. */
   map<array<string>> info = {};
-
 }
 
 /**
@@ -229,7 +206,6 @@ record AlleleAnnotation {
   /** The date this allele annotation was created in milliseconds from the epoch. */
   union { null, long } created = null;
 
-
   /**
   The transcript effect annotation for this allele. Each one represents
   the predicted effect of the allele on a single transcript.
@@ -243,13 +219,8 @@ record AlleleAnnotation {
   */
   array<string> coLocatedVariants =[];
 
-
   /** Additional annotation data in key-value pairs. */
   map<array<string>> info = {};
-
 }
 
-
 }
-
-
