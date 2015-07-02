@@ -29,35 +29,39 @@ class AvroObject(ObjectDescription):
   """
   Description of a general Avro object.
   """
-  
   has_arguments = False
   display_prefix = None
-  
-    
 
 class AvroFixedField(AvroObject):
-  def handle_signature(self, sig, signode):
-    pass
+  pass
 
 class AvroEnum(AvroObject):
-  def handle_signature(self, sig, signode):
-    pass
+  doc_field_types = [
+    Field('values', label=l_('Values'),
+          names=('values',))
+  ]
 
 class AvroRecord(AvroObject):
-  def handle_signature(self, sig, signode):
-    pass
+  doc_field_types = [
+    TypedField('fields', label=l_('Fields'),
+               names=('field','member'),
+               typerolename='record')
+  ]
 
-class AvroError(AvroObject):
-  def handle_signature(self, sig, signode):
-    pass
-
-class AvroProtocolImport(AvroObject):
-  def handle_signature(self, sig, signode):
-    pass
+class AvroError(AvroRecord):
+  pass
 
 class AvroRPCMessage(AvroObject):
-  def handle_signature(self, sig, signode):
-    pass
+  has_arguments = True
+  doc_field_types = [
+    TypedField('arguments', label=l_('Arguments'),
+               names=('argument','arg','param'),
+               typerolename='rpc'),
+    GroupedField('errors', label=l_('Throws'),
+                 names=('throws','throw')),
+    Field('returntype', label=l_('Returns'),
+          names=('returns','return'))
+  ]
 
 class AvroDomain(Domain):
   name = "avro"
@@ -68,7 +72,6 @@ class AvroDomain(Domain):
     'enum':   ObjType(l_('enum'),   'enum'),
     'record': ObjType(l_('record'), 'record'),
     'error':  ObjType(l_('error'),  'error'),
-    'import': ObjType(l_('import'), 'import'),
     'rpc':    ObjType(l_('rpc'),    'rpc'),
   }
   
@@ -77,7 +80,6 @@ class AvroDomain(Domain):
     'enum':   AvroEnum,
     'record': AvroRecord,
     'error':  AvroError,
-    'import': AvroProtocolImport,
     'rpc':    AvroRPCMessage
   }
   
@@ -86,7 +88,6 @@ class AvroDomain(Domain):
     'enum':   XRefRole(),
     'record': XRefRole(),
     'error':  XRefRole(),
-    'import': XRefRole(),
     'rpc':    XRefRole()
   }
   
