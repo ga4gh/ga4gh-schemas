@@ -137,12 +137,13 @@ record Sample {
   */
   union { null, string } samplingDate = null;
 
-  /**
+ /**
   The age of the individual (not of the sample) at time of sample collection.
   This field may be approximate.
-  TODO: Fixed unit? Years would be natural in human context.
+  Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
+  Example: P12Y3M
   */
-  union { null, long } ageAtSampling = null;
+  union { null, string } ageAtSampling = null;
 
   /**
   The cell type of this sample.
