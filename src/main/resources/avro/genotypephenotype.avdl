@@ -89,12 +89,17 @@ record PhenotypeInstance {
   */
   union { null, array<OntologyTerm> } qualifier = null;
 
-  //TODO: also allow quantitative recording?
+  /**
+  Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
+  Example: P12Y3M
+  */
+  union { null, string } ageOfOnset = null;
+
   /** 
   HPO is recommended, for example, subclasses of
   http://purl.obolibrary.org/obo/HP_0011007
   */
-  union { null, OntologyTerm } ageOfOnset = null;
+  union { null, OntologyTerm } ageOfOnsetClass = null;
 
   /** 
   A textual description of the phenotype. This is used to complement the 
