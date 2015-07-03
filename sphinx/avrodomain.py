@@ -34,9 +34,7 @@ avro_sig_regex = re.compile(
    ''', re.X)
 
 class AvroObject(ObjectDescription):
-  """
-  Description of a general Avro object.
-  """
+  """Description of a general Avro object."""
   prefix = None
   
   def handle_signature(self,sig,signode):
@@ -49,7 +47,8 @@ class AvroObject(ObjectDescription):
     if type_name:
       signode += addnodes.desc_type(type_name, type_name)
     
-    signode += addnodes.desc_name(name,name)
+    if name:
+      signode += addnodes.desc_name(name,name)
     
     if arglist:
       paramlist = addnodes.desc_parameterlist()
@@ -65,12 +64,16 @@ class AvroObject(ObjectDescription):
 
 class AvroFixedField(AvroObject):
   prefix = 'fixed'
+  doc_field_types = [
+    Field('size', label=l_('Size'),
+          names=('size',))
+  ]
 
 class AvroEnum(AvroObject):
   prefix = 'enum'
   doc_field_types = [
-    Field('values', label=l_('Values'),
-          names=('values',))
+    Field('symbols', label=l_('Symbols'),
+          names=('symbols',))
   ]
 
 class AvroRecord(AvroObject):
