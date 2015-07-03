@@ -10,11 +10,8 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
-
-.. autoclass:: avrodomain.AvroDomain
-  :members:
-  :inherited-members:
-  :undoc-members:
+   
+   pages/reads
 
 Indices and tables
 ==================

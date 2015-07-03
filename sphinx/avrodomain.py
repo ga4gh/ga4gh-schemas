@@ -25,40 +25,74 @@ from sphinx.util.nodes import make_refnode
 from sphinx.util.compat import Directive
 from sphinx.util.docfields import Field, GroupedField, TypedField
 
+avro_sig_regex = re.compile(
+  r'''^
+      ([^(]*?)       # type
+      (\w+)          # name
+      (?:\((.+?)\))? # args (optional)
+      $
+   ''', re.X)
+
 class AvroObject(ObjectDescription):
   """
   Description of a general Avro object.
   """
-  has_arguments = False
-  display_prefix = None
+  prefix = None
+  
+  def handle_signature(self,sig,signode):
+    sig = sig.strip()
+    type_name, name, arglist = avro_sig_regex.match(sig).groups()
+    
+    if self.prefix:
+      signode += addnodes.desc_annotation(self.prefix+' ', self.prefix+' ')
+    
+    if type_name:
+      signode += addnodes.desc_type(type_name, type_name)
+    
+    signode += addnodes.desc_name(name,name)
+    
+    if arglist:
+      paramlist = addnodes.desc_parameterlist()
+      for arg in arglist.split(','):
+        argtype, argname = arg.split(None,1)
+        param = addnodes.desc_parameter(noemph=True)
+        param += nodes.Text(argtype,argtype)
+        param += nodes.emphasis(' '+argname,' '+argname)
+        paramlist += param
+      signode += paramlist
+    
+    return name
 
 class AvroFixedField(AvroObject):
-  pass
+  prefix = 'fixed'
 
 class AvroEnum(AvroObject):
+  prefix = 'enum'
   doc_field_types = [
     Field('values', label=l_('Values'),
           names=('values',))
   ]
 
 class AvroRecord(AvroObject):
+  prefix = 'record'
   doc_field_types = [
     TypedField('fields', label=l_('Fields'),
                names=('field','member'),
+               typenames=('type',),
                typerolename='record')
   ]
 
 class AvroError(AvroRecord):
-  pass
+  prefix = 'error'
 
 class AvroRPCMessage(AvroObject):
-  has_arguments = True
   doc_field_types = [
     TypedField('arguments', label=l_('Arguments'),
                names=('argument','arg','param'),
                typerolename='rpc'),
     GroupedField('errors', label=l_('Throws'),
-                 names=('throws','throw')),
+                 names=('throws','throw'),
+                 can_collapse=True),
     Field('returntype', label=l_('Returns'),
           names=('returns','return'))
   ]
