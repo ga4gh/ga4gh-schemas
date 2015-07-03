@@ -1,9 +1,18 @@
 
-import sys, json, os, re
+import sys, json, os, re, argparse
+
+def get_file_locations():
+  parser = argparse.ArgumentParser()
+  parser.add_argument('input', help='Input AVPR filename(s)', nargs='+')
+  parser.add_argument('output', help='Output directory')
+  args = parser.parse_args()
+  return (args.input, args.output)
 
 def typename(typeobject):
   if isinstance(typeobject, list):
-    return 'union{' + ','.join(field['type']) + '}'
+    union_items = field['type']
+    union_names = [typename(item) for item in union_items]
+    return 'union{' + ','.join(union_names) + '}'
   elif isinstance(typeobject, dict):
     if typeobject['type'] == 'array':
       return 'array<' + typename(typeobject['items']) + '>'
@@ -18,27 +27,36 @@ def cleanup_doc(doc,indent=0):
   
 if __name__ == '__main__':
   
-  in_filename = sys.argv[1]
-  out_filename = sys.argv[2]
+  avpr_filenames, rest_directory = get_file_locations()
   
-  with open(in_filename,'r') as f:
-    data = json.loads(f.read())
-  
-  title = re.search(r'/(\w+?)\.',in_filename).group(1).capitalize()
-  
-  output = title + '\n' + '*'*len(title) + '\n'
-  for item in data['types']:
-    output += '.. avro:' + item['type'] + ':: ' + item['name'] + '\n\n'
+  for avpr_filename in avpr_filenames:
+    base_filename = os.path.basename(avpr_filename)
+    name = os.path.splitext(base_filename)[0]
     
-    if item['type'] == 'record':
-      for field in item['fields']:
-        output += '  :field ' + field['name'] + ':\n'
-        output += cleanup_doc(field['doc'],indent=4) + '\n'
-        output += '  :type ' + field['name'] + ': ' + typename(field['type']) + '\n'
-      output += '\n'
+    rest_filename = os.path.join(rest_directory, name+'.rst')
     
-    if 'doc' in item:  
-      output += cleanup_doc(item['doc'],indent=2) + '\n\n'
-  
-  with open(out_filename,'w') as f:
-    f.write(output)
+    with open(avpr_filename,'r') as f:
+      data = json.load(f)
+    
+    output = data['protocol'] + '\n'
+    output += '*' * len(data['protocol']) + '\n\n'
+    
+    if 'doc' in data:
+      output += cleanup_doc(data['doc']) + '\n\n'
+    
+    for item in data['types']:
+      output += '.. avro:' + item['type'] + ':: ' + item['name'] + '\n\n'
+      
+      if item['type'] == 'record':
+        for field in item['fields']:
+          output += '  :field ' + field['name'] + ':\n'
+          if 'doc' in field:
+            output += cleanup_doc(field['doc'],indent=4) + '\n'
+          output += '  :type ' + field['name'] + ': ' + typename(field['type']) + '\n'
+        output += '\n'
+      
+      if 'doc' in item:  
+        output += cleanup_doc(item['doc'],indent=2) + '\n\n'
+    
+    with open(rest_filename,'w') as f:
+      f.write(output)
