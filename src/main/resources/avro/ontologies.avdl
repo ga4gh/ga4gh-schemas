@@ -34,7 +34,7 @@ protocol Ontologies {
     Annotations are added to OntologyTerms to allow either a
     later re-definition of the respective ontology source name, 
     or to stand in as temporary placeholders for deferred mapping.
-    However, the use  of annotations as place holders without concurrent 
+    However, the use  of annotations as placeholders without concurrent 
     ontology mapping is strongly discouraged.
     */
     array<string> annotations = [];
