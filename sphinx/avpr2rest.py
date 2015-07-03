@@ -10,20 +10,22 @@ def get_file_locations():
 
 def typename(typeobject):
   if isinstance(typeobject, list):
-    union_items = field['type']
-    union_names = [typename(item) for item in union_items]
-    return 'union{' + ','.join(union_names) + '}'
+    union_names = [typename(item) for item in typeobject]
+    return '|'.join(union_names)
+    
   elif isinstance(typeobject, dict):
     if typeobject['type'] == 'array':
-      return 'array<' + typename(typeobject['items']) + '>'
+      return 'array<%s>' % typename(typeobject['items'])
     elif typeobject['type'] == 'map':
-      return 'map<' + typename(typeobject['values']) + '>'
+      return 'map<%s>' % typename(typeobject['values'])
+      
   elif isinstance(typeobject, basestring):
     return typeobject
+    
   raise ValueError
 
 def cleanup_doc(doc,indent=0):
-  return '\n'.join([' '*indent + line.strip() for line in doc.replace('`','').split('\n')])
+  return '\n'.join([' '*indent + line for line in doc.replace('`','').split('\n')])
   
 if __name__ == '__main__':
   
@@ -45,15 +47,21 @@ if __name__ == '__main__':
       output += cleanup_doc(data['doc']) + '\n\n'
     
     for item in data['types']:
-      output += '.. avro:' + item['type'] + ':: ' + item['name'] + '\n\n'
+      output += '.. avro:%s:: %s\n\n' % (item['type'], item['name'])
       
       if item['type'] == 'record':
         for field in item['fields']:
-          output += '  :field ' + field['name'] + ':\n'
+          output += '  :field %s:\n' % field['name']
           if 'doc' in field:
-            output += cleanup_doc(field['doc'],indent=4) + '\n'
-          output += '  :type ' + field['name'] + ': ' + typename(field['type']) + '\n'
+            output += '  ' + cleanup_doc(field['doc'],indent=2) + '\n'
+          output += '  :type %s: %s\n' % (field['name'], typename(field['type']))
         output += '\n'
+      
+      if item['type'] == 'enum':
+        output += '  :symbols: %s\n' % '|'.join(item['symbols'])
+      
+      if item['type'] == 'fixed':
+        output += '  :size: %s\n' % item['size']
       
       if 'doc' in item:  
         output += cleanup_doc(item['doc'],indent=2) + '\n\n'
