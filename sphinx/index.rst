@@ -10,8 +10,9 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
+   :glob:
    
-   pages/reads
+   pages/*
 
 Indices and tables
 ==================
