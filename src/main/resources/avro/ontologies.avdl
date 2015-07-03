@@ -29,13 +29,15 @@ protocol Ontologies {
     union { null, string } ontologySourceVersion = null;
 
     /**
-    A free text annotation which is not an ontology term describing some 
-    attribute. Descriptions have associations with OntologyTerms to allow 
-    these to be added after annotations are captured.
-    OntologyTerms are preferred over Descriptions in all cases.
-    Descriptions can be used in conjucntion with OntologyTerms
+    A collection zero or more free text annotations which are not 
+    ontology terms describing some specific attributes.
+    Annotations are added to OntologyTerms to allow either a
+    later re-definition of the respective ontology source name, 
+    or to stand in as temporary placeholders for deferred mapping.
+    However, the use  of annotations as place holders without concurrent 
+    ontology mapping is strongly discouraged.
     */
-    union { null, string } description = null;
+    array<string> annotations = [];
 
   }
 }
