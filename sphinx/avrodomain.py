@@ -61,6 +61,34 @@ class AvroObject(ObjectDescription):
       signode += paramlist
     
     return name
+  
+  def get_index_text(self,name):
+    if self.objtype == 'fixed':
+      return _('%s (Avro fixed-width value)') % name
+    if self.objtype == 'enum':
+      return _('%s (Avro enum)') % name
+    if self.objtype == 'record':
+      return _('%s (Avro record)') % name
+    if self.objtype == 'error':
+      return _('%s (Avro error)') % name
+    if self.objtype == 'rpc':
+      return _('%s (Avro RPC)') % name
+  
+  def add_target_and_index(self, name, sig, signode):
+    targetname = 'avro.' + name
+    if targetname not in self.state.document.ids:
+      signode['names'].append(targetname)
+      signode['ids'].append(targetname)
+      signode['first'] = (not self.names)
+      self.state.document.note_explicit_target(signode)
+      objects = self.env.domaindata['avro']['objects']
+      if name in objects:
+        self.state_machine.reporter.warning('duplicate Avro object description of %s.' % name, line=self.lineno)
+      objects[name] = (self.env.docname, self.objtype)
+    
+    indextext = self.get_index_text(name)
+    if indextext:
+      self.indexnode['entries'].append(('single',indextext,targetname,''))
 
 class AvroFixedField(AvroObject):
   prefix = 'fixed'
@@ -131,6 +159,16 @@ class AvroDomain(Domain):
   initial_data = {
     'objects': {}
   }
+  
+  def resolve_xref(self, env, fromdocname, builder, typ, target, node, contnode):
+    if target not in self.data['objects']:
+      return None
+    obj = self.data['objects'][target]
+    return make_refnode(builder, fromdocname, obj[0], 'avro.' + target, contnode, target)
+  
+  def get_objects(self):
+    for refname, (docname, type) in list(self.data['objects'].items()):
+      yield (refname, refname, type, docname, 'avro.' + refname, 1)
 
 def setup(app):
   app.add_domain(AvroDomain)
