@@ -1,5 +1,5 @@
 
-import sys, json, os, re, argparse
+import sys, json, os, re, argparse, pypandoc
 
 def get_file_locations():
   parser = argparse.ArgumentParser()
@@ -25,7 +25,7 @@ def typename(typeobject):
   raise ValueError
 
 def cleanup_doc(doc,indent=0):
-  return '\n'.join([' '*indent + line for line in doc.replace('`','').split('\n')])
+  return '\n'.join([' '*indent + line for line in pypandoc.convert(doc,'rst',format='md').split('\n')])
   
 if __name__ == '__main__':
   
@@ -53,7 +53,7 @@ if __name__ == '__main__':
         for field in item['fields']:
           output += '  :field %s:\n' % field['name']
           if 'doc' in field:
-            output += '  ' + cleanup_doc(field['doc'],indent=2) + '\n'
+            output += cleanup_doc(field['doc'],indent=4) + '\n'
           output += '  :type %s: %s\n' % (field['name'], typename(field['type']))
         output += '\n'
       
