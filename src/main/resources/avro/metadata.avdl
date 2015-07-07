@@ -63,12 +63,17 @@ This simplified implementation supports the basic geometries
 of which "Point" and "Polygon" should represent the most likely 
 use cases here (e.g. for description of a sample's provenience).
 See also http://geojson.org/geojson-spec.html.
+The "description" parameter can be used for an implementation dependent 
+note (e.g. "Zurich, Switzerland").
+TODO: Richer object type?
 */
 record GeoLoc {
 
   string type;
 
   array<float> coordinates = [];
+  
+  union { null, string } description = null;
 
 }
 
