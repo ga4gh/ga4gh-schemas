@@ -58,6 +58,21 @@ record Observation {
 }
 
 /**
+A geolocation object, formatted as GeoJSON.
+This simplified implementation supports the basic geometries 
+of which "Point" and "Polygon" should represent the most likely 
+use cases here (e.g. for description of a sample's provenience).
+See also http://geojson.org/geojson-spec.html.
+*/
+record GeoLoc {
+
+  string type;
+
+  array<float> coordinates = [];
+
+}
+
+/**
 
 END WIP #######################################################################
 
