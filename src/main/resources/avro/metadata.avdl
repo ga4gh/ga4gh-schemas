@@ -19,42 +19,42 @@ Some had been prepared in the "playground" doc, but may have been modified here.
 */
 
 /**
-Observations are single measurements, which can be described through their type, 
-value and unit, as well as an associated dateTime value. 
-This could be numerical values with a unit, or observations defined through 
-ontologies.
+Observations are single measurements, which can be described through their type, value 
+and unit, as well as an associated dateTime value. This could be numerical values with a 
+unit, or observations defined through ontologies.
 */
 record Observation {
 
-	/**
-	The type of the observation.
-	*/
-	OntologyTerm type; 
+  /**
+  The type of the observation.
+  */
+  OntologyTerm type; 
 
-	/**
-	The value of the observation.
-	*/
-	OntologyTerm value;
+  /**
+  The value of the observation.
+  */
+  OntologyTerm value;
 
-	/**
-	The unit of the observation; e.g. for numeric values.
-	*/
+  /**
+  The unit of the observation; e.g. for numeric values.
+  */
   union { null, string } unit = null;
 
   /**
-  Date the observation was made/assigned (e.g. date of diagnosis, observation of phenotype...).
-  Suitable e.g. for health related purposes, epidemiology, experimental setups (time series) ...
+  Date the observation was made/assigned (e.g. date of diagnosis, observation of 
+  phenotype...). Suitable e.g. for health related purposes, epidemiology, experimental 
+  setups (time series)...
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
   */
   union { null, string } dateTimeObserved = null;
 
   /**
   Age at time of the observation (e.g. diagnosis, observation of phenotype...).
-  This is highly relevant in the human context and usually the primary available time related 
-  parameter available.
+  This is highly relevant in the human context and usually the primary available time 
+  related parameter available.
   */
   union { null, string } ageAtObservation = null;
-  
+
 }
 
 /**
