@@ -118,6 +118,12 @@ record Sample {
   union { null, string } description = null;
 
   /**
+  The species of this sample. Using
+  [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
+  */
+  union { null, OntologyTerm } species = null;
+
+  /**
   The time at which this record was created. 
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
