@@ -62,6 +62,30 @@ record Disease {
 }
 
 /**
+This is the prototype for the "Phenotype" record type. This has to be 
+refined with evidences etc.
+*/
+record Phenotype {
+
+  /**
+  The phenotype, defined through an OntologyTerm.
+  */
+  OntologyTerm phenotype;
+  
+  /**
+  Date the phenotype was identified/assigned.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
+  */
+  union { null, string } dateTimePhenotype = null;
+
+  /**
+  Placeholder for the evidence definition.
+  */
+  union { null, string } evidence = null;
+  
+}
+
+/**
 Observations are single measurements, which can be described through their type, value 
 and unit, as well as an associated dateTime value. This could be numerical values with a 
 unit, or observations defined through ontologies.
@@ -131,13 +155,32 @@ An individual (or subject) typically corresponds to an individual
 human or other organism.
 */
 record Individual {
-  /** The individual UUID. This is globally unique. */
+
+  /** The individual ID. This is locally unique. */
   string id;
 
-  /** The IDs of the individual groups this individual belongs to. */
-  array<string> groupIds = [];
+  /**
+  The individual's UUID. This is globally unique.
+  The recommendation here is a UUIDv4 (e.g. 
+  "6C6CAEFA-0DFC-4B55-9EAC-19C124DA5C51")
+  */
+  string uuid;
 
-  /** The name of the individual. */
+  /**
+  Optional: Known downstream IDs, e.g. UUIDs of samples.
+  */
+  array<string> parentOf = [];
+
+  /**
+  Optional: Known aggregation IDs, e.g. UUIDs of datasets
+  or analyses using pooled material or families (e.g. trios).
+  */
+  array<string> memberOf = [];
+
+  /**
+  The name of the individual. This is obviously a feature
+  which should only be used internally in most circumstances.
+  */
   union { null, string } name = null;
 
   /** A description of the individual. */
@@ -176,7 +219,7 @@ record Individual {
   */
   union { null, OntologyTerm } developmentalStage = null;
 
-   /**
+  /**
   The date of birth of this individual. Usually would be coded to the day;
   however, finer (e.g. animal model system) or more approximate (e.g. year 
   for clinical applications) granularity is possible.
@@ -186,27 +229,29 @@ record Individual {
 
   /**
   Diseases with which the individual has been diagnosed.
-  TODO: Is this the right representation?
   */
-  array<OntologyTerm> diseases = [];
+  array<Disease> diseases = [];
 
   /**
   Phenotypes for this individual.
-  TODO: Is this the right representation?
   */
-  array<OntologyTerm> phenotypes = [];
+  array<Phenotype> phenotypes = [];
 
   /**
-  Disease area specific classification (e.g. classification of cancer samples
-  such as Dukes)
+  A description of the clinical treatments/interventions.
   */
-  union { null, string } stagingSystem = null;
+  array<Intervention> interventions = [];
 
-  /** A description of the clinical treatment used for this individual. */
-  union { null, string } clinicalTreatment = null;
+  /**
+  A description of observations/measurements related to the
+  object.
+  */
+  array<Observation> observations = [];
 
-  /** The strain of this individual, for non-humans. */
-  union { null, string } strain = null;
+  /**
+  The strain of this individual, for non-humans.
+  */
+  union { null, OntologyTerm } strain = null;
 
   /**
   A map of additional individual information.
@@ -219,11 +264,32 @@ A biological sample used in an experiment. (e.g. whole blood from
 an affected individual)
 */
 record Sample {
-   /** The sample UUID. This is globally unique. */
+  /** The sample ID. This is locally unique. */
   string id;
 
-  /** The ID of the individual this sample belongs to. */
-  union { null, string } individualId = null;
+  /**
+  The sample UUID. This is globally unique.
+  The recommendation here is a UUIDv4 (e.g. 
+  "11BC1E0C-B802-4C76-A9E1-2FE8D11EB5E5")
+  */
+  string uuid;
+
+  /**
+  The ID(s) of the individual(s) this sample was derived
+  from.
+  */
+  array<string> derivedFrom = [];
+  
+  /**
+  Optional: Known downstream IDs, e.g. UUIDs of experiments.
+  */
+  array<string> parentOf = [];
+
+  /**
+  Optional: Known aggregation IDs, e.g. UUIDs of datasets
+  or analyses using pooled material.
+  */
+  array<string> memberOf = [];
 
   /** Public identifiers for this sample. */
   array<string> accessions = [];
@@ -260,7 +326,7 @@ record Sample {
   */
   union { null, string } samplingDate = null;
 
- /**
+  /**
   The age of the individual (not of the sample) at time of sample collection.
   This field may be approximate.
   Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
