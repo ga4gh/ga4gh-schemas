@@ -125,6 +125,29 @@ record Observation {
 }
 
 /**
+Interventions are e.g. medical treatments. This is currently a skeleton object.
+*/
+record Intervention {
+
+  /**
+  The type of the intervention.
+  */
+  union { null, OntologyTerm } type = null; 
+
+  /**
+  A description of the intervention.
+  */
+  union { null, string } description = null;
+
+  /**
+  Date the observation was started.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
+  */
+  union { null, string } dateTimeInterventionStart = null;
+
+}
+
+/**
 A geolocation object, formatted as GeoJSON.
 This simplified implementation supports the basic geometries 
 of which "Point" and "Polygon" should represent the most likely 
