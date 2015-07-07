@@ -16,7 +16,50 @@ WIP ###########################################################################
 The following objects are completely new compared to the master file.
 Some had been prepared in the "playground" doc, but may have been modified here.
 
+###############################################################################
+
 */
+
+/**
+This is the prototype for the "Disease" record type, a wrapper for any given 
+diagnosis, which allows the association of e.g. clinical or timed information
+with the diagnostic data, which is referenced through OntologyTerm objects.
+Disease records can be stored/referenced in "Diseases" lists inside parental 
+objects (e.g. Individual, Sample).
+The Disease record type could conceivably used as blueprint for generation of a 
+similarly structured Phenotype object.
+Observations, interventions etc. should be kept external to the "Disease" 
+objects, but could be referenced using "evidence" type objects (which have 
+yet to be defined; this also would require an id for each disease object).
+*/
+record Disease {
+
+  /**
+  The diagnosis, defined through an OntologyTerm.
+  */
+  OntologyTerm diagnosis;
+  
+  /**
+  Date the diagnosis was made/assigned.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
+  */
+  union { null, string } dateTimeDiagnosis = null;
+
+  /**
+  A followup status (e.g. "alive", "dead", "recurrence").
+  */
+  union { null, OntologyTerm }  followupStatus = null;
+  
+  /**
+  The followup time relative to the original diagnosis. While 
+  in theory absolute date would be possible her, it is much 
+  more common to collect relative values.
+  Format: ISO 8601 duration PnYnMnD in a suitable approximation
+  Example: P14M3D
+  */
+  union { null, string } followupTime = null;
+  
+}
 
 /**
 Observations are single measurements, which can be described through their type, value 
