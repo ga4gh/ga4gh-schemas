@@ -1,4 +1,5 @@
 PyYAML
+avro
 flake8
 humanize
 nose

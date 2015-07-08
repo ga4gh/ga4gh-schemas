@@ -8,10 +8,9 @@ import idl "metadata.avdl";
 /** This request maps to the body of `POST /individuals/search` as JSON. */
 record SearchIndividualsRequest {
   /**
-  If specified, restrict this query to individuals within the given
-  individual groups.
+  The Group to search.
   */
-  array<string> groupIds = [];
+  string groupId;
 
   /**
   Only return individuals with this name (case-sensitive, exact match).
@@ -52,8 +51,8 @@ record SearchIndividualsResponse {
 /**
 Gets a list of `Individual` matching the search criteria.
 
-`POST /individuals/search` must accept a JSON version of 
-`SearchIndividualsRequest` as the post body and will return a JSON version of 
+`POST /individuals/search` must accept a JSON version of
+`SearchIndividualsRequest` as the post body and will return a JSON version of
 `SearchIndividualsResponse`.
 */
 SearchIndividualsResponse searchIndividuals(
@@ -65,8 +64,10 @@ SearchIndividualsResponse searchIndividuals(
 /** This request maps to the body of `POST /samples/search` as JSON. */
 
 record SearchSamplesRequest {
-  /** If specified, restrict this query to samples for the given individuals. */
-  array<string> individualIds = [];
+  /**
+  The Individual to search.
+  */
+  string individualId;
 
   /**
   Only return samples with this name (case-sensitive, exact match).
@@ -107,8 +108,8 @@ record SearchSamplesResponse {
 /**
 Gets a list of `Sample` matching the search criteria.
 
-`POST /samples/search` must accept a JSON version of 
-`SearchSamplesRequest` as the post body and will return a JSON version of 
+`POST /samples/search` must accept a JSON version of
+`SearchSamplesRequest` as the post body and will return a JSON version of
 `SearchSamplesResponse`.
 */
 SearchSamplesResponse searchSamples(
@@ -158,8 +159,8 @@ record SearchExperimentsResponse {
 /**
 Gets a list of `Experiment` matching the search criteria.
 
-`POST /experiments/search` must accept a JSON version of 
-`SearchExperimentsRequest` as the post body and will return a JSON version of 
+`POST /experiments/search` must accept a JSON version of
+`SearchExperimentsRequest` as the post body and will return a JSON version of
 `SearchExperimentsResponse`.
 */
 SearchExperimentsResponse searchExperiments(

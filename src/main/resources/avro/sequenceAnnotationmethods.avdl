@@ -7,7 +7,7 @@ protocol SequenceAnnotationMethods {
   import idl "sequenceAnnotations.avdl";
 
   // FIXME: wiggle methods not defined.
-  
+
   /******************  /features/search  *********************/
 
   /**
@@ -15,21 +15,22 @@ protocol SequenceAnnotationMethods {
   */
   record SearchFeaturesRequest {
     /**
-    The annotation sets to search within. Either `featureSetIds` or
-    `parentIds` must be non-empty.
+    The annotation set to search within. Either `featureSetId` or
+    `parentId` must be non-empty.
     */
-    array<string> featureSetIds = [];
+    union { null, string } featureSetId;
 
     /**
     Restricts the search to direct children of the given parent `feature`
-    IDs. Either `featureSetIds` or `parentIds` must be non-empty.
+    ID. Either `featureSetId` or `parentId` must be non-empty.
     */
-    array<string> parentIds = [];
+    union { null, string } parentId;
 
     /**
-    If specified, this query matches only annotations which overlap this path.
+    If specified, this query matches only annotations which overlap this Segment
+    of a Sequence.
     */
-    union { null, org.ga4gh.models.Path } range = null;
+    union { null, org.ga4gh.models.Segment } range = null;
 
     // TODO: Fix this field. Clarify semantics around how OntologyTerm matching works, or
     // change the Ontology term field on the feature.
