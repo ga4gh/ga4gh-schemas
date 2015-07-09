@@ -54,6 +54,16 @@ These format specifications can be found in the
 [ga4gh]:      http://genomicsandhealth.org/
 [hts-specs]:  https://github.com/samtools/hts-specs
 
+## Metadata Task Team
+
+The Metadata Task Team (MTT) concerns itself with data structures, attributes 
+and values used to describe *everything but the sequence*.  This includes 
+metadata for individuals, samples, analyses, instrumentation a well as 
+ontology representations for metadata. Naturally, the group interacts 
+heavily with members of most other task teams and working groups.
+
+[MTT Wiki](https://github.com/ga4gh/metadata-team/wiki)
+
 
 ## Build Status
 
