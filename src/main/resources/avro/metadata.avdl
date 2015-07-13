@@ -2,6 +2,16 @@
 
 /**
 This protocol defines metadata used in the other GA4GH protocols.
+
+[Eagle: add text here from the README? Better than nothing? 
+The Metadata Task Team (MTT) concerns itself with data structures, attributes
+and values used to describe *everything but the sequence*.  This includes
+metadata for individuals, samples, analyses, instrumentation a well as
+ontology representations for metadata. Naturally, the group interacts
+heavily with members of most other task teams and working groups.
+
+[MTT Wiki](https://github.com/ga4gh/metadata-team/wiki)
+]
 */
 
 protocol Metadata {
@@ -16,6 +26,7 @@ human or other organism.
 record Individual {
   /** The individual UUID. This is globally unique. */
   string id;
+  [Eagle: can you make it explicit what you mean by UUID? https://www.uuidgenerator.net/ Which UUID version should be used? This comment is true for all UUID throughout this document.]
 
   /** The IDs of the individual groups this individual belongs to. */
   array<string> groupIds = [];
@@ -56,6 +67,7 @@ record Individual {
   /**
   The developmental stage of this individual. Using Uberon is recommended.
   TODO: Add link to uberon
+  [Eagle: http://uberon.github.io. For example http://purl.obolibrary.org/obo/UBERON_0007023 for adult organism]
   */
   union { null, OntologyTerm } developmentalStage = null;
 
@@ -72,29 +84,54 @@ record Individual {
   TODO: Is this the right representation?
   */
   array<OntologyTerm> diseases = [];
+  [Eagle: is null allowed in this syntax?]
 
   /**
   Phenotypes for this individual.
   TODO: Is this the right representation?
   */
   array<OntologyTerm> phenotypes = [];
+  [Eagle: how do we distinguish disease and phenotype when describing an individual? A diagnosis is for a disease, but a phenotype is measurable? Do we need to distinguish disease and phenotype? Will the two be consistently captured by different submitters? Using ontologies does little to help make a decision, see the following:
+cardiovascular system disease (DO): http://purl.obolibrary.org/obo/DOID_1287 
+hypertension (DOID): http://purl.obolibrary.org/obo/DOID_10763
+Hypertension (HP): http://purl.obolibrary.org/obo/HP_0000822
+diabetes mellitus (DOID): http://purl.obolibrary.org/obo/DOID_9351
+Diabetes mellitus (HP): http://purl.obolibrary.org/obo/HP_0000819
+myocardial infarction (DOID): http://purl.obolibrary.org/obo/DOID_5844
+Myocardial infarction (HP): http://purl.obolibrary.org/obo/HP_0001658
+Stroke (HP): http://purl.obolibrary.org/obo/HP_0001297
+vascular disease (DOID): http://purl.obolibrary.org/obo/DOID_178
+kidney failure (DO): http://purl.obolibrary.org/obo/DOID_1074
+Renal insufficiency (HP): http://purl.obolibrary.org/obo/HP_0000083
+hypercholesteremia AE: http://purl.obolibrary.org/obo/OAE_0001992
+obesity (DOID): http://purl.obolibrary.org/obo/DOID_9970
+Obesity (HP): http://purl.obolibrary.org/obo/HP_0001513
+]
 
   /**
   Disease area specific classification (e.g. classification of cancer samples
   such as Dukes)
   */
   union { null, string } stagingSystem = null;
+  [Eagle: if defining the staging system, the schema also needs to capture the stage of the individual. Current assignment of the stage itself is missing
+  eg:
+  stagingSystem = sysVASC CVD (A-E)
+  stage = D
+]
 
   /** A description of the clinical treatment used for this individual. */
   union { null, string } clinicalTreatment = null;
+  [Eagle: Does clinical treatment include medication? If yes, should we include the dose, treatment dates etc. Therapies can be physical, psychological, or pharmaceutical and provided the therapy relates to direct work with patients, it’s considered clinical. This area could be huge …]
 
   /** The strain of this individual, for non-humans. */
   union { null, string } strain = null;
+  [Eagle: For humans should we capture the race/ethnicity/locality? This concept was used in the 1000 genome project: Yoruba in Ibadan (YRI), Nigeria; Japanese in Tokyo (JPT) etc. For plants the variety could be captured? Logically this data type would be best relocated in the schema to be after the species information.]
 
   /**
   A map of additional individual information.
   */
   map<array<string>> info = {};
+  [Eagle: in the data I used to validate the schema, the information for the individual I had remaining that could not be captured is Married, non-smoker, height = 170.5cm, weight = 77kg, BMI = 26.5, waist circumference = 89cm, hip circumference = 104cm. I am presuming none of this should be explictly defined which is why the info exists?]
 }
 
 /**
@@ -107,9 +144,11 @@ record Sample {
 
   /** The ID of the individual this sample belongs to. */
   union { null, string } individualId = null;
+  [Eagle: This is the Individual UUID, not id - isn’t it? If yes, should null be allowed as the data item Individual id does not allow null?]
 
   /** Public identifiers for this sample. */
   array<string> accessions = [];
+  [Eagle: null should be allowed as data for samples is not always submitted to publicly available archives.]
 
   /** The name of the sample. */
   union { null, string } name = null;
@@ -143,6 +182,7 @@ record Sample {
   TODO: Fixed unit? Years would be natural in human context.
   */
   union { null, long } ageAtSampling = null;
+  [Eagle: the unit must be captured along with the value, it should not be fixed]
 
   /**
   The cell type of this sample.
@@ -168,6 +208,7 @@ record Sample {
 
   /**
   The anatomical part of the individual from which this sample derives.
+  [Eagle: suggest rewording to be less restrictive, blood and urine samples don’t easily fit as anatomical part, urinary system does but not urine … The anatomical part (body part, organ, tissue, body or excretory fluid) of the individual from which this sample derives.]
   Using [Uberon](http://uberon.org) is recommended.
   */
   union { null, OntologyTerm } organismPart = null;
@@ -206,12 +247,14 @@ record Experiment {
   /**
   The time at which this experiment was performed.
   Granularity here is variabel (e.g. date only).
+  [Eagle: typo in 'variabel']
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   */
   union { null, string } runTime = null;
 
   /**
   The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
+  [Eagle: example should be ‘genomic DNA’, which highlights that this could also be an OntologyTerm, but I can’t identify a good ontology! ENA have a “dictionary” of terms for DNA submissions, but EFO doesn’t have these terms]
   */
   union { null, string } molecule = null;
 
@@ -238,6 +281,7 @@ record Experiment {
     This maps to sequencing technology in BAM.
   */
   union { null, string } instrumentModel;
+  [Eagle: correction to line so it is same as others: union { null, string } instrumentModel = null;]
 
   /**
   The data file generated by the instrument.
@@ -248,6 +292,7 @@ record Experiment {
 
   /** The sequencing center used as part of this experiment. */
   union { null, string } sequencingCenter;
+  [Eagle: correction to line so it is same as others: union { null, string } sequencingCenter = null;]
 
   /**
   The platform unit used as part of this experiment. This is a flowcell-barcode
@@ -333,6 +378,7 @@ record Analysis {
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
   union { null, string } recordCreateTime = null;
+  [Eagle: this recordCreateTime is different to all others in the schema in that it allows a null, is this intentional?]
 
   /**
   The time at which this record was last updated.
