@@ -2,6 +2,16 @@
 
 /**
 This protocol defines metadata used in the other GA4GH protocols.
+
+[Eagle: add text here from the README? Better than nothing?
+The Metadata Task Team (MTT) concerns itself with data structures, attribute    s
+and values used to describe *everything but the sequence*.  This includes
+metadata for individuals, samples, analyses, instrumentation a well as
+ontology representations for metadata. Naturally, the group interacts
+heavily with members of most other task teams and working groups.
+[MTT Wiki](https://github.com/ga4gh/metadata-team/wiki)
+]
+
 */
 
 protocol Metadata {
@@ -28,6 +38,22 @@ Disease records can be stored/referenced in "Diseases" lists inside parental
 objects (e.g. Individual, Sample).
 The Disease record type could conceivably used as blueprint for generation of a 
 similarly structured Phenotype object.
+[Eagle: how do we distinguish disease and phenotype when describing an individual? A diagnosis is for a disease, but a phenotype is measurable? Do we need to distinguish disease and phenotype? Will the two be consistently captured by different submitters? Using ontologies does little to help make a decision, see the following:
+cardiovascular system disease (DO): http://purl.obolibrary.org/obo/DOID_1287
+hypertension (DOID): http://purl.obolibrary.org/obo/DOID_10763
+Hypertension (HP): http://purl.obolibrary.org/obo/HP_0000822
+diabetes mellitus (DOID): http://purl.obolibrary.org/obo/DOID_9351
+Diabetes mellitus (HP): http://purl.obolibrary.org/obo/HP_0000819
+myocardial infarction (DOID): http://purl.obolibrary.org/obo/DOID_5844
+Myocardial infarction (HP): http://purl.obolibrary.org/obo/HP_0001658
+Stroke (HP): http://purl.obolibrary.org/obo/HP_0001297
+vascular disease (DOID): http://purl.obolibrary.org/obo/DOID_178
+kidney failure (DO): http://purl.obolibrary.org/obo/DOID_1074
+Renal insufficiency (HP): http://purl.obolibrary.org/obo/HP_0000083
+hypercholesteremia AE: http://purl.obolibrary.org/obo/OAE_0001992
+obesity (DOID): http://purl.obolibrary.org/obo/DOID_9970
+Obesity (HP): http://purl.obolibrary.org/obo/HP_0001513
+]
 Observations, interventions etc. should be kept external to the "Disease" 
 objects, but could be referenced using "evidence" type objects (which have 
 yet to be defined; this also would require an id for each disease object).
@@ -44,7 +70,7 @@ record Disease {
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
   */
   union { null, string } dateTimeDiagnosis = null;
-
+  
   /**
   A followup status (e.g. "alive", "dead", "recurrence").
   */
@@ -53,12 +79,16 @@ record Disease {
   /**
   The followup time relative to the original diagnosis. While 
   in theory absolute date would be possible her, it is much 
+  [Eagle: typo 'her' should be 'here']
   more common to collect relative values.
   Format: ISO 8601 duration PnYnMnD in a suitable approximation
+  [Eagle: typo 'in' should be 'is'. Maybe add a few more words to help explain syntax? "The n is replaced by the value for each of the date and time elements that follow the n, for example P12Y7M5DT2H20M4S represents a duration of "twelve years, seven months, five days, two hours, twenty minutes, and four seconds.
+  There can be more than one follow-up, how is this represented?]
   Example: P14M3D
   */
   union { null, string } followupTime = null;
-  
+
+  [Eagle: has stagingSystem been deliberately dropped from schema? If done in error and to be reintroduced, we should also bcapture the stage an individual is assiged against the stagingSystem.]  
 }
 
 /**
@@ -89,6 +119,7 @@ record Phenotype {
 Observations are single measurements, which can be described through their type, value 
 and unit, as well as an associated dateTime value. This could be numerical values with a 
 unit, or observations defined through ontologies.
+[Eagle: can examples be shown here, is it to include body height, body weight, married, BMI, etc?]
 */
 record Observation {
 
@@ -126,6 +157,7 @@ record Observation {
 
 /**
 Interventions are e.g. medical treatments. This is currently a skeleton object.
+[Eagle: should dose be included?]
 */
 record Intervention {
 
@@ -239,6 +271,7 @@ record Individual {
   /**
   The developmental stage of this individual. Using Uberon is recommended.
   TODO: Add link to uberon
+  [Eagle: http://uberon.github.io. For example http://purl.obolibrary.org/obo/UBERON_0007023 for adult organism]
   */
   union { null, OntologyTerm } developmentalStage = null;
 
@@ -262,6 +295,7 @@ record Individual {
 
   /**
   A description of the clinical treatments/interventions.
+  [Eagle: This could be physical, psychological, or pharmaceutical, could examples be provided to clarify the information to be captured here.
   */
   array<Intervention> interventions = [];
 
@@ -275,6 +309,7 @@ record Individual {
   The strain of this individual, for non-humans.
   */
   union { null, OntologyTerm } strain = null;
+  [Eagle: For humans should we capture the race/ethnicity/locality? This concept was used in the 1000 genome project: Yoruba in Ibadan (YRI), Nigeria; Japanese in Tokyo (JPT) etc. For plants the variety could be captured? Logically this data type would be best relocated in the schema to be after the species information.]
 
   /**
   A map of additional individual information.
@@ -300,7 +335,8 @@ record Sample {
   /**
   The ID(s) of the individual(s) this sample was derived
   from.
-  */
+  [Eagle: all other data items that are mapped between records are UUIDs, should that be true for this data item too, so correct text to read UUID instead of ID]
+*/
   array<string> derivedFrom = [];
   
   /**
@@ -314,7 +350,8 @@ record Sample {
   */
   array<string> memberOf = [];
 
-  /** Public identifiers for this sample. */
+  /** Public identifiers for this sample. */                                                      
+  [Eagle: should also be Optional/null allowed, as data for samples is not always submitted to publicly available archives.]
   array<string> accessions = [];
 
   /** The name of the sample. */
@@ -326,7 +363,9 @@ record Sample {
   /**
   The species of this sample. Using
   [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
-  */
+  [Eagle: Presuming this is used when the tax_id of the sample differs from the tax_id of the individual, as in host-parasite/pathogen circumstances? If yes, could an example be added?]
+
+*/
   union { null, OntologyTerm } species = null;
 
   /**
@@ -345,6 +384,7 @@ record Sample {
   The time at which this sample was taken from the individual.
   Granularity here is variabel (e.g. only date would be common for 
   biopsies, minutes for in vitro time series).
+  [Eagle: typo in 'variabel']
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   */
   union { null, string } samplingDate = null;
@@ -354,6 +394,7 @@ record Sample {
   This field may be approximate.
   Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
   Example: P12Y3M
+  [Eagle: This feels like a mix of concepts, ageAtSampling is a distinct time point but ISO 8601 duration is to capture a time interval. If this is for the ageAtSampling then a unit needs to be captured and this should be explicit in the example. If this really is to reflect a time interval then additional context information is required to defined the TimeDate from which the interval/duration is defined.]
   */
   union { null, string } ageAtSampling = null;
 
@@ -382,7 +423,9 @@ record Sample {
   /**
   The anatomical part of the individual from which this sample derives.
   Using [Uberon](http://uberon.org) is recommended.
-  */
+  [Eagle: suggest rewording to be less restrictive, blood and urine samples don’t easily fit as anatomical part, urinary system does but not urine … The anatomical part (body part, organ, tissue, body or excretory fluid) of the individual from which this sample derives.]
+  */                                           
+
   union { null, OntologyTerm } organismPart = null;
 
   /**
@@ -396,6 +439,7 @@ An experimental preparation of a `Sample`.
 */
 record Experiment {
   /** The experiment UUID. This is globally unique. */
+  [Eagle: other UUIDs are 'string uuid', not 'string id' - the comment is in conflict to the data being captured. The same is true for subsequent records for Dataset, Analysis etc. As experiment/dataset UUIDs are expected within other records (according to their description) this does need to be captured.]
   string id;
 
   /** The name of the experiment. */
@@ -425,6 +469,8 @@ record Experiment {
 
   /**
   The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
+  [Eagle: example should be ‘genomic DNA’, which highlights that this could also be an OntologyTerm, but I can’t identify a good ontology! ENA have a “dictionary” of terms for DNA submissions, but EFO doesn’t have these terms]  
+
   */
   union { null, string } molecule = null;
 
@@ -451,7 +497,8 @@ record Experiment {
     This maps to sequencing technology in BAM.
   */
   union { null, string } instrumentModel;
-
+  [Eagle: correction to line so it is same as others: union { null, string } instrumentModel = null;]
+ 
   /**
   The data file generated by the instrument.
   TODO: This isn't actually a file is it?
@@ -461,6 +508,7 @@ record Experiment {
 
   /** The sequencing center used as part of this experiment. */
   union { null, string } sequencingCenter;
+  [Eagle: correction to line so it is same as others: union { null, string } sequencingCenter = null;]
 
   /**
   The platform unit used as part of this experiment. This is a flowcell-barcode
@@ -485,6 +533,7 @@ types associated with a clinical study.
 */
 record Dataset {
   /** The dataset UUID. This is globally unique. */
+  [Eagle": as above with sample and with following records, the UUID must be captures as it is cross referenced within the schema.]
   string id;
 
   /** A description of the dataset. */
@@ -546,6 +595,7 @@ record Analysis {
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
   union { null, string } recordCreateTime = null;
+  [Eagle: this recordCreateTime is different to all others in the schema in that it allows a null, is this intentional?]
 
   /**
   The time at which this record was last updated.
