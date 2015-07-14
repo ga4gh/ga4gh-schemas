@@ -1,6 +1,12 @@
 @namespace("org.ga4gh.models")
 /**
 Protocol that defines types associated with ontologies.
+TODO: should every field be prefixed by `ontology*'
+TODO: separate annotation and OntologyTerm, annotation belongs
+to the thinking being annotated, not the ontology term
+TODO: move back to metadata
+TODO: markd things having both annotations and ontology terms will be a really
+      pain to use, as once will have to do if-then
 */
 protocol Ontologies {
   /**

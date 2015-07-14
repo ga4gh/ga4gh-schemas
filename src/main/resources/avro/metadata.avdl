@@ -4,7 +4,7 @@
 This protocol defines metadata used in the other GA4GH protocols.
 
 [Eagle: add text here from the README? Better than nothing?
-The Metadata Task Team (MTT) concerns itself with data structures, attribute    s
+The Metadata Task Team (MTT) concerns itself with data structures, attribute
 and values used to describe *everything but the sequence*.  This includes
 metadata for individuals, samples, analyses, instrumentation a well as
 ontology representations for metadata. Naturally, the group interacts
@@ -14,86 +14,76 @@ heavily with members of most other task teams and working groups.
 
 */
 
+/*
+TODO:
+  - Need representation of trios, etc, twins. See PGP data to drive
+    this.
+  - How do you related twins (mono-zygotic)
+  - temporal sample relationships
+  - standardize name/description/notes/key-value data types
+*/
+
+
 protocol Metadata {
 
 import idl "common.avdl";
 import idl "ontologies.avdl";
 
 /**
+Representation of a disease.  This records the diagnosis and time that
+the diagnosis was made.
 
-WIP ###########################################################################
+This isn't intended as a replacement for clinical records.  This serves as a
+way of relating a diagnosis to an individual with an optional time stamp of
+the diagnosis.  This is useful for basic analysis when there is no access to
+the clinical data.
 
-The following objects are completely new compared to the master file.
-Some had been prepared in the "playground" doc, but may have been modified here.
-
-###############################################################################
-
-*/
-
-/**
-This is the prototype for the "Disease" record type, a wrapper for any given 
-diagnosis, which allows the association of e.g. clinical or timed information
-with the diagnostic data, which is referenced through OntologyTerm objects.
-Disease records can be stored/referenced in "Diseases" lists inside parental 
-objects (e.g. Individual, Sample).
-The Disease record type could conceivably used as blueprint for generation of a 
-similarly structured Phenotype object.
-[Eagle: how do we distinguish disease and phenotype when describing an individual? A diagnosis is for a disease, but a phenotype is measurable? Do we need to distinguish disease and phenotype? Will the two be consistently captured by different submitters? Using ontologies does little to help make a decision, see the following:
-cardiovascular system disease (DO): http://purl.obolibrary.org/obo/DOID_1287
-hypertension (DOID): http://purl.obolibrary.org/obo/DOID_10763
-Hypertension (HP): http://purl.obolibrary.org/obo/HP_0000822
-diabetes mellitus (DOID): http://purl.obolibrary.org/obo/DOID_9351
-Diabetes mellitus (HP): http://purl.obolibrary.org/obo/HP_0000819
-myocardial infarction (DOID): http://purl.obolibrary.org/obo/DOID_5844
-Myocardial infarction (HP): http://purl.obolibrary.org/obo/HP_0001658
-Stroke (HP): http://purl.obolibrary.org/obo/HP_0001297
-vascular disease (DOID): http://purl.obolibrary.org/obo/DOID_178
-kidney failure (DO): http://purl.obolibrary.org/obo/DOID_1074
-Renal insufficiency (HP): http://purl.obolibrary.org/obo/HP_0000083
-hypercholesteremia AE: http://purl.obolibrary.org/obo/OAE_0001992
-obesity (DOID): http://purl.obolibrary.org/obo/DOID_9970
-Obesity (HP): http://purl.obolibrary.org/obo/HP_0001513
-]
-Observations, interventions etc. should be kept external to the "Disease" 
-objects, but could be referenced using "evidence" type objects (which have 
-yet to be defined; this also would require an id for each disease object).
+This doesn't attempt to represent phenotypes of the disease or disease
+progression.  Association of disease and disease phenotype is complex and
+context-specific and is left to the clinical data.  There is no easy way to
+represent disease-phenotype and allow for context. E.g Li-Fraumeni syndrome
+patients have phenotypes that are diseases outside this context.
 */
 record Disease {
 
   /**
-  The diagnosis, defined through an OntologyTerm.
+  The diagnosis, defined through an OntologyTerm.  e.g. colon cancer
   */
-  OntologyTerm diagnosis;
-  
+  OntologyTerm disease;
+
   /**
-  Date the diagnosis was made/assigned.
+  The stage of the disease at diagnosis.  This is not update to reflect
+  progression of the disease, which is recorded in the clinical data.
+  e.g. stage IV.
+  */
+  OntologyTerm stageAtDiagnosis;
+
+  /**
+  Age of onset of the disease.
+  TODO: need to define exact format, as the are large number of ways this is
+  recorded, such as: age, age range, developmental stage, or date or partial
+  date.
+  */
+  union { null, string } ageOfOnset = null;
+
+  /**
+  Date the diagnosis was made/assigned.  This is NOT when the record was
+  created.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
   */
   union { null, string } dateTimeDiagnosis = null;
-  
-  /**
-  A followup status (e.g. "alive", "dead", "recurrence").
-  */
-  union { null, OntologyTerm }  followupStatus = null;
-  
-  /**
-  The followup time relative to the original diagnosis. While 
-  in theory absolute date would be possible her, it is much 
-  [Eagle: typo 'her' should be 'here']
-  more common to collect relative values.
-  Format: ISO 8601 duration PnYnMnD in a suitable approximation
-  [Eagle: typo 'in' should be 'is'. Maybe add a few more words to help explain syntax? "The n is replaced by the value for each of the date and time elements that follow the n, for example P12Y7M5DT2H20M4S represents a duration of "twelve years, seven months, five days, two hours, twenty minutes, and four seconds.
-  There can be more than one follow-up, how is this represented?]
-  Example: P14M3D
-  */
-  union { null, string } followupTime = null;
 
-  [Eagle: has stagingSystem been deliberately dropped from schema? If done in error and to be reintroduced, we should also bcapture the stage an individual is assiged against the stagingSystem.]  
+  /* TODO: need to link to clincal data. Reference to clinical working group
+  */
+  /* TODO: need keyword/value table, also human notes */
 }
 
 /**
-This is the prototype for the "Phenotype" record type. This has to be 
-refined with evidences etc.
+Record of phenotypes observed in an individual, which maybe independent of a a
+disease diagnosis.  Phenotype-disease links are complex as this is a process
+performed by clinicians, presentations can be atypical and phenotypes
+unrelated to an individual diagnosis are present.  We also want to record
+phenotypes in absences of a diagnosis.
 */
 record Phenotype {
 
@@ -103,30 +93,34 @@ record Phenotype {
   OntologyTerm phenotype;
   
   /**
-  Date the phenotype was identified/assigned.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
+  Age of onset of the phenotype. TODO: need to define format (see Disease)
   */
-  union { null, string } dateTimePhenotype = null;
+  union { null, string } ageOfOnset = null;
 
   /**
-  Placeholder for the evidence definition.
+  Date the phenotype was identified/assigned.  This 
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
   */
-  union { null, string } evidence = null;
-  
+  union { null, string } dateTimeIdentified = null;
+
+  /* TODO: need to link to clincal data. Reference to clinical working group
+  */
+  /* TODO: need keyword/value table, also human notes */
 }
 
 /**
-Observations are single measurements, which can be described through their type, value 
-and unit, as well as an associated dateTime value. This could be numerical values with a 
-unit, or observations defined through ontologies.
-[Eagle: can examples be shown here, is it to include body height, body weight, married, BMI, etc?]
+Observations are single measurements, which can be described through their
+type, value and unit, as well as an associated dateTime value. This could be
+numerical values with a unit, or observations defined through ontologies.
+
+For example body height, body weight, BMI.
 */
 record Observation {
 
   /**
   The type of the observation.
   */
-  OntologyTerm type; 
+  OntologyTerm observation; 
 
   /**
   The value of the observation.
@@ -149,22 +143,27 @@ record Observation {
   /**
   Age at time of the observation (e.g. diagnosis, observation of phenotype...).
   This is highly relevant in the human context and usually the primary available time 
-  related parameter available.
+  related parameter available, as date of birth might not be available.
   */
   union { null, string } ageAtObservation = null;
 
+  /* TODO: need keyword/value table, also human notes */
 }
 
 /**
-Interventions are e.g. medical treatments. This is currently a skeleton object.
-[Eagle: should dose be included?]
+Interventions are e.g. medical treatments.  This is a summary of the clinical
+information intended to be used in basic analysis when clinical information
+may not be avalable.
+
+TODO: This could be physical, psychological, or pharmaceutical, could
+       examples be provided to clarify the information to be captured here.
 */
 record Intervention {
 
   /**
   The type of the intervention.
   */
-  union { null, OntologyTerm } type = null; 
+  union { null, OntologyTerm } intervention = null; 
 
   /**
   A description of the intervention.
@@ -172,24 +171,29 @@ record Intervention {
   union { null, string } description = null;
 
   /**
-  Date the observation was started.
+  Date the the invervention started.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
   */
-  union { null, string } dateTimeInterventionStart = null;
+  union { null, string } dateTimeIntervention = null;
 
+  /* TODO: need keyword/value table, also human notes */
 }
 
 /**
-A geolocation object, formatted as GeoJSON.
+A geolocation object, formatted as GeoJSON [TODO: no JSON, internal]
 This simplified implementation supports the basic geometries 
 of which "Point" and "Polygon" should represent the most likely 
 use cases here (e.g. for description of a sample's provenience).
 See also http://geojson.org/geojson-spec.html.
 The "description" parameter can be used for an implementation dependent 
 note (e.g. "Zurich, Switzerland").
-TODO: Richer object type?
+
+TODO: latitude, longitude, and altitude are the common units, according to
+Wikipedia.  Need to specify the encoding system see:
+https://en.wikipedia.org/wiki/Geographic_coordinate_system - lat, long, should
+specify coordinate system. Elevation should specify units.
 */
-record GeoLoc {
+record GeographicLocation {
 
   string type;
 
@@ -200,47 +204,28 @@ record GeoLoc {
 }
 
 /**
-
-END WIP #######################################################################
-
-*/
-
-/**
 An individual (or subject) typically corresponds to an individual
 human or other organism.
+
+- TODO: need query to get known downstream IDs, e.g. UUIDs of samples.
+- TODO: needed query to get Known aggregation IDs, e.g. UUIDs of datasets or
+  analyses using pooled material or families (e.g. trios).
+- TODO: 
 */
 record Individual {
 
-  /** The individual ID. This is locally unique. */
+  /** The individual ID. This is globally unique UUID (UUIDv4) */
   string id;
 
   /**
-  The individual's UUID. This is globally unique.
-  The recommendation here is a UUIDv4 (e.g. 
-  "6C6CAEFA-0DFC-4B55-9EAC-19C124DA5C51")
+  External identifiers for individual, e.g. 1000 Genomes identifier.
   */
-  string uuid;
+  array<ExternalIdentifier> externalIds;
 
-  /**
-  Optional: Known downstream IDs, e.g. UUIDs of samples.
-  */
-  array<string> parentOf = [];
-
-  /**
-  Optional: Known aggregation IDs, e.g. UUIDs of datasets
-  or analyses using pooled material or families (e.g. trios).
-  */
-  array<string> memberOf = [];
-
-  /**
-  The name of the individual. This is obviously a feature
-  which should only be used internally in most circumstances.
-  */
-  union { null, string } name = null;
-
-  /** A description of the individual. */
-  union { null, string } description = null;
-
+  /* TODO: VERY IMPORTANT data/time of record goes to the issue of what
+  what are the objects and what is the data model. Is it containment or
+  relational.  Are we building a data model or a exchange format without
+  knowing the data model. */
   /**
   The time at which this record was created. 
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
@@ -256,30 +241,45 @@ record Individual {
   string recordUpdateTime;
 
   /**
-  The species of this individual. Using
-  [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
+  The species of this individual. Acceptable to classify as a higher-level
+  taxon when needed e.g. for environmental samples.
+  Using [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
   For a representation of an NCBI Taxon ID as an OntologyTerm, see
   [NCBITaxon Ontology](http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page).
   For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for this is
   NCBITaxon:9606, which has the URI http://purl.obolibrary.org/obo/NCBITaxon_9606
   */
-  union { null, OntologyTerm } species = null;
+  OntologyTerm species; // TODO: taxon
+
+  /**
+  The strain of this individual, for non-humans.
+  */
+  union { null, OntologyTerm } strain = null;
+
+  /* Ethnicity of individual, if applicable.
+  Recommended by the NHGRI GWAS Catalog 0 ontology
+  http://purl.bioontology.org/ontology/ANCESTRO
+  */
+  union { null, OntologyTerm } ethnicity = null;
 
   /** The genetic sex of this individual. Use `null` when unknown. */
   union { null, OntologyTerm } sex = null;
 
   /**
-  The developmental stage of this individual. Using Uberon is recommended.
-  TODO: Add link to uberon
-  [Eagle: http://uberon.github.io. For example http://purl.obolibrary.org/obo/UBERON_0007023 for adult organism]
+  The developmental stage of this individual. This not age of onset of a
+  disease.
+  Using Uberon is recommended.
+  For example, http://purl.obolibrary.org/obo/UBERON_0007023 for adult organism
+  TODO: need to clarify how to deal with this as a temporal series
   */
   union { null, OntologyTerm } developmentalStage = null;
 
   /**
-  The date of birth of this individual. Usually would be coded to the day;
+  The date of birth of this individual, which maybe partial. Usually would be coded to the day;
   however, finer (e.g. animal model system) or more approximate (e.g. year 
   for clinical applications) granularity is possible.
   Format: ISO 8601, YYYY-MM-DD (e.g. 1967-02-13)
+  TODO: clarify how to do partial ISO.
   */
   union { null, string } dateOfBirth = null;
 
@@ -295,24 +295,21 @@ record Individual {
 
   /**
   A description of the clinical treatments/interventions.
-  [Eagle: This could be physical, psychological, or pharmaceutical, could examples be provided to clarify the information to be captured here.
   */
   array<Intervention> interventions = [];
 
   /**
-  A description of observations/measurements related to the
-  object.
+  Observations and measurements related to the individual.
   */
   array<Observation> observations = [];
 
-  /**
-  The strain of this individual, for non-humans.
-  */
-  union { null, OntologyTerm } strain = null;
-  [Eagle: For humans should we capture the race/ethnicity/locality? This concept was used in the 1000 genome project: Yoruba in Ibadan (YRI), Nigeria; Japanese in Tokyo (JPT) etc. For plants the variety could be captured? Logically this data type would be best relocated in the schema to be after the species information.]
+  /** Additional, human-readable information on of the individual.
+  TODO: consistent?   */
+  union { null, string } notes = null;
 
   /**
   A map of additional individual information.
+  TODO: standardize this.
   */
   map<array<string>> info = {};
 }
@@ -322,38 +319,21 @@ A biological sample used in an experiment. (e.g. whole blood from
 an affected individual)
 */
 record Sample {
-  /** The sample ID. This is locally unique. */
+  /** The sample ID.  This is globally unique UUID (UUIDv4) */
   string id;
 
   /**
-  The sample UUID. This is globally unique.
-  The recommendation here is a UUIDv4 (e.g. 
-  "11BC1E0C-B802-4C76-A9E1-2FE8D11EB5E5")
+  External identifiers for sample, e.g. BioSample.
   */
-  string uuid;
+  array<ExternalIdentifier> externalIds;
 
   /**
-  The ID(s) of the individual(s) this sample was derived
-  from.
-  [Eagle: all other data items that are mapped between records are UUIDs, should that be true for this data item too, so correct text to read UUID instead of ID]
-*/
-  array<string> derivedFrom = [];
-  
-  /**
-  Optional: Known downstream IDs, e.g. UUIDs of experiments.
+  The ids of the individuals this sample was derived from.  Multiple ids are
+  allowed,as a sample maybe pooled from multiple individuals.
   */
-  array<string> parentOf = [];
+  array<string> individualIds;
 
-  /**
-  Optional: Known aggregation IDs, e.g. UUIDs of datasets
-  or analyses using pooled material.
-  */
-  array<string> memberOf = [];
-
-  /** Public identifiers for this sample. */                                                      
-  [Eagle: should also be Optional/null allowed, as data for samples is not always submitted to publicly available archives.]
-  array<string> accessions = [];
-
+  /* TODO: should name/description/notes should be made consistent */
   /** The name of the sample. */
   union { null, string } name = null;
 
@@ -363,9 +343,14 @@ record Sample {
   /**
   The species of this sample. Using
   [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
-  [Eagle: Presuming this is used when the tax_id of the sample differs from the tax_id of the individual, as in host-parasite/pathogen circumstances? If yes, could an example be added?]
-
-*/
+  [Eagle: Presuming this is used when the tax_id of the sample differs from
+  the tax_id of the individual, as in host-parasite/pathogen circumstances? If
+  yes, could an example be added?]
+  TODO: clarify this
+  Samples may not reference individuals, so species is annotated here in that
+  case. For host-pathogen interactions species may differ from an individual
+  from which the sample is derived.
+  */
   union { null, OntologyTerm } species = null;
 
   /**
@@ -382,9 +367,8 @@ record Sample {
 
   /**
   The time at which this sample was taken from the individual.
-  Granularity here is variabel (e.g. only date would be common for 
+  Granularity here is variable (e.g. only date would be common for 
   biopsies, minutes for in vitro time series).
-  [Eagle: typo in 'variabel']
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   */
   union { null, string } samplingDate = null;
@@ -394,52 +378,73 @@ record Sample {
   This field may be approximate.
   Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
   Example: P12Y3M
-  [Eagle: This feels like a mix of concepts, ageAtSampling is a distinct time point but ISO 8601 duration is to capture a time interval. If this is for the ageAtSampling then a unit needs to be captured and this should be explicit in the example. If this really is to reflect a time interval then additional context information is required to defined the TimeDate from which the interval/duration is defined.]
+  [TODO: Eagle: This feels like a mix of concepts, ageAtSampling is a distinct time
+  point but ISO 8601 duration is to capture a time interval. If this is for
+  the ageAtSampling then a unit needs to be captured and this should be
+  explicit in the example. If this really is to reflect a time interval then
+  additional context information is required to defined the TimeDate from
+  which the interval/duration is defined.]
+  Age at sampling should have units and is required as we may be missing DOB.
   */
   union { null, string } ageAtSampling = null;
 
   /**
-  The cell type of this sample.
-  Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended. See 
+  The cell types of this sample.
+  Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended.
   */
-  union { null, OntologyTerm } cellType = null;
+  array<OntologyTerm> cellType;
+
+  /**
+  The anatomical part (body part, organ, tissue, body or excretory fluid) of
+  the individual from which this sample derives.  Using
+  [Uberon](http://uberon.org) is recommended.
+  */                                           
+  union { null, OntologyTerm } organismPart = null;
 
   /** 
-  The cell line of this sample. 
+  This sample is from a cell line, which still could be from an indivdual.
   Using the [Cell Line Ontology](https://code.google.com/p/clo-ontology/) is a possibility.
-  TODO: discuss further. Other possibilities: Cellosaurus (nextprot), BRENDA/BTO, EFO (EBI)
+  TODO: discuss further. Other possibilities: Cellosaurus (nextprot),
+  BRENDA/BTO, EFO (EBI)
+  TODO: need to have derivation record from other samples for cell lines.
   */
   union { null, OntologyTerm } cellLine = null;
 
   /**
   Geographic coordinates from which the individual was obtained.
-  TODO: Figure out the right type for this field.
   */
-  union { null, string } geocode = null;
+  union { null, GeographicLocation } geographicLocation = null;
 
-  /** A descriptor of the sample type. (e.g. `frozen`) */
-  union { null, string } sampleType = null;
+  /** A typing of the specimen under study. Use the OBI terms under child of
+  specimen. e.g. cloacal swab.
+  */
+  union { null, OntologyTerm } specimenType = null;
 
-  /**
-  The anatomical part of the individual from which this sample derives.
-  Using [Uberon](http://uberon.org) is recommended.
-  [Eagle: suggest rewording to be less restrictive, blood and urine samples don’t easily fit as anatomical part, urinary system does but not urine … The anatomical part (body part, organ, tissue, body or excretory fluid) of the individual from which this sample derives.]
-  */                                           
-
-  union { null, OntologyTerm } organismPart = null;
+  /** Preservation method of sample.
+  http://bioportal.bioontology.org/ontologies/OBI/ - use children of specimen
+  with known storage state e.g. frozen specimen
+  */
+  union { null, OntologyTerm } preservationMethod = null;
 
   /**
   A map of additional sample information.
+  TODO: make consistent
   */
   map<array<string>> info = {};
 }
 
 /**
 An experimental preparation of a `Sample`.
+TODO: will Assay be a better name. How is this related to the SRA
+experment/run split
 */
 record Experiment {
   /** The experiment UUID. This is globally unique. */
-  [Eagle: other UUIDs are 'string uuid', not 'string id' - the comment is in conflict to the data being captured. The same is true for subsequent records for Dataset, Analysis etc. As experiment/dataset UUIDs are expected within other records (according to their description) this does need to be captured.]
+  [TODO: Eagle: other UUIDs are 'string uuid', not 'string id' - the comment
+  is in conflict to the data being captured. The same is true for subsequent
+  records for Dataset, Analysis etc. As experiment/dataset UUIDs are expected
+  within other records (according to their description) this does need to be
+  captured.]
   string id;
 
   /** The name of the experiment. */
@@ -469,7 +474,9 @@ record Experiment {
 
   /**
   The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
-  [Eagle: example should be ‘genomic DNA’, which highlights that this could also be an OntologyTerm, but I can’t identify a good ontology! ENA have a “dictionary” of terms for DNA submissions, but EFO doesn’t have these terms]  
+  [TODO: Eagle: example should be ‘genomic DNA’, which highlights that this could
+  also be an OntologyTerm, but I can’t identify a good ontology! ENA have a
+  “dictionary” of terms for DNA submissions, but EFO doesn’t have these terms]
 
   */
   union { null, string } molecule = null;
@@ -518,22 +525,36 @@ record Experiment {
 
   /**
   A map of additional experiment information.
+  TODO: make consistent
   */
   map<array<string>> info = {};
 }
 
 /**
-Represents a group of contextually related data objects of (e.g. all Individuals, Samples, 
-Experiments associated with a particular feature; or e.g. a trio in genetic diagnostics.).
-This concept may be expanded in the future (ontology for describing the type of dataset ...).
-TODO: Determination of scope, structure, specific attributes, e.g. limiting to single 
-record type - see http://purl.obolibrary.org/obo/IAO_0000100 - and providing alternative mechanism 
-for heterogeneous data with external contextualization, e.g. all records of different 
-types associated with a clinical study.
+Represents a group of contextually related data objects of (e.g. all
+Individuals, Samples, Experiments associated with a particular feature; or
+e.g. a trio in genetic diagnostics.).  This concept may be expanded in the
+future (ontology for describing the type of dataset ...).
+TODO: Determination of scope, structure, specific attributes, e.g. limiting to
+single record type - see http://purl.obolibrary.org/obo/IAO_0000100 - and
+providing alternative mechanism for heterogeneous data with external
+contextualization, e.g. all records of different types associated with a
+clinical study.
+
+TODO: this might be a good way to think about the role of dataset:
+  http://isatab.sourceforge.net/format.html investigation, study, assay
+
+TODO: maybe this is dataset: BioProject is a collection of biological data
+  related to a single initiative, originating from a single organization or
+  from a consortium. A BioProject record provides users a single place to find
+  links to the diverse data types generated for that project.
+  http://www.ncbi.nlm.nih.gov/bioproject/
+  is this is this a good analogy?
 */
 record Dataset {
   /** The dataset UUID. This is globally unique. */
-  [Eagle": as above with sample and with following records, the UUID must be captures as it is cross referenced within the schema.]
+  [TODO: Eagle: as above with sample and with following records, the UUID
+  must be captures as it is cross referenced within the schema.]
   string id;
 
   /** A description of the dataset. */
@@ -543,6 +564,9 @@ record Dataset {
 
 /**
 Represents a group of individuals. (e.g. a trio)
+TODO: review, this clearly define how this works.  Need an list of
+individuals.  Needs typed.
+TODO: how does matchmaker group them? https://github.com/MatchmakerExchange/mme-apis/blob/master/search-api.md
 */
 record IndividualGroup {
   /** The individual group UUID. This is globally unique. */
@@ -571,6 +595,7 @@ record IndividualGroup {
 
   /**
   A map of additional individual group information.
+  TODO: make consistent
   */
   map<array<string>> info = {};
 }
@@ -579,6 +604,7 @@ record IndividualGroup {
 An analysis contains an interpretation of one or several experiments.
 (e.g. SNVs, copy number variations, methylation status) together with
 information about the methodology used.
+TODO: review
 */
 record Analysis {
   /** The analysis UUID. This is globally unique. */
@@ -595,7 +621,8 @@ record Analysis {
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
   union { null, string } recordCreateTime = null;
-  [Eagle: this recordCreateTime is different to all others in the schema in that it allows a null, is this intentional?]
+  [TODO: Eagle: this recordCreateTime is different to all others in the schema
+  in that it allows a null, is this intentional?]
 
   /**
   The time at which this record was last updated.
@@ -611,6 +638,7 @@ record Analysis {
 
   /**
   A map of additional analysis information.
+  TODO: make consistent
   */
   map<array<string>> info = {};
 }
