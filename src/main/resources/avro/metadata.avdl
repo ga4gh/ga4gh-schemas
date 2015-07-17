@@ -185,14 +185,12 @@ protocol Metadata {
   This implementation supports a single "point" location
   and an additional/fallback description (e.g. address style) attribute.
 
-  Using multiple GeographicLocation objects in an ordered list could allow
-  for encoding of polygon-style locations.
+  Using multiple GeographicLocation objects in an ordered list could allow for
+  encoding of polygon-style locations (e.g. representation of administrative boundaries).
 
-  The geographic point object uses the default units from the DCMI point scheme:
+  The geographic point object uses the default units from the DCMI point scheme
   http://dublincore.org/documents/dcmi-point/
-
-  An optional geoPrecision attribute permits representation of the possible
-  imprecision off the data, e.g. when "fuzzing" for privacy reasons.
+  and avoids optional representation in non-standard units.
 
   TODO:
   - Include extended attributes, capture standardized address parameters
@@ -202,27 +200,25 @@ protocol Metadata {
     /**
     signed decimal degrees (North, relative to Equator)
     */
-    union { null, float } geoLatitude = null;
+    union { null, float } latitude = null;
 
     /**
     signed decimal degrees (East, relative to IERS Reference Meridian)
     */
-    union { null, float } geoLongitude = null;
+    union { null, float } longitude = null;
 
     /**
     meters above/below (standard) sea level
     */
-    union { null, float } geoElevation = null;
+    union { null, float } elevation = null;
 
     /**
-    radius of the circle centered at the reported location and containing the
-    object's real position; in meters
+    A verbose description of the location, for processing into latitude, longitude, 
+    elevation attributes. Preferably used standard "administrative boundaries" terms.
     */
-    union { null, float } geoPrecision = null;
+    union { null, string } description = null;
 
-    union { null, string } geoDescription = null;
-
-   }
+  }
 
   /**
   An individual (or subject) typically corresponds to an individual
