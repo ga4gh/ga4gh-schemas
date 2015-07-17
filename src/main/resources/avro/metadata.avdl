@@ -198,25 +198,25 @@ TODO:
 */
 record GeographicLocation {
 
-	/**
-	signed decimal degrees (North, relative to Equator)
-	*/
+  /**
+  signed decimal degrees (North, relative to Equator)
+  */
   union { null, float } geoLatitude = null;
 
-	/**
-	signed decimal degrees (East, relative to IERS Reference Meridian)
-	*/
+  /**
+  signed decimal degrees (East, relative to IERS Reference Meridian)
+  */
   union { null, float } geoLongitude = null;
 
-	/**
-	meters above/below (standard) sea level
-	*/
+  /**
+  meters above/below (standard) sea level
+  */
   union { null, float } geoElevation = null;
 
-	/**
-	radius of the circle centered at the reported location and containing the
-	object's real position; in meters
-	*/
+  /**
+  radius of the circle centered at the reported location and containing the
+  object's real position; in meters
+  */
   union { null, float } geoPrecision = null;
 
   union { null, string } geoDescription = null;
