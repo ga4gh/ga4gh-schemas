@@ -180,28 +180,47 @@ record Intervention {
 }
 
 /**
-A geolocation object, formatted as GeoJSON [TODO: no JSON, internal]
-This simplified implementation supports the basic geometries 
-of which "Point" and "Polygon" should represent the most likely 
-use cases here (e.g. for description of a sample's provenience).
-See also http://geojson.org/geojson-spec.html.
-The "description" parameter can be used for an implementation dependent 
-note (e.g. "Zurich, Switzerland").
 
-TODO: latitude, longitude, and altitude are the common units, according to
-Wikipedia.  Need to specify the encoding system see:
-https://en.wikipedia.org/wiki/Geographic_coordinate_system - lat, long, should
-specify coordinate system. Elevation should specify units.
+	A geographic location object.
+	This implementation supports a single "point" location
+	and an additional/fallback description (e.g. address style) attribute.
+
+	Using multiple GeographicLocation objects in an ordered list could allow
+	for encoding of polygon-style locations.
+
+	The geographic point object uses the default units from the DCMI point scheme:
+	http://dublincore.org/documents/dcmi-point/
+
+	An optional geoPrecision attribute permits representation of the possible
+	imprecision off the data, e.g. when "fuzzing" for privacy reasons.
+
+	Units:
+		geoLatitude:	signed decimal degrees (North, relative to Equator)
+		geoLongitude:	signed decimal degrees (East, relative to IERS Ref. Meridian)
+		geoElevation:	meters above/below (standard) sea level
+		geoPrecision:	radius of the circle centered at the reported
+									geoLatitude, geoLongitude and containing the
+									object's location; in meters
+
+	TODO:
+	- Including extended attributes, capturing standardized address
+	parameters.
+
+
 */
 record GeographicLocation {
 
-  string type;
+ 	geoLatitude { null, float } = null;
 
-  array<float> coordinates = [];
-  
-  union { null, string } description = null;
+ 	geoLongitude { null, float } = null;
 
-}
+ 	union { null, float } geoElevation = null;
+
+  union { null, float } geoPrecision = null;
+
+  union { null, string } geoDescription = null;
+
+ }
 
 /**
 An individual (or subject) typically corresponds to an individual
