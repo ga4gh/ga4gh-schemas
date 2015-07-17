@@ -1,28 +1,23 @@
 @namespace("org.ga4gh.models")
 
 /**
-This protocol defines metadata used in the other GA4GH protocols.
-
-[Eagle: add text here from the README? Better than nothing?
-The Metadata Task Team (MTT) concerns itself with data structures, attribute
-and values used to describe *everything but the sequence*.  This includes
-metadata for individuals, samples, analyses, instrumentation a well as
-ontology representations for metadata. Naturally, the group interacts
-heavily with members of most other task teams and working groups.
-[MTT Wiki](https://github.com/ga4gh/metadata-team/wiki)
-]
-
+This protocol defines metadata objects and attributes for use in the other
+GA4GH protocols. This includes metadata for individuals, samples, analyses
+and instrumentation as well as ontology representations for metadata.
 */
 
-/*
+/**
 TODO:
   - Need representation of trios, etc, twins. See PGP data to drive
     this.
   - How do you related twins (mono-zygotic)
   - temporal sample relationships
   - standardize name/description/notes/key-value data types
+  - VERY IMPORTANT data/time of record goes to the issue of what
+  what are the objects and what is the data model. Is it containment or
+  relational.  Are we building a data model or a exchange format without
+  knowing the data model.
 */
-
 
 protocol Metadata {
 
@@ -30,33 +25,35 @@ import idl "common.avdl";
 import idl "ontologies.avdl";
 
 /**
-Representation of a disease.  This records the diagnosis and time that
-the diagnosis was made.
+Representation of a disease. The object should in minimal version report the
+kind of the disease and a temporal parameter.
 
-This isn't intended as a replacement for clinical records.  This serves as a
-way of relating a diagnosis to an individual with an optional time stamp of
-the diagnosis.  This is useful for basic analysis when there is no access to
-the clinical data.
+The "Disease" object is not intended to represent extended clinical records,
+but as a basic representation of the most relevant attributes in the context of
+the study at hand.
 
-This doesn't attempt to represent phenotypes of the disease or disease
-progression.  Association of disease and disease phenotype is complex and
-context-specific and is left to the clinical data.  There is no easy way to
-represent disease-phenotype and allow for context. E.g Li-Fraumeni syndrome
-patients have phenotypes that are diseases outside this context.
+GA4GH metadata does not attempt to encode detailed phenotypes of the disease
+or longitudinal concepts. Association of diseases and disease phenotypes
+(e.g Li-Fraumeni syndrome and resulting
+malignancies) is complex and left to external processes utilizing GA4GH type
+records in combination with clinical information systems.
+
+TODO: need to link to clinical data. Reference to clinical working group
+TODO: need keyword/value table, also human notes
 */
 record Disease {
 
   /**
-  The diagnosis, defined through an OntologyTerm.  e.g. colon cancer
+  The diagnosis, defined through an OntologyTerm.
   */
   OntologyTerm disease;
 
   /**
-  The stage of the disease at diagnosis.  This is not update to reflect
+  The stage of the disease at diagnosis. This is not updated to reflect
   progression of the disease, which is recorded in the clinical data.
-  e.g. stage IV.
+  e.g. OntologyTerm representation for stage T2N1M0.
   */
-  OntologyTerm stageAtDiagnosis;
+  union { null, OntologyTerm } stageAtDiagnosis = null;
 
   /**
   Age of onset of the disease.
@@ -67,23 +64,23 @@ record Disease {
   union { null, string } ageOfOnset = null;
 
   /**
-  Date the diagnosis was made/assigned.  This is NOT when the record was
+  Date the diagnosis was made/assigned. This is NOT when the record was
   created.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
   */
   union { null, string } dateTimeDiagnosis = null;
 
-  /* TODO: need to link to clincal data. Reference to clinical working group
-  */
-  /* TODO: need keyword/value table, also human notes */
 }
 
 /**
-Record of phenotypes observed in an individual, which maybe independent of a a
-disease diagnosis.  Phenotype-disease links are complex as this is a process
+Record of phenotypes observed in an individual, which maybe independent of a
+disease diagnosis.  Phenotype-disease links are complex and as this is a process
 performed by clinicians, presentations can be atypical and phenotypes
-unrelated to an individual diagnosis are present.  We also want to record
-phenotypes in absences of a diagnosis.
+unrelated to an individual diagnosis may be present.
+We also want to record phenotypes in the absences of a diagnosis.
+
+TODO: need to link to clinical data. Reference to clinical working group
+TODO: need keyword/value table, also human notes
 */
 record Phenotype {
 
@@ -91,21 +88,19 @@ record Phenotype {
   The phenotype, defined through an OntologyTerm.
   */
   OntologyTerm phenotype;
-  
+
   /**
-  Age of onset of the phenotype. TODO: need to define format (see Disease)
+  Age of onset of the phenotype.
+  TODO: need to define format (see Disease)
   */
   union { null, string } ageOfOnset = null;
 
   /**
-  Date the phenotype was identified/assigned.  This 
+  Date the phenotype was identified/assigned.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
   */
   union { null, string } dateTimeIdentified = null;
 
-  /* TODO: need to link to clincal data. Reference to clinical working group
-  */
-  /* TODO: need keyword/value table, also human notes */
 }
 
 /**
@@ -113,14 +108,16 @@ Observations are single measurements, which can be described through their
 type, value and unit, as well as an associated dateTime value. This could be
 numerical values with a unit, or observations defined through ontologies.
 
-For example body height, body weight, BMI.
+Examples would be body height, body weight, BMI...
+
+TODO: need keyword/value table, also human notes
 */
 record Observation {
 
   /**
   The type of the observation.
   */
-  OntologyTerm observation; 
+  OntologyTerm observation;
 
   /**
   The value of the observation.
@@ -133,8 +130,8 @@ record Observation {
   union { null, string } unit = null;
 
   /**
-  Date the observation was made/assigned (e.g. date of diagnosis, observation of 
-  phenotype...). Suitable e.g. for health related purposes, epidemiology, experimental 
+  Date the observation was made/assigned (e.g. date of diagnosis, observation of
+  phenotype...). Suitable e.g. for health related purposes, epidemiology, experimental
   setups (time series)...
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
   */
@@ -142,28 +139,28 @@ record Observation {
 
   /**
   Age at time of the observation (e.g. diagnosis, observation of phenotype...).
-  This is highly relevant in the human context and usually the primary available time 
+  This is highly relevant in the human context and usually the primary available time
   related parameter available, as date of birth might not be available.
   */
   union { null, string } ageAtObservation = null;
 
-  /* TODO: need keyword/value table, also human notes */
 }
 
 /**
 Interventions are e.g. medical treatments.  This is a summary of the clinical
 information intended to be used in basic analysis when clinical information
-may not be avalable.
+may not be avalable. This could be e.g. OntologyTerm based representations of
 
-TODO: This could be physical, psychological, or pharmaceutical, could
-       examples be provided to clarify the information to be captured here.
+  medical procedure, SIO_001024
+  cognitive behavior, NBO_0000607
+  drug, CHEBI_23888
 */
 record Intervention {
 
   /**
   The type of the intervention.
   */
-  union { null, OntologyTerm } intervention = null; 
+  union { null, OntologyTerm } intervention = null;
 
   /**
   A description of the intervention.
@@ -176,45 +173,50 @@ record Intervention {
   */
   union { null, string } dateTimeIntervention = null;
 
-  /* TODO: need keyword/value table, also human notes */
+  /**
+  TODO: need keyword/value table, also human notes
+  */
+
 }
 
 /**
+A geographic location object.
+This implementation supports a single "point" location
+and an additional/fallback description (e.g. address style) attribute.
 
-  A geographic location object.
-  This implementation supports a single "point" location
-  and an additional/fallback description (e.g. address style) attribute.
+Using multiple GeographicLocation objects in an ordered list could allow
+for encoding of polygon-style locations.
 
-  Using multiple GeographicLocation objects in an ordered list could allow
-  for encoding of polygon-style locations.
+The geographic point object uses the default units from the DCMI point scheme:
+http://dublincore.org/documents/dcmi-point/
 
-  The geographic point object uses the default units from the DCMI point scheme:
-  http://dublincore.org/documents/dcmi-point/
+An optional geoPrecision attribute permits representation of the possible
+imprecision off the data, e.g. when "fuzzing" for privacy reasons.
 
-  An optional geoPrecision attribute permits representation of the possible
-  imprecision off the data, e.g. when "fuzzing" for privacy reasons.
-
-  Units:
-    geoLatitude:  signed decimal degrees (North, relative to Equator)
-    geoLongitude: signed decimal degrees (East, relative to IERS Ref. Meridian)
-    geoElevation: meters above/below (standard) sea level
-    geoPrecision: radius of the circle centered at the reported
-                  geoLatitude, geoLongitude and containing the
-                  object's location; in meters
-
-  TODO:
-  - Including extended attributes, capturing standardized address
-  parameters.
-
+TODO:
+- Include extended attributes, capture standardized address parameters
 */
 record GeographicLocation {
 
+	/**
+	signed decimal degrees (North, relative to Equator)
+	*/
   union { null, float } geoLatitude = null;
 
+	/**
+	signed decimal degrees (East, relative to IERS Reference Meridian)
+	*/
   union { null, float } geoLongitude = null;
 
+	/**
+	meters above/below (standard) sea level
+	*/
   union { null, float } geoElevation = null;
 
+	/**
+	radius of the circle centered at the reported location and containing the
+	object's real position; in meters
+	*/
   union { null, float } geoPrecision = null;
 
   union { null, string } geoDescription = null;
@@ -225,10 +227,9 @@ record GeographicLocation {
 An individual (or subject) typically corresponds to an individual
 human or other organism.
 
-- TODO: need query to get known downstream IDs, e.g. UUIDs of samples.
-- TODO: needed query to get Known aggregation IDs, e.g. UUIDs of datasets or
-  analyses using pooled material or families (e.g. trios).
-- TODO: 
+TODO: need query to get known downstream IDs, e.g. UUIDs of samples.
+TODO: needed query to get Known aggregation IDs, e.g. UUIDs of datasets or
+analyses using pooled material or families (e.g. trios).
 */
 record Individual {
 
@@ -240,14 +241,10 @@ record Individual {
   */
   array<ExternalIdentifier> externalIds;
 
-  /* TODO: VERY IMPORTANT data/time of record goes to the issue of what
-  what are the objects and what is the data model. Is it containment or
-  relational.  Are we building a data model or a exchange format without
-  knowing the data model. */
   /**
-  The time at which this record was created. 
+  The time at which this record was created.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  TODO: The format definition is temporary and will be updated to 
+  TODO: The format definition is temporary and will be updated to
   the upcoming AVRO time format (timestamp-millis) when this is supported.
   */
   string recordCreateTime;
@@ -274,13 +271,15 @@ record Individual {
   */
   union { null, OntologyTerm } strain = null;
 
-  /* Ethnicity of individual, if applicable.
+  /** Ethnicity of individual, if applicable.
   Recommended by the NHGRI GWAS Catalog 0 ontology
   http://purl.bioontology.org/ontology/ANCESTRO
   */
   union { null, OntologyTerm } ethnicity = null;
 
-  /** The genetic sex of this individual. Use `null` when unknown. */
+  /**
+  The genetic sex of this individual. Use `null` when unknown.
+  */
   union { null, OntologyTerm } sex = null;
 
   /**
@@ -294,7 +293,7 @@ record Individual {
 
   /**
   The date of birth of this individual, which maybe partial. Usually would be coded to the day;
-  however, finer (e.g. animal model system) or more approximate (e.g. year 
+  however, finer (e.g. animal model system) or more approximate (e.g. year
   for clinical applications) granularity is possible.
   Format: ISO 8601, YYYY-MM-DD (e.g. 1967-02-13)
   TODO: clarify how to do partial ISO.
@@ -330,6 +329,7 @@ record Individual {
   TODO: standardize this.
   */
   map<array<string>> info = {};
+
 }
 
 /**
@@ -347,32 +347,31 @@ record Sample {
 
   /**
   The ids of the individuals this sample was derived from.  Multiple ids are
-  allowed,as a sample maybe pooled from multiple individuals.
+  allowed, as a sample maybe pooled from multiple individuals.
   */
   array<string> individualIds;
 
-  /* TODO: should name/description/notes should be made consistent */
-  /** The name of the sample. */
+  /**
+  The name of the sample.
+  */
   union { null, string } name = null;
 
-  /** A description of the sample. */
+  /**
+  A description of the sample.
+  */
   union { null, string } description = null;
 
   /**
-  The species of this sample. Using
-  [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
-  [Eagle: Presuming this is used when the tax_id of the sample differs from
-  the tax_id of the individual, as in host-parasite/pathogen circumstances? If
-  yes, could an example be added?]
-  TODO: clarify this
-  Samples may not reference individuals, so species is annotated here in that
-  case. For host-pathogen interactions species may differ from an individual
+  The species of this sample.
+  Using NCBI taxonomy (http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
+  Samples may not reference individuals, so species is annotated here, too.
+  For host-pathogen interactions, "species" may differ from the individual
   from which the sample is derived.
   */
   union { null, OntologyTerm } species = null;
 
   /**
-  The time at which this record was created. 
+  The time at which this record was created.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
   string recordCreateTime;
@@ -385,7 +384,7 @@ record Sample {
 
   /**
   The time at which this sample was taken from the individual.
-  Granularity here is variable (e.g. only date would be common for 
+  Granularity here is variable (e.g. only date would be common for
   biopsies, minutes for in vitro time series).
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   */
@@ -393,16 +392,12 @@ record Sample {
 
   /**
   The age of the individual (not of the sample) at time of sample collection.
+  This parameter is both more prevalent in clinical records than the combination
+  of sampling date and DOB, and also more relevant for clinical/experimental
+  purposes than either of those alone.
   This field may be approximate.
   Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
   Example: P12Y3M
-  [TODO: Eagle: This feels like a mix of concepts, ageAtSampling is a distinct time
-  point but ISO 8601 duration is to capture a time interval. If this is for
-  the ageAtSampling then a unit needs to be captured and this should be
-  explicit in the example. If this really is to reflect a time interval then
-  additional context information is required to defined the TimeDate from
-  which the interval/duration is defined.]
-  Age at sampling should have units and is required as we may be missing DOB.
   */
   union { null, string } ageAtSampling = null;
 
@@ -414,12 +409,12 @@ record Sample {
 
   /**
   The anatomical part (body part, organ, tissue, body or excretory fluid) of
-  the individual from which this sample derives.  Using
-  [Uberon](http://uberon.org) is recommended.
-  */                                           
+  the individual from which this sample derives.
+  Using Uberon (http://uberon.org) is recommended.
+  */
   union { null, OntologyTerm } organismPart = null;
 
-  /** 
+  /**
   This sample is from a cell line, which still could be from an indivdual.
   Using the [Cell Line Ontology](https://code.google.com/p/clo-ontology/) is a possibility.
   TODO: discuss further. Other possibilities: Cellosaurus (nextprot),
@@ -433,14 +428,16 @@ record Sample {
   */
   union { null, GeographicLocation } geographicLocation = null;
 
-  /** A typing of the specimen under study. Use the OBI terms under child of
-  specimen. e.g. cloacal swab.
+  /**
+  A typing of the specimen under study. Use the OBI terms under child of
+  specimen. e.g. "cloacal swab".
   */
   union { null, OntologyTerm } specimenType = null;
 
-  /** Preservation method of sample.
+  /**
+  Preservation method of sample.
   http://bioportal.bioontology.org/ontologies/OBI/ - use children of specimen
-  with known storage state e.g. frozen specimen
+  with known storage state e.g. "frozen specimen"
   */
   union { null, OntologyTerm } preservationMethod = null;
 
@@ -472,7 +469,7 @@ record Experiment {
   union { null, string } description = null;
 
   /**
-  The time at which this record was created. 
+  The time at which this record was created.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
   string recordCreateTime;
@@ -523,7 +520,7 @@ record Experiment {
   */
   union { null, string } instrumentModel;
   [Eagle: correction to line so it is same as others: union { null, string } instrumentModel = null;]
- 
+
   /**
   The data file generated by the instrument.
   TODO: This isn't actually a file is it?
@@ -597,7 +594,7 @@ record IndividualGroup {
   union { null, string } description = null;
 
   /**
-  The time at which this record was created. 
+  The time at which this record was created.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
   string recordCreateTime;
@@ -635,7 +632,7 @@ record Analysis {
   union { null, string } description = null;
 
   /**
-  The time at which this record was created. 
+  The time at which this record was created.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
   union { null, string } recordCreateTime = null;
