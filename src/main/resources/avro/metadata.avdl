@@ -111,6 +111,16 @@ protocol Metadata {
   Examples would be body height, body weight, BMI...
 
   TODO: need keyword/value table, also human notes
+  DISCUSS: Where should observations be referenced? 
+    - in most object types (e.g. also "Disease" or "Phenotype"), to allow
+      association of specific observations (e.g. grade, stage ...)
+    - on the Sample, Individual level only, with context specific observations
+      getting their own attributes (e.g. "stage" in "Disease" and/or "Sample"
+      object)
+    - every Object (i.e. also "Disease", "Phenotype", "Observation", 
+      "Intervention") gets a UUID, and connecting objects are designed to 
+      provide (optional) assignment.
+  
   */
   record Observation {
 
