@@ -107,11 +107,6 @@ the occurrence of a SNP named rs1234 in a call set with the name NA12345.
 */
 record Call {
   /**
-   * the id uniquely identifying this call.
-   */
-  string id;
-
-  /**
   The ID of the call set this variant call belongs to.
 
   If this field is not present, the ordering of the call sets from a
