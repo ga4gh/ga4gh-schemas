@@ -8,6 +8,9 @@ and instrumentation as well as ontology representations for metadata.
 
 /**
 TODO:
+	- decision about id vs. uuid; most objects should have a uuid for stable
+		referencing, but also need to provide attribute for local / human readable
+		id's
   - Need representation of trios, etc, twins. See PGP data to drive
     this.
   - How do you related twins (mono-zygotic)
@@ -115,6 +118,14 @@ protocol Metadata {
   record Observation {
 
     /**
+    The id of the observation. This is facultative and allows the use of
+    "relationship objects" to assign e.g. evidence levels between an observation
+    and e.g. a phenotype object.
+    Format: UUIDv4 recommended
+    */
+    union { null, string } id = null;
+
+    /**
     The type of the observation.
     */
     OntologyTerm observation;
@@ -138,7 +149,7 @@ protocol Metadata {
     union { null, string } dateTimeObserved = null;
 
     /**
-    Age at time of the observation (e.g. diagnosis, observation of phenotype...).
+    Age at time of the observation.
     This is highly relevant in the human context and usually the primary
     available time related parameter available, as date of birth might not
     be available.
@@ -155,8 +166,16 @@ protocol Metadata {
     medical procedure, SIO_001024
     cognitive behavior, NBO_0000607
     drug, CHEBI_23888
+
   */
   record Intervention {
+
+    /**
+    The id of the intervention. This is facultative and allows the association
+    of an intervention to e.g. a phenotype object, through using relationship.
+    Format: UUIDv4 recommended
+    */
+    union { null, string } id = null;
 
     /**
     The type of the intervention.
@@ -179,6 +198,53 @@ protocol Metadata {
     */
 
   }
+
+  /**
+  Associations allow to "glue" two objects together, in lieu of forced nesting.
+  The concept borrows from the G2P definitions.
+  TODO: Move Evidence from genotypephenotype.avdl?
+  */
+  record Association {
+
+  	/**
+  	A list of exactly two object ids.
+  	This is the minimum object glue; e.g. for association of the intervention
+  	(applied to an individual) with a sample.
+  	*/
+  	array<string> ids;
+
+  	/**
+  	A textual description of the association.
+  	*/
+  	union { null, string } description = null;
+
+		/**
+		The evidence for this specific instance of association between the
+		different objects.
+		*/
+		array<Evidence> evidence = [];
+
+  }
+
+	/**
+	NOTE: Copied from genotypephenotype.avdl
+	Evidence for the phenotype association.
+	This is also a stub for further expansion.  We should consider moving this into
+	it's own schema.
+  TODO: Move Evidence from genotypephenotype.avdl?
+	*/
+	record Evidence {
+
+		/** ECO or OBI is recommended */
+		OntologyTerm evidenceType;
+
+		/**
+		A textual description of the evidence. This is used to complement the
+		structured description in the evidenceType field
+		*/
+		union { null, string } description = null;
+
+	}
 
   /**
   A geographic location object.
@@ -213,7 +279,7 @@ protocol Metadata {
     union { null, float } elevation = null;
 
     /**
-    A verbose description of the location, for processing into latitude, longitude, 
+    A verbose description of the location, for processing into latitude, longitude,
     elevation attributes. Preferably used standard "administrative boundaries" terms.
     */
     union { null, string } description = null;
@@ -230,7 +296,9 @@ protocol Metadata {
   */
   record Individual {
 
-    /** The individual ID. This is globally unique UUID (UUIDv4) */
+    /**
+    The individual ID. This is globally unique UUID (UUIDv4)
+    */
     string id;
 
     /**
@@ -338,7 +406,10 @@ protocol Metadata {
   an affected individual)
   */
   record Sample {
-    /** The sample ID.  This is globally unique UUID (UUIDv4) */
+
+    /**
+    The sample ID.  This is globally unique UUID (UUIDv4)
+    */
     string id;
 
     /**
@@ -403,6 +474,17 @@ protocol Metadata {
     union { null, string } ageAtSampling = null;
 
     /**
+    A description of the interventions applied to the sample (e.g. in vitro
+    drug testing).
+    */
+    array<Intervention> interventions = [];
+
+    /**
+    Observations and measurements related to the sample.
+    */
+    array<Observation> observations = [];
+
+    /**
     The cell types of this sample.
     Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended.
     */
@@ -417,7 +499,8 @@ protocol Metadata {
 
     /**
     This sample is from a cell line, which still could be from an indivdual.
-    Using the [Cell Line Ontology](https://code.google.com/p/clo-ontology/) is a possibility.
+    Using the [Cell Line Ontology](https://code.google.com/p/clo-ontology/)
+    is a possibility.
     TODO: discuss further. Other possibilities: Cellosaurus (nextprot),
     BRENDA/BTO, EFO (EBI)
     TODO: need to have derivation record from other samples for cell lines.
@@ -455,18 +538,19 @@ protocol Metadata {
   experment/run split
   */
   record Experiment {
-    /** The experiment UUID. This is globally unique. */
-    [TODO: Eagle: other UUIDs are 'string uuid', not 'string id' - the comment
-    is in conflict to the data being captured. The same is true for subsequent
-    records for Dataset, Analysis etc. As experiment/dataset UUIDs are expected
-    within other records (according to their description) this does need to be
-    captured.]
+    /**
+    The experiment ID.  This is globally unique UUID (UUIDv4)
+    */
     string id;
 
-    /** The name of the experiment. */
+    /**
+    The name of the experiment.
+    */
     union { null, string } name = null;
 
-    /** A description of the experiment. */
+    /**
+    A description of the experiment.
+    */
     union { null, string } description = null;
 
     /**
@@ -490,9 +574,10 @@ protocol Metadata {
 
     /**
     The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
-    [TODO: Eagle: example should be ‘genomic DNA’, which highlights that this could
-    also be an OntologyTerm, but I can’t identify a good ontology! ENA have a
-    “dictionary” of terms for DNA submissions, but EFO doesn’t have these terms]
+    [TODO: Eagle: example should be ‘genomic DNA’, which highlights that this
+    could also be an OntologyTerm, but I can’t identify a good ontology!
+    ENA have a "dictionary" of terms for DNA submissions, but EFO doesn’t
+    have these terms]
 
     */
     union { null, string } molecule = null;
