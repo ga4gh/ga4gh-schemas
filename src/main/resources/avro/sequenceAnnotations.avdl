@@ -64,8 +64,13 @@ protocol SequenceAnnotations {
     Note that we are fusing parts of UCSC BedGraph and Wiggle syntax.
     The segment is being fully annotated, but can be divided into bins.
     If you have gaps, you need to define a sequence of such Wiggles.
+    
+    All three of `referenceName`, `start`, and `end` must be specified as a
+    group.
     */
-    Segment location;
+    union { null, string } referenceName = null;
+    union { null, long } start = null;
+    union { null, long } end = null;
 
     /**
     The values associated to this region.
@@ -115,8 +120,13 @@ protocol SequenceAnnotations {
 
     /**
     Genomic location.
+    
+    All three of `referenceName`, `start`, and `end` must be specified as a
+    group.
     */
-    Segment location;
+    union { null, string } referenceName = null;
+    union { null, long } start = null;
+    union { null, long } end = null;
 
     /**
     Strand of the feature, or null if unstranded
