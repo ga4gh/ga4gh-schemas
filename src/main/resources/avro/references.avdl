@@ -12,12 +12,7 @@ A `Reference` is a canonical assembled contig, intended to act as a
 reference coordinate space for other genomic annotations. A single
 `Reference` might represent the human chromosome 1, for instance.
 
-`Reference`s are designed to be immutable. When extending a `ReferenceSet` with
-new `Reference`s, the existing `References` should not be changed. Newly added
-`Reference` `Sequence`s may be children of existing `Reference` `Sequence`s, but
-existing `Reference` `Sequence`s should not be made to be children of newly
-added `Reference` `Sequence`s.
-
+`Reference`s are designed to be immutable.
 */
 record Reference {
 
@@ -26,15 +21,8 @@ record Reference {
   */
   string id;
 
-  /**
-  The location in the `Sequence` on which this `Reference` occurs. May not be
-  null, although it may happen to be the same as the ID of the `Reference`. The
-  actual `Sequence` bases for a `Reference` are available through the
-  `getSequenceBases()` API call on this `Reference`'s `Sequence`.
-
-  Multiple `Reference`s on the same `Sequence` may not overlap.
-  */
-  Segment location;
+  /** The length of this reference's sequence. */
+  long length;
 
   /**
   The MD5 checksum uniquely representing this `Reference` as a lower-case
@@ -49,10 +37,9 @@ record Reference {
   string name;
 
   /**
-  The URI from which the sequence was obtained.
-  Specifies a FASTA format file/string with one name, sequence pair.
-  In most cases, clients should call the `getSequenceBases()` or
-  `getReferenceBases()` methods to obtain sequence bases for a `Reference`
+  The URI from which the sequence was obtained. Specifies a FASTA format
+  file/string with one name, sequence pair. In most cases, clients should call
+  the `getReferenceBases()` method to obtain sequence bases for a `Reference`
   instead of attempting to retrieve this URI.
   */
   union { null, string } sourceURI = null;
@@ -81,18 +68,12 @@ record Reference {
   /** ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human). */
   union { null, int } ncbiTaxonId = null;
 
-  /** whether this reference is primary, part of the core coordinate system, or not */
-  boolean isPrimary = true;
 }
 
 /**
 A `ReferenceSet` is a set of `Reference`s which typically comprise a
 reference assembly, such as `GRCh38`. A `ReferenceSet` defines a common
 coordinate space for comparing reference-aligned experimental data.
-
-`ReferenceSet`s are composeable: a `ReferenceSet` may incorporate all of the
-`Reference`s from one or more other `ReferenceSet`s via the
-`includedReferenceSet`s array.
 */
 
 record ReferenceSet {
@@ -109,23 +90,6 @@ record ReferenceSet {
   union { null, array<string> } referenceIds = null;
 
   /**
-  The IDs of `ReferenceSet`s that are included in this set, allowing extension
-  from a core e.g. provided by GRC or another provider.
-
-  A `ReferenceSet` is not allowed to include itself, either directly by ID, or
-  indirectly or transitively through another `ReferenceSet`.
-
-  `Reference`s from the included `ReferenceSet`s are considered to be part of
-  this one. If multiple included `ReferenceSet`s provide a `Reference`, only one
-  copy is taken to exist in this `ReferenceSet`. Since different `Reference`s on
-  a `Sequence` may not overlap, it is illegal to include `ReferenceSet`s which
-  when taken together would create such an overlap, or to have such an overlap
-  between a `Reference` from an included `ReferenceSet` and one that appears
-  directly in this `ReferenceSet`.
-  */
-  array<string> includedReferenceSets = [];
-
-  /**
   Order-independent MD5 checksum which identifies this `ReferenceSet`.
 
   To compute this checksum, make a list of `Reference.md5checksum` for all
@@ -139,7 +103,7 @@ record ReferenceSet {
   ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) indicating
   the species which this assembly is intended to model. Note that contained
   `Reference`s may specify a different `ncbiTaxonId`, as assemblies may
-  contain reference `Sequence`s which do not belong to the modeled species, e.g.
+  contain reference sequences which do not belong to the modeled species, e.g.
   EBV in a human reference genome.
   */
   union { null, int } ncbiTaxonId = null;
@@ -147,7 +111,7 @@ record ReferenceSet {
   /** Optional free text description of this reference set. */
   union { null, string } description = null;
 
-  // next information about the source of the `Sequence`s
+  // next information about the source of the sequences
 
   /** Public id of this reference set, such as `GRCh37`. */
   union { null, string } assemblyId = null;
@@ -163,7 +127,7 @@ record ReferenceSet {
 
   /**
   A reference set may be derived from a source if it contains
-  additional `Sequence`s, or some of the `Sequence`s within it are derived
+  additional sequences, or some of the sequences within it are derived
   (see the definition of `isDerived` in `Reference`).
   */
   boolean isDerived = false;

@@ -8,9 +8,10 @@ import idl "variants.avdl";
 /** This request maps to the body of `POST /variantsets/search` as JSON. */
 record SearchVariantSetsRequest {
   /**
-  The Dataset to search.
+  If specified, will restrict the query to variant sets within the
+  given datasets.
   */
-  string datasetId;
+  array<string> datasetIds = [];
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -64,16 +65,14 @@ org.ga4gh.models.VariantSet getVariantSet(
 /******************  /variants/search  *********************/
 /** This request maps to the body of `POST /variants/search` as JSON. */
 record SearchVariantsRequest {
-  /**
-  The VariantSet to search.
-  */
-  string variantSetId;
+  /** Required. The IDs of the variant sets to search over. */
+  array<string> variantSetIds = [];
 
   /**
   Only return variants which have exactly this name (case-sensitive, exact
   match).
   */
-  union { null, string } name = null;
+  union { null, string } variantName = null;
 
   /**
   Only return variant calls which belong to call sets with these IDs.
@@ -82,10 +81,23 @@ record SearchVariantsRequest {
   */
   union { null, array<string> } callSetIds = null;
 
+  /** Required. Only return variants on this reference. */
+  string referenceName;
+
   /**
-  Only return variants overlapping this `Segment`.
+  Required. The beginning of the window (0-based, inclusive) for
+  which overlapping variants should be returned.
+  Genomic positions are non-negative integers less than reference length.
+  Requests spanning the join of circular genomes are represented as
+  two requests one on each side of the join (position 0).
   */
-  org.ga4gh.models.Segment searchSegment;
+  long start;
+
+  /**
+  Required. The end of the window (0-based, exclusive) for which overlapping
+  variants should be returned.
+  */
+  long end;
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -131,24 +143,14 @@ SearchVariantsResponse searchVariants(
   /** This request maps to the body of `POST /variants/search` as JSON. */
   SearchVariantsRequest request) throws GAException;
 
-/**************** /variants/{id} *******************/
-/**
-Gets a `Variant` by ID.
-`GET /variants/{id}` will return a JSON version of `Variant`.
-*/
-org.ga4gh.models.Variant getVariant(
-  /**
-  The ID of the `Variant`.
-  */
-  string id) throws GAException;
-
 /******************  /callsets/search  *********************/
 /** This request maps to the body of `POST /callsets/search` as JSON. */
 record SearchCallSetsRequest {
   /**
-  The VariantSet to search.
+  If specified, will restrict the query to call sets within the
+  given variant sets.
   */
-  string variantSetId;
+  array<string> variantSetIds = [];
 
   /**
   Only return call sets with this name (case-sensitive, exact match).

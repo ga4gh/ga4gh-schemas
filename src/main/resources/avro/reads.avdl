@@ -137,7 +137,7 @@ record ReadGroupSet {
 /** A linear alignment can be represented by one CIGAR string. */
 record LinearAlignment {
   /** The position of this alignment. */
-  Side position;
+  Position position;
 
   /**
   The mapping quality of this alignment. Represents how likely
@@ -238,16 +238,15 @@ record ReadAlignment {
   /**
   Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
   Supplementary alignments are used in the representation of a chimeric
-  alignment, which follows nonreference adjacencies not describable as indels.
-  In a chimeric alignment, a read is split into multiple alignments that
-  may map to different reference contigs. The first alignment in the read will
-  be designated as the representative alignment; the remaining alignments will
-  be designated as supplementary alignments. These alignments may have different
-  mapping quality scores.
+  alignment. In a chimeric alignment, a read is split into multiple
+  linear alignments that map to different reference contigs. The first
+  linear alignment in the read will be designated as the representative alignment;
+  the remaining linear alignments will be designated as supplementary alignments.
+  These alignments may have different mapping quality scores.
 
-  In each alignment in a chimeric alignment, the read will be hard clipped. The
-  `alignedSequence` and `alignedQuality` fields in the alignment record will
-  only represent the bases for its respective alignment.
+  In each linear alignment in a chimeric alignment, the read will be hard clipped.
+  The `alignedSequence` and `alignedQuality` fields in the alignment record will
+  only represent the bases for its respective linear alignment.
   */
   union { null, boolean } supplementaryAlignment = null;
 
@@ -273,7 +272,7 @@ record ReadAlignment {
   The mapping of the primary alignment of the `(readNumber+1)%numberReads`
   read in the fragment. It replaces mate position and mate strand in SAM.
   */
-  union { null, Side } nextMatePosition = null;
+  union { null, Position } nextMatePosition = null;
 
   /**
   A map of additional read alignment information.
