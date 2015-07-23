@@ -8,7 +8,7 @@ import idl "variants.avdl";
 /** This request maps to the body of `POST /variantsets/search` as JSON. */
 record SearchVariantSetsRequest {
   /**
-  The Dataset to search.
+  The `Dataset` to search.
   */
   string datasetId;
 
@@ -65,7 +65,7 @@ org.ga4gh.models.VariantSet getVariantSet(
 /** This request maps to the body of `POST /variants/search` as JSON. */
 record SearchVariantsRequest {
   /**
-  The VariantSet to search.
+  The `VariantSet` to search.
   */
   string variantSetId;
 
@@ -73,7 +73,7 @@ record SearchVariantsRequest {
   Only return variants which have exactly this name (case-sensitive, exact
   match).
   */
-  union { null, string } name = null;
+  union { null, string } variantName = null;
 
   /**
   Only return variant calls which belong to call sets with these IDs.
@@ -82,10 +82,23 @@ record SearchVariantsRequest {
   */
   union { null, array<string> } callSetIds = null;
 
+  /** Required. Only return variants on this reference. */
+  string referenceName;
+
   /**
-  Only return variants overlapping this `Segment`.
+  Required. The beginning of the window (0-based, inclusive) for
+  which overlapping variants should be returned.
+  Genomic positions are non-negative integers less than reference length.
+  Requests spanning the join of circular genomes are represented as
+  two requests one on each side of the join (position 0).
   */
-  org.ga4gh.models.Segment searchSegment;
+  long start;
+
+  /**
+  Required. The end of the window (0-based, exclusive) for which overlapping
+  variants should be returned.
+  */
+  long end;
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -145,7 +158,7 @@ org.ga4gh.models.Variant getVariant(
 /******************  /callsets/search  *********************/
 /** This request maps to the body of `POST /callsets/search` as JSON. */
 record SearchCallSetsRequest {
-  /**
+  /*
   The VariantSet to search.
   */
   string variantSetId;

@@ -6,25 +6,6 @@ not have any methods; it is merely a library of types.
 protocol Common {
 
 /**
-A `Position` is an unoriented base in some `Sequence`. A `Position` is
-represented by a sequence name or ID, and a base number on that `Sequence`
-(0-based).
-*/
-record Position {
-  /**
-  The ID of the sequence on which the `Position` is located.
-  */
-  string sequenceId;
-
-  /**
-  The 0-based offset from the start of the forward strand for that `Sequence`.
-  Genomic positions are non-negative integers less than `Sequence` length.
-  */
-  long position;
-}
-
-
-/**
 Indicates the DNA strand associate for some data item.
 * `NEG_STRAND`: The negative (-) strand.
 * `POS_STRAND`:  The postive (+) strand.
@@ -35,90 +16,26 @@ enum Strand {
 }
 
 /**
-A `Side` is an oriented base in some already known sequence. A
-`Side` is represented by a sequence name or ID, a base number on that
-sequence (0-based), and a `Strand` to indicate the forward or reverse-complement
-orientation.
-
-For example, given the sequence "GTGG", the `Side` on that sequence at
-offset 1 in the forward orientation would be the left side of the T/A base pair.
-The base at this `Side` is "T". Alternately, for offset 1 in the reverse
-orientation, the `Side` would be the right side of the T/A base pair, and
-the base at the `Side` is "A".
-
-Offsets added to a `Side` are interpreted as reading along its strand;
-adding to a reverse strand side actually subtracts from its `base.position`
-member.
-
-There is a total ordering on sides, assuming a total ordering on
-`Sequence`s. Sides are sorted by their `Sequence` (as specified by
-`sequenceId` and/or `referenceName`), then within a `Sequence` by their
-`position` offsets, and then finally by `Strand`, with `NEG_STRAND` first, then
-`POS_STRAND`.
+A `Position` is an unoriented base in some `Reference`. A `Position` is
+represented by a `Reference` name, and a base number on that `Reference`
+(0-based).
 */
-record Side {
+record Position {
   /**
-  Base the `Side` is associated with.
+  The name of the `Reference` on which the `Position` is located.
   */
-  Position base;
+  string referenceName;
 
   /**
-  Strand the side is associated with. `POS_STRAND` represents the forward
-  strand, or equivalently the left side of a base, and `NEG_STRAND` represents
-  the reverse strand, or equivalently the right side of a base.
+  The 0-based offset from the start of the forward strand for that `Reference`.
+  Genomic positions are non-negative integers less than `Reference` length.
+  */
+  long position;
 
-  If you need a `Side` without a `Strand`, you need a `Position`.
+  /**
+  Strand the position is associated with.
   */
   Strand strand;
-}
-
-/**
-Represents a sequence of DNA bases.
-
-Does not include any base data. The bases for a `Sequence` are available through
-the `getSequenceBases()` API call.
-*/
-record Sequence {
-  /**
-  The ID of the sequence.
-  */
-  string id;
-  /**
-  The length of the sequence. Must be greater than 0.
-  */
-  long length;
-}
-
-/**
-A `Segment` is a range on a `Sequence`. It does not include any base data. (The
-bases for a `Sequence` are available through the `getSequenceBases()` API call.)
-
-In the sequence "GTGG", the `Segment` starting at index 1 on the forward strand
-with length 2 is the "TG" on the forward strand. The length-2 `Segment` starting
-at index 1 on the reverse strand is "AC", corresponding to the first two base
-pairs of the sequence, or the last two bases of the reverse complement.
-
-A `Segment` has a left and a right end, in its local orientation (i.e. taking
-`Segment.start.strand` to be the `Segment`'s forward strand).
-*/
-record Segment {
-  /**
-  The sequence ID and start index of this `Segment`. This base is the first
-  included in the `Segment`, regardless of orientation.
-  */
-  Side start;
-
-  /**
-  The length of this `Segment`'s sequence. If `start` is on the forward strand,
-  the `Segment` contains the range [`start.base.position`,
-  `start.base.position` + `length`). If `start` is on the reverse strand, the
-  `Segment` contains the range (`start.base.position` - `length`,
-  `start.base.position`]. This is equivalent to starting from the side indicated
-  by `start`, and traversing through that base out to the specified length.
-
-  A `Segment` may have zero length.
-  */
-  long length;
 }
 
 /**
