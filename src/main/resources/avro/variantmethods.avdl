@@ -158,7 +158,7 @@ org.ga4gh.models.Variant getVariant(
 /******************  /callsets/search  *********************/
 /** This request maps to the body of `POST /callsets/search` as JSON. */
 record SearchCallSetsRequest {
-  /*
+  /**
   The VariantSet to search.
   */
   string variantSetId;
