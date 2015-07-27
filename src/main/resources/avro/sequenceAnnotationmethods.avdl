@@ -27,9 +27,15 @@ protocol SequenceAnnotationMethods {
     union { null, string } parentId;
 
     /**
-    If specified, this query matches only annotations which overlap this path.
+    If specified, this query matches only annotations which overlap this part of
+    a `Reference`.
+    
+    All three of `referenceName`, `start`, and `end` must be specified as a
+    group.
     */
-    union { null, org.ga4gh.models.Path } range = null;
+    union { null, string } referenceName = null;
+    union { null, long } start = null;
+    union { null, long } end = null;
 
     // TODO: Fix this field. Clarify semantics around how OntologyTerm matching works, or
     // change the Ontology term field on the feature.
