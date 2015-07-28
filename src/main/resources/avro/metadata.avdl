@@ -60,9 +60,12 @@ protocol Metadata {
 
     /**
     Age of onset of the disease.
-    TODO: need to define exact format, as the are large number of ways this is
-    recorded, such as: age, age range, developmental stage, or date or partial
-    date.
+    Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
+    Example: P47Y08M (47 years, 8 months)
+    TODO:
+    - this may need to be redefined e.g. as OntologyTerm, since there are
+      non-numerical ways to record/classify age (age range, developmental stage,
+      date or partial date)
     */
     union { null, string } ageOfOnset = null;
 
