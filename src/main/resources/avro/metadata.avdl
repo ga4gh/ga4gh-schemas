@@ -41,8 +41,8 @@ protocol Metadata {
   external processes utilizing GA4GH type records in combination with medical
   information systems.
   TODO:
-		- need to link to clinical data. Reference to clinical working group
-		- need keyword/value table, also human notes
+    - need to link to clinical data. Reference to clinical working group
+    - need keyword/value table, also human notes
   */
   record Disease {
 
@@ -63,9 +63,9 @@ protocol Metadata {
     Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
     Example: P47Y08M (47 years, 8 months)
     TODO:
-			- this may need to be redefined e.g. as OntologyTerm, since there are
-				non-numerical ways to record/classify age (age range, developmental
-				stage, date or partial date)
+      - this may need to be redefined e.g. as OntologyTerm, since there are
+        non-numerical ways to record/classify age (age range, developmental
+        stage, date or partial date)
     */
     union { null, string } ageOfOnset = null;
 
@@ -86,8 +86,8 @@ protocol Metadata {
   unrelated to an individual diagnosis may be present.
   We also want to record phenotypes in the absences of a diagnosis.
   TODO:
-		- need to link to clinical data. Reference to clinical working group
-		- need keyword/value table, also human notes
+    - need to link to clinical data. Reference to clinical working group
+    - need keyword/value table, also human notes
   */
   record Phenotype {
 
@@ -118,7 +118,7 @@ protocol Metadata {
   Examples would be body height, body weight, BMI...
 
   TODO:
-  	-	need keyword/value table, also human notes
+    - need keyword/value table, also human notes
   */
   record Observation {
 
@@ -333,11 +333,11 @@ protocol Metadata {
     The species of this individual. Acceptable to classify as a higher-level
     taxon when needed e.g. for environmental samples.
     Using NCBI taxonomy
-    	http://www.ncbi.nlm.nih.gov/taxonomy
+      http://www.ncbi.nlm.nih.gov/taxonomy
     is recommended.
     For a representation of an NCBI Taxon ID as an OntologyTerm, see
     NCBITaxon Ontology
-    	http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page
+      http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page
     For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
     this is NCBITaxon:9606, which has the URI
     http://purl.obolibrary.org/obo/NCBITaxon_9606
