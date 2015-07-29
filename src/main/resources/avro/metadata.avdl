@@ -309,7 +309,7 @@ protocol Metadata {
     /**
     External identifiers for individual, e.g. 1000 Genomes identifier.
     */
-    array<ExternalIdentifier> externalIds;
+    array<string> externalIds;
 
     /**
     The time at which this record was created.
@@ -420,7 +420,7 @@ protocol Metadata {
     /**
     External identifiers for sample, e.g. BioSample.
     */
-    array<ExternalIdentifier> externalIds;
+    array<string> externalIds;
 
     /**
     The ids of the individuals this sample was derived from.  Multiple ids are
