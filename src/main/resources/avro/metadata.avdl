@@ -40,9 +40,9 @@ protocol Metadata {
   (e.g Li-Fraumeni syndrome and resulting malignancies) is complex and left to
   external processes utilizing GA4GH type records in combination with medical
   information systems.
-
-  TODO: need to link to clinical data. Reference to clinical working group
-  TODO: need keyword/value table, also human notes
+  TODO:
+		- need to link to clinical data. Reference to clinical working group
+		- need keyword/value table, also human notes
   */
   record Disease {
 
@@ -63,9 +63,9 @@ protocol Metadata {
     Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
     Example: P47Y08M (47 years, 8 months)
     TODO:
-    - this may need to be redefined e.g. as OntologyTerm, since there are
-      non-numerical ways to record/classify age (age range, developmental stage,
-      date or partial date)
+			- this may need to be redefined e.g. as OntologyTerm, since there are
+				non-numerical ways to record/classify age (age range, developmental
+				stage, date or partial date)
     */
     union { null, string } ageOfOnset = null;
 
@@ -80,13 +80,14 @@ protocol Metadata {
 
   /**
   Record of phenotypes observed in an individual, which maybe independent of a
-  disease diagnosis.  Phenotype-disease links are complex and as this is a process
+  disease diagnosis.
+  Phenotype-disease links are complex and as this is a process
   performed by clinicians, presentations can be atypical and phenotypes
   unrelated to an individual diagnosis may be present.
   We also want to record phenotypes in the absences of a diagnosis.
-
-  TODO: need to link to clinical data. Reference to clinical working group
-  TODO: need keyword/value table, also human notes
+  TODO:
+		- need to link to clinical data. Reference to clinical working group
+		- need keyword/value table, also human notes
   */
   record Phenotype {
 
@@ -116,7 +117,8 @@ protocol Metadata {
 
   Examples would be body height, body weight, BMI...
 
-  TODO: need keyword/value table, also human notes
+  TODO:
+  	-	need keyword/value table, also human notes
   */
   record Observation {
 
@@ -257,7 +259,8 @@ protocol Metadata {
   and an additional/fallback description (e.g. address style) attribute.
 
   Using multiple GeographicLocation objects in an ordered list could allow for
-  encoding of polygon-style locations (e.g. representation of administrative boundaries).
+  encoding of polygon-style locations (e.g. representation of administrative
+  boundaries).
 
   The geographic point object uses the default units from the DCMI point scheme
   http://dublincore.org/documents/dcmi-point/
@@ -284,8 +287,9 @@ protocol Metadata {
     union { null, float } elevation = null;
 
     /**
-    A verbose description of the location, for processing into latitude, longitude,
-    elevation attributes. Preferably used standard "administrative boundaries" terms.
+    A verbose description of the location, for processing into latitude,
+    longitude, elevation attributes.
+    Preferably used standard "administrative boundaries" terms.
     */
     union { null, string } description = null;
 
@@ -328,13 +332,17 @@ protocol Metadata {
     /**
     The species of this individual. Acceptable to classify as a higher-level
     taxon when needed e.g. for environmental samples.
-    Using [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
+    Using NCBI taxonomy
+    	http://www.ncbi.nlm.nih.gov/taxonomy
+    is recommended.
     For a representation of an NCBI Taxon ID as an OntologyTerm, see
-    [NCBITaxon Ontology](http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page).
-    For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for this is
-    NCBITaxon:9606, which has the URI http://purl.obolibrary.org/obo/NCBITaxon_9606
+    NCBITaxon Ontology
+    	http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page
+    For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
+    this is NCBITaxon:9606, which has the URI
+    http://purl.obolibrary.org/obo/NCBITaxon_9606
     */
-    OntologyTerm species; // TODO: taxon
+    OntologyTerm species;
 
     /**
     The strain of this individual, for non-humans.
@@ -357,7 +365,7 @@ protocol Metadata {
     The developmental stage of this individual. This not age of onset of a
     disease.
     Using Uberon is recommended.
-    For example, http://purl.obolibrary.org/obo/UBERON_0007023 for adult organism
+    For example http://purl.obolibrary.org/obo/UBERON_0007023 => adult organism
     TODO: need to clarify how to deal with this as a temporal series
     */
     union { null, OntologyTerm } developmentalStage = null;
@@ -475,9 +483,9 @@ protocol Metadata {
 
     /**
     The age of the individual (not of the sample) at time of sample collection.
-    This parameter is both more prevalent in clinical records than the combination
-    of sampling date and DOB, and also more relevant for clinical/experimental
-    purposes than either of those alone.
+    This parameter is both more prevalent in clinical records than the
+    combination of sampling date and DOB, and also more relevant for
+    clinical/experimental purposes than either of those alone.
     This field may be approximate.
     Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
     Example: P12Y3M
@@ -644,8 +652,8 @@ protocol Metadata {
     union { null, string } sequencingCenter = null;
 
     /**
-    The platform unit used as part of this experiment. This is a flowcell-barcode
-    or slide unique identifier.
+    The platform unit used as part of this experiment.
+    This may be a flowcell-barcode or slide unique identifier.
     */
     union { null, string } platformUnit = null;
 
