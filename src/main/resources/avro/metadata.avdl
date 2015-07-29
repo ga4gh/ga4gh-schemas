@@ -16,10 +16,10 @@ TODO:
   - How do you related twins (mono-zygotic)
   - temporal sample relationships
   - standardize name/description/notes/key-value data types
-  - VERY IMPORTANT data/time of record goes to the issue of what are the 
-  	objects and what is the data model. Is it containment or relational.
-  	Are we building a data model or a exchange format without knowing 
-  	the data model.
+  - VERY IMPORTANT data/time of record goes to the issue of what are the
+    objects and what is the data model. Is it containment or relational.
+    Are we building a data model or a exchange format without knowing
+    the data model.
 */
 
 protocol Metadata {
@@ -348,7 +348,8 @@ protocol Metadata {
     union { null, OntologyTerm } ethnicity = null;
 
     /**
-    The genetic sex of this individual. Use `null` when unknown.
+    The genetic sex of this individual.
+    Use `null` when unknown or not applicable.
     */
     union { null, OntologyTerm } sex = null;
 
@@ -446,6 +447,11 @@ protocol Metadata {
     from which the sample is derived.
     */
     union { null, OntologyTerm } species = null;
+
+    /**
+    The genetic sex of this sample. Use `null` when unknown or not applicable.
+    */
+    union { null, OntologyTerm } sex = null;
 
     /**
     The time at which this record was created.
