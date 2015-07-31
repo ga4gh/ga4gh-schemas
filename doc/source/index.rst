@@ -18,6 +18,8 @@ Contents
     json
     avro
     starting
+    variants
+    reads
     samplecode
     schemadetails
     demo
