@@ -1,7 +1,10 @@
 @namespace("org.ga4gh.models")
 
 /**
-Defines types used by the GA4GH Variants API.
+Defines the Variant schema used by the GA4GH API.
+
+Variants 
+
 */
 protocol Variants {
 
@@ -9,9 +12,16 @@ import idl "common.avdl";
 
 /**
 This metadata represents VCF header information.
+
+`FIXME: This record looks like a stub. To be similar to a VCF header it should contain fields named fileformat, 
+fileDate, source, reference, contig, etc` See [VCF v4.2 specs] (http://samtools.github.io/hts-specs/VCFv4.2.pdf)
+
 */
 record VariantSetMetadata {
-  /** The top-level key. */
+  /** The top-level key. 
+  `FIXME: To be consistent with other records in this API, this should probably be called id, not key`
+
+  */
   string key;
 
   /** The value field for simple metadata. */
@@ -20,7 +30,7 @@ record VariantSetMetadata {
   /**
   User-provided ID field, not enforced by this API.
   Two or more pieces of structured metadata with identical
-  id and key fields are considered equivalent.
+  id and key fields are considered equivalent. `FIXME: If it's not enforced, then why can't it be null?`
   */
   string id;
 
@@ -43,53 +53,54 @@ record VariantSetMetadata {
 /**
 `Variant` and `CallSet` both belong to a `VariantSet`.
 `VariantSet` belongs to a `Dataset`.
-The variant set is equivalent to a VCF file.
+
+A list of `Variant`s with the same `VariantSet` ID is similar to a VCF file.
+The VCF header can be found in the metadata field of VariantSet 
+
 */
 record VariantSet {
-  /** The variant set ID. */
+  /** The UUID of the variant set. */
   string id;
 
   /** The ID of the dataset this variant set belongs to. */
   string datasetId;
 
   /**
-  The reference set the variants in this variant set are using.
+  The ID of the reference set that describes the sequences used by the variants in this set.
   */
   string referenceSetId;
 
   /**
   The metadata associated with this variant set. This is equivalent to
-  the VCF header information not already presented in first class fields.
+  the VCF header information not already presented in first class fields.`Explain: What are first class fields?`
   */
   array<VariantSetMetadata> metadata = [];
 }
 
 /**
-A `CallSet` is a collection of variant calls for a particular sample.
-It belongs to a `VariantSet`. This is equivalent to one column in VCF.
+A `CallSet` is a collection of variant calls for a particular sample, equivalent to one genotype column in VCF.
+It belongs to a `VariantSet`.  
+
+`REMOVED: created and updated fields. Timestamps should not be part of these records, because they will
+not be updated (they can be deleted or stored under a new ID if information changes)`
+
+`Explain: If this is equivalent to a genotype column, then how can we access the individual fields that
+look something like 0|0:48:1:51,51? Maybe in the Call schema`
+
 */
 record CallSet {
 
-  /** The call set ID. */
+  /** The UUID of the call set. */
   string id;
 
-  /** The call set name. */
+  /** The call set name. `Explain: Can be null because it's user defined?`*/
   union { null, string } name = null;
 
-  /** The sample this call set's data was generated from. */
+  /** The ID of the `Sample` that describes the biological sample this call set's data was generated from. */
   union { null, string } sampleId;
 
-  /** The IDs of the variant sets this call set has calls in. */
+  /** The IDs of the `VariantSet`s `that describes the??` this call set has calls in. */
   array<string> variantSetIds = [];
-
-  /** The date this call set was created in milliseconds from the epoch. */
-  union { null, long } created = null;
-
-  /**
-  The time at which this call set was last updated in
-  milliseconds from the epoch.
-  */
-  union { null, long } updated = null;
 
   /**
   A map of additional call set information.
