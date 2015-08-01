@@ -13,7 +13,7 @@ import idl "common.avdl";
 import idl "metadata.avdl";
 import idl "sequenceAnnotations.avdl";
 import idl "variants.avdl";
-import idl "ontologies.avdl";
+import idl "metadata.avdl";
 
 /*
 This protocol currently attempts to support linear variants and graph alleles by providing

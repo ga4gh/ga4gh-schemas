@@ -4,7 +4,7 @@ protocol AnnotateAlleleMethods {
 
 import idl "methods.avdl";
 import idl "variants.avdl";
-import idl "ontologies.avdl";
+import idl "metadata.avdl";
 import idl "alleleAnnotations.avdl";
 
 /*

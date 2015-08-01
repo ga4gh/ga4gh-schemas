@@ -19,7 +19,7 @@ core generic record which corresponds to the a GFF3 record.
 protocol SequenceAnnotations {
 
   import idl "common.avdl";
-  import idl "ontologies.avdl";
+  import idl "metadata.avdl";
 
   /**
   Identifier from a public database
