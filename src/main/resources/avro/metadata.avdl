@@ -51,18 +51,6 @@ protocol Metadata {
     released ontologies may use a datestamp, or build number.
     */
     union { null, string } ontologySourceVersion = null;
-
-    /**
-    A collection zero or more free text annotations which are not 
-    ontology terms describing some specific attributes.
-    Annotations are added to OntologyTerms to allow either a
-    later re-definition of the respective ontology source name, 
-    or to stand in as temporary placeholders for deferred mapping.
-    However, the use  of annotations as placeholders without concurrent 
-    ontology mapping is strongly discouraged.
-    */
-    array<string> annotations = [];
-
   }
 
  /**
