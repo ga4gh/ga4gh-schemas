@@ -15,20 +15,16 @@ Resource types
 .. todo::
         Make links inside this list to descriptions lower on the page
 
-* beacon
 * common
 * metadata
-* metadatamethods
 * methods
-* ontologies
 * readmethods
 * reads
 * referencemethods
 * references
-* sequenceAnnotationmethods
-* sequenceAnnotations
 * variantmethods
 * variants
+
 
 ++++++++++
 Variants
