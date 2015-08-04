@@ -14,12 +14,12 @@ Contents
     :maxdepth: 2
 
     introduction
-    explainapi
-    json
-    avro
     starting
     variants
     reads
     samplecode
     schemadetails
+    explainapi
+    json
+    avro
     demo
