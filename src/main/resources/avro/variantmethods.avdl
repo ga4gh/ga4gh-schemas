@@ -70,12 +70,6 @@ record SearchVariantsRequest {
   string variantSetId;
 
   /**
-  Only return variants which have exactly this name (case-sensitive, exact
-  match).
-  */
-  union { null, string } variantName = null;
-
-  /**
   Only return variant calls which belong to call sets with these IDs.
   If an empty array, returns variants without any call objects.
   If null, returns all variant calls.
