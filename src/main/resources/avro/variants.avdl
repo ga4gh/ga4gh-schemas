@@ -79,8 +79,8 @@ record CallSet {
   /** The sample this call set's data was generated from. */
   union { null, string } sampleId;
 
-  /** The IDs of the variant sets this call set has calls in. */
-  array<string> variantSetIds = [];
+  /** The ID of the variant set this call set has calls in. */
+  string variantSetId;
 
   /** The date this call set was created in milliseconds from the epoch. */
   union { null, long } created = null;
