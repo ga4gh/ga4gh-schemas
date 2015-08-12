@@ -81,21 +81,12 @@ record ReferenceSet {
   string id;
 
   /**
-  The IDs of the `Reference` objects that are part of this set.
-
-  This field should be left null if the set contains a very large number of
-  `Reference`s. The `Reference`s in the set may also be obtained through a
-  `searchReferences()` API call.
-  */
-  union { null, array<string> } referenceIds = null;
-
-  /**
   Order-independent MD5 checksum which identifies this `ReferenceSet`.
 
   To compute this checksum, make a list of `Reference.md5checksum` for all
-  `Reference`s in this set, including any in any included set. Then sort that
-  list, and take the MD5 hash of all the strings concatenated together. Express
-  the hash as a lower-case hexadecimal string.
+  `Reference`s in this set. Then sort that list, and take the MD5 hash of
+  all the strings concatenated together. Express the hash as a lower-case
+  hexadecimal string.
   */
   string md5checksum;
 
