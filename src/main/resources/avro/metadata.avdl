@@ -113,40 +113,37 @@ record Dataset {
 In a Dataset, a sample is identified by its name that shall be unique in the
 Dataset. This name typically appears in a @RG line in a BAM file and in the
 sample header line of a VCF file. Unrelated samples in different Datasets may
-have the same name. DatasetSample is only meant to be embedded in SampleGroup,
-not referenced by other objects.
+have the same sample name.
 */
-record DatasetSample {
-
-  string datasetId;
-
+record Sample {
   /**
-  The sample name in the Dataset referred by datasetId
-  */
-  string sampleName;
-}
-
-/**
-A SampleGroup connects samples in different Datasets that have the same origin.
-A typical scenario is that samples from several Datasets are aggregated and
-reanalyzed, which result in a new Dataset.
-*/
-record SampleGroup {
-  /**
-  ID of this sample group
+  Identifier of this sample
   */
   string id;
 
   /**
-  The NCBI/EBI BioSample identifier of this sample group. Different samples
-  groups may have the same biosampleId.
+  The identifier of the dataset this sample belongs to
   */
-  string biosampleId;
+  string datasetId;
 
   /**
-  Samples in different Datasets which are considered the same
+  Sample name in the dataset. This name uniquely identifies the sample in the
+  dataset.
   */
-  array<DatasetSample> samples;
+  string name;
+
+  /**
+  The NCBI/EBI BioSample identifier of this sample. Different Sample objects
+  may have the same biosampleId.
+  */
+  union { null, string } biosampleId = null;
+
+  /**
+  A globally unique ID, derived by some agreed upon scheme so that we can find
+  equivalent Sample's in different datasets and servers/implementations.
+  Typically, sequencing libraries and guids have a one-to-one relationship.
+  */
+  union { null, string } guid = null;
 }
 
 }

@@ -75,13 +75,13 @@ particular `Variant`.
 
 It may include associated information such as quality
 and phasing. For example, a call might assign a probability of 0.32 to
-the occurrence of a SNP named rs1234 in a call set with the name NA12345.
+the occurrence of a SNP named rs1234 in a sample with the name NA12345.
 */
 record Call {
 
   /**
-  The name of the call set this variant call belongs to.
-  If this field is not present, the ordering of the call sets from a
+  The name of the sample this variant call belongs to.
+  If this field is not present, the ordering of the names from a
   `SearchVariantsRequest` over this `VariantSet` is guaranteed to match
   the ordering of the calls on this `Variant`.
   The number of results will also be the same.
