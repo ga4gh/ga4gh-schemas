@@ -98,7 +98,7 @@ record BeaconDataSet {
   union{ null, BeaconDataSetSize } size = null;
 
   /** Data use limitations. */
-  array<BeaconDataUse> data_use = [];
+  array<BeaconDataUse> dataUses = [];
 }
 
 /**
