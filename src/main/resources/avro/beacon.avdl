@@ -31,7 +31,7 @@ record BeaconQuery {
   string reference;
 
   /** The name of the targeted population */
-  union{ null, string } dataSet = null;
+  union{ null, string } dataset = null;
 }
 
 /**
@@ -57,7 +57,7 @@ record BeaconDataUseRequirement {
 }
 
 /**
-Data use for a beacon data set.
+Data use for a beacon dataset.
 */
 record BeaconDataUse {
   /** Data use category.*/
@@ -71,13 +71,13 @@ record BeaconDataUse {
 }
 
 /**
-Size of a beacon data set.
+Size of a beacon dataset.
 */
 record BeaconDataSetSize {
-  /** Total number of variant positions in the data set. */
+  /** Total number of variant positions in the dataset. */
   int variants;
 
-  /** Total number of samples in the data set. */
+  /** Total number of samples in the dataset. */
   int samples;
 }
 
@@ -94,7 +94,7 @@ record BeaconDataSet {
   /** Data set description. */
   union{ null, string } description = null;
 
-  /** Dimensions of the data set. Should be provided if the beacon reports allele frequencies. */
+  /** Dimensions of the dataset. Should be provided if the beacon reports allele frequencies. */
   union{ null, BeaconDataSetSize } size = null;
 
   /** Data use limitations. */
@@ -115,7 +115,7 @@ record BeaconInformationResponse {
   string description;
 
   /** Data sets served by the beacon. */
-  array<BeaconDataSet> dataSets = [];
+  array<BeaconDataSet> datasets = [];
 
   /** Beacon API version supported. */
   string api;
@@ -143,10 +143,10 @@ record BeaconQueryResult {
   otherwise. */
   string exists;
 
-  /** Frequency of this allele in the data set. Between 0 and 1, inclusive. */
+  /** Frequency of this allele in the dataset. Between 0 and 1, inclusive. */
   union{ null, double } frequency;
 
-  /** Number of observations of this allele in the data set. */
+  /** Number of observations of this allele in the dataset. */
   union{ null, int } observed = null;
 
   /** Additional message. OK if request succeeded. */
