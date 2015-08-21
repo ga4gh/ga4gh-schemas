@@ -127,23 +127,15 @@ record Sample {
   string datasetId;
 
   /**
-  Sample name in the dataset. This name uniquely identifies the sample in the
-  dataset.
+  Submitted sample name in the dataset. This name uniquely identifies the
+  sample in the dataset.
   */
   string name;
 
   /**
-  The NCBI/EBI BioSample identifier of this sample. Different Sample objects
-  may have the same biosampleId.
+  Key-value pairs for additional sample information
   */
-  union { null, string } biosampleId = null;
-
-  /**
-  A globally unique ID, derived by some agreed upon scheme so that we can find
-  equivalent Sample's in different datasets and servers/implementations.
-  Typically, sequencing libraries and guids have a one-to-one relationship.
-  */
-  union { null, string } guid = null;
+  map<array<string>> info = {};
 }
 
 }
