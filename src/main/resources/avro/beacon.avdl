@@ -130,7 +130,7 @@ record BeaconInformationResponse {
   union{ null, string } auth = null;
 
   /** Examples of interesting queries, e.g. a few queries demonstrating different types of responses. */
-  union{ null, array<QueryResource> } queries = null;
+  union{ null, array<BeaconQuery> } queries = null;
 }
 
 /**
