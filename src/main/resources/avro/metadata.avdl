@@ -110,12 +110,11 @@ record Dataset {
 }
 
 /**
-In a Dataset, a sample is identified by its name that shall be unique in the
-Dataset. This name typically appears in a @RG line in a BAM file and in the
-sample header line of a VCF file. Unrelated samples in different Datasets may
-have the same sample name.
+A sample uniquely named in a Dataset. The sample name typically appears in a
+@RG line in a BAM file and in the sample header line of a VCF file. Unrelated
+samples in different Datasets may have the same sample name.
 */
-record Sample {
+record NamedSample {
   /**
   Identifier of this sample
   */
