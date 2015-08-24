@@ -92,6 +92,32 @@ record Experiment {
 }
 
 /**
+A `SequencerInput` represents prepared tissue intended to be sequenced and analyzed together,
+eventually generating one or more `ReadGroupSet` and/or `CallSet` objects.
+TODO: agree on a formal metadata model to describe where the tissue came from, including
+ways to represent the source organism, sample collection, and sample prep.
+*/
+record SequencerInput {
+
+  /** The sequencer input ID. */
+  string id;
+
+  /** The sequencer input name. */
+  union { null, string } name = null;
+
+  /** The date this sequencer input was created in milliseconds from the epoch. */
+  union { null, long } created = null;
+
+  /**
+  The time at which this sequencer input was last updated in milliseconds from the epoch. */
+  union { null, long } updated = null;
+
+  /** A map of additional sequencer input information. */
+  map<array<string>> info = {};
+}
+
+
+/**
 Represents a group of contextually related data objects of (e.g. all Individuals, Samples, 
 Experiments associated with a particular feature; or e.g. a trio in genetic diagnostics.).
 This concept may be expanded in the future (ontology for describing the type of dataset ...).

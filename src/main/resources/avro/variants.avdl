@@ -65,7 +65,7 @@ record VariantSet {
 }
 
 /**
-A `CallSet` is a collection of variant calls for a particular sample.
+A `CallSet` is a collection of variant calls for a particular analysis of particular tissue.
 It belongs to a `VariantSet`. This is equivalent to one column in VCF.
 */
 record CallSet {
@@ -76,11 +76,14 @@ record CallSet {
   /** The call set name. */
   union { null, string } name = null;
 
-  /** The sample this call set's data was generated from. */
-  union { null, string } sampleId;
+  /** The ID of the sequencer input this call set's data was generated from. */
+  union { null, string } sequencerInputId = null;
 
-  /** The IDs of the variant sets this call set has calls in. */
-  array<string> variantSetIds = [];
+  /** The ID of the read group set this call set's data was directly generated from. */
+  union { null, string } readGroupSetId = null;
+  
+  /** The ID of the variant set this call set has calls in. */
+  union { null, string} variantSetId = null;
 
   /** The date this call set was created in milliseconds from the epoch. */
   union { null, long } created = null;

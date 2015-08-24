@@ -124,6 +124,12 @@ record ReadGroupSet {
   /** The read group set name. */
   union { null, string } name = null;
 
+  /** The ID of the `SequencerInput` this read group set's data was generated from. */
+  union { null, string } sequencerInputId = null;
+
+  /** The ID of the `ReadGroupSet` this read group set's data was directly generated from. */
+  union { null, string } readGroupSetId = null;
+
   /** Statistical data on reads in this read group set. */
   union { null, ReadStats } stats = null;
 
