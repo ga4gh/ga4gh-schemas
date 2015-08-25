@@ -337,6 +337,16 @@ protocol Metadata {
     string id;
 
     /**
+    The name of the individual.
+    */
+    union { null, string } name = null;
+
+    /**
+    Additional, human-readable information on the individual.
+    */
+    union { null, string } description = null;
+
+    /**
     External identifiers for individual, e.g. 1000 Genomes identifier.
     */
     array<string> externalIds;
@@ -429,10 +439,6 @@ protocol Metadata {
     */
     array<Observation> observations = [];
 
-    /** Additional, human-readable information on of the individual.
-    TODO: consistent?   */
-    union { null, string } notes = null;
-
     /**
     A map of additional individual information.
     TODO: standardize this.
@@ -453,6 +459,16 @@ protocol Metadata {
     string id;
 
     /**
+    The name of the sample.
+    */
+    union { null, string } name = null;
+
+    /**
+    Additional, human-readable information on the sample.
+    */
+    union { null, string } description = null;
+
+    /**
     External identifiers for sample, e.g. BioSample.
     */
     array<string> externalIds;
@@ -462,11 +478,6 @@ protocol Metadata {
     allowed, as a sample maybe pooled from multiple individuals.
     */
     array<string> individualIds;
-
-    /**
-    The name of the sample.
-    */
-    union { null, string } name = null;
 
     /**
     A description of the sample.
