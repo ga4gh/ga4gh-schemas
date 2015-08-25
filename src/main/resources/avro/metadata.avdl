@@ -332,9 +332,15 @@ protocol Metadata {
   record Individual {
 
     /**
-    The individual ID. This is globally unique UUID (UUIDv4)
+    The individual's id. This is the local/legacy/generic id.
     */
     string id;
+
+    /**
+    The individual's guid. This is globally unique id (UUIDv4).
+    TODO: Required?!
+    */
+    union { null, string } guid = null;
 
     /**
     The name of the individual.
@@ -390,6 +396,11 @@ protocol Metadata {
     http://purl.bioontology.org/ontology/ANCESTRO
     */
     union { null, OntologyTerm } ethnicity = null;
+
+    /**
+    Geographic coordinates from which the individual was obtained.
+    */
+    union { null, GeographicLocation } geographicLocation = null;
 
     /**
     The genetic sex of this individual.
@@ -454,9 +465,15 @@ protocol Metadata {
   record Sample {
 
     /**
-    The sample ID.  This is globally unique UUID (UUIDv4)
+    The sample's id. This is the local/legacy/generic id.
     */
     string id;
+
+    /**
+    The sample's guid. This is globally unique id (UUIDv4).
+    TODO: Required?!
+    */
+    union { null, string } guid = null;
 
     /**
     The name of the sample.
@@ -564,7 +581,7 @@ protocol Metadata {
     union { null, OntologyTerm } cellLine = null;
 
     /**
-    Geographic coordinates from which the individual was obtained.
+    Geographic coordinates from which the sample was obtained.
     */
     union { null, GeographicLocation } geographicLocation = null;
 
@@ -595,10 +612,17 @@ protocol Metadata {
   - How is this related to the SRA experiment/run split?
   */
   record Experiment {
+
     /**
-    The experiment ID.  This is globally unique UUID (UUIDv4)
+    The experiment's id. This is the local/legacy/generic id.
     */
     string id;
+
+    /**
+    The experiment's guid. This is globally unique id (UUIDv4).
+    TODO: Required?!
+    */
+    union { null, string } guid = null;
 
     /**
     The name of the experiment.
@@ -723,11 +747,31 @@ protocol Metadata {
     is this is this a good analogy?
   */
   record Dataset {
-    /** The dataset UUID. This is globally unique.
-    [TODO: Eagle: as above with sample and with following records, the UUID
-    must be captures as it is cross referenced within the schema.]
+
+    /**
+    The dataset's id. This is the local/legacy/generic id.
     */
     string id;
+
+    /**
+    The dataset's guid. This is globally unique id (UUIDv4).
+    TODO: Required?!
+    */
+    union { null, string } guid = null;
+
+    /**
+    The name of the dataset.
+    */
+    union { null, string } name = null;
+
+    /**
+    Dataset member ids.
+    TODO: Definition of id types (guid?!) ...
+    */
+    array<string> memberIds;
+
+    /**
+    A textual descriptio;
 
     /**
     A description of the dataset.
@@ -744,13 +788,32 @@ protocol Metadata {
   https://github.com/MatchmakerExchange/mme-apis/blob/master/search-api.md
   */
   record IndividualGroup {
-    /** The individual group UUID. This is globally unique. */
+
+    /**
+    The group's id. This is the local/legacy/generic id.
+    */
     string id;
 
-    /** The name of the individual group. */
+    /**
+    The groups's guid. This is globally unique id (UUIDv4).
+    TODO: Required?!
+    */
+    union { null, string } guid = null;
+
+    /**
+    Group member ids.
+    TODO: Definition of id types (guid?!) ...
+    */
+    array<string> memberIds;
+
+    /**
+    The name of the individual group.
+    */
     union { null, string } name = null;
 
-    /** A description of the individual group. */
+    /**
+    A description of the individual group.
+    */
     union { null, string } description = null;
 
     /**
@@ -765,14 +828,16 @@ protocol Metadata {
     */
     string recordUpdateTime;
 
-    /** The type of individual group. */
+    /**
+    The type of individual group.
+    */
     union { null, string } type = null;
 
     /**
     A map of additional individual group information.
-    TODO: make consistent
     */
     map<array<string>> info = {};
+
   }
 
   /**
@@ -782,8 +847,17 @@ protocol Metadata {
   TODO: review
   */
   record Analysis {
-    /** The analysis UUID. This is globally unique. */
+
+    /**
+    The analysis' id. This is the local/legacy/generic id.
+    */
     string id;
+
+    /**
+    The analysis' guid. This is globally unique id (UUIDv4).
+    TODO: Required?!
+    */
+    union { null, string } guid = null;
 
     /** The name of the analysis. */
     union { null, string } name = null;
@@ -803,15 +877,18 @@ protocol Metadata {
     */
     string recordUpdateTime;
 
-    /** The type of analysis. */
+    /**
+    The type of analysis.
+    */
     union { null, string } type = null;
 
-    /** The software run to generate this analysis. */
+    /**
+    The software run to generate this analysis.
+    */
     array<string> software = [];
 
     /**
     A map of additional analysis information.
-    TODO: make consistent
     */
     map<array<string>> info = {};
   }
