@@ -130,4 +130,32 @@ record Dataset {
 
 }
 
+/**
+A sample uniquely named in a Dataset. The sample name typically appears in a
+@RG line in a BAM file and in the sample header line of a VCF file. Unrelated
+samples in different Datasets may have the same sample name.
+*/
+record NamedSample {
+  /**
+  Identifier of this sample
+  */
+  string id;
+
+  /**
+  The identifier of the dataset this sample belongs to
+  */
+  string datasetId;
+
+  /**
+  Submitted sample name in the dataset. This name uniquely identifies the
+  sample in the dataset.
+  */
+  string name;
+
+  /**
+  Key-value pairs for additional sample information
+  */
+  map<array<string>> info = {};
+}
+
 }

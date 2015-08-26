@@ -41,7 +41,7 @@ record VariantSetMetadata {
 }
 
 /**
-`Variant` and `CallSet` both belong to a `VariantSet`.
+`Variant` belongs to a `VariantSet`.
 `VariantSet` belongs to a `Dataset`.
 The variant set is equivalent to a VCF file.
 */
@@ -58,43 +58,15 @@ record VariantSet {
   string referenceSetId;
 
   /**
+  List of samples that are involved in this variant set.
+  */
+  array<string> sampleNames = [];
+
+  /**
   The metadata associated with this variant set. This is equivalent to
   the VCF header information not already presented in first class fields.
   */
   array<VariantSetMetadata> metadata = [];
-}
-
-/**
-A `CallSet` is a collection of variant calls for a particular sample.
-It belongs to a `VariantSet`. This is equivalent to one column in VCF.
-*/
-record CallSet {
-
-  /** The call set ID. */
-  string id;
-
-  /** The call set name. */
-  union { null, string } name = null;
-
-  /** The sample this call set's data was generated from. */
-  union { null, string } sampleId;
-
-  /** The IDs of the variant sets this call set has calls in. */
-  array<string> variantSetIds = [];
-
-  /** The date this call set was created in milliseconds from the epoch. */
-  union { null, long } created = null;
-
-  /**
-  The time at which this call set was last updated in
-  milliseconds from the epoch.
-  */
-  union { null, long } updated = null;
-
-  /**
-  A map of additional call set information.
-  */
-  map<array<string>> info = {};
 }
 
 /**
@@ -103,28 +75,18 @@ particular `Variant`.
 
 It may include associated information such as quality
 and phasing. For example, a call might assign a probability of 0.32 to
-the occurrence of a SNP named rs1234 in a call set with the name NA12345.
+the occurrence of a SNP named rs1234 in a sample with the name NA12345.
 */
 record Call {
 
   /**
-  The name of the call set this variant call belongs to.
-  If this field is not present, the ordering of the call sets from a
-  `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
+  The name of the sample this variant call belongs to.
+  If this field is not present, the ordering of the names from a
+  `SearchVariantsRequest` over this `VariantSet` is guaranteed to match
   the ordering of the calls on this `Variant`.
   The number of results will also be the same.
   */
-  union { null, string } callSetName = null;
-
-  /**
-  The ID of the call set this variant call belongs to.
-
-  If this field is not present, the ordering of the call sets from a
-  `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
-  the ordering of the calls on this `Variant`.
-  The number of results will also be the same.
-  */
-  union { null, string} callSetId = null;
+  union { null, string } sampleName = null;
 
   /**
   The genotype of this variant call.
