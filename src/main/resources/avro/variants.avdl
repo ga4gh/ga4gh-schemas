@@ -76,8 +76,8 @@ record CallSet {
   /** The call set name. */
   union { null, string } name = null;
 
-  /** The ID of the sequencer input this call set's data was generated from. */
-  union { null, string } sequencerInputId = null;
+  /** The ID of the goop glob this call set's data was generated from. */
+  union { null, string } goopGlobId = null;
 
   /** The ID of the read group set this call set's data was directly generated from. */
   union { null, string } readGroupSetId = null;
