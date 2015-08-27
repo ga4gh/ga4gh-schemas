@@ -37,6 +37,11 @@ The schemas are written in Avro Interactive Data Language (extension .avdl).
 Here, data means both the request ('send me RNASeq for gene X in sample Y') and the response (the BAM file). Apache Avro only sends data in
 :ref:`json` or Binary Avro format, so requests and responses must be converted into one of those formats.
 
+For more details on AVRO, see :ref:`avro`
+
+For more details on JSON, see :ref:`json`
+
+
 -----------------------
 How to use Avro schemas
 -----------------------
@@ -45,9 +50,6 @@ They define how the data is organized, and thereby give information on what can 
 The schemas can be used to create code in any programming language.
 
 
-+++++++++++++++++++
-A Python Example
-+++++++++++++++++++
 Here's the schema definition for Variants (with comments removed)::
 
   record Variant {
@@ -56,14 +58,13 @@ Here's the schema definition for Variants (with comments removed)::
     array<string> names = [];
     union { null, long } created = null;
     union { null, long } updated = null;
-    union { null, string } referenceName = null;
-    union { null, long } start = null;
-    union { null, long } end = null;
-    union { null, string } referenceBases = null;
-    union { null, array<string> } alternateBases = null;
-    union { null, array<string> } alleleIds;
+    string referenceName;
+    long start;
+    long end;
+    string referenceBases;
+    array<string> alternateBases = [];
     map<array<string>> info = {};
-    union { null, array<Call> } calls = null;
+    array<Call> calls = [];
   }
 
 This means that when you request a single variant by, for example, its ID, you get back a JSON file
@@ -80,32 +81,10 @@ Click for more :ref:`samplecode`.
 .. _api_modules:
 
 ----------------
-API modules
+GA4GH schemas
 ----------------
 
-.. todo::
-   * update modules
-
-Key components include: datasets, read group sets, reads, variants and call sets.
-
-For more details on all of these modules, see the :ref:`schemadetails`.
-
-++++++++++++++++
-Datasets
-++++++++++++++++
-
-A dataset is a logical grouping of genomic data and analysis associated with a project. 
-For example, a dataset might consist of aligned reads and variant calls from the 1000 Genomes project. 
-Data access permissions are set at the dataset level. A dataset can be public or private, meaning access may be restricted.
-
-++++++++++++++++
-Read group sets
-++++++++++++++++
-
-A read group set is a collection of reads, along with metadata about the sample, any processing that was performed, and the reference sequence. 
-In the simplest case, a read group set maps to a FASTQ or BAM file from a single sample, aligned with a particular alignment algorithm and parameters. 
-When a BAM file contains reads from multiple biological samples, the reads are split up into multiple read group sets, one per sample. 
-When multiple BAM files contain reads from the same sample, they must be merged into a single BAM file before import in order to create a single read group set.
+For more details on all of these modules, see the :ref:`apireference`.
 
 ++++++++++++++++
 Reads
@@ -124,8 +103,20 @@ Each variant identifies a position in a reference genome, a type of variant like
 insertion or deletion, the alternate allele, and the call sets that contain the variant.
 
 ++++++++++++++++
-Call sets
+References
 ++++++++++++++++
 
-A call set is a collection of variant calls, coming from a single sample using a particular variant calling algorithm and parameters.
+References are genome sequences. Other schemas contain reference IDs that point to records described here.
 
+++++++++++++++++
+Metadata
+++++++++++++++++
+
+Metadata are descriptions of datasets and experiments. Other schemas contain references to metadata.
+
+
+++++++++++++++++
+Common
+++++++++++++++++
+
+The Common schema describes records that occur in multiple other schemas, such as CigarUnit.

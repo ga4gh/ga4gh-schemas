@@ -1,8 +1,8 @@
 .. _samplecode:
 
-***************
-Code samples
-***************
+*******************
+Code samples (stub)
+*******************
 
 Useful tips from an online `article`_ about API development:
 

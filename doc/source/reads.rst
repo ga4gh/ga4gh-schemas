@@ -1,8 +1,12 @@
 .. _reads:
 
-***************
+*****************
+The Reads Schema
+*****************
+
+------------
 Short Reads
-***************
+------------
 
 High throughput genome and transcriptome sequencing produces millions of short (50-200 nucleotide) sequences.
 These sequences are usually referred to as reads. Reads can be produced from:
@@ -54,9 +58,10 @@ ReadStats       | Counts of aligned and unaligned reads	     Samtools flagstats 
 LinearAlignment | Mapping of a read to a reference           One CIGAR string
 Program         | Software version and parameters that were  PN, CL tags in SAM header
                 | used to align reads to the genome
-Dataset	        | *ill defined* 
 Fragment        | *ill defined*
 =============== ============================================ ==================
+
+For a complete description of all Reads records, see :ref:`apireference`.
 
 Records can contain other records, for instance ReadStats is contained in ReadGroup and ReadGroupSet.
 Each record is made up of a number of fields that describe the data.

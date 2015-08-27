@@ -96,10 +96,10 @@ record CallSet {
   /** The call set name. `Explain: Can be null because it's user defined?`*/
   union { null, string } name = null;
 
-  /** The ID of the `Sample` that describes the biological sample this call set's data was generated from. */
+  /** The ID of the `Sample` that describes the biological sample this call set's data was generated from. `FIXME: Sample is not defined anywhere (used to be in metadata)` */
   union { null, string } sampleId;
 
-  /** The IDs of the `VariantSet`s `that describes the??` this call set has calls in. */
+  /** The IDs of the `VariantSet`s this call set has calls in. */
   array<string> variantSetIds = [];
 
   /**
@@ -203,7 +203,7 @@ record Variant {
   union { null, long } updated = null;
 
   /**
-  The reference on which this variant occurs.
+  The reference on which this variant occurs. `FIXME This should be a pointer to references.Reference`
   (e.g. `chr20` or `X`)
   */
   string referenceName;
@@ -225,7 +225,7 @@ record Variant {
 
 
   /**
-  The reference bases for this variant. They start at the given start position.
+  The reference bases for this variant. They start at the given start position. `FIXME If pointing to a reference record, this can be a CigarString`
   */
   string referenceBases;
 
