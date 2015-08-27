@@ -12,6 +12,7 @@ import idl "common.avdl";
 
 /**
 An experimental preparation of a `Sample`.
+`FIXME: Sample is not defined anywhere (but used here and in reads.avdl`
 */
 record Experiment {
   /** The experiment UUID. This is globally unique. */

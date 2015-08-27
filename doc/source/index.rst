@@ -14,12 +14,13 @@ Contents
     :maxdepth: 2
 
     introduction
-    starting
     variants
     reads
+    reference
+    metadata
+    common
+    apireference
     samplecode
-    schemadetails
-    explainapi
+    whatIsWebAPI
     json
     avro
-    demo

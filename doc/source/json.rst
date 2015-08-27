@@ -1,8 +1,8 @@
 .. _json:
 
-*******************
-JSON	
-*******************
+**********************
+The JSON Format	(stub)
+**********************
 
 format described `here <http://json.org/example>`_
 
