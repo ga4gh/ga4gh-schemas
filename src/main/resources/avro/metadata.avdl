@@ -462,56 +462,57 @@ protocol Metadata {
   A biological sample used in an experiment. (e.g. whole blood from
   an affected individual)
   */
-  record Sample {
+  record Biosample {
 
     /**
-    The sample's id. This is the local/legacy/generic id.
+    The biosample's id. This is the local/legacy/generic id.
     */
     string id;
 
     /**
-    The sample's guid. This is globally unique id (UUIDv4).
+    The biosample's guid. This is globally unique id (UUIDv4).
     TODO: Required?!
     */
     union { null, string } guid = null;
 
     /**
-    The name of the sample.
+    The name of the biosample.
     */
     union { null, string } name = null;
 
     /**
-    Additional, human-readable information on the sample.
+    Additional, human-readable information on the biosample.
     */
     union { null, string } description = null;
 
     /**
-    External identifiers for sample, e.g. BioSample.
+    External identifiers for sample, e.g. EBI BioSamples accession.
     */
     array<string> externalIds;
 
     /**
-    The ids of the individuals this sample was derived from.  Multiple ids are
-    allowed, as a sample maybe pooled from multiple individuals.
+    The ids of the individuals this biosample was derived from.  Multiple ids are
+    allowed, as a biosample maybe pooled from multiple individuals.
     */
     array<string> individualIds;
 
     /**
-    A description of the sample.
+    A description of the biosample.
     */
     union { null, string } description = null;
 
     /**
-    The species of this sample.
+    The species of this biosample.
     Using NCBI taxonomy (http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
-    Samples may not reference individuals, so species is annotated here, too.
+    Biosample may not reference human individuals only, so species is 
+    annotated here, too.
     For host-pathogen interactions, "species" may differ from the individual
-    from which the sample is derived.
+    from which the biosample was derived.
     */
     union { null, OntologyTerm } species = null;
 
     /**
-    The genetic sex of this sample. Use `null` when unknown or not applicable.
+    The genetic sex of this biosample. Use `null` when unknown or not applicable.
     */
     union { null, OntologyTerm } sex = null;
 
@@ -528,7 +529,7 @@ protocol Metadata {
     string recordUpdateTime;
 
     /**
-    The time at which this sample was taken from the individual.
+    The time at which this biosample was taken from the individual.
     Granularity here is variable (e.g. only date would be common for
     biopsies, minutes for in vitro time series).
     Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
@@ -536,7 +537,8 @@ protocol Metadata {
     union { null, string } samplingDate = null;
 
     /**
-    The age of the individual (not of the sample) at time of sample collection.
+    The age of the individual (not of the biosample) at time of 
+    biosample's collection.
     This parameter is both more prevalent in clinical records than the
     combination of sampling date and DOB, and also more relevant for
     clinical/experimental purposes than either of those alone.
@@ -547,41 +549,46 @@ protocol Metadata {
     union { null, string } ageAtSampling = null;
 
     /**
-    A description of the interventions applied to the sample (e.g. in vitro
-    drug testing).
+    A description of the interventions applied to the biosample 
+    (e.g. in vitro drug testing).
     */
     array<Intervention> interventions = [];
 
     /**
-    Observations and measurements related to the sample.
+    Observations and measurements related to the biosample.
     */
     array<Observation> observations = [];
 
     /**
-    The cell types of this sample.
+    The cell types of this biosample.
     Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended.
     */
     array<OntologyTerm> cellType;
 
     /**
     The anatomical part (body part, organ, tissue, body or excretory fluid) of
-    the individual from which this sample derives.
+    the individual from which this biosample derives.
     Using Uberon (http://uberon.org) is recommended.
     */
     union { null, OntologyTerm } organismPart = null;
 
     /**
-    This sample is from a cell line, which still could be from an indivdual.
-    Using the [Cell Line Ontology](https://code.google.com/p/clo-ontology/)
+    This biosample could be derived from a cell line, which still 
+    could be from an indivdual.
+    Using the Cell Line Ontology (https://code.google.com/p/clo-ontology/)
     is a possibility.
     TODO: discuss further. Other possibilities: Cellosaurus (nextprot),
     BRENDA/BTO, EFO (EBI)
-    TODO: need to have derivation record from other samples for cell lines.
+    TODO: need to have derivation record from other biosample for 
+    cell lines.
     */
     union { null, OntologyTerm } cellLine = null;
 
     /**
-    Geographic coordinates from which the sample was obtained.
+    Geographic coordinates from which the biosample was obtained. 
+    This is either related to a field collection, or the corresponding
+    individual's place of residencde or treatment.
+    TODO: May need replacement with multiple locations.
     */
     union { null, GeographicLocation } geographicLocation = null;
 
@@ -599,7 +606,7 @@ protocol Metadata {
     union { null, OntologyTerm } preservationMethod = null;
 
     /**
-    A map of additional sample information.
+    A map of additional biosample information.
     TODO: make consistent
     */
     map<array<string>> info = {};
