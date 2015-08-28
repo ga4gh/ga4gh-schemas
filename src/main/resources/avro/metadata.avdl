@@ -104,12 +104,14 @@ record AnalysisSample {
 
   /** The analysis sample. */
   union { null, string } name = null;
+  
+  /** The ID of the dataset this analysis sample belongs to. */
+  string datasetId;
 
-  /** The date this analysis sample object was created in milliseconds from the epoch. */
+  /** When this analysis sample object was created in milliseconds from the epoch. */
   union { null, long } created = null;
 
-  /**
-  The time at which this analysis sample object was last updated in milliseconds from the epoch. */
+  /** When this analysis sample object was last updated in milliseconds from the epoch. */
   union { null, long } updated = null;
 
   /** A map of additional analysis sample information. */
