@@ -92,27 +92,27 @@ record Experiment {
 }
 
 /**
-A `GoopGlob` represents prepared tissue intended to be sequenced and analyzed together,
+An `AnalysisSample` represents prepared tissue intended to be sequenced and analyzed together,
 eventually generating one or more `ReadGroupSet` and/or `CallSet` objects.
 TODO: agree on a formal metadata model to describe where the tissue came from, including
 ways to represent the source organism, sample collection, and sample prep.
 */
-record GoopGlob {
+record AnalysisSample {
 
-  /** The goop glob ID. */
+  /** The analysis sample ID. */
   string id;
 
-  /** The goop glob name. */
+  /** The analysis sample. */
   union { null, string } name = null;
 
-  /** The date this goop glob was created in milliseconds from the epoch. */
+  /** The date this analysis sample object was created in milliseconds from the epoch. */
   union { null, long } created = null;
 
   /**
-  The time at which this goop glob was last updated in milliseconds from the epoch. */
+  The time at which this analysis sample object was last updated in milliseconds from the epoch. */
   union { null, long } updated = null;
 
-  /** A map of additional goop glob information. */
+  /** A map of additional analysis sample information. */
   map<array<string>> info = {};
 }
 
