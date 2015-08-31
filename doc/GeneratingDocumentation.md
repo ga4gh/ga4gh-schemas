@@ -5,6 +5,26 @@
 ## Install prerequisites
 To use the Sphinx/Avro documentation generator, you must install some software package prerequisites.
 
+#### Pandoc
+`pandoc` is a small library that converts between markup formats.
+
+##### Ubuntu
+
+```
+$ sudo apt-get install pandoc
+```
+
+##### CentOS/Fedora
+
+```
+$ sudo yum install pandoc
+```
+
+##### Mac OS X
+
+```
+$ brew install pandoc
+```
 
 #### Java
 We use a small Java program to process the schemas.
@@ -43,13 +63,19 @@ $ sudo yum install python-pip
 
 ##### Mac OS X
 
-Download `pip` from [here](https://bootstrap.pypa.io/get-pip.py) and run it:
+Use `brew`:
+```
+$ brew install pip
+```
+
+Or download `pip` from [here](https://bootstrap.pypa.io/get-pip.py) and run it:
 
 ```
 $ python get-pip.py
 ```
 
-__Running it__: Do this once to install all required Python packages:
+#### Putting it all together
+Do this once to install all required Python packages:
 
 ```
 $ sudo pip install -r requirements.txt

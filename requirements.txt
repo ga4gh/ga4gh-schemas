@@ -4,4 +4,5 @@ flake8
 humanize
 nose
 requests
+sphinx
 pypandoc
