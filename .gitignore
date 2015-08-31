@@ -70,3 +70,9 @@ target/
 
 #********** IntelliJ files ******
 *.iml
+
+
+#********** Sphinx **********
+/sphinx/_build
+/sphinx/pages
+/sphinx/avro-tools.jar
