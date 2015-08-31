@@ -70,12 +70,12 @@ record SearchVariantsRequest {
   string variantSetId;
 
   /**
-  Only return variant calls belonging to these columns.
+  Only return variant calls belonging to these samples.
   If an empty array, returns variants without any call objects.
   If null, returns all variant calls.
   TODO: rename
   */
-  union { null, array<string> } columnHandles = null;
+  union { null, array<string> } sampleNames = null;
 
   /** Required. Only return variants on this reference. */
   string referenceName;
@@ -113,8 +113,8 @@ record SearchVariantsRequest {
 record SearchVariantsResponse {
   /**
   The list of matching variants.
-  If the `columnHandle` field on the returned calls is not present, the
-  ordering of the columns from a `SearchVariantsRequest` over the parent
+  If the `sampleName` field on the returned calls is not present, the
+  ordering of the samples from a `SearchVariantsRequest` over the parent
   `VariantSet` is guaranteed to match the ordering of the calls on each
   `Variant`. The number of results will also be the same.
   */

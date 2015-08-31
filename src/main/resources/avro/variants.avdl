@@ -41,6 +41,29 @@ record VariantSetMetadata {
 }
 
 /**
+Method used for variant calling
+*/
+record CallingMethod {
+  /** The variant set for which the method is used */
+  string variantSetId;
+
+  /** the sample in the variant set to which the method is applied */
+  string sampleName;
+
+  /** The date this call set was created in milliseconds from the epoch. */
+  union { null, long } created = null;
+
+  /**
+  The time at which this call set was last updated in milliseconds from the
+  epoch.
+  */
+  union ( null, long } updated = null;
+
+  /** A map of additional information on the calling method. */
+  map<array<string>> info = {};
+}
+
+/**
 `Variant` belongs to a `VariantSet`.
 `VariantSet` belongs to a `Dataset`.
 The variant set is equivalent to a VCF file.
@@ -57,12 +80,8 @@ record VariantSet {
   */
   string referenceSetId;
 
-  /**
-  Handles to the "columns" of the VariantSet, each unique at least within the
-  VariantSet.
-  TODO: rename this pending the outcome of other PRs.
-  */
-  array<string> columnHandles = [];
+  /** Samples used in this variant set */
+  array<string> sampleNames = [];
 
   /**
   The metadata associated with this variant set. This is equivalent to
@@ -82,14 +101,13 @@ the occurrence of a SNP named rs1234 in a call set with the name NA12345.
 record Call {
 
   /**
-  The handle of the column this variant call belongs to.
-  If this field is not present, the ordering of the columns from a
+  The sample this variant call belongs to.
+  If this field is not present, the ordering of the samples from a
   `SearchVariantsRequest` over this `VariantSet` is guaranteed to match the
   ordering of the calls on this `Variant`.
   The number of results will also be the same.
-  TODO: rename
   */
-  union { null, string } columnHandle = null;
+  union { null, string } sampleName = null;
 
   /**
   The genotype of this variant call.
