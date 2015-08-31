@@ -41,6 +41,29 @@ record VariantSetMetadata {
 }
 
 /**
+Method used for variant calling
+*/
+record CallingMethod {
+  /** The variant set for which the method is used */
+  string variantSetId;
+
+  /** the sample in the variant set to which the method is applied */
+  string sampleName;
+
+  /** The date this call set was created in milliseconds from the epoch. */
+  union { null, long } created = null;
+
+  /**
+  The time at which this call set was last updated in milliseconds from the
+  epoch.
+  */
+  union ( null, long } updated = null;
+
+  /** A map of additional information on the calling method. */
+  map<array<string>> info = {};
+}
+
+/**
 `Variant` belongs to a `VariantSet`.
 `VariantSet` belongs to a `Dataset`.
 The variant set is equivalent to a VCF file.
