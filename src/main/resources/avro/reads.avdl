@@ -77,7 +77,7 @@ record ReadGroup {
   union { null, string } description = null;
 
   /** The sample this read group's data was generated from. */
-  union { null, string } sampleName;
+  union { null, string } analysisSampleId;
 
   /** The experiment used to generate this read group. */
   union { null, Experiment } experiment;

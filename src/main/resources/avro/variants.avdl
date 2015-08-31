@@ -48,7 +48,7 @@ record CallingMethod {
   string variantSetId;
 
   /** the sample in the variant set to which the method is applied */
-  string sampleName;
+  string analysisSampleId;
 
   /** The date this call set was created in milliseconds from the epoch. */
   union { null, long } created = null;
@@ -83,7 +83,7 @@ record VariantSet {
   /**
   List of samples that are involved in this variant set.
   */
-  array<string> sampleNames = [];
+  array<string> analysisSampleIds = [];
 
   /**
   The metadata associated with this variant set. This is equivalent to
@@ -109,7 +109,7 @@ record Call {
   the ordering of the calls on this `Variant`.
   The number of results will also be the same.
   */
-  union { null, string } sampleName = null;
+  union { null, string } analysisSampleId = null;
 
   /**
   The genotype of this variant call.

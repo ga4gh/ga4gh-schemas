@@ -109,4 +109,32 @@ record Dataset {
 
 }
 
+/**
+An analysis sample is a conceptual "sample" for the analysis purpose only.
+Its name appears in a @RG line in a SAM file and in the sample header line of a
+VCF file.
+*/
+record AnalysisSample {
+  /**
+  Identifier of this analysis sample
+  */
+  string id;
+
+  /**
+  The identifier of the dataset this sample belongs to
+  */
+  string datasetId;
+
+  /**
+  Submitted sample name in the dataset. This name uniquely identifies the
+  sample in the dataset.
+  */
+  string name;
+
+  /**
+  Key-value pairs for additional sample information
+  */
+  map<array<string>> info = {};
+}
+
 }
