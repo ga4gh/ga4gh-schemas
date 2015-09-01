@@ -14,13 +14,13 @@ Contents
     :maxdepth: 2
 
     introduction
+    apigoals
+    apidesign
+    apidefinition
     variants
     reads
-    reference
     metadata
-    common
-    apireference
+    reference
     samplecode
-    whatIsWebAPI
     json
     avro

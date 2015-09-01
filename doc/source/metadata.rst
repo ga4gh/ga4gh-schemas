@@ -1,8 +1,14 @@
 .. _metadata:
 
 ***************************
-The Metadata schema (stub)
+Metadata API (stub)
 ***************************
+
+For the Metadata schema definitions, see the `avrodoc`_
+
+.. _avrodoc: <empty>
+
+
 ------------------
 Metadata
 ------------------

@@ -1,8 +1,12 @@
 .. _reads:
 
 *****************
-The Reads Schema
+Reads API
 *****************
+
+For the Reads schema definitions, see :ref:`avrodoc`.
+
+.. _avrodoc: <empty>
 
 ------------
 Short Reads
@@ -61,7 +65,7 @@ Program         | Software version and parameters that were  PN, CL tags in SAM 
 Fragment        | *ill defined*
 =============== ============================================ ==================
 
-For a complete description of all Reads records, see :ref:`apireference`.
+For a complete description of all Reads records, see :ref:`avrodoc`.
 
 Records can contain other records, for instance ReadStats is contained in ReadGroup and ReadGroupSet.
 Each record is made up of a number of fields that describe the data.

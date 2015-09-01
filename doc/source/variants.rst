@@ -1,8 +1,14 @@
 .. _variants:
 
 *******************
-The Variants schema
+Variants API
 *******************
+
+For the Variant schema definitions, see the `avrodoc`_
+
+.. _avrodoc: <empty>
+
+   
 ------------------
 Genetic Variants
 ------------------
@@ -111,4 +117,7 @@ The ``id`` is unique and can be used in other records. For instance, the Variant
 Below is an image of which records contain other records (such as ``VariantSetMetaData``), and which contain IDs that can be used to get information from other records (such as ``variantSetId``). The arrow points `from` the record that lists the ID `to` the record that can be identified by that ID.
 
 .. image:: _static/variant_schema.png
- 
+
+
+For the complete Variant schema definition, see the `avrodoc`_
+
