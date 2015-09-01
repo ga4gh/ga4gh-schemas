@@ -38,6 +38,7 @@ whole genome annotations, the API allows retrieval of information on, for instan
 For a full list of the GA4GA API goals, see :ref:`apigoals`
 
 The API consists of a series of :ref:`apidefinition`, or schemas, that define datasets, metadata, read group sets, reads, variants, etc. 
+
 The schemas are written in Avro Interactive Data Language (extension .avdl). 
 
 :ref:`avro` is a data serialization system, it defines how data gets transported across the internet.
