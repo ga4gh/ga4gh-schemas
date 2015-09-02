@@ -94,9 +94,9 @@ as JSON.
 */
 record SearchReferencesRequest {
   /**
-  If not null, return only references which belong to this reference set.
+  The `ReferenceSet` to search.
   */
-  union { null, string } referenceSetId = null;
+  string referenceSetId;
 
   /**
   If nonempty, return references which match any of the given `md5checksums`.
