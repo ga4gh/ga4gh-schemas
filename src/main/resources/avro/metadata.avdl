@@ -459,8 +459,15 @@ protocol Metadata {
   }
 
   /**
-  A biological sample used in an experiment. (e.g. whole blood from
-  an affected individual)
+  A biological sample from which the preparation of the
+  target molecule type of interest (e.g. DNA, protein preparation,
+  RNA ...) is being extracted. 
+  Examples would be:
+    - a microdissected collection of one or multiple malignant 
+    cells from a pancreas carcinoma biopsy
+    - an environmental sample (e.g. water collected in the 
+    Atlantic ocean, at Latitude 26.4, Longitude 69.3, Altitude -100m)
+    - whole blood preparation of an individual
   */
   record Biosample {
 
