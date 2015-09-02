@@ -134,13 +134,7 @@ record Biosample {
   array<string> externalIds;
 
   /**
-  A description of the biosample.
-  */
-  union { null, string } description = null;
-
-  /**
   A map of additional biosample information.
-  TODO: make consistent
   */
   map<array<string>> info = {};
 }
