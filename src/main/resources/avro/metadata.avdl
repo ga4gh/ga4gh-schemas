@@ -113,12 +113,6 @@ record Biosample {
   string id;
 
   /**
-  The biosample's guid. This is globally unique id (UUIDv4).
-  TODO: Required?!
-  */
-  union { null, string } guid = null;
-
-  /**
   The name of the biosample.
   */
   union { null, string } name = null;
@@ -128,15 +122,6 @@ record Biosample {
   */
   union { null, string } description = null;
 
-  /**
-  External identifiers for sample, e.g. EBI BioSamples accession.
-  */
-  array<string> externalIds;
-
-  /**
-  A map of additional biosample information.
-  */
-  map<array<string>> info = {};
 }
 
 /**
