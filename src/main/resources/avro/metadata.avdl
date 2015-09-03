@@ -9,7 +9,7 @@ protocol Metadata {
 import idl "common.avdl";
 
 /**
-An experimental preparation of a `Biosample`.
+An experimental preparation of a `Sample`.
 */
 record Experiment {
   /** The experiment UUID. This is globally unique. */
@@ -46,7 +46,7 @@ record Experiment {
   union { null, string } molecule = null;
 
   /**
-  The experiment technique or strategy applied to the biosample.
+  The experiment technique or strategy applied to the sample.
   (e.g. whole genome sequencing, RNA-seq, RIP-seq)
   */
   union { null, string } strategy = null;
