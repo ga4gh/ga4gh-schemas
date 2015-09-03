@@ -9,7 +9,7 @@ protocol Metadata {
 import idl "common.avdl";
 
 /**
-An experimental preparation of a `Sample`.
+An experimental preparation of a `Biosample`.
 */
 record Experiment {
   /** The experiment UUID. This is globally unique. */
@@ -46,7 +46,7 @@ record Experiment {
   union { null, string } molecule = null;
 
   /**
-  The experiment technique or strategy applied to the sample.
+  The experiment technique or strategy applied to the biosample.
   (e.g. whole genome sequencing, RNA-seq, RIP-seq)
   */
   union { null, string } strategy = null;
@@ -123,15 +123,9 @@ what's the distribution of that result in the data from our project?)
 */
 record Dataset {
   /**
-  The dataset's id. This is the local/legacy/generic id.
+  The dataset's id, (at least) locally unique.
   */
   string id;
-
-  /**
-  The dataset's guid. This is globally unique id (UUIDv4).
-  TODO: Required?!
-  */
-  union { null, string } guid = null;
 
   /**
   The name of the dataset.
