@@ -26,7 +26,7 @@ mkdir -p ../target/documentation
 
 echo Processing AVDL files.  Please wait a moment...
 
-for AVDL_FILE in ../src/main/resources/avro/*.avdl
+for AVDL_FILE in ../../src/main/resources/avro/*.avdl
 do
     # Make each AVDL file into a JSON AVPR file:
 

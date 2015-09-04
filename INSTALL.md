@@ -1,12 +1,26 @@
-# Generating API Documentation
+# Installing the GA4GH Schemas
 
-----
+The schemas are documents (text files) that formally describe the messages that pass between GA4GH reference servers and clients, which
+we also refer to collectively as "the API."
+The schemas are written in a language called [Avro](http://avro.apache.org).
 
-## Install prerequisites
-To use the Sphinx/Avro documentation generator, you must install some software package prerequisites.
+We use the schemas in a couple of different ways:
+- to generate source code
+- to generate documentation
+
+## Generating Source Code
+
+(To be written.)
+
+## Installing the Documentation Tools and Generating Documentation
+
+We use a tool called Sphinx to generate the documentation from Avro input files.
+
+### Install prerequisites
+To use the Sphinx/Avro documentation generator, you must install some software packages it requires.
 
 #### Pandoc
-`pandoc` is a small library that converts between markup formats.
+`pandoc` is a small library that converts between markup languages.
 
 ##### Ubuntu
 
@@ -83,9 +97,13 @@ $ sudo pip install -r requirements.txt
 
 ## Generate the documentation
 
-With those prerequisites out of the way, do this anytime you wish to generate the documentation:
+With those prerequisites out of the way, do this anytime you wish to generate the documentation.  Assuming
+your working directory is the base `schemas` directory:
 
 ```
-$ cd sphinx
+$ cd tools/sphinx
 $ ./generate_sphinx_docs.sh
 ```
+
+The documentation you generate will reside in `tools/sphinx/_build/`.  To view it, open the file
+`tools/sphinx/_build/index.html` in a browser.
