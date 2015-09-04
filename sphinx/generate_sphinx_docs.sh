@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+set -beEu -o pipefail
 
 # Script to generate the sphinx documentation
 # Run from inside schemas/sphinx
@@ -10,8 +12,10 @@
 # Are the Avro tools installed?
 if [ ! -f avro-tools.jar ]
 then
-    # Download them
-    curl -o avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.7/java/avro-tools-1.7.7.jar
+    # Download them if not
+    echo -n Downloading Avro tools...
+    curl -s -o avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.7/java/avro-tools-1.7.7.jar
+    echo " done."
 fi
 
 # Make a directory for all the .avpr files
@@ -19,6 +23,8 @@ mkdir -p ../target/schemas
 
 # Make a place to put the documentation
 mkdir -p ../target/documentation
+
+echo Processing AVDL files.  Please wait a moment...
 
 for AVDL_FILE in ../src/main/resources/avro/*.avdl
 do
@@ -33,6 +39,8 @@ do
     # Compile the AVDL to the AVPR
     java -jar avro-tools.jar idl "${AVDL_FILE}" "${AVPR_FILE}"
 done
+
+echo Finished processing AVDL files. Writing HTML pages now.
 
 # convert AVPR to reST, then use sphinx to generate docs
 mkdir -p pages
