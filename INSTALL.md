@@ -40,25 +40,26 @@ $ sudo yum install pandoc
 $ brew install pandoc
 ```
 
-#### Java
-We use a small Java program to process the schemas.
+#### Maven
+We use the Maven build tool to control processing the schemas.  Installing Maven will also install Java.
 
 ##### Ubuntu
 
 ```
-$ sudo apt-get install openjdk-7-jre-headless
+$ sudo apt-get install maven
 ```
 
 ##### CentOS/Fedora
 
 ```
-$ sudo yum install java-1.7.0-openjdk-devel
+$ sudo yum install maven
 ```
 
 ##### Mac OS X
 
-Download the `Java SE Development Kit 8` from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
-Double-click the `.dmg` disk image file and follow the installation instructions.
+```
+$ brew install maven
+```
 
 #### Python/PIP
 We use some Python utility programs also.
@@ -97,12 +98,12 @@ $ sudo pip install -r requirements.txt
 
 ## Generate the documentation
 
-With those prerequisites out of the way, do this anytime you wish to generate the documentation.  Assuming
-your working directory is the base `schemas` directory:
+With those prerequisites out of the way, do this anytime you wish to generate the documentation.
+
+Assuming your working directory is the base "`schemas`" directory, do this:
 
 ```
-$ cd tools/sphinx
-$ ./generate_sphinx_docs.sh
+$ mvn package
 ```
 
 The documentation you generate will reside in `tools/sphinx/_build/`.  To view it, open the file
