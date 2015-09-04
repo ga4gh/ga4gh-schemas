@@ -7,11 +7,8 @@ set -beEu -o pipefail
 
 # Expects sphinx and pypandoc to be installed
 
-# Meant to bee run from the Maven build, so set our cwd
-
-home=tools/sphinx
-
-cd $home
+# Meant to be run from the Maven build, so set our cwd relative to the top-level dir
+cd tools/sphinx
 
 # Generate AVPR files
 
@@ -46,16 +43,16 @@ do
     java -jar avro-tools.jar idl "${AVDL_FILE}" "${AVPR_FILE}"
 done
 
-echo Finished processing AVDL files. Writing HTML pages now.
-echo This will take a moment...
+echo Finished processing AVDL files.
+echo
+echo Writing HTML pages. This will take a moment...
 
 # convert AVPR to reST, then use sphinx to generate docs
 mkdir -p pages
 python avpr2rest.py ../target/schemas/*.avpr pages/
-make html
+make html >& /dev/null
 
 echo
-echo "****"
-echo Complete.  The HTML files are in `pwd`/_build/html.
+echo Complete!  The HTML files are in `pwd`/_build/html.
 echo Point your browser at file:`pwd`/_build/html/index.html .
-echo "****"
+echo
