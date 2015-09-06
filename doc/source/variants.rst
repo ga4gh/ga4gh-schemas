@@ -78,7 +78,7 @@ VariantSet | A collection of variants                         VCF file
 Metadata   | Information on the flags used                    VCF header
 ========== ================================================== ==============
 
-For a complete description of all Variant records, see :ref:`apireference`.
+For a complete description of all Variant records, see :ref:`avrodoc`.
 
 
 `EXPLAIN: Where do the Qual, Info, Filter, and Format fields go?`
