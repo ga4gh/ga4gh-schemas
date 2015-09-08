@@ -1,17 +1,24 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+set -beEu -o pipefail
 
 # Script to generate the sphinx documentation
 # Run from inside schemas/sphinx
 
 # Expects sphinx and pypandoc to be installed
 
-# generate AVPR files
+# Meant to be run from the Maven build, so set our cwd relative to the top-level dir
+cd tools/sphinx
+
+# Generate AVPR files
 
 # Are the Avro tools installed?
 if [ ! -f avro-tools.jar ]
 then
-    # Download them
-    curl -o avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.7/java/avro-tools-1.7.7.jar
+    # Download them if not
+    echo -n Downloading Avro tools...
+    curl -s -o avro-tools.jar  http://www.us.apache.org/dist/avro/avro-1.7.7/java/avro-tools-1.7.7.jar
+    echo " done."
 fi
 
 # Make a directory for all the .avpr files
@@ -20,7 +27,9 @@ mkdir -p ../target/schemas
 # Make a place to put the documentation
 mkdir -p ../target/documentation
 
-for AVDL_FILE in ../src/main/resources/avro/*.avdl
+echo Processing AVDL files...
+
+for AVDL_FILE in ../../src/main/resources/avro/*.avdl
 do
     # Make each AVDL file into a JSON AVPR file:
 
@@ -34,7 +43,16 @@ do
     java -jar avro-tools.jar idl "${AVDL_FILE}" "${AVPR_FILE}"
 done
 
+echo Finished processing AVDL files.
+echo
+echo Writing HTML pages. This will take a moment...
+
 # convert AVPR to reST, then use sphinx to generate docs
 mkdir -p pages
 python avpr2rest.py ../target/schemas/*.avpr pages/
-make html
+make html >& /dev/null
+
+echo
+echo Complete!  The HTML files are in `pwd`/_build/html.
+echo Point your browser at file:`pwd`/_build/html/index.html .
+echo
