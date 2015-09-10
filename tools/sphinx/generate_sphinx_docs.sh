@@ -10,14 +10,14 @@ set -beEu -o pipefail
 # Meant to be run from the Maven build, so set our cwd relative to the top-level dir
 cd doc
 
-# Create a home for all the merged .rst files: the written ones and the generated ones
-
 GENERATED_DOCS_LOC=../target/generated-docs
 RST_LOC=$GENERATED_DOCS_LOC/rst
-#RST_SCHEMAS_LOC=$RST_LOC/schemas
-RST_SCHEMAS_LOC=$RST_LOC
-# HTML_LOC is relative to $GENERATED_DOCS_LOC
+RST_SCHEMAS_LOC=$RST_LOC/schemas
+# HTML_LOC is where the final output goes.  It's relative to $GENERATED_DOCS_LOC.
 HTML_LOC=merged
+
+# Create a home for all the merged .rst files: the written ones and the generated ones
+
 mkdir -p $RST_SCHEMAS_LOC
 
 # Generate AVPR files
