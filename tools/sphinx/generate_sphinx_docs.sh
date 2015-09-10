@@ -10,8 +10,15 @@ set -beEu -o pipefail
 # Meant to be run from the Maven build, so set our cwd relative to the top-level dir
 cd doc
 
-# Generate the hand-written documentation
-make html
+# Create a home for all the merged .rst files: the written ones and the generated ones
+
+GENERATED_DOCS_LOC=../target/generated-docs
+RST_LOC=$GENERATED_DOCS_LOC/rst
+#RST_SCHEMAS_LOC=$RST_LOC/schemas
+RST_SCHEMAS_LOC=$RST_LOC
+# HTML_LOC is relative to $GENERATED_DOCS_LOC
+HTML_LOC=merged
+mkdir -p $RST_SCHEMAS_LOC
 
 # Generate AVPR files
 
@@ -47,14 +54,15 @@ done
 
 echo Finished processing AVDL files.
 echo
-echo Writing HTML pages. This will take a moment...
+echo Writing HTML pages. This will take a few moments...
 
-# convert AVPR to reST, then use sphinx to generate docs
-HTML_LOC=../target/avro-pages
+# copy the written documentation to the merged directory
+cp -pr source/* $RST_LOC
 
-mkdir -p $HTML_LOC
-python ../tools/sphinx/avpr2rest.py ../target/schemas/*.avpr $HTML_LOC
-(cd ../tools/sphinx; make html)
+# convert AVPR to reST, then use sphinx to generate all the docs
+python ../tools/sphinx/avpr2rest.py ../target/schemas/*.avpr $RST_SCHEMAS_LOC
+cp Makefile $GENERATED_DOCS_LOC
+(cd $GENERATED_DOCS_LOC; make html BUILDDIR=$HTML_LOC)
 
 echo
 echo Complete!

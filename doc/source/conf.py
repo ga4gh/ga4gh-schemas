@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# ga4gh schemas documentation build configuration file, created by
-# sphinx-quickstart and manually updated on Tue May 19 10:38:15 2015.
+# GA4GH Schemas documentation build configuration file, created by
+# sphinx-quickstart on Thu Jul  2 16:00:07 2015.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -14,12 +14,14 @@
 
 import sys
 import os
-import shlex
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../../../tools/sphinx'))
+
+print "source sys.path", sys.path
+
 
 # -- General configuration ------------------------------------------------
 
@@ -34,6 +36,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
+    'avrodomain',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -51,7 +54,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'ga4gh schemas'
+project = u'GA4GH Schemas'
 copyright = u'2015, Global Alliance for Genomics and Health'
 author = u'Global Alliance for Genomics and Health'
 
@@ -79,7 +82,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = []
+exclude_patterns = ['_build']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -227,7 +230,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'ga4ghschemas.tex', u'ga4gh schemas Documentation',
+  (master_doc, 'ga4ghschemas.tex', u'GA4GH Schemas Documentation',
    u'Jeltje van Baren', 'manual'),
 ]
 
@@ -257,7 +260,7 @@ latex_logo = "_static/logo_ga.png"
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'ga4ghschemas', u'ga4gh schemas Documentation',
+    (master_doc, 'ga4ghschemas', u'GA4GH Schemas Documentation',
      [author], 1)
 ]
 
@@ -271,7 +274,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'ga4ghschemas', u'ga4gh schemas Documentation',
+  (master_doc, 'ga4ghschemas', u'GA4GH Schemas Documentation',
    author, 'ga4ghschemas', 'One line description of project.',
    'Miscellaneous'),
 ]
