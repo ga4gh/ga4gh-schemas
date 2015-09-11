@@ -4,9 +4,7 @@
 Metadata API (stub)
 ***************************
 
-For the Metadata schema definitions, see the `avrodoc`_
-
-.. _avrodoc: <empty>
+For the Metadata schema definitions, see the `Metadata schema <schemas/metadata.html>`_
 
 
 ------------------

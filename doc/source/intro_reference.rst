@@ -4,9 +4,8 @@
 Reference API (stub)
 ***************************
 
-For the Reference schema definitions, see the `avrodoc`_
+For the Reference schema definitions, see the `References schema <schemas/references.html>`_
 
-.. _avrodoc: <empty>
 
 
 ------------------

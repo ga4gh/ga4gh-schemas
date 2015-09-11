@@ -4,11 +4,9 @@
 Variants API
 *******************
 
-For the Variant schema definitions, see the `avrodoc`_
+For the Variant schema definitions, see the `Variants schema <schemas/variants.html>`_
 
-.. _avrodoc: <empty>
 
-   
 ------------------
 Genetic Variants
 ------------------
@@ -78,7 +76,7 @@ VariantSet | A collection of variants                         VCF file
 Metadata   | Information on the flags used                    VCF header
 ========== ================================================== ==============
 
-For a complete description of all Variant records, see :ref:`avrodoc`.
+For a complete description of all Variant records, see `Variants schema <schemas/variants.html>`_
 
 
 `EXPLAIN: Where do the Qual, Info, Filter, and Format fields go?`
@@ -119,5 +117,5 @@ Below is an image of which records contain other records (such as ``VariantSetMe
 .. image:: _static/variant_schema.png
 
 
-For the complete Variant schema definition, see the `avrodoc`_
+For the complete Variant schema definition, see the `Variants schema <schemas/variants.html>`_
 

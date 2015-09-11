@@ -24,3 +24,13 @@ Contents
     intro_samplecode
     intro_json
     intro_avro
+    schemas/common
+    schemas/metadata
+    schemas/methods
+    schemas/readmethods
+    schemas/reads
+    schemas/referencemethods
+    schemas/references
+    schemas/variantmethods
+    schemas/variants
+
