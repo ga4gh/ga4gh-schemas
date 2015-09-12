@@ -5,18 +5,49 @@ This file defines the objects used to represent a hierarchy of reads and alignme
 
 ReadGroupSet >--< ReadGroup --< fragment --< read --< alignment --< linear alignment
 
-* A ReadGroupSet is a logical collection of ReadGroup's.
+`FIXME:  This order does not appear to exist like this and is not linear`
+
+If `>--<` means contains and `-->` and `<--` mean pointer, then currently:
+
+    ReadGroupSet >--< ReadGroup  <--- ReadAlignment >--< Linear alignment <--> Common.CigarUnit  
+                                                    ---> fragment  
+                                  ---> Metadata.Dataset  
+                                  ---> Metadata.Sample  
+                                  <--> Metadata.Experiment  
+                                  ---> Reference.ReferenceSet  
+                                  <--> ReadStats  
+                 >--< ReadStats  
+                 ---> Metadata.Dataset
+
+`NOTE: ReadAlignment is the only record that no other records point to (or contain) so ReadAlignment should really be the root` :
+
+    ReadAlignment >--< linear alignment <--> Common.CigarUnit
+                  ---> fragment
+                  ---> ReadGroup              >--< ReadGroupSet <--> ReadStats
+                                                                ---> Metadata.Dataset
+                                              ---> Metadata.Dataset
+                                              ---> Metadata.Sample
+                                              <--> Metadata.Experiment
+                                              ---> Reference.ReferenceSet
+                                              <--> ReadStats
+
+`NOTE: The below probably needs to be rewritten entirely, but I have added some notes anyway.`
+
+* A ReadGroupSet is a logical collection of ReadGroups. `FIXME: Logical how? Is it all samples from an experiment?`
 * A ReadGroup is all the data that's processed the same way by the sequencer.
- There are typically 1-10 ReadGroup's in a ReadGroupSet.
+`FIXME: What is a sequencer? A machine? What's an example of 'processed the same way'?`
+ There are typically 1-10 ReadGroups in a ReadGroupSet.
 * A *fragment* is a single stretch of a DNA molecule. There are typically
  millions of fragments in a ReadGroup. A fragment has a name (QNAME in BAM
  spec), a length (TLEN in BAM spec), and an array of reads.
+`FIXME: Fragment seems very similar to Reference.Reference. Why not use that?`
 * A *read* is a contiguous sequence of bases. There are typically only one or
  two reads in a fragment. If there are two reads, they're known as a mate pair.
  A read has an array of base values, an array of base qualities, and alignment
  information.
-* An *alignment* is the way alignment software maps a read to a reference.
- There's one primary alignment, and can be one or more secondary alignments.
+* An *alignment* is a mapping of a read to a reference.
+ There's one primary alignment, `typically randomly chosen by the alignment software`,
+ and there can be one or more secondary alignments.
  Secondary alignments represent alternate possible mappings.
 * A *linear alignment* maps a string of bases to a reference using a single
  CIGAR string. There's one representative alignment, and can be one or more
@@ -25,86 +56,113 @@ ReadGroupSet >--< ReadGroup --< fragment --< read --< alignment --< linear align
 * A ReadAlignment object is a flattened representation of the bottom layers
  of this hierarchy. There's exactly one such object per *linear alignment*. The
  object contains alignment info, plus fragment and read info for easy access.
+ CIGAR string. There's one representative alignment, and there can be one or more
+ supplementary alignments. Supplementary alignments represent linear or graph
+ alignments that are subsets of a chimeric alignment.
+`FIXME: how is a supplementary alignment different from a secondary alignment?`
+* A ReadAlignment object is a flattened representation of the bottom layers
+ of this hierarchy. There's exactly one such object per *linear alignment* or
+ *graph alignment*. The object contains alignment info, plus fragment and read
+ info for easy access.
+`FIXME: This is completely unclear as written. Maybe split graph and linear alignments and discuss separately.`
+
 */
+
 protocol Reads {
 
 import idl "common.avdl";
 import idl "metadata.avdl";
 
-record Program {
-  /** The command line used to run this program. */
-  union { null, string } commandLine = null;
+/**
+A Program is `public?` software that is used to create read alignments `NOTE: if it's more generic than this, 
+it does not belong in the Reads schema`. Each Program record must contain a unique ID, the program name
+(e.g. bowtie) and the program's version (e.g. v.0.1.2). Optionally another program ID can be entered which
+points to another program that was run before the current program.
 
-  /** The user specified ID of the program. */
-  union { null, string } id = null;
+`NOTE: Removed most optional null values from original, because Program Name, Program ID etc should not
+be allowed to be null`
+
+*/
+record Program {
+  /** The UUID of the program. */
+  string id;
 
   /** The name of the program. */
-  union { null, string } name = null;
+  string name;
+
+  /** The command line used to run this program. */
+  string commandLine;
+
+  /** The version of the program run. */
+  string version;
 
   /** The ID of the program run before this one. */
   union { null, string } prevProgramId = null;
 
-  /** The version of the program run. */
-  union { null, string } version = null;
 }
 
+/**
+ReadStats holds information on ReadGroups or ReadGroupSets.`NOTE: Must expand description`
+
+`FIXME: This record should hold the output of Samtools flagstat, or equivalent.` 
+See [this ticket] (https://github.com/Jeltje/ga4gh-schemas/issues/12)
+
+`NOTE: Removed optional null values`
+*/
 record ReadStats {
   /** The number of aligned reads. */
-  union { null, long } alignedReadCount = null;
+  long alignedReadCount;
 
   /** The number of unaligned reads. */
-  union { null, long } unalignedReadCount = null;
+  long unalignedReadCount;
 
   /**
   The total number of bases.
   This is equivalent to the sum of `alignedSequence.length` for all reads.
   */
-  union { null, long } baseCount = null;
+  long  baseCount;
 }
 
+/**
+A ReadGroup is a collection of `ReadAlignment`s. This is equivalent to a SAM file.
+
+`FIXME: Explain why nearly all values are allowed to be null. It seems most of them should not be`
+
+`REMOVED: created and updated fields. Timestamps should not be part of these records, because they will
+not be updated (they can be deleted or stored under a new ID if information changes)`
+*/
 record ReadGroup {
 
-  /** The read group ID. */
+  /** The UUID of the read group. */
   string id;
 
-  /** The ID of the dataset this read group belongs to. */
+  /** The ID of the `Dataset` that describes this read group. `EXPLAIN: Why can this be null? Can a ReadGroup NOT be part of a Dataset?`*/
   union { null, string } datasetId = null;
 
-  /** The read group name. */
+  /** The read group name. `FIXME: This should probably not be null` */
   union { null, string } name = null;
 
-  /** The read group description. */
+  /** The read group description. `EXPLAIN: What kind of description?` */
   union { null, string } description = null;
 
-  /** The sample this read group's data was generated from. */
+  /** The ID of the `Sample` record that describes the sample that was sequenced. `FIXME: Sample is not defined anywhere (used to be in metadata)`*/
   union { null, string } sampleId;
 
-  /** The experiment used to generate this read group. */
+  /** The `Experiment` used to generate this read group. `FIXME: This should not be null`*/
   union { null, Experiment } experiment;
 
-  /** The predicted insert size of this read group. */
+  /** The predicted insert size of this read group. `EXPLAIN: This should probably only be null if the reads were not paired end`*/
   union { null, int } predictedInsertSize = null;
 
-  /**
-  The time at which this read group was created in milliseconds from the epoch.
-  */
-  union { null, long } created = null;
-
-  /**
-  The time at which this read group was last updated in milliseconds
-  from the epoch.
-  */
-  union { null, long } updated = null;
-
-  /** Statistical data on reads in this read group. */
+  /** The `ReadStats` statistical data on reads in this read group. `FIXME: This should probably not be null`*/
   union { null, ReadStats } stats = null;
 
-  /** The programs used to generate this read group. */
+  /** The `Program`s used to generate `Align? Filter?` this read group. `FIXME: This should probably not be empty`*/
   array<Program> programs = [];
 
   /**
-  The reference set the reads in this read group are aligned to.
-  Required if there are any read alignments.
+  The ID of the `ReferenceSet` record that describes the sequence the reads in this read group are aligned to.
+  Required if there are any read alignments. `EXPLAIN: Are there expected to be ReadGroups that only have unaligned reads?`
   */
   union {null, string } referenceSetId = null;
 
@@ -114,39 +172,48 @@ record ReadGroup {
   map<array<string>> info = {};
 }
 
+/**
+A ReadGroupSet is a collection of `ReadGroup`s. If read groups are equivalent to SAM files, then a read group set can be a collection
+of SAM files that were generated from a single sequencing run.   
+All read groups in the set are required to map to the same referenceSet.
+
+`FIXME: Add proper description of ReadGroupSet`
+
+`FIXME: Explain why nearly all values are allowed to be null. It seems most of them should not be`
+*/
 record ReadGroupSet {
-  /** The read group set ID. */
+  /** The UUID of the ReadGroupSet.*/
   string id;
 
-  /** The ID of the dataset this read group set belongs to. */
+  /** The ID of the `Dataset` this read group set belongs to. `EXPLAIN: Why can this be null? Can a ReadGroup NOT be part of a Dataset?`*/
   union { null, string } datasetId = null;
 
-  /** The read group set name. */
+  /** The read group set name. `FIXME: This should probably not be null`*/
   union { null, string } name = null;
 
-  /** Statistical data on reads in this read group set. */
+  /** The `ReadStats` statistical data on reads in this read group set . `FIXME: This should probably not be null`*/
   union { null, ReadStats } stats = null;
 
-  /** The read groups in this set. */
+  /** The `ReadGroup`s that make up this read group set. */
   array<ReadGroup> readGroups = [];
 
-  // NB: we require that all readgroups in the set are mapped to the same
-  // referenceSet.
 }
 
-/** A linear alignment can be represented by one CIGAR string. */
+/**
+A LinearAlignment is a mapping of a read to a reference. It can be represented by one CIGAR string.
+*/
 record LinearAlignment {
-  /** The position of this alignment. */
+  /** The position of this alignment `in the reference genome/sequence`. */
   Position position;
 
   /**
   The mapping quality of this alignment. Represents how likely
-  the read maps to this position as opposed to other locations.
+  the read maps to this position as opposed to other locations. `EXPLAIN: Why is this allowed to be null?`
   */
   union { null, int } mappingQuality = null;
 
   /**
-  Represents the local alignment of this sequence (alignment matches, indels, etc)
+  The list of `CigarUnit`s that represent the local alignment of this sequence (alignment matches, indels, etc)
   versus the reference.
   */
   array<CigarUnit> cigar = [];
@@ -155,6 +222,8 @@ record LinearAlignment {
 /**
 A fragment represents a contiguous stretch of a DNA or RNA molecule. Reads can
 be associated with a fragment to specify they derive from the same molecule.
+`EXPLAIN: How is Fragment different from Reference?` Also see [this ticket] (https://github.com/Jeltje/ga4gh-schemas/issues/11)
+
 */
 record Fragment {
 
@@ -172,7 +241,7 @@ record ReadAlignment {
 
   /**
   The read alignment ID. This ID is unique within the read group this
-  alignment belongs to. This field may not be provided by all backends.
+  alignment belongs to. This field may not be provided by all backends. `Explain: Why not?`
   Its intended use is to make caching and UI display easier for
   genome browsers and other light weight clients.
   */
@@ -186,36 +255,43 @@ record ReadAlignment {
 
   // fragment attributes
   
-  /** The fragment ID that this ReadAlignment belongs to. */
+  /** The fragment ID that this ReadAlignment belongs to. 
+ 
+  `FIXME: To be consistent with other records, this should be replaced with ReferenceId.` See [this ticket] (https://github.com/Jeltje/ga4gh-schemas/issues/11)
+  */
   string fragmentId;
 
-  /** The fragment name. Equivalent to QNAME (query template name) in SAM.*/
+  /** The fragment name. Equivalent to QNAME (query template name) in SAM.
+	
+  `FIXME: This should then be ReferenceSequenceId`
+  */
   string fragmentName;
 
   /**
   The orientation and the distance between reads from the fragment are
-  consistent with the sequencing protocol (equivalent to SAM flag 0x2)
+  consistent with the sequencing protocol (equivalent to SAM flag 0x2). Can only be null if it hasn't been computed.
   */
   union { null, boolean } properPlacement = null;
 
-  /** The fragment is a PCR or optical duplicate (SAM flag 0x400) */
+  /** The fragment is a PCR or optical duplicate `(both are technical artefacts)` (SAM flag 0x400) */
   union { null, boolean } duplicateFragment = null;
 
-  /** The number of reads in the fragment (extension to SAM flag 0x1) */
+  /** The number of reads in the fragment (extension to SAM flag 0x1) `EXPLAIN: Why can this be null? Should it be zero if none are found? CAN none be found?`*/
   union { null, int } numberReads = null;
 
-  /** The observed length of the fragment, equivalent to TLEN in SAM. */
+  /** The observed length of the fragment, equivalent to TLEN in SAM. `EXPLAIN: Why can this be null? Should it be zero if none are found? CAN none be found?`*/
   union { null, int } fragmentLength = null;
 
   // read attributes
 
   /**
   The read number in sequencing. 0-based and less than numberReads. This field
-  replaces SAM flag 0x40 and 0x80.
+  replaces SAM flag 0x40 and 0x80. `UNCLEAR, please define better. SAM flags 0x40 and 0x80 are first and second read in pair, respectively. How does this
+  map to readNumber?` `Explain: Why can this be null?`
   */
   union { null, int } readNumber = null;
 
-  /** SAM flag 0x200 */
+  /** SAM flag 0x200, read fails platform or vendor quality checks */
   union { null, boolean } failedVendorQualityChecks = null;
 
   /**
@@ -256,6 +332,8 @@ record ReadAlignment {
   and quality. This will occur if the alignment is part of a chimeric alignment,
   or if the read was trimmed. When this occurs, the CIGAR for this read will
   begin/end with a hard clip operator that will indicate the length of the excised sequence.
+
+  `Explain: Is this equivalent to the SEQ SAM field?`
   */
   union { null, string } alignedSequence = null;
 
@@ -265,6 +343,9 @@ record ReadAlignment {
   and quality. This will occur if the alignment is part of a chimeric alignment,
   or if the read was trimmed. When this occurs, the CIGAR for this read will
   begin/end with a hard clip operator that will indicate the length of the excised sequence.
+
+  `Explain: Is this equivalent to the QUAL SAM field? If so, why is it an array, not a string? If not, how does it compare?`
+
   */
   array<int> alignedQuality = [];
 
@@ -276,6 +357,8 @@ record ReadAlignment {
 
   /**
   A map of additional read alignment information.
+
+  `Explain: Is this where the SAM TAGs go? There seem to be more precise ways to define SAM TAGs, should there be a separate record for those?`
   */
   map<array<string>> info = {};
 }
