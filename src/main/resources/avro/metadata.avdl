@@ -126,10 +126,19 @@ For data accessors, they're a simple way to scope exploration and analysis
 what's the distribution of that result in the data from our project?)   
 */
 record Dataset {
-  /** The dataset UUID. This is globally unique. */
+  /**
+  The dataset's id, (at least) locally unique.
+  */
   string id;
 
-  /** A description of the dataset. */
+  /**
+  The name of the dataset.
+  */
+  union { null, string } name = null;
+
+  /**
+  Additional, human-readable information on the dataset.
+  */
   union { null, string } description = null;
 
 }
