@@ -116,6 +116,7 @@ enum CigarOperation {
 
 /**
 A structure for an instance of a CIGAR operation.
+`FIXME: This belongs under Reads (only readAlignment refers to this)`
 */
 record CigarUnit {
   /** The operation type. */

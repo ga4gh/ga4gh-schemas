@@ -71,7 +71,7 @@ heavily with members of most other task teams and working groups.
 
 ## How to contribute changes
 
-See the [CONTRIBUTING.md](CONTRIBUTING.md) documement.
+See the [CONTRIBUTING.md](CONTRIBUTING.md) document.
 
 ## License
 
