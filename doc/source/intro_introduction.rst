@@ -35,7 +35,7 @@ The GA4GH web API
 This API was created to enable researchers to better access and exchange genomic data across remote sites. Instead of downloading complete BAM files or
 whole genome annotations, the API allows retrieval of information on, for instance, single genes or genomic regions.
 
-For a full list of the GA4GA API goals, see :ref:`apigoals`
+For a full list of the GA4GH API goals, see :ref:`apigoals`
 
 The API consists of a series of :ref:`apidefinition`, or schemas, that define datasets, metadata, read group sets, reads, variants, etc. 
 
