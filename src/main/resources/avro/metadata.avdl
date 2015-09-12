@@ -2,6 +2,8 @@
 
 /**
 This protocol defines metadata used in the other GA4GH protocols.
+`FIXME: Remove recordCreateTime and recordUpdateTime fields. Timestamps should not be part of these records, because they will
+not be updated (they can be deleted or stored under a new ID if information changes)`
 */
 
 protocol Metadata {
@@ -10,6 +12,7 @@ import idl "common.avdl";
 
 /**
 An experimental preparation of a `Sample`.
+`FIXME: Sample is not defined anywhere (but used here and in reads.avdl`
 */
 record Experiment {
   /** The experiment UUID. This is globally unique. */
@@ -22,6 +25,7 @@ record Experiment {
   union { null, string } description = null;
 
   /**
+  `FIXME:I don't think there should be timestamps in these records`
   The time at which this record was created. 
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
