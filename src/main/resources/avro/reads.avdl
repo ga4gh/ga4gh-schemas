@@ -134,6 +134,24 @@ record ReadGroupSet {
   // referenceSet.
 }
 
+/**
+A read sequence corresponds to one read entry in a fastq file, if the
+quality string is present, or a fasta entry, if absent.
+*/
+record ReadSequence {
+  /** Sequence identifier. */
+  string id;
+
+  /** Description. */
+  union { null, string } description = null;
+
+  /** Raw read sequence. */
+  string sequence;
+
+  /** Quality values. */
+  union { null, string } quality = null;
+}
+
 /** A linear alignment can be represented by one CIGAR string. */
 record LinearAlignment {
   /** The position of this alignment. */
