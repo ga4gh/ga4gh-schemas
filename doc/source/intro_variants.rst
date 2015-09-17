@@ -14,7 +14,7 @@ The API uses four primary objects to represent variants.
 The diagram and text below show the logical matrix-like relationship between those objects, and describe how it is represented in the API.
 (Note that there are several possible ways to store these objects in a persistent backend; that storage design is out of scope for this document.)
 
-.. image:: _static/variant_objects.png
+.. image:: _static/variant_objects.svg
 
 **Call**
   * roughly: the evidence that {a particular analysis of a sample} found {a particular difference from a reference sequence}
