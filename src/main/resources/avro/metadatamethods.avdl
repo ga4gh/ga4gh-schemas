@@ -1,0 +1,27 @@
+@namespace("org.ga4gh.methods")
+protocol MetadataMethods {
+
+import idl "common.avdl";
+import idl "methods.avdl";
+import idl "metadata.avdl";
+
+record SearchAnalysisSampleRequest {
+  /**
+  ID of Dataset the sample(s) belong to. Not NULL.
+  */
+  string datasetId;
+
+  /**
+  List of sample name(s) in the Dataset. If empty, return all.
+  */
+  array<string> sampleNames = [];
+}
+
+record SearchAnalysisSampleResponse {
+  array<org.ga4gh.models.AnalysisSample> analysisSamples = [];
+}
+
+SearchAnalysisSampleResponse searchAnalysisSamples(
+  SearchAnalysisSampleRequest request) throws GAException;
+
+}

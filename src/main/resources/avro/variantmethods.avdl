@@ -74,7 +74,7 @@ record SearchVariantsRequest {
   If an empty array, returns variants without any call objects.
   If null, returns all variant calls.
   */
-  union { null, array<string> } sampleNames = null;
+  union { null, array<string> } analysisSampleIds = null;
 
   /** Required. Only return variants on this reference. */
   string referenceName;
