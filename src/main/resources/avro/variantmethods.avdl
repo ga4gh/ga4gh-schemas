@@ -149,4 +149,17 @@ org.ga4gh.models.Variant getVariant(
   */
   string id) throws GAException;
 
+/**************** /callingmethod/search *******************/
+record SearchCallingMethodRequest {
+  string variantSetId;
+  string analysisSampleId;
+}
+
+record SearchCallingMethodResponse {
+  org.ga4gh.models.CallingMethod callingMethod;
+}
+
+SearchCallingMethodResponse SearchCallingMethod(
+  SearchCallingMethodRequest request) throws GAException;
+
 }
