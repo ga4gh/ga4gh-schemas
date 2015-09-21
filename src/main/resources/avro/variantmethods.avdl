@@ -148,3 +148,5 @@ org.ga4gh.models.Variant getVariant(
   The ID of the `Variant`.
   */
   string id) throws GAException;
+
+}

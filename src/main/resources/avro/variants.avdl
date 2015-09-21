@@ -57,7 +57,7 @@ record CallingMethod {
   The time at which this call set was last updated in milliseconds from the
   epoch.
   */
-  union ( null, long } updated = null;
+  union { null, long } updated = null;
 
   /** A map of additional information on the calling method. */
   map<array<string>> info = {};
