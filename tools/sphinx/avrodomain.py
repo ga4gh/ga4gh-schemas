@@ -25,6 +25,10 @@ from sphinx.util.nodes import make_refnode
 from sphinx.util.compat import Directive
 from sphinx.util.docfields import Field, GroupedField, TypedField
 
+# When multiple files 'import idl' the same file, we get useless warnings about duplicate definitions.
+# By default, disable this warning.
+WARN_ABOUT_DUPLICATES = False
+
 avro_sig_regex = re.compile(
   r'''^
       ([^(]*?)       # type
@@ -82,7 +86,7 @@ class AvroObject(ObjectDescription):
       signode['first'] = (not self.names)
       self.state.document.note_explicit_target(signode)
       objects = self.env.domaindata['avro']['objects']
-      if name in objects:
+      if name in objects and WARN_ABOUT_DUPLICATES:
         self.state_machine.reporter.warning('duplicate Avro object description of %s.' % name, line=self.lineno)
       objects[name] = (self.env.docname, self.objtype)
     
