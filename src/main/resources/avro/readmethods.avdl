@@ -82,7 +82,16 @@ SearchReadsResponse searchReads(
   SearchReadsRequest request) throws GAException;
 
 /******************  /readgroupsets/search  *********************/
-/** This request maps to the body of `POST /readgroupsets/search` as JSON. */
+/** This request maps to the body of `POST /readgroupsets/search` as JSON.
+
+If the `name` doesn't match any read group sets, the `readGroupSets` field in the
+resulting `SearchReadGroupSetsResponse` will be empty.
+
+_Error Conditions_
+
+- If `datasetId` refers to a nonexistent dataset, this method will throw `GAException` and set the HTTP
+status code to `404` (`NOT_FOUND`).
+ */
 record SearchReadGroupSetsRequest {
   /**
   The dataset to search.
