@@ -77,7 +77,7 @@ record SearchVariantsRequest {
   union { null, array<string> } callSetIds = null;
 
   /** Required. Only return variants on this reference. */
-  string referenceName;
+  string referenceId;
 
   /**
   Required. The beginning of the window (0-based, inclusive) for
