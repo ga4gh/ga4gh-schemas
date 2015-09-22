@@ -2,8 +2,6 @@
 
 /**
 This protocol defines metadata used in the other GA4GH protocols.
-`FIXME: Remove recordCreateTime and recordUpdateTime fields. Timestamps should not be part of these records, because they will
-not be updated (they can be deleted or stored under a new ID if information changes)`
 */
 
 protocol Metadata {
