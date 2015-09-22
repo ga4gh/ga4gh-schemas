@@ -150,7 +150,13 @@ org.ga4gh.models.Variant getVariant(
   string id) throws GAException;
 
 /******************  /callsets/search  *********************/
-/** This request maps to the body of `POST /callsets/search` as JSON. */
+/** This request maps to the body of `POST /callsets/search` as JSON.
+
+_Error Conditions_
+
+- If `variantSetId` does not refer to an existing `VariantSet`, this method will throw `GAException` and set the HTTP
+status code to `404` (`NOT_FOUND`).
+ */
 record SearchCallSetsRequest {
   /**
   The VariantSet to search.
@@ -205,6 +211,11 @@ SearchCallSetsResponse searchCallSets(
 /**
 Gets a `CallSet` by ID.
 `GET /callsets/{id}` will return a JSON version of `CallSet`.
+
+_Error Conditions_
+
+- If `id` does not refer to an existing `CallSet`, this method will throw `GAException` and set the HTTP
+status code to `404` (`NOT_FOUND`).
 */
 org.ga4gh.models.CallSet getCallSet(
   /**

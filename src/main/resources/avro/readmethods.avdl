@@ -12,6 +12,11 @@ This request maps to the body of `POST /reads/search` as JSON.
 If a reference is specified, all queried `ReadGroup`s must be aligned
 to `ReferenceSet`s containing that same `Reference`. If no reference is
 specified, all `ReadGroup`s must be aligned to the same `ReferenceSet`.
+
+_Error Conditions_
+
+- If `readGroupIds` is empty, this method will throw `GAException` and set the HTTP
+status code to `501` (`NOT_IMPLEMENTED`).
 */
 record SearchReadsRequest {
   /**
@@ -219,6 +224,13 @@ SearchDatasetsResponse searchDatasets(
 /**
 Gets a `Dataset` by ID.
 `GET /datasets/{id}` will return a JSON version of `Dataset`.
+
+The `id` must match an existing dataset.
+
+_Error Conditions_
+
+- If `id` does not refer to an existing dataset, this method will throw `GAException` and set the HTTP
+status code to `404` (`NOT_FOUND`).
 */
 org.ga4gh.models.Dataset getDataset(
   /**

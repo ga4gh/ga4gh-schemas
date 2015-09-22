@@ -169,6 +169,11 @@ The query parameters for a request to `GET /references/{id}/bases`, for
 example:
 
 `GET /references/{id}/bases?start=100&end=200`
+
+_Error Conditions_
+
+- If `start` or `end` exceed the index of the last base of the `Reference`, this method will throw `GAException` and set the HTTP
+status code to `416` (`REQUESTED_RANGE_NOT_SATISFIABLE`).
 */
 record ListReferenceBasesRequest {
   /**
