@@ -61,11 +61,25 @@ Once you have installed Avrodoc, you can run the `contrib/make_avrodoc.sh` scrip
 contrib/make_avrodoc.sh
 ```
 
-## Generating UML Diagrams
+## UML Diagrams
 
-There is a UML class diagram, `doc/uml.dia`, that describes the layout of the GA4GH data model.
+There is a UML diagram in `doc/uml.svg`, with GraphViz source in `doc/uml.dot`. These files are generated from the Avro IDL files by the script `contrib/make_uml.sh`, which means that their layout may be slightly confusing, but that they will track changes to the Avro source automatically.
 
-UML class diagrams can be partially generated from the schemas by using [Doxygen](http://www.doxygen.org/) to generate XML, and then using [Dia](http://live.gnome.org/Dia) to generate a UML from that XML output. Unfortunately, this only imports the Avro types: dependencies and layout still need to be done manually.
+The UML generator, which lives mostly in `contrib/avpr2uml.py`, attempts to autodetect ID reference relationships between objects, by guessing based on field names. If it misses a relationship that it should find, add it to `contrib/extra_edges.dot`. If it finds a spurious reference relationship that does not really exist, you will have to fix the script to get rid of it.
+
+To re-generate the automatic diagrams:
+
+```shell
+contrib/make_uml.sh
+```
+
+Watch the warnings; if it thinks there is an ID reference but it can't find what is being referenced, it will tell you.
+
+### Manual UML Diagrams
+
+There is also a manually curated UML diagram, `doc/manual_uml.dia` and `doc/manual_uml.svg`, that describes the layout of the GA4GH data model. This diagram is more likely to be outdated, but is also probably easier to read.
+
+This diagram was generated from the schemas by using [Doxygen](http://www.doxygen.org/) to generate XML, and then using [Dia](http://live.gnome.org/Dia) to generate a UML from that XML output. Unfortunately, this only imports the Avro types: dependencies and layout still need to be done manually.
 
 The `contrib` folder contains a `Doxyfile` and a rudimentary filter (`avdlDoxyFilter.py`) that can be used to generate Doxygen XML that DIA can import. To use them, simply do:
 
