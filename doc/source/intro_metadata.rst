@@ -14,5 +14,5 @@ Metadata
 ..todo::
    Add documentation
    
-:ref:`variants`
+:ref:`commonattributeformats`
 
