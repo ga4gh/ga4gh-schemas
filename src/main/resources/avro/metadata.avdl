@@ -8,13 +8,9 @@ and instrumentation as well as ontology representations for metadata.
 
 /**
 TODO:
-  - decision about id vs. uuid; most objects should have a uuid for stable
-    referencing, but also need to provide attribute for local / human readable
-    id's
-  - Need representation of trios, etc, twins. See PGP data to drive
-    this.
-  - How do you related twins (mono-zygotic)
-  - temporal sample relationships
+  - id discussion
+  - How to represent trios, twins, etc. See PGP data to drive this.
+  - Explicit temporal sample relationships or samplingDate sufficient?
   - standardize name/description/notes/key-value data types
   - VERY IMPORTANT data/time of record goes to the issue of what are the
     objects and what is the data model. Is it containment or relational.
@@ -203,8 +199,7 @@ protocol Metadata {
 
     /**
     The id of the intervention. This is facultative and allows the association
-    of an intervention to e.g. a phenotype object, through using relationship.
-    Format: UUIDv4 recommended
+    of an intervention to e.g. a phenotype object, through a relationship.
     */
     union { null, string } id = null;
 
@@ -235,7 +230,7 @@ protocol Metadata {
   Evidence for the phenotype association.
   This is also a stub for further expansion. We should consider moving this into
   its own schema.
-  TODO: Move Evidence from genotypephenotype.avdl?
+  TODO: Move Evidence from genotypephenotype.avdl to metadata.avdl?
   */
   record Evidence {
 
@@ -472,13 +467,12 @@ protocol Metadata {
   record Biosample {
 
     /**
-    The biosample's id. This is the local/legacy/generic id.
+    The biosample's id.
     */
     string id;
 
     /**
-    The biosample's guid. This is globally unique id (UUIDv4).
-    TODO: Required?!
+    The biosample's guid.
     */
     union { null, string } guid = null;
 
