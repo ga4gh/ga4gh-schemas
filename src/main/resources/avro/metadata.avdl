@@ -92,7 +92,7 @@ record Experiment {
 }
 
 /**
-NOTE: This is a skeleton implementation of the "Biosample"
+NOTE: This is a skeleton implementation of the "BioSample"
 object, to provide a hook for e.g. reads/variants objects.
 
 A biological sample from which the preparation of the
@@ -105,7 +105,7 @@ Examples would be:
   Atlantic ocean, at Latitude 26.4, Longitude 69.3, Altitude -100m)
   - whole blood preparation of an individual
 */
-record Biosample {
+record BioSample {
 
   /**
   The biosample's id. This is the local/legacy/generic id.
