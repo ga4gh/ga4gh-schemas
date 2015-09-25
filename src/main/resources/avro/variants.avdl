@@ -65,6 +65,11 @@ record VariantSet {
   the VCF header information not already presented in first class fields.
   */
   array<VariantSetMetadata> metadata = [];
+  
+  /**
+  The default CallMethod id for CallSets in this VariantSet.
+  */
+  union { null, string } methodId = null;
 }
 
 /**
@@ -73,31 +78,23 @@ It belongs to a `VariantSet`. This is equivalent to one column in VCF.
 */
 record CallSet {
 
-  /** The call set ID. */
-  string id;
-
-  /** The call set name. */
-  union { null, string } name = null;
+  /** 
+  The label for this CallSet.  User-defined, unique within its VariantSet.  
+  Required to satisfy identifier syntax [A-Za-z][A-Za-z0-9_]* 
+  */
+  string label;
 
   /** The sample this call set's data was generated from. */
-  union { null, string } sampleId;
+  union { null, string } sampleId = null;
+  
+  /** An id for a CallMethod with information about the calling process. */
+  union { null, string } methodId = null;
 
-  /** The IDs of the variant sets this call set has calls in. */
-  array<string> variantSetIds = [];
+  /** The ID of the variant set this call set has calls in. */
+  string variantSetId;
 
-  /** The date this call set was created in milliseconds from the epoch. */
+  /** The time this call set was created in milliseconds from the epoch. */
   union { null, long } created = null;
-
-  /**
-  The time at which this call set was last updated in
-  milliseconds from the epoch.
-  */
-  union { null, long } updated = null;
-
-  /**
-  A map of additional call set information.
-  */
-  map<array<string>> info = {};
 }
 
 /**
@@ -111,23 +108,13 @@ the occurrence of a SNP named rs1234 in a call set with the name NA12345.
 record Call {
 
   /**
-  The name of the call set this variant call belongs to.
+  The label of the call set this variant call belongs to.
   If this field is not present, the ordering of the call sets from a
   `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
   the ordering of the calls on this `Variant`.
   The number of results will also be the same.
   */
-  union { null, string } callSetName = null;
-
-  /**
-  The ID of the call set this variant call belongs to.
-
-  If this field is not present, the ordering of the call sets from a
-  `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
-  the ordering of the calls on this `Variant`.
-  The number of results will also be the same.
-  */
-  union { null, string} callSetId = null;
+  union { null, string } callSetLabel = null;
 
   /**
   The genotype of this variant call.
@@ -215,7 +202,6 @@ record Variant {
   */
   long end;
 
-
   /**
   The reference bases for this variant. They start at the given start position.
   */
@@ -240,4 +226,11 @@ record Variant {
   array<Call> calls = [];
 }
 
+record CallMethod {
+  /** The id for this call method */
+  string id;
+  
+  /** A map of information about the calling method */
+  map<array<string>> info = {};
+}
 }
