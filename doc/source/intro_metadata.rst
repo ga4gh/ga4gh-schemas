@@ -13,4 +13,6 @@ Metadata
 
 ..todo::
    Add documentation
+   
+:ref:`commonattributeformats`
 
