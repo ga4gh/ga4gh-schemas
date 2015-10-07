@@ -9,4 +9,4 @@ with documentation being extracted from the schemas.
 
 A daily build of the documentation is temporally available here:
  
-[http://hgwdev.cse.ucsc.edu/~markd/ga4gh/documentation-pr/]
+http://hgwdev.cse.ucsc.edu/~markd/ga4gh/documentation-pr/
