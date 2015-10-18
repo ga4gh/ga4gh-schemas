@@ -1,4 +1,4 @@
-.. _apigoals:
+...... _apigoals:
 
 ***************************
 GA4GH API Goals
@@ -27,3 +27,14 @@ GA4GH API Goals
 * The API should allow data owners to organize their data in ways that make sense to them, which implies there often isn’t One True Taxonomy. For example, a ReadGroupSet is defined as “a set of ReadGroups that are intended to be analyzed together” -- different researchers might choose different sets for different purposes.
 
   * At the same time, the API should encourage reusable organization, anticipating a future that supports cross-researcher and cross-repository data federation.
+
+=================
+Unresolved Issues
+=================
+
+* What is the operational scope of the API?  Is the capacity goal for a transfer?  Should it handle small amounts of data randoman or larger transfers?  
+* How is sharing defined?  Download of  data for use in another environment or online, random access to the data?
+* What are the performance goals of the API in various configurations?
+* What is the scope of interoperability?  Code-only interoperability or data interoperability?
+* Is the DWG defining an API or a federated network of servers, tools to build a federated network of servers?  Need to define the scope.
+* Need high-level uses cases for entire API.

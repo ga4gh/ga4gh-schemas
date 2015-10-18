@@ -32,3 +32,14 @@ Object Relationships
 
   * many:1 (e.g different aligned ReadGroupSet’s derived from an unaligned ReadGroupSet using different alignment algorithms and/or reference sequences)
   * many:many (e.g. different VariantSets derived from a collection of ReadGroupSets using different joint variant calling algorithms)
+
+=================
+Unresolved Issues
+=================
+
+* Is the GA4GH object design a conceptual data model that must be followed or only containers for data exchange.  If they are containers, where is the conceptual data model defined?
+* Are GA4GH objects idempotent?  In particular, can one obtain an object with a subset of it's fields?
+* Is object life-cycle semantics in the scope of GA4GH API? Which objects are immutable and which are mutable?  If objects are mutable, how does one know they have changed?  How does one protect against changes while using the objects over a given time-frame?
+* What is the definition of the wire protocol?  HTTP 1.0? Is HTTP 1.1 chunked encoding allowed?  What is the specification for the generate JSON for a given an Avro schema?
+* What is the role of Avro?  Is it for documentation-only or for use as an IDL?
+* Need overall object relationship diagram.
