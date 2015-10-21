@@ -1,229 +1,168 @@
-@namespace("org.ga4gh.methods")
-protocol ReferenceMethods {
+syntax = "proto3";
 
-import idl "common.avdl";
-import idl "methods.avdl";
-import idl "references.avdl";
+package ga4gh;
 
-/****************  /referencesets/search  *******************/
-/**
-This request maps to the body of `POST /referencesets/search`
-as JSON.
-*/
-record SearchReferenceSetsRequest {
-  /**
-  If not null, return the reference sets for which the
-  `md5checksum` matches this string (case-sensitive, exact match).
-  See `ReferenceSet::md5checksum` for details.
-  */
-  union { null, string } md5checksum = null;
+import "proto/ga4gh/references.proto";
 
-  /**
-  If not null, return the reference sets for which the `accession`
-  matches this string (case-sensitive, exact match).
-  */
-  union { null, string } accession = null;
+service ReferenceService {
+  // Gets a list of `ReferenceSet` matching the search criteria.
+  //
+  // `POST /referencesets/search` must accept a JSON version of
+  // `SearchReferenceSetsRequest` as the post body and will return a JSON
+  // version of `SearchReferenceSetsResponse`.
+  rpc SearchReferenceSets(SearchReferenceSetsRequest)
+      returns (SearchReferenceSetsResponse);
 
-  /**
-  If not null, return the reference sets for which the `assemblyId`
-  matches this string (case-sensitive, exact match).
-  */
-  union { null, string } assemblyId = null;
+  // Gets a `ReferenceSet` by ID.
+  //
+  // `GET /referencesets/{reference_set_id}` will return a JSON version of
+  // `ReferenceSet`.
+  rpc GetReferenceSet(GetReferenceSetRequest) returns (ReferenceSet);
 
-  /**
-  Specifies the maximum number of results to return in a single page.
-  If unspecified, a system default will be used.
-  */
-  union { null, int } pageSize = null;
+  // Gets a list of `Reference` matching the search criteria.
+  //
+  // `POST /references/search` must accept a JSON version of
+  // `SearchReferencesRequest` as the post body and will return a JSON
+  // version of `SearchReferencesResponse`.
+  rpc SearchReferences(SearchReferencesRequest)
+      returns (SearchReferencesResponse);
 
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
+  // Gets a `Reference` by ID.
+  //
+  // `GET /references/{reference_id}` will return a JSON version of
+  // `Reference`.
+  rpc GetReference(GetReferenceRequest) returns (Reference);
+
+  // Lists `Reference` bases by ID and optional range.
+  //
+  // `GET /references/{id}/bases` will return a JSON version of
+  // `ListReferenceBasesResponse`.
+  rpc ListReferenceBases(ListReferenceBasesRequest)
+      returns (ListReferenceBasesResponse);
 }
 
-/**
-This is the response from `POST /referencesets/search`
-expressed as JSON.
-*/
-record SearchReferenceSetsResponse {
-  /** The list of matching reference sets. */
-  array<org.ga4gh.models.ReferenceSet> referenceSets = [];
+// ****************  /referencesets  *******************
+// This request maps to the body of `POST /referencesets/search` as JSON.
+message SearchReferenceSetsRequest {
+  // If unset, return the reference sets for which the
+  // `md5checksum` matches this string (case-sensitive, exact match).
+  // See `ReferenceSet::md5checksum` for details.
+  string md5checksum = 1;
 
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
+  // If unset, return the reference sets for which the `accession`
+  // matches this string (case-sensitive, exact match).
+  string accession = 2;
+
+  // If unset, return the reference sets for which the `assemblyId`
+  // matches this string (case-sensitive, exact match).
+  string assembly_id = 3;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 5;
 }
 
-/**
-Gets a list of `ReferenceSet` matching the search criteria.
+// This is the response from `POST /referencesets/search` expressed as JSON.
+message SearchReferenceSetsResponse {
+  // The list of matching reference sets.
+  repeated ReferenceSet referenceSets = 1;
 
-`POST /referencesets/search` must accept a JSON version of
-`SearchReferenceSetsRequest` as the post body and will return a JSON
-version of `SearchReferenceSetsResponse`.
-*/
-SearchReferenceSetsResponse searchReferenceSets(
-  /**
-  This request maps to the body of `POST /referencesets/search`
-  as JSON.
-  */
-  SearchReferenceSetsRequest request) throws GAException;
-
-/****************  /referencesets/{id}  *******************/
-/**
-Gets a `ReferenceSet` by ID.
-`GET /referencesets/{id}` will return a JSON version of `ReferenceSet`.
-*/
-org.ga4gh.models.ReferenceSet getReferenceSet(
-  /**
-  The ID of the `ReferenceSet`.
-  */
-  string id) throws GAException;
-
-/****************  /references/search  *******************/
-/**
-This request maps to the body of `POST /references/search`
-as JSON.
-*/
-record SearchReferencesRequest {
-  /**
-  The `ReferenceSet` to search.
-  */
-  string referenceSetId;
-
-  /**
-  If not null, return the references for which the
-  `md5checksum` matches this string (case-sensitive, exact match).
-  See `ReferenceSet::md5checksum` for details.
-  */
-  union { null, string } md5checksum = null;
-
-  /**
-  If not null, return the references for which the `accession`
-  matches this string (case-sensitive, exact match).
-  */
-  union { null, string } accession = null;
-
-  /**
-  Specifies the maximum number of results to return in a single page.
-  If unspecified, a system default will be used.
-  */
-  union { null, int } pageSize = null;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
 }
 
-/**
-This is the response from `POST /references/search` expressed as JSON.
-*/
-record SearchReferencesResponse {
-  /** The list of matching references. */
-  array<org.ga4gh.models.Reference> references = [];
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
+// This request maps to the URL `GET /referencesets/{reference_set_id}`.
+message GetReferenceSetRequest {
+  // The ID of the `ReferenceSet` to be retrieved.
+  string reference_set_id = 1;
 }
 
-/**
-Gets a list of `Reference` matching the search criteria.
+// ****************  /references  *******************
+// This request maps to the body of `POST /references/search` as JSON.
+message SearchReferencesRequest {
+  // The `ReferenceSet` to search.
+  string referenceSetId = 1;
 
-`POST /references/search` must accept a JSON version of
-`SearchReferencesRequest` as the post body and will return a JSON
-version of `SearchReferencesResponse`.
-*/
-SearchReferencesResponse searchReferences(
-  /**
-  This request maps to the body of `POST /references/search`
-  as JSON.
-  */
-  SearchReferencesRequest request) throws GAException;
+  // If specified, return the references for which the
+  // `md5checksum` matches this string (case-sensitive, exact match).
+  // See `ReferenceSet::md5checksum` for details.
+  string md5checksum = 2;
 
-/****************  /references/{id}  *******************/
-/**
-Gets a `Reference` by ID.
-`GET /references/{id}` will return a JSON version of `Reference`.
-*/
-org.ga4gh.models.Reference getReference(
-  /**
-  The ID of the `Reference`.
-  */
-  string id) throws GAException;
+  // If specified, return the references for which the `accession`
+  // matches this string (case-sensitive, exact match).
+  string accession = 3;
 
-/****************  /references/{id}/bases  *******************/
-/**
-The query parameters for a request to `GET /references/{id}/bases`, for
-example:
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
 
-`GET /references/{id}/bases?start=100&end=200`
-*/
-record ListReferenceBasesRequest {
-  /**
-  The start position (0-based) of this query. Defaults to 0.
-  Genomic positions are non-negative integers less than reference length.
-  Requests spanning the join of circular genomes are represented as
-  two requests one on each side of the join (position 0).
-  */
-  long start = 0;
-
-  /**
-  The end position (0-based, exclusive) of this query. Defaults
-  to the length of this `Reference`.
-  */
-  union { null, long } end = null;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 5;
 }
 
-/** The response from `GET /references/{id}/bases` expressed as JSON. */
-record ListReferenceBasesResponse {
-  /**
-  The offset position (0-based) of the given sequence from the start of this
-  `Reference`. This value will differ for each page in a paginated request.
-   */
-  long offset = 0;
+// This is the response from `POST /references/search` expressed as JSON.
+message SearchReferencesResponse {
+  // The list of matching references.
+  repeated Reference references = 1;
 
-  /**
-  A substring of the bases that make up this reference. Bases are represented
-  as IUPAC-IUB codes; this string matches the regexp `[ACGTMRWSYKVHDBN]*`.
-  */
-  string sequence;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  Provide this value in a subsequent request to return the next page of
-  results. This field will be empty if there aren't any additional results.
-  */
-  union { null, string } nextPageToken = null;
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
 }
 
-/**
-Lists `Reference` bases by ID and optional range.
-`GET /references/{id}/bases` will return a JSON version of
-`ListReferenceBasesResponse`.
-*/
-ListReferenceBasesResponse getReferenceBases(
-  /** The ID of the `Reference`. */
-  string id,
-  /** Additional request parameters to restrict the query. */
-  ListReferenceBasesRequest request) throws GAException;
+// This request maps to the URL `GET /references/{reference_id}`.
+message GetReferenceRequest {
+  // The ID of the `Reference` to be retrieved.
+  string reference_id = 1;
+}
 
+// The parameters for a `GET /references/{reference_id}/bases` request. When
+// sending a request, the `reference_id` should be encoded in the URL path,
+// while all other parameters should be encoded as URL query parameters.
+//
+// For example: `GET /references/{id}/bases?start=100&end=200`
+message ListReferenceBasesRequest {
+  // The ID of the `Reference` to be retrieved.
+  string reference_id = 1;
+
+  // The start position (0-based) of this query. Defaults to 0.
+  // Genomic positions are non-negative integers less than reference length.
+  // Requests spanning the join of circular genomes are represented as
+  // two requests one on each side of the join (position 0).
+  int64 start = 2;
+
+  // The end position (0-based, exclusive) of this query. Defaults
+  // to the length of this `Reference`.
+  int64 end = 3;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 4;
+}
+
+// The response from `GET /references/{id}/bases` expressed as JSON.
+message ListReferenceBasesResponse {
+  // The offset position (0-based) of the given sequence from the start of this
+  // `Reference`. This value will differ for each page in a paginated request.
+  int64 offset = 1;
+
+  // A substring of the bases that make up this reference. Bases are represented
+  // as IUPAC-IUB codes; this string matches the regexp `[ACGTMRWSYKVHDBN]*`.
+  string sequence = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 3;
 }

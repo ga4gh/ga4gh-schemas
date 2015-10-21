@@ -1,130 +1,99 @@
-@namespace("org.ga4gh.models")
+syntax = "proto3";
 
-/**
-Defines types used by the GA4GH References API.
-*/
-protocol References {
+package ga4gh;
 
-import idl "common.avdl";
+// A `Reference` is a canonical assembled contig, intended to act as a
+// reference coordinate space for other genomic annotations. A single
+// `Reference` might represent the human chromosome 1, for instance.
+//
+// `Reference`s are designed to be immutable.
+message Reference {
+  // The reference ID. Unique within the repository.
+  string id = 1;
 
-/**
-A `Reference` is a canonical assembled contig, intended to act as a
-reference coordinate space for other genomic annotations. A single
-`Reference` might represent the human chromosome 1, for instance.
+  // The length of this reference's sequence.
+  int64 length = 2;
 
-`Reference`s are designed to be immutable.
-*/
-record Reference {
+  // The MD5 checksum uniquely representing this `Reference` as a lower-case
+  // hexadecimal string, calculated as the MD5 of the upper-case sequence
+  // excluding all whitespace characters (this is equivalent to SQ:M5 in SAM).
+  string md5checksum = 3;
 
-  /**
-  The reference ID. Unique within the repository.
-  */
-  string id;
+  // The name of this reference. (e.g. '22').
+  string name = 4;
 
-  /** The length of this reference's sequence. */
-  long length;
+  // The URI from which the sequence was obtained. Specifies a FASTA format
+  // file/string with one name, sequence pair. In most cases, clients should
+  // call
+  // the `getReferenceBases()` method to obtain sequence bases for a `Reference`
+  // instead of attempting to retrieve this URI.
+  string source_uri = 5;
 
-  /**
-  The MD5 checksum uniquely representing this `Reference` as a lower-case
-  hexadecimal string, calculated as the MD5 of the upper-case sequence
-  excluding all whitespace characters (this is equivalent to SQ:M5 in SAM).
-  */
-  string md5checksum;
+  // All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) which
+  // must include
+  // a version number, e.g. `GCF_000001405.26`.
+  repeated string source_accessions = 6;
 
-  /**
-  The name of this reference. (e.g. '22').
-  */
-  string name;
+  // A sequence X is said to be derived from source sequence Y, if X and Y
+  // are of the same length and the per-base sequence divergence at A/C/G/T
+  // bases
+  // is sufficiently small. Two sequences derived from the same official
+  // sequence share the same coordinates and annotations, and
+  // can be replaced with the official sequence for certain use cases.
+  bool is_derived = 7;
 
-  /**
-  The URI from which the sequence was obtained. Specifies a FASTA format
-  file/string with one name, sequence pair. In most cases, clients should call
-  the `getReferenceBases()` method to obtain sequence bases for a `Reference`
-  instead of attempting to retrieve this URI.
-  */
-  union { null, string } sourceURI = null;
+  // The `sourceDivergence` is the fraction of non-indel bases that do not match
+  // the
+  // reference this message was derived from.
+  float source_divergence = 8;
 
-  /**
-  All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) which must include
-  a version number, e.g. `GCF_000001405.26`.
-  */
-  array<string> sourceAccessions;
-
-  /**
-  A sequence X is said to be derived from source sequence Y, if X and Y
-  are of the same length and the per-base sequence divergence at A/C/G/T bases
-  is sufficiently small. Two sequences derived from the same official
-  sequence share the same coordinates and annotations, and
-  can be replaced with the official sequence for certain use cases.
-  */
-  boolean isDerived = false;
-
-  /**
-  The `sourceDivergence` is the fraction of non-indel bases that do not match the
-  reference this record was derived from.
-  */
-  union { null, float } sourceDivergence = null;
-
-  /** ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human). */
-  union { null, int } ncbiTaxonId = null;
-
+  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human).
+  int32 ncbi_taxon_id = 9;
 }
 
-/**
-A `ReferenceSet` is a set of `Reference`s which typically comprise a
-reference assembly, such as `GRCh38`. A `ReferenceSet` defines a common
-coordinate space for comparing reference-aligned experimental data.
-*/
+// A `ReferenceSet` is a set of `Reference`s which typically comprise a
+// reference assembly, such as `GRCh38`. A `ReferenceSet` defines a common
+// coordinate space for comparing reference-aligned experimental data.
+message ReferenceSet {
+  // The reference set ID. Unique in the repository.
+  string id = 1;
 
-record ReferenceSet {
-  /** The reference set ID. Unique in the repository. */
-  string id;
+  // The reference set name.
+  string name = 2;
 
-  /** The reference set name. */
-  union { null, string } name = null;
+  // Order-independent MD5 checksum which identifies this `ReferenceSet`.
+  //
+  // To compute this checksum, make a list of `Reference.md5checksum` for all
+  // `Reference`s in this set. Then sort that list, and take the MD5 hash of
+  // all the strings concatenated together. Express the hash as a lower-case
+  // hexadecimal string.
+  string md5checksum = 3;
 
-  /**
-  Order-independent MD5 checksum which identifies this `ReferenceSet`.
+  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) indicating
+  // the species which this assembly is intended to model. Note that contained
+  // `Reference`s may specify a different `ncbiTaxonId`, as assemblies may
+  // contain reference sequences which do not belong to the modeled species,
+  // e.g.
+  // EBV in a human reference genome.
+  int32 ncbi_taxon_id = 4;
 
-  To compute this checksum, make a list of `Reference.md5checksum` for all
-  `Reference`s in this set. Then sort that list, and take the MD5 hash of
-  all the strings concatenated together. Express the hash as a lower-case
-  hexadecimal string.
-  */
-  string md5checksum;
-
-  /**
-  ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) indicating
-  the species which this assembly is intended to model. Note that contained
-  `Reference`s may specify a different `ncbiTaxonId`, as assemblies may
-  contain reference sequences which do not belong to the modeled species, e.g.
-  EBV in a human reference genome.
-  */
-  union { null, int } ncbiTaxonId = null;
-
-  /** Optional free text description of this reference set. */
-  union { null, string } description = null;
+  // Optional free text description of this reference set.
+  string description = 5;
 
   // next information about the source of the sequences
 
-  /** Public id of this reference set, such as `GRCh37`. */
-  union { null, string } assemblyId = null;
+  // Public id of this reference set, such as `GRCh37`.
+  string assembly_id = 6;
 
-  /** Specifies a FASTA format file/string. */
-  union { null, string } sourceURI = null;
+  // Specifies a FASTA format file/string.
+  string source_uri = 7;
 
-  /**
-  All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
-  with a version number, e.g. `NC_000001.11`.
-  */
-  array<string> sourceAccessions;
+  // All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
+  // with a version number, e.g. `NC_000001.11`.
+  repeated string source_accessions = 8;
 
-  /**
-  A reference set may be derived from a source if it contains
-  additional sequences, or some of the sequences within it are derived
-  (see the definition of `isDerived` in `Reference`).
-  */
-  boolean isDerived = false;
-}
-
+  // A reference set may be derived from a source if it contains
+  // additional sequences, or some of the sequences within it are derived
+  // (see the definition of `isDerived` in `Reference`).
+  bool is_derived = 9;
 }
