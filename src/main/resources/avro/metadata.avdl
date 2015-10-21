@@ -108,12 +108,15 @@ Examples would be:
 record BioSample {
 
   /**
-  The biosample's id. This is the local/legacy/generic id.
+  The biosample's id. This is the at least locally unique id.
+  this attribute is used for (local) object refeences.
   */
   string id;
 
   /**
-  The name of the biosample.
+  The name of the biosample. There are no strict format
+  requirements as part of the schema, but such may be 
+  imposed through th especific implementation.
   */
   union { null, string } name = null;
 
