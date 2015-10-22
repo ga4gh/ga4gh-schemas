@@ -16,16 +16,14 @@ import idl "variants.avdl";
 import idl "ontologies.avdl";
 
 /*
-This protocol currently attempts to support linear variants and graph alleles by providing
-two grouping records (VariantAnnotation and AlleleAnnotation) which have a similar structure
-of attributes and sub-records.
+
+The VariantAnnotation record groups different types of annotation records by variant.
 
 The TranscriptEffect sub record holds information on the effect of a specific allele on a
 specific transcript.
 As Variants may overlap multiple transcripts, they may have multiple TranscriptEffect records.
 Variants with multiple alternate alleles will have multiple TranscriptEffect records per
 transcript. (2 alternate alleles x 3 transcripts = 6 TranscriptEffect records)
-As graph Alleles may overlap multiple transcripts, they may have multiple TranscriptEffect records.
 
 VariantAnnotation records belong to VariantAnnotationSets. VariantAnnotationSets contain
 information on reference data and software versions used in calculating the annotation. It is
@@ -180,41 +178,6 @@ record VariantAnnotation {
   /**
   The IDs of other variants which are co-located with this variant.
   these can use used to look up disease associations, ClinVar statuses,
-  allele frequencies in reference panels, etc
-  */
-  array<string> coLocatedVariants =[];
-
-  /** Additional annotation data in key-value pairs. */
-  map<array<string>> info = {};
-}
-
-/**
-An `AlleleAnnotation` record represents the result of comparing a allele
-to a set of reference data.
-*/
-record AlleleAnnotation {
-
-  /** The ID of this AlleleAnnotation. */
-  string id;
-
-  /** The allele ID. */
-  string alleleId;
-
-  /** The ID of the annotation set this record belongs to. */
-  string annotationSetId;
-
-  /** The date this allele annotation was created in milliseconds from the epoch. */
-  union { null, long } created = null;
-
-  /**
-  The transcript effect annotation for this allele. Each one represents
-  the predicted effect of the allele on a single transcript.
-  */
-  array<TranscriptEffect> transcriptEffects = [];
-
-  /**
-  The IDs of other variants which are co-located with this allele.
-  these can use used to look up disease associations, ClinVar statuses
   allele frequencies in reference panels, etc
   */
   array<string> coLocatedVariants =[];
