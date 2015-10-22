@@ -1,7 +1,10 @@
 @namespace("org.ga4gh.methods")
 protocol AlleleAnnotationMethods {
 
-/*This protocol defines methods use to mine pre-calculated variant allele annotations.*/
+/*
+This protocol defines methods use to mine pre-calculated variant allele
+annotations.
+*/
 
 import idl "methods.avdl";
 import idl "variants.avdl";
@@ -10,19 +13,24 @@ import idl "sequenceAnnotations.avdl";
 import idl "ontologies.avdl";
 
 /*
-variantannotations/search returns annotation for the alleles of classic/linear variants
+variantannotations/search returns annotation for the alleles of Variants
 
-This allows the mining of allele-specific annotations by either a region or a set of genomic
-features. Where a region is supplied annotation of all alleles vs all features in the region
-is returned. Where a set of features is supplied, only annotations against these features
-(matching on featuretype and id) are returned and other overlapping features are ignored.
+This allows the mining of allele-specific annotations on a VariantSet by
+either a region or by a set of genomic features. Where a region is supplied
+annotation of all alleles vs all features in the region is returned. Where a
+set of features is supplied, only annotations against these features (matching
+on featuretype and id) are returned and other overlapping features are ignored.
 
-variantannotationsets/search returns information on reference data and software versions used in
-calculating the annotation. It is essential this information is exhaustive.
+variantannotationsets/search returns information on the input to the
+annotation. This will be a VariantSet and the reference data and software
+versions used in calculating the annotation.
+It is essential this information is exhaustive.
 */
 
 /******************  /variantannotations/search  *********************/
-/** This request maps to the body of `POST /variantannotations/search` as JSON. */
+/** 
+This request maps to the body of `POST /variantannotations/search` as JSON
+*/
 record SearchVariantAnnotationsRequest {
   /** Required. The ID of the variant annotation set to search over. */
   string variantAnnotationSetId;
@@ -34,15 +42,15 @@ record SearchVariantAnnotationsRequest {
   union { null, string } name = null;
 
   /**
-  Only return variants with reference alleles on the reference with this name.
-  One of this field or `referenceId` or `features` is required.
+  Only return variants with reference alleles on the reference with this
+  name. One of this field or `referenceId` or `features` is required.
   (case-sensitive, exact match)
   */
   union { null, string } referenceName = null;
 
   /**
-  Only return variants with reference alleles on the reference with this ID. One
-  of this field or `referenceName` or `features` is required.
+  Only return variants with reference alleles on the reference with this
+  ID. One of this field or `referenceName` or `features` is required.
   */
   union { null, string } referenceId = null;
 
@@ -66,8 +74,8 @@ record SearchVariantAnnotationsRequest {
   /**
   Only return variant annotations for any of these features
   Features may include specific transcripts, genes or regulatory elements
-  This or a location (referenceName/referenceId plus optional start and end) 
-  must be supplied. 
+  This or a location (referenceName/referenceId plus optional start and end)
+  must be supplied.
   If null, return all variant annotations in specified window.
   */
   union { null, array<string> } feature_ids;
@@ -92,7 +100,9 @@ record SearchVariantAnnotationsRequest {
   union { null, string } pageToken = null;
 }
 
-/** This is the response from `POST /variantannotations/search` expressed as JSON. */
+/**
+This is the response from `POST /variantannotations/search` expressed as JSON.
+*/
 record SearchVariantAnnotationsResponse {
   /**
   The list of matching variant annotations.
@@ -110,14 +120,19 @@ record SearchVariantAnnotationsResponse {
 /**
 Gets a list of `VariantAnnotations` matching the search criteria.
 
-`POST /variantannotations/search` must accept a JSON version of `SearchVariantAnnotationsRequest`
-as the post body and will return a JSON version of `SearchVariantAnnotationsResponse`.
+`POST /variantannotations/search` must accept a JSON version of
+`SearchVariantAnnotationsRequest` as the post body and will return a
+JSON version of `SearchVariantAnnotationsResponse`.
 */
 SearchVariantAnnotationsResponse searchVariantAnnotations(
-  /** This request maps to the body of `POST /variantannotations/search` as JSON. */
+  /**
+  This request maps to the body of `POST /variantannotations/search` as JSON.
+  */
   SearchVariantAnnotationsRequest request) throws GAException;
 
-/** This request maps to the body of `POST /variantannotationsets/search` as JSON. */
+/**
+This request maps to the body of `POST /variantannotationsets/search` as JSON
+*/
 record SearchVariantAnnotationSetsRequest {
 
   /**
@@ -147,7 +162,10 @@ record SearchVariantAnnotationSetsRequest {
 
 }
 
-/** This is the response from `POST /variantannotationsets/search` expressed as JSON. */
+/**
+This is the response from `POST /variantannotationsets/search` expressed
+as JSON.
+*/
 record SearchVariantAnnotationSetsResponse {
 
   /** The list of matching variant annotation sets. */
@@ -165,17 +183,20 @@ record SearchVariantAnnotationSetsResponse {
 /**
 Returns a list of available variant annotation sets
 `POST /variantannotationsets/search` must accept a JSON version of
-`SearchVariantAnnotationSetsRequest` as the post body and will return a JSON version
-of `SearchVariantAnnotationSetsResponse`.
+`SearchVariantAnnotationSetsRequest` as the post body and will return a JSON
+version of `SearchVariantAnnotationSetsResponse`.
 */
 SearchVariantAnnotationSetsResponse searchVariantAnnotationSets(
-  /** This request maps to the body of `POST /variantannotationsets/search` as JSON. */
+  /**
+  This request maps to the body of `POST /variantannotationsets/search` as JSON
+  */
   SearchVariantAnnotationSetsRequest request) throws GAException;
 
 /**************** /variantannotationsets/{id} *******************/
 /**
 Gets an `VariantAnnotationSet` by ID.
-`GET /variantannotationsets/{id}` will return a JSON version of `VariantAnnotationSet`.
+`GET /variantannotationsets/{id}` will return a JSON version of
+`VariantAnnotationSet`.
 */
 org.ga4gh.models.VariantAnnotationSet getVariantAnnotationSet(
   /**

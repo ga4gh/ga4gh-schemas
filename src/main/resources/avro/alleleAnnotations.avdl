@@ -2,9 +2,6 @@
 
 /**
 This protocol defines types used by the GA4GH Allele Annotation API.
-
-Annotation can be applied to the alternate alleles of classic variants
-or to Alleles
 */
 
 protocol AlleleAnnotations{
@@ -17,23 +14,28 @@ import idl "ontologies.avdl";
 
 /*
 
-The VariantAnnotation record groups different types of annotation records by variant.
+The VariantAnnotation record groups different types of annotation records by
+Variant.
 
-The TranscriptEffect sub record holds information on the effect of a specific allele on a
-specific transcript.
-As Variants may overlap multiple transcripts, they may have multiple TranscriptEffect records.
-Variants with multiple alternate alleles will have multiple TranscriptEffect records per
-transcript. (2 alternate alleles x 3 transcripts = 6 TranscriptEffect records)
+The TranscriptEffect sub record holds information on the effect of a specific
+allele on a specific transcript.
+As Variants may overlap multiple transcripts, they may have multiple
+TranscriptEffect records. Variants with multiple alternate alleles will have
+multiple TranscriptEffect records per transcript.
+(2 alternate alleles x 3 transcripts = 6 TranscriptEffect records)
 
-VariantAnnotation records belong to VariantAnnotationSets. VariantAnnotationSets contain
-information on reference data and software versions used in calculating the annotation. It is
-essential this information is exhaustive.
+VariantAnnotation records belong to VariantAnnotationSets.
+VariantAnnotationSets are created by comparing a number of Variants from a
+VariantSet to a specific set of reference data using specific software tools.
+A VariantAnnotationSet contains information on reference data and software
+versions used in calculating the annotation; it is essential this information
+is exhaustive.
 
 */
 
 /**
-An AnalysisResult record holds the output of a prediction package such as SIFT on a
-specific allele/transcript combination
+An AnalysisResult record holds the output of a prediction package such
+as SIFT on a specific allele.
 */
 record AnalysisResult {
 
@@ -119,8 +121,8 @@ record TranscriptEffect {
   */
   string featureId;
 
-  /** Alternate allele - a variant may have more than one alternate allele, each of which
-  will have distinct annotation. This is not be needed for the graph Allele model
+  /** Alternate allele - a variant may have more than one alternate allele,
+  each of which will have distinct annotation.
   */
   union { null, string} alternateBases = null;
 
@@ -148,7 +150,7 @@ record TranscriptEffect {
   /** Change relative to protein  */
   union { null, AlleleLocation} proteinLocation = null;
 
-  /** Output from prediction packages such as Sift */
+  /** Output from prediction packages such as SIFT */
   array<AnalysisResult> analysisResults;
 }
 
