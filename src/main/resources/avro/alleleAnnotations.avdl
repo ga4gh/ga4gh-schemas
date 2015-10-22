@@ -27,7 +27,7 @@ Variants with multiple alternate alleles will have multiple TranscriptEffect rec
 transcript. (2 alternate alleles x 3 transcripts = 6 TranscriptEffect records)
 As graph Alleles may overlap multiple transcripts, they may have multiple TranscriptEffect records.
 
-VariantAnnotation and AlleleAnnotation records belong to AnnotationSets. AnnotationSets contain
+VariantAnnotation records belong to VariantAnnotationSets. VariantAnnotationSets contain
 information on reference data and software versions used in calculating the annotation. It is
 essential this information is exhaustive.
 
@@ -86,12 +86,12 @@ enum Impact {
 }
 
 /**
-An annotation set record groups VariantAnnotation and/or AlleleAnnotation records. It holds
+A VariantAnnotationSet record groups VariantAnnotation records. It holds 
 information describing the software and reference data used in the annotation.
 */
-record AnnotationSet {
+record VariantAnnotationSet {
 
-  /** The ID of the annotation set record */
+  /** The ID of the variant annotation set record */
   string id;
 
   /** The ID of the dataset to which this annotation set belongs */
@@ -165,8 +165,8 @@ record VariantAnnotation {
   /** The variant ID. */
   string variantId;
 
-  /** The ID of the annotation set this record belongs to. */
-  string annotationSetId;
+  /** The ID of the variant annotation set this record belongs to. */
+  string variantAnnotationSetId;
 
   /** The date this annotation was created in milliseconds from the epoch. */
   union { null, long } created = null;
