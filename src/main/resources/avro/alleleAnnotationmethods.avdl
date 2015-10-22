@@ -127,6 +127,12 @@ record SearchVariantAnnotationSetsRequest {
   string datasetId;
 
   /**
+  If non empty, will restrict the query to variant annotation sets within the
+  given variant set. This takes precedence over any dataset id supplied.
+  */
+  string variantSetId;
+
+  /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */

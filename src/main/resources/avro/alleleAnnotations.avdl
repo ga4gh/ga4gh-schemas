@@ -84,20 +84,21 @@ enum Impact {
 }
 
 /**
-A VariantAnnotationSet record groups VariantAnnotation records. It holds 
-information describing the software and reference data used in the annotation.
+A VariantAnnotationSet record groups VariantAnnotation records. It is derived
+from a VariantSet and holds information describing the software and reference
+data used in the annotation.
 */
 record VariantAnnotationSet {
 
   /** The ID of the variant annotation set record */
   string id;
 
-  /** The ID of the dataset to which this annotation set belongs */
-  string datasetId;
+  /** The ID of the variant set to which this annotation set belongs */
+  string variantSetId;
 
   /**
   Analysis details. It is essential to supply versions for all software and
-  reference datasets used.
+  reference data used.
   */
   Analysis analysis;
 }
