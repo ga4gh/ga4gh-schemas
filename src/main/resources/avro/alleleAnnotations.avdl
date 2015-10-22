@@ -61,7 +61,7 @@ record AlleleLocation {
   int overlapStart ;
 
   /** Relative end position of the allele in this coordinate system  */
-  int overlapEnd ;
+  union { null, int } overlapEnd = null;
 
   /** Reference sequence in feature (this should be the codon at CDS level) */
   union { null, string } referenceSequence = null;
