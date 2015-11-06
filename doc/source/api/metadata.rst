@@ -1,95 +1,61 @@
 .. _metadata:
 
-***************************
-Metadata API (stub)
-***************************
+************
+Metadata API
+************
 
-For the Metadata schema definitions, see the `Metadata schema <schemas/metadata.html>`_
+---------------
+Goals and Scope
+---------------
 
-------------------
-Metadata
-------------------
+The metadata API provides information on the primary data object available via
+the GA4GH API.  It also provides facilities to organizing primary data
+objects.
 
-`FIXME: Stub here for time format submission; to be extended...`
+The current metadata API is immature and will evolve in future.
 
-* standardized use of common attributes/values
-* a schema of how objects relate to each other
-
-
------------------------------------
-Date and Time Format Specifications
------------------------------------
-
-`FIXME: Move date/time to separate document?`
-`FIXME: Add examples for time attributes as when such are implemented 
-in the schema.`
-
-Date and time formats are specified as ISO8601 compatible strings, both for
-time points as well as for intervals and durations.
-The required granularity have to be specified as part of the respective
-attributes' documentations.
+------
+Design
+------
 
 
-===========
-Time points
-===========
+**Data organization**
 
-The specification of a time point is given through the concatenation of
-* a date in YYYY-MM-DD
-* the designator "T" indicating a following time description
-* the time of day in HH:MM:SS.SSS form, where "SSS" represents a decimal
-fraction of a second
-* a time zone offset in relation to UTC
+All data objects in GA4GH are part of a *data set*. A data set is a
+data-provider-specified collection of related data of multiple types.
+Logically, it's akin to a folder. It's up to the provider what goes into the
+folder.  A data objects are linked by `dataSetId` to `Dataset objects
+<../schemas/metadata.html#avro.Dataset>`_.
 
-**Examples**
+For server implementors, they're a useful level of granularity for
+implementing administrative features such as access control (e.g. Data sett X
+is public; data set Y is only available to lab Z's collaborators) and billing
+(e.g. the costs of hosting Dataset Y should be charged to lab Z).
 
-* year (YYYY)
-    2015
+For data curators, they're 'the simplest thing that could possibly work' for
+grouping data (e.g. Dataset X has all the reads, variants, and expression
+levels for a particular research project; Dataset Y has all the work product
+from a particular grant).
 
-* date (e.g. date of birth) in YYYY-MM-DD
-    2015-02-10
+One should not make undue semantic assumptions on data in a data set.  A
+subset of data in a data set is normally select for analysis using other
+metadata or attributes.
 
-* time stamp in milliseconds in YYYY-MM-DDTHH:MM:SS.SSS
-    2015-02-10T00:03:42.123Z
+---------
+Use Cases
+---------
 
+TODO: use cases need to be specified
 
-===========
-Durations
-===========
-
-Durations are a specific form of intervals, without reference to time points.
-They are indicated with a leading "P", followed by unit delimited
-quantifiers. A leading "T" is required before the start of the time components.
-Durations do not have to be normalized; "PT50H" is equally valid as "P2T2H".
-
-**Examples**
-
-* age in years in PnY
-    P44Y
-
-* age in years and months in PnYnM
-    P44Y08M
-
-* short time interval (e.g. 30min in experimental time series) in PTnM
-    PT30M
-
-
-==============
-Time intervals
-==============
-
-Time intervals consist of a combination of two time designators. These can be
-either two time points for start and end, or one time point and a leading
-(time point indicates end) or trailing (time point indicates start) duration.
-The time elements are separated by a forward slash "/".
-
-**Examples**
-
-* age with date of birth in YYYY-MM-DD/PnYnMnD
-    1967-11-21/P40Y10M05D
-
-* anchored 3 month interval, e.g. a therapy cycle in YYYY-MM-DD/YYYY-MM-DD
-    2015-04-18/2015-07-17
-
-* experimental intervention of 30min in YYYY-MM-DDTHH:MM/YYYY-MM-DDTHH:MM
-    2014-12-31T23H45M/2015-01-01T00H15M
+-------------
+Issues (TODO)
+-------------
+- Metadata API is immature and under development.
+- `sampleId` is referenced in metadata, reads, and variants records of the
+  schema, however there is no `Sample` object defined in metadata.
+- There is some disagreement of the role of the `Dataset` by members of the DWG.
+- Life cycle and version management of metadata objects is not clearly defined.
+  This includes use of times
+- `Experiment` object is currently copied into the `ReadGroup` object.  Given
+  metadata becomes a chain of objects associate with the data, coping records
+  seems less that ideal.
