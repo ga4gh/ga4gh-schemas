@@ -6,142 +6,59 @@ Variants API
 
 For the Variant schema definitions, see the `Variants schema <schemas/variants.html>`_
 
-The API uses four primary objects to represent variants.
-The diagram and text below show the logical matrix-like relationship between those objects, and describe how it is represented in the API.
-(Note that there are several possible ways to store these objects in a persistent backend; that storage design is out of scope for this document.)
+------------------
+Introduction: Genetic Variants and VCF
+------------------
+
+Genetic variants are differences in the genome sequence from one individual to the next. Such variation can manifest at different scales, from small changes affecting just one or a few DNA base pairs, to copy number variations of whole exons or genes, to large structural variations affecting megabases or more. The GA4GH Variants API focuses on small variants for now, because there's less consensus on how to represent the larger kinds of variation.
+
+Small genetic variants can be represented as edits to a Reference sequence: typically a tuple of (1) Reference sequence name, (2) starting position of the affected portion on the Reference sequence, (3) DNA sequence of the affected portion of the Reference, and (4) alternate DNA sequence found in some individual in place of the reference sequence. Both the reference and alternate sequences are specified in order to represent sequence insertions and deletions (indels). A few examples:
+
+    CHROM  POS     REF  ALT  
+    20     14370   G    A 
+    20     17330   TA   T
+    20     18302   TG   ACC
+
+The first variant is a single-nucleotide substitution of G to A. The second variant is a deletion of an A at position 17,331. The third variant is a multi-nucleotide change to a lengthier sequence starting at position 18,302.
+
+Given a list of such variants, we can then represent the genotype of one or more individuals with respect to each variant. For an autosomal variant, the genotype of a diploid individual may take one of three distinct values: homozygous reference (0,0), heterozygous (0,1), or homozygous alternate (1,1). We can therefore present a matrix of genotypes, where the rows are variants as shown above, the columns are the individuals, and each entry is one of those three genotype *calls*, or marked missing.
+
+    CHROM  POS     REF  ALT   Alice   Bob
+    20     14370   G    A     (0,0)   (0,1)
+    20     17330   TA   T     (0,0)   (1,1)
+    20     18302   TG   ACC   (0,1)     -
+
+(If the phase of an individual's genotypes across several variant positions is known, then the heterozygous genotypes (0,1) and (1,0) may be considered distinct.)
+
+It's possible to observe multiple different alternate sequences affecting the same regions of the reference. This can occur even within one individual, if their two chromosomes contain different non-reference sequences, and becomes somewhat common when representing a whole population. To handle these cases, we allow a variant to include multiple alternate sequences, or alleles. For example:
+
+    CHROM  POS     REF  ALT  
+    20     19254   G    A,C,T
+    20     21672   AT   AC,TGA
+
+and genotypes can take values such as (0,3) or (1,2). This multi-allelic sites model was refined and popularized in the `Variant Call Format (VCF) <https://samtools.github.io/hts-specs/VCFv4.2.pdf>`_ developed in the 1000 Genomes Project, upon which the Variants API is based.
+
+There are some outstanding challenges with this representation of variants. For example, the same edit to the reference sequence can be represented in different ways. There are also different ways one might represent variants/alleles that affect overlapping but non-equal regions of the reference. Several different conventions are used to address these situations in practice, and the GA4GH Variants API currently does not prescribe one.
+
+------------------
+Variants Schema Objects
+------------------
+
+While the Variant schema is based on VCF, it allows for more versatile interaction with the data. Instead of sending whole VCF files, the server can send information on specific variants or genomic regions instead. And instead of getting the whole genotype matrix, it's possible to just get details for a single individual.
+
+The API uses four main objects to represent variants. The following diagram illustrates how these objects constitute the genotype matrix. 
 
 .. image:: _static/variant_objects.svg
 
-**Call**
-  * roughly: the evidence that {a particular analysis of a sample} found {a particular difference from a reference sequence}
-  * A Call is an atomic object representing a specific experimental conclusion. It’s often useful to work with collections of Calls that have something in common:
+The atomic `Call` object encodes the genotype of an individual with respect to a variant, as determined by some data analysis. The other objects can be thought of as collections of Calls that have something in common:
 
-    * a VariantSet supports working with a collection of Calls intended to be analyzed together
-    * a Variant supports working with the subset of Calls in a VariantSet that share a difference (i.e. that exhibit the same difference from the reference sequence)
-    * a CallSet supports working with the subset of Calls in a VariantSet that share a source (i.e. that were generated by the same analysis of the same sample)
+    * a `VariantSet` supports working with a collection of Calls intended to be analyzed together
+    * a `Variant` supports working with the subset of Calls in a VariantSet for the same site of two or more alleles.
+    * a `CallSet` supports working with the subset of Calls in a VariantSet that were generated by the same analysis of the same sample.
 
-**VariantSet**
-  * roughly: a collection of Calls intended to be analyzed together
-
-**Variant**
-  * roughly: the combination of two logically distinct components:
-  
-    * variant description: a potential difference between ‘test DNA’ and a reference sequence, including where and how the bases differ
-    * variant observations: a collection of Calls describing evidence for actual instances of that difference
-
-**CallSet**
-  * roughly: a particular analysis of a sample, intended to determine how it differs from a reference sequence.
-  * The CallSet object includes information about which sample was analyzed and how it was analyzed, and is linked to information about what differences were found.
-
-------------------
-Genetic Variants
-------------------
-
-Genetic variants are changes in the genome from one individual to the next. Such variants can be more or less common and may have effects on gene regulation
-or protein sequences. 
-
-There are three types of variants:
-
-#. Single Nucleotide Polymorphisms (SNPs), which include small insertions and deletions 
-#. Copy number variations, which happen when the number of copies of a particular gene or DNA segment varies from one individual to the next.
-#. Structural variants, affecting larger genomic regions. This last group is (currently) outside the scope of GA4GH.
-
-To study genetic variants, individual genome sequences are usually compared to a single reference genome, for example `GRCh37`_ in humans.
-
-An individual genome will have many differences with respect to the reference. They might be displayed like so::
-
-    CHROM  POS     REF  ALT  
-    20     14370   G      A 
-    20     17330   T      A
-    20     18302   T      .
-
-
-Here, the reference sequence has a T at position 18302 in the genome, but the individual has a one nucleotide deletion, 
-represented as a period.
-These variant versions (G or A, T or .) are also known as alleles.
-
-Many variants are common enough to have a SNP id, a number starting with 'rs' (for Reference SNP). See `dbSNP`_ for details.
-
-Humans are diploid, meaning they have two copies of each chromosome (except X and Y). It is therefore possible to have one copy each of the reference and
-alternative alleles in a single individual.
-
-The `Variant Call Format (VCF)`_ is a way of representing allele data for individuals. It includes a coordinate system as shown above, SNP rsIDs if available, 
-and one data column per individual that shows the alleles for each variant.
-The Variant schema is based on this file format.
-
-.. _GRCh37: http://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.13
-.. _dbSNP: http://www.ncbi.nlm.nih.gov/SNP
-.. _Variant Call Format (VCF): http://www.1000genomes.org/wiki/analysis/variant%20call%20format/vcf-variant-call-format-version-41
-
-
-------------------
-The Variant Schema
-------------------
-
-While the Variant schema is based on VCF, it allows for more versatile interaction with the data. 
-Instead of sending whole chromosome or whole genome VCF files, the server can send information on specific
-genomic regions instead. And instead of getting all data for an experiment, it is possible to just get details for a single individual.
-
-`EXPLAIN: Will it also be possible to query on e.g. rsID?`
-
-The Variant schema consists of records that each describe part of the data:
-
-`FIXME: Allele and AlleleCall have been removed from Variants, so how does the user retrieve the VCF REF and ALT fields?`
-
-========== ================================================== ==============
-Record     | Description                                      VCF equivalent
-========== ================================================== ==============
-Variant    | Position of genetic difference with respect to   Single line without genotype fields
-           | a reference genome 
-Allele     | A contiguous piece of sequence that is           **REF** and **ALT** fields
-           | present or absent in a sample. 
-AlleleCall | Allele call(s) for one variant in one individual First subfield in genotype field
-Call	   | Information on AlleleCall			      Remaining subfields in genotype field
-CallSet	   | All Variant calls for a single individual        Genotype column
-VariantSet | A collection of variants                         VCF file
-Metadata   | Information on the flags used                    VCF header
-========== ================================================== ==============
-
-For a complete description of all Variant records, see `Variants schema <schemas/variants.html>`_
-
-
-`EXPLAIN: Where do the Qual, Info, Filter, and Format fields go?`
-
-This is what the VariantSet record looks like::
-
-  record VariantSet {
-  /** The UUID of the variant set. */
-  string id;
-
-  /** The ID of the dataset this variant set belongs to. */
-  string datasetId;
-
-  /**
-  The ID of the reference set that describes the sequences used by the variants in this set.
-  */
-  string referenceSetId;
-
-  /**
-  The metadata associated with this variant set. This is equivalent to
-  the VCF header information not already presented in first class fields.
-  */
-  array<VariantSetMetadata> metadata = [];
-  }
-
-So this record describes four variables: id, datasetId, referenceSetId, and VariantSetMetadata.
-
-The ``id`` is unique and can be used in other records. For instance, the Variant record has a variable named ``VariantSetId``, which can be used to look up VariantSet records.
-
-``datasetId`` points to the unique ID of a dataset record (defined in the metadata schema).
-
-``referenceSetId`` points to the unique ID of a reference record (defined in the reference schema).
-
-``VariantSetMetadata`` is a special variable that is itself a whole record, described elsewhere. In this case the record is described in the Variants schema but it's also possible to refer to records described in other schemas.
-
-Below is an image of which records contain other records (such as ``VariantSetMetaData``), and which contain IDs that can be used to get information from other records (such as ``variantSetId``). The arrow points `from` the record that lists the ID `to` the record that can be identified by that ID.
+The following diagram shows the hierarchical relationship of these four objects as well as other reference and metadata objects in the GA4GH API. It shows which records contain other records (such as ``VariantSetMetaData``), and which contain IDs that can be used to get information from other records (such as ``variantSetId``). The arrow points `from` the record that lists the ID `to` the record that can be identified by that ID.
 
 .. image:: _static/variant_schema.png
-
 
 For the complete Variant schema definition, see the `Variants schema <schemas/variants.html>`_
 
