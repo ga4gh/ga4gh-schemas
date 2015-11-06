@@ -4,7 +4,7 @@
 GA4GH Schemas Implementation
 ============================
 
-This the documentation for the `GA4GH`_ schemas
+This is the documentation for the `GA4GH`_ schemas.
 
 ********
 Contents
