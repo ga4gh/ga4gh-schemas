@@ -1,4 +1,4 @@
-...... _apigoals:
+.. _apigoals:
 
 ***************************
 GA4GH API Goals
