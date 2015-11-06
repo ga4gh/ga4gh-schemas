@@ -13,17 +13,17 @@ Contents
 .. toctree::
     :maxdepth: 2
 
-    intro_introduction
-    intro_apigoals
-    intro_apidesign
-    intro_apidefinition
-    intro_variants
-    intro_reads
-    intro_metadata
-    intro_reference
-    intro_samplecode
-    intro_json
-    intro_avro
+    introduction_intro
+    apigoals_intro
+    apidesign_intro
+    apidefinition_intro
+    variants_intro
+    reads_intro
+    metadata_intro
+    reference_intro
+    samplecode_intro
+    json_intro
+    avro_intro
     schemas/common
     schemas/metadata
     schemas/methods

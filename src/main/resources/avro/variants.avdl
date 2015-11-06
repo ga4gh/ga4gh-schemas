@@ -62,6 +62,9 @@ record VariantSet {
   /** The UUID of the variant set. */
   string id;
 
+  /** The variant set name. */
+  union { null, string } name = null;
+
   /** The ID of the dataset this variant set belongs to. */
   string datasetId;
 
