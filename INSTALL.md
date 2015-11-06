@@ -106,5 +106,5 @@ Assuming your working directory is the base "`schemas`" directory, do this:
 $ mvn package
 ```
 
-The documentation you generate will reside in `tools/sphinx/_build/`.  To view it, open the file
-`tools/sphinx/_build/index.html` in a browser.
+The documentation you generate will reside in `target/generated-docs/merged/html`.  To view it, open the file
+`target/generated-docs/merged/html/index.html` in a browser.
