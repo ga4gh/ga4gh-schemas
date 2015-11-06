@@ -53,7 +53,7 @@ For more details on web APIs, see `this wikipedia page <https://en.wikipedia.org
 
 HTTP protocol
 .............
-API clients use HTTP (the `Hypertext Transfer Protocol <https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol>`_) for sending API queries and getting responses.
+API clients use HTTP (`Hypertext Transfer Protocol <https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol>`_) for sending API queries and getting responses.
 HTTP is the same protocol that web browsers use for requesting pages from web servers.
 
 In a typical conversation, a client sends a GET request to a server to ask for a specific resource, such as a set of reads.
@@ -94,8 +94,9 @@ Apache Avro only sends data in :ref:`json` or Binary Avro format, so requests an
 
 JSON representation
 ...................
-JSON (JavaScript Object Notation) is a commonly used notation for representing complex data structures. 
-For more details on JSON, see :ref:`json`
+
+`JSON <https://en.wikipedia.org/wiki/JSON>`_ is a commonly used language-independent notation for representing hierarchical data
+structures. For more details on JSON, see :ref:`json`.
 
 -----------------------
 How to use Avro schemas
