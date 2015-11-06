@@ -53,21 +53,37 @@ For more details on web APIs, see `this wikipedia page <https://en.wikipedia.org
 
 HTTP protocol
 .............
-Clients typically use HTTP (Hypertext Transfer Protocol) for sending API queries and getting responses.  HTTP is the protocol that web browsers use for requesting pages from web servers.  
+API clients use HTTP (the `Hypertext Transfer Protocol <https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol>`_) for sending API queries and getting responses.
+HTTP is the same protocol that web browsers use for requesting pages from web servers.
 
-In a typical conversation, a client typically sends a GET request to a server for a specific resource, such as a set of reads.
+In a typical conversation, a client sends a GET request to a server to ask for a specific resource, such as a set of reads.
 If the request contains appropriate identification and authorization information, the server responds with a copy of the requested information.
 
 Many GA4GH API servers will also support HTTPS, a variant of HTTP that uses encryption to protect messages from eavesdropping and modification while in transit.
 
 ReST (Representational State Transfer) conventions
 ..................................................
+The GA4GH APIs follow `ReST conventions <https://en.wikipedia.org/wiki/Representational_state_transfer>`_ for web services on HTTP.  In particular:
 
+* The API defines many different kinds of resources, some of which are collections of other kinds of resources.
+* Each resource is identified by a unique URI.
+* Clients can create resources and retrieve information about them by applying standard HTTP verbs like GET, PUT, POST, DELETE to appropriate URIs.
+* GET is used to list collections and retrieve individual items. GET requests never have side effects.
+* PUT is used to replace collections and items.  PUT requests are idempotent - repeating the same PUT request is equivalent to doing it just once.
+* POST is used to modify collections.
+* DELETE is used to remove collections and items.  DELETE requests are idempotent - repeating the same DELETE request is equivalent to doing it just once.
 
-ReST protocols for data transfer are described `here <https://en.wikipedia.org/wiki/Representational_state_transfer>`_
+TODO examples of GA4GH resources and their use.
 
 Paging
 ......
+
+All GA4GH APIs implement a paging convention, so that the amount of information returned in a single response can be bounded. All
+GA4GH APIs have paging support, even those that are very unlikely to return large amounts of information. This convention helps avoid breaking changes later:
+paging often becomes necessary eventually, and adding paging in later would break clients that don't expect it.
+
+TODO more details of paging convention and use.
+
 
 Avro definition language
 ........................
@@ -78,6 +94,7 @@ Apache Avro only sends data in :ref:`json` or Binary Avro format, so requests an
 
 JSON representation
 ...................
+JSON (JavaScript Object Notation) is a commonly used notation for representing complex data structures. 
 For more details on JSON, see :ref:`json`
 
 -----------------------
