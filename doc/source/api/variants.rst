@@ -6,10 +6,6 @@ Variants API
 
 For the Variant schema definitions, see the `Variants schema <schemas/variants.html>`_
 
-*******************
-Introduction
-*******************
-
 The API uses four primary objects to represent variants.
 The diagram and text below show the logical matrix-like relationship between those objects, and describe how it is represented in the API.
 (Note that there are several possible ways to store these objects in a persistent backend; that storage design is out of scope for this document.)

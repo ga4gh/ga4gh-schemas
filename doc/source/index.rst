@@ -4,7 +4,7 @@
 GA4GH Schemas Implementation
 ============================
 
-This the documentation for the GA4GH schemas
+This the documentation for the `GA4GH`_ schemas
 
 ********
 Contents
@@ -13,7 +13,7 @@ Contents
 .. toctree::
     :maxdepth: 2
 
-    introduction_intro
+    intro
     getting-started/index
     api/index
     schemas/index
