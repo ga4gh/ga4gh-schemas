@@ -3,6 +3,8 @@
 
 # Schemas for the Data Working Group
 
+[![Build Status](https://travis-ci.org/ga4gh/schemas.svg?branch=master)](https://travis-ci.org/ga4gh/schemas)
+[![Docs](https://readthedocs.org/projects/ga4gh-schemas/badge/)](http://ga4gh-schemas.readthedocs.org)
 
 The [Global Alliance for Genomics and Health][ga4gh] is an international
 coalition, formed to enable the sharing of genomic and clinical data.
@@ -64,10 +66,9 @@ heavily with members of most other task teams and working groups.
 
 [MTT Wiki](https://github.com/ga4gh/metadata-team/wiki)
 
+## How to build
 
-## Build Status
-
-[![Build Status](https://travis-ci.org/ga4gh/schemas.svg?branch=master)](https://travis-ci.org/ga4gh/schemas)
+See [INSTALL.md](INSTALL.md) for instructions on how to build the schemas and their documentation.
 
 ## How to contribute changes
 
