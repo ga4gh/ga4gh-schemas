@@ -37,28 +37,15 @@ whole genome annotations, the API allows retrieval of information on, for instan
 
 For a full list of the GA4GH API goals, see :ref:`apigoals`
 
-The API consists of a series of :ref:`apidefinition`, or schemas, that define datasets, metadata, read group sets, reads, variants, etc. 
+---------------------------
+Schemas and formats
+---------------------------
 
-The schemas are written in Avro Interactive Data Language (extension .avdl). 
+The API consists of a series of :ref:`apidefinition`, or schemas, that define the types of things that API clients and servers exchange: requests for data, server responses, error messages, and objects actually representing pieces of genomics data.
 
-:ref:`avro` is a data serialization system, it defines how data gets transported across the internet.
-Here, data means both the request ('send me RNASeq for gene X in sample Y') and the response (the BAM file). Apache Avro only sends data in
-:ref:`json` or Binary Avro format, so requests and responses must be converted into one of those formats.
+The schemas are written in Avro Interface Description Language (extension .avdl). For more details on Avro and how it is used in the GA4GH APIs, see :ref:`avro`.
 
-For more details on AVRO, see :ref:`avro`
-
-For more details on JSON, see :ref:`json`
-
-
------------------------
-How to use Avro schemas
------------------------
-The GA4GH web API schemas show developers how to make servers and clients interact. 
-They define how the data is organized, and thereby give information on what can be requested.
-The schemas can be used to create code in any programming language.
-
-
-Here's the schema definition for Variants (with comments removed)::
+Here is an example schema definition for a Variant (with comments removed)::
 
   record Variant {
     string id;
@@ -75,14 +62,11 @@ Here's the schema definition for Variants (with comments removed)::
     array<Call> calls = [];
   }
 
-This means that when you request a single variant by, for example, its ID, you get back a JSON file
-with the information listed above. The JSON can be read using the JSON decoder from the
-Python standard library, which creates (an object?) in which the JSON array becomes Python's list, 
-and any NULL values become None.
+On the wire, the GA4GH web API takes the form of a client and a server exchanging JSON-serialized objects over HTTP or HTTPS. For more details on JSON, including how the GA4GH web API serializes and deserializes Avro-specified objects in JSON, see :ref:`json`.
 
-.. todo::
-   * add example of decoder output
-   * create a python class, if necessary
+------------------------------
+Sample code
+------------------------------
 
-Click for more :ref:`samplecode`.
+API sample code and examples are available at :ref:`samplecode`.
 

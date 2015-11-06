@@ -4,27 +4,69 @@
 Apache Avro
 *******************
 
-Copied from the `Avro documentation <http://avro.apache.org/docs/1.7.7/>`_
+Apache Avro is a data serialization ecosystem, comparable to Google's Protocol Buffers.
 
-Avro is a data serialization system. It deals with the how of sending large data files across the internet.
+-------------------
+What does the GA4GH web API take from Avro?
+-------------------
 
-Avro relies on schemas. When Avro data is read, the schema used when writing it is always present.
-This permits each datum to be written with no per-value overheads, making serialization both fast and small.
-This also facilitates use with dynamic, scripting languages, since data, together with its schema, is fully self-describing.
+The GA4GH web API uses the Avro IDL (aka AVDL) language and JSON serialization labraries.
 
-When Avro data is stored in a file, its schema is stored with it, so that files may be processed later by any program.
-If the program reading the data expects a different schema this can be easily resolved, since both schemas are present.
+The GA4GH web API presents a simple HTTP(S) and JSON interface to clients. It does **not** use Avro's binary serialization format, or Avro's built-in client/server networking and RPC features.
 
-When Avro is used in RPC, the client and server exchange schemas in the connection handshake.
-(This can be optimized so that, for most calls, no schemas are actually transmitted.)
-Since both client and server both have the other's full schema, correspondence between same named fields, missing fields,
-extra fields, etc. can all be easily resolved.
+------------------
+How does the GA4GH web API use Avro schemas?
+------------------
 
-Avro schemas are defined with JSON. This facilitates implementation in languages that already have JSON libraries.
+GA4GH web API objects, including both the data objects actually exchanged and the control messages requesting and returning those objects, are defined in the Avro IDL language, AVDL.
 
-..note::
-    This is verbatim from the documentation. However, GA4GH defines schemas in .avdl
+The `full documentation for the AVDL language is abvailable here <https://avro.apache.org/docs/1.7.6/idl.html>`_. Bear in mind that the Avro IDL comes with an entire ecosystem; the GA4GH web APIs do not use most of it.
 
-To actually send the data, Apache Avro uses the ReST protocol, which uses HTTP.
-<more about http>
+------------------
+How does the GA4GH Web API use AVDL?
+------------------
+
+The GA4GH web API schemas are broken up into multiple AVDL files, which reference each other. Each file defines a number of types (mostly Avro Records, with a smattering of Avro Enums), grouped into a "protocol" (which is somewhat of a misnomer) of types defining a facet of the API. Mostly, the files come in pairs: a normal AVDL file defining the types representing actual data, and a "methods" AVDL file defining the control messages to be sent back and forth to query and exchange the representational types, and the URLs associated with various operations.
+
+Each type has a leading comment documenting its purpose, and each field in the type has a description. These are included in the automatically generated API documentation.
+
+Here is an example of an AVDL definition from, in this case defining a genomic `Position` type which is used across the API::
+
+  /**
+  A `Position` is an unoriented base in some `Reference`. A `Position` is
+  represented by a `Reference` name, and a base number on that `Reference`
+  (0-based).
+  */
+  record Position {
+    /**
+    The name of the `Reference` on which the `Position` is located.
+    */
+    string referenceName;
+
+    /**
+    The 0-based offset from the start of the forward strand for that `Reference`.
+    Genomic positions are non-negative integers less than `Reference` length.
+    */
+    long position;
+
+    /**
+    Strand the position is associated with.
+    */
+    Strand strand;
+  }
+  
+This is a "record", which contains three fields. All of the fields are required to be filled in, and all of the fields can only hold objects of a particular single type. (In cases where this is not desired, see the AVDL documentation on unions). The last field holds a `Strand` object, which is defined elsewhere in the file.
+
+~~~~~~~~~~~~~~~~~~
+A note on unions and optional fields
+~~~~~~~~~~~~~~~~~~
+
+Any field which is optional should be defined as a ``union<null, ActualType>``, and given a default value of ``null``. Note that ``null`` should always be first in the union, since it is the type of the default value.
+
+The Avro JSON libraries serialize union types strangely, so the GA4GH API schemas have been specifically designed never to include union types that would trigger this behavior. The upshot of this is that the **only** legal union type is ``union<null, ActualType>``. Unions with multiple non-``null`` types are not allowed.
+
+.. todo::
+   * How much of the AVDL tutorial do we want in here?
+   * Document/show an example for methods (request and response pairing pattern)
+   * Talk about how we manually specify that some things land in URLs
 
