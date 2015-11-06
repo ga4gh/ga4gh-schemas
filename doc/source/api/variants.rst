@@ -10,7 +10,7 @@ The API uses four primary objects to represent variants.
 The diagram and text below show the logical matrix-like relationship between those objects, and describe how it is represented in the API.
 (Note that there are several possible ways to store these objects in a persistent backend; that storage design is out of scope for this document.)
 
-.. image:: _static/variant_objects.svg
+.. image:: /_static/variant_objects.svg
 
 **Call**
   * roughly: the evidence that {a particular analysis of a sample} found {a particular difference from a reference sequence}
@@ -140,7 +140,7 @@ The ``id`` is unique and can be used in other records. For instance, the Variant
 
 Below is an image of which records contain other records (such as ``VariantSetMetaData``), and which contain IDs that can be used to get information from other records (such as ``variantSetId``). The arrow points `from` the record that lists the ID `to` the record that can be identified by that ID.
 
-.. image:: _static/variant_schema.png
+.. image:: /_static/variant_schema.png
 
 
 For the complete Variant schema definition, see the `Variants schema <schemas/variants.html>`_
