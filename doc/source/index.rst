@@ -34,3 +34,5 @@ Contents
     schemas/variantmethods
     schemas/variants
 
+    glossary
+
