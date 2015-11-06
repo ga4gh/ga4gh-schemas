@@ -48,7 +48,7 @@ While the Variant schema is based on VCF, it allows for more versatile interacti
 
 The API uses four main objects to represent variants. The following diagram illustrates how these objects constitute the genotype matrix. 
 
-.. image:: _static/variant_objects.svg
+.. image:: /_static/variant_objects.svg
 
 The atomic `Call` object encodes the genotype of an individual with respect to a variant, as determined by some data analysis. The other objects can be thought of as collections of Calls that have something in common:
 
