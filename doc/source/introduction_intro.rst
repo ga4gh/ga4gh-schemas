@@ -14,49 +14,75 @@ to facilitate access to and exchange of genomics data across remote sites.
 Why use this web API?
 --------------------------
 
-This API is specifically designed to allow sharing of genomics data without having to exchange complete experiments.
-With this API, you can
+You can use this API to share genomics data without needing to copy files around or worry about details of file formats:
 
 * Exchange genome annotations, DNA sequence reads, reference-based alignments, metadata, and variant calls
-* Request alignments and variant calls for one genome or a million.
+* Request alignments and variant calls for one genome, or a million
 * Explore data by slicing alignments and variants by genomic range across one or multiple samples
 * Interactively process entire cohorts
 
 --------------------------
-If you need background
---------------------------
-For more details on web APIs, see `this wikipedia page <https://en.wikipedia.org/wiki/Web_API>`_  
-
-ReST protocols for data transfer are described `here <https://en.wikipedia.org/wiki/Representational_state_transfer>`_
-
---------------------------
 The GA4GH web API
 --------------------------
-This API was created to enable researchers to better access and exchange genomic data across remote sites. Instead of downloading complete BAM files or
-whole genome annotations, the API allows retrieval of information on, for instance, single genes or genomic regions.
+
+This API was created to enable researchers to better access and exchange genomic data across remote sites. Instead of having to
+download large BAM files or whole genome annotations, the API allows you to retrieve data about, for instance, single genes or genomic
+regions.  The API is designed for a variety of uses, from interactive visualization to large-scale analysis.
 
 For a full list of the GA4GH API goals, see :ref:`apigoals`
 
 The API consists of a series of :ref:`apidefinition`, or schemas, that define datasets, metadata, read group sets, reads, variants, etc. 
 
-The schemas are written in Avro Interactive Data Language (extension .avdl). 
+The GA4GH web API schemas show developers how to connect data consumers ('clients') to data providers ('servers').
+They define how the data is organized, and thereby give information on what can be requested.
+The schemas are defined in Avro Interactive Data Language (extension .avdl), and 
+can be used to create code in any programming language.
 
-:ref:`avro` is a data serialization system, it defines how data gets transported across the internet.
-Here, data means both the request ('send me RNASeq for gene X in sample Y') and the response (the BAM file). Apache Avro only sends data in
-:ref:`json` or Binary Avro format, so requests and responses must be converted into one of those formats.
+--------------------------
+API design patterns
+--------------------------
+Web APIs use the protocols and conventions of the Web to connect consumers and providers of data, known as clients and servers.  This API uses these patterns:
 
-For more details on AVRO, see :ref:`avro`
+* HTTP protocol
+* ReST (Representational State Transfer) conventions
+* Paging
+* AVRO definition language
+* JSON representation
 
+For more details on web APIs, see `this wikipedia page <https://en.wikipedia.org/wiki/Web_API>`_  
+
+HTTP protocol
+.............
+Clients typically use HTTP (Hypertext Transfer Protocol) for sending API queries and getting responses.  HTTP is the protocol that web browsers use for requesting pages from web servers.  
+
+In a typical conversation, a client typically sends a GET request to a server for a specific resource, such as a set of reads.
+If the request contains appropriate identification and authorization information, the server responds with a copy of the requested information.
+
+Many GA4GH API servers will also support HTTPS, a variant of HTTP that uses encryption to protect messages from eavesdropping and modification while in transit.
+
+ReST (Representational State Transfer) conventions
+..................................................
+
+
+ReST protocols for data transfer are described `here <https://en.wikipedia.org/wiki/Representational_state_transfer>`_
+
+Paging
+......
+
+Avro definition language
+........................
+
+:ref:`avro` is a data format definition language which can also be used to generate tools and libraries for working with the data format.
+Here, data means both the request ('send me reads for gene X in sample Y') and the response (the set of reads).
+Apache Avro only sends data in :ref:`json` or Binary Avro format, so requests and responses must be converted into one of those formats.
+
+JSON representation
+...................
 For more details on JSON, see :ref:`json`
-
 
 -----------------------
 How to use Avro schemas
 -----------------------
-The GA4GH web API schemas show developers how to make servers and clients interact. 
-They define how the data is organized, and thereby give information on what can be requested.
-The schemas can be used to create code in any programming language.
-
 
 Here's the schema definition for Variants (with comments removed)::
 
