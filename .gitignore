@@ -2,6 +2,13 @@
 target
 *~
 #*
+doc/source/schemas/*.avpr
+build
+
+# remove this if we start pushing autogen'd rst files
+# in order to build at readthedocs
+doc/source/schemas/*.rst
+
 
 #********** windows template**********
 
