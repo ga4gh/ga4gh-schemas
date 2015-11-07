@@ -11,11 +11,11 @@ This request maps to the body of `POST /reads/search` as JSON.
 
 If a reference is specified, all queried `ReadGroup`s must be aligned
 to `ReferenceSet`s containing that same `Reference`. If no reference is
-specified, all queried `ReadGroup`s must be aligned to the same `ReferenceSet`.
+specified, all `ReadGroup`s must be aligned to the same `ReferenceSet`.
 */
 record SearchReadsRequest {
   /**
-  The ReadGroups to search. At least one id must be specified.
+  The ReadGroups to search. At least one readGroupId must be specified.
   */
   array<string> readGroupIds;
 
@@ -72,20 +72,7 @@ record SearchReadsResponse {
 }
 
 /**
-Gets a list of `ReadAlignment`s for one or more `ReadGroup`s.
-
-`searchReads` operates over a genomic coordinate space of reference sequence
-and position defined by the `Reference`s to which the requested `ReadGroup`s are
-aligned.
-
-If a target positional range is specified, search returns all reads whose
-alignment to the reference genome *overlap* the range. A query which specifies
-only read group IDs yields all reads in those read groups, including unmapped
-reads.
-
-All reads returned (including reads on subsequent pages) are ordered by genomic
-coordinate (by reference sequence, then position). Reads with equivalent genomic
-coordinates are returned in an unspecified but deterministic order.
+Gets a list of `ReadAlignment` matching the search criteria.
 
 `POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
 the post body and will return a JSON version of `SearchReadsResponse`.
@@ -95,14 +82,7 @@ SearchReadsResponse searchReads(
   SearchReadsRequest request) throws GAException;
 
 /******************  /readgroupsets/search  *********************/
-/** This request maps to the body of `POST /readgroupsets/search` as JSON.
-
-TODO: Factor this out to a common API patterns section.
-- If searching by a resource ID, and that resource is not found, the method
-will return a `404` HTTP status code (`NOT_FOUND`).
-- If searching by other attributes, e.g. `name`, and no matches are found, the
-method will return a `200` HTTP status code (`OK`) with an empty result list.
-*/
+/** This request maps to the body of `POST /readgroupsets/search` as JSON. */
 record SearchReadGroupSetsRequest {
   /**
   The dataset to search.
