@@ -10,7 +10,6 @@ import idl "common.avdl";
 
 /**
 An experimental preparation of a `Sample`.
-`FIXME: Sample is not defined anywhere (but used here and in reads.avdl`
 */
 record Experiment {
   /** The experiment UUID. This is globally unique. */
@@ -23,7 +22,6 @@ record Experiment {
   union { null, string } description = null;
 
   /**
-  `FIXME:I don't think there should be timestamps in these records`
   The time at which this record was created. 
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
@@ -94,38 +92,13 @@ record Experiment {
 }
 
 /**
-NOTE: there's ongoing discussion about changing the role of Dataset, possibly as follows:
-
-Represents a group of contextually related data objects of (e.g. all Individuals, Samples, 
-Experiments associated with a particular feature; or e.g. a trio in genetic diagnostics.).
-This concept may be expanded in the future (ontology for describing the type of dataset ...).
-TODO: Determination of scope, structure, specific attributes, e.g. limiting to single 
-record type - see http://purl.obolibrary.org/obo/IAO_0000100 - and providing alternative mechanism 
-for heterogeneous data with external contextualization, e.g. all records of different 
-types associated with a clinical study.
-*/
-
-/**
-A Dataset is a data-provider-specified collection of related data of multiple types.
-Logically, it's akin to a folder -- it's up to the provider what goes into the folder.
-
-For server implementors, they're a useful level of granularity for implementing
-administrative features such as access control (e.g. Dataset X is public;
-Dataset Y is only available to lab Z's collaborators) and billing (e.g. the costs
-of hosting Dataset Y should be charged to lab Z).
-
-For data curators, they're 'the simplest thing that could possibly work' for grouping
-data (e.g. Dataset X has all the reads, variants, and expression levels for a
-particular research project; Dataset Y has all the work product from a particular
-grant).
-
-For data accessors, they're a simple way to scope exploration and analysis
-(e.g. are there any supporting examples in 1000genomes?
-what's the distribution of that result in the data from our project?)   
+A Dataset is a collection of related data of multiple types.  There is very
+limited semantic constraints placed on metadata.  See
+[Metadata API](../api/metadata.html) for a more detailed discussion.
 */
 record Dataset {
   /**
-  The dataset's id, (at least) locally unique.
+  The dataset's id, locally unique to the server instance.
   */
   string id;
 

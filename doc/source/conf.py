@@ -291,3 +291,9 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}
+
+
+# rst_epilog is appended to all rst files
+# it's a good place to define global aliases
+rst_epilog_fn = os.path.join(os.path.dirname(__file__),'epilog.rst')
+rst_epilog = open(rst_epilog_fn).read()
