@@ -4,7 +4,7 @@
 Reads API
 *****************
 
-For the Reads schema definitions, see `Reads schema <schemas/reads.html>`_
+For the Reads schema definitions, see `Reads schema <../schemas/reads.html>`_
 
 .. include:: /includes/glossary/short_reads.rst
 
@@ -19,53 +19,56 @@ genomic regions instead.
 The Reads schema consists of records that each describe part of the data:
 
 =============== ============================================ ==================
-Record          | Description                                SAM/BAM equivalent
+Record          | Description                                SAM/BAM rough equivalent
 =============== ============================================ ==================
 ReadAlignment   | One alignment for one read                 A single line in a file
-ReadGroup       | A group of read alignments                 Complete file
-ReadGroupSet    | Collecton of ReadGroups that map to the    Files from one sequencing run
+ReadGroup       | A group of read alignments                 A single RG tag
+ReadGroupSet    | Collecton of ReadGroups that map to the    Single SAM/BAM file
                 | same genome
-ReadStats       | Counts of aligned and unaligned reads	     Samtools flagstats on a file
-                | for a ReadGroup or ReadGroupSet
-LinearAlignment | Mapping of a read to a reference           One CIGAR string
 Program         | Software version and parameters that were  PN, CL tags in SAM header
                 | used to align reads to the genome
-Fragment        | *ill defined*
+ReadStats       | Counts of aligned and unaligned reads      Samtools flagstats on a file
+                | for a ReadGroup or ReadGroupSet
 =============== ============================================ ==================
 
-For a complete description of all Reads records, see `Reads schema <schemas/reads.html>`_
+The relationships are mostly one to many (e.g. each ReadAlignment is part of exactly one ReadGroup), with the exception that a ReadGroup is allowed to be part of more than one ReadGroupSet.
 
-Records can contain other records, for instance ReadStats is contained in ReadGroup and ReadGroupSet.
-Each record is made up of a number of fields that describe the data.
+Dataset --< ReadGroupSet >--< ReadGroup --< ReadAlignment
 
-This is what the ReadGroupSet record looks like::
+* A Dataset is a general-purpose container, defined in metadata.avdl.
+* A ReadGroupSet is a logical collection of ReadGroups, as determined by the data owner.
+  Typically one ReadGroupSet represents all the Reads from one experimental sample, which
+  traditionally would be stored in a single BAM file.
+* A ReadGroup is all the data that's processed the same way by the sequencer.
+  There are typically 1-10 ReadGroups in a ReadGroupSet.
+* A ReadAlignment object is a flattened representation of several layers of bioinformatics
+  hierarchy, including fragments, reads, and alignments, stored in one object for easy access.
 
-  record ReadGroupSet {
-  /** The UUID of the ReadGroupSet.*/
-  string id;
+^^^^^^^
+ReadAlignment: detailed discussion
+^^^^^^^
 
-  /** The ID of the Dataset this read group set belongs to. 
-  union { null, string } datasetId = null;
+One ReadAlignment object represents the following logical hierarchy. See the field definitions in the
+ReadAlignment object for more details.
 
-  /** The read group set name. 
-  union { null, string } name = null;
+.. image:: /_static/read_alignment_diagrams.png
 
-  /** The ReadStats statistical data on reads in this read group set. 
-  union { null, ReadStats } stats = null;
+* A *fragment* is a single stretch of a DNA molecule. 
+  There are typically at least millions of fragments in a ReadGroup. 
+  A fragment has a name (QNAME in BAM spec), a length (TLEN in BAM spec), and one or more reads.
+* A *read* is a contiguous sequence of bases. There are typically only one or
+  two reads in a fragment. If there are two reads, they're known as a mate pair.
+  A read has an array of base values, an array of base qualities, and optional alignment
+  information.
+* An *alignment* is the way alignment software maps a read to a reference.
+  There's one primary alignment, and can be one or more secondary alignments.
+  Secondary alignments represent alternate possible mappings.
+* A *linear alignment* maps a string of bases to a reference using a single
+  CIGAR string. There's one representative alignment, and can be one or more
+  supplementary alignments. Supplementary alignments represent linear alignments
+  that are subsets of a chimeric alignment.
 
-  /** The ReadGroups that make up this read group set. */
-  array<ReadGroup> readGroups = [];
-
-  }
-
-`FIXME: Most of these values should not be null`
-
-So this record describes five variables: id, datasetId, name, stats, and readGroups.
-
-  * The ``id`` is unique and can be used in other records.
-  * ``dataSetId`` and ``name`` point to the unique IDs of a dataset record and a ReadGroup record, respectively.
-  * ``stats`` is a special variable that is itself a whole ``ReadStats`` record.
-  * ``readGroups`` is similar to stats but contains multiple ReadGroup records instead of just one.
+For a complete description of all Reads records, see `Reads schema <../schemas/reads.html>`_
 
 The image below shows which Reads records contain other records (represented by green triangles), and which contain IDs that can be used to get information from other records (arrows). The arrow points `from` the record that lists the ID `to` the record that can be identified by that ID. Records are represented by blue rectangles; dotted lines indicate records defined in other schemas.
 
