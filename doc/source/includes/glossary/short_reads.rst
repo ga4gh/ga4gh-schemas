@@ -24,7 +24,7 @@ In this format, the CIGAR string shows how well the read matches the genome: rea
 
 The `SAM/BAM Format`_ is a way of representing read data. It includes the fields shown above as well as information on read orientation, sequence quality, and optional fields. The format also allows for reads that do not align to the genome, by leaving the reference sequence ID, position, and cigar fields empty.
 
-Sam is a human readable format, bam is a condensed binary format. The formats can be readily converted to each other.
+SAM is a human readable format, BAM is a condensed binary format. The formats can be readily converted to each other.
 
 .. _SAM/BAM Format: https://samtools.github.io/hts-specs/SAMv1.pdf
 
