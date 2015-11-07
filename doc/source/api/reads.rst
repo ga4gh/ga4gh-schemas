@@ -69,5 +69,5 @@ So this record describes five variables: id, datasetId, name, stats, and readGro
 
 The image below shows which Reads records contain other records (represented by green triangles), and which contain IDs that can be used to get information from other records (arrows). The arrow points `from` the record that lists the ID `to` the record that can be identified by that ID. Records are represented by blue rectangles; dotted lines indicate records defined in other schemas.
 
-.. image:: _static/reads_schema.png
+.. image:: /_static/reads_schema.png
  

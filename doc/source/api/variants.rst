@@ -48,7 +48,7 @@ While the Variant schema is based on VCF, it allows for more versatile interacti
 
 The API uses four main objects to represent variants. The following diagram illustrates how these objects constitute the genotype matrix. 
 
-.. image:: _static/variant_objects.svg
+.. image:: /_static/variant_objects.svg
 
 The atomic `Call` object encodes the genotype of an individual with respect to a variant, as determined by some data analysis. The other objects can be thought of as collections of Calls that have something in common:
 
@@ -58,7 +58,7 @@ The atomic `Call` object encodes the genotype of an individual with respect to a
 
 The following diagram shows the hierarchical relationship of these four objects as well as other reference and metadata objects in the GA4GH API. It shows which records contain other records (such as ``VariantSetMetaData``), and which contain IDs that can be used to get information from other records (such as ``variantSetId``). The arrow points `from` the record that lists the ID `to` the record that can be identified by that ID.
 
-.. image:: _static/variant_schema.png
+.. image:: /_static/variant_schema.png
 
 For the complete Variant schema definition, see the `Variants schema <schemas/variants.html>`_
 
