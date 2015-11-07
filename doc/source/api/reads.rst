@@ -18,38 +18,38 @@ genomic regions instead.
 
 The Reads schema consists of records that each describe part of the data:
 
-=============== ============================================ ==================
-Record          | Description                                SAM/BAM rough equivalent
-=============== ============================================ ==================
-ReadAlignment   | One alignment for one read                 A single line in a file
-ReadGroup       | A group of read alignments                 A single RG tag
-ReadGroupSet    | Collecton of ReadGroups that map to the    Single SAM/BAM file
-                | same genome
-Program         | Software version and parameters that were  PN, CL tags in SAM header
-                | used to align reads to the genome
-ReadStats       | Counts of aligned and unaligned reads      Samtools flagstats on a file
-                | for a ReadGroup or ReadGroupSet
-=============== ============================================ ==================
+============================== ============================================ ==================
+Record                         | Description                                SAM/BAM rough equivalent
+============================== ============================================ ==================
+:avro:record:`ReadAlignment`   | One alignment for one read                 A single line in a file
+:avro:record:`ReadGroup`       | A group of read alignments                 A single RG tag
+:avro:record:`ReadGroupSet`    | Collecton of ReadGroups that map to the    Single SAM/BAM file
+                               | same genome
+:avro:record:`Program`         | Software version and parameters that were  PN, CL tags in SAM header
+                               | used to align reads to the genome
+:avro:record:`ReadStats`       | Counts of aligned and unaligned reads      Samtools flagstats on a file
+                               | for a ReadGroup or ReadGroupSet
+============================== ============================================ ==================
 
-The relationships are mostly one to many (e.g. each ReadAlignment is part of exactly one ReadGroup), with the exception that a ReadGroup is allowed to be part of more than one ReadGroupSet.
+The relationships are mostly one to many (e.g. each :avro:record:`ReadAlignment` is part of exactly one :avro:record:`ReadGroup`), with the exception that a :avro:record:`ReadGroup` is allowed to be part of more than one :avro:record:`ReadGroupSet`.
 
-Dataset --< ReadGroupSet >--< ReadGroup --< ReadAlignment
+:avro:record:`Dataset` --< :avro:record:`ReadGroupSet` >--< :avro:record:`ReadGroup` --< :avro:record:`ReadAlignment`
 
-* A Dataset is a general-purpose container, defined in metadata.avdl.
-* A ReadGroupSet is a logical collection of ReadGroups, as determined by the data owner.
-  Typically one ReadGroupSet represents all the Reads from one experimental sample, which
+* A :avro:record:`Dataset` is a general-purpose container, defined in metadata.avdl.
+* A :avro:record:`ReadGroupSet` is a logical collection of ReadGroups, as determined by the data owner.
+  Typically one :avro:record:`ReadGroupSet` represents all the Reads from one experimental sample, which
   traditionally would be stored in a single BAM file.
-* A ReadGroup is all the data that's processed the same way by the sequencer.
-  There are typically 1-10 ReadGroups in a ReadGroupSet.
-* A ReadAlignment object is a flattened representation of several layers of bioinformatics
+* A :avro:record:`ReadGroup` is all the data that's processed the same way by the sequencer.
+  There are typically 1-10 ReadGroups in a :avro:record:`ReadGroupSet`.
+* A :avro:record:`ReadAlignment` object is a flattened representation of several layers of bioinformatics
   hierarchy, including fragments, reads, and alignments, stored in one object for easy access.
 
 ^^^^^^^
 ReadAlignment: detailed discussion
 ^^^^^^^
 
-One ReadAlignment object represents the following logical hierarchy. See the field definitions in the
-ReadAlignment object for more details.
+One :avro:record:`ReadAlignment` object represents the following logical hierarchy. See the field definitions in the
+:avro:record:`ReadAlignment` object for more details.
 
 .. image:: /_static/read_alignment_diagrams.png
 
@@ -70,7 +70,7 @@ ReadAlignment object for more details.
 
 For a complete description of all Reads records, see `Reads schema <../schemas/reads.html>`_
 
-The image below shows which Reads records contain other records (represented by green triangles), and which contain IDs that can be used to get information from other records (arrows). The arrow points `from` the record that lists the ID `to` the record that can be identified by that ID. Records are represented by blue rectangles; dotted lines indicate records defined in other schemas.
+The image below shows which Reads records contain other records (represented by green triangles), and which contain IDs that can be used to get information from other records (arrows). The arrow points *from* the record that lists the ID *to* the record that can be identified by that ID. Records are represented by blue rectangles; dotted lines indicate records defined in other schemas.
 
 .. image:: /_static/reads_schema.png
  
