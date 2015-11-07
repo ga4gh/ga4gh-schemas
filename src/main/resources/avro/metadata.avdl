@@ -9,7 +9,7 @@ protocol Metadata {
 import idl "common.avdl";
 
 /**
-An experimental preparation of a `Sample`.
+An experimental preparation of a sample.
 */
 record Experiment {
   /** The experiment UUID. This is globally unique. */
@@ -35,7 +35,7 @@ record Experiment {
 
   /**
   The time at which this experiment was performed.
-  Granularity here is variabel (e.g. date only).
+  Granularity here is variable (e.g. date only).
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   */
   union { null, string } runTime = null;
@@ -92,8 +92,8 @@ record Experiment {
 }
 
 /**
-A Dataset is a collection of related data of multiple types.  There is very
-limited semantic constraints placed on metadata.  See
+A Dataset is a collection of related data of multiple types.  There are very
+few semantic constraints placed on metadata.  See
 [Metadata API](../api/metadata.html) for a more detailed discussion.
 */
 record Dataset {
