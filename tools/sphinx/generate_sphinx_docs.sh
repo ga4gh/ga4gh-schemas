@@ -1,8 +1,7 @@
 #!/bin/bash
+# For backward compatibility, this script will invoke the
+# make-based doc build process
 
-cat <<EOF
-This script is obsolete. To build the sphinx documentation, type 'make docs'
-the schemas top-level directory.
-EOF
-
-exit 1
+root_dir=$(dirname $0)/../..
+cd $root_dir
+exec make docs
