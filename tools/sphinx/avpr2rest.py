@@ -39,13 +39,34 @@ if __name__ == '__main__':
     
     with open(avpr_filename,'r') as f:
       data = json.load(f)
-    
+
     output = data['protocol'] + '\n'
     output += '*' * len(data['protocol']) + '\n\n'
     
     if 'doc' in data:
       output += cleanup_doc(data['doc']) + '\n\n'
-    
+
+    for message_name in data['messages']:
+      message_def = data['messages'][message_name]
+      doc = message_def['doc']
+      # process formal parameters ('request')
+      request = message_def['request']
+      # collect the names
+      param_names = []
+      for param in request:
+        param_names.append(param['name'])
+      response = message_def['response']
+      errors = message_def['errors']
+      output += " .. function:: %s(%s)\n\n" % (message_name,
+                                               ', '.join(param_names))
+      for param in request:
+        output += "  :param %s: %s: %s\n" % (param['name'], param['type'],
+                                            param['doc'])
+      output += "  :return type: %s\n" % response
+      output += "  :throws: %s\n\n" % ', '.join(errors)
+      output += cleanup_doc(doc)
+      output += "\n\n"
+
     for item in data['types']:
       output += '.. avro:%s:: %s\n\n' % (item['type'], item['name'])
       
