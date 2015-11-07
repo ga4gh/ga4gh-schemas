@@ -49,15 +49,23 @@ if __name__ == '__main__':
     for message_name in data['messages']:
       message_def = data['messages'][message_name]
       doc = message_def['doc']
-      request = message_def['request'][0]
+      # process formal parameters ('request')
+      request = message_def['request']
+      # collect the names
+      param_names = []
+      for param in request:
+        param_names.append(param['name'])
       response = message_def['response']
       errors = message_def['errors']
-      output += " .. function:: %s\n\n " % message_name
-      output += " :param %s: %s: %s\n" % (request['name'], request['type'],
-                                          request['doc'])
-      output += " :return type: %s\n" % response
-      output += " :throws: %s\n\n" % ' '.join(errors)
+      output += " .. function:: %s(%s)\n\n" % (message_name,
+                                               ', '.join(param_names))
+      for param in request:
+        output += "  :param %s: %s: %s\n" % (param['name'], param['type'],
+                                            param['doc'])
+      output += "  :return type: %s\n" % response
+      output += "  :throws: %s\n\n" % ', '.join(errors)
       output += cleanup_doc(doc)
+      output += "\n\n"
 
     for item in data['types']:
       output += '.. avro:%s:: %s\n\n' % (item['type'], item['name'])
