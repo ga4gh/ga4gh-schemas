@@ -67,6 +67,8 @@ The other entities can be thought of as collections of Calls that have something
 
 The following diagram shows the relationship of these four entities to each other and to other GA4GH API entities. It shows which entities contain other entities (such as :avro:record:`VariantSetMetadata`), and which contain IDs that can be used to get information from other entities (such as :avro:record:`Variant`'s ``variantSetId``). The arrow points *from* the entity that contains the ID *to* the entity that can be identified by that ID.
 
+FIXME: remove the Sample object from the graphic; that object isn't (yet) defined in the API.
+
 .. image:: /_static/variant_schema.png
 
 For the complete Variant schema definition, see the `Variants schema <schemas/variants.html>`_
