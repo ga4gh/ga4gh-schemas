@@ -53,7 +53,7 @@ record VariantSetMetadata {
 A VariantSet is a collection of variants and variant calls intended to be analyzed together.
 */
 record VariantSet {
-  /** The UUID of the variant set. */
+  /** The variant set ID. */
   string id;
 
   /** The variant set name. */
@@ -95,7 +95,7 @@ record CallSet {
 
   /** The IDs of the variant sets this call set has calls in. */
   array<string> variantSetIds = [];
-  
+
   /** The date this call set was created in milliseconds from the epoch. */
   union { null, long } created = null;
 
