@@ -26,6 +26,9 @@ help:
 docs:
 	cd doc/source; sphinx-build -b html -d ../../${BUILD_DIR}/doctrees . ../../${BUILD_DIR}/html
 
+#=> docs-schema -- generate rst files from avdl
+docs-schemas:
+	make -C doc/source/schemas default
 
 .PHONY: package
 package:
@@ -34,7 +37,8 @@ package:
 
 .PHONY: clean cleaner cleanest
 clean:
-	find . -regex '.*\(~\|\.bak\)' -print0 | xargs -0r /bin/rm
+	find . -regex '.*\(~\|\.bak\)' -print0 | xargs -0r /bin/rm -v
 cleaner: clean
 cleanest: cleaner
+	find . -regex '.*\(\.orig\)' -print0 | xargs -0r /bin/rm -v
 	rm -fr target
