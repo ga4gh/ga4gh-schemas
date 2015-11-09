@@ -146,6 +146,8 @@ The current code conventions for the source files are as follows:
        level as the comment delimeters.
      * One-line non-documentation comments, intended for schema developers only,
        must use the `// ...` style.
+     * Comments may use [reStructuredText](http://docutils.sourceforge.net/rst.html)
+       mark up.
 
 <a name="topic_branches"></a>
 ## Topic Branches
