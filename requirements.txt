@@ -5,4 +5,3 @@ humanize
 nose
 requests
 sphinx
-pypandoc

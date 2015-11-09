@@ -19,27 +19,6 @@ We use a tool called Sphinx to generate the documentation from Avro input files.
 ### Install prerequisites
 To use the Sphinx/Avro documentation generator, you must install some software packages it requires.
 
-#### Pandoc
-`pandoc` is a small library that converts between markup languages.
-
-##### Ubuntu
-
-```
-$ sudo apt-get install pandoc
-```
-
-##### CentOS/Fedora
-
-```
-$ sudo yum install pandoc
-```
-
-##### Mac OS X
-
-```
-$ brew install pandoc
-```
-
 #### Maven
 We use the Maven build tool to control processing the schemas.  Installing Maven will also install Java.
 

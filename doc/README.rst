@@ -49,7 +49,6 @@ Documents are written in `ReStructured Text
 <http://sphinx-doc.org/>`_.  documentation being extracted from the
 schemas.
 
-Abbreviations are stored in ``epilog.rst``.
-
-FIXME (Adam Novak): Reference avro elements with ``:avro:key``.
+- Abbreviations are stored in ``epilog.rst``.
+- Reference avro elements with ``:avro:key``.
 
