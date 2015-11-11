@@ -18,7 +18,7 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('../../../tools/sphinx'))
+sys.path.insert(0, os.path.abspath('../../tools/sphinx'))
 
 # -- General configuration ------------------------------------------------
 
@@ -79,7 +79,7 @@ language = None
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build', 'includes/*']
+exclude_patterns = ['_build', 'includes/*', 'epilog.rst']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
