@@ -4,6 +4,18 @@ Documention
 This directory contains source and tools to build the GA4GH schemas
 documentation.
 
+The documentation is built automatically by Read the Docs upon commit
+to the master and documentation branches.  See:
+
+The `resulting docs <http://ga4gh-schemas.readthedocs.org/>`_ are
+built automatically at Read the Docs, usually within two minutes of a
+commit.
+
+.. note:: While documentation is under development in the
+          ``documentation`` branch, you may wish to see `documentation
+          branch docs
+          <http://ga4gh-schemas.readthedocs.org/en/documentation/>`_.
+
 Building
 @@@@@@@@
 
@@ -12,33 +24,31 @@ To build documentation, type::
   make docs
 
 in the schemas root directory.  The resulting documentation will be in
-the ``schemas/build/html`` directory.
-
-.. note:: The ``tools/sphinx/generate_sphinx_docs.sh`` script is
-          obsolete.  The functionality is entirely subsumed by ``make
-          docs``, which also enables incremental updates.
-
-A `daily build
-<http://hgwdev.cse.ucsc.edu/~markd/ga4gh/documentation-pr/>`_ is also
-available at UCSC. 
-
-Changes are in progress to enable building the documentation at Read
-the Docs.
+the ``target/doc/html`` directory.  (You will need certain
+prerequisites and, for the moment, you'll have to ferret those out
+yourself.)
 
 
 Building Process
 @@@@@@@@@@@@@@@@
 
-Documentation is currently derived in part from avdl files by
-processing files ``schemas/src/main/resources/avro/`` to generate rst
-files in ``schemas/doc/sources/schemas``.  See
-schemas/doc/sources/schemas/Makefile for details about this process.
-``make docs`` invokes this conversion automatically.
+The current doc flow is roughly as follows::
 
-Currently, rst files are generated everytime docs are built, and
-requires tools that cannot be easily made available on Read The Docs.
-Alternatively we are considering building the rst files upon commit,
-which would then enable read the docs to build from rst sources.
+  avdl ----1----> avpr ----2----> rst -| 
+                                       | ----3----> html
+                                  rst -|
+
+  |- doc/source/schema/Makefile  -| |--  sphinx  --|
+  |------ top-level Makefile ('make docs') --------|
+                    
+* 1 = avro-tools, downloaded on demand; requires java
+* 2 = avpr2rest.py, a custom script in tools/sphinx/
+* 3 = sphinx-build, part of the sphinx package
+
+.. warning:: Because we cannot currently run step 1 at Read the Docs,
+             it is imperative that developers type `make docs-schema`
+             at the top level if avdl files are updated, and then
+             commit the changed rst files.
 
 
 Documentation tips
