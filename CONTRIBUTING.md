@@ -147,6 +147,30 @@ The current code conventions for the source files are as follows:
      * One-line non-documentation comments, intended for schema developers only,
        must use the `// ...` style.
 
+<a name="documentation"></a>
+## Documentation
+
+The goal of GA4GH is to define an interoperable API specification.  To achieve
+this, the intent, rationale, and semantics of all data objects and operations
+need to be clearly and precisely defined. Decisions that are not captured in
+documentation are lost.
+
+All schemas defined in GA4GH must include normative documentation.  This
+should consist of overview and design documentation as well as documentation
+in the schemas.  This documentation should explain the goals, overall design,
+and rationale for decisions that were made.  It must be addressed to both
+client and server developer audiences.  It may cite published papers or stable
+web documentation.
+
+Overview documentation should be in ReStructuredText markdown format
+(`*.rst`) in the `doc/source/` directory.  This format was chosen for inclusion
+in a Sphinx-based documentation system that is under development.
+Graphics are encouraged and should have a source to drawings in
+SVG format that will be converted to PNG by the documentation build.
+
+Developers are encouraged to get feedback on design documentation before
+developing and implementing schemas.
+
 <a name="topic_branches"></a>
 ## Topic Branches
 
