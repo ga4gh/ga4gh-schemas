@@ -26,9 +26,9 @@ primary data collected from sequencing machines.
 The team will deliver:
 
   1. Data model. An abstract, mathematically complete and precise model of the
-     data that is manipulated by the API. See the [Avro
-     directory](src/main/resources/avro) for our in-progress work on defining
-     v0.5 of the data model. 
+     data that is manipulated by the API. See the [proto
+     directory](src/main/resources/proto) for our in-progress work on defining
+     the data model. 
   2. API Specification. A human-readable document introducing and defining the
      API, accompanied by a formal specification. See the [documentation
      page](http://ga4gh.org/#/apis/reads/v0.1) for the published v0.1

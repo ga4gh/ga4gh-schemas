@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package ga4gh;
+
+// Indicates the associated DNA strand for some data item.
+enum Strand {
+  STRAND_UNSPECIFIED = 0;
+
+  // The negative (-) strand.
+  NEG_STRAND = 1;
+
+  // The postive (+) strand.
+  POS_STRAND = 2;
+}
+
+// A `Position` is an unoriented base in some `Reference`. A `Position` is
+// represented by a `Reference` name, and a base number on that `Reference`
+// (0-based).
+message Position {
+  // The name of the `Reference` on which the `Position` is located.
+  string reference_name = 1;
+
+  // The 0-based offset from the start of the forward strand for that
+  // `Reference`. Genomic positions are non-negative integers less than
+  // `Reference` length.
+  int64 position = 2;
+
+  // Strand the position is associated with.
+  Strand strand = 3;
+}
+
+// Identifier from a public database
+message ExternalIdentifier {
+  // The source of the identifier, e.g. `Ensembl`.
+  string database = 1;
+
+  // The ID defined by the external database, e.g. `ENST00000000000`.
+  string identifier = 2;
+
+  // The version of the object or the database, e.g. `78`.
+  string version = 3;
+}
+
+// A single CIGAR operation.
+message CigarUnit {
+  // Describes the different types of CIGAR alignment operations that exist.
+  // Used wherever CIGAR alignments are used.
+  enum Operation {
+    OPERATION_UNSPECIFIED = 0;
+    // An alignment match indicates that a sequence can be aligned to the
+    // reference without evidence of an INDEL. Unlike the
+    // `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators,
+    // the `ALIGNMENT_MATCH` operator does not indicate whether the
+    // reference and read sequences are an exact match. This operator is
+    // equivalent to SAM's `M`.
+    ALIGNMENT_MATCH = 1;
+    // The insert operator indicates that the read contains evidence of bases
+    // being inserted into the reference. This operator is equivalent to SAM's
+    // `I`.
+    INSERT = 2;
+    // The delete operator indicates that the read contains evidence of bases
+    // being deleted from the reference. This operator is equivalent to SAM's
+    // `D`.
+    DELETE = 3;
+    // The skip operator indicates that this read skips a long segment of the
+    // reference, but the bases have not been deleted. This operator is commonly
+    // used when working with RNA-seq data, where reads may skip long segments
+    // of the reference between exons. This operator is equivalent to SAM's
+    // `N`.
+    SKIP = 4;
+    // The soft clip operator indicates that bases at the start/end of a read
+    // have not been considered during alignment. This may occur if the majority
+    // of a read maps, except for low quality bases at the start/end of a read.
+    // This operator is equivalent to SAM's `S`. Bases that are soft
+    // clipped will still be stored in the read.
+    CLIP_SOFT = 5;
+    // The hard clip operator indicates that bases at the start/end of a read
+    // have been omitted from this alignment. This may occur if this linear
+    // alignment is part of a chimeric alignment, or if the read has been
+    // trimmed (for example, during error correction or to trim poly-A tails for
+    // RNA-seq). This operator is equivalent to SAM's `H`.
+    CLIP_HARD = 6;
+    // The pad operator indicates that there is padding in an alignment. This
+    // operator is equivalent to SAM's `P`.
+    PAD = 7;
+    // This operator indicates that this portion of the aligned sequence exactly
+    // matches the reference. This operator is equivalent to SAM's `=`.
+    SEQUENCE_MATCH = 8;
+    // This operator indicates that this portion of the aligned sequence is an
+    // alignment match to the reference, but a sequence mismatch. This can
+    // indicate a SNP or a read error. This operator is equivalent to SAM's
+    // `X`.
+    SEQUENCE_MISMATCH = 9;
+  }
+  Operation operation = 1;
+
+  // The number of genomic bases that the operation runs for. Required.
+  int64 operation_length = 2;
+
+  // `referenceSequence` is only used at mismatches
+  // (`SEQUENCE_MISMATCH`) and deletions (`DELETE`).
+  // Filling this field replaces SAM's MD tag. If the relevant information is
+  // not available, this field is unset.
+  string reference_sequence = 3;
+}

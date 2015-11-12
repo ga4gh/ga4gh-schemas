@@ -1,0 +1,185 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "proto/google/protobuf/struct.proto";
+
+// This metadata represents VCF header information.
+message VariantSetMetadata {
+  // The top-level key.
+  string key = 1;
+
+  // The value field for simple metadata.
+  string value = 2;
+
+  // User-provided ID field, not enforced by this API.
+  // Two or more pieces of structured metadata with identical
+  // id and key fields are considered equivalent.
+  string id = 3;
+
+  // The type of data.
+  string type = 4;
+
+  // The number of values that can be included in a field described by this
+  // metadata.
+  string number = 5;
+
+  // A textual description of this metadata.
+  string description = 6;
+
+  // Remaining structured metadata key-value pairs.
+  map<string, google.protobuf.ListValue> info = 7;
+}
+
+// `Variant` and `CallSet` both belong to a `VariantSet`.
+// `VariantSet` belongs to a `Dataset`.
+// The variant set is equivalent to a VCF file.
+message VariantSet {
+  // The variant set ID.
+  string id = 1;
+
+  // The variant set name.
+  string name = 2;
+
+  // The ID of the dataset this variant set belongs to.
+  string dataset_id = 3;
+
+  // The reference set the variants in this variant set are using.
+  string reference_set_id = 4;
+
+  // The metadata associated with this variant set. This is equivalent to
+  // the VCF header information not already presented in first class fields.
+  repeated VariantSetMetadata metadata = 5;
+}
+
+// A `CallSet` is a collection of variant calls for a particular sample.
+// It belongs to a `VariantSet`. This is equivalent to one column in VCF.
+message CallSet {
+  // The call set ID.
+  string id = 1;
+
+  // The call set name.
+  string name = 2;
+
+  // The sample this call set's data was generated from.
+  string sample_id = 3;
+
+  // The IDs of the variant sets this call set has calls in.
+  repeated string variant_set_ids = 4;
+
+  // The date this call set was created in milliseconds from the epoch.
+  int64 created = 5;
+
+  // The time at which this call set was last updated in
+  // milliseconds from the epoch.
+  int64 updated = 6;
+
+  // A map of additional call set information.
+  map<string, google.protobuf.ListValue> info = 7;
+}
+
+// A `Call` represents the determination of genotype with respect to a
+// particular `Variant`.
+//
+// It may include associated information such as quality
+// and phasing. For example, a call might assign a probability of 0.32 to
+// the occurrence of a SNP named rs1234 in a call set with the name NA12345.
+message Call {
+  // The name of the call set this variant call belongs to.
+  // If this field is not present, the ordering of the call sets from a
+  // `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
+  // the ordering of the calls on this `Variant`.
+  // The number of results will also be the same.
+  string call_set_name = 1;
+
+  // The ID of the call set this variant call belongs to.
+  //
+  // If this field is not present, the ordering of the call sets from a
+  // `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
+  // the ordering of the calls on this `Variant`.
+  // The number of results will also be the same.
+  string call_set_id = 2;
+
+  // The genotype of this variant call.
+  //
+  // A 0 value represents the reference allele of the associated `Variant`. Any
+  // other value is a 1-based index into the alternate alleles of the associated
+  // `Variant`.
+  //
+  // If a variant had a referenceBases field of "T", an alternateBases
+  // value of ["A", "C"], and the genotype was [2, 1], that would mean the call
+  // represented the heterozygous value "CA" for this variant. If the genotype
+  // was instead [0, 1] the represented value would be "TA". Ordering of the
+  // genotype values is important if the phaseset field is present.
+  repeated int32 genotype = 3;
+
+  // If this field is populated, this variant call's genotype ordering implies
+  // the phase of the bases and is consistent with any other variant calls on
+  // the same contig which have the same phaseset string.
+  string phaseset = 4;
+
+  // The genotype likelihoods for this variant call. Each array entry
+  // represents how likely a specific genotype is for this call as
+  // log10(P(data | genotype)), analogous to the GL tag in the VCF spec. The
+  // value ordering is defined by the GL tag in the VCF spec.
+  repeated double genotype_likelihood = 5;
+
+  // A map of additional variant call information.
+  map<string, google.protobuf.ListValue> info = 6;
+}
+
+// A `Variant` represents a change in DNA sequence relative to some reference.
+// For example, a variant could represent a SNP or an insertion.
+// Variants belong to a `VariantSet`.
+// This is equivalent to a row in VCF.
+message Variant {
+  // The variant ID.
+  string id = 1;
+
+  // The ID of the `VariantSet` this variant belongs to. This transitively
+  // defines
+  // the `ReferenceSet` against which the `Variant` is to be interpreted.
+  string variant_set_id = 2;
+
+  // Names for the variant, for example a RefSNP ID.
+  repeated string names = 3;
+
+  // The date this variant was created in milliseconds from the epoch.
+  int64 created = 4;
+
+  // The time at which this variant was last updated in
+  // milliseconds from the epoch.
+  int64 updated = 5;
+
+  // The reference on which this variant occurs.
+  // (e.g. `chr20` or `X`)
+  string reference_name = 6;
+
+  // The start position at which this variant occurs (0-based).
+  // This corresponds to the first base of the string of reference bases.
+  // Genomic positions are non-negative integers less than reference length.
+  // Variants spanning the join of circular genomes are represented as
+  // two variants one on each side of the join (position 0).
+  int64 start = 7;
+
+  // The end position (exclusive), resulting in [start, end) closed-open
+  // interval.
+  // This is typically calculated by `start + referenceBases.length`.
+  int64 end = 8;
+
+  // The reference bases for this variant. They start at the given start
+  // position.
+  string reference_bases = 9;
+
+  // The bases that appear instead of the reference bases. Multiple alternate
+  // alleles are possible.
+  repeated string alternate_bases = 10;
+
+  // A map of additional variant information.
+  map<string, google.protobuf.ListValue> info = 11;
+
+  // The variant calls for this particular variant. Each one represents the
+  // determination of genotype with respect to this variant. `Call`s in this
+  // array are implicitly associated with this `Variant`.
+  repeated Call calls = 12;
+}
