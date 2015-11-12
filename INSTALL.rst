@@ -6,8 +6,10 @@ messages that pass between GA4GH reference servers and clients, which we
 also refer to collectively as "the API." The schemas are written in a
 language called `Avro <http://avro.apache.org>`__.
 
-We use the schemas in a couple of different ways: - to generate source
-code - to generate documentation
+We use the schemas in a couple of different ways:
+
+- to generate source code
+- to generate documentation
 
 Generating Source Code
 @@@@@@@@@@@@@@@@@@@@@@

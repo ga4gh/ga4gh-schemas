@@ -30,16 +30,20 @@ primary data collected from sequencing machines.
 
 The team will deliver:
 
-1. Data model. An abstract, mathematically complete and precise model of
-the data that is manipulated by the API. See the `Avro
-directory <src/main/resources/avro>`__ for our in-progress work on
-defining v0.5 of the data model.
-2. API Specification. A human-readable document introducing and defining
-the API, accompanied by a formal specification. See the
-`documentation page <http://ga4gh.org/#/apis/reads/v0.1>`__ for the
-published v0.1 API.
-3. Reference Implementation. Open source working code demonstrating the
-API, ideally which can underpin real world working implementations.
+#. Data model. An abstract, mathematically complete and precise model of
+   the data that is manipulated by the API. See the `Avro
+   directory <src/main/resources/avro>`__ for our in-progress work on
+   defining v0.5 of the data model.
+
+#. API Specification. A human-readable document introducing and
+   defining the API, accompanied by a formal specification. See the
+   `documentation page <http://ga4gh.org/#/apis/reads/v0.1>`__ for the
+   published v0.1 API.
+
+#. Reference Implementation. Open source working code demonstrating
+   the API, ideally which can underpin real world working
+   implementations.
+
 
 Reference Variation Task Team
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
