@@ -9,18 +9,9 @@ protocol Variants {
 
 import idl "common.avdl";
 
-/**
-This metadata represents VCF header information.
-
-`FIXME: This record looks like a stub. To be similar to a VCF header it should contain fields named fileformat, 
-fileDate, source, reference, contig, etc` See [VCF v4.2 specs] (http://samtools.github.io/hts-specs/VCFv4.2.pdf)
-
-*/
+/** Optional metadata associated with a variant set. */ 
 record VariantSetMetadata {
-  /** The top-level key. 
-  `FIXME: To be consistent with other records in this API, this should probably be called id, not key`
-
-  */
+  /** The top-level key. */
   string key;
 
   /** The value field for simple metadata. */
@@ -29,7 +20,8 @@ record VariantSetMetadata {
   /**
   User-provided ID field, not enforced by this API.
   Two or more pieces of structured metadata with identical
-  id and key fields are considered equivalent. `FIXME: If it's not enforced, then why can't it be null?`
+  id and key fields are considered equivalent.
+  `FIXME: If it's not enforced, then why can't it be null?`
   */
   string id;
 
@@ -68,8 +60,9 @@ record VariantSet {
   string referenceSetId;
 
   /**
-  The metadata associated with this variant set. This is equivalent to
-  the VCF header information not already presented in first class fields.`Explain: What are first class fields?`
+  Optional metadata associated with this variant set.
+  This array can be used to store information about the variant set, such as information found
+  in VCF header fields, that isn't already available in first class fields such as "name".
   */
   array<VariantSetMetadata> metadata = [];
 }
