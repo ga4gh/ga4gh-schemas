@@ -92,9 +92,9 @@ record Experiment {
 }
 
 /**
-A Dataset is a collection of related data of multiple types.  There are very
-few semantic constraints placed on metadata.  See
-[Metadata API](../api/metadata.html) for a more detailed discussion.
+A Dataset is a collection of related data of multiple types.
+Data providers decide how to group data into datasets.
+See [Metadata API](../api/metadata.html) for a more detailed discussion.
 */
 record Dataset {
   /**
