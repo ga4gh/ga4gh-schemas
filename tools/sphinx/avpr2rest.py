@@ -1,5 +1,9 @@
 
-import sys, json, os, re, argparse, pypandoc
+import sys
+import json
+import os
+import re
+import argparse
 
 def get_file_locations():
   parser = argparse.ArgumentParser()
@@ -25,7 +29,7 @@ def typename(typeobject):
   raise ValueError
 
 def cleanup_doc(doc,indent=0):
-  return '\n'.join([' '*indent + line for line in pypandoc.convert(doc,'rst',format='md').split('\n')])
+  return '\n'.join([' '*indent + line for line in doc.split('\n')])
 
 if __name__ == '__main__':
 
@@ -90,8 +94,6 @@ if __name__ == '__main__':
     with open(rest_filename,'w') as f:
       f.write(output)
 
-import sys, json, os, re, argparse, pypandoc
-
 def get_file_locations():
   parser = argparse.ArgumentParser()
   parser.add_argument('input', help='Input AVPR filename(s)', nargs='+')
@@ -114,9 +116,6 @@ def typename(typeobject):
     return typeobject
 
   raise ValueError
-
-def cleanup_doc(doc,indent=0):
-  return '\n'.join([' '*indent + line for line in pypandoc.convert(doc,'rst',format='md').split('\n')])
 
 if __name__ == '__main__':
 
