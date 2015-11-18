@@ -85,7 +85,10 @@ reads.
 
 All reads returned (including reads on subsequent pages) are ordered by genomic
 coordinate (by reference sequence, then position). Reads with equivalent genomic
-coordinates are returned in an unspecified but deterministic order.
+coordinates are returned in an unspecified order. This order must be consistent
+for a given repository, such that two queries for the same content (regardless
+of page size) yield reads in the same order across their respective streams of
+paginated responses.
 
 `POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
 the post body and will return a JSON version of `SearchReadsResponse`.

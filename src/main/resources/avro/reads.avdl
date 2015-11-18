@@ -107,8 +107,7 @@ record ReadGroup {
 
 /**
 A ReadGroupSet is a logical collection of ReadGroups. Typically one ReadGroupSet
-represents all the reads from one experimental
-sample.
+represents all the reads from one experimental sample.
 */
 record ReadGroupSet {
   /** The read group set ID. */
