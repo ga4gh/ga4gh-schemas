@@ -21,15 +21,16 @@ Throughout the schema definitions, a consistent use of common attributes should
 be enforced. The following list should serve as guidance for schema developers.
 
 
-+-------------------+----------------+
-| **Attribute** | **Note** |
-| id | the objects ID, used for references; (at least) locally unique |
-| name | a more descriptive object label or legacy ID; should *not* be used as reference |
-| accessions | an ``ARRAY`` containing other names, IDs, URIs of the object |
-| description | a string describing aspects of the object; *not* a list or nested object itself |
-| recordCreateTime | time at which this record was created in ISO 8601 (see **Date and Time...**) |
-| recordUpdateTime | time at which this record was updated in ISO 8601 (see **Date and Time...**) |
-+-------------------+----------------+
+========================= ======================================================
+Attribute                 Note
+========================= ======================================================
+id                        the objects ID, used for references; (at least) locally unique |
+name                      a more descriptive object label or legacy ID; should *not* be used as reference |
+accessions                an ``ARRAY`` containing other names, IDs, URIs of the object |
+description               a string describing aspects of the object; *not* a list or nested object itself |
+recordCreateTime          time at which this record was created in ISO 8601 (see **Date and Time...**) |
+recordUpdateTime          time at which this record was updated in ISO 8601 (see **Date and Time...**) |
+========================= ======================================================
 
 
 
