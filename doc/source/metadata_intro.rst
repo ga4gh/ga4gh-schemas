@@ -10,10 +10,23 @@ For the Metadata schema definitions, see the `Metadata schema <schemas/metadata.
 Metadata
 ------------------
 
-`FIXME: Stub here for time format submission; to be extended...`
-
 * standardized use of common attributes/values
 * a schema of how objects relate to each other
+
+----------------------------------
+Common Attribute Names and Formats
+----------------------------------
+
+Throughout the schema definitions, a consistent use of common attributes should
+be enforced. The following list should serve as guidance for schema developers.
+
+| **Attribute** | **Note** |
+| id | the objects ID, used for references; (at least) locally unique |
+| name | a more descriptive object label or legacy ID; should *not* be used as reference |
+| accessions | an ``ARRAY`` containing other names, IDs, URIs of the object |
+| description | a string describing aspects of the object; *not* a list or nested object itself |
+| recordCreateTime | time at which this record was created in ISO 8601 (see **Date and Time...**) |
+| recordUpdateTime | time at which this record was updated in ISO 8601 (see **Date and Time...**) |
 
 
 -----------------------------------
@@ -21,8 +34,6 @@ Date and Time Format Specifications
 -----------------------------------
 
 `FIXME: Move date/time to separate document?`
-`FIXME: Add examples for time attributes as when such are implemented 
-in the schema.`
 
 Date and time formats are specified as ISO8601 compatible strings, both for
 time points as well as for intervals and durations.
@@ -51,6 +62,12 @@ fraction of a second
 
 * time stamp in milliseconds in YYYY-MM-DDTHH:MM:SS.SSS
     2015-02-10T00:03:42.123Z
+
+**Implementations**
+
+* recordCreateTime (G2P, metadata)
+* recordUpdateTime (G2P, metadata)
+* many proposed in metadata branch
 
 
 ===========
