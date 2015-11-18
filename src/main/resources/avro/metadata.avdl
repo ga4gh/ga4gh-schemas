@@ -630,6 +630,18 @@ protocol Metadata {
     union { null, string } description = null;
 
     /**
+    The time at which this record was created.
+    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+    */
+    string recordCreateTime;
+
+    /**
+    The time at which this record was last updated.
+    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+    */
+    string recordUpdateTime;
+
+    /**
     The time at which this experiment was performed.
     Granularity here is variabel (e.g. date only).
     Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
