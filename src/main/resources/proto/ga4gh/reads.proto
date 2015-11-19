@@ -37,14 +37,14 @@ alignment
 
 message ReadStats {
   // The number of aligned reads.
-  int64 alignedReadCount = 1;
+  int64 aligned_read_count = 1;
 
   // The number of unaligned reads.
-  int64 unalignedReadCount = 2;
+  int64 unaligned_read_count = 2;
 
   // The total number of bases.
   // This is equivalent to the sum of `alignedSequence.length` for all reads.
-  int64 baseCount = 3;
+  int64 base_count = 3;
 }
 
 message ReadGroup {
@@ -67,7 +67,7 @@ message ReadGroup {
   Experiment experiment = 6;
 
   // The predicted insert size of this read group.
-  int32 predictedInsertSize = 7;
+  int32 predicted_insert_size = 7;
 
   // The time at which this read group was created in milliseconds from the
   // epoch.
@@ -101,7 +101,7 @@ message ReadGroup {
 
   // The reference set the reads in this read group are aligned to.
   // Required if there are any read alignments.
-  string referenceSetId = 12;
+  string reference_set_id = 12;
 
   // A map of additional read group information.
   map<string, google.protobuf.ListValue> info = 13;
@@ -239,7 +239,7 @@ message ReadAlignment {
 
   // The mapping of the primary alignment of the `(readNumber+1)%numberReads`
   // read in the fragment. It replaces mate position and mate strand in SAM.
-  Position nextMatePosition = 16;
+  Position next_mate_position = 16;
 
   // A map of additional read alignment information.
   map<string, google.protobuf.ListValue> info = 17;

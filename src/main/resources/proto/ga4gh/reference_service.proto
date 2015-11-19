@@ -70,7 +70,7 @@ message SearchReferenceSetsRequest {
 // This is the response from `POST /referencesets/search` expressed as JSON.
 message SearchReferenceSetsResponse {
   // The list of matching reference sets.
-  repeated ReferenceSet referenceSets = 1;
+  repeated ReferenceSet reference_sets = 1;
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
@@ -88,7 +88,7 @@ message GetReferenceSetRequest {
 // This request maps to the body of `POST /references/search` as JSON.
 message SearchReferencesRequest {
   // The `ReferenceSet` to search.
-  string referenceSetId = 1;
+  string reference_set_id = 1;
 
   // If specified, return the references for which the
   // `md5checksum` matches this string (case-sensitive, exact match).
