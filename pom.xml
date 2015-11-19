@@ -179,7 +179,10 @@
           </execution>
         </executions>
         <configuration>
-          <executable>tools/sphinx/generate_sphinx_docs.sh</executable>
+          <executable>make</executable>
+	  <arguments>
+	    <argument>docs</argument>
+	  </arguments>
         </configuration>
       </plugin>
     </plugins>
