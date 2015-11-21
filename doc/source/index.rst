@@ -2,10 +2,10 @@
 
 ----
 
-GA4GH Schemas Implementation
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+GA4GH API
+!!!!!!!!!
 
-This is the documentation for the `GA4GH`_ schemas.
+This is the documentation for the `GA4GH`_ API.
 
 
 Contents
@@ -15,7 +15,6 @@ Contents
    :maxdepth: 2
 
    intro
-   getting-started/index
    api/index
    schemas/index
    appendix/index

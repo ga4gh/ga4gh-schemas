@@ -1,8 +1,8 @@
 .. _apidesign:
 
 
-GA4GH API Design
-!!!!!!!!!!!!!!!!
+API Design
+!!!!!!!!!!
 
 
 Object Ids
@@ -39,6 +39,22 @@ cross-repository identifiers using some combination of **content
 hashes**, **GUIDs**, and central **accession** facilities.
 
 
+ID and Name
+@@@@@@@@@@@
+
+Throughout the API objects have *IDs*. The purpose of IDs is to allow
+unique identification of all objects within a single server, such that
+no two objects in a given server have the same ID and no object has
+more than one ID.  The scope of an ID is limited to a given server and
+an ID may be an arbitrary string.
+
+A name is a user defined identifier. Names need only be uniquely
+identifying within a specific scope, for example, the names of
+sequences within a ReferenceSet must be distinct, but there might be
+two sequences named "chr1" stored in a server, each in a different
+ReferenceSet. Names may be an arbitrary string.
+
+
 Object Relationships
 @@@@@@@@@@@@@@@@@@@@
 
@@ -59,7 +75,17 @@ Object Relationships
   * many:many (e.g. different VariantSets derived from a collection of
     ReadGroupSets using different joint variant calling algorithms)
 
+Dataset
+@@@@@@@
 
+A dataset is a highest level grouping that contains sequence and
+variant data. It provides the concept of a container which allows high
+level separation between data.
+
+For the Dataset schema definition see the `Metadata schema
+<schemas/metadata.html>`_
+
+    
 Unresolved Issues
 @@@@@@@@@@@@@@@@@
 

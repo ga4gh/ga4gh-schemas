@@ -8,18 +8,16 @@ Metadata API
 Goals and Scope
 @@@@@@@@@@@@@@@
 
-The metadata API provides information on the primary data object
-available via the GA4GH API.  It also provides facilities to
-organizing primary data objects.
+The metadata API provides information on the primary data objects
+available via the GA4GH API, and facilities to organize primary data
+objects.
 
 The current metadata API is immature and will evolve in future.
 
 
-Design
-@@@@@@
+Datasets
+@@@@@@@@
 
-
-**Data organization**
 
 All GA4GH data objects are part of a *dataset*. A dataset is a
 data-provider-specified collection of related data of multiple types.
@@ -34,8 +32,7 @@ Subsets of the data in a dataset can be selected for analysis using
 other metadata or attributes.
 
 
-Use Cases
-@@@@@@@@@
+**Use Cases**
 
 For server implementors, datasets are a useful level of granularity
 for implementing administrative features such as access control
@@ -50,7 +47,7 @@ Dataset Y has all the work product from a particular grant).
 
 For data accessors, datasets are a simple way to scope exploration and
 analysis (e.g. are there any supporting examples in 1000genomes?
-what's the distribution of that result in the data from our project?)
+what's the distribution of that result in the data from our project?).
 
 
 Issues (TODO)
@@ -61,8 +58,8 @@ Issues (TODO)
   the schema, however there is no `Sample` object defined in metadata.
 - There has been DWG discussion about proposing a new role for the
   `Dataset` object.
-- Life cycle and version management of metadata objects is not clearly
+- Lifecycle and version management of metadata objects is not clearly
   defined.  This includes the use of timestamps.
 - `Experiment` object is currently copied into the `ReadGroup` object.
-  Given metadata becomes a chain of objects associate with the data,
-  coping records seems less that ideal.
+  Given metadata becomes a chain of objects associated with the data,
+  copying records seems less that ideal.

@@ -46,7 +46,7 @@ For a full list of the GA4GH API goals, see :ref:`apigoals`
 Schemas and formats
 @@@@@@@@@@@@@@@@@@@
 
-The API consists of a series of :ref:`apidefinition`, or schemas, that
+The API consists of a series of :ref:`schemas` that
 define the types of things that API clients and servers exchange:
 requests for data, server responses, error messages, and objects
 actually representing pieces of genomics data.
@@ -77,4 +77,3 @@ On the wire, the GA4GH web API takes the form of a client and a server
 exchanging JSON-serialized objects over HTTP or HTTPS. For more
 details on JSON, including how the GA4GH web API serializes and
 deserializes Avro-specified objects in JSON, see :ref:`json`.
-
