@@ -1,8 +1,8 @@
 .. _apigoals:
 
 
-GA4GH API Goals
-!!!!!!!!!!!!!!!
+API Goals
+!!!!!!!!!
 
 
 * From the `GA4GH DWG <http://ga4gh.org/#/documentation>`_ site:

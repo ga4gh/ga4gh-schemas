@@ -1,6 +1,6 @@
-------------
-Short Reads
-------------
+-------------------
+Short Reads and BAM
+-------------------
 
 High throughput genome and transcriptome sequencing produces millions of short (50-200 nucleotide) sequences.
 These sequences are usually referred to as reads. Reads can be produced from:

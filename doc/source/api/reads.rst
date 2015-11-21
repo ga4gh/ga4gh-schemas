@@ -4,22 +4,18 @@
 Reads API
 !!!!!!!!!
 
-For the Reads schema definitions, see `Reads schema
-<../schemas/reads.html>`_
-
-.. include:: /includes/glossary/short_reads.rst
+See `Reads schema <../schemas/reads.html>`_ for a detailed reference.
 
 
-The Reads Schema
+Reads Data Model
 @@@@@@@@@@@@@@@@
 
-While the Reads schema is based on the SAM format, it allows for more
+The Reads data model,although based on the SAM format, allows for more
 versatile interaction with the data.  Instead of sending whole
 chromosome or whole genome files, the server can send information on
 specific genomic regions instead.
 
-The Reads schema consists of records that each describe part of the
-data:
+The model has the following data types:
 
 ============================== ============================================ ==================
 Record                         | Description                                SAM/BAM rough equivalent
@@ -83,9 +79,6 @@ logical hierarchy. See the field definitions in the
   be one or more supplementary alignments. Supplementary alignments
   represent linear alignments that are subsets of a chimeric
   alignment.
-
-For a complete description of all Reads records, see `Reads schema
-<../schemas/reads.html>`_
 
 The image below shows which Reads records contain other records
 (represented by green triangles), and which contain IDs that can be
