@@ -13,29 +13,31 @@ sites.
 Why use this web API?
 @@@@@@@@@@@@@@@@@@@@@
 
-This API is specifically designed to allow sharing of genomics data without having to exchange complete experiments.
+This API is specifically designed to allow sharing of genomics data in a
+standardized manner and without having to exchange complete experiments.
 With this API, you can
 
 * Exchange genome annotations, DNA sequence reads, reference-based
   alignments, metadata, and variant calls
 * Request alignments and variant calls for one genome or a million.
-* Explore data by slicing alignments and variants by genomic range
-  across one or multiple samples
+* Explore data by slicing alignments and variants by genomic location
+  or other feature across one or multiple genomes.
 * Interactively process entire cohorts
 
 
 If you need background
 @@@@@@@@@@@@@@@@@@@@@@
-For more details on web APIs, see `this wikipedia page <https://en.wikipedia.org/wiki/Web_API>`_  
-
-ReST protocols for data transfer are described `here <https://en.wikipedia.org/wiki/Representational_state_transfer>`_
+For more details on web APIs, see `this wikipedia page <https://en.wikipedia.org/wiki/Web_API>`_.
+ReST protocols for data transfer are described `here <https://en.wikipedia.org/wiki/Representational_state_transfer>`_.
+Wikipedia also has good overviews of `bioinformatics <https://en.wikipedia.org/wiki/Bioinformatics>`_
+and `DNA sequencing <https://en.wikipedia.org/wiki/DNA_sequencing>`_
 
 
 The GA4GH web API
 @@@@@@@@@@@@@@@@@
 
 This API was created to enable researchers to better access and
-exchange genomic data across remote sites. Instead of downloading
+exchange genomic data across remote sites. For example, instead of downloading
 complete BAM files or whole genome annotations, the API allows
 retrieval of information on, for instance, single genes or genomic
 regions.
