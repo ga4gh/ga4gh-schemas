@@ -181,9 +181,9 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
     Additional, human-readable information on the dataset.
   :type description: null|string
 
-  A Dataset is a collection of related data of multiple types.  There are very
-  few semantic constraints placed on metadata.  See
-  [Metadata API](../api/metadata.html) for a more detailed discussion.
+  A Dataset is a collection of related data of multiple types.
+  Data providers decide how to group data into datasets.
+  See [Metadata API](../api/metadata.html) for a more detailed discussion.
 
 .. avro:record:: Program
 
@@ -288,8 +288,7 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   :type readGroups: array<ReadGroup>
 
   A ReadGroupSet is a logical collection of ReadGroups. Typically one ReadGroupSet
-  represents all the reads from one experimental
-  sample.
+  represents all the reads from one experimental sample.
 
 .. avro:record:: LinearAlignment
 

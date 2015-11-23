@@ -4,17 +4,11 @@ Documention
 This directory contains source and tools to build the GA4GH schemas
 documentation.
 
-The documentation is built automatically by Read the Docs upon commit
-to the master and documentation branches.  See:
+The `GA4GH schemas documentation
+<http://ga4gh-schemas.readthedocs.org/>`_ is built automatically by
+Read the Docs, typically within two minutes of a commit to the master
+branch.
 
-The `resulting docs <http://ga4gh-schemas.readthedocs.org/>`_ are
-built automatically at Read the Docs, usually within two minutes of a
-commit.
-
-.. note:: While documentation is under development in the
-          ``documentation`` branch, you may wish to see `documentation
-          branch docs
-          <http://ga4gh-schemas.readthedocs.org/en/documentation/>`_.
 
 Building
 @@@@@@@@
