@@ -23,7 +23,7 @@ help:
 # doc/source is the root of the rst files; the ../.. components effectively
 # counter the cd doc/source to place the docs at the schemas root
 .PHONY: docs
-docs:
+docs: docs-schemas
 	cd doc/source; sphinx-build -b html -d ../../${BUILD_DIR}/doctrees . ../../${BUILD_DIR}/html
 
 #=> docs-schema -- generate rst files from avdl

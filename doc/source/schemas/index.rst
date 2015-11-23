@@ -1,8 +1,6 @@
 Schemas
 !!!!!!!
 
-In Progress
-
 .. toctree::
    intro
    common

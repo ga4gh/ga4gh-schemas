@@ -5,9 +5,16 @@ This directory contains source and tools to build the GA4GH schemas
 documentation.
 
 The documentation is built automatically by Read the Docs upon commit
-to the master branch.  The resulting docs should appear at
-https://ga4gh-schemas.readthedocs.org/ within 2 minutes after commit.
+to the master and documentation branches.  See:
 
+The `resulting docs <http://ga4gh-schemas.readthedocs.org/>`_ are
+built automatically at Read the Docs, usually within two minutes of a
+commit.
+
+.. note:: While documentation is under development in the
+          ``documentation`` branch, you may wish to see `documentation
+          branch docs
+          <http://ga4gh-schemas.readthedocs.org/en/documentation/>`_.
 
 Building
 @@@@@@@@
@@ -52,7 +59,6 @@ Documents are written in `ReStructured Text
 <http://sphinx-doc.org/>`_.  documentation being extracted from the
 schemas.
 
-Abbreviations are stored in ``epilog.rst``.
-
-Reference avro elements with ``:avro:key``.
+- Abbreviations are stored in ``epilog.rst``.
+- Reference avro elements with ``:avro:key``.
 
