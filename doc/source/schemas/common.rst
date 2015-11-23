@@ -1,8 +1,8 @@
 Common
 ******
 
-This protocol defines common types used in the other GA4GH protocols. It does
-not have any methods; it is merely a library of types.
+This file defines common types used in other parts of the schema.
+There are no directly associated methods.
 
 .. avro:enum:: Strand
 

@@ -34,7 +34,10 @@ reads.
 
 All reads returned (including reads on subsequent pages) are ordered by genomic
 coordinate (by reference sequence, then position). Reads with equivalent genomic
-coordinates are returned in an unspecified but deterministic order.
+coordinates are returned in an unspecified order. This order must be consistent
+for a given repository, such that two queries for the same content (regardless
+of page size) yield reads in the same order across their respective streams of
+paginated responses.
 
 `POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
 the post body and will return a JSON version of `SearchReadsResponse`.
@@ -258,9 +261,9 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
     Additional, human-readable information on the dataset.
   :type description: null|string
 
-  A Dataset is a collection of related data of multiple types.  There are very
-  few semantic constraints placed on metadata.  See
-  [Metadata API](../api/metadata.html) for a more detailed discussion.
+  A Dataset is a collection of related data of multiple types.
+  Data providers decide how to group data into datasets.
+  See [Metadata API](../api/metadata.html) for a more detailed discussion.
 
 .. avro:record:: Program
 
@@ -365,8 +368,7 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :type readGroups: array<ReadGroup>
 
   A ReadGroupSet is a logical collection of ReadGroups. Typically one ReadGroupSet
-  represents all the reads from one experimental
-  sample.
+  represents all the reads from one experimental sample.
 
 .. avro:record:: LinearAlignment
 
