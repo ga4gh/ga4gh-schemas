@@ -1,10 +1,7 @@
 Schemas
 !!!!!!!
 
-In Progress
-
 .. toctree::
-   intro
    common
    metadata
    methods
