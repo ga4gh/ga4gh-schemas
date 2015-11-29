@@ -53,8 +53,7 @@ The specification of a time point is given through the concatenation of
 
 * a date in YYYY-MM-DD
 * the designator "T" indicating a following time description
-* the time of day in HH:MM:SS.SSS form, where "SSS" represents a decimal
-fraction of a second
+* the time of day in HH:MM:SS.SSS form, where "SSS" represents a decimal fraction of a second
 * a time zone offset in relation to UTC
 
 **Examples**
