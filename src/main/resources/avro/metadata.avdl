@@ -6,7 +6,6 @@ GA4GH protocols. This includes metadata for individuals, samples, analyses
 and instrumentation as well as ontology representations for metadata.
 */
 
-<<<<<<< HEAD
 /**
 TODO:
   - id discussion
@@ -19,66 +18,6 @@ TODO:
     the data model.
   - should every field be prefixed by `ontology*'
 */
-=======
-protocol Metadata {
-
-import idl "common.avdl";
-
-/**
-An experimental preparation of a sample.
-*/
-record Experiment {
-  /** The experiment UUID. This is globally unique. */
-  string id;
-
-  /** The name of the experiment. */
-  union { null, string } name = null;
-
-  /** A description of the experiment. */
-  union { null, string } description = null;
-
-  /**
-  The time at which this record was created.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  string recordCreateTime;
-
-  /**
-  The time at which this record was last updated.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  string recordUpdateTime;
-
-  /**
-  The time at which this experiment was performed.
-  Granularity here is variable (e.g. date only).
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
-  */
-  union { null, string } runTime = null;
-
-  /**
-  The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
-  */
-  union { null, string } molecule = null;
-
-  /**
-  The experiment technique or strategy applied to the sample.
-  (e.g. whole genome sequencing, RNA-seq, RIP-seq)
-  */
-  union { null, string } strategy = null;
-
-  /**
-  The method used to enrich the target. (e.g. immunoprecipitation, size
-  fractionation, RNase digestion)
-  */
-  union { null, string } selection = null;
-
-  /** The name of the library used as part of this experiment. */
-  union { null, string } library = null;
-
-  /** The configuration of sequenced reads. (e.g. Single or Paired) */
-  union { null, string } libraryLayout = null;
->>>>>>> master
 
 protocol Metadata {
 
@@ -110,7 +49,7 @@ protocol Metadata {
     union { null, string } ontologySourceVersion = null;
   }
 
- /**
+  /**
   Representation of a disease. The object should in minimal version report the
   kind of the disease and a temporal parameter.
 
@@ -123,6 +62,7 @@ protocol Metadata {
   (e.g Li-Fraumeni syndrome and resulting malignancies) is complex and left to
   external processes utilizing GA4GH type records in combination with medical
   information systems.
+
   TODO:
     - need to link to clinical data. Reference to clinical working group
     - need keyword/value table, also human notes
@@ -142,20 +82,16 @@ protocol Metadata {
     union { null, OntologyTerm } stageAtDiagnosis = null;
 
     /**
-    Age of onset of the disease.
-    Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
+    Age of onset of the disease in ISO 8601 duration PnYnMnDTnHnMnS
+    in a suitable approximation
     Example: P47Y08M (47 years, 8 months)
-    TODO:
-      - this may need to be redefined e.g. as OntologyTerm, since there are
-        non-numerical ways to record/classify age (age range, developmental
-        stage, date or partial date)
     */
     union { null, string } ageOfOnset = null;
 
     /**
     Date the diagnosis was made/assigned. This is NOT when the record was
     created.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
+    Format: ISO 8601 (cf. documentation on time formats)
     */
     union { null, string } dateTimeDiagnosis = null;
 
@@ -168,6 +104,7 @@ protocol Metadata {
   performed by clinicians, presentations can be atypical and phenotypes
   unrelated to an individual diagnosis may be present.
   We also want to record phenotypes in the absences of a diagnosis.
+
   TODO:
     - need to link to clinical data. Reference to clinical working group
     - need keyword/value table, also human notes
@@ -187,7 +124,7 @@ protocol Metadata {
 
     /**
     Date the phenotype was identified/assigned.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
+    Format: ISO 8601 (cf. documentation on time formats)
     */
     union { null, string } dateTimeIdentified = null;
 
@@ -232,7 +169,7 @@ protocol Metadata {
     Date the observation was made/assigned (e.g. date of diagnosis, observation
     of phenotype...). Suitable e.g. for health related purposes, epidemiology,
     experimental setups (time series)...
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
+    Format: ISO 8601 (cf. documentation on time formats)
     */
     union { null, string } dateTimeObserved = null;
 
@@ -256,7 +193,6 @@ protocol Metadata {
     drug, CHEBI_23888
 
   */
-<<<<<<< HEAD
   record Intervention {
 
     /**
@@ -277,7 +213,7 @@ protocol Metadata {
 
     /**
     Date the the invervention started.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42Z)
+    Format: ISO 8601 (cf. documentation on time formats)
     */
     union { null, string } dateTimeIntervention = null;
 
@@ -312,7 +248,7 @@ protocol Metadata {
   /**
   Associations allow to "glue" two objects together, in lieu of forced nesting.
   The concept borrows from the G2P definitions.
-  TODO: Move Evidence from genotypephenotype.avdl?
+  TODO: Move Association from genotypephenotype.avdl?
   */
   record Association {
 
@@ -350,7 +286,7 @@ protocol Metadata {
   and avoids optional representation in non-standard units.
 
   TODO:
-  - Include extended attributes, capture standardized address parameters
+  - Include extended attributes, capture standardized address parameters?
   */
   record GeographicLocation {
 
@@ -385,47 +321,29 @@ protocol Metadata {
   TODO: need query to get known downstream IDs, e.g. UUIDs of samples.
   TODO: needed query to get Known aggregation IDs, e.g. UUIDs of datasets or
   analyses using pooled material or families (e.g. trios).
+  TODO: Would *BioUnit* be a better term, especially with regard to non-humans?
   */
   record Individual {
 
     /**
-    The individual's id. This is the local/legacy/generic id.
+    Formats of id | guid | name | description | accessions are described in the
+    documentation on general attributes and formats.
     */
     string id;
 
-    /**
-    The individual's guid. This is globally unique id (UUIDv4).
-    TODO: Required?!
-    */
     union { null, string } guid = null;
 
-    /**
-    The name of the individual.
-    */
     union { null, string } name = null;
 
-    /**
-    Additional, human-readable information on the individual.
-    */
     union { null, string } description = null;
 
-    /**
-    External identifiers for individual, e.g. 1000 Genomes identifier.
-    */
-    array<string> externalIds;
+    array<string> accessions;
 
     /**
-    The time at which this record was created.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-    TODO: The format definition is temporary and will be updated to
-    the upcoming AVRO time format (timestamp-millis) when this is supported.
+    The times at which this record was created / updated.
+    Format: ISO 8601 (cf. documentation on time formats)
     */
     string recordCreateTime;
-
-    /**
-    The time at which this record was last updated.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-    */
     string recordUpdateTime;
 
     /**
@@ -478,12 +396,7 @@ protocol Metadata {
     The date of birth of this individual, which maybe partial. Usually would be
     coded to the day; however, finer (e.g. animal model system) or more
     approximate (e.g. year for clinical applications) granularity is possible.
-    Format: ISO 8601, YYYY-MM-DD
-    Examples:
-      1967
-        in the year 1967
-      1999-05-08T17:15+02
-        quarter past five on May 8, 1999, in Western Europe daylight saving time
+    Format: ISO 8601 (cf. documentation on time formats)
     */
     union { null, string } dateOfBirth = null;
 
@@ -508,8 +421,7 @@ protocol Metadata {
     array<Observation> observations = [];
 
     /**
-    A map of additional individual information.
-    TODO: standardize this.
+    A map of additional information.
     */
     map<array<string>> info = {};
 
@@ -529,67 +441,44 @@ protocol Metadata {
   record BioSample {
 
     /**
-    The biosample's id.
+    Formats of id | guid | name | description | accessions are described in the
+    documentation on general attributes and formats.
     */
     string id;
 
-    /**
-    The biosample's guid.
-    */
     union { null, string } guid = null;
 
-    /**
-    The name of the biosample.
-    */
     union { null, string } name = null;
 
-    /**
-    Additional, human-readable information on the biosample.
-    */
     union { null, string } description = null;
 
-    /**
-    External identifiers for sample, e.g. EBI BioSamples accession.
-    */
-    array<string> externalIds;
+    array<string> accessions;
 
     /**
-    The ids of the individuals this biosample was derived from.  Multiple ids are
-    allowed, as a biosample maybe pooled from multiple individuals.
+    The times at which this record was created / updated.
+    Format: ISO 8601 (cf. documentation on time formats)
+    */
+    string recordCreateTime;
+    string recordUpdateTime;
+
+    /**
+    The ids of the individuals this biosample was derived from.
+    Multiple ids are allowed, as a biosample maybe pooled from multiple
+    individuals.
     */
     array<string> individualIds;
 
     /**
-    A description of the biosample.
-    */
-    union { null, string } description = null;
-
-    /**
     The species of this biosample.
     Using NCBI taxonomy (http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
-    Biosample may not reference human individuals only, so species is
-    annotated here, too.
-    For host-pathogen interactions, "species" may differ from the individual
-    from which the biosample was derived.
     */
     union { null, OntologyTerm } species = null;
 
     /**
-    The genetic sex of this biosample. Use `null` when unknown or not applicable.
+    The genetic sex of this biosample.
+    Use `null` when unknown or not applicable.
     */
     union { null, OntologyTerm } sex = null;
-
-    /**
-    The time at which this record was created.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-    */
-    string recordCreateTime;
-
-    /**
-    The time at which this record was last updated.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-    */
-    string recordUpdateTime;
 
     /**
     The time at which this biosample was taken from the individual.
@@ -669,8 +558,7 @@ protocol Metadata {
     union { null, OntologyTerm } preservationMethod = null;
 
     /**
-    A map of additional biosample information.
-    TODO: make consistent
+    A map of additional information.
     */
     map<array<string>> info = {};
   }
@@ -692,15 +580,10 @@ protocol Metadata {
     union { null, string } description = null;
 
     /**
-    The time at which this record was created.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+    The times at which this record was created / updated.
+    Format: ISO 8601 (cf. documentation on time formats)
     */
     string recordCreateTime;
-
-    /**
-    The time at which this record was last updated.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-    */
     string recordUpdateTime;
 
     /**
@@ -764,7 +647,7 @@ protocol Metadata {
     union { null, string } processingFacility;
 
     /**
-    A map of additional experiment information.
+    A map of additional information.
     */
     map<array<string>> info = {};
   }
@@ -810,12 +693,9 @@ protocol Metadata {
 
     /**
     Dataset member ids.
-    TODO: Definition of id types (guid?!) ...
+    TODO: Definition of id types ...
     */
     array<string> memberIds;
-
-    /**
-    A textual descriptio;
 
     /**
     A description of the dataset.
@@ -834,15 +714,25 @@ protocol Metadata {
   record IndividualGroup {
 
     /**
-    The group's id. This is the local/legacy/generic id.
+    Formats of id | guid | name | description | accessions are described in the
+    documentation on general attributes and formats.
     */
     string id;
 
-    /**
-    The groups's guid. This is globally unique id (UUIDv4).
-    TODO: Required?!
-    */
     union { null, string } guid = null;
+
+    union { null, string } name = null;
+
+    union { null, string } description = null;
+
+    array<string> accessions;
+
+    /**
+    The times at which this record was created / updated.
+    Format: ISO 8601 (cf. documentation on time formats)
+    */
+    string recordCreateTime;
+    string recordUpdateTime;
 
     /**
     Group member ids.
@@ -850,27 +740,6 @@ protocol Metadata {
     */
     array<string> memberIds;
 
-    /**
-    The name of the individual group.
-    */
-    union { null, string } name = null;
-
-    /**
-    A description of the individual group.
-    */
-    union { null, string } description = null;
-
-    /**
-    The time at which this record was created.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-    */
-    string recordCreateTime;
-
-    /**
-    The time at which this record was last updated.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-    */
-    string recordUpdateTime;
 
     /**
     The type of individual group.
@@ -878,10 +747,9 @@ protocol Metadata {
     union { null, string } type = null;
 
     /**
-    A map of additional individual group information.
+    A map of additional information.
     */
     map<array<string>> info = {};
-
   }
 
   /**
@@ -893,32 +761,24 @@ protocol Metadata {
   record Analysis {
 
     /**
-    The analysis' id. This is the local/legacy/generic id.
+    Formats of id | guid | name | description | accessions are described in the
+    documentation on general attributes and formats.
     */
     string id;
 
-    /**
-    The analysis' guid. This is globally unique id (UUIDv4).
-    TODO: Required?!
-    */
     union { null, string } guid = null;
 
-    /** The name of the analysis. */
     union { null, string } name = null;
 
-    /** A description of the analysis. */
     union { null, string } description = null;
 
-    /**
-    The time at which this record was created.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-    */
-    string recordCreateTime;
+    array<string> accessions;
 
     /**
-    The time at which this record was last updated.
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+    The times at which this record was created / updated.
+    Format: ISO 8601 (cf. documentation on time formats)
     */
+    string recordCreateTime;
     string recordUpdateTime;
 
     /**
@@ -932,36 +792,33 @@ protocol Metadata {
     array<string> software = [];
 
     /**
-    A map of additional analysis information.
+    A map of additional information.
     */
     map<array<string>> info = {};
+
   }
-=======
-  map<array<string>> info = {};
-}
-
-/**
-A Dataset is a collection of related data of multiple types.
-Data providers decide how to group data into datasets.
-See [Metadata API](../api/metadata.html) for a more detailed discussion.
-*/
-record Dataset {
-  /**
-  The dataset's id, locally unique to the server instance.
-  */
-  string id;
 
   /**
-  The name of the dataset.
+  A Dataset is a collection of related data of multiple types.
+  Data providers decide how to group data into datasets.
+  See [Metadata API](../api/metadata.html) for a more detailed discussion.
   */
-  union { null, string } name = null;
+  record Dataset {
 
-  /**
-  Additional, human-readable information on the dataset.
-  */
-  union { null, string } description = null;
+    /**
+    Formats of id | guid | name | description | accessions are described in the
+    documentation on general attributes and formats.
+    */
+    string id;
 
-}
->>>>>>> master
+    union { null, string } guid = null;
+
+    union { null, string } name = null;
+
+    union { null, string } description = null;
+
+    array<string> accessions;
+
+  }
 
 }
