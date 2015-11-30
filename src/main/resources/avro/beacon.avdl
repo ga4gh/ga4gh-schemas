@@ -137,11 +137,8 @@ record BeaconInformationResource {
 The response to the Beacon query
 */
 record ResponseResource {
-  /** Whether the beacon has observed variants. True if an observation exactly matches request. Overlap if an
-  observation overlaps request, but not exactly, as in the case of indels or if the query used wildcard for
-  allele. False if data are present at the requested position but no observations exactly match or overlap. Null
-  otherwise. */
-  string exists;
+  /** Indicator of whether the beacon has observed the variant. */
+  union{ null, boolean } exists;
 
   /** Frequency of this allele in the dataset. Between 0 and 1, inclusive. */
   union{ null, double } frequency = null;
