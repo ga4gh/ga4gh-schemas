@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.ga4gh</groupId>
-  <artifactId>ga4gh-format</artifactId>
+  <artifactId>ga4gh-schemas</artifactId>
   <packaging>jar</packaging>
   <version>0.6.0-SNAPSHOT</version>
 
@@ -35,7 +35,7 @@
   </developers>
 
   <properties>
-    <avro.version>1.7.6</avro.version>
+    <avro.version>1.7.7</avro.version>
     <maven.enforcer.jdk-version>[1.6,)</maven.enforcer.jdk-version>
     <maven.enforcer.maven-version>[3.0.4,)</maven.enforcer.maven-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -59,10 +59,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.3</version>
-          <configuration>
-            <source>${maven.compile.source}</source>
-            <target>${maven.compile.target}</target>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -96,7 +92,6 @@
           <configuration>
             <detectLinks>true</detectLinks>
             <quiet>true</quiet>
-            <source>${maven.compile.source}</source>
             <linksource>true</linksource>
           </configuration>
         </plugin>
@@ -143,6 +138,7 @@
             </goals>
             <configuration>
               <sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
+              <stringType>String</stringType>
             </configuration>
           </execution>
         </executions>
@@ -168,6 +164,26 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.4.0</version>
+        <executions>
+          <execution>
+            <id>build-docs</id>
+            <phase>package</phase>
+            <goals>
+               <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>make</executable>
+	  <arguments>
+	    <argument>docs</argument>
+	  </arguments>
+        </configuration>
       </plugin>
     </plugins>
   </build>

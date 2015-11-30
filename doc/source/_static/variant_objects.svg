@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1"
+    width="660"
+    height="375"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+<defs>
+  <style type="text/css">
+   <![CDATA[
+    text {
+        font-family: "Helvetica";
+        font-size: 12;
+        font-weight: 900;
+    }
+    rect {
+        fill:       none;
+        stroke-linecap:     "round";
+        stroke-linejoin:    "round";
+        stroke-width:           3px;
+        stroke-dasharray: 10,10;
+    }
+    line {
+        stroke: rgb(163,163,163);
+        stroke-opacity: 0.5;
+        stroke-linecap:     "round";
+        stroke-linejoin:    "round";
+        stroke-width:           3px;
+        }
+    .dark {
+        stroke-opacity: 1;    
+    }
+   ]]>
+ </style>
+</defs>
+
+<rect x="20" y="20"  rx="20" ry="20" stroke="green" width="400" height="350" />
+<rect x="25" y="175"  rx="10" ry="10" stroke="red" width="390" height="40" />
+<rect x="125" y="25"  rx="10" ry="10" stroke="blue" width="40" height="340" />
+<rect x="275" y="275"  rx="10" ry="10" stroke="orange" width="40" height="40" />
+
+<line x1="70" y1="25" x2="70" y2="365" class="dark"/>
+<line x1="120" y1="25" x2="120" y2="365"/>
+<line x1="170" y1="25" x2="170" y2="365"/>
+<line x1="220" y1="25" x2="220" y2="365"/>
+<line x1="270" y1="25" x2="270" y2="365"/>
+<line x1="320" y1="25" x2="320" y2="365"/>
+<line x1="370" y1="25" x2="370" y2="365"/>
+
+<line x1="25" y1="70" x2="415" y2="70" class="dark" />
+<line x1="25" y1="120" x2="415" y2="120" />
+<line x1="25" y1="170" x2="415" y2="170" />
+<line x1="25" y1="220" x2="415" y2="220" />
+<line x1="25" y1="270" x2="415" y2="270" />
+<line x1="25" y1="320" x2="415" y2="320" />
+
+<text x="80" y="60">CS1</text>
+<text x="130" y="60">CS2</text>
+<text x="180" y="60">CS3</text>
+<text x="230" y="60">CS4</text>
+<text x="280" y="60">CS5</text>
+<text x="330" y="60">...</text>
+
+<text x="40" y="105">V1</text>
+<text x="40" y="155">V2</text>
+<text x="40" y="205">V3</text>
+<text x="40" y="255">V4</text>
+<text x="40" y="305">V5</text>
+<text x="40" y="355">...</text>
+
+<text x="140" y="105">C</text>
+<text x="190" y="105">C</text>
+<text x="140" y="155">C</text>
+<text x="240" y="155">C</text>
+<text x="290" y="155">C</text>
+<text x="90" y="205">C</text>
+<text x="190" y="255">C</text>
+<text x="240" y="255">C</text>
+<text x="290" y="305">C</text>
+
+<rect x="440" y="55"  rx="20" ry="20" stroke="green" width="200" height="110" />
+<text x="500" y="120">VariantSet</text>
+<rect x="440" y="175"  rx="20" ry="20" stroke="red" width="200" height="40" />
+<text x="510" y="200">Variant</text>
+<rect x="440" y="225"  rx="20" ry="20" stroke="blue" width="200" height="40" />
+<text x="510" y="250">CallSet</text>
+<rect x="440" y="275"  rx="20" ry="20" stroke="orange" width="200" height="40" />
+<text x="520" y="300">Call</text>
+
+</svg>
