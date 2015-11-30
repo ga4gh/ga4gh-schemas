@@ -13,7 +13,7 @@ available via the GA4GH API, and facilities to organize primary data
 objects. Main goals of the metadata definitions are to provide
 
 * standardized use of common attributes/values
-* a schema of how (core) objects relate to each other
+* a schema of how objects relate to each other
 
 The  metadata API is under continuous development.
 
