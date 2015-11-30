@@ -66,12 +66,6 @@ The specification of a time point is given through the concatenation of
 * time stamp in milliseconds in YYYY-MM-DDTHH:MM:SS.SSS
     2015-02-10T00:03:42.123Z
 
-**Implementations**
-
-* recordCreateTime (G2P, metadata)
-* recordUpdateTime (G2P, metadata)
-* many proposed in the metadata branch
-
 ===========
 Durations
 ===========
