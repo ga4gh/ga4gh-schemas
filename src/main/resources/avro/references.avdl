@@ -80,6 +80,9 @@ record ReferenceSet {
   /** The reference set ID. Unique in the repository. */
   string id;
 
+  /** The reference set name. */
+  union { null, string } name = null;
+
   /**
   Order-independent MD5 checksum which identifies this `ReferenceSet`.
 

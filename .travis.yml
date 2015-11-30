@@ -3,8 +3,8 @@ python:
   - "2.7"
 
 install:
+    - sudo apt-get update -qq
     - pip install -r requirements.txt
-
 script:
     - flake8 scripts tests
     - nosetests -v tests
