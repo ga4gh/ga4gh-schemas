@@ -42,19 +42,18 @@ Date and Time Format Specifications
 
 Date and time formats are specified as ISO8601 compatible strings, both for
 time points as well as for intervals and durations.
-The required granularity have to be specified as part of the respective
+The required granularity has to be specified as part of the respective
 attributes' documentations.
-
 
 ===========
 Time points
 ===========
 
 The specification of a time point is given through the concatenation of
+
 * a date in YYYY-MM-DD
 * the designator "T" indicating a following time description
-* the time of day in HH:MM:SS.SSS form, where "SSS" represents a decimal
-fraction of a second
+* the time of day in HH:MM:SS.SSS form, where "SSS" represents a decimal fraction of a second
 * a time zone offset in relation to UTC
 
 **Examples**
@@ -73,7 +72,6 @@ fraction of a second
 * recordCreateTime (G2P, metadata)
 * recordUpdateTime (G2P, metadata)
 * many proposed in metadata branch
-
 
 ===========
 Durations
@@ -94,7 +92,6 @@ Durations do not have to be normalized; "PT50H" is equally valid as "P2T2H".
 
 * short time interval (e.g. 30min in experimental time series) in PTnM
     PT30M
-
 
 ==============
 Time intervals
