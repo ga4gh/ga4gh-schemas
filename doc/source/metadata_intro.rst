@@ -1,7 +1,7 @@
 .. _metadata:
 
 ***************************
-Metadata API (stub)
+Metadata API
 ***************************
 
 For the Metadata schema definitions, see the `Metadata schema <schemas/metadata.html>`_
