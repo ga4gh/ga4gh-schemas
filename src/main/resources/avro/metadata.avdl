@@ -38,7 +38,7 @@ record Experiment {
   union { null, string } description = null;
 
   /**
-  The time at which this record was created. 
+  The time at which this record was created.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
   string recordCreateTime;
@@ -69,7 +69,7 @@ record Experiment {
 
   /**
   The method used to enrich the target. (e.g. immunoprecipitation, size
-  fractionation, MNase digestion)
+  fractionation, RNase digestion)
   */
   union { null, string } selection = null;
 
