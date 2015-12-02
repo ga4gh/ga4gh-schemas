@@ -154,18 +154,6 @@ record LinearAlignment {
 }
 
 /**
-A fragment represents a contiguous stretch of a DNA or RNA molecule. Reads can
-be associated with a fragment to specify they derive from the same molecule.
-TODO: this Fragment object is essentially unused, and may be removed in a future PR.
-*/
-record Fragment {
-
-  /** The fragment ID. */
-  string id;
-
-}
-
-/**
 Each read alignment describes an alignment with additional information
 about the fragment and the read. A read alignment object is equivalent to a
 line in a SAM file.
@@ -189,12 +177,6 @@ record ReadAlignment {
   string readGroupId;
 
   // fragment attributes
-
-  /**
-  The fragment ID that this ReadAlignment belongs to.
-  TODO: this is the only reference to the Fragment object, which may be removed in a future PR.
-  */
-  string fragmentId;
 
   /** The fragment name. Equivalent to QNAME (query template name) in SAM. */
   string fragmentName;
