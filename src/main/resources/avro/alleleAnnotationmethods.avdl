@@ -9,9 +9,7 @@ annotations.
 import idl "methods.avdl";
 import idl "variants.avdl";
 import idl "alleleAnnotations.avdl";
-import idl "sequenceAnnotations.avdl";
-import idl "ontologies.avdl";
-
+import idl "metadata.avdl";
 /*
 variantannotations/search returns annotation for the alleles of Variants
 

@@ -8,9 +8,7 @@ protocol AlleleAnnotations{
 
 import idl "common.avdl";
 import idl "metadata.avdl";
-import idl "sequenceAnnotations.avdl";
 import idl "variants.avdl";
-import idl "ontologies.avdl";
 
 /*
 
