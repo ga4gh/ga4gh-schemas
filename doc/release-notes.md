@@ -1,42 +1,67 @@
 # Changes to `ga4gh/schemas` `master` branch since version `v0.5.1` (Oct 2, 2014)
 
-### Pervasive changes
+## Pervasive changes
 
 Renamed all protocols and records to remove the "`GA`" prefix from
 their names.  (Hence `GASearchVariantSetsRequest` is now
-`SearchVariantSetsRequest`, etc.)  The exception is `GAException`,
-which is unchanged.
+`SearchVariantSetsRequest`, etc.)  
+The exception is `GAException`, which is unchanged.
 
 There is no longer one unitary namespace.  Objects now reside in
 "`org.ga4gh.models`", methods in "`org.ga4gh.methods`".
 
-Updated the version number to `0.6.0-SNAPSHOT`.
+Updated the version number to `0.6.0a1`.
 
-### Added
 
-Datasets are now used throughout the API.
+## Changes visible to API clients
 
-#### Methods:
+### Additions
 
-* `getDataset`
-* `searchDatasets`
-* `getReadGroupSet`
-* `getReadGroup`
-* `getVariant`
-* `getVariantSet`
-* `getCallSet`
+`Dataset` is now utilized throughout the API.
 
-#### Records:
+#### New methods, HTTP endpoints:
 
-* `ExternalIdentifier`
-* `Experiment`
-* `Dataset`
-* `ReadStats`
-* `Fragment` _(apparently unused)_
+* `getDataset` via GET `datasets/<id>`
+* `searchDatasets` via POST `/datasets/search`
+* `getReadGroupSet` via  GET `/readgroupsets/<id>`
+* `getReadGroup` via GET `/readgroups/<id>`
+* `getVariant` via GET `/variants/<id>`
+* `getVariantSet` via GET `/variantsets/<id>`
+* `getCallSet` via GET `/callsets/<id>`
 
-#### Enum:
+#### New and modified entities:
 
-* `Strand`
+* New record type `ExternalIdentifier` introduced.
+* New record type `ReadStats` now optionally part of a returned `ReadGroup` or `ReadGroupSet` object.
+* `Position` record type now specifies strand via new enum `Strand` (in place of `boolean reverseStrand`).
+
+#### Field default values:
+
+* `SearchReadsRequest.start` as passed into `/reads/search` is optional and no longer defaults to 0.
+* Boolean fields in `ReadAlignment` as returned from `/reads/search` now default to `null` instead of `false`.
+
+#### Field types:
+
+* `SearchVariantSetsRequest` as passed into `/variantsets/search` now takes a single dataset ID, not an array.
+* `SearchCallSetsRequest` as passed into `/callsets/search` now takes a single variant set ID, not an array.
+* `SearchReferenceSetsRequest` as passed into `/referencesets/search` changed two parameters from arrays to
+singletons:
+
+    * `md5checksum`
+    * `accession`
+
+#### New fields:
+
+* `SearchReferencesRequest` passed into `/references/search` now accepts a `referenceSetId` parameter.
+* `SearchVariantsRequest` passed into `/variants/search` now takes a `variantSetId` parameter.
+* `SearchReadsRequest` passed into `/reads/search` now includes `readGroupIds`.
+* `SearchReadGroupSetsRequest` passed into `/readgroupsets/search` takes a `datasetId`.
+* `ReferenceSet` returned from `/references/search` now includes a name.
+* `VariantSet` returned from `/variants/search` adds name and reference set ID fields.
+* `ReadGroup` returned from `/readgroups/<id>` adds `stats`.
+
+
+## Changes internal to Schemas, documentation and organization
 
 ### Removed
 
@@ -49,31 +74,6 @@ Datasets are now used throughout the API.
 ### Changed
 
 Moved `GAException` to `methods.avdl`.
-
-#### Field default values:
-
-* `SearchReadsRequest.start` is optional and no longer defaults to 0.
-* Boolean fields in `ReadAlignment` now default to `null` instead of `false`.
-
-#### Field types:
-
-* `SearchVariantSetsRequest` now takes a single dataset ID, not an array.
-* `SearchCallSetsRequest` now takes a single variant set ID, not an array.
-* `SearchReferenceSetsRequest` changed two parameters from arrays to
-singletons:
-
-    * `md5checksum`
-    * `accession`
-
-#### New fields:
-
-* `SearchReferencesRequest` now accepts a `referenceSetId` parameter.
-* `SearchVariantsRequest` now takes a `variantSetId` parameter.
-* `SearchReadsRequest` now includes `readGroupIds`.
-* `SearchReadGroupSetsRequest` takes a `datasetId`.
-* `ReferenceSet` now includes a name.
-* `VariantSet` adds name and reference set ID fields.
-* `ReadGroup` adds `stats`.
 
 ## Documentation
 
