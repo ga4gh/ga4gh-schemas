@@ -4,7 +4,7 @@
 A Beacon is a web service for genetic data sharing that can be queried for 
 information about specific alleles.
 */
-protocol BeaconApi {
+protocol Beacons {
 
 /** Query for information about a specific allele. */
 record BeaconAlleleRequest {
@@ -60,7 +60,7 @@ record BeaconDataset {
   union{ null, string } externalUrl = null;
 
   /** Additional structured metadata, key-value pairs. */
-  union{ null, map<array<string>> } info = null;
+  union{ null, map<string> } info = null;
 }
 
 /** Organization owning a beacon. */
@@ -90,7 +90,7 @@ record BeaconOrganization {
   union{ null, string } logoUrl = null;
 
   /** Additional structured metadata, key-value pairs. */
-  union{ null, map<array<string>> } info = null;
+  union{ null, map<string> } info = null;
 }
 
 /** Beacon. */
@@ -143,7 +143,7 @@ record Beacon {
   union{ null, array<BeaconAlleleRequest> } sampleAlleleRequests = null;
 
   /** Additional structured metadata, key-value pairs. */
-  union{ null, map<array<string>> } info = null;
+  union{ null, map<string> } info = null;
 }
 
 /** Response to a query for information about a specific allele. */
@@ -170,7 +170,7 @@ record BeaconAlleleResponse {
   union{ null, string } externalUrl = null;
 
   /** Additional structured metadata, key-value pairs. */
-  union{ null, map<array<string>> } info = null;
+  union{ null, map<string> } info = null;
 }
 
 }
