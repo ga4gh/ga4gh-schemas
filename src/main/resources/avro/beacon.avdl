@@ -22,42 +22,6 @@ record BeaconAlleleRequest {
 
   /** Assembly identifier, e.g. `GRCh37`. */
   string assembly;
-
-  /** ID of the dataset, as defined in `BeaconDataset`. */
-  union{ null, string } dataset = null;
-}
-
-/** Dataset of a beacon. */
-record BeaconDataset {
-  /** Unique identifier of the dataset. */
-  string id;
-
-  /** Name of the dataset. */
-  string name;
-
-  /** Description of the dataset. */
-  union{ null, string } description = null;
-
-  /** Assembly identifier, e.g. `GRCh37`. */
-  string assembly;
-
-  /** The time this dataset was created in ms from the epoch. */
-  union { null, long } created = null;
-
-  /** The time this dataset was last updated in ms from the epoch. */
-  union { null, long } updated = null;
-
-  /** Version of the dataset. */
-  union{ null, string } version = null;
-
-  /** Total number of variants in the dataset. */
-  union{ null, long } variantCount = null;
-
-  /** Total number of samples in the dataset. */
-  union{ null, long } sampleCount = null;
-
-  /** URL to an external system providing more dataset information. */
-  union{ null, string } externalUrl = null;
 }
 
 /** Organization owning a beacon. */
@@ -85,6 +49,9 @@ record BeaconOrganization {
 
   /** URL to the logo of the organization (image). */
   union{ null, string } logoUrl = null;
+
+  /** Additional structured metadata, key-value pairs. */
+  union{ null, map<array<string>> } info = null;
 }
 
 /** Beacon. */
@@ -101,25 +68,11 @@ record Beacon {
   /** Organization owning the beacon. */
   BeaconOrganization organization;
 
-  /**
-  Assembly identifiers (e.g. `GRCh37`) supported by this beacon.
-
-  This should include assemblies of all the datasets and as well as other
-  assemblies beacon can process/convert.
-  */
-  array<string> supportedAssemblies = [];
+  /** Assembly identifier, e.g. `GRCh37`. */
+  string assembly;
 
   /** Description of the beacon. */
   union{ null, string } description = null;
-
-  /** Version of the beacon. */
-  union{ null, string } version = null;
-
-  /** URL to the welcome page/UI for this beacon. */
-  union{ null, string } welcomeUrl = null;
-
-  /** Alternative URL to the API, e.g. a restricted version of this beacon. */
-  union{ null, string } alternativeUrl = null;
 
   /** The time this beacon was created in ms from the epoch. */
   union { null, long } created = null;
@@ -127,8 +80,23 @@ record Beacon {
   /** The time this beacon was last updated in ms from the epoch. */
   union { null, long } updated = null;
 
-  /** Datasets served by the beacon. */
-  union{ null, array<BeaconDataset> } datasets = null;
+  /** Version of the beacon. */
+  union{ null, string } version = null;
+
+  /** Total number of variants served by the beacon. */
+  union{ null, long } variantCount = null;
+
+  /** Total number of samples served by the beacon. */
+  union{ null, long } sampleCount = null;
+
+  /** URL to an external system providing more information about the beacon. */
+  union{ null, string } externalUrl = null;
+
+  /** URL to the welcome page/UI for this beacon. */
+  union{ null, string } welcomeUrl = null;
+
+  /** Alternative URL to the API, e.g. a restricted version of this beacon. */
+  union{ null, string } alternativeUrl = null;
 
   /**
   Examples of interesting queries, e.g. a few queries demonstrating different
