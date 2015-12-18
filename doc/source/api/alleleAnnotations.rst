@@ -87,9 +87,7 @@ VariantAnnotationSets can be extracted by Dataset or VariantSet, or retrieved by
 
 A VariantAnnotationSet can be searched for VariantAnnotations by region and filters
 can be applied.
-* A region to search must be specified. This can be done by providing the id of
-one or more genomic features or a reference sequence (identified by name or id)
-with start and end coordinates.
-* Results can be filtered by the predicted effect of the variant, using a
-Sequence Ontology OntologyTerm, or by variant name.
+
+* A region to search must be specified. This can be done by providing the id of one or more genomic features or a reference sequence (identified by name or id) with start and end coordinates.
+* Results can be filtered by the predicted effect of the variant, using a Sequence Ontology OntologyTerm, or by variant name.
 
