@@ -76,7 +76,7 @@ record SearchVariantAnnotationsRequest {
   must be supplied.
   If null, return all variant annotations in specified window.
   */
-  union { null, array<string> } feature_ids;
+  union { null, array<string> } featureIds = null;
 
   /**
   Only return variant annotations including these effects (SO terms).
@@ -137,13 +137,13 @@ record SearchVariantAnnotationSetsRequest {
   If non empty, will restrict the query to variant annotation sets within the
   given dataset.
   */
-  string datasetId;
+  union { null, string } datasetId = null;
 
   /**
   If non empty, will restrict the query to variant annotation sets within the
   given variant set. This takes precedence over any dataset id supplied.
   */
-  string variantSetId;
+  union { null, string } variantSetId = null;
 
   /**
   Specifies the maximum number of results to return in a single page.
