@@ -76,7 +76,7 @@ record SearchVariantAnnotationsRequest {
   must be supplied.
   If null, return all variant annotations in specified window.
   */
-  union { null, array<string> } feature_ids = null;
+  union { null, array<string> } featureIds = null;
 
   /**
   Only return variant annotations including these effects (SO terms).
