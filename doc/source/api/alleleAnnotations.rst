@@ -10,8 +10,8 @@ Introduction
 Variant alleles can be annotated by comparing them to other reference data sets
 using a variety of algorithms. A standard form of annotation is to compare 
 alleles to a transcript set and calculate the expected functional consequence 
-of the change (e.g. an amino acid change a protein coding transcripts affected 
-by the variant).
+of the change ( e.g. a variant within a protein coding transcript may change the
+amino acid sequence of the resulting protein).
 
 This API supports the mining of variant annotations by region or genomic 
 feature and the filtering of the results by predicted functional effect.
@@ -23,8 +23,6 @@ The ``VariantAnnotation`` data model, is based on the results provided by varian
 annotation programs such as VEP, SnpEff and Annovar and others, as well as the 
 VCF's `ANN format <http://snpeff.sourceforge.net/VCFannotationformat_v1.0.pdf>`_ . 
 
-Instead of sending whole set of annotations, the server can send information 
-on specific variants, genomic regions or annotations instead.
 
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
 | Record              | Description                                                                                                         |
@@ -36,9 +34,9 @@ on specific variants, genomic regions or annotations instead.
 | VariantAnnotation   | A VariantAnnotation record represents the result of comparing a single variant to the set of reference data. It     |
 |                     | contains structured sub-records and a flexible key-value pair ‘info’ field.                                         |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
-| TranscriptEffect    | A transcript effect record describes the effect of an allele on a transcript.                                       |
+| TranscriptEffect    | A TranscriptEffect record describes the effect of an allele on a transcript.                                        |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
-| AlleleLocation      | An allele location record holds the location of an allele relative to a non-genomic coordinate system such as a CDS |
+| AlleleLocation      | An AlleleLocation record holds the location of an allele relative to a non-genomic coordinate system such as a CDS  |
 |                     | or protein. It holds the reference and alternate sequence where appropriate                                         |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
 | AnalysisResult      | An AnalysisResult record holds the output of a prediction package such as SIFT on a specific allele.                |
@@ -60,25 +58,36 @@ transcripts. The record includes:
 * A set of results from prediction packages analyzing the allele impact.
 * A summary impact classification reflecting the highest impact consequence.
 
-Impact Classification
-@@@@@@@@@@@@@@@@@@@@@
+Predicted Molecular Impact Classification
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-The predicted impact is a simple prioritization or classification based on the 
-putative deleteriousness of the variant allele on the transcript. This is usually 
-calculated based on naive algorithms and may not accurately predict true impact 
-at protein level. 
+The predicted molecular impact is a simple prioritization based on the putative
+deleteriousness of the variant allele on the transcript, which is popular with
+users of annotation tools. This is usually calculated based on naive algorithms
+and may not accurately predict true impact at protein level.
 
-Impact classification is summarized using the terms:
+Predicted Molecular Impact classification is summarized using the terms:
 
-+----------+----------------------------------------------+
-| Impact   | Meaning                                      |
-+==========+==============================================+
-| HIGH     | the variant highly disrupts protein function |
-+----------+----------------------------------------------+
-| MODERATE | Moderately disrupts protein function         |
-+----------+----------------------------------------------+
-| LOW      | Low disruption of protein impact             |
-+----------+----------------------------------------------+
-| MODIFIER | No known effect                              |
-+----------+----------------------------------------------+
++----------+-----------------------------------------------+-------------------------------------------+
+| Impact   | Meaning                                       | Example SO terms                          |                   
++==========+===============================================+===========================================+
+| HIGH     | Highly likely to disrupt protein function     | splice_donor_variant, stop_gained         |
++----------+-----------------------------------------------+-------------------------------------------+
+| MODERATE | Moderately likely to disrupt protein function | missense_variant, inframe_insertion       |
++----------+-----------------------------------------------+-------------------------------------------+
+| LOW      | Not likely to disrupt protein function        | synonymous_variant, stop_retained_variant |
++----------+-----------------------------------------------+-------------------------------------------+
+| MODIFIER | No predicted effect                           | 3_prime_UTR_variant, intron_variant       |
++----------+-----------------------------------------------+-------------------------------------------+
+
+Search Options
+@@@@@@@@@@@@@@
+
+VariantAnnotationSets can be extracted by Dataset or VariantSet, or retrieved by id.
+
+A VariantAnnotationSet can be searched for VariantAnnotations by region and filters
+can be applied.
+
+* A region to search must be specified. This can be done by providing the id of one or more genomic features or a reference sequence (identified by name or id) with start and end coordinates.
+* Results can be filtered by the predicted effect of the variant, using a Sequence Ontology OntologyTerm, or by variant name.
 
