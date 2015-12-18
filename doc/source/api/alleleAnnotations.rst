@@ -10,8 +10,8 @@ Introduction
 Variant alleles can be annotated by comparing them to other reference data sets
 using a variety of algorithms. A standard form of annotation is to compare 
 alleles to a transcript set and calculate the expected functional consequence 
-of the change (e.g. an amino acid change a protein coding transcripts affected 
-by the variant).
+of the change ( e.g. a variant within a protein coding transcript may change the
+amino acid sequence of the resulting protein).
 
 This API supports the mining of variant annotations by region or genomic 
 feature and the filtering of the results by predicted functional effect.
@@ -23,8 +23,6 @@ The ``VariantAnnotation`` data model, is based on the results provided by varian
 annotation programs such as VEP, SnpEff and Annovar and others, as well as the 
 VCF's `ANN format <http://snpeff.sourceforge.net/VCFannotationformat_v1.0.pdf>`_ . 
 
-Instead of sending whole set of annotations, the server can send information 
-on specific variants, genomic regions or annotations instead.
 
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
 | Record              | Description                                                                                                         |
@@ -63,10 +61,10 @@ transcripts. The record includes:
 Predicted Molecular Impact Classification
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-The predicted molecular impact is a simple prioritization or classification based 
-on the putative deleteriousness of the variant allele on the transcript. This is
-usually calculated based on naive algorithms and may not accurately predict true 
-impact at protein level. 
+The predicted molecular impact is a simple prioritization based on the putative
+deleteriousness of the variant allele on the transcript, which is popular with
+users of annotation tools. This is usually calculated based on naive algorithms
+and may not accurately predict true impact at protein level.
 
 Predicted Molecular Impact classification is summarized using the terms:
 
@@ -81,4 +79,17 @@ Predicted Molecular Impact classification is summarized using the terms:
 +----------+-----------------------------------------------+-------------------------------------------+
 | MODIFIER | No predicted effect                           | 3_prime_UTR_variant, intron_variant       |
 +----------+-----------------------------------------------+-------------------------------------------+
+
+Search Options
+@@@@@@@@@@@@@@
+
+VariantAnnotationSets can be extracted by Dataset or VariantSet, or retrieved by id.
+
+A VariantAnnotationSet can be searched for VariantAnnotations by region and filters
+can be applied.
+* A region to search must be specified. This can be done by providing the id of
+one or more genomic features or a reference sequence (identified by name or id)
+with start and end coordinates.
+* Results can be filtered by the predicted effect of the variant, using a
+Sequence Ontology OntologyTerm, or by variant name.
 
