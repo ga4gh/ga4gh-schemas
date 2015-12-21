@@ -146,8 +146,11 @@ record Beacon {
   /** The time this beacon was last updated in ms from the epoch. */
   union { null, long } updated = null;
 
-  /** Datasets served by the beacon. */
-  union{ null, array<BeaconDataset> } datasets = null;
+  /**
+  Datasets served by the beacon. Any beacon should specify at least one
+  dataset.
+  */
+  array<BeaconDataset> datasets = [];
 
   /**
   Examples of interesting queries, e.g. a few queries demonstrating different
