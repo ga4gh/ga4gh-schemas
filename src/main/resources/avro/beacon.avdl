@@ -53,6 +53,9 @@ record BeaconDataset {
   /** Total number of variants in the dataset. */
   union{ null, long } variantCount = null;
 
+  /** Total number of calls in the dataset. */
+  union{ null, long } callCount = null;
+
   /** Total number of samples in the dataset. */
   union{ null, long } sampleCount = null;
 
