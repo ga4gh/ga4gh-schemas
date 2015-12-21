@@ -64,6 +64,24 @@ record BeaconDataset {
 
   /** Additional structured metadata, key-value pairs. */
   union{ null, map<string> } info = null;
+
+  /**
+  Consent code abbrevioation denoting the primary data use category for
+  the dataset, e.g. `NRES` for no restrictions on data use.
+  */
+  string primaryDataUseCategory;
+
+  /**
+  Consent code abbrevioations denoting the secondary data use categories for
+  the dataset.
+  */
+  union{ null, array<string> } secondaryDataUseCategories = null;
+
+  /**
+  Consent code abbrevioations denoting the data use requirements for
+  the dataset.
+  */
+  union{ null, array<string> } dataUseRequirements = null;
 }
 
 /** Organization owning a beacon. */
