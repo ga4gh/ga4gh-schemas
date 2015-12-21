@@ -107,14 +107,6 @@ record Beacon {
   /** Organization owning the beacon. */
   BeaconOrganization organization;
 
-  /**
-  Assembly identifiers (e.g. `GRCh37`) supported by this beacon.
-
-  This should include assemblies of all the datasets and as well as other
-  assemblies beacon can process/convert.
-  */
-  array<string> supportedAssemblies = [];
-
   /** Description of the beacon. */
   union{ null, string } description = null;
 
