@@ -170,7 +170,7 @@ record BeaconError {
 }
 
 /** Dataset's response to a query for information about a specific allele. */
-record DatasetAlleleResponse {
+record BeaconDatasetAlleleResponse {
   /** Identifier of the dataset, as defined in `BeaconDataset`. */
   string datasetId;
 
@@ -224,7 +224,7 @@ record BeaconAlleleResponse {
   BeaconAlleleRequest alleleRequest;
 
   /** Indicator of whether the beacon has observed the allele. */
-  array<DatasetAlleleResponse> datasetAlleleResponses = [];
+  array<BeaconDatasetAlleleResponse> datasetAlleleResponses = [];
 
   /**
   Beacon-specific error.
