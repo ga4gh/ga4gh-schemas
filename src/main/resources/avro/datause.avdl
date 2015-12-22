@@ -1,0 +1,23 @@
+@namespace("org.ga4gh.beacon")
+
+/**
+Data use conditions based on consent codes.
+*/
+protocol DataUseConditions {
+
+/** Data use of a resource based on consent codes. */
+record DataUse {
+  /**
+  Consent code abbrevioation denoting primary data use category,
+  e.g. `NRES` for no restrictions on data use.
+  */
+  string primaryCategoryCode = "NRES";
+
+  /** Consent code abbrevioations denoting secondary data use categories. */
+  array<string> secondaryCategoryCodes = [];
+
+  /** Consent code abbrevioations denoting data use requirements. */
+  array<string> requirementCodes = [];
+}
+
+}

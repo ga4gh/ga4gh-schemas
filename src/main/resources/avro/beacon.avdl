@@ -6,6 +6,8 @@ information about specific alleles.
 */
 protocol Beacons {
 
+import idl "datause.avdl";
+
 /** Query for information about a specific allele. */
 record BeaconAlleleRequest {
   /** Chromosome identifier, e.g. 1, 2, X. */
@@ -23,8 +25,12 @@ record BeaconAlleleRequest {
   /** Assembly identifier, e.g. `GRCh37`. */
   string assembly;
 
-  /** ID of the dataset, as defined in `BeaconDataset`. */
-  union{ null, string } dataset = null;
+  /**
+  Identifiers of datasets, as defined in `BeaconDataset`.
+
+  If this field is null/not specified, all datasets should be queried.
+  */
+  union{ null, array<string> } datasetIds = null;
 }
 
 /** Dataset of a beacon. */
@@ -41,11 +47,18 @@ record BeaconDataset {
   /** Assembly identifier, e.g. `GRCh37`. */
   string assembly;
 
-  /** The time this dataset was created in ms from the epoch. */
-  union { null, long } created = null;
+  /**
+  Data use categories for this dataset based on consent codes.
+  */
+  DataUse dataUse;
 
-  /** The time this dataset was last updated in ms from the epoch. */
-  union { null, long } updated = null;
+  /** The time the dataset was created in the beacon in ms from the epoch. */
+  long created = null;
+
+  /**
+  The time the dataset was last updated in the beacon in ms from the epoch.
+  */
+  long updated = null;
 
   /** Version of the dataset. */
   union{ null, string } version = null;
@@ -64,24 +77,6 @@ record BeaconDataset {
 
   /** Additional structured metadata, key-value pairs. */
   union{ null, map<string> } info = null;
-
-  /**
-  Consent code abbrevioation denoting the primary data use category for
-  the dataset, e.g. `NRES` for no restrictions on data use.
-  */
-  string primaryDataUseCategory;
-
-  /**
-  Consent code abbrevioations denoting the secondary data use categories for
-  the dataset.
-  */
-  union{ null, array<string> } secondaryDataUseCategories = null;
-
-  /**
-  Consent code abbrevioations denoting the data use requirements for
-  the dataset.
-  */
-  union{ null, array<string> } dataUseRequirements = null;
 }
 
 /** Organization owning a beacon. */
@@ -162,22 +157,53 @@ record Beacon {
   union{ null, map<string> } info = null;
 }
 
-/** Response to a query for information about a specific allele. */
-record BeaconAlleleResponse {
-  /** Identifier of the beacon, as defined in `Beacon`. */
-  string beacon;
+/** Beacon-specific error representing an unexpected problem. */
+record BeaconError {
+  /** Error status code. */
+  int status;
 
-  /** Query. */
-  BeaconAlleleRequest alleleRequest;
+  /** Short name or cause of the error. */
+  string reason;
 
-  /** Indicator of whether the beacon has observed the allele. */
-  boolean exists;
+  /** Error message. */
+  union{ null, string } message = null;
+}
+
+/** Dataset's response to a query for information about a specific allele. */
+record DatasetAlleleResponse {
+  /** Identifier of the dataset, as defined in `BeaconDataset`. */
+  string datasetId;
+
+  /**
+  Indicator of whether the beacon observed the given allele.
+
+  This should be non-null unless there was an error, in which case
+  `beaconError` has to be null.
+  */
+  union{ null, boolean } exists;
+
+  /**
+  Dataset-specific error.
+
+  This should be non-null in exceptional situations only, in which case
+  `exists` has to be null.
+  */
+  union{ null, BeaconError } beaconError = null;
 
   /** Frequency of this allele in the dataset. Between 0 and 1, inclusive. */
   union{ null, double } frequency = null;
 
-  /** Number of observations of this allele in the dataset. */
-  union{ null, int } observed = null;
+  /** Number of variants matching the allele request in the dataset. */
+  union{ null, long } variantCount = null;
+
+  /** Number of calls matching the allele request in the dataset. */
+  union{ null, long } callCount = null;
+
+  /** Number of samples matching the allele request in the dataset. */
+  union{ null, long } sampleCount = null;
+
+  /** Additional note or description of the response. */
+  union{ null, string } note = null;
 
   /**
   URL to an external system, such as a secured beacon or a system providing
@@ -187,6 +213,25 @@ record BeaconAlleleResponse {
 
   /** Additional structured metadata, key-value pairs. */
   union{ null, map<string> } info = null;
+}
+
+/** Beacon's response to a query for information about a specific allele. */
+record BeaconAlleleResponse {
+  /** Identifier of the beacon, as defined in `Beacon`. */
+  string beaconId;
+
+  /** Allele request as interpreted by the beacon. */
+  BeaconAlleleRequest alleleRequest;
+
+  /** Indicator of whether the beacon has observed the allele. */
+  array<DatasetAlleleResponse> datasetAlleleResponses = [];
+
+  /**
+  Beacon-specific error.
+
+  This should be non-null in exceptional situations only.
+  */
+  union{ null, BeaconError } beaconError = null;
 }
 
 }
