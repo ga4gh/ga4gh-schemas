@@ -12,7 +12,7 @@ of `BeaconInformation`.
 */
 Beacon getBeacon();
 
-/****************  /allele  *******************/
+/****************  /alleles  *******************/
 /**
 Gets response to a beacon query for information about a specific allele.
 
