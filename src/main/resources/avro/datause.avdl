@@ -5,19 +5,29 @@ Data use conditions based on consent codes.
 */
 protocol DataUseConditions {
 
+/** Data use condition. */
+record DataUseCondition {
+  /**
+  Consent code abbreviation, e.g. `NRES` for no restrictions primary category.
+  */
+  string code;
+
+  /** Description of the categor. */
+  union{ null, string } description = null;
+}
+
 /** Data use of a resource based on consent codes. */
 record DataUse {
   /**
-  Consent code abbrevioation denoting primary data use category,
-  e.g. `NRES` for no restrictions on data use.
+  Primary data use category.
   */
-  string primaryCategoryCode = "NRES";
+  DataUseCondition primaryCategory;
 
-  /** Consent code abbrevioations denoting secondary data use categories. */
-  array<string> secondaryCategoryCodes = [];
+  /** Secondary data use categories. */
+  array<DataUseCondition> secondaryCategories = [];
 
-  /** Consent code abbrevioations denoting data use requirements. */
-  array<string> requirementCodes = [];
+  /** Data use requirements. */
+  array<DataUseCondition> requirements = [];
 }
 
 }

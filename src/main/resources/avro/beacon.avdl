@@ -48,7 +48,7 @@ record BeaconDataset {
   string assembly;
 
   /**
-  Data use categories for this dataset based on consent codes.
+  Data use conditions for this dataset based on consent codes.
   */
   DataUse dataUse;
 
@@ -159,7 +159,7 @@ record Beacon {
 
 /** Beacon-specific error representing an unexpected problem. */
 record BeaconError {
-  /** Error status code. */
+  /** Numeric status code. */
   int status;
 
   /** Short name or cause of the error. */
@@ -178,7 +178,7 @@ record DatasetAlleleResponse {
   Indicator of whether the beacon observed the given allele.
 
   This should be non-null unless there was an error, in which case
-  `beaconError` has to be null.
+  `errorInfo` has to be null.
   */
   union{ null, boolean } exists;
 
@@ -188,7 +188,7 @@ record DatasetAlleleResponse {
   This should be non-null in exceptional situations only, in which case
   `exists` has to be null.
   */
-  union{ null, BeaconError } beaconError = null;
+  union{ null, BeaconError } errorInfo = null;
 
   /** Frequency of this allele in the dataset. Between 0 and 1, inclusive. */
   union{ null, double } frequency = null;
@@ -231,7 +231,7 @@ record BeaconAlleleResponse {
 
   This should be non-null in exceptional situations only.
   */
-  union{ null, BeaconError } beaconError = null;
+  union{ null, BeaconError } errorInfo = null;
 }
 
 }
