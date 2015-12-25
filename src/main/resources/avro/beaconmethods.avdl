@@ -7,8 +7,7 @@ import idl "beacon.avdl";
 /**
 Gets beacon information.
 
-`GET /` (root of the beacon API) returns a representation
-of `Beacon`.
+`GET /` (root of the beacon API) returns a representation of `Beacon`.
 */
 Beacon getBeacon();
 
