@@ -10,7 +10,7 @@ import idl "datause.avdl";
 
 /** Query for information about a specific allele. */
 record BeaconAlleleRequest {
-  /** Chromosome identifier, e.g. 1, 2, X. */
+  /** Chromosome identifier. Accepted values: 1-22, X, Y. */
   string chrom;
 
   /** Position, allele locus (0-based). */
