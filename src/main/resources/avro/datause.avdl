@@ -12,7 +12,7 @@ record DataUseCondition {
   */
   string code;
 
-  /** Description of the categor. */
+  /** Description of the condition. */
   union{ null, string } description = null;
 }
 
