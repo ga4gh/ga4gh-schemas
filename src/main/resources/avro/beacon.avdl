@@ -178,7 +178,7 @@ record BeaconDatasetAlleleResponse {
   Indicator of whether the beacon observed the given allele.
 
   This should be non-null unless there was an error, in which case
-  `errorInfo` has to be null.
+  `error` has to be null.
   */
   union{ null, boolean } exists;
 
@@ -188,7 +188,7 @@ record BeaconDatasetAlleleResponse {
   This should be non-null in exceptional situations only, in which case
   `exists` has to be null.
   */
-  union{ null, BeaconError } errorInfo = null;
+  union{ null, BeaconError } `error` = null;
 
   /** Frequency of this allele in the dataset. Between 0 and 1, inclusive. */
   union{ null, double } frequency = null;
@@ -221,7 +221,7 @@ record BeaconAlleleResponse {
   string beaconId;
 
   /** Allele request as interpreted by the beacon. */
-  BeaconAlleleRequest alleleRequest;
+  union{ null, BeaconAlleleRequest } alleleRequest;
 
   /** Indicator of whether the beacon has observed the allele. */
   array<BeaconDatasetAlleleResponse> datasetAlleleResponses = [];
@@ -231,7 +231,7 @@ record BeaconAlleleResponse {
 
   This should be non-null in exceptional situations only.
   */
-  union{ null, BeaconError } errorInfo = null;
+  union{ null, BeaconError } `error` = null;
 }
 
 }
