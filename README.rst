@@ -12,7 +12,7 @@ The `Global Alliance for Genomics and Health
 formed to enable the sharing of genomic and clinical data.
 
 The `Data Working
-Group <http://genomicsandhealth.org/our-work/working-groups/data-working-group>`__
+Group <http://genomicsandhealth.org/working-groups/data-working-group>`__
 concentrates on data representation, storage, and analysis, including
 working with platform development partners and industry leaders to
 develop standards that will facilitate interoperability.
