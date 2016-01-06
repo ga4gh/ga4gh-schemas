@@ -77,13 +77,13 @@ teams and working groups.
 How to build
 @@@@@@@@@@@@
 
-See `INSTALL.md <INSTALL.md>`__ for instructions on how to build the
+See `INSTALL.rst <INSTALL.rst>`__ for instructions on how to build the
 schemas and their documentation.
 
 How to contribute changes
 @@@@@@@@@@@@@@@@@@@@@@@@@
 
-See the `CONTRIBUTING.md <CONTRIBUTING.md>`__ document.
+See the `CONTRIBUTING.rst <CONTRIBUTING.rst>`__ document.
 
 License
 @@@@@@@
