@@ -96,6 +96,9 @@ record VariantAnnotationSet {
   /** The ID of the variant set to which this annotation set belongs */
   string variantSetId;
 
+  /** The variant annotation set name. */
+  union { null, string } name = null;
+
   /**
   Analysis details. It is essential to supply versions for all software and
   reference data used.
