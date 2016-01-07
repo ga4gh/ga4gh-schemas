@@ -177,8 +177,8 @@ record VariantAnnotation {
   array<TranscriptEffect> transcriptEffects = [];
 
   /**
-  The IDs of other variants which are co-located with this variant.
-  these can use used to look up disease associations, ClinVar statuses,
+  The IDs of other variants which are at exactly the same location as this
+  variant. They can use used to look up disease associations, ClinVar statuses,
   allele frequencies in reference panels, etc
   */
   array<string> coLocatedVariants =[];
