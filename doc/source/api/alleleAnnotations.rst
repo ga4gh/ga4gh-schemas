@@ -27,11 +27,11 @@ VCF's `ANN format <http://snpeff.sourceforge.net/VCFannotationformat_v1.0.pdf>`_
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
 | Record              | Description                                                                                                         |
 +=====================+=====================================================================================================================+
-| VariantAnnotationSet| A VariantAnnotationSet record groups VariantAnnotation records. It represents the comparison of a VariantSet to a   |
-|                     | specified reference data set using specified algorithms. It holds information describing the software and reference |
-|                     | data versions use.                                                                                                  |
+| VariantAnnotationSet| A VariantAnnotationSet record groups VariantAnnotation records. It represents the comparison of a VariantSet to     |
+|                     | specified gene annotation data using specified algorithms. It holds information describing the software and         |
+|                     | annotation data versions used.                                                                                      |           |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
-| VariantAnnotation   | A VariantAnnotation record represents the result of comparing a single variant to the set of reference data. It     |
+| VariantAnnotation   | A VariantAnnotation record represents the result of comparing a single variant to the set of annotation data. It    |
 |                     | contains structured sub-records and a flexible key-value pair ‘info’ field.                                         |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
 | TranscriptEffect    | A TranscriptEffect record describes the effect of an allele on a transcript.                                        |
