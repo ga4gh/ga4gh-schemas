@@ -34,12 +34,6 @@ record SearchVariantAnnotationsRequest {
   string variantAnnotationSetId;
 
   /**
-  Only return annotation for variants which have exactly this name
-  (case-sensitive, exact match).
-  */
-  union { null, string } name = null;
-
-  /**
   Only return variants with reference alleles on the reference with this
   name. One of this field or `referenceId` or `features` is required.
   (case-sensitive, exact match)
