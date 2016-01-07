@@ -134,16 +134,9 @@ This request maps to the body of `POST /variantannotationsets/search` as JSON
 record SearchVariantAnnotationSetsRequest {
 
   /**
-  If non empty, will restrict the query to variant annotation sets within the
-  given dataset.
+  Restrict the query to variant annotation sets within this variant set.
   */
-  union { null, string } datasetId = null;
-
-  /**
-  If non empty, will restrict the query to variant annotation sets within the
-  given variant set. This takes precedence over any dataset id supplied.
-  */
-  union { null, string } variantSetId = null;
+  string variantSetId;
 
   /**
   Specifies the maximum number of results to return in a single page.
