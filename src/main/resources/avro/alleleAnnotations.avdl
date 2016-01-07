@@ -37,7 +37,7 @@ as SIFT on a specific allele.
 */
 record AnalysisResult {
 
-  /** The analysis record for this result (defined in metadata schema)  */
+  /** The analysis record for this result */
   Analysis analysis;
 
   /** The text-based result for this analysis */

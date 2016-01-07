@@ -1,5 +1,5 @@
 
-Variant Annotation API
+Allele Annotation API
 !!!!!!!!!!!!!!!!!!!!!!
 
 See `Allele Annotation schema <../schemas/alleleAnnotations.html>`_ for a detailed reference.
@@ -7,7 +7,7 @@ See `Allele Annotation schema <../schemas/alleleAnnotations.html>`_ for a detail
 Introduction
 @@@@@@@@@@@@
 
-Variant alleles can be annotated by comparing them to other reference data sets
+Variant alleles can be annotated by comparing them to gene annotation data
 using a variety of algorithms. A standard form of annotation is to compare 
 alleles to a transcript set and calculate the expected functional consequence 
 of the change ( e.g. a variant within a protein coding transcript may change the
@@ -16,7 +16,7 @@ amino acid sequence of the resulting protein).
 This API supports the mining of variant annotations by region or genomic 
 feature and the filtering of the results by predicted functional effect.
 
-Variants Schema Entities
+Allele Annotation Schema Entities
 @@@@@@@@@@@@@@@@@@@@@@@@
 
 The ``VariantAnnotation`` data model, is based on the results provided by variant 
