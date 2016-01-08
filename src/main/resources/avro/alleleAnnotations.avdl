@@ -176,13 +176,6 @@ record VariantAnnotation {
   */
   array<TranscriptEffect> transcriptEffects = [];
 
-  /**
-  The IDs of other variants which are at exactly the same location as this
-  variant. They can use used to look up disease associations, ClinVar statuses,
-  allele frequencies in reference panels, etc
-  */
-  array<string> coLocatedVariants =[];
-
   /** Additional annotation data in key-value pairs. */
   map<array<string>> info = {};
 }
