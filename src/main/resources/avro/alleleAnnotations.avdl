@@ -37,14 +37,14 @@ as SIFT on a specific allele.
 */
 record AnalysisResult {
 
-  /** The analysis record for this result (defined in metadata schema)  */
+  /** The ID of the analysis record for this result */
   string analysisId;
 
   /** The text-based result for this analysis */
-  union { null, string} analysisResult;
+  union { null, string} result;
 
   /** The numeric score for this analysis  */
-  union { null, int} analysisScore;
+  union { null, int} score;
 
 }
 
@@ -56,10 +56,10 @@ reference and alternate sequence where appropriate
 record AlleleLocation {
 
   /** Relative start position of the allele in this coordinate system */
-  int overlapStart ;
+  int start ;
 
   /** Relative end position of the allele in this coordinate system  */
-  union { null, int } overlapEnd = null;
+  union { null, int } end = null;
 
   /** Reference sequence in feature (this should be the codon at CDS level) */
   union { null, string } referenceSequence = null;
@@ -95,6 +95,9 @@ record VariantAnnotationSet {
 
   /** The ID of the variant set to which this annotation set belongs */
   string variantSetId;
+
+  /** The variant annotation set name. */
+  union { null, string } name = null;
 
   /**
   Analysis details. It is essential to supply versions for all software and
@@ -177,8 +180,8 @@ record VariantAnnotation {
   array<TranscriptEffect> transcriptEffects = [];
 
   /**
-  The IDs of other variants which are co-located with this variant.
-  these can use used to look up disease associations, ClinVar statuses,
+  The IDs of other variants which are at exactly the same location as this
+  variant. They can use used to look up disease associations, ClinVar statuses,
   allele frequencies in reference panels, etc
   */
   array<string> coLocatedVariants =[];
