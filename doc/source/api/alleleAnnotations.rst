@@ -29,7 +29,7 @@ VCF's `ANN format <http://snpeff.sourceforge.net/VCFannotationformat_v1.0.pdf>`_
 +=====================+=====================================================================================================================+
 | VariantAnnotationSet| A VariantAnnotationSet record groups VariantAnnotation records. It represents the comparison of a VariantSet to     |
 |                     | specified gene annotation data using specified algorithms. It holds information describing the software and         |
-|                     | annotation data versions used.                                                                                      |           |
+|                     | annotation data versions used.                                                                                      |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
 | VariantAnnotation   | A VariantAnnotation record represents the result of comparing a single variant to the set of annotation data. It    |
 |                     | contains structured sub-records and a flexible key-value pair ‘info’ field.                                         |
