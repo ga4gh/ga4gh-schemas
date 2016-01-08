@@ -134,7 +134,7 @@ This request maps to the body of `POST /variantannotationsets/search` as JSON
 record SearchVariantAnnotationSetsRequest {
 
   /**
-  Restrict the query to variant annotation sets within this variant set.
+  Required. The `VariantSet` to search.
   */
   string variantSetId;
 
