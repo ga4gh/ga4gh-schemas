@@ -38,42 +38,42 @@
 <text transform="translate(40 20)" ><tspan x="0" dy="18" font-weight="900">Individual</tspan>
 </text>
 <rect x="20" y="45" width="162" height="352" />
-<text transform="translate(40 45)" ><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">accessions</tspan><tspan 	x="0" dy="18">dateOfBirth</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">developmentalStage</tspan><tspan 	x="0" dy="18">diseases</tspan><tspan 	x="0" dy="18">ethnicity</tspan><tspan 	x="0" dy="18">geographicLocation</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">guid</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">interventions</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">observations</tspan><tspan 	x="0" dy="18">phenotypes</tspan><tspan 	x="0" dy="18">recordCreateTime</tspan><tspan 	x="0" dy="18">recordUpdateTime</tspan><tspan 	x="0" dy="18">sex</tspan><tspan 	x="0" dy="18">species</tspan><tspan 	x="0" dy="18">strain</tspan>
+<text transform="translate(40 45)" ><tspan  fill="red"  style="font-weight: 900;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">accessions</tspan><tspan 	x="0" dy="18">dateOfBirth</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">developmentalStage</tspan><tspan 	x="0" dy="18">diseases</tspan><tspan 	x="0" dy="18">ethnicity</tspan><tspan 	x="0" dy="18">geographicLocation</tspan><tspan 	x="0" dy="18">guid</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">interventions</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">observations</tspan><tspan 	x="0" dy="18">phenotypes</tspan><tspan 	x="0" dy="18">recordCreateTime</tspan><tspan 	x="0" dy="18">recordUpdateTime</tspan><tspan 	x="0" dy="18">sex</tspan><tspan 	x="0" dy="18">species</tspan><tspan 	x="0" dy="18">strain</tspan>
 </text>
 <rect x="20" y="417" width="162" height="25" />
 <text transform="translate(40 417)" ><tspan x="0" dy="18" font-weight="900">BioSample</tspan>
 </text>
 <rect x="20" y="442" width="162" height="388" />
-<text transform="translate(40 442)" ><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">accessions</tspan><tspan 	x="0" dy="18">ageAtSampling</tspan><tspan 	x="0" dy="18">cellLine</tspan><tspan 	x="0" dy="18">cellType</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">geographicLocation</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">guid</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">individualIds</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">interventions</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">observations</tspan><tspan 	x="0" dy="18">organismPart</tspan><tspan 	x="0" dy="18">preservationMethod</tspan><tspan 	x="0" dy="18">recordCreateTime</tspan><tspan 	x="0" dy="18">recordUpdateTime</tspan><tspan 	x="0" dy="18">samplingDate</tspan><tspan 	x="0" dy="18">sex</tspan><tspan 	x="0" dy="18">species</tspan><tspan 	x="0" dy="18">specimenType</tspan>
+<text transform="translate(40 442)" ><tspan  fill="red"  style="font-weight: 900;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">accessions</tspan><tspan 	x="0" dy="18">ageAtSampling</tspan><tspan 	x="0" dy="18">cellLine</tspan><tspan 	x="0" dy="18">cellType</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">geographicLocation</tspan><tspan 	x="0" dy="18">guid</tspan><tspan  font-style="italic"  fill="red" 	x="0" dy="18">individualIds</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">interventions</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">observations</tspan><tspan 	x="0" dy="18">organismPart</tspan><tspan 	x="0" dy="18">preservationMethod</tspan><tspan 	x="0" dy="18">recordCreateTime</tspan><tspan 	x="0" dy="18">recordUpdateTime</tspan><tspan 	x="0" dy="18">samplingDate</tspan><tspan 	x="0" dy="18">sex</tspan><tspan 	x="0" dy="18">species</tspan><tspan 	x="0" dy="18">specimenType</tspan>
 </text>
 <rect x="20" y="850" width="162" height="25" />
 <text transform="translate(40 850)" ><tspan x="0" dy="18" font-weight="900">Experiment</tspan>
 </text>
 <rect x="20" y="875" width="162" height="334" />
-<text transform="translate(40 875)" ><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">biosampleIds</tspan><tspan 	x="0" dy="18">description</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">individualIds</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">instrumentDataFile</tspan><tspan 	x="0" dy="18">instrumentModel</tspan><tspan 	x="0" dy="18">molecule</tspan><tspan 	x="0" dy="18">name</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">platformId</tspan><tspan 	x="0" dy="18">platformName</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">preparationId</tspan><tspan 	x="0" dy="18">processingFacility</tspan><tspan 	x="0" dy="18">recordCreateTime</tspan><tspan 	x="0" dy="18">recordUpdateTime</tspan><tspan 	x="0" dy="18">runTime</tspan><tspan 	x="0" dy="18">selection</tspan><tspan 	x="0" dy="18">strategy</tspan>
+<text transform="translate(40 875)" ><tspan  fill="red"  style="font-weight: 900;" 	x="0" dy="18">id</tspan><tspan  font-style="italic"  fill="red" 	x="0" dy="18">biosampleIds</tspan><tspan 	x="0" dy="18">description</tspan><tspan  font-style="italic"  fill="red" 	x="0" dy="18">individualIds</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">instrumentDataFile</tspan><tspan 	x="0" dy="18">instrumentModel</tspan><tspan 	x="0" dy="18">molecule</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">platformId</tspan><tspan 	x="0" dy="18">platformName</tspan><tspan 	x="0" dy="18">preparationId</tspan><tspan 	x="0" dy="18">processingFacility</tspan><tspan 	x="0" dy="18">recordCreateTime</tspan><tspan 	x="0" dy="18">recordUpdateTime</tspan><tspan 	x="0" dy="18">runTime</tspan><tspan 	x="0" dy="18">selection</tspan><tspan 	x="0" dy="18">strategy</tspan>
 </text>
 <rect x="20" y="1229" width="162" height="25" />
 <text transform="translate(40 1229)" ><tspan x="0" dy="18" font-weight="900">Analysis</tspan>
 </text>
 <rect x="20" y="1254" width="162" height="244" />
-<text transform="translate(40 1254)" ><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">accessions</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">biosampleIds</tspan><tspan 	x="0" dy="18">description</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">experimentIds</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">guid</tspan><tspan  font-style="italic" style="background: #eee; display: block;" 	x="0" dy="18">individualIds</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">recordCreateTime</tspan><tspan 	x="0" dy="18">recordUpdateTime</tspan><tspan 	x="0" dy="18">software</tspan><tspan 	x="0" dy="18">type</tspan>
+<text transform="translate(40 1254)" ><tspan  fill="red"  style="font-weight: 900;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">accessions</tspan><tspan  font-style="italic"  fill="red" 	x="0" dy="18">biosampleIds</tspan><tspan 	x="0" dy="18">description</tspan><tspan  font-style="italic"  fill="red" 	x="0" dy="18">experimentIds</tspan><tspan 	x="0" dy="18">guid</tspan><tspan  font-style="italic"  fill="red" 	x="0" dy="18">individualIds</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">recordCreateTime</tspan><tspan 	x="0" dy="18">recordUpdateTime</tspan><tspan 	x="0" dy="18">software</tspan><tspan 	x="0" dy="18">type</tspan>
 </text>
-  <line x1="222" y1="55" x2="222" y2="599"/>
-<line x1="182" y1="55" x2="222" y2="55"/>
-<line x1="182" y1="599" x2="222" y2="599"/>
-  <line x1="192" y1="885" x2="192" y2="1339"/>
-<line x1="182" y1="885" x2="192" y2="885"/>
-<line x1="182" y1="1339" x2="192" y2="1339"/>
-  <line x1="207" y1="452" x2="207" y2="906"/>
-<line x1="182" y1="452" x2="207" y2="452"/>
-<line x1="182" y1="906" x2="207" y2="906"/>
-  <line x1="217" y1="454" x2="217" y2="1303"/>
-<line x1="182" y1="454" x2="217" y2="454"/>
-<line x1="182" y1="1303" x2="217" y2="1303"/>
-  <line x1="242" y1="59" x2="242" y2="1375"/>
-<line x1="182" y1="59" x2="242" y2="59"/>
-<line x1="182" y1="1375" x2="242" y2="1375"/>
-  <line x1="232" y1="57" x2="232" y2="942"/>
-<line x1="182" y1="57" x2="232" y2="57"/>
-<line x1="182" y1="942" x2="232" y2="942"/>
+<line x1="242" y1="59" x2="242" y2="1375"/>
+<line x1="162" y1="59" x2="242" y2="59"/>
+<line x1="162" y1="1375" x2="242" y2="1375"/>
+<line x1="232" y1="57" x2="232" y2="942"/>
+<line x1="162" y1="57" x2="232" y2="57"/>
+<line x1="162" y1="942" x2="232" y2="942"/>
+<line x1="207" y1="452" x2="207" y2="906"/>
+<line x1="162" y1="452" x2="207" y2="452"/>
+<line x1="162" y1="906" x2="207" y2="906"/>
+<line x1="222" y1="55" x2="222" y2="599"/>
+<line x1="162" y1="55" x2="222" y2="55"/>
+<line x1="162" y1="599" x2="222" y2="599"/>
+<line x1="192" y1="885" x2="192" y2="1339"/>
+<line x1="162" y1="885" x2="192" y2="885"/>
+<line x1="162" y1="1339" x2="192" y2="1339"/>
+<line x1="217" y1="454" x2="217" y2="1303"/>
+<line x1="162" y1="454" x2="217" y2="454"/>
+<line x1="162" y1="1303" x2="217" y2="1303"/>
 </svg>
