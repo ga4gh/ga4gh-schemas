@@ -107,6 +107,22 @@ record VariantAnnotationSet {
 }
 
 /**
+A HGVSAnnotation record holds Human Genome Variation Society descriptions
+of the variant allele with respect to a transcript.
+*/
+record HGVSAnnotation {
+
+  /** HGVS formatted annotation at genomic level  */
+  union { null, string } genomic = null;
+
+  /** HGVS formatted annotation at transcript level */
+  union { null, string } coding = null;
+
+  /** HGVS formatted annotation at protein level */
+  union { null, string } protein = null;
+}
+
+/**
 A transcript effect record is a set of information describing the
 effect of an allele on a transcript
 */
@@ -133,14 +149,8 @@ record TranscriptEffect {
   /** Highest Impact from the predicted effects */
   Impact impact;
 
-  /** HGVS formatted annotation at genomic level  */
-  union { null, string } HGVSg = null;
-
-  /** HGVS formatted annotation at transcript level */
-  union { null, string } HGVSc = null;
-
-  /** HGVS formatted annotation at protein level */
-  union { null, string } HGVSp = null;
+  /** Human Genome Variation Society variant descriptions */
+  HGVSAnnotation hgvsAnnotation;
 
   /** Change relative to cDNA  */
   union {null, AlleleLocation} cDNALocation =null;
