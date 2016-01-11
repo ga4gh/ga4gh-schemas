@@ -12,7 +12,7 @@ The `Global Alliance for Genomics and Health
 formed to enable the sharing of genomic and clinical data.
 
 The `Data Working
-Group <http://genomicsandhealth.org/our-work/working-groups/data-working-group>`__
+Group <http://genomicsandhealth.org/working-groups/data-working-group>`__
 concentrates on data representation, storage, and analysis, including
 working with platform development partners and industry leaders to
 develop standards that will facilitate interoperability.
@@ -77,13 +77,13 @@ teams and working groups.
 How to build
 @@@@@@@@@@@@
 
-See `INSTALL.md <INSTALL.md>`__ for instructions on how to build the
+See `INSTALL.rst <INSTALL.rst>`__ for instructions on how to build the
 schemas and their documentation.
 
 How to contribute changes
 @@@@@@@@@@@@@@@@@@@@@@@@@
 
-See the `CONTRIBUTING.md <CONTRIBUTING.md>`__ document.
+See the `CONTRIBUTING.rst <CONTRIBUTING.rst>`__ document.
 
 License
 @@@@@@@
