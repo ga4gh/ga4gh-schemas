@@ -462,11 +462,11 @@ protocol Metadata {
     string recordUpdateTime;
 
     /**
-    The ids of the individuals this biosample was derived from.
-    Multiple ids are allowed, as a biosample maybe pooled from multiple
-    individuals.
+    The id of the individual this biosample was derived from.
+    TODO: Do we need to accomodate for multiple IDs? Then, it should be a general
+    principle to use single references just in very well defined circumstances.
     */
-    array<string> individualIds;
+    union { null, string } individualId = null;
 
     /**
     The species of this biosample.
@@ -585,6 +585,18 @@ protocol Metadata {
     */
     string recordCreateTime;
     string recordUpdateTime;
+
+    /**
+    ... see note with BioSample ...
+    TODO: Do we add the reference to Individual here, too, or just have this
+    handled through inheritance (Individual from Experiment)?
+    */
+    union { null, string } individualId = null;
+
+    /**
+    TODO: Single reference or array, to allow e.g. mix from multiple samples?
+    */
+    union { null, string } biosampleId = null;
 
     /**
     The time at which this experiment was performed.
