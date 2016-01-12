@@ -1,20 +1,6 @@
 ReadMethods
 ***********
 
- .. function:: searchDatasets(request)
-
-  :param request: SearchDatasetsRequest: This request maps to the body of `POST /datasets/search` as JSON.
-  :return type: SearchDatasetsResponse
-  :throws: GAException
-
-Gets a list of datasets accessible through the API.
-
-TODO: Reads and variants both want to have datasets. Are they the same object?
-
-`POST /datasets/search` must accept a JSON version of
-`SearchDatasetsRequest` as the post body and will return a JSON version
-of `SearchDatasetsResponse`.
-
  .. function:: searchReads(request)
 
   :param request: SearchReadsRequest: This request maps to the body of `POST /reads/search` as JSON.
@@ -41,15 +27,6 @@ paginated responses.
 
 `POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
 the post body and will return a JSON version of `SearchReadsResponse`.
-
- .. function:: getDataset(id)
-
-  :param id: string: The ID of the `Dataset`.
-  :return type: org.ga4gh.models.Dataset
-  :throws: GAException
-
-Gets a `Dataset` by ID.
-`GET /datasets/{id}` will return a JSON version of `Dataset`.
 
  .. function:: searchReadGroupSets(request)
 
@@ -390,16 +367,6 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   A linear alignment describes the alignment of a read to a Reference, using a
   position and CIGAR array.
 
-.. avro:record:: Fragment
-
-  :field id:
-    The fragment ID.
-  :type id: string
-
-  A fragment represents a contiguous stretch of a DNA or RNA molecule. Reads can
-  be associated with a fragment to specify they derive from the same molecule.
-  TODO: this Fragment object is essentially unused, and may be removed in a future PR.
-
 .. avro:record:: ReadAlignment
 
   :field id:
@@ -414,10 +381,6 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
     The ID of the read group this read belongs to.
       (Every read must belong to exactly one read group.)
   :type readGroupId: string
-  :field fragmentId:
-    The fragment ID that this ReadAlignment belongs to.
-      TODO: this is the only reference to the Fragment object, which may be removed in a future PR.
-  :type fragmentId: string
   :field fragmentName:
     The fragment name. Equivalent to QNAME (query template name) in SAM.
   :type fragmentName: string
@@ -588,31 +551,4 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :type nextPageToken: null|string
 
   This is the response from `POST /readgroupsets/search` expressed as JSON.
-
-.. avro:record:: SearchDatasetsRequest
-
-  :field pageSize:
-    Specifies the maximum number of results to return in a single page.
-      If unspecified, a system default will be used.
-  :type pageSize: null|int
-  :field pageToken:
-    The continuation token, which is used to page through large result sets.
-      To get the next page of results, set this parameter to the value of
-      `nextPageToken` from the previous response.
-  :type pageToken: null|string
-
-  This request maps to the body of `POST /datasets/search` as JSON.
-
-.. avro:record:: SearchDatasetsResponse
-
-  :field datasets:
-    The list of datasets.
-  :type datasets: array<org.ga4gh.models.Dataset>
-  :field nextPageToken:
-    The continuation token, which is used to page through large result sets.
-      Provide this value in a subsequent request to return the next page of
-      results. This field will be empty if there aren't any additional results.
-  :type nextPageToken: null|string
-
-  This is the response from `POST /datasets/search` expressed as JSON.
 
