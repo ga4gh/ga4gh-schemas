@@ -63,16 +63,17 @@ record SearchVariantAnnotationsRequest {
   */
   long end;
 
-  /**
-  Only return variant annotations for any of these features.
-  Features may include specific transcripts or genes. A search by gene will
-  return information for all transcripts associated with the gene in the
-  variant annotation set.
-  This or a location (referenceName/referenceId plus optional start and end)
-  must be supplied.
-  If null, return all variant annotations in specified window.
-  */
-  union { null, array<string> } featureIds = null;
+//  This section will be re-instated when features are available in the API
+//  /**
+//  Only return variant annotations for any of these features.
+//  Features may include specific transcripts or genes. A search by gene will
+//  return information for all transcripts associated with the gene in the
+//  variant annotation set.
+//  This or a location (referenceName/referenceId plus optional start and end)
+//  must be supplied.
+//  If null, return all variant annotations in specified window.
+//  */
+//  union { null, array<string> } featureIds = null;
 
   /**
   Only return variant annotations including these effects (SO terms).
