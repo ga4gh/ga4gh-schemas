@@ -108,17 +108,15 @@ record VariantAnnotationSet {
 
 /**
 A HGVSAnnotation record holds Human Genome Variation Society descriptions
-of the variant allele with respect to a transcript.
+of the sequence change with respect to genomic, transcript and protein
+sequences. See: http://www.hgvs.org/mutnomen/recs.html.
 */
 record HGVSAnnotation {
 
-  /** HGVS formatted annotation at genomic level  */
   union { null, string } genomic = null;
 
-  /** HGVS formatted annotation at transcript level */
   union { null, string } coding = null;
 
-  /** HGVS formatted annotation at protein level */
   union { null, string } protein = null;
 }
 
