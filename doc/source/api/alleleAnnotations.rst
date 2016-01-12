@@ -45,6 +45,10 @@ VCF's `ANN format <http://snpeff.sourceforge.net/VCFannotationformat_v1.0.pdf>`_
 | AnalysisResult      | An AnalysisResult record holds the output of a prediction package such as SIFT on a specific allele.                |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
 
+The schema is shown in the diagram below.
+
+.. image:: /_static/variant_annotation_schema.svg
+
 
 TranscriptEffect attributes
 @@@@@@@@@@@@@@@@@@@@@@@@@@@
