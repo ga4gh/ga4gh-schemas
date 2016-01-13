@@ -192,4 +192,17 @@ org.ga4gh.models.VariantAnnotationSet getVariantAnnotationSet(
   */
   string id) throws GAException;
 
+
+/**************** /variantannotations/{id} *******************/
+/**
+Gets a `VariantAnnotation` by ID.
+`GET /variantannotations/{id}` will return a JSON version of
+`VariantAnnotation`.
+*/
+org.ga4gh.models.VariantAnnotation getVariantAnnotation(
+  /**
+  The ID of the `VariantAnnotation`.
+  */
+  string id) throws GAException;
+
 }

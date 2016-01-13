@@ -186,6 +186,23 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
 
   A general exception type.
 
+.. avro:record:: OntologyTerm
+
+  :field ontologySource:
+    The source of the onotology term.
+        (e.g. `Ontology for Biomedical Investigation`)
+  :type ontologySource: string
+  :field id:
+    The ID defined by the external onotology source.
+        (e.g. `http://purl.obolibrary.org/obo/OBI_0001271`)
+  :type id: string
+  :field name:
+    The name of the onotology term. (e.g. `RNA-seq assay`)
+  :type name: null|string
+
+  An ontology term describing an attribute. (e.g. the phenotype attribute
+    'polydactyly' from HPO)
+
 .. avro:record:: Experiment
 
   :field id:
@@ -264,6 +281,39 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   A Dataset is a collection of related data of multiple types.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Analysis
+
+  :field id:
+    The analysis UUID. This is globally unique.
+  :type id: string
+  :field name:
+    The name of the analysis.
+  :type name: null|string
+  :field description:
+    A description of the analysis.
+  :type description: null|string
+  :field recordCreateTime:
+    The time at which this record was created. 
+      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  :type recordCreateTime: null|string
+  :field recordUpdateTime:
+    The time at which this record was last updated.
+      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  :type recordUpdateTime: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.
 
 .. avro:record:: Program
 
@@ -390,16 +440,6 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   A linear alignment describes the alignment of a read to a Reference, using a
   position and CIGAR array.
 
-.. avro:record:: Fragment
-
-  :field id:
-    The fragment ID.
-  :type id: string
-
-  A fragment represents a contiguous stretch of a DNA or RNA molecule. Reads can
-  be associated with a fragment to specify they derive from the same molecule.
-  TODO: this Fragment object is essentially unused, and may be removed in a future PR.
-
 .. avro:record:: ReadAlignment
 
   :field id:
@@ -414,10 +454,6 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
     The ID of the read group this read belongs to.
       (Every read must belong to exactly one read group.)
   :type readGroupId: string
-  :field fragmentId:
-    The fragment ID that this ReadAlignment belongs to.
-      TODO: this is the only reference to the Fragment object, which may be removed in a future PR.
-  :type fragmentId: string
   :field fragmentName:
     The fragment name. Equivalent to QNAME (query template name) in SAM.
   :type fragmentName: string
