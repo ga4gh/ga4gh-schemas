@@ -9,6 +9,27 @@ protocol Metadata {
 import idl "common.avdl";
 
 /**
+  An ontology term describing an attribute. (e.g. the phenotype attribute
+  'polydactyly' from HPO)
+  */
+  record OntologyTerm {
+    /**
+    The source of the onotology term.
+    (e.g. `Ontology for Biomedical Investigation`)
+    */
+    string ontologySource;
+
+    /**
+    The ID defined by the external onotology source.
+    (e.g. `http://purl.obolibrary.org/obo/OBI_0001271`)
+    */
+    string id;
+
+    /** The name of the onotology term. (e.g. `RNA-seq assay`) */
+    union { null, string } name = null;
+  }
+
+/**
 An experimental preparation of a sample.
 */
 record Experiment {
@@ -114,4 +135,42 @@ record Dataset {
 
 }
 
+/**
+An analysis contains an interpretation of one or several experiments.
+(e.g. SNVs, copy number variations, methylation status) together with
+information about the methodology used.
+*/
+record Analysis {
+  /** The analysis UUID. This is globally unique. */
+  string id;
+
+  /** The name of the analysis. */
+  union { null, string } name = null;
+
+  /** A description of the analysis. */
+  union { null, string } description = null;
+
+  /**
+  The time at which this record was created. 
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  */
+  union { null, string } recordCreateTime = null;
+
+  /**
+  The time at which this record was last updated.
+  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  */
+  string recordUpdateTime;
+
+  /** The type of analysis. */
+  union { null, string } type = null;
+
+  /** The software run to generate this analysis. */
+  array<string> software = [];
+
+  /**
+  A map of additional analysis information.
+  */
+  map<array<string>> info = {};
+}
 }
