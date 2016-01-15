@@ -380,6 +380,7 @@ protocol Metadata {
     /**
     The genetic sex of this individual.
     Use `null` when unknown or not applicable.
+    Recommended: PATO (http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002)
     */
     union { null, OntologyTerm } sex = null;
 
