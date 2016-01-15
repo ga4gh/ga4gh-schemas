@@ -76,8 +76,8 @@ record SearchVariantAnnotationsRequest {
 //  union { null, array<string> } featureIds = null;
 
   /**
-  Only return variant annotations including these effects (SO terms).
-  If null, return all variant annotations.
+  Only return variant annotations including these effects (SO terms). Exact
+  matching is required. If null, return all variant annotations.
   */
   union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
 
