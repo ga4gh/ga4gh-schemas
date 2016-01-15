@@ -468,18 +468,6 @@ protocol Metadata {
     array<string> individualIds;
 
     /**
-    The species of this biosample.
-    Using NCBI taxonomy (http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
-    */
-    union { null, OntologyTerm } species = null;
-
-    /**
-    The genetic sex of this biosample.
-    Use `null` when unknown or not applicable.
-    */
-    union { null, OntologyTerm } sex = null;
-
-    /**
     The time at which this biosample was taken from the individual.
     Granularity here is variable (e.g. only date would be common for
     biopsies, minutes for in vitro time series).
