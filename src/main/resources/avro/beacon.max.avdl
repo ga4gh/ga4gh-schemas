@@ -3,12 +3,12 @@
 /**
 A Beacon is a web service that accepts a single variant position and nucleotide change.
 The reply is either "true" or "false", indicating whether this variant has ever
-been observed in the beacon's database. The reply can include any other meta
-information the beacon wants to share.
+been observed in the beacon's database and includes any other meta information the
+beacon wants to share.
 
-A beacon has two endpoints: /allele (required) and /beacon (optional)
-/allele is used to obtain information about one allele
-/beacon can be used to obtain information about the beacon itself
+A beacon has two endpoints: /query (required) and /info (optional)
+/query is used to obtain information about alleles
+/info can be used to obtain information about the beacon itself
 
 */
 
@@ -56,6 +56,7 @@ The response to the Beacon query
 
 record ResponseResource {
   /** Indicator of whether the beacon has observed the variant. */
+  /* ?? do we need NULL here ?? */
   union{ null, boolean } exists;
 
   /** Any additional information about the variant
@@ -104,6 +105,4 @@ It is a single key-value map, like the info field for the variants.
     */
 
     map<string> beaconInfo;
-}
-
 }
