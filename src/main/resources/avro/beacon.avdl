@@ -65,6 +65,8 @@ record ResponseResource {
   One key-value map per dataset where the variant has been observed.
 
   Common keys per dataset are:
+  'exists'  : to indicate only that this variant has been observed before and nothing 
+              else. Used to implement a beacon0.2-like behavior.
   'frequency' : frequency of the allele in the dataset, 0.0-1.0, inclusive
   'observed' : number of observations of this allele in the dataset
   VCF INFO keys may also be used.
