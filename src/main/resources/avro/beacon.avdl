@@ -55,13 +55,13 @@ The response to the Beacon query
 */
 
 record ResponseResource {
-  /** Indicator of whether the beacon has observed the variant. */
-  union{ null, boolean } exists;
-
-  /** Any additional information about the variant
+  /** 
+  If the beacon has observed this variant:
+  Any information about the variant.
   One key-value map per dataset where the variant has been observed.
+
   Common keys per dataset are:
-  'freq' : frequency of the allele in the dataset, 0.0-1.0, inclusive
+  'frequency' : frequency of the allele in the dataset, 0.0-1.0, inclusive
   'observed' : number of observations of this allele in the dataset
   VCF INFO keys may also be used.
 
@@ -94,16 +94,17 @@ It is a single key-value map, like the info field for the variants.
     id, org, desc, api, datasets, homepage, email, auth, logoUrl
 
     'id' : short unique identifier for the beacon, 
-    'org' : human-readable name of organisation that hosts the beacon
-    'desc' : longer human-readable description of the beacon
-    'datasets' : comma-separated list of datasets served by the beacon
+    'organization' : human-readable name of organisation that hosts the beacon
+    'description' : longer human-readable description of the beacon
+    'datasets' : list of datasets served by the beacon
+    'datasetDescriptions' : list of descriptions of the datasets
     'homepage' : URL of homepage with additional info about the beacon
     'email' : contact email for data access requests or questions
-    'auth' : supprted authentication layer, e.g. 'oauth'
+    'authentication' : supported authentication layer, e.g. 'oauth'
     'logoUrl' : URL with a logo shown e.g. by the beacon network
     */
 
-    map<string> beaconInfo;
+    map<array<string>> beaconInfo;
 }
 
 }
