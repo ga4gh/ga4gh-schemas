@@ -46,6 +46,10 @@ record QueryResource {
   is queried and can be an accession ID, population or any other identifier 
   The primary aim of this is to limit the size of the reply. If a server hosts
   thousands of datasets, the client can limit the reply with this optional field.
+  If a dataset is not specified, all information shall be returned. 
+  If a dataset is not specified but the resulting information is considered too big, 
+  the server may create a 'summary' dataset with a summary of the information e.g. 
+  frequency sums or data-use condition subsets.
   */
   union{ null, string } dataset = null;
 }
