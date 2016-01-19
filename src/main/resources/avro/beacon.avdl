@@ -1,14 +1,19 @@
 @namespace("org.ga4gh.beacon")
 
 /**
-A Beacon is a web service that accepts a single variant position and nucleotide change.
-The reply is either "true" or "false", indicating whether this variant has ever
-been observed in the beacon's database. The reply can include any other meta
-information the beacon wants to share.
+A Beacon is a web service that accepts a single variant position and nucleotide change in VCF format.
+
+The reply is either nothing (="{}"), indicating that the server has no information about this variant,
+or a key-value dictionary with any information the server has about this variant, split by dataset.
+If the server offers only one dataset, it is called "default".
+
+A minimal reply can be {"default" : {"exists" : "true" }}, which is very similar to the original 
+beacon proposal of returning only true/false.
 
 A beacon has two endpoints: /allele (required) and /beacon (optional)
+
 /allele is used to obtain information about one allele
-/beacon can be used to obtain information about the beacon itself
+/beacon can be used to obtain information about the beacon itself and the datasets it serves
 
 */
 
