@@ -35,23 +35,29 @@ record QueryResource {
   /** The chromosome of the request, without the 'chr' prefix, as in VCF */
   string chromosome;
 
-  /** 1-based allele position on chromosome, as in VCF */
+  /** 0-based allele position on chromosome, to stay compatible with the other GA4GH APIs 
+  Note: VCF, a common input format for variants, is 1-based.
+  1-based file formats: GFF, SAM, VCF
+  0-based file formats: BED, BAM
+  */
   long position;
 
   /** The version of the reference genome, NCBI notation, e.g. GRCh37 or GRCh38 
   */
   string reference;
 
-  /** The dataset at the target website. This is specific to the website that
-  is queried and can be an accession ID, population or any other identifier 
-  The primary aim of this is to limit the size of the reply. If a server hosts
-  thousands of datasets, the client can limit the reply with this optional field.
-  If a dataset is not specified, all information shall be returned. 
-  If a dataset is not specified but the resulting information is considered too big, 
-  the server may create a 'summary' dataset with a summary of the information e.g. 
-  frequency sums or data-use condition subsets.
+  /** Limit to a set of datasetIds at the target website. An ID is specific to
+      the website that is queried and can be an accession ID, population or any
+      other identifier 
+      The primary aim of this is to limit the size of the reply. If a server hosts
+      thousands of datasets, the client can limit the reply with this optional
+      field.  If a dataset is not specified, all information shall be returned.  If
+      a dataset is not specified but the resulting information is considered too
+      big, the server may create a 'summary' dataset with a summary of the
+      information e.g.  frequency sums or data-use condition subsets or it may send
+      an error message 'datasetRequired'.
   */
-  union{ null, string } dataset = null;
+  union {null, array<string>} datasetIds = null;
 }
 
 /**
@@ -64,12 +70,16 @@ record ResponseResource {
   Any information about the variant.
   One key-value map per dataset where the variant has been observed.
 
-  Common keys per dataset are:
-  'exists'  : to indicate only that this variant has been observed before and nothing 
-              else. Used to implement a beacon0.2-like behavior.
+  Recommended keys per dataset are:
+  'exists'  : can be used to indicate that this variant has been observed before and
+              no other information. Used to implement a beacon0.2-like behavior.
   'frequency' : frequency of the allele in the dataset, 0.0-1.0, inclusive
-  'observed' : number of observations of this allele in the dataset
-  VCF INFO keys may also be used.
+  'callCount' : number of called observations of this allele in the dataset
+  'sampleCount' : number of observations of this allele in the dataset
+  'note' : human-readable description of this variant
+  'url' : URL with more information about a variant
+
+  Recommended VCF INFO keys may also be used, see the VCF specification.
 
   If there is only one dataset, the dataset name is "default".
   */
@@ -78,26 +88,14 @@ record ResponseResource {
 }
 
 /**
-ErrorResource
-Sent back to the client if an error occurs.
-*/
-record ErrorResource {
-  /** Error name/code, e.g. "bad_request" or "unauthorized". */
-  string errorCode;
-
-  /** Error message. */
-  union{ null, string } errorDesc = null;
-}
-
-/**
 BeaconInformationResource
-
-This is used by the beacon network to populate the Beacon info field.
-It is a single key-value map, like the info field for the variants.
+Information about the beacon server itself and the datasets served
 */
 {
     /* keys parsed by the beacon network:
     id, org, desc, api, datasets, homepage, email, auth, logoUrl
+
+    Recommended keys and their meanings:
 
     'id' : short unique identifier for the beacon, 
     'organization' : human-readable name of organisation that hosts the beacon
@@ -111,6 +109,49 @@ It is a single key-value map, like the info field for the variants.
     */
 
     map<array<string>> beaconInfo;
+
+    /**
+    Information about datasets hosted by the beacon, as a key-value map.
+    There is one entry for each datasetId
+    If there is only one dataset, its ID is "default"
+
+    Recommended fields:
+    'description': number of variants in dataset
+    'variantCount': number of variants in dataset
+    'created': time in ISO8601 format, e.g. "2007-04-05T14:30"
+    'updated': time in ISO8601 format, e.g. "2007-04-05T14:30"
+    'version': a string to describe the version
+    'callCount' : number of calls in this dataset
+    'sampleCount' : number of samples in this dataset
+    'reference' : number of samples in this dataset
+    'externalUrl' : URL with more information about this dataset
+
+    'dataUsePrimary': list of primary data use conditions
+    'dataUseSecondary': list of secondary data use conditions
+    'dataUseRequirements': list of data use requirements
+    */
+    map<map<array<string>>> datasetInfo;
 }
 
 }
+/**
+ErrorResource
+Sent back to the client if an error occurs.
+*/
+record ErrorResource {
+  /** Error name/code, e.g. "bad_request" or "unauthorized". 
+  Recommended names:
+    "datasetRequired"
+    "invalidPosition"
+    "invalidChromosome"
+    "invalidArgument"
+    "invalidAllele"
+    "invalidDataset"
+  
+  */
+  string name;
+
+  /** Error message. */
+  union{ null, string } description = null;
+}
+
