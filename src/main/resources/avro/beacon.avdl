@@ -42,7 +42,7 @@ can be shown as-is and do not have to serialized to a human-readable format.
 Paging of data is avoided, to keep the delay from request to reply short.
 
 As Javascript or even human clients shall be possible, the wire format is
-normal JSON, not AVRO or Google Protobuf.  Although this file follows the AVRO
+normal JSON, not AVRO or binary Google Protobuf.  Although this file follows the AVRO
 AVDL syntax, it is not meant to be used for AVRO generators, but as a mostly
 human-readable API description. Beacons do not speak AVRO but normal JSON, like
 any other RESTful webservice. This is also why a lot of information
