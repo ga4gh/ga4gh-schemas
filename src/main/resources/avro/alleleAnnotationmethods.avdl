@@ -77,7 +77,8 @@ record SearchVariantAnnotationsRequest {
 
   /**
   Only return variant annotations including these effects (SO terms). Exact
-  matching is required. If null, return all variant annotations.
+  matching across all fields of the OntologyTerm is required. If null, return
+  all variant annotations.
   */
   union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
 
