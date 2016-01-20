@@ -39,7 +39,7 @@ VCF's `ANN format <http://snpeff.sourceforge.net/VCFannotationformat_v1.0.pdf>`_
 | AlleleLocation      | An AlleleLocation record holds the location of an allele relative to a non-genomic coordinate system such as a CDS  |
 |                     | or protein. It holds the reference and alternate sequence where appropriate                                         |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
-| HGVSAnnotation      | A HGVSAnnotation record holds Human Genome Variation Society ( `HGVS <http://www.hgvs.org/mutnomen/recs.html>`)     |
+| HGVSAnnotation      | A HGVSAnnotation record holds Human Genome Variation Society ( `HGVS <http://www.hgvs.org/mutnomen/recs.html>`_ )   |
 |                     | descriptions of the sequence change at genomic, transcript and protein level where relevant.                        |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
 | AnalysisResult      | An AnalysisResult record holds the output of a prediction package such as SIFT on a specific allele.                |
