@@ -26,20 +26,27 @@ A typical use case of a beacon is:
   is protected clinical information.
 * the user can contact the beacon operators by email to get the protected information.
 
-As can be seen above, beacons are designed for low-throughput data transfer for
-high-latency internet links and for any number of slightly different use cases, as 
+As can be seen above, beacons are designed for low-throughput data transfer over
+high-latency internet links and for a number of different use cases, as 
 genetic departements store very different types of meta data. Also, they are
 inherently designed for human inspection, not for automated whole-genome
-analysis, which is the domain of the GA4GH variants API.
+analysis, which is the domain of the GA4GH variants and reads APIs.
 
-This is why only a single allele can be queried (this will change in the next
+This is why only a single allele can be queried (note: may be extended in the next
 version) and the returned values are strings, which can be shown to the end
 user. The key-value fields are extensible, potentially any information can be shown by the server
-to the user, but some fields have a clearly defined value and semantic (e.g. frequency).
+to the user, but some fields do have a clearly defined value and semantic (e.g. frequency).
 Also, all codes or short names transmitted have human readable descriptions
 that can be shown by the client to the user. All values are strings, so they
 can be shown as-is and do not have to serialized to a human-readable format.
 Paging of data is avoided, to keep the delay from request to reply short.
+
+As Javascript or even human clients shall be possible, the wire format is
+normal JSON, not AVRO or Google Protobuf.  Although this file follows the AVRO
+AVDL syntax, it is not meant to be used for AVRO generators, but as a mostly
+human-readable API description. Beacons do not speak AVRO but normal JSON, like
+any other RESTful webservice. This is also why a lot of information
+about Beacons is contained in the comments. 
 
 # The data model and transfer
 
@@ -55,11 +62,6 @@ can potentially use the beacon network to register and describe their beacon man
 The introduction of datasets complicates the data model to some degree, but it is an essential 
 requirement of genetic data centers like the EBI or NCBI. Without datasets, they would have to 
 setup a separate beacon URL for every accessioned dataset they host, potentially thousands.
-
-Although this file follows the AVRO AVDL syntax, it is not meant to be used for AVRO generators, 
-but as a mostly human-readable API description. Beacons do not speak AVRO but normal JSON,
-like any other webservice. This is why a lot of information about Beacons is contained in the 
-comments, like this description. 
 
 A beacon has two endpoints: /allele (required) and /beacon (optional)
 
