@@ -24,6 +24,9 @@ Object Ids
     across server restarts -- once a user is given an ID for data
     stored on a server, the id remains valid for as long as the server
     is still storing that data
+    
+  * ids should not include characters that require URL encoding or
+    characters that are reserved for URL schemes (?, $, =, @, etc.).
 
 * Many objects, including most ‘container’ objects, also have a
   **name** field. The name is user-defined, isn’t programmatically
