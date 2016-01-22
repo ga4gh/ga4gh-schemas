@@ -1,28 +1,21 @@
-MetadataMethods
-***************
+SequenceAnnotations
+*******************
 
- .. function:: searchDatasets(request)
+This protocol defines annotations on GA4GH genomic sequences It includes two
+types of annotations: continuous and discrete hierarchical.
 
-  :param request: SearchDatasetsRequest: This request maps to the body of `POST /datasets/search` as JSON.
-  :return type: SearchDatasetsResponse
-  :throws: GAException
+The discrete hierarchical annotations are derived from the Sequence Ontology
+(SO) and GFF3 work 
 
-Gets a list of datasets accessible through the API.
+   http://www.sequenceontology.org/gff3.shtml
 
-TODO: Reads and variants both want to have datasets. Are they the same object?
+The goal is to be able to store annotations using the GFF3 and SO conceptual
+model, although there is not necessarly a one-to-one mapping in Avro records
+to GFF3 records.
 
-`POST /datasets/search` must accept a JSON version of
-`SearchDatasetsRequest` as the post body and will return a JSON version
-of `SearchDatasetsResponse`.
-
- .. function:: getDataset(id)
-
-  :param id: string: The ID of the `Dataset`.
-  :return type: org.ga4gh.models.Dataset
-  :throws: GAException
-
-Gets a `Dataset` by ID.
-`GET /datasets/{id}` will return a JSON version of `Dataset`.
+The minimum requirement is to be able to accurately represent the current
+state of the art annotation data and the full SO model.  Feature is the
+core generic record which corresponds to the a GFF3 record.
 
 .. avro:enum:: Strand
 
@@ -224,34 +217,80 @@ Gets a `Dataset` by ID.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
 
-.. avro:error:: GAException
+.. avro:record:: Attributes
 
-  A general exception type.
+  :field vals:
+  :type vals: map<array<string|ExternalIdentifier|OntologyTerm>>
 
-.. avro:record:: SearchDatasetsRequest
+  Type defining a collection of attributes associated with various protocol
+    records.  Each attribute is a name that maps to an array of one or more
+    values.  Values can be strings, external identifiers, or ontology terms.
+    Values should be split into the array elements instead of using a separator
+    syntax that needs to parsed.
 
-  :field pageSize:
-    Specifies the maximum number of results to return in a single page.
-      If unspecified, a system default will be used.
-  :type pageSize: null|int
-  :field pageToken:
-    The continuation token, which is used to page through large result sets.
-      To get the next page of results, set this parameter to the value of
-      `nextPageToken` from the previous response.
-  :type pageToken: null|string
+.. avro:record:: Feature
 
-  This request maps to the body of `POST /datasets/search` as JSON.
+  :field id:
+    Id of this annotation node.
+  :type id: string
+  :field parentIds:
+    Ids of the parents of this annotation node.
+  :type parentIds: array<string>
+  :field featureSetId:
+    Identifier for the containing feature set.
+  :type featureSetId: string
+  :field referenceName:
+    The reference on which this feature occurs.
+        (e.g. `chr20` or `X`)
+  :type referenceName: string
+  :field start:
+    The start position at which this feature occurs (0-based).
+        This corresponds to the first base of the string of reference bases.
+        Genomic positions are non-negative integers less than reference length.
+        Features spanning the join of circular genomes are represented as
+        two features one on each side of the join (position 0).
+  :type start: long
+  :field end:
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+        This is typically calculated by `start + referenceBases.length`.
+  :type end: long
+  :field featureType:
+    Feature that is annotated by this region.  Normally, this will be a term in
+        the Sequence Ontology.
+  :type featureType: OntologyTerm
+  :field attributes:
+    Name/value attributes of the annotation.  Attribute names follow the GFF3
+        naming convention of reserved names starting with an upper cases
+        character, and user-define names start with lower-case.  Most GFF3
+        pre-defined attributes apply, the exceptions are ID and Parent, which are
+        defined as fields. Additional, the following attributes are added:
+        * Score - the GFF3 score column
+        * Phase - the GFF3 phase column for CDS features.
+  :type attributes: Attributes
 
-.. avro:record:: SearchDatasetsResponse
+  Node in the annotation graph that annotates a contiguous region of a
+    sequence.
 
-  :field datasets:
-    The list of datasets.
-  :type datasets: array<org.ga4gh.models.Dataset>
-  :field nextPageToken:
-    The continuation token, which is used to page through large result sets.
-      Provide this value in a subsequent request to return the next page of
-      results. This field will be empty if there aren't any additional results.
-  :type nextPageToken: null|string
+.. avro:record:: FeatureSet
 
-  This is the response from `POST /datasets/search` expressed as JSON.
+  :field id:
+    The ID of this annotation set.
+  :type id: string
+  :field datasetId:
+    The ID of the dataset this annotation set belongs to.
+  :type datasetId: null|string
+  :field referenceSetId:
+    The ID of the reference set which defines the coordinate-space for this
+        set of annotations.
+  :type referenceSetId: null|string
+  :field name:
+    The display name for this annotation set.
+  :type name: null|string
+  :field sourceURI:
+    The source URI describing the file from which this annotation set was
+        generated, if any.
+  :type sourceURI: null|string
+  :field attributes:
+    Set of additional attributes
+  :type attributes: Attributes
 
