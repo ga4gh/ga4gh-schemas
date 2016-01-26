@@ -326,12 +326,10 @@ protocol Metadata {
   record Individual {
 
     /**
-    Formats of id | guid | name | description | accessions are described in the
+    Formats of id | name | description | accessions are described in the
     documentation on general attributes and formats.
     */
     string id;
-
-    union { null, string } guid = null;
 
     union { null, string } name = null;
 
@@ -343,8 +341,8 @@ protocol Metadata {
     The times at which this record was created / updated.
     Format: ISO 8601 (cf. documentation on time formats)
     */
-    string recordCreateTime;
-    string recordUpdateTime;
+    string created;
+    string updated;
 
     /**
     The species of this individual. Acceptable to classify as a higher-level
@@ -442,12 +440,10 @@ protocol Metadata {
   record BioSample {
 
     /**
-    Formats of id | guid | name | description | accessions are described in the
+    Formats of id | name | description | accessions are described in the
     documentation on general attributes and formats.
     */
     string id;
-
-    union { null, string } guid = null;
 
     union { null, string } name = null;
 
@@ -459,8 +455,8 @@ protocol Metadata {
     The times at which this record was created / updated.
     Format: ISO 8601 (cf. documentation on time formats)
     */
-    string recordCreateTime;
-    string recordUpdateTime;
+    string created;
+    string updated;
 
     /**
     The id of the individual this biosample was derived from.
@@ -570,8 +566,8 @@ protocol Metadata {
     The times at which this record was created / updated.
     Format: ISO 8601 (cf. documentation on time formats)
     */
-    string recordCreateTime;
-    string recordUpdateTime;
+    string created;
+    string updated;
 
     union { null, string } biosampleId = null;
 
@@ -670,21 +666,9 @@ protocol Metadata {
     string id;
 
     /**
-    The dataset's guid. This is globally unique id (UUIDv4).
-    TODO: Required?!
-    */
-    union { null, string } guid = null;
-
-    /**
     The name of the dataset.
     */
     union { null, string } name = null;
-
-    /**
-    Dataset member ids.
-    TODO: Definition of id types ...
-    */
-    array<string> memberIds;
 
     /**
     A description of the dataset.
@@ -703,12 +687,10 @@ protocol Metadata {
   record IndividualGroup {
 
     /**
-    Formats of id | guid | name | description | accessions are described in the
+    Formats of id | name | description | accessions are described in the
     documentation on general attributes and formats.
     */
     string id;
-
-    union { null, string } guid = null;
 
     union { null, string } name = null;
 
@@ -720,15 +702,13 @@ protocol Metadata {
     The times at which this record was created / updated.
     Format: ISO 8601 (cf. documentation on time formats)
     */
-    string recordCreateTime;
-    string recordUpdateTime;
+    string created;
+    string updated;
 
     /**
     Group member ids.
-    TODO: Definition of id types (guid?!) ...
     */
     array<string> memberIds;
-
 
     /**
     The type of individual group.
@@ -750,12 +730,10 @@ protocol Metadata {
   record Analysis {
 
     /**
-    Formats of id | guid | name | description | accessions are described in the
+    Formats of id | name | description | accessions are described in the
     documentation on general attributes and formats.
     */
     string id;
-
-    union { null, string } guid = null;
 
     union { null, string } name = null;
 
@@ -767,8 +745,8 @@ protocol Metadata {
     The times at which this record was created / updated.
     Format: ISO 8601 (cf. documentation on time formats)
     */
-    string recordCreateTime;
-    string recordUpdateTime;
+    string created;
+    string updated;
 
     /**
     The type of analysis.
@@ -799,12 +777,10 @@ protocol Metadata {
   record Dataset {
 
     /**
-    Formats of id | guid | name | description | accessions are described in the
+    Formats of id | name | description | accessions are described in the
     documentation on general attributes and formats.
     */
     string id;
-
-    union { null, string } guid = null;
 
     union { null, string } name = null;
 
