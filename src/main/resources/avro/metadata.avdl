@@ -569,7 +569,7 @@ protocol Metadata {
     string created;
     string updated;
 
-    union { null, string } biosampleId = null;
+    union { null, string } bioSampleId = null;
 
     /**
     The time at which this experiment was performed.
@@ -753,7 +753,7 @@ protocol Metadata {
     */
     union { null, string } type = null;
 
-    array<string> biosampleIds;
+    array<string> bioSampleIds;
 
     array<string> experimentIds;
 
