@@ -775,7 +775,7 @@ protocol Metadata {
     */
     union { null, string } type = null;
 
-    union { null, string } biosampleId = null;
+    array<string> biosampleIds;
 
     array<string> experimentIds;
 
