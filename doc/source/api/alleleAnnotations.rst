@@ -39,6 +39,9 @@ VCF's `ANN format <http://snpeff.sourceforge.net/VCFannotationformat_v1.0.pdf>`_
 | AlleleLocation      | An AlleleLocation record holds the location of an allele relative to a non-genomic coordinate system such as a CDS  |
 |                     | or protein. It holds the reference and alternate sequence where appropriate                                         |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
+| HGVSAnnotation      | A HGVSAnnotation record holds Human Genome Variation Society ( `HGVS <http://www.hgvs.org/mutnomen/recs.html>`_ )   |
+|                     | descriptions of the sequence change at genomic, transcript and protein level where relevant.                        |
++---------------------+---------------------------------------------------------------------------------------------------------------------+
 | AnalysisResult      | An AnalysisResult record holds the output of a prediction package such as SIFT on a specific allele.                |
 +---------------------+---------------------------------------------------------------------------------------------------------------------+
 
@@ -53,7 +56,7 @@ transcripts. The record includes:
 * The identifier of the transcript feature the variant was analysed against.
 * The alternate allele of the variant analysed. This is necessary as the current variant model supports multiple alternate alleles.
 * The predicted effects of the allele on the transcript, which should be described using `Sequence Ontology <http://www.sequenceontology.org>`_ terms.
-* Human Genome Variation Society (`HGVS <http://www.hgvs.org/mutnomen>`_ variant description nomenclature at genomic, transcript and protein level. 
+* A ``HGVSAnnotation`` record containing variant descriptions at all relevant levels. 
 * ``AlleleLocation`` records describing the changes at cDNA, CDS and protein level.
 * A set of results from prediction packages analyzing the allele impact.
 * A summary impact classification reflecting the highest impact consequence.
