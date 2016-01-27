@@ -76,9 +76,13 @@ record SearchVariantAnnotationsRequest {
 //  union { null, array<string> } featureIds = null;
 
   /**
-  Only return variant annotations including these effects (SO terms). Exact
-  matching across all fields of the OntologyTerm is required. If null, return
-  all variant annotations.
+  This filter allows variant, transcript combinations to be extracted by effect
+  type(s).
+  Only return variant annotations including any of these effects and only return
+  transcript effects including any of these effects. Exact matching across all
+  fields of the Sequence Ontology OntologyTerm is required.
+  (A transcript effect may have multiple SO effects which will all be reported.)
+  If null, return all variant annotations.
   */
   union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
 
