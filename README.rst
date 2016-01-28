@@ -31,8 +31,8 @@ primary data collected from sequencing machines.
 The team will deliver:
 
 #. Data model. An abstract, mathematically complete and precise model of
-   the data that is manipulated by the API. See the `Avro
-   directory <src/main/resources/avro>`__ for our in-progress work on
+   the data that is manipulated by the API. See the `Proto
+   directory <src/main/resources/proto>`__ for our in-progress work on
    defining v0.5 of the data model.
 
 #. API Specification. A human-readable document introducing and
