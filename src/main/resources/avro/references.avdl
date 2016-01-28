@@ -42,7 +42,7 @@ record Reference {
   the `getReferenceBases()` method to obtain sequence bases for a `Reference`
   instead of attempting to retrieve this URI.
   */
-  string sourceURI;
+  string sourceUri;
 
   /**
   All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) which must include
@@ -111,7 +111,7 @@ record ReferenceSet {
   string assemblyId;
 
   /** Specifies a FASTA format file/string. */
-  string sourceURI;
+  string sourceUri;
 
   /**
   All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
