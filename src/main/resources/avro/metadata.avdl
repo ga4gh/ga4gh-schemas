@@ -437,39 +437,49 @@ protocol Metadata {
     Atlantic ocean, at Latitude 26.4, Longitude 69.3, Altitude -100m)
     - whole blood preparation of an individual
   */
-  record BioSample {
+record BioSample {
 
-    /**
-    Formats of id | name | description | accessions are described in the
-    documentation on general attributes and formats.
-    */
-    string id;
+  /**
+  The BioSample :ref:`id <apidesign_object_ids>`. This is unique in the
+  context of the server instance.
+  */
+  string id;
 
-    union { null, string } name = null;
+  /**
+  The BioSample's :ref:`name <apidesign_object_names>`. This is a label or
+  symbolic identifier for the biosample.
+  */
+  union { null, string } name = null;
 
-    union { null, string } description = null;
+  /**
+  The biosample's description. This attribute contains human readable text.
+  The "description" attributes should not contain any structured data.
+  */
+  union { null, string } description = null;
 
-    array<string> accessions;
+  /**
+  The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record
+  was created.
+  */
+  string created;
 
-    /**
-    The times at which this record was created / updated.
-    Format: ISO 8601 (cf. documentation on time formats)
-    */
-    string created;
-    string updated;
+  /**
+  The :ref:`ISO 8601<metadata_date_time> time at which this BioSample object was updated.
+  */
+  string updated;
 
     /**
     The id of the individual this biosample was derived from.
     */
     union { null, string } individualId = null;
 
-    /**
-    The time at which this biosample was taken from the individual.
-    Granularity here is variable (e.g. only date would be common for
-    biopsies, minutes for in vitro time series).
-    Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
-    */
-    union { null, string } samplingDate = null;
+  /**
+  The :ref:`ISO 8601<metadata_date_time> time at which the corresponding
+  BioSample was collected.  Granularity here is variable (e.g. only date would be common for
+  biopsies, minutes for in vitro time series).
+  */
+  union { null, string } collected = null;
+
 
     /**
     The age of the individual (not of the biosample) at time of
@@ -478,10 +488,10 @@ protocol Metadata {
     combination of sampling date and DOB, and also more relevant for
     clinical/experimental purposes than either of those alone.
     This field may be approximate.
-    Format: ISO 8601 duration PnYnMnDTnHnMnS in a suitable approximation
+    Format: :ref:`ISO 8601<metadata_date_time> duration PnYnMnDTnHnMnS in a suitable approximation
     Example: P12Y3M
     */
-    union { null, string } ageAtSampling = null;
+    union { null, string } ageAtcollection = null;
 
     /**
     A description of the interventions applied to the biosample
