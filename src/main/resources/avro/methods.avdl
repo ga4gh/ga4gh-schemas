@@ -10,7 +10,7 @@ error GAException {
   string message;
 
   /** The numerical error code */
-  int errorCode = -1;
+  int errorCode;
 }
 
 }

@@ -130,7 +130,7 @@ record CigarUnit {
   and deletions (`DELETE`). Filling this field replaces the MD tag.
   If the relevant information is not available, leave this field as `null`.
   */
-  union { null, string } referenceSequence = null;
+  union { null, string } referenceSequence;
 }
 
 }

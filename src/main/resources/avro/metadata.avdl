@@ -16,13 +16,13 @@ record Experiment {
   string id;
 
   /** The name of the experiment. */
-  union { null, string } name = null;
+  union { null, string } name;
 
   /** A description of the experiment. */
-  union { null, string } description = null;
+  union { null, string } description;
 
   /**
-  The time at which this record was created. 
+  The time at which this record was created.
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
   */
   string recordCreateTime;
@@ -38,30 +38,30 @@ record Experiment {
   Granularity here is variable (e.g. date only).
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   */
-  union { null, string } runTime = null;
+  union { null, string } runTime;
 
   /**
   The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
   */
-  union { null, string } molecule = null;
+  union { null, string } molecule;
 
   /**
   The experiment technique or strategy applied to the sample.
   (e.g. whole genome sequencing, RNA-seq, RIP-seq)
   */
-  union { null, string } strategy = null;
+  union { null, string } strategy;
 
   /**
   The method used to enrich the target. (e.g. immunoprecipitation, size
   fractionation, MNase digestion)
   */
-  union { null, string } selection = null;
+  union { null, string } selection;
 
   /** The name of the library used as part of this experiment. */
-  union { null, string } library = null;
+  union { null, string } library;
 
   /** The configuration of sequenced reads. (e.g. Single or Paired) */
-  union { null, string } libraryLayout = null;
+  union { null, string } libraryLayout;
 
   /**
     The instrument model used as part of this experiment.
@@ -74,7 +74,7 @@ record Experiment {
   TODO: This isn't actually a file is it?
   Should this be `instrumentData` instead?
   */
-  union { null, string } instrumentDataFile = null;
+  union { null, string } instrumentDataFile;
 
   /** The sequencing center used as part of this experiment. */
   union { null, string } sequencingCenter;
@@ -83,12 +83,12 @@ record Experiment {
   The platform unit used as part of this experiment. This is a flowcell-barcode
   or slide unique identifier.
   */
-  union { null, string } platformUnit = null;
+  union { null, string } platformUnit;
 
   /**
   A map of additional experiment information.
   */
-  map<array<string>> info = {};
+  map<array<string>> info;
 }
 
 /**
@@ -105,12 +105,12 @@ record Dataset {
   /**
   The name of the dataset.
   */
-  union { null, string } name = null;
+  union { null, string } name;
 
   /**
   Additional, human-readable information on the dataset.
   */
-  union { null, string } description = null;
+  union { null, string } description;
 
 }
 

@@ -42,7 +42,7 @@ record Reference {
   the `getReferenceBases()` method to obtain sequence bases for a `Reference`
   instead of attempting to retrieve this URI.
   */
-  union { null, string } sourceURI = null;
+  union { null, string } sourceURI;
 
   /**
   All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) which must include
@@ -57,16 +57,16 @@ record Reference {
   sequence share the same coordinates and annotations, and
   can be replaced with the official sequence for certain use cases.
   */
-  boolean isDerived = false;
+  boolean isDerived;
 
   /**
   The `sourceDivergence` is the fraction of non-indel bases that do not match the
   reference this record was derived from.
   */
-  union { null, float } sourceDivergence = null;
+  union { null, float } sourceDivergence;
 
   /** ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human). */
-  union { null, int } ncbiTaxonId = null;
+  union { null, int } ncbiTaxonId;
 
 }
 
@@ -81,7 +81,7 @@ record ReferenceSet {
   string id;
 
   /** The reference set name. */
-  union { null, string } name = null;
+  union { null, string } name;
 
   /**
   Order-independent MD5 checksum which identifies this `ReferenceSet`.
@@ -100,18 +100,18 @@ record ReferenceSet {
   contain reference sequences which do not belong to the modeled species, e.g.
   EBV in a human reference genome.
   */
-  union { null, int } ncbiTaxonId = null;
+  union { null, int } ncbiTaxonId;
 
   /** Optional free text description of this reference set. */
-  union { null, string } description = null;
+  union { null, string } description;
 
   // next information about the source of the sequences
 
   /** Public id of this reference set, such as `GRCh37`. */
-  union { null, string } assemblyId = null;
+  union { null, string } assemblyId;
 
   /** Specifies a FASTA format file/string. */
-  union { null, string } sourceURI = null;
+  union { null, string } sourceURI;
 
   /**
   All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
@@ -124,7 +124,7 @@ record ReferenceSet {
   additional sequences, or some of the sequences within it are derived
   (see the definition of `isDerived` in `Reference`).
   */
-  boolean isDerived = false;
+  boolean isDerived;
 }
 
 }

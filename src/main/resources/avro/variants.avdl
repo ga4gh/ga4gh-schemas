@@ -9,7 +9,7 @@ protocol Variants {
 
 import idl "common.avdl";
 
-/** Optional metadata associated with a variant set. */ 
+/** Optional metadata associated with a variant set. */
 record VariantSetMetadata {
   /** The top-level key. */
   string key;
@@ -38,7 +38,7 @@ record VariantSetMetadata {
   string description;
 
   /** Remaining structured metadata key-value pairs. */
-  map<array<string>> info = {};
+  map<array<string>> info;
 }
 
 /**
@@ -49,7 +49,7 @@ record VariantSet {
   string id;
 
   /** The variant set name. */
-  union { null, string } name = null;
+  union { null, string } name;
 
   /** The ID of the dataset this variant set belongs to. */
   string datasetId;
@@ -64,7 +64,7 @@ record VariantSet {
   This array can be used to store information about the variant set, such as information found
   in VCF header fields, that isn't already available in first class fields such as "name".
   */
-  array<VariantSetMetadata> metadata = [];
+  array<VariantSetMetadata> metadata;
 }
 
 /**
@@ -76,7 +76,7 @@ record CallSet {
   string id;
 
   /** The call set name. */
-  union { null, string } name = null;
+  union { null, string } name;
 
   /**
   The sample this call set's data was generated from.
@@ -87,21 +87,21 @@ record CallSet {
   union { null, string } sampleId;
 
   /** The IDs of the variant sets this call set has calls in. */
-  array<string> variantSetIds = [];
+  array<string> variantSetIds;
 
   /** The date this call set was created in milliseconds from the epoch. */
-  union { null, long } created = null;
+  union { null, long } created;
 
   /**
   The time at which this call set was last updated in
   milliseconds from the epoch.
   */
-  union { null, long } updated = null;
+  union { null, long } updated;
 
   /**
   A map of additional call set information.
   */
-  map<array<string>> info = {};
+  map<array<string>> info;
 }
 
 /**
@@ -121,7 +121,7 @@ record Call {
   the ordering of the calls on this `Variant`.
   The number of results will also be the same.
   */
-  union { null, string } callSetName = null;
+  union { null, string } callSetName;
 
   /**
   The ID of the call set this variant call belongs to.
@@ -131,7 +131,7 @@ record Call {
   the ordering of the calls on this `Variant`.
   The number of results will also be the same.
   */
-  union { null, string} callSetId = null;
+  union { null, string} callSetId;
 
   /**
   The genotype of this variant call.
@@ -146,14 +146,14 @@ record Call {
   was instead [0, 1] the represented value would be "TA". Ordering of the
   genotype values is important if the phaseset field is present.
   */
-  array<int> genotype = [];
+  array<int> genotype;
 
   /**
   If this field is not null, this variant call's genotype ordering implies
   the phase of the bases and is consistent with any other variant calls on
   the same contig which have the same phaseset string.
   */
-  union { null, string } phaseset = null;
+  union { null, string } phaseset;
 
   /**
   The genotype likelihoods for this variant call. Each array entry
@@ -161,12 +161,12 @@ record Call {
   log10(P(data | genotype)), analogous to the GL tag in the VCF spec. The
   value ordering is defined by the GL tag in the VCF spec.
   */
-  array<double> genotypeLikelihood = [];
+  array<double> genotypeLikelihood;
 
   /**
   A map of additional variant call information.
   */
-  map<array<string>> info = {};
+  map<array<string>> info;
 }
 
 /**
@@ -187,16 +187,16 @@ record Variant {
   string variantSetId;
 
   /** Names for the variant, for example a RefSNP ID. */
-  array<string> names = [];
+  array<string> names;
 
   /** The date this variant was created in milliseconds from the epoch. */
-  union { null, long } created = null;
+  union { null, long } created;
 
   /**
   The time at which this variant was last updated in
   milliseconds from the epoch.
   */
-  union { null, long } updated = null;
+  union { null, long } updated;
 
   /**
   The reference on which this variant occurs.
@@ -229,19 +229,19 @@ record Variant {
   The bases that appear instead of the reference bases. Multiple alternate
   alleles are possible.
   */
-  array<string> alternateBases = [];
+  array<string> alternateBases;
 
   /**
   A map of additional variant information.
   */
-  map<array<string>> info = {};
+  map<array<string>> info;
 
   /**
   The variant calls for this particular variant. Each one represents the
   determination of genotype with respect to this variant. `Call`s in this array
   are implicitly associated with this `Variant`.
   */
-  array<Call> calls = [];
+  array<Call> calls;
 }
 
 }
