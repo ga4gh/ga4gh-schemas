@@ -120,23 +120,29 @@ core generic record which corresponds to the a GFF3 record.
 
 .. avro:record:: OntologyTerm
 
-  :field ontologySourceName:
-    ontology source name - the name of ontology from which the term is obtained
-        e.g. 'Human Phenotype Ontology'
-  :type ontologySourceName: null|string
-  :field ontologySourceID:
-    ontology source identifier - the identifier, a CURIE (preferred) or
-        PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
-  :type ontologySourceID: null|string
-  :field ontologySourceVersion:
-    ontology source version - the version of the ontology from which the
-        OntologyTerm is obtained; e.g. 2.6.1.
-        There is no standard for ontology versioning and some frequently
-        released ontologies may use a datestamp, or build number.
-  :type ontologySourceVersion: null|string
+  :field id:
+    Ontology source identifier - the identifier, a CURIE (preferred) or
+      PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
+      in that it is a URI pointing to an information resource outside of the scope
+      of the schema or its resource implementation.
+  :type id: string
+  :field term:
+    Ontology term - the representation the id is pointing to.
+  :type term: null|string
+  :field sourceName:
+    Ontology source name - the name of ontology from which the term is obtained
+      e.g. 'Human Phenotype Ontology'
+  :type sourceName: null|string
+  :field sourceVersion:
+    Ontology source version - the version of the ontology from which the
+      OntologyTerm is obtained; e.g. 2.6.1.
+      There is no standard for ontology versioning and some frequently
+      released ontologies may use a datestamp, or build number.
+  :type sourceVersion: null|string
 
   An ontology term describing an attribute. (e.g. the phenotype attribute
-    'polydactyly' from HPO)
+  'polydactyly' from HPO)
 
 .. avro:record:: Experiment
 

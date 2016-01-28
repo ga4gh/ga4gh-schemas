@@ -4,6 +4,7 @@ Schemas
 .. toctree::
    common
    metadata
+   metadatamethods
    methods
    readmethods
    reads
@@ -11,3 +12,6 @@ Schemas
    references
    variantmethods
    variants
+   sequenceAnnotations
+   sequenceAnnotationmethods
+
