@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "proto/ga4gh/references.proto";
+import "ga4gh/references.proto";
 
 service ReferenceService {
   // Gets a list of `ReferenceSet` matching the search criteria.

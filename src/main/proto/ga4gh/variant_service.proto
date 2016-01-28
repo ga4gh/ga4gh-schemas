@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "proto/ga4gh/variants.proto";
+import "ga4gh/variants.proto";
 
 service VariantService {
   // Gets a list of `VariantSet` matching the search criteria.

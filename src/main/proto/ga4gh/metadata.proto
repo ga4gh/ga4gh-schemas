@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "proto/google/protobuf/struct.proto";
+import "google/protobuf/struct.proto";
 
 // An experimental preparation of a sample.
 message Experiment {

@@ -2,8 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "proto/ga4gh/metadata.proto";
-import "proto/ga4gh/reads.proto";
+import "ga4gh/reads.proto";
 
 service ReadService {
   // Gets a list of `ReadGroupSet` matching the search criteria.

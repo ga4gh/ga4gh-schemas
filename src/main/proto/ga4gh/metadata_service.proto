@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "proto/ga4gh/metadata.proto";
+import "ga4gh/metadata.proto";
 
 service MetadataService {
   // Gets a list of `Dataset` matching the search criteria.
