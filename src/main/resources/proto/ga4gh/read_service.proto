@@ -6,21 +6,6 @@ import "proto/ga4gh/metadata.proto";
 import "proto/ga4gh/reads.proto";
 
 service ReadService {
-  // TODO: Move datasets to a central location.
-
-  // Gets a list of `Dataset` matching the search criteria.
-  //
-  // `POST /datasets/search` must accept a JSON version of
-  // `SearchDatasetsRequest` as the post body and will return a JSON
-  // version of `SearchDatasetsResponse`.
-  rpc SearchDatasets(SearchDatasetsRequest) returns (SearchDatasetsResponse);
-
-  // Gets a `Dataset` by ID.
-  //
-  // `GET /datasets/{dataset_id}` will return a JSON version of
-  // `Dataset`.
-  rpc GetDataset(GetDatasetRequest) returns (Dataset);
-
   // Gets a list of `ReadGroupSet` matching the search criteria.
   //
   // `POST /readgroupsets/search` must accept a JSON version of
@@ -35,47 +20,38 @@ service ReadService {
   // `ReadGroupSet`.
   rpc GetReadGroupSet(GetReadGroupSetRequest) returns (ReadGroupSet);
 
-  // Gets a list of `ReadAlignment` matching the search criteria.
+  // Gets a list of `ReadAlignment`s for one or more `ReadGroup`s.
+  //
+  // `searchReads` operates over a genomic coordinate space of reference sequence
+  // and position defined by the `Reference`s to which the requested `ReadGroup`s are
+  // aligned.
+  //
+  // If a target positional range is specified, search returns all reads whose
+  // alignment to the reference genome *overlap* the range. A query which specifies
+  // only read group IDs yields all reads in those read groups, including unmapped
+  // reads.
+  //
+  // All reads returned (including reads on subsequent pages) are ordered by genomic
+  // coordinate (by reference sequence, then position). Reads with equivalent genomic
+  // coordinates are returned in an unspecified order. This order must be consistent
+  // for a given repository, such that two queries for the same content (regardless
+  // of page size) yield reads in the same order across their respective streams of
+  // paginated responses.
   //
   // `POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
   // the post body and will return a JSON version of `SearchReadsResponse`.
   rpc SearchReads(SearchReadsRequest) returns (SearchReadsResponse);
 }
 
-// ****************  /datasets  *******************
-
-// This request maps to the body of `POST /datasets/search` as JSON.
-message SearchDatasetsRequest {
-  // Specifies the maximum number of results to return in a single page.
-  // If unspecified, a system default will be used.
-  int32 page_size = 1;
-
-  // The continuation token, which is used to page through large result sets.
-  // To get the next page of results, set this parameter to the value of
-  // `next_page_token` from the previous response.
-  string page_token = 2;
-}
-
-// This is the response from `POST /datasets/search` expressed as JSON.
-message SearchDatasetsResponse {
-  // The list of datasets.
-  repeated Dataset datasets = 1;
-
-  // The continuation token, which is used to page through large result sets.
-  // Provide this value in a subsequent request to return the next page of
-  // results. This field will be empty if there aren't any additional results.
-  string next_page_token = 2;
-}
-
-// This request maps to the URL `GET /datasets/{dataset_id}`.
-message GetDatasetRequest {
-  // The ID of the `Dataset` to be retrieved.
-  string dataset_id = 1;
-}
-
 // ******************  /readgroupsets  *********************/
 
 // This request maps to the body of `POST /readgroupsets/search` as JSON.
+//
+// TODO: Factor this out to a common API patterns section.
+// - If searching by a resource ID, and that resource is not found, the method
+//   will return a `404` HTTP status code (`NOT_FOUND`).
+// - If searching by other attributes, e.g. `name`, and no matches are found, the
+//   method will return a `200` HTTP status code (`OK`) with an empty result list.
 message SearchReadGroupSetsRequest {
   // The dataset to search.
   string dataset_id = 1;
@@ -117,7 +93,7 @@ message GetReadGroupSetRequest {
 // to `ReferenceSet`s containing that same `Reference`. If no reference is
 // specified, all `ReadGroup`s must be aligned to the same `ReferenceSet`.
 message SearchReadsRequest {
-  // The ReadGroups to search. At least one readGroupId must be specified.
+  // The ReadGroups to search. At least one id must be specified.
   repeated string read_group_ids = 1;
 
   // The reference to query. Leaving blank returns results from all

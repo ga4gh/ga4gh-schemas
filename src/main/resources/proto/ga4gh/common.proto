@@ -45,6 +45,7 @@ message ExternalIdentifier {
 }
 
 // A single CIGAR operation.
+// FIXME: This belongs under Reads (only readAlignment refers to this).
 message CigarUnit {
   // Describes the different types of CIGAR alignment operations that exist.
   // Used wherever CIGAR alignments are used.
