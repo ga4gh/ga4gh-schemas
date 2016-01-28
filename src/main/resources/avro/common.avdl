@@ -11,6 +11,7 @@ Indicates the DNA strand associate for some data item.
 * `POS_STRAND`:  The postive (+) strand.
 */
 enum Strand {
+  STRAND_UNSPECIFIED,
   NEG_STRAND,
   POS_STRAND
 }
@@ -103,6 +104,7 @@ have the following usage:
   indicate a SNP or a read error. This operator is equivalent to SAM's 'X'.
 */
 enum CigarOperation {
+  OPERATION_UNSPECIFIED,
   ALIGNMENT_MATCH,
   INSERT,
   DELETE,
