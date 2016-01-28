@@ -49,7 +49,7 @@ record VariantSet {
   string id;
 
   /** The variant set name. */
-  union { null, string } name;
+  string name;
 
   /** The ID of the dataset this variant set belongs to. */
   string datasetId;
@@ -76,7 +76,7 @@ record CallSet {
   string id;
 
   /** The call set name. */
-  union { null, string } name;
+  string name;
 
   /**
   The sample this call set's data was generated from.
@@ -84,19 +84,19 @@ record CallSet {
   field actually contains an arbitrary string, typically corresponding to the sampleId
   field in the read groups used to generate this call set.
   */
-  union { null, string } sampleId;
+  string sampleId;
 
   /** The IDs of the variant sets this call set has calls in. */
   array<string> variantSetIds;
 
   /** The date this call set was created in milliseconds from the epoch. */
-  union { null, long } created;
+  long created;
 
   /**
   The time at which this call set was last updated in
   milliseconds from the epoch.
   */
-  union { null, long } updated;
+  long updated;
 
   /**
   A map of additional call set information.
@@ -116,22 +116,22 @@ record Call {
 
   /**
   The name of the call set this variant call belongs to.
-  If this field is not present, the ordering of the call sets from a
+  If this field is empty, the ordering of the call sets from a
   `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
   the ordering of the calls on this `Variant`.
   The number of results will also be the same.
   */
-  union { null, string } callSetName;
+  string callSetName;
 
   /**
   The ID of the call set this variant call belongs to.
 
-  If this field is not present, the ordering of the call sets from a
+  If this field is empty, the ordering of the call sets from a
   `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
   the ordering of the calls on this `Variant`.
   The number of results will also be the same.
   */
-  union { null, string} callSetId;
+  string callSetId;
 
   /**
   The genotype of this variant call.
@@ -149,11 +149,11 @@ record Call {
   array<int> genotype;
 
   /**
-  If this field is not null, this variant call's genotype ordering implies
-  the phase of the bases and is consistent with any other variant calls on
-  the same contig which have the same phaseset string.
+  If this field is empty, this variant call's genotype ordering implies the
+  phase of the bases and is consistent with any other variant calls on the same
+  contig which have the same phaseset string.
   */
-  union { null, string } phaseset;
+  string phaseset;
 
   /**
   The genotype likelihoods for this variant call. Each array entry
@@ -190,13 +190,13 @@ record Variant {
   array<string> names;
 
   /** The date this variant was created in milliseconds from the epoch. */
-  union { null, long } created;
+  long created;
 
   /**
   The time at which this variant was last updated in
   milliseconds from the epoch.
   */
-  union { null, long } updated;
+  long updated;
 
   /**
   The reference on which this variant occurs.

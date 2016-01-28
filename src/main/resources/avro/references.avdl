@@ -42,7 +42,7 @@ record Reference {
   the `getReferenceBases()` method to obtain sequence bases for a `Reference`
   instead of attempting to retrieve this URI.
   */
-  union { null, string } sourceURI;
+  string sourceURI;
 
   /**
   All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) which must include
@@ -63,10 +63,10 @@ record Reference {
   The `sourceDivergence` is the fraction of non-indel bases that do not match the
   reference this record was derived from.
   */
-  union { null, float } sourceDivergence;
+  float sourceDivergence;
 
   /** ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human). */
-  union { null, int } ncbiTaxonId;
+  int ncbiTaxonId;
 
 }
 
@@ -81,7 +81,7 @@ record ReferenceSet {
   string id;
 
   /** The reference set name. */
-  union { null, string } name;
+  string name;
 
   /**
   Order-independent MD5 checksum which identifies this `ReferenceSet`.
@@ -100,18 +100,18 @@ record ReferenceSet {
   contain reference sequences which do not belong to the modeled species, e.g.
   EBV in a human reference genome.
   */
-  union { null, int } ncbiTaxonId;
+  int ncbiTaxonId;
 
   /** Optional free text description of this reference set. */
-  union { null, string } description;
+  string description;
 
   // next information about the source of the sequences
 
   /** Public id of this reference set, such as `GRCh37`. */
-  union { null, string } assemblyId;
+  string assemblyId;
 
   /** Specifies a FASTA format file/string. */
-  union { null, string } sourceURI;
+  string sourceURI;
 
   /**
   All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally

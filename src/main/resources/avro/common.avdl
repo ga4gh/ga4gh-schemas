@@ -128,9 +128,9 @@ record CigarUnit {
   /**
   `referenceSequence` is only used at mismatches (`SEQUENCE_MISMATCH`)
   and deletions (`DELETE`). Filling this field replaces the MD tag.
-  If the relevant information is not available, leave this field as `null`.
+  If the relevant information is not available, leave this field empty.
   */
-  union { null, string } referenceSequence;
+  string referenceSequence;
 }
 
 }
