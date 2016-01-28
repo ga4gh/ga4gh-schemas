@@ -5,6 +5,11 @@ syntax = "proto3";
 
 package ga4gh;
 
+message GAException {
+    int32 error_code = 1;
+    string message = 2;
+}
+
 // Indicates the associated DNA strand for some data item.
 enum Strand {
   STRAND_UNSPECIFIED = 0;
