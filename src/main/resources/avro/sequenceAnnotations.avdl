@@ -76,6 +76,11 @@ protocol SequenceAnnotations {
     long end;
 
     /**
+    The strand on which the feature is present.
+    */
+    Strand strand;
+
+    /**
     Feature that is annotated by this region.  Normally, this will be a term in
     the Sequence Ontology.
     */

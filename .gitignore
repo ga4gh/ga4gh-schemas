@@ -1,8 +1,11 @@
 *.py[cod]
 target
 *~
-#*
+
 doc/source/schemas/*.avpr
+doc/source/schemas/*.rst
+!doc/source/schemas/index.rst
+
 build
 
 #********** windows template**********
