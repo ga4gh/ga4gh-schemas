@@ -7,10 +7,10 @@ A general exception type.
 */
 error GAException {
   /** The error message */
-  string message;
+  string message = "";
 
   /** The numerical error code */
-  int errorCode = -1;
+  int errorCode = 0;
 }
 
 }

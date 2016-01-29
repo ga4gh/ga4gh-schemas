@@ -17,13 +17,13 @@ record SearchReadsRequest {
   /**
   The ReadGroups to search. At least one id must be specified.
   */
-  array<string> readGroupIds;
+  array<string> readGroupIds = [];
 
   /**
-  The reference to query. Leaving blank returns results from all
-  references, including unmapped reads - this could be very large.
+  The reference to query. If unspecified, returns results from all
+  references including unmapped reads - this could be very large.
   */
-  union { null, string } referenceId = null;
+  string referenceId = "";
 
   /**
   The start position (0-based) of this query.
@@ -32,27 +32,27 @@ record SearchReadsRequest {
   Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
   */
-  union { null, long } start = null;
+  long start = 0;
 
   /**
   The end position (0-based, exclusive) of this query.
   If a reference is specified, this defaults to the
   reference's length.
   */
-  union { null, long } end = null;
+  long end = 0;
 
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
-  union { null, int } pageSize = null;
+  int pageSize = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  union { null, string } pageToken = null;
+  string pageToken = "";
 }
 
 /** This is the response from `POST /reads/search` expressed as JSON. */
@@ -68,7 +68,7 @@ record SearchReadsResponse {
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  union { null, string } nextPageToken = null;
+  string nextPageToken = "";
 }
 
 /**
@@ -110,25 +110,26 @@ record SearchReadGroupSetsRequest {
   /**
   The dataset to search.
   */
-  string datasetId;
+  string datasetId = "";
 
   /**
-  Only return read group sets with this name (case-sensitive, exact match).
+  If specified, only return read group sets with this name (case-sensitive,
+  exact match).
   */
-  union { null, string } name = null;
+  string name = "";
 
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
-  union { null, int } pageSize = null;
+  int pageSize = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  union { null, string } pageToken = null;
+  string pageToken = "";
 }
 
 /** This is the response from `POST /readgroupsets/search` expressed as JSON. */
@@ -141,7 +142,7 @@ record SearchReadGroupSetsResponse {
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  union { null, string } nextPageToken = null;
+  string nextPageToken = "";
 }
 
 /**
