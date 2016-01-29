@@ -17,13 +17,13 @@ record SearchReadsRequest {
   /**
   The ReadGroups to search. At least one id must be specified.
   */
-  array<string> readGroupIds;
+  array<string> readGroupIds = [];
 
   /**
   The reference to query. If unspecified, returns results from all
   references including unmapped reads - this could be very large.
   */
-  string referenceId;
+  string referenceId = "";
 
   /**
   The start position (0-based) of this query.
@@ -32,27 +32,27 @@ record SearchReadsRequest {
   Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
   */
-  long start;
+  long start = 0;
 
   /**
   The end position (0-based, exclusive) of this query.
   If a reference is specified, this defaults to the
   reference's length.
   */
-  long end;
+  long end = 0;
 
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
-  int pageSize;
+  int pageSize = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  string pageToken;
+  string pageToken = "";
 }
 
 /** This is the response from `POST /reads/search` expressed as JSON. */
@@ -61,14 +61,14 @@ record SearchReadsResponse {
   The list of matching alignment records, sorted by position.
   Unmapped reads, which have no position, are returned last.
   */
-  array<org.ga4gh.models.ReadAlignment> alignments;
+  array<org.ga4gh.models.ReadAlignment> alignments = [];
 
   /**
   The continuation token, which is used to page through large result sets.
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  string nextPageToken;
+  string nextPageToken = "";
 }
 
 /**
@@ -110,39 +110,39 @@ record SearchReadGroupSetsRequest {
   /**
   The dataset to search.
   */
-  string datasetId;
+  string datasetId = "";
 
   /**
   If specified, only return read group sets with this name (case-sensitive,
   exact match).
   */
-  string name;
+  string name = "";
 
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
-  int pageSize;
+  int pageSize = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  string pageToken;
+  string pageToken = "";
 }
 
 /** This is the response from `POST /readgroupsets/search` expressed as JSON. */
 record SearchReadGroupSetsResponse {
   /** The list of matching read group sets. */
-  array<org.ga4gh.models.ReadGroupSet> readGroupSets;
+  array<org.ga4gh.models.ReadGroupSet> readGroupSets = [];
 
   /**
   The continuation token, which is used to page through large result sets.
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  string nextPageToken;
+  string nextPageToken = "";
 }
 
 /**

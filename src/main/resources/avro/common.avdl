@@ -25,18 +25,18 @@ record Position {
   /**
   The name of the `Reference` on which the `Position` is located.
   */
-  string referenceName;
+  string referenceName = "";
 
   /**
   The 0-based offset from the start of the forward strand for that `Reference`.
   Genomic positions are non-negative integers less than `Reference` length.
   */
-  long position;
+  long position = 0;
 
   /**
   Strand the position is associated with.
   */
-  Strand strand;
+  Strand strand = "STRAND_UNSPECIFIED";
 }
 
 /**
@@ -47,19 +47,19 @@ record ExternalIdentifier {
   The source of the identifier.
   (e.g. `Ensembl`)
   */
-  string database;
+  string database = "";
 
   /**
   The ID defined by the external database.
   (e.g. `ENST00000000000`)
   */
-  string identifier;
+  string identifier = "";
 
   /**
   The version of the object or the database
   (e.g. `78`)
   */
-  string version;
+  string version = "";
 }
 
 /**
@@ -122,17 +122,17 @@ A structure for an instance of a CIGAR operation.
 */
 record CigarUnit {
   /** The operation type. */
-  CigarOperation operation;
+  CigarOperation operation = "OPERATION_UNSPECIFIED";
 
   /** The number of bases that the operation runs for. */
-  long operationLength;
+  long operationLength = 0;
 
   /**
   `referenceSequence` is only used at mismatches (`SEQUENCE_MISMATCH`)
   and deletions (`DELETE`). Filling this field replaces the MD tag.
   If the relevant information is not available, leave this field empty.
   */
-  string referenceSequence;
+  string referenceSequence = "";
 }
 
 }

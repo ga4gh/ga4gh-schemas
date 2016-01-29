@@ -15,34 +15,34 @@ Program can be used to track the provenance of how read data was generated.
 */
 record Program {
   /** The command line used to run this program. */
-  string commandLine;
+  string commandLine = "";
 
   /** The user specified ID of the program. */
-  string id;
+  string id = "";
 
   /** The name of the program. */
-  string name;
+  string name = "";
 
   /** The ID of the program run before this one. */
-  string prevProgramId;
+  string prevProgramId = "";
 
   /** The version of the program run. */
-  string version;
+  string version = "";
 }
 
 /** ReadStats can be used to provide summary statistics about read data. */
 record ReadStats {
   /** The number of aligned reads. */
-  long alignedReadCount;
+  long alignedReadCount = 0;
 
   /** The number of unaligned reads. */
-  long unalignedReadCount;
+  long unalignedReadCount = 0;
 
   /**
   The total number of bases.
   This is equivalent to the sum of `alignedSequence.length` for all reads.
   */
-  long baseCount;
+  long baseCount = 0;
 }
 
 /**
@@ -51,16 +51,16 @@ A ReadGroup is a set of reads derived from one physical sequencing process.
 record ReadGroup {
 
   /** The read group ID. */
-  string id;
+  string id = "";
 
   /** The ID of the dataset this read group belongs to. */
-  string datasetId;
+  string datasetId = "";
 
   /** The read group name. */
-  string name;
+  string name = "";
 
   /** The read group description. */
-  string description;
+  string description = "";
 
   /**
   The sample this read group's data was generated from.
@@ -68,41 +68,41 @@ record ReadGroup {
   field actually contains an arbitrary string, typically corresponding to the SM tag in a
   BAM file.
   */
-  string sampleId;
+  string sampleId = "";
 
   /** The experiment used to generate this read group. */
-  Experiment experiment;
+  union { null, Experiment } experiment = null;
 
   /** The predicted insert size of this read group. */
-  int predictedInsertSize;
+  int predictedInsertSize = 0;
 
   /**
   The time at which this read group was created in milliseconds from the epoch.
   */
-  long created;
+  long created = 0;
 
   /**
   The time at which this read group was last updated in milliseconds
   from the epoch.
   */
-  long updated;
+  long updated = 0;
 
   /** Statistical data on reads in this read group. */
-  ReadStats stats;
+  union { null, ReadStats } stats = null;
 
   /** The programs used to generate this read group. */
-  array<Program> programs;
+  array<Program> programs = [];
 
   /**
   The ID of the reference set to which the reads in this read group are aligned.
   Required if there are any read alignments.
   */
-  string referenceSetId;
+  string referenceSetId = "";
 
   /**
   A map of additional read group information.
   */
-  map<array<string>> info;
+  map<array<string>> info = {};
 }
 
 /**
@@ -111,19 +111,19 @@ represents all the reads from one experimental sample.
 */
 record ReadGroupSet {
   /** The read group set ID. */
-  string id;
+  string id = "";
 
   /** The ID of the dataset this read group set belongs to. */
-  string datasetId;
+  string datasetId = "";
 
   /** The read group set name. */
-  string name;
+  string name = "";
 
   /** Statistical data on reads in this read group set. */
-  ReadStats stats;
+  union { null, ReadStats } stats = null;
 
   /** The read groups in this set. */
-  array<ReadGroup> readGroups;
+  array<ReadGroup> readGroups = [];
 
   // NB: we require that all readgroups in the set are mapped to the same
   // referenceSet.
@@ -135,7 +135,7 @@ position and CIGAR array.
 */
 record LinearAlignment {
   /** The position of this alignment. */
-  Position position;
+  union { null, Position } position = null;
 
   /**
   The mapping quality of this alignment, meaning the likelihood that the read
@@ -144,13 +144,13 @@ record LinearAlignment {
   Specifically, this is -10 log10 Pr(mapping position is wrong), rounded to the
   nearest integer.
   */
-  int mappingQuality;
+  int mappingQuality = 0;
 
   /**
   Represents the local alignment of this sequence (alignment matches, indels, etc)
   versus the reference.
   */
-  array<CigarUnit> cigar;
+  array<CigarUnit> cigar = [];
 }
 
 /**
@@ -168,33 +168,33 @@ record ReadAlignment {
   If provided, its intended use is to make caching and UI display easier for
   genome browsers and other lightweight clients.
   */
-  string id;
+  string id = "";
 
   /**
   The ID of the read group this read belongs to.
   (Every read must belong to exactly one read group.)
   */
-  string readGroupId;
+  string readGroupId = "";
 
   // fragment attributes
 
   /** The fragment name. Equivalent to QNAME (query template name) in SAM. */
-  string fragmentName;
+  string fragmentName = "";
 
   /**
   The orientation and the distance between reads from the fragment are
   consistent with the sequencing protocol (equivalent to SAM flag 0x2)
   */
-  boolean properPlacement;
+  boolean properPlacement = false;
 
   /** The fragment is a PCR or optical duplicate (SAM flag 0x400). */
-  boolean duplicateFragment;
+  boolean duplicateFragment = false;
 
   /** The number of reads in the fragment (extension to SAM flag 0x1) */
-  int numberReads;
+  int numberReads = 0;
 
   /** The observed length of the fragment, equivalent to TLEN in SAM. */
-  int fragmentLength;
+  int fragmentLength = 0;
 
   // read attributes
 
@@ -203,16 +203,16 @@ record ReadAlignment {
   field replaces SAM flag 0x40 and 0x80 and is intended to more cleanly
   represent multiple reads per fragment.
   */
-  int readNumber;
+  int readNumber = 0;
 
   /** The read fails platform or vendor quality checks (SAM flag 0x200). */
-  boolean failedVendorQualityChecks;
+  boolean failedVendorQualityChecks = false;
 
   /**
   The alignment for this alignment record. This field will be null if the read
   is unmapped.
   */
-  union { null, LinearAlignment } alignment;
+  union { null, LinearAlignment } alignment = null;
 
   /**
   Whether this alignment is secondary. Equivalent to SAM flag 0x100.
@@ -223,7 +223,7 @@ record ReadAlignment {
   By convention, each read has one and only one alignment where both
   secondaryAlignment and supplementaryAlignment are false.
   */
-  boolean secondaryAlignment;
+  boolean secondaryAlignment = false;
 
   /**
   Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
@@ -238,7 +238,7 @@ record ReadAlignment {
   The `alignedSequence` and `alignedQuality` fields in the alignment record will
   only represent the bases for its respective linear alignment.
   */
-  boolean supplementaryAlignment;
+  boolean supplementaryAlignment = false;
 
   /**
   The bases of the read sequence contained in this alignment record (equivalent
@@ -250,7 +250,7 @@ record ReadAlignment {
   begin/end with a hard clip operator that will indicate the length of the
   excised sequence.
   */
-  string alignedSequence;
+  string alignedSequence = "";
 
   /**
   The quality of the read sequence contained in this alignment record
@@ -261,18 +261,18 @@ record ReadAlignment {
   or if the read was trimmed. When this occurs, the CIGAR for this read will
   begin/end with a hard clip operator that will indicate the length of the excised sequence.
   */
-  array<int> alignedQuality;
+  array<int> alignedQuality = [];
 
   /**
   The mapping of the primary alignment of the `(readNumber+1)%numberReads`
   read in the fragment. It replaces mate position and mate strand in SAM.
   */
-  Position nextMatePosition;
+  union { null, Position } nextMatePosition = null;
 
   /**
   A map of additional read alignment information.
   */
-  map<array<string>> info;
+  map<array<string>> info = {};
 }
 
 }

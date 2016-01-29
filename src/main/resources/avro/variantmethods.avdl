@@ -10,33 +10,33 @@ record SearchVariantSetsRequest {
   /**
   The `Dataset` to search.
   */
-  string datasetId;
+  string datasetId = "";
 
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
-  int pageSize;
+  int pageSize = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  string pageToken;
+  string pageToken = "";
 }
 
 /** This is the response from `POST /variantsets/search` expressed as JSON. */
 record SearchVariantSetsResponse {
   /** The list of matching variant sets. */
-  array<org.ga4gh.models.VariantSet> variantSets;
+  array<org.ga4gh.models.VariantSet> variantSets = [];
 
   /**
   The continuation token, which is used to page through large result sets.
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  string nextPageToken;
+  string nextPageToken = "";
 }
 
 /**
@@ -67,17 +67,17 @@ record SearchVariantsRequest {
   /**
   The `VariantSet` to search.
   */
-  string variantSetId;
+  string variantSetId = "";
 
   /**
   Only return variant calls which belong to call sets with these IDs.
   If an empty array, returns variants without any call objects.
   If null, returns all variant calls.
   */
-  union { null, array<string> } callSetIds;
+  union { null, array<string> } callSetIds = null;
 
   /** Required. Only return variants on this reference. */
-  string referenceName;
+  string referenceName = "";
 
   /**
   Required. The beginning of the window (0-based, inclusive) for
@@ -86,26 +86,26 @@ record SearchVariantsRequest {
   Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
   */
-  long start;
+  long start = 0;
 
   /**
   Required. The end of the window (0-based, exclusive) for which overlapping
   variants should be returned.
   */
-  long end;
+  long end = 0;
 
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
-  int pageSize;
+  int pageSize = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  string pageToken;
+  string pageToken = "";
 }
 
 /** This is the response from `POST /variants/search` expressed as JSON. */
@@ -118,14 +118,14 @@ record SearchVariantsResponse {
   of the calls on each `Variant`. The number of results will also be
   the same.
   */
-  array<org.ga4gh.models.Variant> variants;
+  array<org.ga4gh.models.Variant> variants = [];
 
   /**
   The continuation token, which is used to page through large result sets.
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  string nextPageToken;
+  string nextPageToken = "";
 }
 
 /**
@@ -155,13 +155,13 @@ record SearchCallSetsRequest {
   /**
   The VariantSet to search.
   */
-  string variantSetId;
+  string variantSetId = "";
 
   /**
   If non-empty, only return call sets with this name (case-sensitive, exact
   match).
   */
-  string name;
+  string name = "";
 
   // TODO: Add more ways to search by other metadata
 
@@ -169,27 +169,27 @@ record SearchCallSetsRequest {
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
-  int pageSize;
+  int pageSize = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  string pageToken;
+  string pageToken = "";
 }
 
 /** This is the response from `POST /callsets/search` expressed as JSON. */
 record SearchCallSetsResponse {
   /** The list of matching call sets. */
-  array<org.ga4gh.models.CallSet> callSets;
+  array<org.ga4gh.models.CallSet> callSets = [];
 
   /**
   The continuation token, which is used to page through large result sets.
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  string nextPageToken;
+  string nextPageToken = "";
 }
 
 /**

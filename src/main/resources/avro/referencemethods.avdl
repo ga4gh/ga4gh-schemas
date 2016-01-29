@@ -16,32 +16,32 @@ record SearchReferenceSetsRequest {
   `md5checksum` matches this string (case-sensitive, exact match).
   See `ReferenceSet::md5checksum` for details.
   */
-  string md5checksum;
+  string md5checksum = "";
 
   /**
   If specified, return the reference sets for which the `accession`
   matches this string (case-sensitive, exact match).
   */
-  string accession;
+  string accession = "";
 
   /**
   If specified, return the reference sets for which the `assemblyId`
   matches this string (case-sensitive, exact match).
   */
-  string assemblyId;
+  string assemblyId = "";
 
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
-  int pageSize;
+  int pageSize = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  string pageToken;
+  string pageToken = "";
 }
 
 /**
@@ -50,14 +50,14 @@ expressed as JSON.
 */
 record SearchReferenceSetsResponse {
   /** The list of matching reference sets. */
-  array<org.ga4gh.models.ReferenceSet> referenceSets;
+  array<org.ga4gh.models.ReferenceSet> referenceSets = [];
 
   /**
   The continuation token, which is used to page through large result sets.
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  string nextPageToken;
+  string nextPageToken = "";
 }
 
 /**
@@ -94,33 +94,33 @@ record SearchReferencesRequest {
   /**
   The `ReferenceSet` to search.
   */
-  string referenceSetId;
+  string referenceSetId = "";
 
   /**
   If specified, return the references for which the
   `md5checksum` matches this string (case-sensitive, exact match).
   See `ReferenceSet::md5checksum` for details.
   */
-  string md5checksum;
+  string md5checksum = "";
 
   /**
   If specified, return the references for which the `accession`
   matches this string (case-sensitive, exact match).
   */
-  string accession;
+  string accession = "";
 
   /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
-  int pageSize;
+  int pageSize = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  string pageToken;
+  string pageToken = "";
 }
 
 /**
@@ -128,14 +128,14 @@ This is the response from `POST /references/search` expressed as JSON.
 */
 record SearchReferencesResponse {
   /** The list of matching references. */
-  array<org.ga4gh.models.Reference> references;
+  array<org.ga4gh.models.Reference> references = [];
 
   /**
   The continuation token, which is used to page through large result sets.
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  string nextPageToken;
+  string nextPageToken = "";
 }
 
 /**
@@ -177,20 +177,20 @@ record ListReferenceBasesRequest {
   Requests spanning the join of circular genomes are represented as
   two requests one on each side of the join (position 0).
   */
-  long start;
+  long start = 0;
 
   /**
   The end position (0-based, exclusive) of this query. Defaults
   to the length of this `Reference`.
   */
-  long end;
+  long end = 0;
 
   /**
   The continuation token, which is used to page through large result sets.
   To get the next page of results, set this parameter to the value of
   `nextPageToken` from the previous response.
   */
-  string pageToken;
+  string pageToken = "";
 }
 
 /** The response from `GET /references/{id}/bases` expressed as JSON. */
@@ -199,20 +199,20 @@ record ListReferenceBasesResponse {
   The offset position (0-based) of the given sequence from the start of this
   `Reference`. This value will differ for each page in a paginated request.
    */
-  long offset;
+  long offset = 0;
 
   /**
   A substring of the bases that make up this reference. Bases are represented
   as IUPAC-IUB codes; this string matches the regexp `[ACGTMRWSYKVHDBN]*`.
   */
-  string sequence;
+  string sequence = "";
 
   /**
   The continuation token, which is used to page through large result sets.
   Provide this value in a subsequent request to return the next page of
   results. This field will be empty if there aren't any additional results.
   */
-  string nextPageToken;
+  string nextPageToken = "";
 }
 
 /**
