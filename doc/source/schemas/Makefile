@@ -45,3 +45,6 @@ cleaner: clean
 	/bin/rm -f *.avpr
 cleanest: cleaner
 	/bin/rm -f ${RST_BASENAMES}
+
+clean_rst: cleanest
+
