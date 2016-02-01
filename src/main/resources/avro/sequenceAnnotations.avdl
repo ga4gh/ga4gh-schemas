@@ -45,9 +45,17 @@ protocol SequenceAnnotations {
     string id;
 
     /**
-    Ids of the parents of this annotation node.  
+    Parent Id of this node. Set to empty string if node has no parent.
     */
-    array<string> parentIds;
+    string parentId;
+
+    /**
+    Ordered array of Child Ids of this node.
+    Since not all child nodes are ordered by genomic coordinates,
+    this can't always be reconstructed from parentId's of the children alone.
+    */
+
+    array<string> childIds = [];
 
     /**
     Identifier for the containing feature set.

@@ -84,7 +84,7 @@ protocol SequenceAnnotationMethods {
     /**
     Only return features on the reference with this ID.
     */
-    union { null, string } referenceId = null;
+    string referenceId;
 
     /**
     Required. The beginning of the window (0-based, inclusive) for which
