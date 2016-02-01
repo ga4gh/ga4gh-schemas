@@ -8,7 +8,7 @@ package ga4gh;
 // When returning an HTTP error response, a server may also return a JSON formatted GAException
 // to better describe the error.
 message GAException {
-  // Numerical error code (should match the HTTP response code).
+  // Numerical error code
   int32 error_code = 1;
 
   // The error message.
