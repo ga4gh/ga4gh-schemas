@@ -365,18 +365,18 @@ Gets an `VariantAnnotationSet` by ID.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field recordCreateTime:
+  :field created:
     The time at which this record was created. 
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordCreateTime: string
-  :field recordUpdateTime:
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type created: string
+  :field updated:
     The time at which this record was last updated.
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordUpdateTime: string
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updated: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+      Format: :ref:`ISO 8601 <metadata_date_time>`
   :type runTime: null|string
   :field molecule:
     The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
@@ -443,14 +443,14 @@ Gets an `VariantAnnotationSet` by ID.
   :type name: null|string
   :field description:
   :type description: null|string
-  :field recordCreateTime:
+  :field created:
     The time at which this record was created. 
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordCreateTime: null|string
-  :field recordUpdateTime:
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type created: null|string
+  :field updated:
     The time at which this record was last updated.
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordUpdateTime: string
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updated: string
   :field type:
     The type of analysis.
   :type type: null|string
@@ -595,7 +595,7 @@ Gets an `VariantAnnotationSet` by ID.
   :type variantAnnotationSetId: string
   :field created:
     The :ref:`ISO 8601 <metadata_date_time>` time at which this record was created.
-  :type created: null|long
+  :type created: null|string
   :field transcriptEffects:
     The transcript effect annotation for the alleles of this variant. Each one
       represents the effect of a single allele on a single transcript.

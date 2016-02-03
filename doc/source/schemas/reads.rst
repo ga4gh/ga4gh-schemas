@@ -106,6 +106,32 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   A structure for an instance of a CIGAR operation.
   `FIXME: This belongs under Reads (only readAlignment refers to this)`
 
+.. avro:record:: OntologyTerm
+
+  :field id:
+    Ontology source identifier - the identifier, a CURIE (preferred) or
+      PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
+      in that it is a URI pointing to an information resource outside of the scope
+      of the schema or its resource implementation.
+  :type id: string
+  :field term:
+    Ontology term - the representation the id is pointing to.
+  :type term: null|string
+  :field sourceName:
+    Ontology source name - the name of ontology from which the term is obtained
+      e.g. 'Human Phenotype Ontology'
+  :type sourceName: null|string
+  :field sourceVersion:
+    Ontology source version - the version of the ontology from which the
+      OntologyTerm is obtained; e.g. 2.6.1.
+      There is no standard for ontology versioning and some frequently
+      released ontologies may use a datestamp, or build number.
+  :type sourceVersion: null|string
+
+  An ontology term describing an attribute. (e.g. the phenotype attribute
+    'polydactyly' from HPO)
+
 .. avro:record:: Experiment
 
   :field id:
@@ -117,18 +143,18 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field recordCreateTime:
+  :field created:
     The time at which this record was created. 
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordCreateTime: string
-  :field recordUpdateTime:
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type created: string
+  :field updated:
     The time at which this record was last updated.
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordUpdateTime: string
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updated: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+      Format: :ref:`ISO 8601 <metadata_date_time>`
   :type runTime: null|string
   :field molecule:
     The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
@@ -184,6 +210,38 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   A Dataset is a collection of related data of multiple types.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Analysis
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+      documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field created:
+    The time at which this record was created. 
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type created: null|string
+  :field updated:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updated: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.
 
 .. avro:record:: Program
 
@@ -310,16 +368,6 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   A linear alignment describes the alignment of a read to a Reference, using a
   position and CIGAR array.
 
-.. avro:record:: Fragment
-
-  :field id:
-    The fragment ID.
-  :type id: string
-
-  A fragment represents a contiguous stretch of a DNA or RNA molecule. Reads can
-  be associated with a fragment to specify they derive from the same molecule.
-  TODO: this Fragment object is essentially unused, and may be removed in a future PR.
-
 .. avro:record:: ReadAlignment
 
   :field id:
@@ -334,10 +382,6 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
     The ID of the read group this read belongs to.
       (Every read must belong to exactly one read group.)
   :type readGroupId: string
-  :field fragmentId:
-    The fragment ID that this ReadAlignment belongs to.
-      TODO: this is the only reference to the Fragment object, which may be removed in a future PR.
-  :type fragmentId: string
   :field fragmentName:
     The fragment name. Equivalent to QNAME (query template name) in SAM.
   :type fragmentName: string
