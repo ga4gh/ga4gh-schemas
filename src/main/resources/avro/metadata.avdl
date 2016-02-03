@@ -58,20 +58,20 @@ record Experiment {
 
   /**
   The time at which this record was created. 
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  Format: :ref:`ISO 8601 <metadata_date_time>`
   */
   string recordCreateTime;
 
   /**
   The time at which this record was last updated.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  Format: :ref:`ISO 8601 <metadata_date_time>`
   */
   string recordUpdateTime;
 
   /**
   The time at which this experiment was performed.
   Granularity here is variable (e.g. date only).
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+  Format: :ref:`ISO 8601 <metadata_date_time>`
   */
   union { null, string } runTime = null;
 
@@ -168,13 +168,13 @@ record Analysis {
 
   /**
   The time at which this record was created. 
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  Format: :ref:`ISO 8601 <metadata_date_time>`
   */
   union { null, string } recordCreateTime = null;
 
   /**
   The time at which this record was last updated.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  Format: :ref:`ISO 8601 <metadata_date_time>`
   */
   string recordUpdateTime;
 

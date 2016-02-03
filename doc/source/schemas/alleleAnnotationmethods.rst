@@ -330,20 +330,26 @@ Gets an `VariantAnnotationSet` by ID.
 
 .. avro:record:: OntologyTerm
 
-  :field ontologySourceName:
-    ontology source name - the name of ontology from which the term is obtained
-        e.g. 'Human Phenotype Ontology'
-  :type ontologySourceName: null|string
-  :field ontologySourceID:
-    ontology source identifier - the identifier, a CURIE (preferred) or
-        PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
-  :type ontologySourceID: null|string
-  :field ontologySourceVersion:
-    ontology source version - the version of the ontology from which the
-        OntologyTerm is obtained; e.g. 2.6.1.
-        There is no standard for ontology versioning and some frequently
-        released ontologies may use a datestamp, or build number.
-  :type ontologySourceVersion: null|string
+  :field id:
+    Ontology source identifier - the identifier, a CURIE (preferred) or
+      PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
+      in that it is a URI pointing to an information resource outside of the scope
+      of the schema or its resource implementation.
+  :type id: string
+  :field term:
+    Ontology term - the representation the id is pointing to.
+  :type term: null|string
+  :field sourceName:
+    Ontology source name - the name of ontology from which the term is obtained
+      e.g. 'Human Phenotype Ontology'
+  :type sourceName: null|string
+  :field sourceVersion:
+    Ontology source version - the version of the ontology from which the
+      OntologyTerm is obtained; e.g. 2.6.1.
+      There is no standard for ontology versioning and some frequently
+      released ontologies may use a datestamp, or build number.
+  :type sourceVersion: null|string
 
   An ontology term describing an attribute. (e.g. the phenotype attribute
     'polydactyly' from HPO)
@@ -411,41 +417,6 @@ Gets an `VariantAnnotationSet` by ID.
 
   An experimental preparation of a sample.
 
-.. avro:record:: Analysis
-
-  :field id:
-    Formats of id | guid | name | description | accessions are described in the
-        documentation on general attributes and formats.
-  :type id: string
-  :field guid:
-  :type guid: null|string
-  :field name:
-  :type name: null|string
-  :field description:
-  :type description: null|string
-  :field accessions:
-  :type accessions: array<string>
-  :field recordCreateTime:
-    The times at which this record was created / updated.
-        Format: ISO 8601 (cf. documentation on time formats)
-  :type recordCreateTime: string
-  :field recordUpdateTime:
-  :type recordUpdateTime: string
-  :field type:
-    The type of analysis.
-  :type type: null|string
-  :field software:
-    The software run to generate this analysis.
-  :type software: array<string>
-  :field info:
-    A map of additional information.
-  :type info: map<array<string>>
-
-  An analysis contains an interpretation of one or several experiments.
-    (e.g. SNVs, copy number variations, methylation status) together with
-    information about the methodology used.
-    TODO: review
-
 .. avro:record:: Dataset
 
   :field id:
@@ -462,29 +433,61 @@ Gets an `VariantAnnotationSet` by ID.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
 
+.. avro:record:: Analysis
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+      documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field recordCreateTime:
+    The time at which this record was created. 
+      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  :type recordCreateTime: null|string
+  :field recordUpdateTime:
+    The time at which this record was last updated.
+      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  :type recordUpdateTime: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.
+
 .. avro:record:: AnalysisResult
 
-  :field analysis:
-    The analysis record for this result (defined in metadata schema)
-  :type analysis: Analysis
-  :field analysisResult:
+  :field analysisId:
+    The ID of the analysis record for this result
+  :type analysisId: string
+  :field result:
     The text-based result for this analysis
-  :type analysisResult: null|string
-  :field analysisScore:
+  :type result: null|string
+  :field score:
     The numeric score for this analysis
-  :type analysisScore: null|int
+  :type score: null|int
 
   An AnalysisResult record holds the output of a prediction package such
   as SIFT on a specific allele.
 
 .. avro:record:: AlleleLocation
 
-  :field overlapStart:
+  :field start:
     Relative start position of the allele in this coordinate system
-  :type overlapStart: int
-  :field overlapEnd:
+  :type start: int
+  :field end:
     Relative end position of the allele in this coordinate system
-  :type overlapEnd: null|int
+  :type end: null|int
   :field referenceSequence:
     Reference sequence in feature (this should be the codon at CDS level)
   :type referenceSequence: null|string
@@ -514,6 +517,9 @@ Gets an `VariantAnnotationSet` by ID.
   :field variantSetId:
     The ID of the variant set to which this annotation set belongs
   :type variantSetId: string
+  :field name:
+    The variant annotation set name.
+  :type name: null|string
   :field analysis:
     Analysis details. It is essential to supply versions for all software and
       reference data used.
@@ -522,6 +528,23 @@ Gets an `VariantAnnotationSet` by ID.
   A VariantAnnotationSet record groups VariantAnnotation records. It is derived
   from a VariantSet and holds information describing the software and reference
   data used in the annotation.
+
+.. avro:record:: HGVSAnnotation
+
+  :field genomic:
+  :type genomic: null|string
+  :field transcript:
+  :type transcript: null|string
+  :field protein:
+  :type protein: null|string
+
+  A HGVSAnnotation record holds Human Genome Variation Society descriptions
+  of the sequence change with respect to genomic, transcript and protein
+  sequences. See: http://www.hgvs.org/mutnomen/recs.html.
+  Descriptions should be provided at genomic level. Descriptions at transcript
+  level should be provided when the allele lies within a transcript. Descriptions
+  at protein level should be provided when the allele lies within the translated
+  sequence or stop codon.
 
 .. avro:record:: TranscriptEffect
 
@@ -541,15 +564,9 @@ Gets an `VariantAnnotationSet` by ID.
   :field impact:
     Highest Impact from the predicted effects
   :type impact: Impact
-  :field HGVSg:
-    HGVS formatted annotation at genomic level
-  :type HGVSg: null|string
-  :field HGVSc:
-    HGVS formatted annotation at transcript level
-  :type HGVSc: null|string
-  :field HGVSp:
-    HGVS formatted annotation at protein level
-  :type HGVSp: null|string
+  :field hgvsAnnotation:
+    Human Genome Variation Society variant descriptions
+  :type hgvsAnnotation: HGVSAnnotation
   :field cDNALocation:
     Change relative to cDNA
   :type cDNALocation: null|AlleleLocation
@@ -577,17 +594,12 @@ Gets an `VariantAnnotationSet` by ID.
     The ID of the variant annotation set this record belongs to.
   :type variantAnnotationSetId: string
   :field created:
-    The date this annotation was created in milliseconds from the epoch.
+    The :ref:`ISO 8601 <metadata_date_time>` time at which this record was created.
   :type created: null|long
   :field transcriptEffects:
     The transcript effect annotation for the alleles of this variant. Each one
       represents the effect of a single allele on a single transcript.
   :type transcriptEffects: array<TranscriptEffect>
-  :field coLocatedVariants:
-    The IDs of other variants which are co-located with this variant.
-      these can use used to look up disease associations, ClinVar statuses,
-      allele frequencies in reference panels, etc
-  :type coLocatedVariants: array<string>
   :field info:
     Additional annotation data in key-value pairs.
   :type info: map<array<string>>
@@ -600,10 +612,6 @@ Gets an `VariantAnnotationSet` by ID.
   :field variantAnnotationSetId:
     Required. The ID of the variant annotation set to search over.
   :type variantAnnotationSetId: string
-  :field name:
-    Only return annotation for variants which have exactly this name
-      (case-sensitive, exact match).
-  :type name: null|string
   :field referenceName:
     Only return variants with reference alleles on the reference with this
       name. One of this field or `referenceId` or `features` is required.
@@ -626,15 +634,13 @@ Gets an `VariantAnnotationSet` by ID.
       The end of the window (0-based, exclusive) for which variants with
       overlapping reference alleles should be returned.
   :type end: long
-  :field feature_ids:
-    Only return variant annotations for any of these features
-      Features may include specific transcripts, genes or regulatory elements
-      This or a location (referenceName/referenceId plus optional start and end)
-      must be supplied.
-      If null, return all variant annotations in specified window.
-  :type feature_ids: null|array<string>
   :field effects:
-    Only return variant annotations including these effects (SO terms).
+    This filter allows variant, transcript combinations to be extracted by effect
+      type(s).
+      Only return variant annotations including any of these effects and only return
+      transcript effects including any of these effects. Exact matching across all
+      fields of the Sequence Ontology OntologyTerm is required.
+      (A transcript effect may have multiple SO effects which will all be reported.)
       If null, return all variant annotations.
   :type effects: null|array<org.ga4gh.models.OntologyTerm>
   :field pageSize:
@@ -664,13 +670,8 @@ Gets an `VariantAnnotationSet` by ID.
 
 .. avro:record:: SearchVariantAnnotationSetsRequest
 
-  :field datasetId:
-    If non empty, will restrict the query to variant annotation sets within the
-      given dataset.
-  :type datasetId: string
   :field variantSetId:
-    If non empty, will restrict the query to variant annotation sets within the
-      given variant set. This takes precedence over any dataset id supplied.
+    Required. The `VariantSet` to search.
   :type variantSetId: string
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
