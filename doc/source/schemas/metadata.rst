@@ -141,14 +141,14 @@ This protocol defines metadata used in the other GA4GH protocols.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field recordCreateTime:
+  :field created:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type recordCreateTime: string
-  :field recordUpdateTime:
+  :type created: string
+  :field updated:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type recordUpdateTime: string
+  :type updated: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
@@ -219,14 +219,14 @@ This protocol defines metadata used in the other GA4GH protocols.
   :type name: null|string
   :field description:
   :type description: null|string
-  :field recordCreateTime:
+  :field created:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type recordCreateTime: null|string
-  :field recordUpdateTime:
+  :type created: null|string
+  :field updated:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type recordUpdateTime: string
+  :type updated: string
   :field type:
     The type of analysis.
   :type type: null|string
