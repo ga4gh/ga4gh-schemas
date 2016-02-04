@@ -65,8 +65,8 @@ The specification of a time point is given through the concatenation of
 
 **Implementations**
 
-* created (G2P, metadata)
-* updated (G2P, metadata)
+* created
+* updated
 * many proposed in metadata branch
 
 Durations
