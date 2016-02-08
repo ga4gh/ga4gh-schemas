@@ -182,8 +182,8 @@ record VariantAnnotation {
   /** The ID of the variant annotation set this record belongs to. */
   string variantAnnotationSetId;
 
-  /** The date this annotation was created in milliseconds from the epoch. */
-  union { null, long } created = null;
+  /** The :ref:`ISO 8601 <metadata_date_time>` time at which this record was created. */
+  union { null, string } created = null;
 
   /**
   The transcript effect annotation for the alleles of this variant. Each one
