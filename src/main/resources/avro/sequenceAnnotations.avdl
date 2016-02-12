@@ -131,7 +131,7 @@ protocol SequenceAnnotations {
     */
     union { null, string } sourceURI = null;
 
-    /** Set of additional attributes */
-    Attributes attributes;
+    /** Remaining structured metadata key-value pairs. */
+    map<array<string>> info = {};
   }
 }
