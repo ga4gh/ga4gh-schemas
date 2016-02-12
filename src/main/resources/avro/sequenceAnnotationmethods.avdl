@@ -82,9 +82,10 @@ protocol SequenceAnnotationMethods {
     union { null, string } parentId;
 
     /**
-    Only return features on the reference with this ID.
+    Only return features on the reference with this name 
+    (matched to literal reference name as imported from the GFF3).
     */
-    string referenceId;
+    string referenceName;
 
     /**
     Required. The beginning of the window (0-based, inclusive) for which
