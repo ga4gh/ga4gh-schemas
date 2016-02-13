@@ -1,16 +1,7 @@
-Metadata
-********
+Biodata
+*******
 
-TODO:
-  - id discussion
-  - How to represent trios, twins, etc. See PGP data to drive this.
-  - Explicit temporal sample relationships or samplingDate sufficient?
-  - standardize name/description/notes/key-value data types
-  - VERY IMPORTANT data/time of record goes to the issue of what are the
-    objects and what is the data model. Is it containment or relational.
-    Are we building a data model or a exchange format without knowing
-    the data model.
-  - should every field be prefixed by `ontology*'
+
 
 .. avro:enum:: Strand
 
@@ -488,4 +479,176 @@ TODO:
     (e.g. SNVs, copy number variations, methylation status) together with
     information about the methodology used.
     TODO: review
+
+.. avro:record:: Individual
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+        documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field accessions:
+  :type accessions: array<string>
+  :field created:
+    The times at which this record was created / updated.
+        Format: ISO 8601 (cf. documentation on time formats)
+  :type created: string
+  :field updated:
+  :type updated: string
+  :field species:
+    The species of this individual. Acceptable to classify as a higher-level
+        taxon when needed e.g. for environmental samples.
+        Using NCBI taxonomy
+          http://www.ncbi.nlm.nih.gov/taxonomy
+        is recommended.
+        For a representation of an NCBI Taxon ID as an OntologyTerm, see
+        NCBITaxon Ontology
+          http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page
+        For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
+        this is NCBITaxon:9606, which has the URI
+        http://purl.obolibrary.org/obo/NCBITaxon_9606
+  :type species: OntologyTerm
+  :field strain:
+    The strain of this individual, for non-humans.
+  :type strain: null|OntologyTerm
+  :field ethnicity:
+    Ethnicity of individual, if applicable.
+        Recommended by the NHGRI GWAS Catalog 0 ontology
+        http://purl.bioontology.org/ontology/ANCESTRO
+  :type ethnicity: null|OntologyTerm
+  :field geographicLocation:
+    Geographic coordinates from which the individual was obtained.
+  :type geographicLocation: null|GeographicLocation
+  :field sex:
+    The genetic sex of this individual.
+        Use `null` when unknown or not applicable.
+        Recommended: PATO (http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002)
+  :type sex: null|OntologyTerm
+  :field developmentalStage:
+    The developmental stage of this individual. This not age of onset of a
+        disease.
+        Using Uberon is recommended.
+        For example http://purl.obolibrary.org/obo/UBERON_0007023 => adult organism
+        TODO: need to clarify how to deal with this as a temporal series
+  :type developmentalStage: null|OntologyTerm
+  :field dateOfBirth:
+    The date of birth of this individual, which maybe partial. Usually would be
+        coded to the day; however, finer (e.g. animal model system) or more
+        approximate (e.g. year for clinical applications) granularity is possible.
+        Format: ISO 8601 (cf. documentation on time formats)
+  :type dateOfBirth: null|string
+  :field diseases:
+    Diseases with which the individual has been diagnosed.
+  :type diseases: array<Disease>
+  :field phenotypes:
+    Phenotypes for this individual.
+  :type phenotypes: array<Phenotype>
+  :field interventions:
+    A description of the clinical treatments/interventions.
+  :type interventions: array<Intervention>
+  :field observations:
+    Observations and measurements related to the individual.
+  :type observations: array<Observation>
+  :field info:
+    A map of additional information.
+  :type info: map<array<string>>
+
+  
+
+.. avro:record:: BioSample
+
+  :field id:
+    The BioSample :ref:`id <apidesign_object_ids>`. This is unique in the
+        context of the server instance.
+  :type id: string
+  :field name:
+    The BioSample's :ref:`name <apidesign_object_names>`. This is a label or
+        symbolic identifier for the biosample.
+  :type name: null|string
+  :field description:
+    The biosample's description. This attribute contains human readable text.
+        The "description" attributes should not contain any structured data.
+  :type description: null|string
+  :field created:
+    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record
+        was created.
+  :type created: string
+  :field updated:
+    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample object was updated.
+  :type updated: string
+  :field individualId:
+    The id of the individual this biosample was derived from.
+  :type individualId: null|string
+  :field collected:
+    The :ref:`ISO 8601<metadata_date_time> time at which the corresponding
+        BioSample was collected.  Granularity here is variable (e.g. only date would be common for
+        biopsies, minutes for in vitro time series).
+  :type collected: null|string
+  :field ageAtcollection:
+    The age of the individual (not of the biosample) at time of
+        biosample's collection.
+        This parameter is both more prevalent in clinical records than the
+        combination of sampling date and DOB, and also more relevant for
+        clinical/experimental purposes than either of those alone.
+        This field may be approximate.
+        Format: :ref:`ISO 8601<metadata_date_time> duration PnYnMnDTnHnMnS in a suitable approximation
+        Example: P12Y3M
+  :type ageAtcollection: null|string
+  :field interventions:
+    A description of the interventions applied to the biosample
+        (e.g. in vitro drug testing).
+  :type interventions: array<Intervention>
+  :field observations:
+    Observations and measurements related to the biosample.
+  :type observations: array<Observation>
+  :field cellType:
+    The cell types of this biosample.
+        Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended.
+  :type cellType: array<OntologyTerm>
+  :field organismPart:
+    The anatomical part (body part, organ, tissue, body or excretory fluid) of
+        the individual from which this biosample derives.
+        Using Uberon (http://uberon.org) is recommended.
+  :type organismPart: null|OntologyTerm
+  :field cellLine:
+    This biosample could be derived from a cell line, which still
+        could be from an indivdual.
+        Using the Cell Line Ontology (https://code.google.com/p/clo-ontology/)
+        is a possibility.
+        TODO: discuss further. Other possibilities: Cellosaurus (nextprot),
+        BRENDA/BTO, EFO (EBI)
+        TODO: need to have derivation record from other biosample for
+        cell lines.
+  :type cellLine: null|OntologyTerm
+  :field geographicLocation:
+    Geographic coordinates from which the biosample was obtained.
+        This is either related to a field collection, or the corresponding
+        individual's place of residencde or treatment.
+        TODO: May need replacement with multiple locations.
+  :type geographicLocation: null|GeographicLocation
+  :field specimenType:
+    A typing of the specimen under study. Use the OBI terms under child of
+        specimen. e.g. "cloacal swab".
+  :type specimenType: null|OntologyTerm
+  :field preservationMethod:
+    Preservation method of sample.
+        http://bioportal.bioontology.org/ontologies/OBI/ - use children of specimen
+        with known storage state e.g. "frozen specimen"
+  :type preservationMethod: null|OntologyTerm
+  :field info:
+    A map of additional information.
+  :type info: map<array<string>>
+
+  A biological sample from which the preparation of the
+    target molecule type of interest (e.g. DNA, protein preparation,
+    RNA ...) is being extracted.
+    Examples would be:
+      - a microdissected collection of one or multiple malignant
+      cells from a pancreas carcinoma biopsy
+      - an environmental sample (e.g. water collected in the
+      Atlantic ocean, at Latitude 26.4, Longitude 69.3, Altitude -100m)
+      - whole blood preparation of an individual
 

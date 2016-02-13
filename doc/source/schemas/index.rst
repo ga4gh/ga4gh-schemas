@@ -3,6 +3,7 @@ Schemas
 
 .. toctree::
    common
+   biodata
    metadata
    methods
    readmethods
