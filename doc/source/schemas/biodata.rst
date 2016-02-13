@@ -1,7 +1,8 @@
 Biodata
 *******
 
-
+This protocol defines the "biodata" objects, which can be considered data
+representations of biological correlates.
 
 .. avro:enum:: Strand
 
@@ -483,34 +484,51 @@ Biodata
 .. avro:record:: Individual
 
   :field id:
-    Formats of id | name | description | accessions are described in the
-        documentation on general attributes and formats.
+    The Individual's :ref:`id <apidesign_object_ids>`. This is unique in the
+        context of the server instance.
   :type id: string
   :field name:
+    The Individual's :ref:`name <apidesign_object_names>`. This is a label or
+        symbolic identifier for the individual.
   :type name: null|string
   :field description:
+    The Individual's description. This attribute contains human readable text.
+        The "description" attributes should not contain any structured data.
   :type description: null|string
-  :field accessions:
-  :type accessions: array<string>
   :field created:
-    The times at which this record was created / updated.
-        Format: ISO 8601 (cf. documentation on time formats)
+    The :ref:`ISO 8601<metadata_date_time> time at which this Individual record
+        was created.
   :type created: string
   :field updated:
+    The :ref:`ISO 8601<metadata_date_time> time at which this Individual object
+        was updated.
   :type updated: string
   :field species:
-    The species of this individual. Acceptable to classify as a higher-level
-        taxon when needed e.g. for environmental samples.
-        Using NCBI taxonomy
-          http://www.ncbi.nlm.nih.gov/taxonomy
-        is recommended.
-        For a representation of an NCBI Taxon ID as an OntologyTerm, see
+    For a representation of an NCBI Taxon ID as an OntologyTerm, see
         NCBITaxon Ontology
           http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page
         For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
         this is NCBITaxon:9606, which has the URI
         http://purl.obolibrary.org/obo/NCBITaxon_9606
-  :type species: OntologyTerm
+  :type species: null|OntologyTerm
+  :field sex:
+    The genetic sex of this individual.
+        Use `null` when unknown or not applicable.
+        Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
+  :type sex: null|OntologyTerm
+  :field developmentalStage:
+    The developmental stage of this individual. This not age of onset of a
+        disease.
+        Using Uberon is recommended.
+        For example http://purl.obolibrary.org/obo/UBERON_0007023 => adult organism
+        TODO: need to clarify how to deal with this as a temporal series
+  :type developmentalStage: null|OntologyTerm
+  :field dateOfBirth:
+    The date of birth of this individual. Usually would be
+        coded to the day; however, finer (e.g. animal model system) or more
+        approximate (e.g. year for clinical applications) granularity is possible.
+        :ref:`ISO 8601<metadata_date_time>
+  :type dateOfBirth: null|string
   :field strain:
     The strain of this individual, for non-humans.
   :type strain: null|OntologyTerm
@@ -522,24 +540,6 @@ Biodata
   :field geographicLocation:
     Geographic coordinates from which the individual was obtained.
   :type geographicLocation: null|GeographicLocation
-  :field sex:
-    The genetic sex of this individual.
-        Use `null` when unknown or not applicable.
-        Recommended: PATO (http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002)
-  :type sex: null|OntologyTerm
-  :field developmentalStage:
-    The developmental stage of this individual. This not age of onset of a
-        disease.
-        Using Uberon is recommended.
-        For example http://purl.obolibrary.org/obo/UBERON_0007023 => adult organism
-        TODO: need to clarify how to deal with this as a temporal series
-  :type developmentalStage: null|OntologyTerm
-  :field dateOfBirth:
-    The date of birth of this individual, which maybe partial. Usually would be
-        coded to the day; however, finer (e.g. animal model system) or more
-        approximate (e.g. year for clinical applications) granularity is possible.
-        Format: ISO 8601 (cf. documentation on time formats)
-  :type dateOfBirth: null|string
   :field diseases:
     Diseases with which the individual has been diagnosed.
   :type diseases: array<Disease>
@@ -556,7 +556,8 @@ Biodata
     A map of additional information.
   :type info: map<array<string>>
 
-  
+  An individual (or subject) typically corresponds to an individual
+    human or other organism.
 
 .. avro:record:: BioSample
 
@@ -579,14 +580,14 @@ Biodata
   :field updated:
     The :ref:`ISO 8601<metadata_date_time> time at which this BioSample object was updated.
   :type updated: string
-  :field individualId:
-    The id of the individual this biosample was derived from.
-  :type individualId: null|string
   :field collected:
     The :ref:`ISO 8601<metadata_date_time> time at which the corresponding
         BioSample was collected.  Granularity here is variable (e.g. only date would be common for
         biopsies, minutes for in vitro time series).
   :type collected: null|string
+  :field individualId:
+    The id of the individual this biosample was derived from.
+  :type individualId: null|string
   :field ageAtcollection:
     The age of the individual (not of the biosample) at time of
         biosample's collection.
@@ -642,13 +643,13 @@ Biodata
     A map of additional information.
   :type info: map<array<string>>
 
-  A biological sample from which the preparation of the
-    target molecule type of interest (e.g. DNA, protein preparation,
-    RNA ...) is being extracted.
-    Examples would be:
-      - a microdissected collection of one or multiple malignant
-      cells from a pancreas carcinoma biopsy
-      - an environmental sample (e.g. water collected in the
-      Atlantic ocean, at Latitude 26.4, Longitude 69.3, Altitude -100m)
-      - whole blood preparation of an individual
+  A BioSammple refers to a unit of biological material from which the substrate
+     molecules (e.g. genomic DNA, RNA, proteins) for molecular analyses (e.g.
+     sequencing, array hybridisation, mass-spectrometry) are extracted. Examples
+     would be a tissue biopsy, a single cell from a culture for single cell genome
+     sequencing or a protein fraction from a gradient centrifugation.
+     Several instances (e.g. technical replicates) or types of experiments (e.g.
+     genomic array as well as RNA-seq experiments) may refer to the same BioSample.
+     In the context of the GA4GH metadata schema, BioSample constitutes the central
+     reference object.
 
