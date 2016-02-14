@@ -204,7 +204,7 @@ protocol Biodata {
     The cell types of this biosample.
     Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended.
     */
-    array<OntologyTerm> cellType;
+    union { null, OntologyTerm } cellType;
 
     /**
     The anatomical part (body part, organ, tissue, body or excretory fluid) of
