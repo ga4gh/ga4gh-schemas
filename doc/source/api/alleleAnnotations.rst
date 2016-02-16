@@ -13,8 +13,8 @@ alleles to a transcript set and calculate the expected functional consequence
 of the change ( e.g. a variant within a protein coding transcript may change the
 amino acid sequence of the resulting protein).
 
-This API supports the mining of variant annotations by region or genomic 
-feature and the filtering of the results by predicted functional effect.
+This API supports the mining of variant annotations by region 
+and the filtering of the results by predicted functional effect.
 
 Allele Annotation Schema Entities
 @@@@@@@@@@@@@@@@@@@@@@@@
@@ -95,6 +95,6 @@ VariantAnnotationSets can be extracted by Dataset or VariantSet, or retrieved by
 A VariantAnnotationSet can be searched for VariantAnnotations by region and filters
 can be applied.
 
-* A region to search must be specified. This can be done by providing the id of one or more genomic features or a reference sequence (identified by name or id) with start and end coordinates.
-* Results can be filtered by the predicted effect of the variant, using a Sequence Ontology OntologyTerm, or by variant name.
+* A region to search must be specified. This can be done by providing a reference sequence (identified by name or id) with start and end coordinates.
+* Results can be filtered by the predicted effect of the variant using a Sequence Ontology OntologyTerm.
 
