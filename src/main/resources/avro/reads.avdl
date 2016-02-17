@@ -63,12 +63,9 @@ record ReadGroup {
   union { null, string } description = null;
 
   /**
-  The sample this read group's data was generated from.
-  Note: the current API does not have a rigorous definition of sample. Therefore, this
-  field actually contains an arbitrary string, typically corresponding to the SM tag in a
-  BAM file.
+  The BioSample this read group's data was generated from.
   */
-  union { null, string } sampleId;
+  union { null, string } bioSampleId;
 
   /** The experiment used to generate this read group. */
   union { null, Experiment } experiment;

@@ -1,7 +1,8 @@
-Metadata
-********
+Biodata
+*******
 
-This protocol defines metadata used in the other GA4GH protocols.
+This protocol defines the "biodata" objects, which can be considered data
+representations of biological correlates.
 
 .. avro:enum:: Strand
 
@@ -104,32 +105,6 @@ This protocol defines metadata used in the other GA4GH protocols.
   A structure for an instance of a CIGAR operation.
   `FIXME: This belongs under Reads (only readAlignment refers to this)`
 
-.. avro:record:: OntologyTerm
-
-  :field id:
-    Ontology source identifier - the identifier, a CURIE (preferred) or
-      PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
-      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
-      in that it is a URI pointing to an information resource outside of the scope
-      of the schema or its resource implementation.
-  :type id: string
-  :field term:
-    Ontology term - the representation the id is pointing to.
-  :type term: null|string
-  :field sourceName:
-    Ontology source name - the name of ontology from which the term is obtained
-      e.g. 'Human Phenotype Ontology'
-  :type sourceName: null|string
-  :field sourceVersion:
-    Ontology source version - the version of the ontology from which the
-      OntologyTerm is obtained; e.g. 2.6.1.
-      There is no standard for ontology versioning and some frequently
-      released ontologies may use a datestamp, or build number.
-  :type sourceVersion: null|string
-
-  An ontology term describing an attribute. (e.g. the phenotype attribute
-    'polydactyly' from HPO)
-
 .. avro:record:: Experiment
 
   :field id:
@@ -141,18 +116,18 @@ This protocol defines metadata used in the other GA4GH protocols.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field createDateTime:
+  :field recordCreateTime:
     The time at which this record was created. 
-      Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: string
-  :field updateDateTime:
+      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  :type recordCreateTime: string
+  :field recordUpdateTime:
     The time at which this record was last updated.
-      Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  :type recordUpdateTime: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
-      Format: :ref:`ISO 8601 <metadata_date_time>`
+      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   :type runTime: null|string
   :field molecule:
     The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
@@ -240,35 +215,113 @@ This protocol defines metadata used in the other GA4GH protocols.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
 
-.. avro:record:: Analysis
+.. avro:record:: Individual
 
   :field id:
-    Formats of id | name | description | accessions are described in the
-      documentation on general attributes and formats.
+    The Individual's :ref:`id <apidesign_object_ids>`. This is unique in the
+        context of the server instance.
   :type id: string
   :field name:
+    The Individual's :ref:`name <apidesign_object_names>`. This is a label or
+        symbolic identifier for the individual.
   :type name: null|string
   :field description:
+    The Individual's description. This attribute contains human readable text.
+        The "description" attributes should not contain any structured data.
   :type description: null|string
-  :field createDateTime:
-    The time at which this record was created. 
-      Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: null|string
-  :field updateDateTime:
-    The time at which this record was last updated.
-      Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
-  :field type:
-    The type of analysis.
-  :type type: null|string
-  :field software:
-    The software run to generate this analysis.
-  :type software: array<string>
+  :field created:
+    The :ref:`ISO 8601<metadata_date_time> time at which this Individual record
+        was created.
+  :type created: string
+  :field updated:
+    The :ref:`ISO 8601<metadata_date_time> time at which this Individual object
+        was updated.
+  :type updated: string
+  :field species:
+    For a representation of an NCBI Taxon ID as an OntologyTerm, see
+        NCBITaxon Ontology
+          http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page
+        For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
+        this is NCBITaxon:9606, which has the URI
+        http://purl.obolibrary.org/obo/NCBITaxon_9606
+  :type species: null|OntologyTerm
+  :field sex:
+    The genetic sex of this individual.
+        Use `null` when unknown or not applicable.
+        Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
+  :type sex: null|OntologyTerm
+  :field developmentalStage:
+    The developmental stage of this individual. This not age of onset of a
+        disease.
+        Using Uberon is recommended.
+        For example http://purl.obolibrary.org/obo/UBERON_0007023 => adult organism
+        TODO: need to clarify how to deal with this as a temporal series
+  :type developmentalStage: null|OntologyTerm
+  :field dateOfBirth:
+    The date of birth of this individual. Usually would be
+        coded to the day; however, finer (e.g. animal model system) or more
+        approximate (e.g. year for clinical applications) granularity is possible.
+        :ref:`ISO 8601<metadata_date_time>
+  :type dateOfBirth: null|string
+  :field diseases:
+    Diseases with which the individual has been diagnosed.
+  :type diseases: array<OntologyTerm>
+  :field phenotypes:
+    Phenotypes for this individual.
+  :type phenotypes: array<OntologyTerm>
+  :field interventions:
+    A description of the clinical treatments/interventions.
+  :type interventions: array<OntologyTerm>
+  :field observations:
+    Observations and measurements related to the individual.
+  :type observations: array<OntologyTerm>
   :field info:
-    A map of additional analysis information.
+    A map of additional information.
   :type info: map<array<string>>
 
-  An analysis contains an interpretation of one or several experiments.
-  (e.g. SNVs, copy number variations, methylation status) together with
-  information about the methodology used.
+  An individual (or subject) typically corresponds to an individual
+    human or other organism.
+
+.. avro:record:: BioSample
+
+  :field id:
+    The BioSample :ref:`id <apidesign_object_ids>`. This is unique in the
+        context of the server instance.
+  :type id: string
+  :field name:
+    The BioSample's :ref:`name <apidesign_object_names>`. This is a label or
+        symbolic identifier for the biosample.
+  :type name: null|string
+  :field description:
+    The biosample's description. This attribute contains human readable text.
+        The "description" attributes should not contain any structured data.
+  :type description: null|string
+  :field created:
+    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record
+        was created.
+  :type created: string
+  :field updated:
+    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample object was updated.
+  :type updated: string
+  :field individualId:
+    The individual this biosample was derived from.
+  :type individualId: null|string
+  :field collected:
+    The :ref:`ISO 8601<metadata_date_time> time at which the corresponding
+        BioSample was collected.  Granularity here is variable (e.g. only date would be common for
+        biopsies, minutes for in vitro time series).
+  :type collected: null|string
+  :field info:
+    A map of additional information.
+  :type info: map<array<string>>
+
+  A BioSample refers to a unit of biological material from which the substrate
+     molecules (e.g. genomic DNA, RNA, proteins) for molecular analyses (e.g.
+     sequencing, array hybridisation, mass-spectrometry) are extracted. Examples
+     would be a tissue biopsy, a single cell from a culture for single cell genome
+     sequencing or a protein fraction from a gradient centrifugation.
+     Several instances (e.g. technical replicates) or types of experiments (e.g.
+     genomic array as well as RNA-seq experiments) may refer to the same BioSample.
+     In the context of the GA4GH metadata schema, BioSample constitutes the central
+     reference object.
 
