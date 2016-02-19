@@ -19,30 +19,7 @@ core generic record which corresponds to the a GFF3 record.
 protocol SequenceAnnotations {
 
   import idl "common.avdl";
-  import idl "ontologies.avdl";
-
-  /**
-  Identifier from a public database
-  */
-  record ExternalIdentifier {
-    /**
-    The source of the identifier.
-    (e.g. `Ensembl`)
-    */
-    string database;
-
-    /**
-    The ID defined by the external database.
-    (e.g. `ENST00000000000`)
-    */
-    string identifier;
-
-    /**
-    The version of the object or the database
-    (e.g. `78`)
-    */
-    string version;
-  }
+  import idl "metadata.avdl";
 
   /**
   Type defining a collection of attributes associated with various protocol
@@ -51,53 +28,12 @@ protocol SequenceAnnotations {
   Values should be split into the array elements instead of using a separator
   syntax that needs to parsed.
   */
+  // TODO: how are multiple instances of a given attribute vs multiple values
+  // for an attribute distinguished
   record Attributes {
     map<array<union {string, ExternalIdentifier, OntologyTerm}>> vals = {};
   }
   
-  /**
-  Continuous numerical annotation of a region.
-  */
-  record Wiggle {
-    /**
-    The oriented piece of sequence being annotated.
-    Note that we are fusing parts of UCSC BedGraph and Wiggle syntax.
-    The segment is being fully annotated, but can be divided into bins.
-    If you have gaps, you need to define a sequence of such Wiggles.
-    
-    All three of `referenceName`, `start`, and `end` must be specified as a
-    group.
-    */
-    union { null, string } referenceName = null;
-    union { null, long } start = null;
-    union { null, long } end = null;
-
-    /**
-    The values associated to this region.
-    If this list contains _count_ elements, then the region is divided
-    as cleanly as possible into _count_ bins of equal width.
-    We thus define a numerical function:
-
-    value(position):
-      if position < start or position >= start + length:
-        return None
-      else:
-        return array[floor((position - start)*count/length)]
-    */
-    array<float> values = [];
-  }
-
-  /*
-  A set of wiggle annotations
-  */
-  record WiggleSet {
-    /** Id of this annotation node. */
-    string id;
-
-    /** Set of additional attributes */
-    Attributes attributes;
-  }
-
   /**
   Node in the annotation graph that annotates a contiguous region of a
   sequence.
@@ -109,9 +45,17 @@ protocol SequenceAnnotations {
     string id;
 
     /**
-    Ids of the parents of this annotation node.  
+    Parent Id of this node. Set to empty string if node has no parent.
     */
-    array<string> parentIds;
+    string parentId;
+
+    /**
+    Ordered array of Child Ids of this node.
+    Since not all child nodes are ordered by genomic coordinates,
+    this can't always be reconstructed from parentId's of the children alone.
+    */
+
+    array<string> childIds = [];
 
     /**
     Identifier for the containing feature set.
@@ -119,19 +63,30 @@ protocol SequenceAnnotations {
     string featureSetId;
 
     /**
-    Genomic location.
-    
-    All three of `referenceName`, `start`, and `end` must be specified as a
-    group.
+    The reference on which this feature occurs.
+    (e.g. `chr20` or `X`)
     */
-    union { null, string } referenceName = null;
-    union { null, long } start = null;
-    union { null, long } end = null;
+    string referenceName;
 
     /**
-    Strand of the feature, or null if unstranded
+    The start position at which this feature occurs (0-based).
+    This corresponds to the first base of the string of reference bases.
+    Genomic positions are non-negative integers less than reference length.
+    Features spanning the join of circular genomes are represented as
+    two features one on each side of the join (position 0).
     */
-    union { null, Strand } strand = null;
+    long start = 0;
+
+    /**
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+    This is typically calculated by `start + referenceBases.length`.
+    */
+    long end;
+
+    /**
+    The strand on which the feature is present.
+    */
+    Strand strand;
 
     /**
     Feature that is annotated by this region.  Normally, this will be a term in
@@ -152,14 +107,14 @@ protocol SequenceAnnotations {
   }
 
   /*
-  A set of region annotations
+  A set of sequence features annotations
   */
   record FeatureSet {
     /** The ID of this annotation set. */
     string id;
 
     /** The ID of the dataset this annotation set belongs to. */
-    union { null, string } datasetId = null;
+   union { null, string } datasetId = null;
 
     /**
     The ID of the reference set which defines the coordinate-space for this
@@ -176,7 +131,7 @@ protocol SequenceAnnotations {
     */
     union { null, string } sourceURI = null;
 
-    /** Set of additional attributes */
-    Attributes attributes;
+    /** Remaining structured metadata key-value pairs. */
+    map<array<string>> info = {};
   }
 }

@@ -144,9 +144,9 @@ record SearchGenotypePhenotypeResponse {
 /**
 Gets a list of evidence accessible through the API.
 
-`POST /genotypepheotype/search` must accept a JSON version of
-`SearchGenotypePhenotypeResponse` as the post body and will return a JSON version
-of `SearchGenotypePhenotypeRequest`.
+`POST /genotypephenotype/search` must accept a JSON version of
+`SearchGenotypePhenotypeRequest` as the post body and will return a JSON version
+of `SearchGenotypePhenotypeResponse`.
 */
 SearchGenotypePhenotypeResponse searchGenotypePhenotype(
   /**
