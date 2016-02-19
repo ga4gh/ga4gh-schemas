@@ -2,6 +2,8 @@
 target
 *~
 #*
+doc/source/schemas/*.avpr
+build
 
 #********** windows template**********
 
@@ -70,3 +72,4 @@ target/
 
 #********** IntelliJ files ******
 *.iml
+
