@@ -1,7 +1,21 @@
-Metadata
-********
+SequenceAnnotations
+*******************
 
-This protocol defines metadata used in the other GA4GH protocols.
+This protocol defines annotations on GA4GH genomic sequences It includes two
+types of annotations: continuous and discrete hierarchical.
+
+The discrete hierarchical annotations are derived from the Sequence Ontology
+(SO) and GFF3 work 
+
+   http://www.sequenceontology.org/gff3.shtml
+
+The goal is to be able to store annotations using the GFF3 and SO conceptual
+model, although there is not necessarly a one-to-one mapping in Avro records
+to GFF3 records.
+
+The minimum requirement is to be able to accurately represent the current
+state of the art annotation data and the full SO model.  Feature is the
+core generic record which corresponds to the a GFF3 record.
 
 .. avro:enum:: Strand
 
@@ -208,4 +222,89 @@ This protocol defines metadata used in the other GA4GH protocols.
   A Dataset is a collection of related data of multiple types.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Attributes
+
+  :field vals:
+  :type vals: map<array<string|ExternalIdentifier|OntologyTerm>>
+
+  Type defining a collection of attributes associated with various protocol
+    records.  Each attribute is a name that maps to an array of one or more
+    values.  Values can be strings, external identifiers, or ontology terms.
+    Values should be split into the array elements instead of using a separator
+    syntax that needs to parsed.
+
+.. avro:record:: Feature
+
+  :field id:
+    Id of this annotation node.
+  :type id: string
+  :field parentId:
+    Parent Id of this node. Set to empty string if node has no parent.
+  :type parentId: string
+  :field childIds:
+    Ordered array of Child Ids of this node.
+        Since not all child nodes are ordered by genomic coordinates,
+        this can't always be reconstructed from parentId's of the children alone.
+  :type childIds: array<string>
+  :field featureSetId:
+    Identifier for the containing feature set.
+  :type featureSetId: string
+  :field referenceName:
+    The reference on which this feature occurs.
+        (e.g. `chr20` or `X`)
+  :type referenceName: string
+  :field start:
+    The start position at which this feature occurs (0-based).
+        This corresponds to the first base of the string of reference bases.
+        Genomic positions are non-negative integers less than reference length.
+        Features spanning the join of circular genomes are represented as
+        two features one on each side of the join (position 0).
+  :type start: long
+  :field end:
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+        This is typically calculated by `start + referenceBases.length`.
+  :type end: long
+  :field strand:
+    The strand on which the feature is present.
+  :type strand: Strand
+  :field featureType:
+    Feature that is annotated by this region.  Normally, this will be a term in
+        the Sequence Ontology.
+  :type featureType: OntologyTerm
+  :field attributes:
+    Name/value attributes of the annotation.  Attribute names follow the GFF3
+        naming convention of reserved names starting with an upper cases
+        character, and user-define names start with lower-case.  Most GFF3
+        pre-defined attributes apply, the exceptions are ID and Parent, which are
+        defined as fields. Additional, the following attributes are added:
+        * Score - the GFF3 score column
+        * Phase - the GFF3 phase column for CDS features.
+  :type attributes: Attributes
+
+  Node in the annotation graph that annotates a contiguous region of a
+    sequence.
+
+.. avro:record:: FeatureSet
+
+  :field id:
+    The ID of this annotation set.
+  :type id: string
+  :field datasetId:
+    The ID of the dataset this annotation set belongs to.
+  :type datasetId: null|string
+  :field referenceSetId:
+    The ID of the reference set which defines the coordinate-space for this
+        set of annotations.
+  :type referenceSetId: null|string
+  :field name:
+    The display name for this annotation set.
+  :type name: null|string
+  :field sourceURI:
+    The source URI describing the file from which this annotation set was
+        generated, if any.
+  :type sourceURI: null|string
+  :field info:
+    Remaining structured metadata key-value pairs.
+  :type info: map<array<string>>
 
