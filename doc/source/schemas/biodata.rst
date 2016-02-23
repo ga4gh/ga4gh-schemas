@@ -608,7 +608,7 @@ representations of biological correlates.
   :field cellType:
     The cell types of this biosample.
         Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended.
-  :type cellType: array<OntologyTerm>
+  :type cellType: null|OntologyTerm
   :field organismPart:
     The anatomical part (body part, organ, tissue, body or excretory fluid) of
         the individual from which this biosample derives.
