@@ -141,14 +141,14 @@ This protocol defines types used by the GA4GH Allele Annotation API.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field created:
+  :field createTime:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type created: string
-  :field updated:
+  :type createTime: string
+  :field updateTime:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updated: string
+  :type updateTime: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
@@ -219,14 +219,14 @@ This protocol defines types used by the GA4GH Allele Annotation API.
   :type name: null|string
   :field description:
   :type description: null|string
-  :field created:
+  :field createTime:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type created: null|string
-  :field updated:
+  :type createTime: null|string
+  :field updateTime:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updated: string
+  :type updateTime: string
   :field type:
     The type of analysis.
   :type type: null|string
@@ -558,9 +558,9 @@ This protocol defines types used by the GA4GH Allele Annotation API.
   :field variantAnnotationSetId:
     The ID of the variant annotation set this record belongs to.
   :type variantAnnotationSetId: string
-  :field created:
+  :field createTime:
     The :ref:`ISO 8601 <metadata_date_time>` time at which this record was created.
-  :type created: null|string
+  :type createTime: null|string
   :field transcriptEffects:
     The transcript effect annotation for the alleles of this variant. Each one
       represents the effect of a single allele on a single transcript.
