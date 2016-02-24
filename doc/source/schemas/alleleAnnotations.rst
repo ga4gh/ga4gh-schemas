@@ -141,14 +141,14 @@ This protocol defines types used by the GA4GH Allele Annotation API.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field created:
+  :field createDateTime:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type created: string
-  :field updated:
+  :type createDateTime: string
+  :field updateDateTime:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updated: string
+  :type updateDateTime: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
@@ -219,14 +219,14 @@ This protocol defines types used by the GA4GH Allele Annotation API.
   :type name: null|string
   :field description:
   :type description: null|string
-  :field created:
+  :field createDateTime:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type created: null|string
-  :field updated:
+  :type createDateTime: null|string
+  :field updateDateTime:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updated: string
+  :type updateDateTime: string
   :field type:
     The type of analysis.
   :type type: null|string
@@ -464,16 +464,6 @@ This protocol defines types used by the GA4GH Allele Annotation API.
   non-genomic coordinate system such as a CDS or protein and holds the
   reference and alternate sequence where appropriate
 
-.. avro:enum:: Impact
-
-  :symbols: HIGH|MODERATE|LOW|MODIFIER
-  Impact is a simple prioritization for the effect of an allele which is used
-  in the annotation record.
-  IMPORTANT:
-   Prioritization methods are a crude estimates and are not assumed to be
-   reliable: a 'HIGH' Impact may actually not cause any disruption
-   in protein function or expression.
-
 .. avro:record:: VariantAnnotationSet
 
   :field id:
@@ -526,9 +516,6 @@ This protocol defines types used by the GA4GH Allele Annotation API.
   :field effects:
     Effect of variant on this feature
   :type effects: array<OntologyTerm>
-  :field impact:
-    Highest Impact from the predicted effects
-  :type impact: Impact
   :field hgvsAnnotation:
     Human Genome Variation Society variant descriptions
   :type hgvsAnnotation: HGVSAnnotation
@@ -558,9 +545,9 @@ This protocol defines types used by the GA4GH Allele Annotation API.
   :field variantAnnotationSetId:
     The ID of the variant annotation set this record belongs to.
   :type variantAnnotationSetId: string
-  :field created:
+  :field createDateTime:
     The :ref:`ISO 8601 <metadata_date_time>` time at which this record was created.
-  :type created: null|string
+  :type createDateTime: null|string
   :field transcriptEffects:
     The transcript effect annotation for the alleles of this variant. Each one
       represents the effect of a single allele on a single transcript.

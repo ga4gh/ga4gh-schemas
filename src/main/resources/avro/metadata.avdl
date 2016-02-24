@@ -60,13 +60,13 @@ record Experiment {
   The time at which this record was created. 
   Format: :ref:`ISO 8601 <metadata_date_time>`
   */
-  string created;
+  string createDateTime;
 
   /**
   The time at which this record was last updated.
   Format: :ref:`ISO 8601 <metadata_date_time>`
   */
-  string updated;
+  string updateDateTime;
 
   /**
   The time at which this experiment was performed.
@@ -170,13 +170,13 @@ record Analysis {
   The time at which this record was created. 
   Format: :ref:`ISO 8601 <metadata_date_time>`
   */
-  union { null, string } created = null;
+  union { null, string } createDateTime = null;
 
   /**
   The time at which this record was last updated.
   Format: :ref:`ISO 8601 <metadata_date_time>`
   */
-  string updated;
+  string updateDateTime;
 
   /** The type of analysis. */
   union { null, string } type = null;
