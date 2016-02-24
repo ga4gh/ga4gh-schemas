@@ -69,21 +69,6 @@ record AlleleLocation {
 }
 
 /**
-Impact is a simple prioritization for the effect of an allele which is used
-in the annotation record.
-IMPORTANT:
- Prioritization methods are a crude estimates and are not assumed to be
- reliable: a 'HIGH' Impact may actually not cause any disruption
- in protein function or expression.
-*/
-enum Impact {
- HIGH,      // Variant highly disrupts protein function
- MODERATE,  // Moderately disrupts protein function
- LOW,       // Low disruption of protein impact
- MODIFIER   // No known effect
-}
-
-/**
 A VariantAnnotationSet record groups VariantAnnotation records. It is derived
 from a VariantSet and holds information describing the software and reference
 data used in the annotation.
@@ -148,9 +133,6 @@ record TranscriptEffect {
   /** Effect of variant on this feature */
   array<OntologyTerm> effects;
 
-  /** Highest Impact from the predicted effects */
-  Impact impact;
-
   /** Human Genome Variation Society variant descriptions */
   HGVSAnnotation hgvsAnnotation;
 
@@ -183,7 +165,7 @@ record VariantAnnotation {
   string variantAnnotationSetId;
 
   /** The :ref:`ISO 8601 <metadata_date_time>` time at which this record was created. */
-  union { null, string } createTime = null;
+  union { null, string } createDateTime = null;
 
   /**
   The transcript effect annotation for the alleles of this variant. Each one
