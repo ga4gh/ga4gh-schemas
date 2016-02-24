@@ -53,5 +53,14 @@ Metadata allows organizing all the primary data types.
    metadata
 
 
+Genotype to Phenotype
+@@@@@@@@
+
+Provides methods for querying the relationship of genetic features and phenotypes.
+
+.. toctree::
+   genotypephenotype
+
+
 .. _SAM/BAM: https://samtools.github.io/hts-specs/SAMv1.pdf
 .. _VCF: https://samtools.github.io/hts-specs/VCFv4.2.pdf
