@@ -17,6 +17,18 @@ Evidence:
 Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
 Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
 
+ .. function:: searchPhenotypeAssociationSets(request)
+
+  :param request: SearchPhenotypeAssociationSetsRequest: This request maps to the body of `POST /phenotypeassociationsets/search` as JSON.
+  :return type: SearchPhenotypeAssociationSetsResponse
+  :throws: GAException
+
+Gets a list of `PhenotypeAssociationSet`s matching the search criteria.
+
+`POST /phenotypeassociationsets/search` must accept a JSON version of
+`SearchPhenotypeAssociationSetsRequest` as the post body and will return a JSON version
+of `SearchPhenotypeAssociationSetsResponse`.
+
  .. function:: searchGenotypePhenotype(request)
 
   :param request: SearchGenotypePhenotypeRequest: This request maps to the body of `POST /genotypepheotype/search` as JSON.
@@ -320,6 +332,25 @@ of `SearchGenotypePhenotypeResponse`.
     Remaining structured metadata key-value pairs.
   :type info: map<array<string>>
 
+.. avro:record:: PhenotypeAssociationSet
+
+  :field id:
+    The phenotype association set ID.
+  :type id: string
+  :field name:
+    The phenotype association set name.
+  :type name: null|string
+  :field datasetId:
+    The ID of the dataset this phenotype association set belongs to.
+  :type datasetId: string
+  :field info:
+    Optional additional information for this phenotype association set.
+  :type info: map<array<string>>
+
+  A PhenotypeAssociationSet is a collection of phenotype association results. 
+  Such results are grouped by data source and possibly release version or analysis 
+  type.
+
 .. avro:record:: EnvironmentalContext
 
   :field id:
@@ -388,6 +419,10 @@ of `SearchGenotypePhenotypeResponse`.
 
   :field id:
   :type id: string
+  :field phenotypeAssociationId:
+    The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
+      belongs to.
+  :type phenotypeAssociationId: string
   :field features:
     The set of features of the organism that bears the phenotype.
         This could be as complete as a full complement of variants,
@@ -426,6 +461,36 @@ of `SearchGenotypePhenotypeResponse`.
 .. avro:error:: GAException
 
   A general exception type.
+
+.. avro:record:: SearchPhenotypeAssociationSetsRequest
+
+  :field datasetId:
+    The `Dataset` to search.
+  :type datasetId: string
+  :field pageSize:
+    Specifies the maximum number of results to return in a single page.
+      If unspecified, a system default will be used.
+  :type pageSize: null|int
+  :field pageToken:
+    The continuation token, which is used to page through large result sets.
+      To get the next page of results, set this parameter to the value of
+      `nextPageToken` from the previous response.
+  :type pageToken: null|string
+
+  This request maps to the body of `POST /phenotypeassociationsets/search` as JSON.
+
+.. avro:record:: SearchPhenotypeAssociationSetsResponse
+
+  :field phenotypeAssociationSets:
+    The list of matching phenotype association sets.
+  :type phenotypeAssociationSets: array<org.ga4gh.models.PhenotypeAssociationSet>
+  :field nextPageToken:
+    The continuation token, which is used to page through large result sets.
+      Provide this value in a subsequent request to return the next page of
+      results. This field will be empty if there aren't any additional results.
+  :type nextPageToken: null|string
+
+  This is the response from `POST /phenotypeassociationsets/search` expressed as JSON.
 
 .. avro:record:: EvidenceQuery
 
@@ -469,6 +534,9 @@ of `SearchGenotypePhenotypeResponse`.
 
 .. avro:record:: SearchGenotypePhenotypeRequest
 
+  :field phenotypeAssociationSetId:
+    The `PhenotypeAssociationSet` to search.
+  :type phenotypeAssociationSetId: string
   :field feature:
   :type feature: null|string|ExternalIdentifierQuery|OntologyTermQuery|GenomicFeatureQuery
   :field phenotype:
