@@ -156,7 +156,7 @@ record FeaturePhenotypeAssociation {
   The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
   belongs to. 
   */
-  string phenotypeAssociationId;
+  string phenotypeAssociationSetId;
 
   /**
     The set of features of the organism that bears the phenotype.
