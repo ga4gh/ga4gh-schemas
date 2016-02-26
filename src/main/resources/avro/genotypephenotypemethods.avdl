@@ -73,7 +73,7 @@ record ExternalIdentifierQuery {
 /**
 This request maps to the body of `POST /genotypephenotype/search` as JSON.
 
-The goal here is to allow users to query using one or more of 
+The goal here is to allow users to query using one or more of
 Genotype, Phenotype, Environment, and Evidence.
 
 A query using one of the above items is to mean, by default,
@@ -95,19 +95,19 @@ to the BRCA2, all associations to sequence variants of BRCA2 would also
 be returned.  Similarly, queries with OntologyTerms should perform
 the subclass closure.
 
-Each query can be made against a string, an array of external 
-identifers (such as for gene or SNP ids), ontology term ids, or 
+Each query can be made against a string, an array of external
+identifers (such as for gene or SNP ids), ontology term ids, or
 full feature/phenotype/evidence objects.
 */
-record SearchFeaturesRequest {
+record SearchGenotypePhenotypeRequest {
 
-  union {null, string, ExternalIdentifierQuery, OntologyTermQuery, 
+  union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
          GenomicFeatureQuery} feature = null;
 
-  union {null, string, ExternalIdentifierQuery, OntologyTermQuery, 
+  union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
          PhenotypeQuery} phenotype = null;
 
-  union {null, string, ExternalIdentifierQuery, OntologyTermQuery, 
+  union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
          EvidenceQuery} evidence = null;
 
 
@@ -127,7 +127,7 @@ record SearchFeaturesRequest {
 
 
 /** This is the response from `POST /genotypephenotype/search` expressed as JSON. */
-record SearchFeaturesResponse {
+record SearchGenotypePhenotypeResponse {
   /**
   The list of matching FeaturePhenotypeAssociation.
   */
@@ -140,5 +140,20 @@ record SearchFeaturesResponse {
   */
   union { null, string } nextPageToken = null;
 }
+
+/**
+Gets a list of evidence accessible through the API.
+
+`POST /genotypephenotype/search` must accept a JSON version of
+`SearchGenotypePhenotypeRequest` as the post body and will return a JSON version
+of `SearchGenotypePhenotypeResponse`.
+*/
+SearchGenotypePhenotypeResponse searchGenotypePhenotype(
+  /**
+  This request maps to the body of `POST /genotypepheotype/search` as JSON.
+  */
+  SearchGenotypePhenotypeRequest request) throws GAException;
+
+
 
 }

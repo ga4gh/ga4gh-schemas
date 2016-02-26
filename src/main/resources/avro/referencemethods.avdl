@@ -12,22 +12,20 @@ as JSON.
 */
 record SearchReferenceSetsRequest {
   /**
-  If nonempty, return the reference sets which match any of the given
-  `md5checksum`s. See `ReferenceSet::md5checksum` for details.
+  If not null, return the reference sets for which the
+  `md5checksum` matches this string (case-sensitive, exact match).
+  See `ReferenceSet::md5checksum` for details.
   */
-  array<string> md5checksums = [];
+  union { null, string } md5checksum = null;
 
   /**
-  If nonempty, return reference sets for which the accession
-  matches this string. Best to give a version number (e.g. `GCF_000001405.26`).
-  If only the main accession number is given then all records with
-  that main accession will be returned, whichever version.
-  Note that different versions will have different sequences.
+  If not null, return the reference sets for which the `accession`
+  matches this string (case-sensitive, exact match).
   */
-  array<string> accessions = [];
+  union { null, string } accession = null;
 
   /**
-  If not null, return reference sets for which the `assemblyId`
+  If not null, return the reference sets for which the `assemblyId`
   matches this string (case-sensitive, exact match).
   */
   union { null, string } assemblyId = null;
@@ -94,24 +92,22 @@ as JSON.
 */
 record SearchReferencesRequest {
   /**
-  If not null, return only references which belong to this reference set.
+  The `ReferenceSet` to search.
   */
-  union { null, string } referenceSetId = null;
+  string referenceSetId;
 
   /**
-  If nonempty, return references which match any of the given `md5checksums`.
-  See `Reference::md5checksum` for details.
+  If not null, return the references for which the
+  `md5checksum` matches this string (case-sensitive, exact match).
+  See `ReferenceSet::md5checksum` for details.
   */
-  array<string> md5checksums = [];
+  union { null, string } md5checksum = null;
 
   /**
-  If nonempty, return references for which the accession
-  matches this string. Best to give a version number e.g. `GCF_000001405.26`.
-  If only the main accession number is given then all records with
-  that main accession will be returned, whichever version.
-  Note that different versions will have different sequences.
+  If not null, return the references for which the `accession`
+  matches this string (case-sensitive, exact match).
   */
-  array<string> accessions = [];
+  union { null, string } accession = null;
 
   /**
   Specifies the maximum number of results to return in a single page.

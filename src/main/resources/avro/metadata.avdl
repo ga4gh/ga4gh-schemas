@@ -7,176 +7,42 @@ This protocol defines metadata used in the other GA4GH protocols.
 protocol Metadata {
 
 import idl "common.avdl";
-import idl "ontologies.avdl";
 
 /**
-An individual (or subject) typically corresponds to an individual
-human or other organism.
-*/
-record Individual {
-  /** The individual UUID. This is globally unique. */
+  An ontology term describing an attribute. (e.g. the phenotype attribute
+  'polydactyly' from HPO)
+  */
+
+record OntologyTerm {
+  /**
+  Ontology source identifier - the identifier, a CURIE (preferred) or
+  PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+  It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
+  in that it is a URI pointing to an information resource outside of the scope
+  of the schema or its resource implementation.
+  */
   string id;
 
-  /** The IDs of the individual groups this individual belongs to. */
-  array<string> groupIds = [];
-
-  /** The name of the individual. */
-  union { null, string } name = null;
-
-  /** A description of the individual. */
-  union { null, string } description = null;
+  /**
+  Ontology term - the representation the id is pointing to.
+  */
+  union { null, string } term = null;
 
   /**
-  The time at which this record was created. 
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  TODO: The format definition is temporary and will be updated to 
-  the upcoming AVRO time format (timestamp-millis) when this is supported.
+  Ontology source name - the name of ontology from which the term is obtained
+  e.g. 'Human Phenotype Ontology'
   */
-  string recordCreateTime;
+  union { null, string } sourceName = null;
 
   /**
-  The time at which this record was last updated.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
+  Ontology source version - the version of the ontology from which the
+  OntologyTerm is obtained; e.g. 2.6.1.
+  There is no standard for ontology versioning and some frequently
+  released ontologies may use a datestamp, or build number.
   */
-  string recordUpdateTime;
-
-  /**
-  The species of this individual. Using
-  [NCBI taxonomy](http://www.ncbi.nlm.nih.gov/taxonomy) is recommended.
-  For a representation of an NCBI Taxon ID as an OntologyTerm, see
-  [NCBITaxon Ontology](http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page).
-  For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for this is
-  NCBITaxon:9606, which has the URI http://purl.obolibrary.org/obo/NCBITaxon_9606
-  */
-  union { null, OntologyTerm } species = null;
-
-  /** The genetic sex of this individual. Use `null` when unknown. */
-  union { null, OntologyTerm } sex = null;
-
-  /**
-  The developmental stage of this individual. Using Uberon is recommended.
-  TODO: Add link to uberon
-  */
-  union { null, OntologyTerm } developmentalStage = null;
-
-   /**
-  The date of birth of this individual. Usually would be coded to the day;
-  however, finer (e.g. animal model system) or more approximate (e.g. year 
-  for clinical applications) granularity is possible.
-  Format: ISO 8601, YYYY-MM-DD (e.g. 1967-02-13)
-  */
-  union { null, string } dateOfBirth = null;
-
-  /**
-  Diseases with which the individual has been diagnosed.
-  TODO: Is this the right representation?
-  */
-  array<OntologyTerm> diseases = [];
-
-  /**
-  Phenotypes for this individual.
-  TODO: Is this the right representation?
-  */
-  array<OntologyTerm> phenotypes = [];
-
-  /**
-  Disease area specific classification (e.g. classification of cancer samples
-  such as Dukes)
-  */
-  union { null, string } stagingSystem = null;
-
-  /** A description of the clinical treatment used for this individual. */
-  union { null, string } clinicalTreatment = null;
-
-  /** The strain of this individual, for non-humans. */
-  union { null, string } strain = null;
-
-  /**
-  A map of additional individual information.
-  */
-  map<array<string>> info = {};
+  union { null, string } sourceVersion = null;
 }
 
-/**
-A biological sample used in an experiment. (e.g. whole blood from
-an affected individual)
-*/
-record Sample {
-   /** The sample UUID. This is globally unique. */
-  string id;
-
-  /** The ID of the individual this sample belongs to. */
-  union { null, string } individualId = null;
-
-  /** Public identifiers for this sample. */
-  array<string> accessions = [];
-
-  /** The name of the sample. */
-  union { null, string } name = null;
-
-  /** A description of the sample. */
-  union { null, string } description = null;
-
-  /**
-  The time at which this record was created. 
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  string recordCreateTime;
-
-  /**
-  The time at which this record was last updated.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  string recordUpdateTime;
-
-  /**
-  The time at which this sample was taken from the individual.
-  Granularity here is variabel (e.g. only date would be common for 
-  biopsies, minutes for in vitro time series).
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
-  */
-  union { null, string } samplingDate = null;
-
-  /**
-  The age of the individual (not of the sample) at time of sample collection.
-  This field may be approximate.
-  TODO: Fixed unit? Years would be natural in human context.
-  */
-  union { null, long } ageAtSampling = null;
-
-  /**
-  The cell type of this sample.
-  Using the [Cell Ontology](http://cellontology.org/) (CL) is recommended. See 
-  */
-  union { null, OntologyTerm } cellType = null;
-
-  /** 
-  The cell line of this sample. 
-  Using the [Cell Line Ontology](https://code.google.com/p/clo-ontology/) is a possibility.
-  TODO: discuss further. Other possibilities: Cellosaurus (nextprot), BRENDA/BTO, EFO (EBI)
-  */
-  union { null, OntologyTerm } cellLine = null;
-
-  /**
-  Geographic coordinates from which the individual was obtained.
-  TODO: Figure out the right type for this field.
-  */
-  union { null, string } geocode = null;
-
-  /** A descriptor of the sample type. (e.g. `frozen`) */
-  union { null, string } sampleType = null;
-
-  /**
-  The anatomical part of the individual from which this sample derives.
-  Using [Uberon](http://uberon.org) is recommended.
-  */
-  union { null, OntologyTerm } organismPart = null;
-
-  /**
-  A map of additional sample information.
-  */
-  map<array<string>> info = {};
-}
 
 /**
 An experimental preparation of a `Sample`.
@@ -205,7 +71,7 @@ record Experiment {
 
   /**
   The time at which this experiment was performed.
-  Granularity here is variabel (e.g. date only).
+  Granularity here is variable (e.g. date only).
   Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
   */
   union { null, string } runTime = null;
@@ -262,94 +128,26 @@ record Experiment {
 }
 
 /**
-Represents a group of contextually related data objects of (e.g. all Individuals, Samples, 
-Experiments associated with a particular feature; or e.g. a trio in genetic diagnostics.).
-This concept may be expanded in the future (ontology for describing the type of dataset ...).
-TODO: Determination of scope, structure, specific attributes, e.g. limiting to single 
-record type - see http://purl.obolibrary.org/obo/IAO_0000100 - and providing alternative mechanism 
-for heterogeneous data with external contextualization, e.g. all records of different 
-types associated with a clinical study.
+A Dataset is a collection of related data of multiple types.
+Data providers decide how to group data into datasets.
+See [Metadata API](../api/metadata.html) for a more detailed discussion.
 */
 record Dataset {
-  /** The dataset UUID. This is globally unique. */
+  /**
+  The dataset's id, locally unique to the server instance.
+  */
   string id;
 
-  /** A description of the dataset. */
-  union { null, string } description = null;
-
-}
-
-/**
-Represents a group of individuals. (e.g. a trio)
-*/
-record IndividualGroup {
-  /** The individual group UUID. This is globally unique. */
-  string id;
-
-  /** The name of the individual group. */
+  /**
+  The name of the dataset.
+  */
   union { null, string } name = null;
 
-  /** A description of the individual group. */
+  /**
+  Additional, human-readable information on the dataset.
+  */
   union { null, string } description = null;
 
-  /**
-  The time at which this record was created. 
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  string recordCreateTime;
-
-  /**
-  The time at which this record was last updated.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  string recordUpdateTime;
-
-  /** The type of individual group. */
-  union { null, string } type = null;
-
-  /**
-  A map of additional individual group information.
-  */
-  map<array<string>> info = {};
-}
-
-/**
-An analysis contains an interpretation of one or several experiments.
-(e.g. SNVs, copy number variations, methylation status) together with
-information about the methodology used.
-*/
-record Analysis {
-  /** The analysis UUID. This is globally unique. */
-  string id;
-
-  /** The name of the analysis. */
-  union { null, string } name = null;
-
-  /** A description of the analysis. */
-  union { null, string } description = null;
-
-  /**
-  The time at which this record was created. 
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  union { null, string } recordCreateTime = null;
-
-  /**
-  The time at which this record was last updated.
-  Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  */
-  string recordUpdateTime;
-
-  /** The type of analysis. */
-  union { null, string } type = null;
-
-  /** The software run to generate this analysis. */
-  array<string> software = [];
-
-  /**
-  A map of additional analysis information.
-  */
-  map<array<string>> info = {};
 }
 
 }
