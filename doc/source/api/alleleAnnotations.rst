@@ -63,29 +63,6 @@ transcripts. The record includes:
 * A ``HGVSAnnotation`` record containing variant descriptions at all relevant levels. 
 * ``AlleleLocation`` records describing the changes at cDNA, CDS and protein level.
 * A set of results from prediction packages analyzing the allele impact.
-* A summary impact classification reflecting the highest impact consequence.
-
-Predicted Molecular Impact Classification
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-The predicted molecular impact is a simple prioritization based on the putative
-deleteriousness of the variant allele on the transcript, which is popular with
-users of annotation tools. This is usually calculated based on naive algorithms
-and may not accurately predict true impact at protein level.
-
-Predicted Molecular Impact classification is summarized using the terms:
-
-+----------+-----------------------------------------------+-------------------------------------------+
-| Impact   | Meaning                                       | Example SO terms                          |                   
-+==========+===============================================+===========================================+
-| HIGH     | Highly likely to disrupt protein function     | splice_donor_variant, stop_gained         |
-+----------+-----------------------------------------------+-------------------------------------------+
-| MODERATE | Moderately likely to disrupt protein function | missense_variant, inframe_insertion       |
-+----------+-----------------------------------------------+-------------------------------------------+
-| LOW      | Not likely to disrupt protein function        | synonymous_variant, stop_retained_variant |
-+----------+-----------------------------------------------+-------------------------------------------+
-| MODIFIER | No predicted effect                           | 3_prime_UTR_variant, intron_variant       |
-+----------+-----------------------------------------------+-------------------------------------------+
 
 Search Options
 @@@@@@@@@@@@@@
