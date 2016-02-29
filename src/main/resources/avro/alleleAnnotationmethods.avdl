@@ -1,0 +1,200 @@
+@namespace("org.ga4gh.methods")
+protocol AlleleAnnotationMethods {
+
+/*
+This protocol defines methods use to mine pre-calculated variant allele
+annotations.
+*/
+
+import idl "methods.avdl";
+import idl "variants.avdl";
+import idl "alleleAnnotations.avdl";
+import idl "metadata.avdl";
+/*
+variantannotations/search returns annotation for the alleles of Variants
+
+This allows the mining of allele-specific annotations on a VariantSet by
+either a region or by a set of genomic features. Where a region is supplied
+annotation of all alleles vs all features in the region is returned. Where a
+set of features is supplied, only annotations against these features (matching
+on featuretype and id) are returned and other overlapping features are ignored.
+
+variantannotationsets/search returns information on the input to the
+annotation. This will be a VariantSet and the reference data and software
+versions used in calculating the annotation.
+It is essential this information is exhaustive.
+*/
+
+/******************  /variantannotations/search  *********************/
+/** 
+This request maps to the body of `POST /variantannotations/search` as JSON
+*/
+record SearchVariantAnnotationsRequest {
+  /** Required. The ID of the variant annotation set to search over. */
+  string variantAnnotationSetId;
+
+  /**
+  Only return variants with reference alleles on the reference with this
+  name. One of this field or `referenceId` or `features` is required.
+  (case-sensitive, exact match)
+  */
+  union { null, string } referenceName = null;
+
+  /**
+  Only return variants with reference alleles on the reference with this
+  ID. One of this field or `referenceName` or `features` is required.
+  */
+  union { null, string } referenceId = null;
+
+  /**
+  Required if referenceName or referenceId supplied.
+  The beginning of the window (0-based, inclusive) for which variants with
+  overlapping reference alleles should be returned.
+  Genomic positions are non-negative integers less than reference length.
+  Requests spanning the join of circular genomes are represented as
+  two requests one on each side of the join (position 0).
+  */
+  long start;
+
+  /**
+  Required if referenceName or referenceId supplied.
+  The end of the window (0-based, exclusive) for which variants with
+  overlapping reference alleles should be returned.
+  */
+  long end;
+
+//  This section will be re-instated when features are available in the API
+//  /**
+//  Only return variant annotations for any of these features.
+//  Features may include specific transcripts or genes. A search by gene will
+//  return information for all transcripts associated with the gene in the
+//  variant annotation set.
+//  This or a location (referenceName/referenceId plus optional start and end)
+//  must be supplied.
+//  If null, return all variant annotations in specified window.
+//  */
+//  union { null, array<string> } featureIds = null;
+
+  /**
+  This filter allows variant, transcript combinations to be extracted by effect
+  type(s).
+  Only return variant annotations including any of these effects and only return
+  transcript effects including any of these effects. Exact matching across all
+  fields of the Sequence Ontology OntologyTerm is required.
+  (A transcript effect may have multiple SO effects which will all be reported.)
+  If null, return all variant annotations.
+  */
+  union { null, array<org.ga4gh.models.OntologyTerm> } effects = null;
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;
+}
+
+/**
+This is the response from `POST /variantannotations/search` expressed as JSON.
+*/
+record SearchVariantAnnotationsResponse {
+  /**
+  The list of matching variant annotations.
+  */
+  array<org.ga4gh.models.VariantAnnotation> variantAnnotations = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of `VariantAnnotations` matching the search criteria.
+
+`POST /variantannotations/search` must accept a JSON version of
+`SearchVariantAnnotationsRequest` as the post body and will return a
+JSON version of `SearchVariantAnnotationsResponse`.
+*/
+SearchVariantAnnotationsResponse searchVariantAnnotations(
+  /**
+  This request maps to the body of `POST /variantannotations/search` as JSON.
+  */
+  SearchVariantAnnotationsRequest request) throws GAException;
+
+/**
+This request maps to the body of `POST /variantannotationsets/search` as JSON
+*/
+record SearchVariantAnnotationSetsRequest {
+
+  /**
+  Required. The `VariantSet` to search.
+  */
+  string variantSetId;
+
+  /**
+  Specifies the maximum number of results to return in a single page.
+  If unspecified, a system default will be used.
+  */
+  union { null, int } pageSize = null;
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  To get the next page of results, set this parameter to the value of
+  `nextPageToken` from the previous response.
+  */
+  union { null, string } pageToken = null;
+
+}
+
+/**
+This is the response from `POST /variantannotationsets/search` expressed
+as JSON.
+*/
+record SearchVariantAnnotationSetsResponse {
+
+  /** The list of matching variant annotation sets. */
+  array<org.ga4gh.models.VariantAnnotationSet> variantAnnotationSets = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+
+}
+
+/**
+Returns a list of available variant annotation sets
+`POST /variantannotationsets/search` must accept a JSON version of
+`SearchVariantAnnotationSetsRequest` as the post body and will return a JSON
+version of `SearchVariantAnnotationSetsResponse`.
+*/
+SearchVariantAnnotationSetsResponse searchVariantAnnotationSets(
+  /**
+  This request maps to the body of `POST /variantannotationsets/search` as JSON
+  */
+  SearchVariantAnnotationSetsRequest request) throws GAException;
+
+/**************** /variantannotationsets/{id} *******************/
+/**
+Gets an `VariantAnnotationSet` by ID.
+`GET /variantannotationsets/{id}` will return a JSON version of
+`VariantAnnotationSet`.
+*/
+org.ga4gh.models.VariantAnnotationSet getVariantAnnotationSet(
+  /**
+  The ID of the `VariantAnnotationSet`.
+  */
+  string id) throws GAException;
+
+}
