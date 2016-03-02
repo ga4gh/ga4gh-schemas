@@ -5,6 +5,8 @@ Schemas
 
 .. toctree::
    common
+   biodata
+   biodatamethods
    metadata
    metadatamethods
    methods

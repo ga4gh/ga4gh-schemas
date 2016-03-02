@@ -167,7 +167,7 @@ See {TODO: LINK TO VARIANTS OVERVIEW} for more information.
     The call set name.
   :type name: null|string
   :field bioSampleId:
-    The BioSample this read group's data was generated from.
+    The BioSample this call set's data was generated from.
   :type bioSampleId: null|string
   :field variantSetIds:
     The IDs of the variant sets this call set has calls in.
