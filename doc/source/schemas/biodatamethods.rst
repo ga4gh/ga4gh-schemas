@@ -1,8 +1,26 @@
-Biodata
-*******
+BiodataMethods
+**************
 
-This protocol defines the "biodata" objects, which can be considered data
-representations of biological correlates.
+ .. function:: searchBiosamples(request)
+
+  :param request: SearchBioSamplesRequest: This request maps to the body of `POST /datasets/search` as JSON.
+  :return type: SearchBioSamplesResponse
+  :throws: GAException
+
+Gets a list of biosamples accessible through the API.
+
+`POST /datasets/search` must accept a JSON version of
+`SearchDatasetsRequest` as the post body and will return a JSON version
+of `SearchDatasetsResponse`.
+
+ .. function:: getBioSample(id)
+
+  :param id: string: The ID of the `BioSample`.
+  :return type: org.ga4gh.models.BioSample
+  :throws: GAException
+
+Gets a `BioSample` by ID.
+`GET /BioSample/{id}` will return a JSON version of `BioSample`.
 
 .. avro:enum:: Strand
 
@@ -215,6 +233,10 @@ representations of biological correlates.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
 
+.. avro:error:: GAException
+
+  A general exception type.
+
 .. avro:record:: BioSample
 
   :field id:
@@ -255,4 +277,28 @@ representations of biological correlates.
     genomic array as well as RNA-seq experiments) may refer to the same BioSample.
     In the context of the GA4GH metadata schema, BioSample constitutes the central
     reference object.
+
+.. avro:record:: SearchBioSamplesRequest
+
+  :field name:
+  :type name: null|string
+  :field pageSize:
+  :type pageSize: null|int
+  :field pageToken:
+  :type pageToken: null|string
+
+  This request maps to the body of `POST /biosamples/search` as JSON.
+
+.. avro:record:: SearchBioSamplesResponse
+
+  :field biosamples:
+    The list of datasets.
+  :type biosamples: array<org.ga4gh.models.BioSample>
+  :field nextPageToken:
+    The continuation token, which is used to page through large result sets.
+      Provide this value in a subsequent request to return the next page of
+      results. This field will be empty if there aren't any additional results.
+  :type nextPageToken: null|string
+
+  This is the response from `POST /biosamples/search` expressed as JSON.
 

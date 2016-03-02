@@ -79,7 +79,7 @@ record CallSet {
   union { null, string } name = null;
 
   /**
-  The BioSample this read group's data was generated from.
+  The BioSample this call set's data was generated from.
   */
   union { null, string } bioSampleId;
 
