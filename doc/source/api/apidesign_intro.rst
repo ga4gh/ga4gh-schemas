@@ -5,6 +5,8 @@ API Design
 !!!!!!!!!!
 
 
+.. _apidesign_object_ids:
+
 Object Ids
 @@@@@@@@@@
 
@@ -38,6 +40,8 @@ name fields, isn’t sufficient.  A future API may introduce standard
 cross-repository identifiers using some combination of **content
 hashes**, **GUIDs**, and central **accession** facilities.
 
+
+.. _apidesign_object_names:
 
 ID and Name
 @@@@@@@@@@@

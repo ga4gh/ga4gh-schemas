@@ -239,9 +239,6 @@ representations of biological correlates.
   :field updateDateTime:
     The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record was updated.
   :type updateDateTime: string
-  :field individualId:
-    The individual this biosample was derived from.
-  :type individualId: null|string
   :field info:
     A map of additional information.
   :type info: map<array<string>>

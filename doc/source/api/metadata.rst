@@ -1,12 +1,19 @@
 .. _metadata:
 
+.. image:: /_static/metadata_schema.png
+   :align: right
+   :width: 120px
 
+
+************
 Metadata API
-!!!!!!!!!!!!
-
+************
 
 Goals and Scope
-@@@@@@@@@@@@@@@
+---------------
+
+* standardized use of common attributes/values
+* a schema of how objects relate to each other
 
 The metadata API provides information on the primary data objects
 available via the GA4GH API, and facilities to organize primary data
@@ -15,9 +22,119 @@ objects.
 The current metadata API is immature and will evolve in future.
 
 
-Datasets
-@@@@@@@@
+Metadata Records
+----------------
 
+:ref:`BioSample<metadata_biosample>`
+====================================
+
+:ref:`Dataset<metadata_dataset>`
+====================================
+
+
+Common Attribute Names and Formats
+----------------------------------
+
+Throughout the schema definitions, a consistent use of common attributes should
+be enforced. The following list should serve as guidance for schema developers.
+
+========================= ======================================================
+Attribute                 Note
+========================= ======================================================
+*id*                      the objects ID, used for references at the level of
+                          the databas/server instance; locally unique
+*name*                    a more descriptive object label/identifier
+*description*             a string describing aspects of the object; *not* to
+                          be used for a list or nested object
+*createDateTime*          the time the record was created, in ISO8601
+                          (see :ref:`Date and Time<metadata_date_time>`)
+*updateDateTime*          the time the record was updated, in ISO8601
+                          (see :ref:`Date and Time<metadata_date_time>`)
+========================= ======================================================
+
+.. _metadata_date_time:
+
+Date and Time Format Specifications
+-----------------------------------
+
+Date and time formats are specified as ISO8601 compatible strings, both for
+time points as well as for intervals and durations.
+An optional required granularity may be specified as part of the respective
+attributes' documentations.
+
+Time points
+===========
+
+The specification of a time point is given through the concatenation of
+
+* a date in YYYY-MM-DD
+* the designator "T" indicating a following time description
+* the time of day in HH:MM:SS.SSS form, where "SSS" represents a decimal
+  fraction of a second
+* a time zone offset in relation to UTC
+
+**Examples**
+
+* year (YYYY)
+    2015
+
+* date (e.g. date of birth) in YYYY-MM-DD
+    2015-02-10
+
+* time stamp in milliseconds in YYYY-MM-DDTHH:MM:SS.SSS
+    2015-02-10T00:03:42.123Z
+
+**Implementations**
+
+* updateDateTime
+* createDateTime
+* updated
+* many proposed in metadata branch
+
+Durations
+=========
+
+Durations are a specific form of intervals, without reference to time points.
+They are indicated with a leading "P", followed by unit delimited
+quantifiers. A leading "T" is required before the start of the time components.
+Durations do not have to be normalized; "PT50H" is equally valid as "P2T2H".
+
+**Examples**
+
+* age in years in PnY
+    P44Y
+
+* age in years and months in PnYnM
+    P44Y08M
+
+* short time interval (e.g. 30min in experimental time series) in PTnM
+    PT30M
+
+Time intervals
+==============
+
+Time intervals consist of a combination of two time designators. These can be
+either two time points for start and end, or one time point and a leading
+(time point indicates end) or trailing (time point indicates start) duration.
+The time elements are separated by a forward slash "/".
+
+**Examples**
+
+* age with date of birth in YYYY-MM-DD/PnYnMnD
+    1967-11-21/P40Y10M05D
+
+* anchored 3 month interval, e.g. a therapy cycle in YYYY-MM-DD/YYYY-MM-DD
+    2015-04-18/2015-07-17
+
+* experimental intervention of 30min in YYYY-MM-DDTHH:MM/YYYY-MM-DDTHH:MM
+    2014-12-31T23H45M/2015-01-01T00H15M
+
+
+
+Dataset
+=======
+
+.. _metadata_dataset:
 
 All GA4GH data objects are part of a *dataset*. A dataset is a
 data-provider-specified collection of related data of multiple types.
@@ -48,18 +165,3 @@ Dataset Y has all the work product from a particular grant).
 For data accessors, datasets are a simple way to scope exploration and
 analysis (e.g. are there any supporting examples in 1000genomes?
 what's the distribution of that result in the data from our project?).
-
-
-Issues (TODO)
-@@@@@@@@@@@@@
-
-- Metadata API is immature and under development.
-- `sampleId` is referenced in metadata, reads, and variants records of
-  the schema, however there is no `Sample` object defined in metadata.
-- There has been DWG discussion about proposing a new role for the
-  `Dataset` object.
-- Lifecycle and version management of metadata objects is not clearly
-  defined.  This includes the use of timestamps.
-- `Experiment` object is currently copied into the `ReadGroup` object.
-  Given metadata becomes a chain of objects associated with the data,
-  copying records seems less that ideal.

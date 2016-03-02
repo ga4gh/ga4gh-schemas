@@ -51,6 +51,8 @@ Metadata allows organizing all the primary data types.
 
 .. toctree::
    metadata
+   ontologies
+   biodata
 
 
 .. _SAM/BAM: https://samtools.github.io/hts-specs/SAMv1.pdf

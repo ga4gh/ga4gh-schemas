@@ -3,13 +3,13 @@ BiodataMethods
 
  .. function:: searchBiosamples(request)
 
-  :param request: SearchBioSamplesRequest: This request maps to the body of `POST /datasets/search` as JSON.
+  :param request: SearchBioSamplesRequest: This request maps to the body of `POST /biosamples/search` as JSON.
   :return type: SearchBioSamplesResponse
   :throws: GAException
 
-Gets a list of biosamples accessible through the API.
+Gets a list of BioSamples accessible through the API.
 
-`POST /datasets/search` must accept a JSON version of
+`POST /biosamples/search` must accept a JSON version of
 `SearchDatasetsRequest` as the post body and will return a JSON version
 of `SearchDatasetsResponse`.
 
@@ -261,9 +261,6 @@ Gets a `BioSample` by ID.
   :field updateDateTime:
     The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record was updated.
   :type updateDateTime: string
-  :field individualId:
-    The individual this biosample was derived from.
-  :type individualId: null|string
   :field info:
     A map of additional information.
   :type info: map<array<string>>
@@ -280,6 +277,8 @@ Gets a `BioSample` by ID.
 
 .. avro:record:: SearchBioSamplesRequest
 
+  :field datasetId:
+  :type datasetId: string
   :field name:
   :type name: null|string
   :field pageSize:
@@ -292,7 +291,7 @@ Gets a `BioSample` by ID.
 .. avro:record:: SearchBioSamplesResponse
 
   :field biosamples:
-    The list of datasets.
+    The list of biosamples.
   :type biosamples: array<org.ga4gh.models.BioSample>
   :field nextPageToken:
     The continuation token, which is used to page through large result sets.

@@ -12,6 +12,8 @@ import idl "biodata.avdl";
 This request maps to the body of `POST /biosamples/search` as JSON.
 */
 record SearchBioSamplesRequest {
+  
+  string datasetId;
 
   union { null, string } name = null;
 
@@ -24,7 +26,7 @@ record SearchBioSamplesRequest {
 This is the response from `POST /biosamples/search` expressed as JSON.
 */
 record SearchBioSamplesResponse {
-  /** The list of datasets. */
+  /** The list of biosamples. */
   array<org.ga4gh.models.BioSample> biosamples = [];
 
   /**
@@ -36,15 +38,15 @@ record SearchBioSamplesResponse {
 }
 
 /**
-Gets a list of biosamples accessible through the API.
+Gets a list of BioSamples accessible through the API.
 
-`POST /datasets/search` must accept a JSON version of
+`POST /biosamples/search` must accept a JSON version of
 `SearchDatasetsRequest` as the post body and will return a JSON version
 of `SearchDatasetsResponse`.
 */
 SearchBioSamplesResponse searchBiosamples(
   /**
-  This request maps to the body of `POST /datasets/search` as JSON.
+  This request maps to the body of `POST /biosamples/search` as JSON.
   */
   SearchBioSamplesRequest request) throws GAException;
 
