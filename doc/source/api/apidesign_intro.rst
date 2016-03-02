@@ -39,6 +39,8 @@ cross-repository identifiers using some combination of **content
 hashes**, **GUIDs**, and central **accession** facilities.
 
 
+.. _apidesign_object_names:
+
 ID and Name
 @@@@@@@@@@@
 
