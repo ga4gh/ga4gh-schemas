@@ -1,9 +1,8 @@
-Reads
-*****
+Biodata
+*******
 
-This file defines the objects used to represent a reads and alignments, most importantly
-ReadGroupSet, ReadGroup, and ReadAlignment.
-See {TODO: LINK TO READS OVERVIEW} for more information.
+This protocol defines the "biodata" objects, which can be considered data
+representations of biological correlates.
 
 .. avro:enum:: Strand
 
@@ -216,220 +215,41 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
 
-.. avro:record:: Program
-
-  :field commandLine:
-    The command line used to run this program.
-  :type commandLine: null|string
-  :field id:
-    The user specified ID of the program.
-  :type id: null|string
-  :field name:
-    The name of the program.
-  :type name: null|string
-  :field prevProgramId:
-    The ID of the program run before this one.
-  :type prevProgramId: null|string
-  :field version:
-    The version of the program run.
-  :type version: null|string
-
-  Program can be used to track the provenance of how read data was generated.
-
-.. avro:record:: ReadStats
-
-  :field alignedReadCount:
-    The number of aligned reads.
-  :type alignedReadCount: null|long
-  :field unalignedReadCount:
-    The number of unaligned reads.
-  :type unalignedReadCount: null|long
-  :field baseCount:
-    The total number of bases.
-      This is equivalent to the sum of `alignedSequence.length` for all reads.
-  :type baseCount: null|long
-
-  ReadStats can be used to provide summary statistics about read data.
-
-.. avro:record:: ReadGroup
+.. avro:record:: BioSample
 
   :field id:
-    The read group ID.
+    The BioSample :ref:`id <apidesign_object_ids>`. This is unique in the
+       context of the server instance.
   :type id: string
-  :field datasetId:
-    The ID of the dataset this read group belongs to.
-  :type datasetId: null|string
   :field name:
-    The read group name.
+    The BioSample's :ref:`name <apidesign_object_names>`. This is a label or
+       symbolic identifier for the biosample.
   :type name: null|string
   :field description:
-    The read group description.
+    The biosample's description. This attribute contains human readable text.
+       The "description" attributes should not contain any structured data.
   :type description: null|string
-  :field bioSampleId:
-    The BioSample this read group's data was generated from.
-  :type bioSampleId: null|string
-  :field experiment:
-    The experiment used to generate this read group.
-  :type experiment: null|Experiment
-  :field predictedInsertSize:
-    The predicted insert size of this read group.
-  :type predictedInsertSize: null|int
-  :field created:
-    The time at which this read group was created in milliseconds from the epoch.
-  :type created: null|long
-  :field updated:
-    The time at which this read group was last updated in milliseconds
-      from the epoch.
-  :type updated: null|long
-  :field stats:
-    Statistical data on reads in this read group.
-  :type stats: null|ReadStats
-  :field programs:
-    The programs used to generate this read group.
-  :type programs: array<Program>
-  :field referenceSetId:
-    The ID of the reference set to which the reads in this read group are aligned.
-      Required if there are any read alignments.
-  :type referenceSetId: null|string
+  :field disease:
+    Disease annotation of the sample.
+  :type disease: null|OntologyTerm
+  :field createDateTime:
+    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record
+       was created.
+  :type createDateTime: string
+  :field updateDateTime:
+    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record was updated.
+  :type updateDateTime: string
   :field info:
-    A map of additional read group information.
+    A map of additional information.
   :type info: map<array<string>>
 
-  A ReadGroup is a set of reads derived from one physical sequencing process.
-
-.. avro:record:: ReadGroupSet
-
-  :field id:
-    The read group set ID.
-  :type id: string
-  :field datasetId:
-    The ID of the dataset this read group set belongs to.
-  :type datasetId: null|string
-  :field name:
-    The read group set name.
-  :type name: null|string
-  :field stats:
-    Statistical data on reads in this read group set.
-  :type stats: null|ReadStats
-  :field readGroups:
-    The read groups in this set.
-  :type readGroups: array<ReadGroup>
-
-  A ReadGroupSet is a logical collection of ReadGroups. Typically one ReadGroupSet
-  represents all the reads from one experimental sample.
-
-.. avro:record:: LinearAlignment
-
-  :field position:
-    The position of this alignment.
-  :type position: Position
-  :field mappingQuality:
-    The mapping quality of this alignment, meaning the likelihood that the read
-      maps to this position.
-    
-      Specifically, this is -10 log10 Pr(mapping position is wrong), rounded to the
-      nearest integer.
-  :type mappingQuality: null|int
-  :field cigar:
-    Represents the local alignment of this sequence (alignment matches, indels, etc)
-      versus the reference.
-  :type cigar: array<CigarUnit>
-
-  A linear alignment describes the alignment of a read to a Reference, using a
-  position and CIGAR array.
-
-.. avro:record:: ReadAlignment
-
-  :field id:
-    The read alignment ID. This ID is unique within the read group this
-      alignment belongs to.
-    
-      For performance reasons, this field may be omitted by a backend.
-      If provided, its intended use is to make caching and UI display easier for
-      genome browsers and other lightweight clients.
-  :type id: null|string
-  :field readGroupId:
-    The ID of the read group this read belongs to.
-      (Every read must belong to exactly one read group.)
-  :type readGroupId: string
-  :field fragmentName:
-    The fragment name. Equivalent to QNAME (query template name) in SAM.
-  :type fragmentName: string
-  :field properPlacement:
-    The orientation and the distance between reads from the fragment are
-      consistent with the sequencing protocol (equivalent to SAM flag 0x2)
-  :type properPlacement: null|boolean
-  :field duplicateFragment:
-    The fragment is a PCR or optical duplicate (SAM flag 0x400).
-  :type duplicateFragment: null|boolean
-  :field numberReads:
-    The number of reads in the fragment (extension to SAM flag 0x1)
-  :type numberReads: null|int
-  :field fragmentLength:
-    The observed length of the fragment, equivalent to TLEN in SAM.
-  :type fragmentLength: null|int
-  :field readNumber:
-    The read ordinal in the fragment, 0-based and less than numberReads. This
-      field replaces SAM flag 0x40 and 0x80 and is intended to more cleanly
-      represent multiple reads per fragment.
-  :type readNumber: null|int
-  :field failedVendorQualityChecks:
-    The read fails platform or vendor quality checks (SAM flag 0x200).
-  :type failedVendorQualityChecks: null|boolean
-  :field alignment:
-    The alignment for this alignment record. This field will be null if the read
-      is unmapped.
-  :type alignment: null|LinearAlignment
-  :field secondaryAlignment:
-    Whether this alignment is secondary. Equivalent to SAM flag 0x100.
-      A secondary alignment represents an alternative to the primary alignment
-      for this read. Aligners may return secondary alignments if a read can map
-      ambiguously to multiple coordinates in the genome.
-    
-      By convention, each read has one and only one alignment where both
-      secondaryAlignment and supplementaryAlignment are false.
-  :type secondaryAlignment: null|boolean
-  :field supplementaryAlignment:
-    Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
-      Supplementary alignments are used in the representation of a chimeric
-      alignment. In a chimeric alignment, a read is split into multiple
-      linear alignments that map to different reference contigs. The first
-      linear alignment in the read will be designated as the representative alignment;
-      the remaining linear alignments will be designated as supplementary alignments.
-      These alignments may have different mapping quality scores.
-    
-      In each linear alignment in a chimeric alignment, the read will be hard clipped.
-      The `alignedSequence` and `alignedQuality` fields in the alignment record will
-      only represent the bases for its respective linear alignment.
-  :type supplementaryAlignment: null|boolean
-  :field alignedSequence:
-    The bases of the read sequence contained in this alignment record (equivalent
-      to SEQ in SAM).
-    
-      `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
-      and quality. This will occur if the alignment is part of a chimeric alignment,
-      or if the read was trimmed. When this occurs, the CIGAR for this read will
-      begin/end with a hard clip operator that will indicate the length of the
-      excised sequence.
-  :type alignedSequence: null|string
-  :field alignedQuality:
-    The quality of the read sequence contained in this alignment record
-      (equivalent to QUAL in SAM).
-    
-      `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
-      and quality. This will occur if the alignment is part of a chimeric alignment,
-      or if the read was trimmed. When this occurs, the CIGAR for this read will
-      begin/end with a hard clip operator that will indicate the length of the excised sequence.
-  :type alignedQuality: array<int>
-  :field nextMatePosition:
-    The mapping of the primary alignment of the `(readNumber+1)%numberReads`
-      read in the fragment. It replaces mate position and mate strand in SAM.
-  :type nextMatePosition: null|Position
-  :field info:
-    A map of additional read alignment information.
-  :type info: map<array<string>>
-
-  Each read alignment describes an alignment with additional information
-  about the fragment and the read. A read alignment object is equivalent to a
-  line in a SAM file.
+  A BioSample refers to a unit of biological material from which the substrate
+    molecules (e.g. genomic DNA, RNA, proteins) for molecular analyses (e.g.
+    sequencing, array hybridisation, mass-spectrometry) are extracted. Examples
+    would be a tissue biopsy, a single cell from a culture for single cell genome
+    sequencing or a protein fraction from a gradient centrifugation.
+    Several instances (e.g. technical replicates) or types of experiments (e.g.
+    genomic array as well as RNA-seq experiments) may refer to the same BioSample.
+    In the context of the GA4GH metadata schema, BioSample constitutes the central
+    reference object.
 

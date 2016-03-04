@@ -79,12 +79,9 @@ record CallSet {
   union { null, string } name = null;
 
   /**
-  The sample this call set's data was generated from.
-  Note: the current API does not have a rigorous definition of sample. Therefore, this
-  field actually contains an arbitrary string, typically corresponding to the sampleId
-  field in the read groups used to generate this call set.
+  The BioSample this call set's data was generated from.
   */
-  union { null, string } sampleId;
+  union { null, string } bioSampleId;
 
   /** The IDs of the variant sets this call set has calls in. */
   array<string> variantSetIds = [];

@@ -1,0 +1,64 @@
+@namespace("org.ga4gh.methods")
+
+protocol BiodataMethods {
+
+import idl "metadata.avdl";
+import idl "common.avdl";
+import idl "methods.avdl";
+import idl "biodata.avdl";
+
+/******************  /biosamples/search  *********************/
+/**
+This request maps to the body of `POST /biosamples/search` as JSON.
+*/
+record SearchBioSamplesRequest {
+  
+  string datasetId;
+
+  union { null, string } name = null;
+
+  union { null, int } pageSize = null;
+
+  union { null, string } pageToken = null;
+}
+
+/**
+This is the response from `POST /biosamples/search` expressed as JSON.
+*/
+record SearchBioSamplesResponse {
+  /** The list of biosamples. */
+  array<org.ga4gh.models.BioSample> biosamples = [];
+
+  /**
+  The continuation token, which is used to page through large result sets.
+  Provide this value in a subsequent request to return the next page of
+  results. This field will be empty if there aren't any additional results.
+  */
+  union { null, string } nextPageToken = null;
+}
+
+/**
+Gets a list of BioSamples accessible through the API.
+
+`POST /biosamples/search` must accept a JSON version of
+`SearchDatasetsRequest` as the post body and will return a JSON version
+of `SearchDatasetsResponse`.
+*/
+SearchBioSamplesResponse searchBiosamples(
+  /**
+  This request maps to the body of `POST /biosamples/search` as JSON.
+  */
+  SearchBioSamplesRequest request) throws GAException;
+
+/****************  /biosamples/{id}  *******************/
+/**
+Gets a `BioSample` by ID.
+`GET /BioSample/{id}` will return a JSON version of `BioSample`.
+*/
+org.ga4gh.models.BioSample getBioSample(
+  /**
+  The ID of the `BioSample`.
+  */
+  string id) throws GAException;
+
+}
