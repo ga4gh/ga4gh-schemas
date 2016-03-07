@@ -159,8 +159,8 @@ record Beacon {
 
 /** Beacon-specific error representing an unexpected problem. */
 record BeaconError {
-  /** Numeric status code. */
-  int status;
+  /** Numeric error code. */
+  int errorCode;
 
   /** Short name or cause of the error. */
   string reason;
