@@ -10,20 +10,20 @@ import idl "datause.avdl";
 
 /** Query for information about a specific allele. */
 record BeaconAlleleRequest {
-  /** Chromosome identifier. Accepted values: 1-22, X, Y. */
-  string chrom;
+  /** Reference identifier. Accepted values: 1-22, X, Y. */
+  string referenceName;
 
-  /** Position, allele locus (0-based). */
-  long pos;
+  /** Position, allele locus (0-based, non-negative integer less than reference length). */
+  long start;
 
   /** Reference bases for this variant, starting from `position`. */
-  string ref;
+  string referenceBases;
 
   /** The bases that appear instead of the reference bases. */
-  string alt;
+  string alternateBases;
 
   /** Assembly identifier, e.g. `GRCh37`. */
-  string assembly;
+  string assemblyId;
 
   /**
   Identifiers of datasets, as defined in `BeaconDataset`.
