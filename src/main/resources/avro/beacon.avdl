@@ -50,7 +50,7 @@ record BeaconDataset {
   /**
   Data use conditions for this dataset based on consent codes.
   */
-  DataUse dataUse;
+  union{ null, DataUse } dataUse;
 
   /** The time the dataset was created in the beacon in ms from the epoch. */
   long created = null;
