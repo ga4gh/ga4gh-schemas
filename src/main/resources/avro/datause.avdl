@@ -28,6 +28,9 @@ record DataUse {
 
   /** Data use requirements. */
   array<DataUseCondition> requirements = [];
+
+  /** Version of the data use specification. */
+  string version = null;
 }
 
 }
