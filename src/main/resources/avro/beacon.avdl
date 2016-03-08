@@ -180,9 +180,6 @@ record BeaconError {
   /** Numeric error code. */
   int errorCode;
 
-  /** Short name or cause of the error. */
-  string reason;
-
   /** Error message. */
   union{ null, string } message = null;
 }
