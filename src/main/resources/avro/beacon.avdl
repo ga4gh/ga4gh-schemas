@@ -238,28 +238,18 @@ record BeaconAlleleResponse {
   /** Identifier of the beacon, as defined in `Beacon`. */
   string beaconId;
 
-  /**
-  Indicator of whether the beacon observed the given allele.
-
-  The value of this field should be null if `error` is not null and true
-  if and only if at least one of the datasets responded true, i.e. at least
-  one of the `exists` fields nested in `datasetAlleleResponses` is true.
-  */
-  union{ null, boolean } exists = null;
-
-  /**
-  Beacon-specific error.
-
-  This should be non-null in exceptional situations only, in which case
-  `exists` has to be null.
-  */
-  union{ null, BeaconError } `error` = null;
-
   /** Allele request as interpreted by the beacon. */
   union{ null, BeaconAlleleRequest } alleleRequest;
 
   /** Indicator of whether the beacon has observed the allele. */
   array<BeaconDatasetAlleleResponse> datasetAlleleResponses = [];
+
+  /**
+  Beacon-specific error.
+
+  This should be non-null in exceptional situations only.
+  */
+  union{ null, BeaconError } `error` = null;
 }
 
 }
