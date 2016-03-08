@@ -1,7 +1,8 @@
 @namespace("org.ga4gh.beacon")
 
 /**
-Data use conditions based on consent codes.
+Data use conditions based on consent codes as introduced in
+http://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005772.
 */
 protocol DataUseConditions {
 
@@ -20,17 +21,68 @@ record DataUseCondition {
 record DataUse {
   /**
   Primary data use category.
+
+  Accepted values (- code: name - description):
+  - NRES: no restrictions - No restrictions on data use.
+  - GRU(CC): general research use and clinical care - For
+    health/medical/biomedical purposes and other biological research,
+    including the study of population origins or ancestry.
+  - HMB(CC): health/medical/biomedical research and clinical care - Use of the
+    data is limited to health/medical/biomedical purposes, does not include
+    the study of population origins or ancestry.
+  - DS-[XX](CC): disease-specific research and clinical care - Use of the data
+    must be related to [disease].
+  - POA: population origins/ancestry research - Use of the data is limited to
+    the study of population origins or ancestry.
   */
   DataUseCondition primaryCategory;
 
-  /** Secondary data use categories. */
+  /**
+  Secondary data use categories.
+
+  Accepted values (- code: name - description):
+  - RS-[XX]: other research-specific restrictions - Use of the data is limited
+    to studies of [research type] (e.g., pediatric research).
+  - RUO: research use only - Use of data is limited to research purposes
+    (e.g., does not include its use in clinical care).
+  - NMDS: no “general methods” research - Use of the data includes methods
+    development research (e.g., development of software or algorithms) ONLY
+    within the bounds of other data use limitations.
+  - GSO: genetic studies only - Use of the data is limited to genetic studies
+    only (i.e., no research using only the phenotype data).
+  */
   array<DataUseCondition> secondaryCategories = [];
 
-  /** Data use requirements. */
+  /**
+  Data use requirements.
+
+  Accepted values (- code: name - description):
+  - NPU: not-for-profit use only - Use of the data is limited to
+    not-for-profit organizations.
+  - PUB: publication required - Requestor agrees to make results of studies
+    using the data available to the larger scientific community.
+  - COL-[XX]: collaboration required - Requestor must agree to collaboration
+    with the primary study investigator(s).
+  - RTN: return data to database/resource - Requestor must return
+    derived/enriched data to the database/resource.
+  - IRB: ethics approval required - Requestor must provide documentation of
+    local IRB/REC approval.
+  - GS-[XX]: geographical restrictions - Use of the data is limited to within
+    [geographic region].
+  - MOR-[XX]: publication moratorium/embargo - Requestor agrees not to publish
+    results of studies until [date].
+  - TS-[XX]: time limits on use - Use of data is approved for [x months].
+  - US: user-specific restrictions - Use of data is limited to use by approved
+    users.
+  - PS: project-specific restrictions - Use of data is limited to use within
+    an approved project.
+  - IS: institution-specific restrictions - Use of data is limited to use
+    within an approved institution.
+  */
   array<DataUseCondition> requirements = [];
 
   /** Version of the data use specification. */
-  string version = null;
+  string version;
 }
 
 }

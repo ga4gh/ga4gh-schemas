@@ -10,19 +10,37 @@ import idl "datause.avdl";
 
 /** Query for information about a specific allele. */
 record BeaconAlleleRequest {
-  /** Reference identifier. Accepted values: 1-22, X, Y. */
+  /**
+  Reference name.
+
+  Accepted values: 1-22, X, Y.
+  */
   string referenceName;
 
-  /** Position, allele locus (0-based, non-negative integer less than reference length). */
+  /**
+  Position, allele locus (0-based).
+
+  Accepted values: non-negative integers smaller than reference length.
+  */
   long start;
 
-  /** Reference bases for this variant, starting from `position`. */
+  /**
+  Reference bases for this variant (starting from `start`).
+
+  Accepted values: see the REF field in VCF 4.2 specification
+  (https://samtools.github.io/hts-specs/VCFv4.2.pdf).
+  */
   string referenceBases;
 
-  /** The bases that appear instead of the reference bases. */
+  /**
+  The bases that appear instead of the reference bases.
+
+  Accepted values: see the ALT field in VCF 4.2 specification
+  (https://samtools.github.io/hts-specs/VCFv4.2.pdf).
+  */
   string alternateBases;
 
-  /** Assembly identifier, e.g. `GRCh37`. */
+  /** Assembly identifier (GRC notation, e.g. `GRCh37`). */
   string assemblyId;
 
   /**
@@ -44,7 +62,7 @@ record BeaconDataset {
   /** Description of the dataset. */
   union{ null, string } description = null;
 
-  /** Assembly identifier, e.g. `GRCh37`. */
+  /** Assembly identifier (GRC notation, e.g. `GRCh37`). */
   string assembly;
 
   /**
