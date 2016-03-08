@@ -6,7 +6,7 @@ information about specific alleles.
 */
 protocol Beacons {
 
-import idl "datause.avdl";
+import idl "consentcode.avdl";
 
 /** Query for information about a specific allele. */
 record BeaconAlleleRequest {
@@ -68,7 +68,7 @@ record BeaconDataset {
   /**
   Data use conditions for this dataset based on consent codes.
   */
-  union{ null, DataUse } dataUse;
+  union{ null, org.ga4gh.consentcode.ConsentCodeDataUse } consentCodeDataUse;
 
   /** The time the dataset was created in the beacon in ms from the epoch. */
   long created = null;

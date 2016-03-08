@@ -1,13 +1,13 @@
-@namespace("org.ga4gh.beacon")
+@namespace("org.ga4gh.consentcode")
 
 /**
 Data use conditions based on consent codes as introduced in
 http://journals.plos.org/plosgenetics/article?id=10.1371/journal.pgen.1005772.
 */
-protocol DataUseConditions {
+protocol ConsentCodeDataUseConditions {
 
 /** Data use condition. */
-record DataUseCondition {
+record ConsentCodeDataUseCondition {
   /**
   Consent code abbreviation, e.g. `NRES` for no restrictions primary category.
   */
@@ -18,7 +18,7 @@ record DataUseCondition {
 }
 
 /** Data use of a resource based on consent codes. */
-record DataUse {
+record ConsentCodeDataUse {
   /**
   Primary data use category.
 
@@ -35,7 +35,7 @@ record DataUse {
   - POA: population origins/ancestry research - Use of the data is limited to
     the study of population origins or ancestry.
   */
-  DataUseCondition primaryCategory;
+  ConsentCodeDataUseCondition primaryCategory;
 
   /**
   Secondary data use categories.
@@ -51,7 +51,7 @@ record DataUse {
   - GSO: genetic studies only - Use of the data is limited to genetic studies
     only (i.e., no research using only the phenotype data).
   */
-  array<DataUseCondition> secondaryCategories = [];
+  array<ConsentCodeDataUseCondition> secondaryCategories = [];
 
   /**
   Data use requirements.
@@ -79,7 +79,7 @@ record DataUse {
   - IS: institution-specific restrictions - Use of data is limited to use
     within an approved institution.
   */
-  array<DataUseCondition> requirements = [];
+  array<ConsentCodeDataUseCondition> requirements = [];
 
   /** Version of the data use specification. */
   string version;
