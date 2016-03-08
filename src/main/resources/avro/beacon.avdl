@@ -63,7 +63,7 @@ record BeaconDataset {
   union{ null, string } description = null;
 
   /** Assembly identifier (GRC notation, e.g. `GRCh37`). */
-  string assembly;
+  string assemblyId;
 
   /**
   Data use conditions for this dataset based on consent codes.
