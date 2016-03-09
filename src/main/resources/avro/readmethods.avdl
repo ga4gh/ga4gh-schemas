@@ -15,9 +15,14 @@ specified, all queried `ReadGroup`s must be aligned to the same `ReferenceSet`.
 */
 record SearchReadsRequest {
   /**
-  The ReadGroups to search. At least one id must be specified.
+  Specifies the Read Group Set to search within.
   */
-  array<string> readGroupIds;
+  string readGroupSetId;
+  /**
+  Limits results to the given Read Group Ids. These read groups
+  must be within the specified read group set.
+  */
+  union { null, array<string> } readGroupIds = null;
 
   /**
   The reference to query. Leaving blank returns results from all
