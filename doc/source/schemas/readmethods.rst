@@ -442,10 +442,10 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :field fragmentName:
     The fragment name. Equivalent to QNAME (query template name) in SAM.
   :type fragmentName: string
-  :field properPlacement:
+  :field improperPlacement:
     The orientation and the distance between reads from the fragment are
-      consistent with the sequencing protocol (equivalent to SAM flag 0x2)
-  :type properPlacement: null|boolean
+      inconsistent with the sequencing protocol (inverse of SAM flag 0x2)
+  :type improperPlacement: null|boolean
   :field duplicateFragment:
     The fragment is a PCR or optical duplicate (SAM flag 0x400).
   :type duplicateFragment: null|boolean
@@ -522,9 +522,13 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
 
 .. avro:record:: SearchReadsRequest
 
+  :field readGroupSetId:
+    Specifies the Read Group Set to search within.
+  :type readGroupSetId: string
   :field readGroupIds:
-    The ReadGroups to search. At least one id must be specified.
-  :type readGroupIds: array<string>
+    Limits results to the given Read Group Ids. These read groups
+      must be within the specified read group set.
+  :type readGroupIds: null|array<string>
   :field referenceId:
     The reference to query. Leaving blank returns results from all
       references, including unmapped reads - this could be very large.
