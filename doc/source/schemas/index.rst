@@ -1,3 +1,5 @@
+.. _schemas:
+
 Schemas
 !!!!!!!
 
@@ -12,6 +14,7 @@ Schemas
    references
    variantmethods
    variants
+   alleleAnnotationmethods
+   alleleAnnotations
    sequenceAnnotations
    sequenceAnnotationmethods
-

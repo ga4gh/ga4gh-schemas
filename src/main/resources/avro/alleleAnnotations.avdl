@@ -1,0 +1,180 @@
+@namespace("org.ga4gh.models")
+
+/**
+This protocol defines types used by the GA4GH Allele Annotation API.
+*/
+
+protocol AlleleAnnotations{
+
+import idl "common.avdl";
+import idl "metadata.avdl";
+import idl "variants.avdl";
+
+/*
+
+The VariantAnnotation record groups different types of annotation records by
+Variant.
+
+The TranscriptEffect sub record holds information on the effect of a specific
+allele on a specific transcript.
+As Variants may overlap multiple transcripts, they may have multiple
+TranscriptEffect records. Variants with multiple alternate alleles will have
+multiple TranscriptEffect records per transcript.
+(2 alternate alleles x 3 transcripts = 6 TranscriptEffect records)
+
+VariantAnnotation records belong to VariantAnnotationSets.
+VariantAnnotationSets are created by comparing a number of Variants from a
+VariantSet to a specific set of reference data using specific software tools.
+A VariantAnnotationSet contains information on reference data and software
+versions used in calculating the annotation; it is essential this information
+is exhaustive.
+
+*/
+
+/**
+An AnalysisResult record holds the output of a prediction package such
+as SIFT on a specific allele.
+*/
+record AnalysisResult {
+
+  /** The ID of the analysis record for this result */
+  string analysisId;
+
+  /** The text-based result for this analysis */
+  union { null, string} result;
+
+  /** The numeric score for this analysis  */
+  union { null, int} score;
+
+}
+
+/**
+An allele location record holds the location of an allele relative to a
+non-genomic coordinate system such as a CDS or protein and holds the
+reference and alternate sequence where appropriate
+*/
+record AlleleLocation {
+
+  /** Relative start position of the allele in this coordinate system */
+  int start ;
+
+  /** Relative end position of the allele in this coordinate system  */
+  union { null, int } end = null;
+
+  /** Reference sequence in feature (this should be the codon at CDS level) */
+  union { null, string } referenceSequence = null;
+
+  /** Alternate sequence in feature (this should be the codon at CDS level) */
+  union { null, string } alternateSequence = null;
+}
+
+/**
+A VariantAnnotationSet record groups VariantAnnotation records. It is derived
+from a VariantSet and holds information describing the software and reference
+data used in the annotation.
+*/
+record VariantAnnotationSet {
+
+  /** The ID of the variant annotation set record */
+  string id;
+
+  /** The ID of the variant set to which this annotation set belongs */
+  string variantSetId;
+
+  /** The variant annotation set name. */
+  union { null, string } name = null;
+
+  /**
+  Analysis details. It is essential to supply versions for all software and
+  reference data used.
+  */
+  Analysis analysis;
+}
+
+/**
+A HGVSAnnotation record holds Human Genome Variation Society descriptions
+of the sequence change with respect to genomic, transcript and protein
+sequences. See: http://www.hgvs.org/mutnomen/recs.html.
+Descriptions should be provided at genomic level. Descriptions at transcript
+level should be provided when the allele lies within a transcript. Descriptions
+at protein level should be provided when the allele lies within the translated
+sequence or stop codon.
+*/
+record HGVSAnnotation {
+
+  union { null, string } genomic = null;
+
+  union { null, string } transcript = null;
+
+  union { null, string } protein = null;
+}
+
+/**
+A transcript effect record is a set of information describing the
+effect of an allele on a transcript
+*/
+record TranscriptEffect {
+
+  /** The ID of the transcript effect record
+  */
+  string id;
+
+  //TODO: derive unique id from digest of data [location, allele, transcript?]
+
+  /** The id of the transcript feature the annotation is relative to
+  */
+  string featureId;
+
+  /** Alternate allele - a variant may have more than one alternate allele,
+  each of which will have distinct annotation.
+  */
+  union { null, string} alternateBases = null;
+
+  /** Effect of variant on this feature */
+  array<OntologyTerm> effects;
+
+  /** Human Genome Variation Society variant descriptions */
+  HGVSAnnotation hgvsAnnotation;
+
+  /** Change relative to cDNA  */
+  union {null, AlleleLocation} cDNALocation =null;
+
+  /* Change relative to coding sequence  */
+  union { null, AlleleLocation} CDSLocation = null;
+
+  /** Change relative to protein  */
+  union { null, AlleleLocation} proteinLocation = null;
+
+  /** Output from prediction packages such as SIFT */
+  array<AnalysisResult> analysisResults;
+}
+
+/**
+A `VariantAnnotation` record represents the result of comparing a variant
+to a set of reference data.
+*/
+record VariantAnnotation {
+
+  /** The ID of this VariantAnnotation. */
+  string id;
+
+  /** The variant ID. */
+  string variantId;
+
+  /** The ID of the variant annotation set this record belongs to. */
+  string variantAnnotationSetId;
+
+  /** The :ref:`ISO 8601 <metadata_date_time>` time at which this record was created. */
+  union { null, string } createDateTime = null;
+
+  /**
+  The transcript effect annotation for the alleles of this variant. Each one
+  represents the effect of a single allele on a single transcript.
+  */
+  array<TranscriptEffect> transcriptEffects = [];
+
+  /** Additional annotation data in key-value pairs. */
+  map<array<string>> info = {};
+}
+
+}
