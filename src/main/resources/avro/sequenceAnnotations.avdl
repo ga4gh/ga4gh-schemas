@@ -50,12 +50,12 @@ protocol SequenceAnnotations {
     string parentId;
 
     /**
-    Ordered array of Child Ids of this node.
-    Since not all child nodes are ordered by genomic coordinates,
-    this can't always be reconstructed from parentId's of the children alone.
+    Optional rank (position) of feature among siblings, used
+    only if sibling features (ie. with same parent) are ordered 
+    other than by genomic coordinates alone (as can happen with
+    alternative RNA splicing).
     */
-
-    array<string> childIds = [];
+    union {null, long} siblingRank;
 
     /**
     Identifier for the containing feature set.
