@@ -511,10 +511,6 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
       If a reference is specified, this defaults to the
       reference's length.
   :type end: null|long
-  :field bioSampleId:
-    Specifying the id of a BioSample record will return
-      results from the requested sample.
-  :type bioSampleId: null|string
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
       If unspecified, a system default will be used.
@@ -553,6 +549,10 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :field name:
     Only return read group sets with this name (case-sensitive, exact match).
   :type name: null|string
+  :field bioSampleId:
+    Specifying the id of a BioSample record will return only readgroups
+      with the given bioSampleId.
+  :type bioSampleId: null|string
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
       If unspecified, a system default will be used.
