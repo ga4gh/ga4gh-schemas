@@ -42,12 +42,6 @@ record SearchReadsRequest {
   union { null, long } end = null;
 
   /**
-  Specifying the id of a BioSample record will return
-  results from the requested sample.
-  */
-  union { null, string } bioSampleId = null;
-
-  /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
@@ -122,6 +116,12 @@ record SearchReadGroupSetsRequest {
   Only return read group sets with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
+  
+  /**
+  Specifying the id of a BioSample record will return only readgroups
+  with the given bioSampleId.
+  */
+  union { null, string } bioSampleId = null;
 
   /**
   Specifies the maximum number of results to return in a single page.
