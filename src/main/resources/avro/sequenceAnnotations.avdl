@@ -55,7 +55,7 @@ protocol SequenceAnnotations {
     other than by genomic coordinates alone (as can happen with
     alternative RNA splicing).
     */
-    union {null, long} siblingRank;
+    union {null, long} siblingRank = null;
 
     /**
     Identifier for the containing feature set.
