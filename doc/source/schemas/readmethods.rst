@@ -38,7 +38,9 @@ Gets a list of `ReadGroupSet` matching the search criteria.
 
 `POST /readgroupsets/search` must accept a JSON version of
 `SearchReadGroupSetsRequest` as the post body and will return a JSON
-version of `SearchReadGroupSetsResponse`.
+version of `SearchReadGroupSetsResponse`. Only readgroups that
+match an optionally supplied bioSampleId will be included in 
+the response.
 
  .. function:: getReadGroupSet(id)
 
@@ -252,37 +254,6 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
 
   An experimental preparation of a sample.
 
-.. avro:record:: OntologyTerm
-
-  :field id:
-    :ref:`Ontology<metadata_ontologies>` source identifier -
-      the identifier, a CURIE (preferred) or PURL for an ontology source.
-      Example: http://purl.obolibrary.org/obo/hp.obo
-      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
-      in that it is a URI pointing to an information resource outside of the scope
-      of the schema or its resource implementation.
-  :type id: string
-  :field term:
-    Ontology term - the representation the id is pointing to.
-  :type term: null|string
-  :field value:
-    Ontology value - In the case of using e.g. UnitOntology, the id/term represent
-      a unit of measurement and this would be the measured value.
-  :type value: null|string
-  :field sourceName:
-    Ontology source name - the name of ontology from which the term is obtained
-      e.g. 'Human Phenotype Ontology'
-  :type sourceName: null|string
-  :field sourceVersion:
-    Ontology source version - the version of the ontology from which the
-      OntologyTerm is obtained; e.g. 2.6.1.
-      There is no standard for ontology versioning and some frequently
-      released ontologies may use a datestamp, or build number.
-  :type sourceVersion: null|string
-
-  An ontology term describing an attribute. (e.g. the phenotype attribute
-  'polydactyly' from HPO)
-
 .. avro:record:: Dataset
 
   :field id:
@@ -470,10 +441,10 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :field fragmentName:
     The fragment name. Equivalent to QNAME (query template name) in SAM.
   :type fragmentName: string
-  :field properPlacement:
+  :field improperPlacement:
     The orientation and the distance between reads from the fragment are
-      consistent with the sequencing protocol (equivalent to SAM flag 0x2)
-  :type properPlacement: null|boolean
+      inconsistent with the sequencing protocol (inverse of SAM flag 0x2)
+  :type improperPlacement: null|boolean
   :field duplicateFragment:
     The fragment is a PCR or optical duplicate (SAM flag 0x400).
   :type duplicateFragment: null|boolean
