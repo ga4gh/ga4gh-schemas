@@ -38,7 +38,9 @@ Gets a list of `ReadGroupSet` matching the search criteria.
 
 `POST /readgroupsets/search` must accept a JSON version of
 `SearchReadGroupSetsRequest` as the post body and will return a JSON
-version of `SearchReadGroupSetsResponse`.
+version of `SearchReadGroupSetsResponse`. Only readgroups that
+match an optionally supplied bioSampleId will be included in 
+the response.
 
  .. function:: getReadGroupSet(id)
 
@@ -163,6 +165,32 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
 
   A general exception type.
 
+.. avro:record:: OntologyTerm
+
+  :field id:
+    Ontology source identifier - the identifier, a CURIE (preferred) or
+      PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
+      in that it is a URI pointing to an information resource outside of the scope
+      of the schema or its resource implementation.
+  :type id: string
+  :field term:
+    Ontology term - the representation the id is pointing to.
+  :type term: null|string
+  :field sourceName:
+    Ontology source name - the name of ontology from which the term is obtained
+      e.g. 'Human Phenotype Ontology'
+  :type sourceName: null|string
+  :field sourceVersion:
+    Ontology source version - the version of the ontology from which the
+      OntologyTerm is obtained; e.g. 2.6.1.
+      There is no standard for ontology versioning and some frequently
+      released ontologies may use a datestamp, or build number.
+  :type sourceVersion: null|string
+
+  An ontology term describing an attribute. (e.g. the phenotype attribute
+    'polydactyly' from HPO)
+
 .. avro:record:: Experiment
 
   :field id:
@@ -174,18 +202,18 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field recordCreateTime:
+  :field createDateTime:
     The time at which this record was created. 
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordCreateTime: string
-  :field recordUpdateTime:
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: string
+  :field updateDateTime:
     The time at which this record was last updated.
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordUpdateTime: string
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+      Format: :ref:`ISO 8601 <metadata_date_time>`
   :type runTime: null|string
   :field molecule:
     The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
@@ -226,37 +254,6 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
 
   An experimental preparation of a sample.
 
-.. avro:record:: OntologyTerm
-
-  :field id:
-    :ref:`Ontology<metadata_ontologies>` source identifier -
-      the identifier, a CURIE (preferred) or PURL for an ontology source.
-      Example: http://purl.obolibrary.org/obo/hp.obo
-      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
-      in that it is a URI pointing to an information resource outside of the scope
-      of the schema or its resource implementation.
-  :type id: string
-  :field term:
-    Ontology term - the representation the id is pointing to.
-  :type term: null|string
-  :field value:
-    Ontology value - In the case of using e.g. UnitOntology, the id/term represent
-      a unit of measurement and this would be the measured value.
-  :type value: null|string
-  :field sourceName:
-    Ontology source name - the name of ontology from which the term is obtained
-      e.g. 'Human Phenotype Ontology'
-  :type sourceName: null|string
-  :field sourceVersion:
-    Ontology source version - the version of the ontology from which the
-      OntologyTerm is obtained; e.g. 2.6.1.
-      There is no standard for ontology versioning and some frequently
-      released ontologies may use a datestamp, or build number.
-  :type sourceVersion: null|string
-
-  An ontology term describing an attribute. (e.g. the phenotype attribute
-  'polydactyly' from HPO)
-
 .. avro:record:: Dataset
 
   :field id:
@@ -272,6 +269,38 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   A Dataset is a collection of related data of multiple types.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Analysis
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+      documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field createDateTime:
+    The time at which this record was created. 
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: null|string
+  :field updateDateTime:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.
 
 .. avro:record:: Program
 
@@ -412,10 +441,10 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :field fragmentName:
     The fragment name. Equivalent to QNAME (query template name) in SAM.
   :type fragmentName: string
-  :field properPlacement:
+  :field improperPlacement:
     The orientation and the distance between reads from the fragment are
-      consistent with the sequencing protocol (equivalent to SAM flag 0x2)
-  :type properPlacement: null|boolean
+      inconsistent with the sequencing protocol (inverse of SAM flag 0x2)
+  :type improperPlacement: null|boolean
   :field duplicateFragment:
     The fragment is a PCR or optical duplicate (SAM flag 0x400).
   :type duplicateFragment: null|boolean
@@ -511,10 +540,6 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
       If a reference is specified, this defaults to the
       reference's length.
   :type end: null|long
-  :field bioSampleId:
-    Specifying the id of a BioSample record will return
-      results from the requested sample.
-  :type bioSampleId: null|string
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
       If unspecified, a system default will be used.
@@ -553,6 +578,10 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :field name:
     Only return read group sets with this name (case-sensitive, exact match).
   :type name: null|string
+  :field bioSampleId:
+    Specifying the id of a BioSample record will return only readgroups
+      with the given bioSampleId.
+  :type bioSampleId: null|string
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
       If unspecified, a system default will be used.
