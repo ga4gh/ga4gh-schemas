@@ -425,10 +425,10 @@ Gets a list of `Feature` matching the search criteria.
     Required. The end of the window (0-based, exclusive) for which overlapping
         features should be returned.
   :type end: long
-  :field ontologyTerms:
-    If specified, this query matches only annotations which match one of the
-        provided ontology terms.
-  :type ontologyTerms: array<string>
+  :field featureTypes:
+    If specified, this query matches only annotations whose `featureType`
+        matches one of the provided ontology terms.
+  :type featureTypes: array<string>
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
         If unspecified, a system default will be used.
