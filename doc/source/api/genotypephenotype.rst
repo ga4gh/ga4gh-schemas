@@ -40,7 +40,7 @@ Response
 of matching data are returned as a list of
 `FeaturePhenotypeAssociation <https://github.com/ga4gh/schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/genotypephenotype.avdl#L132>`__\ s.
 
-.. figure:: https://cloud.githubusercontent.com/assets/47808/9339152/53d42aca-459d-11e5-8c91-204f42dc233a.png
+.. figure:: /_static/g2p_response.png
    :alt: image
 
    image
@@ -142,7 +142,7 @@ OntologyTerm is supplied.
 
 
 **Definitions:**
- 
+
 *Annotation* - A free text annotation which is not an
 ontology term describing some attribute. Annotations have associations
 with OntologyTerms to allow these to be added after annotations are
@@ -169,5 +169,4 @@ OntologyTerm is obtained. E.g. 2.6.1. There is no standard for ontology
 versioning and some frequently released ontologies may use a datestamp,
 or build number.
 
-.. |image| image:: https://cloud.githubusercontent.com/assets/47808/9643362/4e081ae0-5176-11e5-8550-abd9c7c43d23.png
-
+.. |image| image:: /_static/g2p_request.png
