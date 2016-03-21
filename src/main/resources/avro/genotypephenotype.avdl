@@ -38,6 +38,26 @@ import idl "common.avdl";
 import idl "metadata.avdl";
 import idl "sequenceAnnotations.avdl";
 
+/** 
+A PhenotypeAssociationSet is a collection of phenotype association results. 
+Such results are grouped by data source and possibly release version or analysis 
+type. 
+*/
+record PhenotypeAssociationSet {
+  /** The phenotype association set ID. */
+  string id;
+
+  /** The phenotype association set name. */
+  union { null, string } name = null;
+
+  /** The ID of the dataset this phenotype association set belongs to. */
+  string datasetId;
+
+  /**
+  Optional additional information for this phenotype association set.
+  */
+  map<array<string>> info = {};
+}
 
 /**
 The context in which a genotype gives rise to a phenotype.
@@ -131,6 +151,12 @@ such as resulting from alternative experiments and analysis.
 */
 record FeaturePhenotypeAssociation {
   string id;
+  
+  /** 
+  The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
+  belongs to. 
+  */
+  string phenotypeAssociationSetId;
 
   /**
     The set of features of the organism that bears the phenotype.

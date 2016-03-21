@@ -6,6 +6,7 @@ Schemas
    genotypephenotype
    genotypephenotypemethods
    metadata
+   metadatamethods
    methods
    readmethods
    reads
