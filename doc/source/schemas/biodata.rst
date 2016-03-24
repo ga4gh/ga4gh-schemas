@@ -267,7 +267,7 @@ representations of biological correlates.
   :field species:
     For a representation of an NCBI Taxon ID as an OntologyTerm, see
         NCBITaxon Ontology
-          http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page
+          http://www.obofoundry.org/ontology/ncbitaxon.html
         For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
         this is NCBITaxon:9606, which has the URI
         http://purl.obolibrary.org/obo/NCBITaxon_9606

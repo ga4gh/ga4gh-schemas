@@ -36,6 +36,7 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this BioSample
+*disease*             * OntologyTerm annotating the disease of the sample
 *individualId*        * the *id* of the *Individual* this BioSample was derived from
 *createDateTime*      * the time the record was created, in ISO8601
 *updateDateTime*      * the time the record was updated, in ISO8601
@@ -67,6 +68,8 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this Individual
+*species*             * OntologyTerm representing the species (NCBITaxon:9606)
+*sex*                 * OntologyTerm for the genetic sex of this individual.
 *createDateTime*      * the time the record was created, in ISO8601
 *updateDateTime*      * the time the record was updated, in ISO8601
 *info*                * additional, structured information
