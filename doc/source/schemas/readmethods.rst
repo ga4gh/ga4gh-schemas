@@ -200,14 +200,14 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field created:
+  :field createDateTime:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type created: string
-  :field updated:
+  :type createDateTime: string
+  :field updateDateTime:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updated: string
+  :type updateDateTime: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
@@ -278,14 +278,14 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
   :type name: null|string
   :field description:
   :type description: null|string
-  :field created:
+  :field createDateTime:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type created: null|string
-  :field updated:
+  :type createDateTime: null|string
+  :field updateDateTime:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updated: string
+  :type updateDateTime: string
   :field type:
     The type of analysis.
   :type type: null|string
