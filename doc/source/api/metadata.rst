@@ -28,6 +28,9 @@ Metadata Records
 :ref:`BioSample<metadata_biosample>`
 ====================================
 
+:ref:`Individual<metadata_individual>`
+======================================
+
 :ref:`Dataset<metadata_dataset>`
 ====================================
 
@@ -106,6 +109,7 @@ Units of time are:
 Durations
 =========
 
+
 Durations are the most common form of time intervals. They do not reference to
 (e.g. start or end) time points.
 They are indicated with a leading "P", followed by unit delimited
@@ -138,7 +142,9 @@ Time intervals consist of a combination of two time designators. These can be
 either two time points for start and end, or one time point and a leading
 (time point indicates end) or trailing (time point indicates start) duration.
 The time elements are separated by a forward slash "/".
+
 While such anchored time intervals represent an option to capture different time features in a single value and to avoid disconnected references, in the context of the data schema anchored intervals will presumablyused less frequently, with a qualitative anchor ("date of diagnosis", "time of sampling") representing the point of reference.
+
 
 **Examples**
 
@@ -187,3 +193,21 @@ Dataset Y has all the work product from a particular grant).
 For data accessors, datasets are a simple way to scope exploration and
 analysis (e.g. are there any supporting examples in 1000genomes?
 what's the distribution of that result in the data from our project?).
+
+
+.. _metadata_dataset:
+
+Dataset
+=======
+
+Some GA4GH data objects are part of a *dataset*. A dataset is a
+data-provider-specified collection of related data of multiple types.
+Logically, it's akin to a folder, where it's up to the provider what
+goes into the folder. Individual data objects are linked by
+`datasetId` fields to `Dataset objects
+<../schemas/metadata.html#avro.Dataset>`_.
+
+Since the grouping of content in a dataset is determined by the data
+provider, users should not make semantic assumptions about that data.
+Subsets of the data in a dataset can be selected for analysis using
+other metadata or attributes.
