@@ -120,6 +120,23 @@ record ExternalIdentifierQuery {
 }
 
 /**
+Text search either by exact match `term` or regexp `wildcard`.  Keys in the map correspond to fields to search on.
+e.g.  
+ { "term" : { "name" : "KIT" }  }
+ { "term" : { "description" : "KIT N822K" }  }
+ { "wildcard" : { "name" : "K??" }  }
+ { "wildcard" : { "description" : "KIT N82*" }  }
+*/
+
+record TermQuery {
+  /**
+  The query type, currently `term` (exact match) or `wildcard` (regexp).
+  */
+ union { null, map<string> } term = {};
+ union { null, map<string> } wildcard = {};
+}
+
+/**
 This request maps to the body of `POST /genotypephenotype/search` as JSON.
 
 The goal here is to allow users to query using one or more of
@@ -155,13 +172,13 @@ record SearchGenotypePhenotypeRequest {
   */
   string phenotypeAssociationSetId;
 
-  union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
+  union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,
          GenomicFeatureQuery} feature = null;
 
-  union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
+  union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,
          PhenotypeQuery} phenotype = null;
 
-  union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
+  union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,
          EvidenceQuery} evidence = null;
 
 
