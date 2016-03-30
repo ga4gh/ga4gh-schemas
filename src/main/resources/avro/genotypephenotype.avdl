@@ -141,6 +141,11 @@ record Evidence {
 	*/
   union { null, string } description = null;
 
+  /**
+  A map of additional evidence information.
+  */
+  map<array<string>> info = {};
+
 }
 
 /**
