@@ -154,7 +154,7 @@ The instance of association allows us to link a feature to a phenotype,
 multiple times, each bearing potentially different levels of confidence,
 such as resulting from alternative experiments and analysis.
 */
-record FeaturePhenotypeAssociation {
+record PhenotypeAssociation {
   string id;
   
   /** 
@@ -175,7 +175,9 @@ record FeaturePhenotypeAssociation {
 
     The feature set can have only one item, and must not be null.
   */
-  array<Feature> features;
+  union { null, array<Feature> }   features;
+  union { null, array<Individual> } individuals;
+  union { null,  array<BioSample> }  biosamples;
 
  /**
     The evidence for this specific instance of association between the
