@@ -169,4 +169,181 @@ OntologyTerm is obtained. E.g. 2.6.1. There is no standard for ontology
 versioning and some frequently released ontologies may use a datestamp,
 or build number.
 
+**Implementation Guidance: Queries**
+
+*Id Searches: Feature Lookup*
+
+| Q: I have a SNPid ("rs6920220"). Create an External Identifier Query.
+| ``{… "feature": {"ids": [{"identifier": "rs6920220", "version": "*", "database": "dbSNP"}]},  … }``
+| The system should respond with features that match on external identifier
+
+| Q: I have a featureId  ("f12345").
+| Create a GenomicFeatureQuery
+| ``{… "feature" : {"features", [{id:"f12345"}]  … }``
+| The system should respond with features that match on that identifier
+| Clarification needed - why not use the <string> Feature type?
+
+
+*Id Searches: Phenotype Lookup*
+
+| Q: I have a Disease ontology id ("http://www.ebi.ac.uk/efo/EFO_0003767").
+| Use an OntologyTermQuery.
+| The system should respond with phenotypes that match on OntologyTerm.id
+
+| Q: I have a phenotype id (“p12345”)
+| Create an PhenotypeQuery using id field.
+| ``{"id": "p12345",...}``
+| The system should respond with phenotypes that match on PhenotypeInstance.id
+
+**Implementation Guidance: Results**
+
+| Q: I need a place to store publication identifiers or model machine learning and statistical data
+| A: The "info" key value pair addition to Evidence
+
+>>>
+    {
+      "evidenceType": {
+        "sourceName": "IAO",
+        "id": "http://purl.obolibrary.org/obo/IAO_0000311",
+        "sourceVersion": null,
+        "term": "publication"
+      },
+      "info": {"source": ["PMID:21470995"]},
+      "description": "Associated publication"
+    }
+    {
+      "evidenceType": {
+        "sourceName": "OBI",
+        "id": "http://purl.obolibrary.org/obo/OBI_0000175",
+        "sourceVersion": null,
+        "term": "p-value"
+      },
+      "info": {"p-value": ["1.00e-21"]}
+      "description": "Associated p-value"
+    },
+    {
+      "evidenceType": {
+        "sourceName": "OBCS",
+        "id": "http://purl.obolibrary.org/obo/OBCS_0000054",
+        "sourceVersion": null,
+        "term": "odds ratio"
+      },
+      "description": "1.102"
+    }
+>>>
+
+**Current work**
+~~~~~~~~~~~~~~~~
+
+*Background*
+
+G2P servers are implemented in three different contexts:
+
+* As a wrapper around standalone local G2P "knowledge bases" (eg Monarch, CiVIC,etc).  Important considerations are the API needs to function independently of other parts of the API and separately from any specific omics dataset.  Often, these databases are not curated with complete Feature fields (referenceName,start,end,strand)
+
+|image-g2p-standalone|
+
+* Coupled with sequence annotation and GA4GH datasets.  Clients will want implementation specific featureId/genotypeId to match and integrate with the rest of the APIs.
+
+|image-g2p-integrated|
+
+
+* Operating in concert with other instances of g2p servers where the client's loosely federated query is supported by heterogeneous server.  Challenges:  Normalizing API behavior across implementations (featureId for given region different per implementation)
+
+|image-g2p-federated|
+
+**Problems**
+
+*Flexible representation of Feature*
+
+Not all G2P databases have complete genomic location information or are associated with GA4GH omics dataset.
+
+
+*Free form strings in queries*
+
+>>>
+If I understand this correctly, I think we should be concerned about clashing of unscoped identifiers. For example, I read this as supporting something like { 'phenotype': ['FH'] }, in which I think it's unclear whether that's FH the gene (via "ExternalIdentifierQuery") or Familial Hypercholesterolemia (via "PhenotypeQuery"). Is that (or something like it) a valid concern here?
+https://github.com/ga4gh/schemas/pull/432#issuecomment-189512499
+The semantics of SearchGenotypePhenotypeRequest are very unclear. I would really have no idea how to construct a query.
+https://github.com/ga4gh/schemas/pull/432#discussion_r54935254
+>>>
+
+Search for Feature - alternatives
+
+| #1 Q: I have a gene name / variant name / protein name  ("KIT").
+| Create a GenomicFeatureQuery, use Key values suggested by http://www.sequenceontology.org/gff3.shtml
+| ``{... "feature": {"attributes": {"vals": {"Name": ["KIT"]}},...} }``
+| The system should respond with features that match on that name. The system should match on wildcards
+
+| #2 Q: I have a feature description  ("KIT N822K").
+| Create a GenomicFeatureQuery, use Key values suggested by http://www.sequenceontology.org/gff3.shtml
+| ``{... "feature": {"attributes": {"vals": {"Description": ["KIT N822K"]}},...} }``
+| The system should respond with features that match on that description. The system should match on wildcards
+
+| Clarification needed - If these examples are valid, why support  <string> Feature type?
+| e.g: I have an arbitrary string("KIT N822K").
+| Create a simple string query, submit to /geneotypephenotype/search
+| ``{… "feature" :"KIT N822K",  … }``
+
+| Alternative: Create a new endpoint  /feature/search that takes a `term` or `wildcard`
+| POST /search/feature
+| { "term" : { "name" : "KIT" }  }
+| { "term" : { "description" : "KIT N822K" }  }
+| { "wildcard" : { "name" : "K??" }  }
+| { "wildcard" : { "description" : "KIT N82*" }  }
+| The system should respond with features that match on the field described.
+| The client would then use the featureIds returned to re-query  /genotypephenotype/search
+
+| Alternative: Re-use endpoint /geneotypephenotype/search, create replace new type TermQuery
+
+>>>
+record TermQuery {
+  /**
+  The query type, currently `term` (exact match) or `wildcard` (regexp).
+  */
+ union { null, map<string> } term = {};
+ union { null, map<string> } wildcard = {};
+}
+record SearchGenotypePhenotypeRequest {
+...
+union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,GenomicFeatureQuery} feature = null;
+...
+}
+>>>
+
+| The system should respond with features that match on the field described.
+
+
+
+Search for Phenotype alternatives
+
+| #1 Q: I have a disease name "inflammatory bowel disease"
+| Create an PhenotypeQuery using description field.
+| ``{"description": "inflammatory bowel disease",...}``
+| The system responds with Phenotypes that match on OntologyTerm.term
+
+| #2 Q: I have a disease name "inflammatory bowel disease"
+| Use a simple string query.
+| ``{… "phenotype" :"inflammatory bowel disease",  … }``
+| The system responds with Phenotypes that match on OntologyTerm.term
+
+| #3 Q: I have a disease name "inflammatory bowel disease"
+| Alternative, use TermQuery for phenotype
+| ``{ "term" : { "name" : "inflammatory bowel disease" }  }``
+| The system responds with Phenotypes that match on OntologyTerm.term
+
+
+Multiple server collation
+
+| #1 Q: I have results from multiple G2P Servers.  How do I collate them?
+| Use HGVS annotation to identify identical features?
+
+
+
+
+
+
 .. |image| image:: /_static/g2p_request.png
+.. |image-g2p-standalone| image:: /_static/g2p-standalone.png
+.. |image-g2p-integrated| image:: /_static/g2p-integrated.png
+.. |image-g2p-federated| image:: /_static/g2p-federated.png
