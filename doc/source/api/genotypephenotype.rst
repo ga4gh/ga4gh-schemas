@@ -170,6 +170,7 @@ versioning and some frequently released ontologies may use a datestamp,
 or build number.
 
 **Implementation Guidance: Queries**
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *Id Searches: Feature Lookup*
 
