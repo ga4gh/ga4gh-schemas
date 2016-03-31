@@ -338,8 +338,8 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
     Optional additional information for this phenotype association set.
   :type info: map<array<string>>
 
-  A PhenotypeAssociationSet is a collection of phenotype association results. 
-  Such results are grouped by data source and possibly release version or analysis 
+  A PhenotypeAssociationSet is a collection of phenotype association results.
+  Such results are grouped by data source and possibly release version or analysis
   type.
 
 .. avro:record:: EnvironmentalContext
@@ -355,13 +355,13 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
       Anatomy (Uberon): http://www.ontobee.org/browser/index.php?o=uberon
   :type environmentType: OntologyTerm
   :field description:
-    A textual description of the environment. This is used to complement 
+    A textual description of the environment. This is used to complement
     	the structured description in the environmentType field
   :type description: null|string
 
   The context in which a genotype gives rise to a phenotype.
   This is fairly open-ended; as a stub we have a simple ontology term.
-  For example, a controlled term for a drug, or perhaps an instance of a 
+  For example, a controlled term for a drug, or perhaps an instance of a
   complex environment including temperature and air quality, or perhaps
   the anatomical environment (gut vs tissue type vs whole organism).
 
@@ -374,9 +374,9 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
     HPO is recommended
   :type type: OntologyTerm
   :field qualifier:
-    PATO is recommended.  Often this qualifier might be for abnormal/normal, 
+    PATO is recommended.  Often this qualifier might be for abnormal/normal,
       or severity.
-      For example, severe: http://purl.obolibrary.org/obo/PATO_0000396 
+      For example, severe: http://purl.obolibrary.org/obo/PATO_0000396
       or abnormal: http://purl.obolibrary.org/obo/PATO_0000460
   :type qualifier: null|array<OntologyTerm>
   :field ageOfOnset:
@@ -384,12 +384,15 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
       http://purl.obolibrary.org/obo/HP_0011007
   :type ageOfOnset: null|OntologyTerm
   :field description:
-    A textual description of the phenotype. This is used to complement the 
+    A textual description of the phenotype. This is used to complement the
       structured phenotype description in the type field.
   :type description: null|string
+  :field ids:
+    ExternalIdentifiers that apply to this PhenotypeInstance
+  :type ids: null|array<ExternalIdentifier>
 
   An association to a phenotype and related information.
-  This record is intended primarily to be used in conjunction with variants, but 
+  This record is intended primarily to be used in conjunction with variants, but
   the record can also be composed with other kinds of entities such as diseases
 
 .. avro:record:: Evidence
@@ -398,30 +401,36 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
     ECO or OBI is recommended
   :type evidenceType: OntologyTerm
   :field description:
-    A textual description of the evidence. This is used to complement the 
+    A textual description of the evidence. This is used to complement the
     	structured description in the evidenceType field
   :type description: null|string
+  :field info:
+    A map of additional evidence information.
+  :type info: map<array<string>>
+  :field ids:
+    ExternalIdentifiers that apply to this Evidence
+  :type ids: null|array<ExternalIdentifier>
 
   Evidence for the phenotype association.
-  This is also a stub for further expansion.  We should consider moving this into 
+  This is also a stub for further expansion.  We should consider moving this into
   it's own schema.
 
 .. avro:record:: FeaturePhenotypeAssociation
 
   :field id:
   :type id: string
-  :field phenotypeAssociationId:
+  :field phenotypeAssociationSetId:
     The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
       belongs to.
-  :type phenotypeAssociationId: string
+  :type phenotypeAssociationSetId: string
   :field features:
     The set of features of the organism that bears the phenotype.
         This could be as complete as a full complement of variants,
         or as minimal as the confirmed variants that are known causation
-        for the annotated phenotype.  
-        Examples of features could be variations at the nucleotide level, 
+        for the annotated phenotype.
+        Examples of features could be variations at the nucleotide level,
         large rearrangements at the chromosome level, or relevant epigenetic
-        markers.  Relevant genomic feature types are suggested to be 
+        markers.  Relevant genomic feature types are suggested to be
         those typed in the Sequence Ontology (SO).
     
         The feature set can have only one item, and must not be null.
@@ -432,8 +441,8 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   :type evidence: array<Evidence>
   :field phenotype:
     The phenotypic component of this association.
-        Note that we delegate this to a separate record to allow us the flexibility 
-    	to composition of phenotype associations with records that are not 
+        Note that we delegate this to a separate record to allow us the flexibility
+    	to composition of phenotype associations with records that are not
     	variant sets - for example, diseases.
   :type phenotype: PhenotypeInstance
   :field description:

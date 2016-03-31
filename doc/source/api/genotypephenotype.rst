@@ -183,6 +183,15 @@ or build number.
 | The system should respond with features that match on that identifier
 | Clarification needed - why not use the <string> Feature type?
 
+| Q: I have an identifier for BRCA1  `GO:0070531` how do I query for feature?
+| Create an OntologyTermQuery
+| The system should respond with features that match on that term
+
+| Q: I only want somatic variant features `SO:0001777` how do I limit results?
+| Create an GenomicFeatureQuery, specify featureType
+| ``{… "feature" : {"features", [{featureType:"SO:0001777"}]  … }``
+| The system should respond with features that match on that type
+
 
 *Id Searches: Phenotype Lookup*
 
@@ -232,6 +241,7 @@ or build number.
     }
 >>>
 
+
 **Current work**
 ~~~~~~~~~~~~~~~~
 
@@ -258,6 +268,17 @@ G2P servers are implemented in three different contexts:
 
 Not all G2P databases have complete genomic location information or are associated with GA4GH omics dataset.
 
+| #1 Q: I only have gene name to represent a Genomic Feature ("KIT").
+| Create a Feature, use Key values suggested by http://www.sequenceontology.org/gff3.shtml
+| ``{"feature": {"attributes": {"vals": {"Name": ["KIT"]}}} }``
+| Other values may be null
+
+| #2 Q: I only have description to represent a Genomic Feature ("KIT N822K").
+| Create a Feature, use Key values suggested by http://www.sequenceontology.org/gff3.shtml
+| ``{"feature": {"attributes": {"vals": {"Description": ["KIT N822K"]}}} }``
+| Other values may be null
+
+
 
 *Free form strings in queries*
 
@@ -280,12 +301,10 @@ Search for Feature - alternatives
 | ``{... "feature": {"attributes": {"vals": {"Description": ["KIT N822K"]}},...} }``
 | The system should respond with features that match on that description. The system should match on wildcards
 
-| Clarification needed - If these examples are valid, why support  <string> Feature type?
-| e.g: I have an arbitrary string("KIT N822K").
-| Create a simple string query, submit to /geneotypephenotype/search
-| ``{… "feature" :"KIT N822K",  … }``
+Concerns with approach #1 & #2. Arguably name and description should be proper fields of Feature, not buried in an attributes hash.
 
-| Alternative: Create a new endpoint  /feature/search that takes a `term` or `wildcard`
+
+| Alternative: deprecate the <string> query type and replace it with TermQuery that takes a `term` or `wildcard`
 | POST /search/feature
 | { "term" : { "name" : "KIT" }  }
 | { "term" : { "description" : "KIT N822K" }  }
@@ -295,7 +314,7 @@ Search for Feature - alternatives
 | The client would then use the featureIds returned to re-query  /genotypephenotype/search
 
 | Alternative: Re-use endpoint /geneotypephenotype/search, create replace new type TermQuery
-
+| or create a new endpoint(s)  /feature/search, /phenotype/search
 >>>
 record TermQuery {
   /**
@@ -310,8 +329,19 @@ union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,GenomicFeatur
 ...
 }
 >>>
+| The system should respond with features that match on the field(s) described.
 
-| The system should respond with features that match on the field described.
+Additionally, the GenomicFeatureQuery, PhenotypeQuery are `query by example` where an array of Feature or PhenotypeInstance are provided.
+Unfortunately, these core model entities are relatively stringently defined.  For example:
+Feature has all of the following properties mandatory:[id,parentId,childIds,featureSetId,referenceName,start,end,strand,featureType,attributes]
+This creates queries of the form
+{"features": [{"id":"123", "parentId":null, "childIds":null, ... }]}
+Besides the ergonomic challenges for the client,  it creates interpretation challenges for the query engine.
+The same use represented as a TermQuery would be:
+{"features": [{"term":{"id":"123"}}]}
+
+GenomicFeatureQuery, PhenotypeQuery would remain for those use cases where a client has previously retrieved an object from the server.
+
 
 
 
@@ -319,7 +349,7 @@ Search for Phenotype alternatives
 
 | #1 Q: I have a disease name "inflammatory bowel disease"
 | Create an PhenotypeQuery using description field.
-| ``{"description": "inflammatory bowel disease",...}``
+| ``{"name": "inflammatory bowel disease",...}``
 | The system responds with Phenotypes that match on OntologyTerm.term
 
 | #2 Q: I have a disease name "inflammatory bowel disease"
@@ -333,11 +363,65 @@ Search for Phenotype alternatives
 | The system responds with Phenotypes that match on OntologyTerm.term
 
 
+| Clarification needed - If these examples are valid, why support  <string> Feature type?
+| are there legitimate use cases that require it?
+
+
+
+
 Multiple server collation
 
 | #1 Q: I have results from multiple G2P Servers.  How do I collate them?
-| Use HGVS annotation to identify identical features?
+| A) Use HGVS' DNA annotation to identify identical features as featureId ? (Reece)
+| B) Can we leverage external identifiers?
 
+
+Expanding scope to entities other than Feature
+
+Consider instead a PhenotypeAssociation which has a wider scope; the objects it
+connects and the evidence type determines the meaning of the association
+
+|image-g2p-expanded-scope|
+
+| Create a new endpoint(s) /phenotypeassociation/search
+| * feature is replaced with a more generic `subject`
+| * FeatureQuery is either removed from Request or replaced with a new Query types
+|   VariantQuery,FeatureEventQuery,BioSampleQuery,IndividualQuery,CallSetQuery. We
+|   should consider using a simple map to represent a `data transfer object` to replace this
+|   explosion in query terms 
+
+>>>
+
+...
+record SearchPhenotypeRequest {
+
+  /**
+  The `PhenotypeAssociationSet` to search.
+  */
+  string phenotypeAssociationSetId;
+
+  union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery }
+    subject = null;
+
+  union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,
+         PhenotypeQuery} phenotype = null;
+
+  union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,
+         EvidenceQuery} evidence = null;
+  ...
+}
+...
+record PhenotypeAssociation {
+  ...
+  array<Feature>   subjects;
+  array<union {Variant,FeatureEvent,BioSample,Individual,CallSet,Feature}>> subjects = {};
+  ...
+
+}
+
+
+
+>>>
 
 
 
@@ -347,3 +431,4 @@ Multiple server collation
 .. |image-g2p-standalone| image:: /_static/g2p-standalone.png
 .. |image-g2p-integrated| image:: /_static/g2p-integrated.png
 .. |image-g2p-federated| image:: /_static/g2p-federated.png
+.. |image-g2p-expanded-scope| image:: /_static/g2p-expanded-scope.png
