@@ -315,6 +315,7 @@ Concerns with approach #1 & #2. Arguably name and description should be proper f
 
 | Alternative: Re-use endpoint /geneotypephenotype/search, create replace new type TermQuery
 | or create a new endpoint(s)  /feature/search, /phenotype/search
+
 >>>
 record TermQuery {
   /**
@@ -329,6 +330,7 @@ union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,GenomicFeatur
 ...
 }
 >>>
+
 | The system should respond with features that match on the field(s) described.
 
 Additionally, the GenomicFeatureQuery, PhenotypeQuery are `query by example` where an array of Feature or PhenotypeInstance are provided.
@@ -388,41 +390,33 @@ connects and the evidence type determines the meaning of the association
 | * FeatureQuery is either removed from Request or replaced with a new Query types
 |   VariantQuery,FeatureEventQuery,BioSampleQuery,IndividualQuery,CallSetQuery. We
 |   should consider using a simple map to represent a `data transfer object` to replace this
-|   explosion in query terms 
+|   explosion in query terms
 
->>>
+::
 
-...
-record SearchPhenotypeRequest {
-
-  /**
-  The `PhenotypeAssociationSet` to search.
-  */
-  string phenotypeAssociationSetId;
-
-  union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery }
-    subject = null;
-
-  union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,
-         PhenotypeQuery} phenotype = null;
-
-  union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,
-         EvidenceQuery} evidence = null;
-  ...
-}
-...
-record PhenotypeAssociation {
-  ...
-  array<Feature>   subjects;
-  array<union {Variant,FeatureEvent,BioSample,Individual,CallSet,Feature}>> subjects = {};
-  ...
-
-}
-
-
-
->>>
-
+| record SearchPhenotypeRequest {
+|   /**
+|   The `PhenotypeAssociationSet` to search.
+|   */
+|   string phenotypeAssociationSetId;
+|
+|   union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery }
+|     subject = null;
+|
+|   union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,
+|          PhenotypeQuery} phenotype = null;
+|
+|   union {null, TermQuery, ExternalIdentifierQuery, OntologyTermQuery,
+|          EvidenceQuery} evidence = null;
+|   ...
+| }
+| ...
+| record PhenotypeAssociation {
+|   ...
+|   array<Feature>   subjects;
+|   array<union {Variant,FeatureEvent,BioSample,Individual,CallSet,Feature}>> subjects = {};
+|   ...
+| }
 
 
 

@@ -519,7 +519,7 @@ of `SearchGenotypePhenotypeResponse`.
 .. avro:record:: DTO
 
   :field properties:
-    A property key `_class` is reserved to indicate the destination type if necessary
+    A property key `_class` is reserved to indicate the destination type if necessay
   :type properties: map<array<string|org.ga4gh.models.ExternalIdentifier|org.ga4gh.models.OntologyTerm>>
 
   Describe a Lightweight Data Transfer Object that can represent `any` Entity
@@ -535,7 +535,7 @@ of `SearchGenotypePhenotypeResponse`.
 .. avro:record:: GenomicFeatureQuery
 
   :field features:
-  :type features: array<map<string>>
+  :type features: array<org.ga4gh.models.Feature>
 
   The feature collection to search for.  One or more features (variants,
   genes, etc) can be specified.  The idea here is that if a
