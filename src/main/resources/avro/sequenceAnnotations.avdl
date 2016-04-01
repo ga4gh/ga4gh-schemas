@@ -114,7 +114,7 @@ protocol SequenceAnnotations {
     string id;
 
     /** The ID of the dataset this annotation set belongs to. */
-   union { null, string } datasetId = null;
+    string datasetId;
 
     /**
     The ID of the reference set which defines the coordinate-space for this
