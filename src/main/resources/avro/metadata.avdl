@@ -6,19 +6,6 @@ GA4GH protocols. This includes metadata for individuals, samples, analyses
 and instrumentation as well as ontology representations for metadata.
 */
 
-/**
-TODO:
-  - id discussion
-  - How to represent trios, twins, etc. See PGP data to drive this.
-  - Explicit temporal sample relationships or samplingDate sufficient?
-  - standardize name/description/notes/key-value data types
-  - VERY IMPORTANT data/time of record goes to the issue of what are the
-    objects and what is the data model. Is it containment or relational.
-    Are we building a data model or a exchange format without knowing
-    the data model.
-  - should every field be prefixed by `ontology*'
-*/
-
 protocol Metadata {
 
   import idl "common.avdl";
@@ -106,16 +93,26 @@ protocol Metadata {
   }
 
   /**
+  The time at which this experiment was performed.
+  Granularity here is variable (e.g. date only).
+  Format: :ref:`ISO 8601 <metadata_date_time>`
+  */
+  string createDateTime;
+
+  /**
+  The time at which this record was last updated.
+  Format: :ref:`ISO 8601 <metadata_date_time>`
+  */
+  string updateDateTime;
+
+
+  /**
   Record of phenotypes observed in an individual, which maybe independent of a
   disease diagnosis.
   Phenotype-disease links are complex and as this is a process
   performed by clinicians, presentations can be atypical and phenotypes
   unrelated to an individual diagnosis may be present.
   We also want to record phenotypes in the absences of a diagnosis.
-
-  TODO:
-    - need to link to clinical data. Reference to clinical working group
-    - need keyword/value table, also human notes
   */
   record Phenotype {
 
@@ -566,4 +563,44 @@ protocol Metadata {
 
   }
 
+/**
+An analysis contains an interpretation of one or several experiments.
+(e.g. SNVs, copy number variations, methylation status) together with
+information about the methodology used.
+*/
+record Analysis {
+
+  /**
+  Formats of id | name | description | accessions are described in the
+  documentation on general attributes and formats.
+  */
+  string id;
+
+  union { null, string } name = null;
+
+  union { null, string } description = null;
+
+  /**
+  The time at which this record was created.
+  Format: :ref:`ISO 8601 <metadata_date_time>`
+  */
+  union { null, string } createDateTime = null;
+
+  /**
+  The time at which this record was last updated.
+  Format: :ref:`ISO 8601 <metadata_date_time>`
+  */
+  string updateDateTime;
+
+  /** The type of analysis. */
+  union { null, string } type = null;
+
+  /** The software run to generate this analysis. */
+  array<string> software = [];
+
+  /**
+  A map of additional analysis information.
+  */
+  map<array<string>> info = {};
+}
 }

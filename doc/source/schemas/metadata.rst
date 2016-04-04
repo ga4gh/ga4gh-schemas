@@ -59,7 +59,7 @@ TODO:
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-  
+
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -117,221 +117,27 @@ TODO:
 
   :field id:
     Ontology source identifier - the identifier, a CURIE (preferred) or
-        PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
-        It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
-        in that it is a URI pointing to an information resource outside of the scope
-        of the schema or its resource implementation.
+      PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
+      in that it is a URI pointing to an information resource outside of the scope
+      of the schema or its resource implementation.
   :type id: string
   :field term:
     Ontology term - the representation the id is pointing to.
   :type term: null|string
   :field sourceName:
     Ontology source name - the name of ontology from which the term is obtained
-        e.g. 'Human Phenotype Ontology'
+      e.g. 'Human Phenotype Ontology'
   :type sourceName: null|string
   :field sourceVersion:
     Ontology source version - the version of the ontology from which the
-        OntologyTerm is obtained; e.g. 2.6.1.
-        There is no standard for ontology versioning and some frequently
-        released ontologies may use a datestamp, or build number.
+      OntologyTerm is obtained; e.g. 2.6.1.
+      There is no standard for ontology versioning and some frequently
+      released ontologies may use a datestamp, or build number.
   :type sourceVersion: null|string
 
   An ontology term describing an attribute. (e.g. the phenotype attribute
     'polydactyly' from HPO)
-
-.. avro:record:: Disease
-
-  :field disease:
-    The diagnosis, defined through an OntologyTerm.
-  :type disease: OntologyTerm
-  :field stageAtDiagnosis:
-    The stage of the disease at diagnosis. This is not updated to reflect
-        progression of the disease, which is recorded in the clinical data.
-        e.g. OntologyTerm representation for stage T2N1M0.
-  :type stageAtDiagnosis: null|OntologyTerm
-  :field ageOfOnset:
-    Age of onset of the disease in ISO 8601 duration PnYnMnDTnHnMnS
-        in a suitable approximation
-        Example: P47Y08M (47 years, 8 months)
-  :type ageOfOnset: null|string
-  :field dateTimeDiagnosis:
-    Date the diagnosis was made/assigned. This is NOT when the record was
-        created.
-        Format: ISO 8601 (cf. documentation on time formats)
-  :type dateTimeDiagnosis: null|string
-
-  Representation of a disease. The object should in minimal version report the
-    kind of the disease and a temporal parameter.
-  
-    The "Disease" object is not intended to represent extended clinical records,
-    but as a basic representation of the most relevant attributes in the context
-    of the study at hand.
-  
-    GA4GH metadata does not attempt to encode detailed phenotypes of the disease
-    or longitudinal concepts. Association of diseases and disease phenotypes
-    (e.g Li-Fraumeni syndrome and resulting malignancies) is complex and left to
-    external processes utilizing GA4GH type records in combination with medical
-    information systems.
-  
-    TODO:
-      - need to link to clinical data. Reference to clinical working group
-      - need keyword/value table, also human notes
-
-.. avro:record:: Phenotype
-
-  :field phenotype:
-    The phenotype, defined through an OntologyTerm.
-  :type phenotype: OntologyTerm
-  :field ageOfOnset:
-    Age of onset of the phenotype.
-        TODO: need to define format (see Disease)
-  :type ageOfOnset: null|string
-  :field dateTimeIdentified:
-    Date the phenotype was identified/assigned.
-        Format: ISO 8601 (cf. documentation on time formats)
-  :type dateTimeIdentified: null|string
-
-  Record of phenotypes observed in an individual, which maybe independent of a
-    disease diagnosis.
-    Phenotype-disease links are complex and as this is a process
-    performed by clinicians, presentations can be atypical and phenotypes
-    unrelated to an individual diagnosis may be present.
-    We also want to record phenotypes in the absences of a diagnosis.
-  
-    TODO:
-      - need to link to clinical data. Reference to clinical working group
-      - need keyword/value table, also human notes
-
-.. avro:record:: Observation
-
-  :field id:
-    The id of the observation. This is facultative and allows the use of
-        "relationship objects" to assign e.g. evidence levels between an observation
-        and e.g. a phenotype object.
-        Format: UUIDv4 recommended
-  :type id: null|string
-  :field observation:
-    The type of the observation.
-  :type observation: OntologyTerm
-  :field value:
-    The value of the observation.
-  :type value: OntologyTerm
-  :field unit:
-    The unit of the observation; e.g. for numeric values.
-  :type unit: null|string
-  :field dateTimeObserved:
-    Date the observation was made/assigned (e.g. date of diagnosis, observation
-        of phenotype...). Suitable e.g. for health related purposes, epidemiology,
-        experimental setups (time series)...
-        Format: ISO 8601 (cf. documentation on time formats)
-  :type dateTimeObserved: null|string
-  :field ageAtObservation:
-    Age at time of the observation.
-        This is highly relevant in the human context and usually the primary
-        available time related parameter available, as date of birth might not
-        be available.
-  :type ageAtObservation: null|string
-
-  Observations are single measurements, which can be described through their
-    type, value and unit, as well as an associated dateTime value. This could be
-    numerical values with a unit, or observations defined through ontologies.
-  
-    Examples would be body height, body weight, BMI...
-  
-    TODO:
-      - need keyword/value table, also human notes
-
-.. avro:record:: Intervention
-
-  :field id:
-    The id of the intervention. This is facultative and allows the association
-        of an intervention to e.g. a phenotype object, through a relationship.
-  :type id: null|string
-  :field intervention:
-    The type of the intervention.
-  :type intervention: null|OntologyTerm
-  :field description:
-    A description of the intervention.
-  :type description: null|string
-  :field dateTimeIntervention:
-    Date the the invervention started.
-        Format: ISO 8601 (cf. documentation on time formats)
-  :type dateTimeIntervention: null|string
-
-  Interventions are e.g. medical treatments.  This is a summary of the clinical
-    information intended to be used in basic analysis when clinical information
-    may not be avalable. This could be e.g. OntologyTerm based representations of
-  
-      medical procedure, SIO_001024
-      cognitive behavior, NBO_0000607
-      drug, CHEBI_23888
-
-.. avro:record:: Evidence
-
-  :field evidenceType:
-    ECO or OBI is recommended
-  :type evidenceType: OntologyTerm
-  :field description:
-    A textual description of the evidence. This is used to complement the
-        structured description in the evidenceType field
-  :type description: null|string
-
-  NOTE: Copied from genotypephenotype.avdl
-    Evidence for the phenotype association.
-    This is also a stub for further expansion. We should consider moving this into
-    its own schema.
-    TODO: Move Evidence from genotypephenotype.avdl to metadata.avdl?
-
-.. avro:record:: Association
-
-  :field ids:
-    A list of exactly two object ids.
-        This is the minimum object glue; e.g. for association of the intervention
-        (applied to an individual) with a sample.
-  :type ids: array<string>
-  :field description:
-    A textual description of the association.
-  :type description: null|string
-  :field evidence:
-    The evidence for this specific instance of association between the
-        different objects.
-  :type evidence: array<Evidence>
-
-  Associations allow to "glue" two objects together, in lieu of forced nesting.
-    The concept borrows from the G2P definitions.
-    TODO: Move Association from genotypephenotype.avdl?
-
-.. avro:record:: GeographicLocation
-
-  :field latitude:
-    signed decimal degrees (North, relative to Equator)
-  :type latitude: null|float
-  :field longitude:
-    signed decimal degrees (East, relative to IERS Reference Meridian)
-  :type longitude: null|float
-  :field elevation:
-    meters above/below (standard) sea level
-  :type elevation: null|float
-  :field description:
-    A verbose description of the location, for processing into latitude,
-        longitude, elevation attributes.
-        Preferably used standard "administrative boundaries" terms.
-  :type description: null|string
-
-  A geographic location object.
-    This implementation supports a single "point" location
-    and an additional/fallback description (e.g. address style) attribute.
-  
-    Using multiple GeographicLocation objects in an ordered list could allow for
-    encoding of polygon-style locations (e.g. representation of administrative
-    boundaries).
-  
-    The geographic point object uses the default units from the DCMI point scheme
-    http://dublincore.org/documents/dcmi-point/
-    and avoids optional representation in non-standard units.
-  
-    TODO:
-    - Include extended attributes, capture standardized address parameters?
 
 .. avro:record:: Experiment
 
@@ -344,18 +150,18 @@ TODO:
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field created:
-    The times at which this record was created / updated.
-        Format: ISO 8601 (cf. documentation on time formats)
-  :type created: string
-  :field updated:
-  :type updated: string
-  :field bioSampleId:
-  :type bioSampleId: null|string
+  :field createDateTime:
+    The time at which this record was created.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: string
+  :field updateDateTime:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
   :field runTime:
     The time at which this experiment was performed.
-        Granularity here is variabel (e.g. date only).
-        Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+      Granularity here is variable (e.g. date only).
+      Format: :ref:`ISO 8601 <metadata_date_time>`
   :type runTime: null|string
   :field molecule:
     The molecule examined in this experiment. (e.g. genomic DNA, total RNA)
@@ -489,3 +295,34 @@ TODO:
     information about the methodology used.
     TODO: review
 
+.. avro:record:: Analysis
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+      documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field createDateTime:
+    The time at which this record was created.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: null|string
+  :field updateDateTime:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.

@@ -1,3 +1,5 @@
+.. _schemas:
+
 Schemas
 !!!!!!!
 
@@ -5,6 +7,7 @@ Schemas
    common
    biodata
    metadata
+   metadatamethods
    methods
    readmethods
    reads
@@ -12,3 +15,5 @@ Schemas
    references
    variantmethods
    variants
+   alleleAnnotationmethods
+   alleleAnnotations
