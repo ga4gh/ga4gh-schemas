@@ -93,20 +93,6 @@ protocol Metadata {
   }
 
   /**
-  The time at which this experiment was performed.
-  Granularity here is variable (e.g. date only).
-  Format: :ref:`ISO 8601 <metadata_date_time>`
-  */
-  string createDateTime;
-
-  /**
-  The time at which this record was last updated.
-  Format: :ref:`ISO 8601 <metadata_date_time>`
-  */
-  string updateDateTime;
-
-
-  /**
   Record of phenotypes observed in an individual, which maybe independent of a
   disease diagnosis.
   Phenotype-disease links are complex and as this is a process
@@ -253,7 +239,7 @@ protocol Metadata {
   /**
   Associations allow to "glue" two objects together, in lieu of forced nesting.
   The concept borrows from the G2P definitions.
-  TODO: Move Association from genotypephenotype.avdl?
+  TODO: Move Association from G2P?
   */
   record Association {
 
@@ -261,6 +247,7 @@ protocol Metadata {
     A list of exactly two object ids.
     This is the minimum object glue; e.g. for association of the intervention
     (applied to an individual) with a sample.
+    TODO: Separate attributes instead of list of 2?
     */
     array<string> ids;
 
@@ -322,8 +309,6 @@ protocol Metadata {
   /**
   A technical procedure performed on (pre-processed, labeled ...) material
   (DNA, RNA, protein extraction) derived from a single or a mix of BioSamples.
-  FIXIT:
-  - Would Assay be a better name?
   */
   record Experiment {
     /** The experiment id. This is at least locally unique. */
@@ -339,8 +324,8 @@ protocol Metadata {
     The times at which this record was created / updated.
     Format: ISO 8601 (cf. documentation on time formats)
     */
-    string created;
-    string updated;
+    string createDateTime;
+    string updateDateTime;
 
     union { null, string } bioSampleId = null;
 
@@ -411,46 +396,6 @@ protocol Metadata {
   }
 
   /**
-  Represents a group of contextually related data objects of (e.g. all
-  Individuals, Samples, Experiments associated with a particular feature; or
-  e.g. a trio in genetic diagnostics.).  This concept may be expanded in the
-  future (ontology for describing the type of dataset ...).
-  TODO: Determination of scope, structure, specific attributes, e.g. limiting to
-  single record type - see http://purl.obolibrary.org/obo/IAO_0000100 - and
-  providing alternative mechanism for heterogeneous data with external
-  contextualization, e.g. all records of different types associated with a
-  clinical study.
-
-  TODO: this might be a good way to think about the role of dataset:
-    http://isatab.sourceforge.net/format.html investigation, study, assay
-
-  TODO: maybe this is dataset: BioProject is a collection of biological data
-    related to a single initiative, originating from a single organization or
-    from a consortium. A BioProject record provides users a single place to find
-    links to the diverse data types generated for that project.
-    http://www.ncbi.nlm.nih.gov/bioproject/
-    is this is this a good analogy?
-  */
-  record Dataset {
-
-    /**
-    The dataset's id. This is the local/legacy/generic id.
-    */
-    string id;
-
-    /**
-    The name of the dataset.
-    */
-    union { null, string } name = null;
-
-    /**
-    A description of the dataset.
-    */
-    union { null, string } description = null;
-
-  }
-
-  /**
   Represents a group of individuals. (e.g. a trio)
   TODO: review, this clearly define how this works.  Need an list of
   individuals.  Needs typed.
@@ -475,8 +420,8 @@ protocol Metadata {
     The times at which this record was created / updated.
     Format: ISO 8601 (cf. documentation on time formats)
     */
-    string created;
-    string updated;
+    string createDateTime;
+    string updateDateTime;
 
     /**
     Group member ids.
@@ -515,11 +460,11 @@ protocol Metadata {
     array<string> accessions;
 
     /**
-    The times at which this record was created / updated.
+    The times at which this record was createDateTime / updated.
     Format: ISO 8601 (cf. documentation on time formats)
     */
-    string created;
-    string updated;
+    string createDateTime;
+    string updateDateTime;
 
     /**
     The type of analysis.
@@ -563,44 +508,4 @@ protocol Metadata {
 
   }
 
-/**
-An analysis contains an interpretation of one or several experiments.
-(e.g. SNVs, copy number variations, methylation status) together with
-information about the methodology used.
-*/
-record Analysis {
-
-  /**
-  Formats of id | name | description | accessions are described in the
-  documentation on general attributes and formats.
-  */
-  string id;
-
-  union { null, string } name = null;
-
-  union { null, string } description = null;
-
-  /**
-  The time at which this record was created.
-  Format: :ref:`ISO 8601 <metadata_date_time>`
-  */
-  union { null, string } createDateTime = null;
-
-  /**
-  The time at which this record was last updated.
-  Format: :ref:`ISO 8601 <metadata_date_time>`
-  */
-  string updateDateTime;
-
-  /** The type of analysis. */
-  union { null, string } type = null;
-
-  /** The software run to generate this analysis. */
-  array<string> software = [];
-
-  /**
-  A map of additional analysis information.
-  */
-  map<array<string>> info = {};
-}
 }
