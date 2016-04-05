@@ -52,6 +52,14 @@ The Reference Variation Task Team is focused on standards for storing
 and accessing reference genome and variant data -- the results of
 analysis of primary data collected from sequencing machines.
 
+Variant Annotation Task Team
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+The Variant Annotation Task Team is focused on developing standards for reporting
+variant annotation including results formats, ontologies and vocabularies for
+different classes of annotation so reporting is consistent and in a manner that
+facilitates benchmarking and evaluation.
+
 File Formats Task Team
 @@@@@@@@@@@@@@@@@@@@@@
 
