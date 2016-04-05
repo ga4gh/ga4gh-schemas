@@ -140,7 +140,7 @@ record TranscriptEffect {
   union {null, AlleleLocation} cDNALocation =null;
 
   /* Change relative to coding sequence  */
-  union { null, AlleleLocation} CDSLocation = null;
+  union { null, AlleleLocation} cdsLocation = null;
 
   /** Change relative to protein  */
   union { null, AlleleLocation} proteinLocation = null;
