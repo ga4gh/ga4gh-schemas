@@ -1,3 +1,5 @@
+.. _schemas:
+
 Schemas
 !!!!!!!
 
@@ -15,3 +17,5 @@ Schemas
    sequenceAnnotations
    variantmethods
    variants
+   alleleAnnotationmethods
+   alleleAnnotations
