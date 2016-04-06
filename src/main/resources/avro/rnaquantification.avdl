@@ -57,81 +57,11 @@ specified reads and assignment to the listed annotation.
 }
 
 /**
-Read characterization data.
-*/
-record Characterization {
-  /** 
-  The associated RnaQuantification. 
-  */
-  string analysisId;
- 
-  /**
-  Distinct uniquely mapped reads as a fraction of total uniquely mapped reads.
-  */ 
-  float complexity;
-
-  /**
-  Fraction of total reads which were mapped.  Values range from 0.0 to 1.0.
-  */
-  float fractionMapped;
-
-  /**
-  Fraction of total reads which were mapped to introns.  Values range from 0.0 to 1.0.
-  */
-  float intronicFraction;
-
-  /**
-  Fraction of total reads which were mapped to exons.  Values range from 0.0 to 1.0.
-  */
-  float exonicFraction;
-
-  /**
-  Fraction of total reads which were mapped to intergenic regions.  Values range from 0.0 to 1.0.
-  */
-  float intergenicFraction;
-}
-
-/**
-Details of the read counts.
-*/
-record ReadCounts {
-  /** 
-  The associated RnaQuantification.
-  */
-  string analysisId;
-
-  /**
-  Total number of mapped reads.
-  */
-  int totalReadCount;
-
-  /**
-  Total number of reads that are uniquely mapped to a position in the reference.
-  */
-  int uniqueCount;
-
-  /**
-  Total number of reads that map to multiple positions in the reference.
-  */
-  int multiCount;
-
-  /**
-  Total number of reads that are uniquely mapped to a splice position in the reference. 
-  */
-  int uniqueSpliceCount;
-
-  /**
-  Total number of reads that map to multiple splice positions in the reference. 
-  */
-  int multiSpliceCount;
-}
-
-/**
 Identifying information for annotated features.
 */
 record FeatureGroup {
   /**
-  Feature group ID
+  Quantification group ID
   */
   string id;
 
@@ -151,17 +81,6 @@ record FeatureGroup {
   union {null, string} description = null;
 
   /**
-  The time at which this feature group was created in milliseconds from the epoch.
-  */
-  union { null, long } created = null;
-
-  /**
-  The time at which this feature group was last updated in milliseconds
-  from the epoch.
-  */
-  union { null, long } updated = null;
-
-  /**
   A map of additional feature group information.
   */
   map<array<string>> info = {};
@@ -172,7 +91,7 @@ The actual numerical quantification for each feature.
 */
 record ExpressionLevel {
   /**
-  Feature ID
+  Expression ID
   */
   string id;
 
@@ -182,7 +101,7 @@ record ExpressionLevel {
   union {null, string} name = null;
 
   /** 
-  The associated FeatureGoup. 
+  The associated FeatureGroup. 
   */
   string featureGroupId;
 

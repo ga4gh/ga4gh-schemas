@@ -97,10 +97,11 @@ record SearchExpressionLevelRequest {
   string rnaQuantificationId;
 
   /**
-  If present returns ExpressionLevel records with expressions exceeding
-  this value.
+  Only return ExpressionLevel records with expressions exceeding
+  this value.  (Defaults to 0.0)
   */
-  union { null, float } threshold = null;
+  union { float, null } threshold = 0.0;
+
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -121,10 +122,6 @@ This is the response from 'POST /expressionlevel/search' expressed as JSON.
 */
 record SearchExpressionLevelResponse {
   /** The list of matching quantifications. */
-  /**
-  The line below is causing problems - naming or something wrong with the
-  import perhaps?
-  */
   array<org.ga4gh.models.ExpressionLevel> expressionLevel = [];
 
   /**
@@ -161,7 +158,7 @@ record SearchFeatureGroupRequest {
   string rnaQuantificationId;
 
   /**
-  Feature Groups of interest.
+  Quantification Groups of interest.
   */
   union { null, string } featureGroupId = null;
 
@@ -183,7 +180,7 @@ record SearchFeatureGroupRequest {
 This is the response from 'POST /featuregroup/search' expressed as JSON.
 */
 record SearchFeatureGroupResponse {
-  /** The list of matching feature groups. */
+  /** The list of matching quantification groups. */
   array<org.ga4gh.models.FeatureGroup> featureGroup = [];
 
   /**
