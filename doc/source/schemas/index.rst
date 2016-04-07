@@ -16,3 +16,5 @@ Schemas
    variants
    alleleAnnotationmethods
    alleleAnnotations
+   sequenceAnnotations
+   sequenceAnnotationmethods

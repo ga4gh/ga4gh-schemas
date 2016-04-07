@@ -1,0 +1,135 @@
+@namespace("org.ga4gh.models")
+/**
+This protocol defines annotations on GA4GH genomic sequences It includes two
+types of annotations: continuous and discrete hierarchical.
+
+The discrete hierarchical annotations are derived from the Sequence Ontology
+(SO) and GFF3 work 
+
+   http://www.sequenceontology.org/gff3.shtml
+
+The goal is to be able to store annotations using the GFF3 and SO conceptual
+model, although there is not necessarly a one-to-one mapping in Avro records
+to GFF3 records.
+
+The minimum requirement is to be able to accurately represent the current
+state of the art annotation data and the full SO model.  Feature is the
+core generic record which corresponds to the a GFF3 record.
+*/
+protocol SequenceAnnotations {
+
+  import idl "common.avdl";
+  import idl "metadata.avdl";
+
+  /**
+  Type defining a collection of attributes associated with various protocol
+  records.  Each attribute is a name that maps to an array of one or more
+  values.  Values can be strings, external identifiers, or ontology terms.
+  Values should be split into the array elements instead of using a separator
+  syntax that needs to parsed.
+  */
+  record Attributes {
+    map<array<union {string, ExternalIdentifier, OntologyTerm}>> vals = {};
+  }
+  
+  /**
+  Node in the annotation graph that annotates a contiguous region of a
+  sequence.
+  */
+  record Feature {
+    /**
+    Id of this annotation node.
+    */
+    string id;
+
+    /**
+    Parent Id of this node. Set to empty string if node has no parent.
+    */
+    string parentId;
+
+    /**
+    Ordered array of Child Ids of this node.
+    Since not all child nodes are ordered by genomic coordinates,
+    this can't always be reconstructed from parentId's of the children alone.
+    */
+
+    array<string> childIds = [];
+
+    /**
+    Identifier for the containing feature set.
+    */
+    string featureSetId;
+
+    /**
+    The reference on which this feature occurs.
+    (e.g. `chr20` or `X`)
+    */
+    string referenceName;
+
+    /**
+    The start position at which this feature occurs (0-based).
+    This corresponds to the first base of the string of reference bases.
+    Genomic positions are non-negative integers less than reference length.
+    Features spanning the join of circular genomes are represented as
+    two features one on each side of the join (position 0).
+    */
+    long start = 0;
+
+    /**
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+    This is typically calculated by `start + referenceBases.length`.
+    */
+    long end;
+
+    /**
+    The strand on which the feature is present.
+    */
+    Strand strand;
+
+    /**
+    Feature that is annotated by this region.  Normally, this will be a term in
+    the Sequence Ontology.
+    */
+    OntologyTerm featureType;
+
+    /**
+    Name/value attributes of the annotation.  Attribute names follow the GFF3
+    naming convention of reserved names starting with an upper cases
+    character, and user-define names start with lower-case.  Most GFF3
+    pre-defined attributes apply, the exceptions are ID and Parent, which are
+    defined as fields. Additional, the following attributes are added:
+    * Score - the GFF3 score column
+    * Phase - the GFF3 phase column for CDS features.
+    */
+    Attributes attributes;
+  }
+
+  /*
+  A set of sequence features annotations
+  */
+  record FeatureSet {
+    /** The ID of this annotation set. */
+    string id;
+
+    /** The ID of the dataset this annotation set belongs to. */
+    string datasetId;
+
+    /**
+    The ID of the reference set which defines the coordinate-space for this
+    set of annotations.
+    */
+    union { null, string } referenceSetId;
+
+    /** The display name for this annotation set. */
+    union { null, string } name = null;
+
+    /**
+    The source URI describing the file from which this annotation set was
+    generated, if any.
+    */
+    union { null, string } sourceURI = null;
+
+    /** Remaining structured metadata key-value pairs. */
+    map<array<string>> info = {};
+  }
+}

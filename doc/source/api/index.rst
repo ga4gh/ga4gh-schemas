@@ -43,6 +43,14 @@ system for reads and variants.
 .. toctree::
    references
 
+Sequence Annotations
+@@@@@@@@@@@@@@@@@@@@
+
+Sequence annotations describe genomic features such as genes and exons,
+using terms from an established sequence ontology.
+
+.. toctree::
+   sequence_annotations
 
 Metadata
 @@@@@@@@
