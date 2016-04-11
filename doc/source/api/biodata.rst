@@ -1,6 +1,6 @@
 .. _biodata:
 
-.. image:: /_static/biodata_schema_min.png
+.. image:: /_static/biodata_schema.png
    :align: right
 
 .. _metadata_biosample:
