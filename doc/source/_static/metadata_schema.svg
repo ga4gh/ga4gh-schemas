@@ -35,8 +35,8 @@
 
   <path id="arrow" d="M-2,0 l4,-5 l0,10 l-4,-5" stroke="black" fill="white" />
 
- </defs>
-HASH(0x7fb17e736f30)
+</defs>
+
 <rect x="20" y="20" width="160" height="25" />
 <text transform="translate(40 20)" ><tspan x="0" dy="18" font-weight="900">Individual</tspan>
 </text>
