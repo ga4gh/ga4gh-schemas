@@ -44,20 +44,29 @@ record OntologyTerm {
 }
 
 /**
-An experimental preparation of a sample.
+An experimental preparation of a BioSample.
 */
 record Experiment {
-  /** The experiment UUID. This is globally unique. */
+  /**
+  The experiment's :ref:`id <apidesign_object_ids>`. This is unique in the
+  context of the server instance.
+  */
   string id;
 
-  /** The name of the experiment. */
+  /**
+  The experiment's :ref:`name <apidesign_object_names>`. This is a label or
+  symbolic identifier for the experiment.
+  */
   union { null, string } name = null;
 
-  /** A description of the experiment. */
+  /**
+  The experiment's description. This attribute contains human readable text.
+  The "description" attributes should not contain any structured data.
+  */
   union { null, string } description = null;
 
   /**
-  The time at which this record was created. 
+  The time at which this record was created.
   Format: :ref:`ISO 8601 <metadata_date_time>`
   */
   string createDateTime;
@@ -208,7 +217,7 @@ record Analysis {
   union { null, string } description = null;
 
   /**
-  The time at which this record was created. 
+  The time at which this record was created.
   Format: :ref:`ISO 8601 <metadata_date_time>`
   */
   union { null, string } createDateTime = null;

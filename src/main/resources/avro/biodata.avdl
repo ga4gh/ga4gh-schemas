@@ -2,7 +2,8 @@
 
 /**
 This protocol defines the "biodata" objects, which can be considered data
-representations of biological correlates.
+representations of biological correlates (e.g. concrete tissue samples,
+individuals).
 */
 
 protocol Biodata {
@@ -102,18 +103,18 @@ protocol Biodata {
    union { null, string } description = null;
 
    /**
-   Disease annotation of the sample.
+   OntologyTerm describing the primary disease associated with this BioSample.
    */
    union { null, OntologyTerm } disease = null;
 
    /**
-   The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record
+   The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
    was created.
    */
    string createDateTime;
 
    /**
-   The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record was updated.
+   The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record was updated.
    */
    string updateDateTime;
 

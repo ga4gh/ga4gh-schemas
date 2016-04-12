@@ -9,7 +9,7 @@ import idl "biodata.avdl";
 
 /******************  /individuals/search  *********************/
 /**
-This request maps to the body of `POST /biosamples/search` as JSON.
+This request maps to the body of `POST /individuals/search` as JSON.
 */
 record SearchIndividualsRequest {
   /**
