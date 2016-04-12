@@ -133,16 +133,19 @@ This protocol defines metadata used in the other GA4GH protocols.
 .. avro:record:: Experiment
 
   :field id:
-    The experiment UUID. This is globally unique.
+    The experiment's :ref:`id <apidesign_object_ids>`. This is unique in the
+      context of the server instance.
   :type id: string
   :field name:
-    The name of the experiment.
+    The experiment's :ref:`name <apidesign_object_names>`. This is a label or
+      symbolic identifier for the experiment.
   :type name: null|string
   :field description:
-    A description of the experiment.
+    The experiment's description. This attribute contains human readable text.
+      The "description" attributes should not contain any structured data.
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: string
   :field updateDateTime:
@@ -191,7 +194,7 @@ This protocol defines metadata used in the other GA4GH protocols.
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a sample.
+  An experimental preparation of a BioSample.
 
 .. avro:record:: OntologyTerm
 
@@ -251,7 +254,7 @@ This protocol defines metadata used in the other GA4GH protocols.
   :field description:
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: null|string
   :field updateDateTime:

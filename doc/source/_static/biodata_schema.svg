@@ -35,7 +35,7 @@
 
   <path id="arrow" d="M-2,0 l4,-5 l0,10 l-4,-5" stroke="black" fill="white" />
 
-</defs>
+ </defs>
 
 <rect x="20" y="20" width="160" height="25" />
 <text transform="translate(40 20)" ><tspan x="0" dy="18" font-weight="900">Individual</tspan>
@@ -57,19 +57,7 @@ y2="418"
 <text transform="translate(40 438)" ><tspan x="0" dy="18" font-weight="900">OtherGA4GHobject</tspan>
 </text>
 <rect x="20" y="463" width="160" height="82" />
-<text transform="translate(40 463)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">biosampleId</tspan><tspan 	x="0" dy="18">datasetId</tspan><tspan 	x="0" dy="18">experimentId</tspan></text>
-<path d="
-M180,55
-L210,55
-L210,329
-L180,329"
-style="fill: none;  "
-
-/>
-<use xlink:href="#arrow" x="195" y="55" />
-<use xlink:href="#arrow" x="195" y="329"
-transform="rotate(180 195 329)" />
-
+<text transform="translate(40 463)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">bioSampleId</tspan><tspan 	x="0" dy="18">datasetId</tspan><tspan 	x="0" dy="18">experimentId</tspan></text>
 <path d="
 M180,254
 L195,254
@@ -81,5 +69,17 @@ style="fill: none;  "
 <use xlink:href="#arrow" x="187.5" y="254" />
 <use xlink:href="#arrow" x="187.5" y="494"
 transform="rotate(180 187.5 494)" />
+
+<path d="
+M180,55
+L210,55
+L210,329
+L180,329"
+style="fill: none;  "
+
+/>
+<use xlink:href="#arrow" x="195" y="55" />
+<use xlink:href="#arrow" x="195" y="329"
+transform="rotate(180 195 329)" />
 
 </svg>

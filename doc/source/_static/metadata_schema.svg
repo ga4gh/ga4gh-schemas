@@ -35,7 +35,7 @@
 
   <path id="arrow" d="M-2,0 l4,-5 l0,10 l-4,-5" stroke="black" fill="white" />
 
-</defs>
+ </defs>
 
 <rect x="20" y="20" width="160" height="25" />
 <text transform="translate(40 20)" ><tspan x="0" dy="18" font-weight="900">Individual</tspan>
@@ -74,16 +74,16 @@ y2="1069"
 <rect x="20" y="1114" width="160" height="82" />
 <text transform="translate(40 1114)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">bioSampleId</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">datasetId</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">experimentId</tspan></text>
 <path d="
-M180,798
-L205,798
-L205,1163
-L180,1163"
+M180,457
+L230,457
+L230,1181
+L180,1181"
 style="fill: none;  "
 
 />
-<use xlink:href="#arrow" x="192.5" y="798" />
-<use xlink:href="#arrow" x="192.5" y="1163"
-transform="rotate(180 192.5 1163)" />
+<use xlink:href="#arrow" x="205" y="457" />
+<use xlink:href="#arrow" x="205" y="1181"
+transform="rotate(180 205 1181)" />
 
 <path d="
 M180,55
@@ -98,18 +98,6 @@ style="fill: none;  "
 transform="rotate(180 210 329)" />
 
 <path d="
-M180,457
-L230,457
-L230,1181
-L180,1181"
-style="fill: none;  "
-
-/>
-<use xlink:href="#arrow" x="205" y="457" />
-<use xlink:href="#arrow" x="205" y="1181"
-transform="rotate(180 205 1181)" />
-
-<path d="
 M180,260
 L255,260
 L255,1145
@@ -120,5 +108,17 @@ style="fill: none;  "
 <use xlink:href="#arrow" x="217.5" y="260" />
 <use xlink:href="#arrow" x="217.5" y="1145"
 transform="rotate(180 217.5 1145)" />
+
+<path d="
+M180,798
+L205,798
+L205,1163
+L180,1163"
+style="fill: none;  "
+
+/>
+<use xlink:href="#arrow" x="192.5" y="798" />
+<use xlink:href="#arrow" x="192.5" y="1163"
+transform="rotate(180 192.5 1163)" />
 
 </svg>
