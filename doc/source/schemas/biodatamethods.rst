@@ -37,8 +37,6 @@ Gets a `BioSample` by ID.
   :return type: SearchIndividualsResponse
   :throws: GAException
 
-Gets a list of BioSamples accessible through the API.
-
 `POST /individuals/search` must accept a JSON version of
 `SearchIndividualsRequest` as the post body and will return a JSON version
 of `SearchIndividualsResponse`.
@@ -173,16 +171,19 @@ of `SearchIndividualsResponse`.
 .. avro:record:: Experiment
 
   :field id:
-    The experiment UUID. This is globally unique.
+    The experiment's :ref:`id <apidesign_object_ids>`. This is unique in the
+      context of the server instance.
   :type id: string
   :field name:
-    The name of the experiment.
+    The experiment's :ref:`name <apidesign_object_names>`. This is a label or
+      symbolic identifier for the experiment.
   :type name: null|string
   :field description:
-    A description of the experiment.
+    The experiment's description. This attribute contains human readable text.
+      The "description" attributes should not contain any structured data.
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: string
   :field updateDateTime:
@@ -231,7 +232,7 @@ of `SearchIndividualsResponse`.
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a sample.
+  An experimental preparation of a BioSample.
 
 .. avro:record:: Dataset
 
@@ -260,7 +261,7 @@ of `SearchIndividualsResponse`.
   :field description:
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: null|string
   :field updateDateTime:
@@ -310,7 +311,7 @@ of `SearchIndividualsResponse`.
   :field species:
     For a representation of an NCBI Taxon ID as an OntologyTerm, see
         NCBITaxon Ontology
-          http://www.obofoundry.org/wiki/index.php/NCBITaxon:Main_Page
+          http://www.obofoundry.org/ontology/ncbitaxon.html
         For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
         this is NCBITaxon:9606, which has the URI
         http://purl.obolibrary.org/obo/NCBITaxon_9606
@@ -342,14 +343,14 @@ of `SearchIndividualsResponse`.
        The "description" attributes should not contain any structured data.
   :type description: null|string
   :field disease:
-    Disease annotation of the sample.
+    OntologyTerm describing the primary disease associated with this BioSample.
   :type disease: null|OntologyTerm
   :field createDateTime:
-    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record
+    The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
        was created.
   :type createDateTime: string
   :field updateDateTime:
-    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record was updated.
+    The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record was updated.
   :type updateDateTime: string
   :field individualId:
     The individual this biosample was derived from.
@@ -387,7 +388,7 @@ of `SearchIndividualsResponse`.
       `nextPageToken` from the previous response.
   :type pageToken: null|string
 
-  This request maps to the body of `POST /biosamples/search` as JSON.
+  This request maps to the body of `POST /individuals/search` as JSON.
 
 .. avro:record:: SearchIndividualsResponse
 

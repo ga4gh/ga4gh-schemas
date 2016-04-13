@@ -50,8 +50,6 @@ record SearchIndividualsResponse {
 }
 
 /**
-Gets a list of BioSamples accessible through the API.
-
 `POST /individuals/search` must accept a JSON version of
 `SearchIndividualsRequest` as the post body and will return a JSON version
 of `SearchIndividualsResponse`.
