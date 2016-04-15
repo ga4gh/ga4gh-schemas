@@ -49,9 +49,9 @@ Attribute                 Note
 *name*                    a more descriptive object label/identifier
 *description*             a string describing aspects of the object; *not* to
                           be used for a list or nested object
-*createTime*              the time the record was created, in ISO8601
+*createDateTime*              the time the record was created, in ISO8601
                           (see :ref:`Date and Time<metadata_date_time>`)
-*updateTime*              the time the record was updated, in ISO8601
+*updateDateTime*          the time the record was updated, in ISO8601
                           (see :ref:`Date and Time<metadata_date_time>`)
 ========================= ======================================================
 
@@ -191,23 +191,5 @@ variants, and expression levels for a particular research project;
 Dataset Y has all the work product from a particular grant).
 
 For data accessors, datasets are a simple way to scope exploration and
-analysis (e.g. are there any supporting examples in 1000genomes?
-what's the distribution of that result in the data from our project?).
-
-
-.. _metadata_dataset:
-
-Dataset
-=======
-
-Some GA4GH data objects are part of a *dataset*. A dataset is a
-data-provider-specified collection of related data of multiple types.
-Logically, it's akin to a folder, where it's up to the provider what
-goes into the folder. Individual data objects are linked by
-`datasetId` fields to `Dataset objects
-<../schemas/metadata.html#avro.Dataset>`_.
-
-Since the grouping of content in a dataset is determined by the data
-provider, users should not make semantic assumptions about that data.
-Subsets of the data in a dataset can be selected for analysis using
-other metadata or attributes.
+analysis (e.g. "Are there any supporting examples in 1000genomes?"; 
+"What is the distribution of that result in the data from our project?").
