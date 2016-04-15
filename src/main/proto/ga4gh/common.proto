@@ -6,6 +6,17 @@ There are no directly associated methods.
 protocol Common {
 
 /**
+A general exception type.
+*/
+error GAException {
+  /** The error message */
+  string message;
+
+  /** The numerical error code */
+  int errorCode = -1;
+}
+
+/**
 Indicates the DNA strand associate for some data item.
 * `NEG_STRAND`: The negative (-) strand.
 * `POS_STRAND`:  The postive (+) strand.
