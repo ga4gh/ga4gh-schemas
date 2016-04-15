@@ -231,6 +231,19 @@ record Variant {
   */
   array<string> alternateBases = [];
 
+  /** 
+  Phred-scaled quality score for the assertion made in ALT.
+  If ALT is ‘.’ (no variant) then this is −10log10 prob(variant), and if ALT is 
+  not ‘.’ this is −10log10 prob(no variant).
+  */
+  union { null, double } quality = null;
+
+  /** 
+  A list of filters (normally quality filters) this variant has failed.
+  PASS indicates this variant has passed all filters.
+  */
+  array<string> filter = [];
+
   /**
   A map of additional variant information.
   */
