@@ -1,9 +1,9 @@
 @namespace("org.ga4gh.models")
 
 /**
-This protocol defines the "biodata" objects, which can be considered data
-representations of biological correlates (e.g. concrete tissue samples,
-individuals).
+This protocol defines the :ref:`"biodata" objects<biodata>`, which can be 
+considered data representations of biological correlates (e.g. concrete 
+tissue samples, individuals).
 */
 
 protocol Biodata {
@@ -36,13 +36,13 @@ protocol Biodata {
     union { null, string } description = null;
 
     /**
-    The :ref:`ISO 8601<metadata_date_time> time at which this Individual record
+    The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
     was created.
     */
     string createDateTime;
 
     /**
-    The :ref:`ISO 8601<metadata_date_time> time at which this Individual record
+    The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
     was updated.
     */
     string updateDateTime;
