@@ -1,147 +1,119 @@
-@namespace("org.ga4gh.models")
-/**
-This file defines common types used in other parts of the schema.
-There are no directly associated methods.
-*/
-protocol Common {
+// This file defines common types used in other parts of the schema.
+// There are no directly associated methods.
 
-/**
-A general exception type.
-*/
-error GAException {
-  /** The error message */
-  string message;
+syntax = "proto3";
 
-  /** The numerical error code */
-  int errorCode = -1;
+package ga4gh;
+
+// When returning an HTTP error response, a server may also return a JSON formatted GAException
+// to better describe the error.
+message GAException {
+  // Numerical error code
+  int32 error_code = 1;
+
+  // The error message.
+  string message = 2;
 }
 
-/**
-Indicates the DNA strand associate for some data item.
-* `NEG_STRAND`: The negative (-) strand.
-* `POS_STRAND`:  The postive (+) strand.
-*/
+// Indicates the associated DNA strand for some data item.
 enum Strand {
-  NEG_STRAND,
-  POS_STRAND
+  STRAND_UNSPECIFIED = 0;
+
+  // The negative (-) strand.
+  NEG_STRAND = 1;
+
+  // The postive (+) strand.
+  POS_STRAND = 2;
 }
 
-/**
-A `Position` is an unoriented base in some `Reference`. A `Position` is
-represented by a `Reference` name, and a base number on that `Reference`
-(0-based).
-*/
-record Position {
-  /**
-  The name of the `Reference` on which the `Position` is located.
-  */
-  string referenceName;
+// A `Position` is an unoriented base in some `Reference`. A `Position` is
+// represented by a `Reference` name, and a base number on that `Reference`
+// (0-based).
+message Position {
+  // The name of the `Reference` on which the `Position` is located.
+  string reference_name = 1;
 
-  /**
-  The 0-based offset from the start of the forward strand for that `Reference`.
-  Genomic positions are non-negative integers less than `Reference` length.
-  */
-  long position;
+  // The 0-based offset from the start of the forward strand for that
+  // `Reference`. Genomic positions are non-negative integers less than
+  // `Reference` length.
+  int64 position = 2;
 
-  /**
-  Strand the position is associated with.
-  */
-  Strand strand;
+  // Strand the position is associated with.
+  Strand strand = 3;
 }
 
-/**
-Identifier from a public database
-*/
-record ExternalIdentifier {
-  /**
-  The source of the identifier.
-  (e.g. `Ensembl`)
-  */
-  string database;
+// Identifier from a public database
+message ExternalIdentifier {
+  // The source of the identifier, e.g. `Ensembl`.
+  string database = 1;
 
-  /**
-  The ID defined by the external database.
-  (e.g. `ENST00000000000`)
-  */
-  string identifier;
+  // The ID defined by the external database, e.g. `ENST00000000000`.
+  string identifier = 2;
 
-  /**
-  The version of the object or the database
-  (e.g. `78`)
-  */
-  string version;
+  // The version of the object or the database, e.g. `78`.
+  string version = 3;
 }
 
-/**
-An enum for the different types of CIGAR alignment operations that exist.
-Used wherever CIGAR alignments are used. The different enumerated values
-have the following usage:
+// A single CIGAR operation.
+// FIXME: This belongs under Reads (only readAlignment refers to this).
+message CigarUnit {
+  // Describes the different types of CIGAR alignment operations that exist.
+  // Used wherever CIGAR alignments are used.
+  enum Operation {
+    OPERATION_UNSPECIFIED = 0;
+    // An alignment match indicates that a sequence can be aligned to the
+    // reference without evidence of an INDEL. Unlike the
+    // `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators,
+    // the `ALIGNMENT_MATCH` operator does not indicate whether the
+    // reference and read sequences are an exact match. This operator is
+    // equivalent to SAM's `M`.
+    ALIGNMENT_MATCH = 1;
+    // The insert operator indicates that the read contains evidence of bases
+    // being inserted into the reference. This operator is equivalent to SAM's
+    // `I`.
+    INSERT = 2;
+    // The delete operator indicates that the read contains evidence of bases
+    // being deleted from the reference. This operator is equivalent to SAM's
+    // `D`.
+    DELETE = 3;
+    // The skip operator indicates that this read skips a long segment of the
+    // reference, but the bases have not been deleted. This operator is commonly
+    // used when working with RNA-seq data, where reads may skip long segments
+    // of the reference between exons. This operator is equivalent to SAM's
+    // `N`.
+    SKIP = 4;
+    // The soft clip operator indicates that bases at the start/end of a read
+    // have not been considered during alignment. This may occur if the majority
+    // of a read maps, except for low quality bases at the start/end of a read.
+    // This operator is equivalent to SAM's `S`. Bases that are soft
+    // clipped will still be stored in the read.
+    CLIP_SOFT = 5;
+    // The hard clip operator indicates that bases at the start/end of a read
+    // have been omitted from this alignment. This may occur if this linear
+    // alignment is part of a chimeric alignment, or if the read has been
+    // trimmed (for example, during error correction or to trim poly-A tails for
+    // RNA-seq). This operator is equivalent to SAM's `H`.
+    CLIP_HARD = 6;
+    // The pad operator indicates that there is padding in an alignment. This
+    // operator is equivalent to SAM's `P`.
+    PAD = 7;
+    // This operator indicates that this portion of the aligned sequence exactly
+    // matches the reference. This operator is equivalent to SAM's `=`.
+    SEQUENCE_MATCH = 8;
+    // This operator indicates that this portion of the aligned sequence is an
+    // alignment match to the reference, but a sequence mismatch. This can
+    // indicate a SNP or a read error. This operator is equivalent to SAM's
+    // `X`.
+    SEQUENCE_MISMATCH = 9;
+  }
+  Operation operation = 1;
 
-* `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
-  aligned to the reference without evidence of an INDEL. Unlike the
-  `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
-  operator does not indicate whether the reference and read sequences are an
-  exact match. This operator is equivalent to SAM's `M`.
-* `INSERT`: The insert operator indicates that the read contains evidence of
-  bases being inserted into the reference. This operator is equivalent to
-  SAM's `I`.
-* `DELETE`: The delete operator indicates that the read contains evidence of
-  bases being deleted from the reference. This operator is equivalent to
-  SAM's `D`.
-* `SKIP`: The skip operator indicates that this read skips a long segment of
-  the reference, but the bases have not been deleted. This operator is
-  commonly used when working with RNA-seq data, where reads may skip long
-  segments of the reference between exons. This operator is equivalent to
-  SAM's 'N'.
-* `CLIP_SOFT`: The soft clip operator indicates that bases at the start/end
-  of a read have not been considered during alignment. This may occur if the
-  majority of a read maps, except for low quality bases at the start/end of
-  a read. This operator is equivalent to SAM's 'S'. Bases that are soft clipped
-  will still be stored in the read.
-* `CLIP_HARD`: The hard clip operator indicates that bases at the start/end of
-  a read have been omitted from this alignment. This may occur if this linear
-  alignment is part of a chimeric alignment, or if the read has been trimmed
-  (e.g., during error correction, or to trim poly-A tails for RNA-seq). This
-  operator is equivalent to SAM's 'H'.
-* `PAD`: The pad operator indicates that there is padding in an alignment.
-  This operator is equivalent to SAM's 'P'.
-* `SEQUENCE_MATCH`: This operator indicates that this portion of the aligned
-  sequence exactly matches the reference (e.g., all bases are equal to the
-  reference bases). This operator is equivalent to SAM's '='.
-* `SEQUENCE_MISMATCH`: This operator indicates that this portion of the
-  aligned sequence is an alignment match to the reference, but a sequence
-  mismatch (e.g., the bases are not equal to the reference). This can
-  indicate a SNP or a read error. This operator is equivalent to SAM's 'X'.
-*/
-enum CigarOperation {
-  ALIGNMENT_MATCH,
-  INSERT,
-  DELETE,
-  SKIP,
-  CLIP_SOFT,
-  CLIP_HARD,
-  PAD,
-  SEQUENCE_MATCH,
-  SEQUENCE_MISMATCH
-}
+  // The number of genomic bases that the operation runs for. Required.
+  int64 operation_length = 2;
 
-/**
-A structure for an instance of a CIGAR operation.
-`FIXME: This belongs under Reads (only readAlignment refers to this)`
-*/
-record CigarUnit {
-  /** The operation type. */
-  CigarOperation operation;
-
-  /** The number of bases that the operation runs for. */
-  long operationLength;
-
-  /**
-  `referenceSequence` is only used at mismatches (`SEQUENCE_MISMATCH`)
-  and deletions (`DELETE`). Filling this field replaces the MD tag.
-  If the relevant information is not available, leave this field as `null`.
-  */
-  union { null, string } referenceSequence = null;
-}
-
+  // `referenceSequence` is only used at mismatches
+  // (`SEQUENCE_MISMATCH`) and deletions (`DELETE`).
+  // Filling this field replaces SAM's MD tag. If the relevant information is
+  // not available, this field is unset.
+  string reference_sequence = 3;
 }
