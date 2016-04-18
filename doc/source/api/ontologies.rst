@@ -19,18 +19,6 @@ Why should we use an ontology term?
 A user may want to retrieve the rsIDs of all genomic variants to ciliopathies. Each rsID is annotated with a specific disease (e.g. Bardet Biedl syndrome, orofaciodigital syndrome). To query by a the functional grouping ‘ciliopathy’, classification of these diseases ciliopathies  is needed, and can be provided through an ontology.
 
 
-Non-ontology example
-=====================
-
-.. _ciliopathy: http://www.ensembl.org/Multi/Search/Results?q=ciliopathy
-.. _ciliopathies: http://www.ensembl.org/Multi/Search/Results?q=ciliopathy
-.. _`orofaciodigital syndrome`: http://www.ensembl.org/Homo_sapiens/Variation/Explore?r=1:200650139-200651139;v=rs587777067;vdb=variation;vf=64599886
-
-* SNP **rs587777067** is associated with `orofaciodigital syndrome`_
-* the query for "ciliopathy_" (or "ciliopathies_") returns two different results in the current Ensembl representation
-* neither of these represents all known ciliopathies or returns rs587777067, as these queries are not performing a lookup for child terms of a functional class ciliopathy, but rather represent text queries for the two lexical variants of the term
-
-
 Ontology Lookup Service
 =======================
 
