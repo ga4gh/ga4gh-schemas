@@ -57,7 +57,7 @@ record PhenotypeAssociationSet {
   Optional additional information for this phenotype association set.
   */
   map<array<string>> info = {};
-}
+  }
 
 /**
 The context in which a genotype gives rise to a phenotype.
