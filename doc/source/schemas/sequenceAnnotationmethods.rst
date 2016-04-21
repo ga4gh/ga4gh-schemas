@@ -1,21 +1,47 @@
-SequenceAnnotations
-*******************
+SequenceAnnotationMethods
+*************************
 
-This protocol defines annotations on GA4GH genomic sequences It includes two
-types of annotations: continuous and discrete hierarchical.
+ .. function:: searchFeatureSets(request)
 
-The discrete hierarchical annotations are derived from the Sequence Ontology
-(SO) and GFF3 work
+  :param request: SearchFeatureSetsRequest: This request maps to the body of `POST /featuresets/search` as JSON.
+  :return type: SearchFeatureSetsResponse
+  :throws: GAException
 
-   http://www.sequenceontology.org/gff3.shtml
+Gets a list of `FeatureSet` matching the search criteria.
 
-The goal is to be able to store annotations using the GFF3 and SO conceptual
-model, although there is not necessarly a one-to-one mapping in Avro records
-to GFF3 records.
+  `POST /featuresets/search` must accept a JSON version of
+  `SearchFeatureSetsRequest` as the post body and will return a JSON version
+  of `SearchFeatureSetsResponse`.
 
-The minimum requirement is to be able to accurately represent the current
-state of the art annotation data and the full SO model.  Feature is the
-core generic record which corresponds to the a GFF3 record.
+ .. function:: getFeatureSet(id)
+
+  :param id: string: The ID of the `FeatureSet`.
+  :return type: org.ga4gh.models.FeatureSet
+  :throws: GAException
+
+Gets a `FeatureSet` by ID.
+  `GET /featuresets/{id}` will return a JSON version of `FeatureSet`.
+
+ .. function:: getFeature(id)
+
+  :param id: string: The ID of the `Feature`.
+  :return type: org.ga4gh.models.Feature
+  :throws: GAException
+
+Gets a `org.ga4gh.models.Feature` by ID.
+  `GET /features/{id}` will return a JSON version of `Feature`.
+
+ .. function:: searchFeatures(request)
+
+  :param request: SearchFeaturesRequest: This request maps to the body of `POST /features/search` as JSON.
+  :return type: SearchFeaturesResponse
+  :throws: GAException
+
+Gets a list of `Feature` matching the search criteria.
+
+  `POST /features/search` must accept a JSON version of
+  `SearchFeaturesRequest` as the post body and will return a JSON version of
+  `SearchFeaturesResponse`.
 
 .. avro:enum:: Strand
 
@@ -64,7 +90,7 @@ core generic record which corresponds to the a GFF3 record.
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-
+  
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -118,6 +144,10 @@ core generic record which corresponds to the a GFF3 record.
   A structure for an instance of a CIGAR operation.
   `FIXME: This belongs under Reads (only readAlignment refers to this)`
 
+.. avro:error:: GAException
+
+  A general exception type.
+
 .. avro:record:: OntologyTerm
 
   :field id:
@@ -156,7 +186,7 @@ core generic record which corresponds to the a GFF3 record.
     A description of the experiment.
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created.
+    The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: string
   :field updateDateTime:
@@ -234,7 +264,7 @@ core generic record which corresponds to the a GFF3 record.
   :field description:
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created.
+    The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: null|string
   :field updateDateTime:
@@ -339,3 +369,89 @@ core generic record which corresponds to the a GFF3 record.
   :field info:
     Remaining structured metadata key-value pairs.
   :type info: map<array<string>>
+
+.. avro:record:: SearchFeatureSetsRequest
+
+  :field datasetId:
+    The `Dataset` to search.
+  :type datasetId: string
+  :field pageSize:
+    Specifies the maximum number of results to return in a single page.
+        If unspecified, a system default will be used.
+  :type pageSize: null|int
+  :field pageToken:
+    The continuation token, which is used to page through large result sets.
+        To get the next page of results, set this parameter to the value of
+        `nextPageToken` from the previous response.
+  :type pageToken: null|string
+
+  This request maps to the body of `POST /featuresets/search` as JSON.
+
+.. avro:record:: SearchFeatureSetsResponse
+
+  :field featureSets:
+    The list of matching feature sets.
+  :type featureSets: array<org.ga4gh.models.FeatureSet>
+  :field nextPageToken:
+    The continuation token, which is used to page through large result sets.
+        Provide this value in a subsequent request to return the next page of
+        results. This field will be empty if there aren't any additional results.
+  :type nextPageToken: null|string
+
+  This is the response from `POST /featuresets/search` expressed as JSON.
+
+.. avro:record:: SearchFeaturesRequest
+
+  :field featureSetId:
+    The annotation set to search within. Either `featureSetId` or
+        `parentId` must be non-empty.
+  :type featureSetId: null|string
+  :field parentId:
+    Restricts the search to direct children of the given parent `feature`
+        ID. Either `featureSetId` or `parentId` must be non-empty.
+  :type parentId: null|string
+  :field referenceName:
+    Only return features on the reference with this name 
+        (matched to literal reference name as imported from the GFF3).
+  :type referenceName: string
+  :field start:
+    Required. The beginning of the window (0-based, inclusive) for which
+        overlapping features should be returned.  Genomic positions are
+        non-negative integers less than reference length.  Requests spanning the
+        join of circular genomes are represented as two requests one on each side
+        of the join (position 0).
+  :type start: long
+  :field end:
+    Required. The end of the window (0-based, exclusive) for which overlapping
+        features should be returned.
+  :type end: long
+  :field featureTypes:
+    If specified, this query matches only annotations whose `featureType`
+        matches one of the provided ontology terms.
+  :type featureTypes: array<string>
+  :field pageSize:
+    Specifies the maximum number of results to return in a single page.
+        If unspecified, a system default will be used.
+  :type pageSize: null|int
+  :field pageToken:
+    The continuation token, which is used to page through large result sets.
+        To get the next page of results, set this parameter to the value of
+        `nextPageToken` from the previous response.
+  :type pageToken: null|string
+
+  This request maps to the body of `POST /features/search` as JSON.
+
+.. avro:record:: SearchFeaturesResponse
+
+  :field features:
+    The list of matching annotations, sorted by start position. Annotations which
+        share a start position are returned in a deterministic order.
+  :type features: array<org.ga4gh.models.Feature>
+  :field nextPageToken:
+    The continuation token, which is used to page through large result sets.
+        Provide this value in a subsequent request to return the next page of
+        results. This field will be empty if there aren't any additional results.
+  :type nextPageToken: null|string
+
+  This is the response from `POST /features/search` expressed as JSON.
+

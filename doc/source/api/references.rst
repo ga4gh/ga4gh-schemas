@@ -4,7 +4,7 @@
 References API
 !!!!!!!!!!!!!!
 
-See `References schema <../schemas/refernces.html>`_ for a detailed reference.
+See `References schema <../schemas/references.html>`_ for a detailed reference.
 
 
 References Data Model

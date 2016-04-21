@@ -40,9 +40,9 @@ protocol SequenceAnnotations {
   */
   record Feature {
     /**
-    Id of this annotation node.
+    Identifier for the containing feature set.
     */
-    string id;
+    string featureSetId;
 
     /**
     Parent Id of this node. Set to empty string if node has no parent.
@@ -58,9 +58,13 @@ protocol SequenceAnnotations {
     array<string> childIds = [];
 
     /**
-    Identifier for the containing feature set.
+    The start position at which this feature occurs (0-based).
+    This corresponds to the first base of the string of reference bases.
+    Genomic positions are non-negative integers less than reference length.
+    Features spanning the join of circular genomes are represented as
+    two features one on each side of the join (position 0).
     */
-    string featureSetId;
+    long start = 0;
 
     /**
     The reference on which this feature occurs.
@@ -114,7 +118,7 @@ protocol SequenceAnnotations {
     string id;
 
     /** The ID of the dataset this annotation set belongs to. */
-   union { null, string } datasetId = null;
+    string datasetId;
 
     /**
     The ID of the reference set which defines the coordinate-space for this
