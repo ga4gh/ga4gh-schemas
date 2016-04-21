@@ -1,9 +1,9 @@
-.. _biodata:
+.. _biometadata:
 
-.. image:: /_static/biodata_schema.png
+.. image:: /_static/biometadata_schema.png
    :align: right
 
-.. _metadata_biosample:
+.. _biometadata_biosample:
 
 ****************************
 Metadata: *BioSample* Object
@@ -43,7 +43,7 @@ Attribute             Notes
 *info*                * additional, structured information
 ===================== ==========================================================
 
-.. _metadata_Individual:
+.. _biometadata_Individual:
 
 *****************************
 Metadata: *Individual* Object

@@ -1,5 +1,4 @@
-.. _ontologies:
-
+.. _metadata_ontologies:
 
 Use of Ontologies in GA4GH API
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

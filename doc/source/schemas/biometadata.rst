@@ -1,8 +1,7 @@
-Biodata
-*******
+Biometadata
+***********
 
-This protocol defines the "biodata" objects, which can be considered data
-representations of biological correlates.
+This protocol defines the :ref:`"biological metadata" objects<biometadata>`, which can be considered data representations of concrete biological samples or entities (e.g. the DNA extracted from a tissue sample, a human individual).
 
 .. avro:enum:: Strand
 
@@ -108,8 +107,9 @@ representations of biological correlates.
 .. avro:record:: OntologyTerm
 
   :field id:
-    Ontology source identifier - the identifier, a CURIE (preferred) or
-      PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+    :ref:`Ontology<metadata_ontologies>` source identifier -
+      the identifier, a CURIE (preferred) or PURL for an ontology source.
+      Example: http://purl.obolibrary.org/obo/hp.obo
       It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
       in that it is a URI pointing to an information resource outside of the scope
       of the schema or its resource implementation.
@@ -117,6 +117,10 @@ representations of biological correlates.
   :field term:
     Ontology term - the representation the id is pointing to.
   :type term: null|string
+  :field value:
+    Ontology value - In the case of using e.g. UnitOntology, the id/term represent
+      a unit of measurement and this would be the measured value.
+  :type value: null|string
   :field sourceName:
     Ontology source name - the name of ontology from which the term is obtained
       e.g. 'Human Phenotype Ontology'
@@ -129,21 +133,24 @@ representations of biological correlates.
   :type sourceVersion: null|string
 
   An ontology term describing an attribute. (e.g. the phenotype attribute
-    'polydactyly' from HPO)
+  'polydactyly' from HPO)
 
 .. avro:record:: Experiment
 
   :field id:
-    The experiment UUID. This is globally unique.
+    The experiment's :ref:`id <apidesign_object_ids>`. This is unique in the
+      context of the server instance.
   :type id: string
   :field name:
-    The name of the experiment.
+    The experiment's :ref:`name <apidesign_object_names>`. This is a label or
+      symbolic identifier for the experiment.
   :type name: null|string
   :field description:
-    A description of the experiment.
+    The experiment's description. This attribute contains human readable text.
+      The "description" attributes should not contain any structured data.
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: string
   :field updateDateTime:
@@ -192,7 +199,7 @@ representations of biological correlates.
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a sample.
+  An experimental preparation of a BioSample.
 
 .. avro:record:: Dataset
 
@@ -221,7 +228,7 @@ representations of biological correlates.
   :field description:
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: null|string
   :field updateDateTime:
@@ -257,11 +264,11 @@ representations of biological correlates.
         The "description" attributes should not contain any structured data.
   :type description: null|string
   :field createDateTime:
-    The :ref:`ISO 8601<metadata_date_time> time at which this Individual record
+    The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
         was created.
   :type createDateTime: string
   :field updateDateTime:
-    The :ref:`ISO 8601<metadata_date_time> time at which this Individual record
+    The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
         was updated.
   :type updateDateTime: string
   :field species:
@@ -282,7 +289,7 @@ representations of biological correlates.
   :type info: map<array<string>>
 
   An individual (or subject) typically corresponds to an individual
-    human or other organism.
+    human or another organism.
 
 .. avro:record:: BioSample
 
@@ -299,14 +306,14 @@ representations of biological correlates.
        The "description" attributes should not contain any structured data.
   :type description: null|string
   :field disease:
-    Disease annotation of the sample.
+    OntologyTerm describing the primary disease associated with this BioSample.
   :type disease: null|OntologyTerm
   :field createDateTime:
-    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record
+    The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
        was created.
   :type createDateTime: string
   :field updateDateTime:
-    The :ref:`ISO 8601<metadata_date_time> time at which this BioSample record was updated.
+    The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record was updated.
   :type updateDateTime: string
   :field individualId:
     The individual this biosample was derived from.

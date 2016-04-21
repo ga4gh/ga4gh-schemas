@@ -2,7 +2,7 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
 	width="280"
-	height="1017"
+	height="1107"
 	xmlns:dc="http://purl.org/dc/elements/1.1/">
 <defs>
   <style type="text/css">
@@ -53,21 +53,45 @@
 <rect x="20" y="443" width="160" height="298" />
 <text transform="translate(40 443)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">createDateTime</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">instrumentDataFile</tspan><tspan 	x="0" dy="18">instrumentModel</tspan><tspan 	x="0" dy="18">library</tspan><tspan 	x="0" dy="18">libraryLayout</tspan><tspan 	x="0" dy="18">molecule</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">platformUnit</tspan><tspan 	x="0" dy="18">runTime</tspan><tspan 	x="0" dy="18">selection</tspan><tspan 	x="0" dy="18">sequencingCenter</tspan><tspan 	x="0" dy="18">strategy</tspan><tspan 	x="0" dy="18">updateDateTime</tspan></text>
 <rect x="20" y="761" width="160" height="25" />
-<text transform="translate(40 761)" ><tspan x="0" dy="18" font-weight="900">Dataset</tspan>
+<text transform="translate(40 761)" ><tspan x="0" dy="18" font-weight="900">Analysis</tspan>
 </text>
-<rect x="20" y="786" width="160" height="64" />
-<text transform="translate(40 786)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">name</tspan></text>
+<rect x="20" y="786" width="160" height="154" />
+<text transform="translate(40 786)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">createDateTime</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">software</tspan><tspan 	x="0" dy="18">type</tspan><tspan 	x="0" dy="18">updateDateTime</tspan></text>
 <line stroke-dasharray="5, 5"
 x1="20"
-y1="870"
+y1="960"
 x2="180"
-y2="870"
+y2="960"
 />
-<rect x="20" y="890" width="160" height="25" />
-<text transform="translate(40 890)" ><tspan x="0" dy="18" font-weight="900">OtherGA4GHobject</tspan>
+<rect x="20" y="980" width="160" height="25" />
+<text transform="translate(40 980)" ><tspan x="0" dy="18" font-weight="900">OtherGA4GHobject</tspan>
 </text>
-<rect x="20" y="915" width="160" height="82" />
-<text transform="translate(40 915)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">bioSampleId</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">datasetId</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">experimentId</tspan></text>
+<rect x="20" y="1005" width="160" height="82" />
+<text transform="translate(40 1005)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">bioSampleId</tspan><tspan 	x="0" dy="18">datasetId</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">experimentId</tspan></text>
+<path d="
+M180,455
+L210,455
+L210,1072
+L180,1072"
+style="fill: none;  "
+
+/>
+<use xlink:href="#arrow" x="195" y="455" />
+<use xlink:href="#arrow" x="195" y="1072"
+transform="rotate(180 195 1072)" />
+
+<path d="
+M180,258
+L235,258
+L235,1036
+L180,1036"
+style="fill: none;  "
+
+/>
+<use xlink:href="#arrow" x="207.5" y="258" />
+<use xlink:href="#arrow" x="207.5" y="1036"
+transform="rotate(180 207.5 1036)" />
+
 <path d="
 M180,55
 L230,55
@@ -79,41 +103,5 @@ style="fill: none;  "
 <use xlink:href="#arrow" x="205" y="55" />
 <use xlink:href="#arrow" x="205" y="329"
 transform="rotate(180 205 329)" />
-
-<path d="
-M180,258
-L235,258
-L235,946
-L180,946"
-style="fill: none;  "
-
-/>
-<use xlink:href="#arrow" x="207.5" y="258" />
-<use xlink:href="#arrow" x="207.5" y="946"
-transform="rotate(180 207.5 946)" />
-
-<path d="
-M180,455
-L210,455
-L210,982
-L180,982"
-style="fill: none;  "
-
-/>
-<use xlink:href="#arrow" x="195" y="455" />
-<use xlink:href="#arrow" x="195" y="982"
-transform="rotate(180 195 982)" />
-
-<path d="
-M180,796
-L185,796
-L185,964
-L180,964"
-style="fill: none;  "
-
-/>
-<use xlink:href="#arrow" x="182.5" y="796" />
-<use xlink:href="#arrow" x="182.5" y="964"
-transform="rotate(180 182.5 964)" />
 
 </svg>

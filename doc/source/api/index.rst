@@ -22,7 +22,7 @@ be aligned to a reference sequence.
 .. toctree::
    reads
 
-   
+
 Variants
 @@@@@@@@
 
@@ -59,8 +59,9 @@ Metadata allows organizing all the primary data types.
 
 .. toctree::
    metadata
+   biometadata
+   assaymetadata
    ontologies
-   biodata
 
 
 Allele Annotations

@@ -199,44 +199,4 @@ record Dataset {
 
 }
 
-/**
-An analysis contains an interpretation of one or several experiments.
-(e.g. SNVs, copy number variations, methylation status) together with
-information about the methodology used.
-*/
-record Analysis {
-
-  /**
-  Formats of id | name | description | accessions are described in the
-  documentation on general attributes and formats.
-  */
-  string id;
-
-  union { null, string } name = null;
-
-  union { null, string } description = null;
-
-  /**
-  The time at which this record was created.
-  Format: :ref:`ISO 8601 <metadata_date_time>`
-  */
-  union { null, string } createDateTime = null;
-
-  /**
-  The time at which this record was last updated.
-  Format: :ref:`ISO 8601 <metadata_date_time>`
-  */
-  string updateDateTime;
-
-  /** The type of analysis. */
-  union { null, string } type = null;
-
-  /** The software run to generate this analysis. */
-  array<string> software = [];
-
-  /**
-  A map of additional analysis information.
-  */
-  map<array<string>> info = {};
-}
 }

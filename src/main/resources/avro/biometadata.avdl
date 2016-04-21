@@ -1,19 +1,17 @@
 @namespace("org.ga4gh.models")
 
 /**
-This protocol defines the :ref:`"biodata" objects<biodata>`, which can be 
-considered data representations of biological correlates (e.g. concrete 
-tissue samples, individuals).
+This protocol defines the :ref:`"biological metadata" objects<biometadata>`, which can be considered data representations of concrete biological samples or entities (e.g. the DNA extracted from a tissue sample, a human individual).
 */
 
-protocol Biodata {
+protocol Biometadata {
 
   import idl "common.avdl";
   import idl "metadata.avdl";
 
  /**
   An individual (or subject) typically corresponds to an individual
-  human or other organism.
+  human or another organism.
   */
   record Individual {
 
@@ -129,6 +127,5 @@ protocol Biodata {
    map<array<string>> info = {};
 
  }
-
 
 }

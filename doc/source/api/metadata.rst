@@ -25,10 +25,10 @@ The current metadata API is immature and will evolve in future.
 Metadata Records
 ----------------
 
-:ref:`BioSample<metadata_biosample>`
+:ref:`BioSample<biometadata_biosample>`
 ====================================
 
-:ref:`Individual<metadata_individual>`
+:ref:`Individual<biometadata_Individual>`
 ======================================
 
 :ref:`Dataset<metadata_dataset>`
