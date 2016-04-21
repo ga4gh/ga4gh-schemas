@@ -1,7 +1,7 @@
 @namespace("org.ga4gh.models")
 /**
-This protocol defines common types used in the other GA4GH protocols. It does
-not have any methods; it is merely a library of types.
+This file defines common types used in other parts of the schema.
+There are no directly associated methods.
 */
 protocol Common {
 
@@ -116,6 +116,7 @@ enum CigarOperation {
 
 /**
 A structure for an instance of a CIGAR operation.
+`FIXME: This belongs under Reads (only readAlignment refers to this)`
 */
 record CigarUnit {
   /** The operation type. */

@@ -1,0 +1,457 @@
+SequenceAnnotationMethods
+*************************
+
+ .. function:: searchFeatureSets(request)
+
+  :param request: SearchFeatureSetsRequest: This request maps to the body of `POST /featuresets/search` as JSON.
+  :return type: SearchFeatureSetsResponse
+  :throws: GAException
+
+Gets a list of `FeatureSet` matching the search criteria.
+
+  `POST /featuresets/search` must accept a JSON version of
+  `SearchFeatureSetsRequest` as the post body and will return a JSON version
+  of `SearchFeatureSetsResponse`.
+
+ .. function:: getFeatureSet(id)
+
+  :param id: string: The ID of the `FeatureSet`.
+  :return type: org.ga4gh.models.FeatureSet
+  :throws: GAException
+
+Gets a `FeatureSet` by ID.
+  `GET /featuresets/{id}` will return a JSON version of `FeatureSet`.
+
+ .. function:: getFeature(id)
+
+  :param id: string: The ID of the `Feature`.
+  :return type: org.ga4gh.models.Feature
+  :throws: GAException
+
+Gets a `org.ga4gh.models.Feature` by ID.
+  `GET /features/{id}` will return a JSON version of `Feature`.
+
+ .. function:: searchFeatures(request)
+
+  :param request: SearchFeaturesRequest: This request maps to the body of `POST /features/search` as JSON.
+  :return type: SearchFeaturesResponse
+  :throws: GAException
+
+Gets a list of `Feature` matching the search criteria.
+
+  `POST /features/search` must accept a JSON version of
+  `SearchFeaturesRequest` as the post body and will return a JSON version of
+  `SearchFeaturesResponse`.
+
+.. avro:enum:: Strand
+
+  :symbols: NEG_STRAND|POS_STRAND
+  Indicates the DNA strand associate for some data item.
+  * `NEG_STRAND`: The negative (-) strand.
+  * `POS_STRAND`:  The postive (+) strand.
+
+.. avro:record:: Position
+
+  :field referenceName:
+    The name of the `Reference` on which the `Position` is located.
+  :type referenceName: string
+  :field position:
+    The 0-based offset from the start of the forward strand for that `Reference`.
+      Genomic positions are non-negative integers less than `Reference` length.
+  :type position: long
+  :field strand:
+    Strand the position is associated with.
+  :type strand: Strand
+
+  A `Position` is an unoriented base in some `Reference`. A `Position` is
+  represented by a `Reference` name, and a base number on that `Reference`
+  (0-based).
+
+.. avro:record:: ExternalIdentifier
+
+  :field database:
+    The source of the identifier.
+      (e.g. `Ensembl`)
+  :type database: string
+  :field identifier:
+    The ID defined by the external database.
+      (e.g. `ENST00000000000`)
+  :type identifier: string
+  :field version:
+    The version of the object or the database
+      (e.g. `78`)
+  :type version: string
+
+  Identifier from a public database
+
+.. avro:enum:: CigarOperation
+
+  :symbols: ALIGNMENT_MATCH|INSERT|DELETE|SKIP|CLIP_SOFT|CLIP_HARD|PAD|SEQUENCE_MATCH|SEQUENCE_MISMATCH
+  An enum for the different types of CIGAR alignment operations that exist.
+  Used wherever CIGAR alignments are used. The different enumerated values
+  have the following usage:
+  
+  * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
+    aligned to the reference without evidence of an INDEL. Unlike the
+    `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
+    operator does not indicate whether the reference and read sequences are an
+    exact match. This operator is equivalent to SAM's `M`.
+  * `INSERT`: The insert operator indicates that the read contains evidence of
+    bases being inserted into the reference. This operator is equivalent to
+    SAM's `I`.
+  * `DELETE`: The delete operator indicates that the read contains evidence of
+    bases being deleted from the reference. This operator is equivalent to
+    SAM's `D`.
+  * `SKIP`: The skip operator indicates that this read skips a long segment of
+    the reference, but the bases have not been deleted. This operator is
+    commonly used when working with RNA-seq data, where reads may skip long
+    segments of the reference between exons. This operator is equivalent to
+    SAM's 'N'.
+  * `CLIP_SOFT`: The soft clip operator indicates that bases at the start/end
+    of a read have not been considered during alignment. This may occur if the
+    majority of a read maps, except for low quality bases at the start/end of
+    a read. This operator is equivalent to SAM's 'S'. Bases that are soft clipped
+    will still be stored in the read.
+  * `CLIP_HARD`: The hard clip operator indicates that bases at the start/end of
+    a read have been omitted from this alignment. This may occur if this linear
+    alignment is part of a chimeric alignment, or if the read has been trimmed
+    (e.g., during error correction, or to trim poly-A tails for RNA-seq). This
+    operator is equivalent to SAM's 'H'.
+  * `PAD`: The pad operator indicates that there is padding in an alignment.
+    This operator is equivalent to SAM's 'P'.
+  * `SEQUENCE_MATCH`: This operator indicates that this portion of the aligned
+    sequence exactly matches the reference (e.g., all bases are equal to the
+    reference bases). This operator is equivalent to SAM's '='.
+  * `SEQUENCE_MISMATCH`: This operator indicates that this portion of the
+    aligned sequence is an alignment match to the reference, but a sequence
+    mismatch (e.g., the bases are not equal to the reference). This can
+    indicate a SNP or a read error. This operator is equivalent to SAM's 'X'.
+
+.. avro:record:: CigarUnit
+
+  :field operation:
+    The operation type.
+  :type operation: CigarOperation
+  :field operationLength:
+    The number of bases that the operation runs for.
+  :type operationLength: long
+  :field referenceSequence:
+    `referenceSequence` is only used at mismatches (`SEQUENCE_MISMATCH`)
+      and deletions (`DELETE`). Filling this field replaces the MD tag.
+      If the relevant information is not available, leave this field as `null`.
+  :type referenceSequence: null|string
+
+  A structure for an instance of a CIGAR operation.
+  `FIXME: This belongs under Reads (only readAlignment refers to this)`
+
+.. avro:error:: GAException
+
+  A general exception type.
+
+.. avro:record:: OntologyTerm
+
+  :field id:
+    Ontology source identifier - the identifier, a CURIE (preferred) or
+      PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
+      in that it is a URI pointing to an information resource outside of the scope
+      of the schema or its resource implementation.
+  :type id: string
+  :field term:
+    Ontology term - the representation the id is pointing to.
+  :type term: null|string
+  :field sourceName:
+    Ontology source name - the name of ontology from which the term is obtained
+      e.g. 'Human Phenotype Ontology'
+  :type sourceName: null|string
+  :field sourceVersion:
+    Ontology source version - the version of the ontology from which the
+      OntologyTerm is obtained; e.g. 2.6.1.
+      There is no standard for ontology versioning and some frequently
+      released ontologies may use a datestamp, or build number.
+  :type sourceVersion: null|string
+
+  An ontology term describing an attribute. (e.g. the phenotype attribute
+    'polydactyly' from HPO)
+
+.. avro:record:: Experiment
+
+  :field id:
+    The experiment UUID. This is globally unique.
+  :type id: string
+  :field name:
+    The name of the experiment.
+  :type name: null|string
+  :field description:
+    A description of the experiment.
+  :type description: null|string
+  :field createDateTime:
+    The time at which this record was created. 
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: string
+  :field updateDateTime:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
+  :field runTime:
+    The time at which this experiment was performed.
+      Granularity here is variable (e.g. date only).
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type runTime: null|string
+  :field molecule:
+    The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
+  :type molecule: null|string
+  :field strategy:
+    The experiment technique or strategy applied to the sample.
+      (e.g. whole genome sequencing, RNA-seq, RIP-seq)
+  :type strategy: null|string
+  :field selection:
+    The method used to enrich the target. (e.g. immunoprecipitation, size
+      fractionation, MNase digestion)
+  :type selection: null|string
+  :field library:
+    The name of the library used as part of this experiment.
+  :type library: null|string
+  :field libraryLayout:
+    The configuration of sequenced reads. (e.g. Single or Paired)
+  :type libraryLayout: null|string
+  :field instrumentModel:
+    The instrument model used as part of this experiment.
+        This maps to sequencing technology in BAM.
+  :type instrumentModel: null|string
+  :field instrumentDataFile:
+    The data file generated by the instrument.
+      TODO: This isn't actually a file is it?
+      Should this be `instrumentData` instead?
+  :type instrumentDataFile: null|string
+  :field sequencingCenter:
+    The sequencing center used as part of this experiment.
+  :type sequencingCenter: null|string
+  :field platformUnit:
+    The platform unit used as part of this experiment. This is a flowcell-barcode
+      or slide unique identifier.
+  :type platformUnit: null|string
+  :field info:
+    A map of additional experiment information.
+  :type info: map<array<string>>
+
+  An experimental preparation of a sample.
+
+.. avro:record:: Dataset
+
+  :field id:
+    The dataset's id, locally unique to the server instance.
+  :type id: string
+  :field name:
+    The name of the dataset.
+  :type name: null|string
+  :field description:
+    Additional, human-readable information on the dataset.
+  :type description: null|string
+
+  A Dataset is a collection of related data of multiple types.
+  Data providers decide how to group data into datasets.
+  See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Analysis
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+      documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field createDateTime:
+    The time at which this record was created. 
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: null|string
+  :field updateDateTime:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.
+
+.. avro:record:: Attributes
+
+  :field vals:
+  :type vals: map<array<string|ExternalIdentifier|OntologyTerm>>
+
+  Type defining a collection of attributes associated with various protocol
+    records.  Each attribute is a name that maps to an array of one or more
+    values.  Values can be strings, external identifiers, or ontology terms.
+    Values should be split into the array elements instead of using a separator
+    syntax that needs to parsed.
+
+.. avro:record:: Feature
+
+  :field id:
+    Id of this annotation node.
+  :type id: string
+  :field parentId:
+    Parent Id of this node. Set to empty string if node has no parent.
+  :type parentId: string
+  :field childIds:
+    Ordered array of Child Ids of this node.
+        Since not all child nodes are ordered by genomic coordinates,
+        this can't always be reconstructed from parentId's of the children alone.
+  :type childIds: array<string>
+  :field featureSetId:
+    Identifier for the containing feature set.
+  :type featureSetId: string
+  :field referenceName:
+    The reference on which this feature occurs.
+        (e.g. `chr20` or `X`)
+  :type referenceName: string
+  :field start:
+    The start position at which this feature occurs (0-based).
+        This corresponds to the first base of the string of reference bases.
+        Genomic positions are non-negative integers less than reference length.
+        Features spanning the join of circular genomes are represented as
+        two features one on each side of the join (position 0).
+  :type start: long
+  :field end:
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+        This is typically calculated by `start + referenceBases.length`.
+  :type end: long
+  :field strand:
+    The strand on which the feature is present.
+  :type strand: Strand
+  :field featureType:
+    Feature that is annotated by this region.  Normally, this will be a term in
+        the Sequence Ontology.
+  :type featureType: OntologyTerm
+  :field attributes:
+    Name/value attributes of the annotation.  Attribute names follow the GFF3
+        naming convention of reserved names starting with an upper cases
+        character, and user-define names start with lower-case.  Most GFF3
+        pre-defined attributes apply, the exceptions are ID and Parent, which are
+        defined as fields. Additional, the following attributes are added:
+        * Score - the GFF3 score column
+        * Phase - the GFF3 phase column for CDS features.
+  :type attributes: Attributes
+
+  Node in the annotation graph that annotates a contiguous region of a
+    sequence.
+
+.. avro:record:: FeatureSet
+
+  :field id:
+    The ID of this annotation set.
+  :type id: string
+  :field datasetId:
+    The ID of the dataset this annotation set belongs to.
+  :type datasetId: null|string
+  :field referenceSetId:
+    The ID of the reference set which defines the coordinate-space for this
+        set of annotations.
+  :type referenceSetId: null|string
+  :field name:
+    The display name for this annotation set.
+  :type name: null|string
+  :field sourceURI:
+    The source URI describing the file from which this annotation set was
+        generated, if any.
+  :type sourceURI: null|string
+  :field info:
+    Remaining structured metadata key-value pairs.
+  :type info: map<array<string>>
+
+.. avro:record:: SearchFeatureSetsRequest
+
+  :field datasetId:
+    The `Dataset` to search.
+  :type datasetId: string
+  :field pageSize:
+    Specifies the maximum number of results to return in a single page.
+        If unspecified, a system default will be used.
+  :type pageSize: null|int
+  :field pageToken:
+    The continuation token, which is used to page through large result sets.
+        To get the next page of results, set this parameter to the value of
+        `nextPageToken` from the previous response.
+  :type pageToken: null|string
+
+  This request maps to the body of `POST /featuresets/search` as JSON.
+
+.. avro:record:: SearchFeatureSetsResponse
+
+  :field featureSets:
+    The list of matching feature sets.
+  :type featureSets: array<org.ga4gh.models.FeatureSet>
+  :field nextPageToken:
+    The continuation token, which is used to page through large result sets.
+        Provide this value in a subsequent request to return the next page of
+        results. This field will be empty if there aren't any additional results.
+  :type nextPageToken: null|string
+
+  This is the response from `POST /featuresets/search` expressed as JSON.
+
+.. avro:record:: SearchFeaturesRequest
+
+  :field featureSetId:
+    The annotation set to search within. Either `featureSetId` or
+        `parentId` must be non-empty.
+  :type featureSetId: null|string
+  :field parentId:
+    Restricts the search to direct children of the given parent `feature`
+        ID. Either `featureSetId` or `parentId` must be non-empty.
+  :type parentId: null|string
+  :field referenceName:
+    Only return features on the reference with this name 
+        (matched to literal reference name as imported from the GFF3).
+  :type referenceName: string
+  :field start:
+    Required. The beginning of the window (0-based, inclusive) for which
+        overlapping features should be returned.  Genomic positions are
+        non-negative integers less than reference length.  Requests spanning the
+        join of circular genomes are represented as two requests one on each side
+        of the join (position 0).
+  :type start: long
+  :field end:
+    Required. The end of the window (0-based, exclusive) for which overlapping
+        features should be returned.
+  :type end: long
+  :field featureTypes:
+    If specified, this query matches only annotations whose `featureType`
+        matches one of the provided ontology terms.
+  :type featureTypes: array<string>
+  :field pageSize:
+    Specifies the maximum number of results to return in a single page.
+        If unspecified, a system default will be used.
+  :type pageSize: null|int
+  :field pageToken:
+    The continuation token, which is used to page through large result sets.
+        To get the next page of results, set this parameter to the value of
+        `nextPageToken` from the previous response.
+  :type pageToken: null|string
+
+  This request maps to the body of `POST /features/search` as JSON.
+
+.. avro:record:: SearchFeaturesResponse
+
+  :field features:
+    The list of matching annotations, sorted by start position. Annotations which
+        share a start position are returned in a deterministic order.
+  :type features: array<org.ga4gh.models.Feature>
+  :field nextPageToken:
+    The continuation token, which is used to page through large result sets.
+        Provide this value in a subsequent request to return the next page of
+        results. This field will be empty if there aren't any additional results.
+  :type nextPageToken: null|string
+
+  This is the response from `POST /features/search` expressed as JSON.
+
