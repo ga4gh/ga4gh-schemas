@@ -116,7 +116,6 @@ record SearchReadGroupSetsRequest {
   Only return read group sets with this name (case-sensitive, exact match).
   */
   union { null, string } name = null;
-  
 
   /**
   Specifying the id of a BioSample record will return only readgroups
@@ -153,12 +152,10 @@ record SearchReadGroupSetsResponse {
 
 /**
 Gets a list of `ReadGroupSet` matching the search criteria.
-
 `POST /readgroupsets/search` must accept a JSON version of
 `SearchReadGroupSetsRequest` as the post body and will return a JSON
 version of `SearchReadGroupSetsResponse`. Only readgroups that
-match an optionally supplied bioSampleId will be included in 
-the response.
+match an optionally supplied bioSampleId will be included in the response.
 */
 SearchReadGroupSetsResponse searchReadGroupSets(
   /**
