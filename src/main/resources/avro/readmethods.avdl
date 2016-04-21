@@ -117,6 +117,7 @@ record SearchReadGroupSetsRequest {
   */
   union { null, string } name = null;
   
+
   /**
   Specifying the id of a BioSample record will return only readgroups
   with the given bioSampleId.
