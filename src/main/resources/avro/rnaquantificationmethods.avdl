@@ -17,9 +17,9 @@ record SearchRnaQuantificationRequest {
   union { null, string } rnaQuantificationId = null;
 
   /**
-  If present, return only Rna Quantifications which belong to this set.
+  The `Dataset` to search.
   */
-  union { null, string } datasetId = null;
+  string datasetId;
 
   /**
   Specifies the maximum number of results to return in a single page.
