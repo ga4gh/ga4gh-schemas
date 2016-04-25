@@ -100,9 +100,9 @@ record SearchPhenotypeRequest {
 /** This is the response from `POST /phenotype/search` expressed as JSON. */
 record SearchPhenotypeResponse {
   /**
-  The list of matching FeaturePhenotypeAssociation.
+  The list of matching FeaturePhenotypeInstances.
   */
-  array<org.ga4gh.models.FeaturePhenotypeAssociation> associations = [];
+  array<org.ga4gh.models.PhenotypeInstance> phenotypes = [];
 
   /**
   The continuation token, which is used to page through large result sets.
