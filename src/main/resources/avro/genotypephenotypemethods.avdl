@@ -258,14 +258,11 @@ record SearchGenotypePhenotypeRequest {
   */
   string phenotypeAssociationSetId;
 
-  union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
-         GenomicFeatureQuery} feature = null;
+  union {null, array<string>} featureIds = null;
 
-  union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
-         PhenotypeQuery} phenotype = null;
+  union {null, array<string>} phenotypeIds = null;
 
-  union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
-         EvidenceQuery} evidence = null;
+  union {null, array<EvidenceQuery>} evidence = null;
 
 
   /**

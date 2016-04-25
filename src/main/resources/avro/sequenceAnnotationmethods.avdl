@@ -82,7 +82,6 @@ record FeatureQuery {
   union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null; /* new field */
 }
 
-
   /**
   This request maps to the body of `POST /features/search` as JSON.
   */
