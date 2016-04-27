@@ -62,9 +62,8 @@ protocol SequenceAnnotations {
 
     /**
     The reference on which this feature occurs.
-    (e.g. `chr20` or `X`)
     */
-    string referenceName;
+    string referenceId;
 
     /**
     The start position at which this feature occurs (0-based).

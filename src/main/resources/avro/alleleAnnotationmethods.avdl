@@ -34,20 +34,20 @@ record SearchVariantAnnotationsRequest {
   string variantAnnotationSetId;
 
   /**
-  Only return variants with reference alleles on the reference with this
-  name. One of this field or `referenceId` or `features` is required.
+  Only return annotations with reference alleles on the reference with this
+  name. One of this field or `referenceId` is required.
   (case-sensitive, exact match)
   */
   union { null, string } referenceName = null;
 
   /**
-  Only return variants with reference alleles on the reference with this
-  ID. One of this field or `referenceName` or `features` is required.
+  Only return annotations with reference alleles on the reference with this
+  ID. One of this field or `referenceName` is required.
   */
+  
   union { null, string } referenceId = null;
 
   /**
-  Required if referenceName or referenceId supplied.
   The beginning of the window (0-based, inclusive) for which variants with
   overlapping reference alleles should be returned.
   Genomic positions are non-negative integers less than reference length.
@@ -57,7 +57,7 @@ record SearchVariantAnnotationsRequest {
   long start;
 
   /**
-  Required if referenceName or referenceId supplied.
+  Required if referenceName or referenceId is supplied.
   The end of the window (0-based, exclusive) for which variants with
   overlapping reference alleles should be returned.
   */
