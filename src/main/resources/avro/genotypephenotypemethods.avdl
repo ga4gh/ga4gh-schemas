@@ -74,6 +74,53 @@ SearchPhenotypeAssociationSetsResponse searchPhenotypeAssociationSets(
 
 /******************  /phenotypes/search  *********************/
 
+/**
+One or more phenotypes can be queried together.
+*/
+record PhenotypeQuery {
+  union { null, org.ga4gh.models.OntologyTerm } type;
+  union { null, array<org.ga4gh.models.OntologyTerm> } qualifier = null;
+  union { null, org.ga4gh.models.OntologyTerm } ageOfOnset = null;
+  union { null, string } description = null;  /*regex*/
+  union { null, array<org.ga4gh.models.ExternalIdentifier> }  externalIdentifiers = null;
+}
+
+/**
+One or more ontology terms can be queried together.
+*/
+record OntologyTermQuery {
+  array<org.ga4gh.models.OntologyTerm> terms;
+}
+
+/**
+One or more ids can be queried together.  Generally used for instances
+of a particular class of object (e.g. a specific gene or SNP).
+*/
+record ExternalIdentifierQuery {
+  array<org.ga4gh.models.ExternalIdentifier> ids;
+}
+
+/**
+Evidence for the phenotype association.
+*/
+record EvidenceQuery {
+  /** ECO or OBI is recommended */
+  union { null, org.ga4gh.models.OntologyTerm }  evidenceType;
+  union { null, string } description = null;  /*regex*/
+  union { null, array<org.ga4gh.models.ExternalIdentifier> }  externalIdentifiers = null; /* new field */
+}
+
+
+/**
+The feature collection to search for.  One or more features (variants,
+genes, etc) can be specified.  The idea here is that if a
+query is for a gene, then any alleles to that gene for which
+there are annotation records would be returned.
+*/
+record GenomicFeatureQuery {
+  array<org.ga4gh.models.Feature> features;
+}
+
 record SearchPhenotypeRequest {
 
   /**
@@ -81,7 +128,7 @@ record SearchPhenotypeRequest {
   */
   string phenotypeAssociationSetId;
 
-  array<org.ga4gh.models.PhenotypeQuery> queries = [];
+  array<PhenotypeQuery> queries = [];
   
   /**
   Specifies the maximum number of results to return in a single page.
@@ -172,55 +219,6 @@ record SearchFeaturesResponse {
 
 /******************  /genotypephenotype/search  *********************/
 
-
-
-/**
-Evidence for the phenotype association.
-*/
-record EvidenceQuery {
-  /** ECO or OBI is recommended */
-  union { null, OntologyTerm }  evidenceType;
-  union { null, string } description = null;  /*regex*/
-  union { null, array<org.ga4gh.models.ExternalIdentifier> }  externalIdentifiers = null; /* new field */
-}
-
-
-/**
-The feature collection to search for.  One or more features (variants,
-genes, etc) can be specified.  The idea here is that if a
-query is for a gene, then any alleles to that gene for which
-there are annotation records would be returned.
-*/
-record GenomicFeatureQuery {
-  array<org.ga4gh.models.Feature> features;
-}
-
-
-/**
-One or more phenotypes can be queried together.
-*/
-record PhenotypeQuery {
-  union { null, OntologyTerm } type;
-  union { null, array<OntologyTerm> } qualifier = null;
-  union { null, OntologyTerm } ageOfOnset = null;
-  union { null, string } description = null;  /*regex*/
-  union { null, array<org.ga4gh.models.ExternalIdentifier> }  externalIdentifiers = null;
-}
-
-/**
-One or more ontology terms can be queried together.
-*/
-record OntologyTermQuery {
-  array<org.ga4gh.models.OntologyTerm> terms;
-}
-
-/**
-One or more ids can be queried together.  Generally used for instances
-of a particular class of object (e.g. a specific gene or SNP).
-*/
-record ExternalIdentifierQuery {
-  array<org.ga4gh.models.ExternalIdentifier> ids;
-}
 
 /**
 This request maps to the body of `POST /genotypephenotype/search` as JSON.

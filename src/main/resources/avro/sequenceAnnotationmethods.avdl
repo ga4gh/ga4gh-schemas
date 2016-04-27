@@ -4,6 +4,7 @@ protocol SequenceAnnotationMethods {
 
   import idl "common.avdl";
   import idl "methods.avdl";
+  import idl "genotypephenotypemethods.avdl";
   import idl "sequenceAnnotations.avdl";
 
   /******************  /featuresets/search  *********************/
@@ -76,9 +77,9 @@ record FeatureQuery {
   union { null, string } referenceName;
   union { null, long } start = 0;
   union { null, long } end;
-  union { null, Strand } strand;
-  union { null, OntologyTerm } type; /* new field  */
-  union { null, OntologyTerm } featureType;
+  union { null, org.ga4gh.models.Strand } strand;
+  union { null, org.ga4gh.models.OntologyTerm } type; /* new field  */
+  union { null, org.ga4gh.models.OntologyTerm } featureType;
   union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null; /* new field */
 }
 
@@ -90,7 +91,7 @@ record FeatureQuery {
     The annotation set to search within. Either `featureSetId` or
     `parentId` must be non-empty.
     */
-    union {null, string, ExternalIdentifierQuery, OntologyTermQuery,
+    union {null, string, org.ga4gh.models.ExternalIdentifier, OntologyTermQuery,
          FeatureQuery} phenotype = null;
 
     /**
