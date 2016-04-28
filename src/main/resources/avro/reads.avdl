@@ -183,9 +183,9 @@ record ReadAlignment {
 
   /**
   The orientation and the distance between reads from the fragment are
-  consistent with the sequencing protocol (equivalent to SAM flag 0x2)
+  inconsistent with the sequencing protocol (inverse of SAM flag 0x2)
   */
-  union { null, boolean } properPlacement = null;
+  union { null, boolean } improperPlacement = null;
 
   /** The fragment is a PCR or optical duplicate (SAM flag 0x400). */
   union { null, boolean } duplicateFragment = null;

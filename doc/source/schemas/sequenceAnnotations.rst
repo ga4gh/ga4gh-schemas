@@ -155,18 +155,18 @@ core generic record which corresponds to the a GFF3 record.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field recordCreateTime:
+  :field createDateTime:
     The time at which this record was created. 
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordCreateTime: string
-  :field recordUpdateTime:
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: string
+  :field updateDateTime:
     The time at which this record was last updated.
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordUpdateTime: string
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+      Format: :ref:`ISO 8601 <metadata_date_time>`
   :type runTime: null|string
   :field molecule:
     The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
@@ -205,7 +205,7 @@ core generic record which corresponds to the a GFF3 record.
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a `Sample`.
+  An experimental preparation of a sample.
 
 .. avro:record:: Dataset
 
@@ -222,6 +222,38 @@ core generic record which corresponds to the a GFF3 record.
   A Dataset is a collection of related data of multiple types.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Analysis
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+      documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field createDateTime:
+    The time at which this record was created. 
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: null|string
+  :field updateDateTime:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.
 
 .. avro:record:: Attributes
 
