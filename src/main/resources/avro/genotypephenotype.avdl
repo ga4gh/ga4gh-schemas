@@ -38,10 +38,10 @@ import idl "common.avdl";
 import idl "metadata.avdl";
 import idl "sequenceAnnotations.avdl";
 
-/** 
-A PhenotypeAssociationSet is a collection of phenotype association results. 
-Such results are grouped by data source and possibly release version or analysis 
-type. 
+/**
+A PhenotypeAssociationSet is a collection of phenotype association results.
+Such results are grouped by data source and possibly release version or analysis
+type.
 */
 record PhenotypeAssociationSet {
   /** The phenotype association set ID. */
@@ -57,12 +57,12 @@ record PhenotypeAssociationSet {
   Optional additional information for this phenotype association set.
   */
   map<array<string>> info = {};
-}
+  }
 
 /**
 The context in which a genotype gives rise to a phenotype.
 This is fairly open-ended; as a stub we have a simple ontology term.
-For example, a controlled term for a drug, or perhaps an instance of a 
+For example, a controlled term for a drug, or perhaps an instance of a
 complex environment including temperature and air quality, or perhaps
 the anatomical environment (gut vs tissue type vs whole organism).
 */
@@ -80,9 +80,9 @@ record EnvironmentalContext {
   */
   OntologyTerm environmentType;
 
-  /** 
-	A textual description of the environment. This is used to complement 
-	the structured description in the environmentType field 
+  /**
+	A textual description of the environment. This is used to complement
+	the structured description in the environmentType field
   */
   union { null, string } description = null;
 
@@ -91,7 +91,7 @@ record EnvironmentalContext {
 
 /**
 An association to a phenotype and related information.
-This record is intended primarily to be used in conjunction with variants, but 
+This record is intended primarily to be used in conjunction with variants, but
 the record can also be composed with other kinds of entities such as diseases
 */
 record PhenotypeInstance {
@@ -101,24 +101,24 @@ record PhenotypeInstance {
   /** HPO is recommended */
   OntologyTerm type;
 
-  /** 
-  PATO is recommended.  Often this qualifier might be for abnormal/normal, 
+  /**
+  PATO is recommended.  Often this qualifier might be for abnormal/normal,
   or severity.
-  For example, severe: http://purl.obolibrary.org/obo/PATO_0000396 
+  For example, severe: http://purl.obolibrary.org/obo/PATO_0000396
   or abnormal: http://purl.obolibrary.org/obo/PATO_0000460
   */
   union { null, array<OntologyTerm> } qualifier = null;
 
   //TODO: also allow quantitative recording?
-  /** 
+  /**
   HPO is recommended, for example, subclasses of
   http://purl.obolibrary.org/obo/HP_0011007
   */
   union { null, OntologyTerm } ageOfOnset = null;
 
-  /** 
-  A textual description of the phenotype. This is used to complement the 
-  structured phenotype description in the type field. 
+  /**
+  A textual description of the phenotype. This is used to complement the
+  structured phenotype description in the type field.
   */
   union { null, string } description = null;
 
@@ -127,7 +127,7 @@ record PhenotypeInstance {
 
 /**
 Evidence for the phenotype association.
-This is also a stub for further expansion.  We should consider moving this into 
+This is also a stub for further expansion.  We should consider moving this into
 it's own schema.
 */
 record Evidence {
@@ -135,12 +135,14 @@ record Evidence {
   /** ECO or OBI is recommended */
   OntologyTerm evidenceType;
 
-  /** 
-	A textual description of the evidence. This is used to complement the 
-	structured description in the evidenceType field 
+  /**
+	A textual description of the evidence. This is used to complement the
+	structured description in the evidenceType field
 	*/
   union { null, string } description = null;
 
+  /** Additional annotation data in key-value pairs. */
+  map<array<string>> info = {};  
 }
 
 /**
@@ -151,10 +153,10 @@ such as resulting from alternative experiments and analysis.
 */
 record FeaturePhenotypeAssociation {
   string id;
-  
-  /** 
+
+  /**
   The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
-  belongs to. 
+  belongs to.
   */
   string phenotypeAssociationSetId;
 
@@ -162,10 +164,10 @@ record FeaturePhenotypeAssociation {
     The set of features of the organism that bears the phenotype.
     This could be as complete as a full complement of variants,
     or as minimal as the confirmed variants that are known causation
-    for the annotated phenotype.  
-    Examples of features could be variations at the nucleotide level, 
+    for the annotated phenotype.
+    Examples of features could be variations at the nucleotide level,
     large rearrangements at the chromosome level, or relevant epigenetic
-    markers.  Relevant genomic feature types are suggested to be 
+    markers.  Relevant genomic feature types are suggested to be
     those typed in the Sequence Ontology (SO).
 
     The feature set can have only one item, and must not be null.
@@ -180,8 +182,8 @@ record FeaturePhenotypeAssociation {
 
   /**
     The phenotypic component of this association.
-    Note that we delegate this to a separate record to allow us the flexibility 
-	to composition of phenotype associations with records that are not 
+    Note that we delegate this to a separate record to allow us the flexibility
+	to composition of phenotype associations with records that are not
 	variant sets - for example, diseases.
   */
   PhenotypeInstance phenotype;
