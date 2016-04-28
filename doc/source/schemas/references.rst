@@ -149,7 +149,7 @@ Defines types used by the GA4GH References API.
   reference coordinate space for other genomic annotations. A single
   `Reference` might represent the human chromosome 1, for instance.
   
-  `Reference`s are designed to be immutable.
+  `Reference's` are designed to be immutable.
 
 .. avro:record:: ReferenceSet
 

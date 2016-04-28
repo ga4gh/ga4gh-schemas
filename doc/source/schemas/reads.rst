@@ -193,7 +193,7 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a sample.
+  An experimental preparation of a `Sample`.
 
 .. avro:record:: Dataset
 

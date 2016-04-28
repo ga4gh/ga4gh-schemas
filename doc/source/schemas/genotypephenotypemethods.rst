@@ -347,8 +347,8 @@ of `SearchGenotypePhenotypeResponse`.
     Optional additional information for this phenotype association set.
   :type info: map<array<string>>
 
-  A PhenotypeAssociationSet is a collection of phenotype association results. 
-  Such results are grouped by data source and possibly release version or analysis 
+  A PhenotypeAssociationSet is a collection of phenotype association results.
+  Such results are grouped by data source and possibly release version or analysis
   type.
 
 .. avro:record:: EnvironmentalContext
@@ -364,13 +364,13 @@ of `SearchGenotypePhenotypeResponse`.
       Anatomy (Uberon): http://www.ontobee.org/browser/index.php?o=uberon
   :type environmentType: OntologyTerm
   :field description:
-    A textual description of the environment. This is used to complement 
+    A textual description of the environment. This is used to complement
     	the structured description in the environmentType field
   :type description: null|string
 
   The context in which a genotype gives rise to a phenotype.
   This is fairly open-ended; as a stub we have a simple ontology term.
-  For example, a controlled term for a drug, or perhaps an instance of a 
+  For example, a controlled term for a drug, or perhaps an instance of a
   complex environment including temperature and air quality, or perhaps
   the anatomical environment (gut vs tissue type vs whole organism).
 
@@ -383,9 +383,9 @@ of `SearchGenotypePhenotypeResponse`.
     HPO is recommended
   :type type: OntologyTerm
   :field qualifier:
-    PATO is recommended.  Often this qualifier might be for abnormal/normal, 
+    PATO is recommended.  Often this qualifier might be for abnormal/normal,
       or severity.
-      For example, severe: http://purl.obolibrary.org/obo/PATO_0000396 
+      For example, severe: http://purl.obolibrary.org/obo/PATO_0000396
       or abnormal: http://purl.obolibrary.org/obo/PATO_0000460
   :type qualifier: null|array<OntologyTerm>
   :field ageOfOnset:
@@ -393,12 +393,15 @@ of `SearchGenotypePhenotypeResponse`.
       http://purl.obolibrary.org/obo/HP_0011007
   :type ageOfOnset: null|OntologyTerm
   :field description:
-    A textual description of the phenotype. This is used to complement the 
+    A textual description of the phenotype. This is used to complement the
       structured phenotype description in the type field.
   :type description: null|string
+  :field ids:
+    ExternalIdentifiers that apply to this PhenotypeInstance
+  :type ids: null|array<ExternalIdentifier>
 
   An association to a phenotype and related information.
-  This record is intended primarily to be used in conjunction with variants, but 
+  This record is intended primarily to be used in conjunction with variants, but
   the record can also be composed with other kinds of entities such as diseases
 
 .. avro:record:: Evidence
@@ -407,30 +410,36 @@ of `SearchGenotypePhenotypeResponse`.
     ECO or OBI is recommended
   :type evidenceType: OntologyTerm
   :field description:
-    A textual description of the evidence. This is used to complement the 
+    A textual description of the evidence. This is used to complement the
     	structured description in the evidenceType field
   :type description: null|string
+  :field info:
+    A map of additional evidence information.
+  :type info: map<array<string>>
+  :field ids:
+    ExternalIdentifiers that apply to this Evidence
+  :type ids: null|array<ExternalIdentifier>
 
   Evidence for the phenotype association.
-  This is also a stub for further expansion.  We should consider moving this into 
+  This is also a stub for further expansion.  We should consider moving this into
   it's own schema.
 
 .. avro:record:: FeaturePhenotypeAssociation
 
   :field id:
   :type id: string
-  :field phenotypeAssociationId:
+  :field phenotypeAssociationSetId:
     The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
       belongs to.
-  :type phenotypeAssociationId: string
+  :type phenotypeAssociationSetId: string
   :field features:
     The set of features of the organism that bears the phenotype.
         This could be as complete as a full complement of variants,
         or as minimal as the confirmed variants that are known causation
-        for the annotated phenotype.  
-        Examples of features could be variations at the nucleotide level, 
+        for the annotated phenotype.
+        Examples of features could be variations at the nucleotide level,
         large rearrangements at the chromosome level, or relevant epigenetic
-        markers.  Relevant genomic feature types are suggested to be 
+        markers.  Relevant genomic feature types are suggested to be
         those typed in the Sequence Ontology (SO).
     
         The feature set can have only one item, and must not be null.
@@ -441,8 +450,8 @@ of `SearchGenotypePhenotypeResponse`.
   :type evidence: array<Evidence>
   :field phenotype:
     The phenotypic component of this association.
-        Note that we delegate this to a separate record to allow us the flexibility 
-    	to composition of phenotype associations with records that are not 
+        Note that we delegate this to a separate record to allow us the flexibility
+    	to composition of phenotype associations with records that are not
     	variant sets - for example, diseases.
   :type phenotype: PhenotypeInstance
   :field description:
@@ -492,6 +501,29 @@ of `SearchGenotypePhenotypeResponse`.
 
   This is the response from `POST /phenotypeassociationsets/search` expressed as JSON.
 
+.. avro:record:: TermQuery
+
+  :field term:
+    Query on terms, currently `term` (exact match) or `wildcard` (regexp).
+  :type term: null|map<string>
+  :field wildcard:
+  :type wildcard: null|map<string>
+
+  Text search either by exact match `term` or regexp `wildcard`.  Keys in the map correspond to fields to search on.
+  e.g.
+   { "term" : { "name" : "KIT" }  } // search for items whose name is 'KIT'
+   { "term" : { "description" : "KIT N822K" }  } // search for items whose description is 'KIT N822K'
+   { "wildcard" : { "name" : "K??" }  } // search for items whose name matches 'K??'
+   { "wildcard" : { "description" : "KIT N82*" }  } // search for items whose description matches 'KIT N82*'
+
+.. avro:record:: DTO
+
+  :field properties:
+    A property key `_class` is reserved to indicate the destination type if necessay
+  :type properties: map<array<string|org.ga4gh.models.ExternalIdentifier|org.ga4gh.models.OntologyTerm>>
+
+  Describe a Lightweight Data Transfer Object that can represent `any` Entity
+
 .. avro:record:: EvidenceQuery
 
   :field evidenceType:
@@ -538,11 +570,11 @@ of `SearchGenotypePhenotypeResponse`.
     The `PhenotypeAssociationSet` to search.
   :type phenotypeAssociationSetId: string
   :field feature:
-  :type feature: null|string|ExternalIdentifierQuery|OntologyTermQuery|GenomicFeatureQuery
+  :type feature: null|TermQuery|ExternalIdentifierQuery|OntologyTermQuery|GenomicFeatureQuery
   :field phenotype:
-  :type phenotype: null|string|ExternalIdentifierQuery|OntologyTermQuery|PhenotypeQuery
+  :type phenotype: null|TermQuery|ExternalIdentifierQuery|OntologyTermQuery|PhenotypeQuery
   :field evidence:
-  :type evidence: null|string|ExternalIdentifierQuery|OntologyTermQuery|EvidenceQuery
+  :type evidence: null|TermQuery|ExternalIdentifierQuery|OntologyTermQuery|EvidenceQuery
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
       If unspecified, a system default will be used.
