@@ -1,9 +1,12 @@
 @namespace("org.ga4gh.methods")
+
 protocol SequenceAnnotationMethods {
+
     import idl "common.avdl";
     import idl "methods.avdl";
     import idl "genotypephenotypemethods.avdl";
     import idl "sequenceAnnotations.avdl";
+
     /******************  /featuresets/search  *********************/
     /** This request maps to the body of `POST /featuresets/search` as JSON. */
     record SearchFeatureSetsRequest {
@@ -11,11 +14,13 @@ protocol SequenceAnnotationMethods {
            The `Dataset` to search.
         */
         string datasetId;
+
         /**
            Specifies the maximum number of results to return in a single page.
            If unspecified, a system default will be used.
         */
         union { null, int } pageSize = null;
+
         /**
            The continuation token, which is used to page through large result sets.
            To get the next page of results, set this parameter to the value of
@@ -23,10 +28,12 @@ protocol SequenceAnnotationMethods {
         */
         union { null, string } pageToken = null;
     }
+
     /** This is the response from `POST /featuresets/search` expressed as JSON. */
     record SearchFeatureSetsResponse {
         /** The list of matching feature sets. */
         array<org.ga4gh.models.FeatureSet> featureSets = [];
+
         /**
            The continuation token, which is used to page through large result sets.
            Provide this value in a subsequent request to return the next page of
@@ -34,8 +41,10 @@ protocol SequenceAnnotationMethods {
         */
         union { null, string } nextPageToken = null;
     }
+
     /**
        Gets a list of `FeatureSet` matching the search criteria.
+
        `POST /featuresets/search` must accept a JSON version of
        `SearchFeatureSetsRequest` as the post body and will return a JSON version
        of `SearchFeatureSetsResponse`.
@@ -43,6 +52,7 @@ protocol SequenceAnnotationMethods {
     SearchFeatureSetsResponse searchFeatureSets(
         /** This request maps to the body of `POST /featuresets/search` as JSON. */
         SearchFeatureSetsRequest request) throws GAException;
+
     /**************** /featuresets/{id} *******************/
     /**
        Gets a `FeatureSet` by ID.
@@ -53,7 +63,10 @@ protocol SequenceAnnotationMethods {
            The ID of the `FeatureSet`.
         */
         string id) throws GAException;
+
+
     /****************** /features/search *****************/
+
     record FeatureQuery {
         /**
            only those fields from feature that are `queryable`
@@ -62,13 +75,14 @@ protocol SequenceAnnotationMethods {
         union { null, string } description; /* new field,regex */
         union { null, string } featureSetId;
         union { null, string } referenceName;
-        union { null, long } start;
+        union { null, long } start = 0;
         union { null, long } end;
         union { null, org.ga4gh.models.Strand } strand;
         union { null, org.ga4gh.models.OntologyTerm } type; /* new field  */
         union { null, org.ga4gh.models.OntologyTerm } featureType;
         union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null; /* new field */
     }
+
     /**
        This request maps to the body of `POST /features/search` as JSON.
     */
@@ -77,12 +91,15 @@ protocol SequenceAnnotationMethods {
            The annotation set to search within. Either `featureSetId` or
            `parentId` must be non-empty.
         */
-        union {null, FeatureQuery} feature = null;
+        union {null, string, org.ga4gh.models.ExternalIdentifier, OntologyTermQuery,
+                FeatureQuery} phenotype = null;
+
         /**
            Specifies the maximum number of results to return in a single page.
            If unspecified, a system default will be used.
         */
         union { null, int } pageSize = null;
+
         /**
            The continuation token, which is used to page through large result sets.
            To get the next page of results, set this parameter to the value of
@@ -90,6 +107,7 @@ protocol SequenceAnnotationMethods {
         */
         union { null, string } pageToken = null;
     }
+
     /** This is the response from `POST /features/search` expressed as JSON. */
     record SearchFeaturesResponse {
         /**
@@ -97,6 +115,7 @@ protocol SequenceAnnotationMethods {
            share a start position are returned in a deterministic order.
         */
         array<org.ga4gh.models.Feature> features = [];
+
         /**
            The continuation token, which is used to page through large result sets.
            Provide this value in a subsequent request to return the next page of
@@ -104,8 +123,10 @@ protocol SequenceAnnotationMethods {
         */
         union { null, string } nextPageToken = null;
     }
+
     /**
        Gets a list of `Feature` matching the search criteria.
+
        `POST /features/search` must accept a JSON version of
        `SearchFeaturesRequest` as the post body and will return a JSON version of
        `SearchFeaturesResponse`.
@@ -113,6 +134,8 @@ protocol SequenceAnnotationMethods {
     SearchFeaturesResponse searchFeatures(
         /** This request maps to the body of `POST /features/search` as JSON. */
         SearchFeaturesRequest request) throws GAException;
+
+
     /****************  /features/{id}  *******************/
     /**
        Gets a `org.ga4gh.models.Feature` by ID.
@@ -123,4 +146,5 @@ protocol SequenceAnnotationMethods {
            The ID of the `Feature`.
         */
         string id) throws GAException;
+
 }

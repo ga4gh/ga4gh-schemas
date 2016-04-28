@@ -1,36 +1,30 @@
 @namespace("org.ga4gh.models")
 /**
-
-This protocol defines the associations between genotype
-and phenotype (G2P).  Associations can be made as a
-result of literature curation, computational modeling,
-inference, etc., and modeled and shared using this schema.
-
-Here, we follow the dogma of:
-
-      Genotype + Environment = Phenotype
-
-where a G2P association is between the G(enotype) in the context of
-some E(environment), which gives rise to a P(henotype). These
-associations have further evidence, provenance, and attribution.
-
-We leverage the GenomicFeature in the sequenceAnnotation schema here
-as it can accomodate any genomic feature from a single nucleotide variation
-(SNV), up through a gene, and/or complex rearrangements.  Each can
-be modeled as genomic features, and generally linked to a phenotype.
-Collections of these features can represent a genotype at different levels
-of completeness.  Therefore, we can represent single allelic variation,
-allelic complement, and multiple variants in a genotype that can each or
-collectively be associated with a phenotype.
-
-To enable standardized integration, this schema relies heavily on
-OntologyTerms, for typing phenotype, genomic features, and levels
-of evidence.  Suggested ontologies to leverage include (with browser links):
-Human Phenotype Ontology (HPO): http://www.ontobee.org/browser/index.php?o=hp
-Disease Ontology (DO): http://purl.obolibrary.org/obo/DOID_4
-Sequence Ontology (SO): http://www.sequenceontology.org/browser/
-Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
-Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
+   This protocol defines the associations between genotype
+   and phenotype (G2P).  Associations can be made as a
+   result of literature curation, computational modeling,
+   inference, etc., and modeled and shared using this schema.
+   Here, we follow the dogma of:
+   Genotype + Environment = Phenotype
+   where a G2P association is between the G(enotype) in the context of
+   some E(environment), which gives rise to a P(henotype). These
+   associations have further evidence, provenance, and attribution.
+   We leverage the GenomicFeature in the sequenceAnnotation schema here
+   as it can accomodate any genomic feature from a single nucleotide variation
+   (SNV), up through a gene, and/or complex rearrangements.  Each can
+   be modeled as genomic features, and generally linked to a phenotype.
+   Collections of these features can represent a genotype at different levels
+   of completeness.  Therefore, we can represent single allelic variation,
+   allelic complement, and multiple variants in a genotype that can each or
+   collectively be associated with a phenotype.
+   To enable standardized integration, this schema relies heavily on
+   OntologyTerms, for typing phenotype, genomic features, and levels
+   of evidence.  Suggested ontologies to leverage include (with browser links):
+   Human Phenotype Ontology (HPO): http://www.ontobee.org/browser/index.php?o=hp
+   Disease Ontology (DO): http://purl.obolibrary.org/obo/DOID_4
+   Sequence Ontology (SO): http://www.sequenceontology.org/browser/
+   Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
+   Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
 */
 protocol GenotypePhenotype {
 
@@ -38,6 +32,26 @@ import idl "common.avdl";
 import idl "metadata.avdl";
 import idl "sequenceAnnotations.avdl";
 
+/** 
+A PhenotypeAssociationSet is a collection of phenotype association results. 
+Such results are grouped by data source and possibly release version or analysis 
+type. 
+*/
+record PhenotypeAssociationSet {
+  /** The phenotype association set ID. */
+  string id;
+
+  /** The phenotype association set name. */
+  union { null, string } name = null;
+
+  /** The ID of the dataset this phenotype association set belongs to. */
+  string datasetId;
+
+  /**
+  Optional additional information for this phenotype association set.
+  */
+  map<array<string>> info = {};
+  }
 
 /**
 The context in which a genotype gives rise to a phenotype.
@@ -121,6 +135,11 @@ record Evidence {
 	*/
   union { null, string } description = null;
 
+  /**
+  A map of additional evidence information.
+  */
+  map<array<string>> info = {};
+
 }
 
 /**
@@ -129,8 +148,14 @@ The instance of association allows us to link a feature to a phenotype,
 multiple times, each bearing potentially different levels of confidence,
 such as resulting from alternative experiments and analysis.
 */
-record FeaturePhenotypeAssociation {
+record PhenotypeAssociation {
   string id;
+  
+  /** 
+  The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
+  belongs to. 
+  */
+  string phenotypeAssociationSetId;
 
   /**
     The set of features of the organism that bears the phenotype.
@@ -144,7 +169,9 @@ record FeaturePhenotypeAssociation {
 
     The feature set can have only one item, and must not be null.
   */
-  array<Feature> features;
+  union { null, array<Feature> }   features;
+  union { null, array<Individual> } individuals;
+  union { null,  array<BioSample> }  biosamples;
 
  /**
     The evidence for this specific instance of association between the

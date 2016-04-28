@@ -1,36 +1,21 @@
-GenotypePhenotype
-*****************
+SequenceAnnotations
+*******************
 
-This protocol defines the associations between genotype
-and phenotype (G2P).  Associations can be made as a
-result of literature curation, computational modeling,
-inference, etc., and modeled and shared using this schema.
+This protocol defines annotations on GA4GH genomic sequences It includes two
+types of annotations: continuous and discrete hierarchical.
 
-Here, we follow the dogma of:
+The discrete hierarchical annotations are derived from the Sequence Ontology
+(SO) and GFF3 work
 
-      Genotype + Environment = Phenotype
+   http://www.sequenceontology.org/gff3.shtml
 
-where a G2P association is between the G(enotype) in the context of
-some E(environment), which gives rise to a P(henotype). These
-associations have further evidence, provenance, and attribution.
+The goal is to be able to store annotations using the GFF3 and SO conceptual
+model, although there is not necessarly a one-to-one mapping in Avro records
+to GFF3 records.
 
-We leverage the GenomicFeature in the sequenceAnnotation schema here
-as it can accomodate any genomic feature from a single nucleotide variation
-(SNV), up through a gene, and/or complex rearrangements.  Each can
-be modeled as genomic features, and generally linked to a phenotype.
-Collections of these features can represent a genotype at different levels
-of completeness.  Therefore, we can represent single allelic variation,
-allelic complement, and multiple variants in a genotype that can each or
-collectively be associated with a phenotype.
-
-To enable standardized integration, this schema relies heavily on
-OntologyTerms, for typing phenotype, genomic features, and levels
-of evidence.  Suggested ontologies to leverage include (with browser links):
-Human Phenotype Ontology (HPO): http://www.ontobee.org/browser/index.php?o=hp
-Disease Ontology (DO): http://purl.obolibrary.org/obo/DOID_4
-Sequence Ontology (SO): http://www.sequenceontology.org/browser/
-Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
-Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
+The minimum requirement is to be able to accurately represent the current
+state of the art annotation data and the full SO model.  Feature is the
+core generic record which corresponds to the a GFF3 record.
 
 .. avro:enum:: Strand
 
@@ -79,7 +64,7 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-  
+
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -170,18 +155,18 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field recordCreateTime:
-    The time at which this record was created. 
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordCreateTime: string
-  :field recordUpdateTime:
+  :field createDateTime:
+    The time at which this record was created.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: string
+  :field updateDateTime:
     The time at which this record was last updated.
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordUpdateTime: string
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+      Format: :ref:`ISO 8601 <metadata_date_time>`
   :type runTime: null|string
   :field molecule:
     The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
@@ -220,7 +205,7 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a `Sample`.
+  An experimental preparation of a sample.
 
 .. avro:record:: Dataset
 
@@ -237,6 +222,38 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   A Dataset is a collection of related data of multiple types.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Analysis
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+      documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field createDateTime:
+    The time at which this record was created.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: null|string
+  :field updateDateTime:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.
 
 .. avro:record:: Attributes
 
@@ -322,139 +339,3 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   :field info:
     Remaining structured metadata key-value pairs.
   :type info: map<array<string>>
-
-.. avro:record:: PhenotypeAssociationSet
-
-  :field id:
-    The phenotype association set ID.
-  :type id: string
-  :field name:
-    The phenotype association set name.
-  :type name: null|string
-  :field datasetId:
-    The ID of the dataset this phenotype association set belongs to.
-  :type datasetId: string
-  :field info:
-    Optional additional information for this phenotype association set.
-  :type info: map<array<string>>
-
-  A PhenotypeAssociationSet is a collection of phenotype association results.
-  Such results are grouped by data source and possibly release version or analysis
-  type.
-
-.. avro:record:: EnvironmentalContext
-
-  :field id:
-    The Environment ID.
-  :type id: null|string
-  :field environmentType:
-    Examples of some environment types could be drawn from:
-      Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
-      Chemical Entities of Interest (ChEBI): http://www.ontobee.org/browser/index.php?o=chebi
-      Environment Ontology (ENVO):  http://www.ontobee.org/browser/index.php?o=ENVO
-      Anatomy (Uberon): http://www.ontobee.org/browser/index.php?o=uberon
-  :type environmentType: OntologyTerm
-  :field description:
-    A textual description of the environment. This is used to complement
-    	the structured description in the environmentType field
-  :type description: null|string
-
-  The context in which a genotype gives rise to a phenotype.
-  This is fairly open-ended; as a stub we have a simple ontology term.
-  For example, a controlled term for a drug, or perhaps an instance of a
-  complex environment including temperature and air quality, or perhaps
-  the anatomical environment (gut vs tissue type vs whole organism).
-
-.. avro:record:: PhenotypeInstance
-
-  :field id:
-    The Phenotype ID.
-  :type id: null|string
-  :field type:
-    HPO is recommended
-  :type type: OntologyTerm
-  :field qualifier:
-    PATO is recommended.  Often this qualifier might be for abnormal/normal,
-      or severity.
-      For example, severe: http://purl.obolibrary.org/obo/PATO_0000396
-      or abnormal: http://purl.obolibrary.org/obo/PATO_0000460
-  :type qualifier: null|array<OntologyTerm>
-  :field ageOfOnset:
-    HPO is recommended, for example, subclasses of
-      http://purl.obolibrary.org/obo/HP_0011007
-  :type ageOfOnset: null|OntologyTerm
-  :field description:
-    A textual description of the phenotype. This is used to complement the
-      structured phenotype description in the type field.
-  :type description: null|string
-  :field ids:
-    ExternalIdentifiers that apply to this PhenotypeInstance
-  :type ids: null|array<ExternalIdentifier>
-
-  An association to a phenotype and related information.
-  This record is intended primarily to be used in conjunction with variants, but
-  the record can also be composed with other kinds of entities such as diseases
-
-.. avro:record:: Evidence
-
-  :field evidenceType:
-    ECO or OBI is recommended
-  :type evidenceType: OntologyTerm
-  :field description:
-    A textual description of the evidence. This is used to complement the
-    	structured description in the evidenceType field
-  :type description: null|string
-  :field info:
-    A map of additional evidence information.
-  :type info: map<array<string>>
-  :field ids:
-    ExternalIdentifiers that apply to this Evidence
-  :type ids: null|array<ExternalIdentifier>
-
-  Evidence for the phenotype association.
-  This is also a stub for further expansion.  We should consider moving this into
-  it's own schema.
-
-.. avro:record:: FeaturePhenotypeAssociation
-
-  :field id:
-  :type id: string
-  :field phenotypeAssociationSetId:
-    The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
-      belongs to.
-  :type phenotypeAssociationSetId: string
-  :field features:
-    The set of features of the organism that bears the phenotype.
-        This could be as complete as a full complement of variants,
-        or as minimal as the confirmed variants that are known causation
-        for the annotated phenotype.
-        Examples of features could be variations at the nucleotide level,
-        large rearrangements at the chromosome level, or relevant epigenetic
-        markers.  Relevant genomic feature types are suggested to be
-        those typed in the Sequence Ontology (SO).
-    
-        The feature set can have only one item, and must not be null.
-  :type features: array<Feature>
-  :field evidence:
-    The evidence for this specific instance of association between the
-        features and the phenotype.
-  :type evidence: array<Evidence>
-  :field phenotype:
-    The phenotypic component of this association.
-        Note that we delegate this to a separate record to allow us the flexibility
-    	to composition of phenotype associations with records that are not
-    	variant sets - for example, diseases.
-  :type phenotype: PhenotypeInstance
-  :field description:
-    A textual description of the association.
-  :type description: null|string
-  :field environmentalContexts:
-    The context in which the phenotype arises.
-      Multiple contexts can be specified - these are assumed to all hold together
-  :type environmentalContexts: array<EnvironmentalContext>
-
-  An association between one or more genomic features and a phenotype.
-  The instance of association allows us to link a feature to a phenotype,
-  multiple times, each bearing potentially different levels of confidence,
-  such as resulting from alternative experiments and analysis.
-
