@@ -250,7 +250,7 @@ Gets a `org.ga4gh.models.ReadGroup` by ID.
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a sample.
+  An experimental preparation of a `Sample`.
 
 .. avro:record:: Dataset
 

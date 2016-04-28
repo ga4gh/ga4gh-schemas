@@ -22,7 +22,7 @@ be aligned to a reference sequence.
 .. toctree::
    reads
 
-   
+
 Variants
 @@@@@@@@
 
