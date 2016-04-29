@@ -118,7 +118,8 @@ Defines types used by the GA4GH References API.
       excluding all whitespace characters (this is equivalent to SQ:M5 in SAM).
   :type md5checksum: string
   :field name:
-    The name of this reference. (e.g. '22').
+    The name of this reference. (e.g. '22').  The name of the reference must be unique
+      within a ReferenceSet.
   :type name: string
   :field sourceURI:
     The URI from which the sequence was obtained. Specifies a FASTA format
@@ -149,7 +150,8 @@ Defines types used by the GA4GH References API.
   reference coordinate space for other genomic annotations. A single
   `Reference` might represent the human chromosome 1, for instance.
   
-  `Reference`s are designed to be immutable.
+  `Reference`s are designed to be immutable and maybe shared between multiple
+  `ReferenceSet`s.
 
 .. avro:record:: ReferenceSet
 
