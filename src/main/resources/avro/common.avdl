@@ -22,9 +22,9 @@ represented by a `Reference` name, and a base number on that `Reference`
 */
 record Position {
   /**
-  The name of the `Reference` on which the `Position` is located.
+  The ID of the `Reference` on which the `Position` is located.
   */
-  string referenceName;
+  string referenceId;
 
   /**
   The 0-based offset from the start of the forward strand for that `Reference`.
