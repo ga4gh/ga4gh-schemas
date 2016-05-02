@@ -106,20 +106,26 @@ This protocol defines feature expression counts on GA4GH reads.
 
 .. avro:record:: OntologyTerm
 
-  :field ontologySourceName:
-    ontology source name - the name of ontology from which the term is obtained
-        e.g. 'Human Phenotype Ontology'
-  :type ontologySourceName: null|string
-  :field ontologySourceID:
-    ontology source identifier - the identifier, a CURIE (preferred) or
-        PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
-  :type ontologySourceID: null|string
-  :field ontologySourceVersion:
-    ontology source version - the version of the ontology from which the
-        OntologyTerm is obtained; e.g. 2.6.1.
-        There is no standard for ontology versioning and some frequently
-        released ontologies may use a datestamp, or build number.
-  :type ontologySourceVersion: null|string
+  :field id:
+    Ontology source identifier - the identifier, a CURIE (preferred) or
+      PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
+      It differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
+      in that it is a URI pointing to an information resource outside of the scope
+      of the schema or its resource implementation.
+  :type id: string
+  :field term:
+    Ontology term - the representation the id is pointing to.
+  :type term: null|string
+  :field sourceName:
+    Ontology source name - the name of ontology from which the term is obtained
+      e.g. 'Human Phenotype Ontology'
+  :type sourceName: null|string
+  :field sourceVersion:
+    Ontology source version - the version of the ontology from which the
+      OntologyTerm is obtained; e.g. 2.6.1.
+      There is no standard for ontology versioning and some frequently
+      released ontologies may use a datestamp, or build number.
+  :type sourceVersion: null|string
 
   An ontology term describing an attribute. (e.g. the phenotype attribute
     'polydactyly' from HPO)
@@ -135,18 +141,18 @@ This protocol defines feature expression counts on GA4GH reads.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field recordCreateTime:
+  :field createDateTime:
     The time at which this record was created. 
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordCreateTime: string
-  :field recordUpdateTime:
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: string
+  :field updateDateTime:
     The time at which this record was last updated.
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordUpdateTime: string
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+      Format: :ref:`ISO 8601 <metadata_date_time>`
   :type runTime: null|string
   :field molecule:
     The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
@@ -202,6 +208,38 @@ This protocol defines feature expression counts on GA4GH reads.
   A Dataset is a collection of related data of multiple types.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Analysis
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+      documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field createDateTime:
+    The time at which this record was created. 
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: null|string
+  :field updateDateTime:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.
 
 .. avro:record:: Program
 
@@ -345,10 +383,10 @@ This protocol defines feature expression counts on GA4GH reads.
   :field fragmentName:
     The fragment name. Equivalent to QNAME (query template name) in SAM.
   :type fragmentName: string
-  :field properPlacement:
+  :field improperPlacement:
     The orientation and the distance between reads from the fragment are
-      consistent with the sequencing protocol (equivalent to SAM flag 0x2)
-  :type properPlacement: null|boolean
+      inconsistent with the sequencing protocol (inverse of SAM flag 0x2)
+  :type improperPlacement: null|boolean
   :field duplicateFragment:
     The fragment is a PCR or optical duplicate (SAM flag 0x400).
   :type duplicateFragment: null|boolean
@@ -457,56 +495,10 @@ This protocol defines feature expression counts on GA4GH reads.
 
   Top level identifying information
 
-.. avro:record:: Characterization
-
-  :field analysisId:
-    The associated RnaQuantification.
-  :type analysisId: string
-  :field complexity:
-    Distinct uniquely mapped reads as a fraction of total uniquely mapped reads.
-  :type complexity: float
-  :field fractionMapped:
-    Fraction of total reads which were mapped.  Values range from 0.0 to 1.0.
-  :type fractionMapped: float
-  :field intronicFraction:
-    Fraction of total reads which were mapped to introns.  Values range from 0.0 to 1.0.
-  :type intronicFraction: float
-  :field exonicFraction:
-    Fraction of total reads which were mapped to exons.  Values range from 0.0 to 1.0.
-  :type exonicFraction: float
-  :field intergenicFraction:
-    Fraction of total reads which were mapped to intergenic regions.  Values range from 0.0 to 1.0.
-  :type intergenicFraction: float
-
-  Read characterization data.
-
-.. avro:record:: ReadCounts
-
-  :field analysisId:
-    The associated RnaQuantification.
-  :type analysisId: string
-  :field totalReadCount:
-    Total number of mapped reads.
-  :type totalReadCount: int
-  :field uniqueCount:
-    Total number of reads that are uniquely mapped to a position in the reference.
-  :type uniqueCount: int
-  :field multiCount:
-    Total number of reads that map to multiple positions in the reference.
-  :type multiCount: int
-  :field uniqueSpliceCount:
-    Total number of reads that are uniquely mapped to a splice position in the reference.
-  :type uniqueSpliceCount: int
-  :field multiSpliceCount:
-    Total number of reads that map to multiple splice positions in the reference.
-  :type multiSpliceCount: int
-
-  Details of the read counts.
-
-.. avro:record:: FeatureGroup
+.. avro:record:: QuantificationGroup
 
   :field id:
-    Feature group ID
+    Quantification group ID
   :type id: string
   :field analysisId:
     The associated RnaQuantification.
@@ -517,13 +509,6 @@ This protocol defines feature expression counts on GA4GH reads.
   :field description:
     Description
   :type description: null|string
-  :field created:
-    The time at which this feature group was created in milliseconds from the epoch.
-  :type created: null|long
-  :field updated:
-    The time at which this feature group was last updated in milliseconds
-      from the epoch.
-  :type updated: null|long
   :field info:
     A map of additional feature group information.
   :type info: map<array<string>>
@@ -533,14 +518,14 @@ This protocol defines feature expression counts on GA4GH reads.
 .. avro:record:: ExpressionLevel
 
   :field id:
-    Feature ID
+    Expression ID
   :type id: string
   :field name:
     Name
   :type name: null|string
-  :field featureGroupId:
-    The associated FeatureGoup.
-  :type featureGroupId: string
+  :field quantificationGroupId:
+    The associated QuantificationGroup.
+  :type quantificationGroupId: string
   :field annotationId:
     The associated annotation.
   :type annotationId: string

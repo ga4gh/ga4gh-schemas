@@ -89,7 +89,7 @@ record SearchExpressionLevelRequest {
   /**
   If present return only ExpressionLevel records which belong to this set.
   */
-  union { null, string } featureGroupId = null;
+  union { null, string } quantificationGroupId = null;
 
   /**
   The rnaQuantification to restrict search to.
@@ -146,12 +146,12 @@ SearchExpressionLevelResponse searchExpressionLevel(
     */
     SearchExpressionLevelRequest request) throws GAException;
 
-/****************  /featuregroup/search  *******************/
+/****************  /quantificationgroup/search  *******************/
 /**
-This request maps to the body of 'POST /featuregroup/search'
+This request maps to the body of 'POST /quantificationgroup/search'
 as JSON.
 */
-record SearchFeatureGroupRequest {
+record SearchQuantificationGroupRequest {
   /**
   RNA Quantification to search.
   */
@@ -160,7 +160,7 @@ record SearchFeatureGroupRequest {
   /**
   Quantification Groups of interest.
   */
-  union { null, string } featureGroupId = null;
+  union { null, string } quantificationGroupId = null;
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -177,11 +177,11 @@ record SearchFeatureGroupRequest {
 }
 
 /**
-This is the response from 'POST /featuregroup/search' expressed as JSON.
+This is the response from 'POST /quantificationgroup/search' expressed as JSON.
 */
-record SearchFeatureGroupResponse {
+record SearchQuantificationGroupResponse {
   /** The list of matching quantification groups. */
-  array<org.ga4gh.models.FeatureGroup> featureGroup = [];
+  array<org.ga4gh.models.QuantificationGroup> quantificationGroup = [];
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -192,16 +192,16 @@ record SearchFeatureGroupResponse {
 }
 
 /**
-Gets a list of 'FeatureGroup' matching the search criteria.
+Gets a list of 'QuantificationGroup' matching the search criteria.
 
-'POST /featuregroup/search' must accept JSON version of
-'SearchFeatureGroupRequest' as the post body and will return a JSON
-version of 'SearchFeatureGroupResponse'.
+'POST /quantificationgroup/search' must accept JSON version of
+'SearchQuantificationGroupRequest' as the post body and will return a JSON
+version of 'SearchQuantificationGroupResponse'.
 */
-SearchFeatureGroupResponse searchFeatureGroup(
+SearchQuantificationGroupResponse searchQuantificationGroup(
     /**
-    This request maps to the body of 'POST /featuregroup/search'
+    This request maps to the body of 'POST /quantificationgroup/search'
     as JSON.
     */
-    SearchFeatureGroupRequest request) throws GAException;
+    SearchQuantificationGroupRequest request) throws GAException;
 }

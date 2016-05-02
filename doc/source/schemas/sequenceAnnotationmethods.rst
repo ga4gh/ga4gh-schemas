@@ -354,7 +354,7 @@ Gets a list of `Feature` matching the search criteria.
   :type id: string
   :field datasetId:
     The ID of the dataset this annotation set belongs to.
-  :type datasetId: null|string
+  :type datasetId: string
   :field referenceSetId:
     The ID of the reference set which defines the coordinate-space for this
         set of annotations.

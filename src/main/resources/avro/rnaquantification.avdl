@@ -59,7 +59,7 @@ specified reads and assignment to the listed annotation.
 /**
 Identifying information for annotated features.
 */
-record FeatureGroup {
+record QuantificationGroup {
   /**
   Quantification group ID
   */
@@ -101,9 +101,9 @@ record ExpressionLevel {
   union {null, string} name = null;
 
   /** 
-  The associated FeatureGroup. 
+  The associated QuantificationGroup. 
   */
-  string featureGroupId;
+  string quantificationGroupId;
 
   /** 
   The associated annotation. 
