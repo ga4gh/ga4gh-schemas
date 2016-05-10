@@ -1,6 +1,6 @@
 @namespace("org.ga4gh.methods")
 
-protocol BiometadataMethods {
+protocol BioMetadataMethods {
 
 import idl "metadata.avdl";
 import idl "common.avdl";

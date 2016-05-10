@@ -1,4 +1,4 @@
-Biometadata
+BioMetadata
 ***********
 
 This protocol defines the :ref:`"biological metadata" objects<biometadata>`, which can be considered data representations of concrete biological samples or entities (e.g. the DNA extracted from a tissue sample, a human individual).
@@ -50,7 +50,7 @@ This protocol defines the :ref:`"biological metadata" objects<biometadata>`, whi
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-  
+
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -331,4 +331,3 @@ This protocol defines the :ref:`"biological metadata" objects<biometadata>`, whi
     genomic array as well as RNA-seq experiments) may refer to the same BioSample.
     In the context of the GA4GH metadata schema, BioSample constitutes the central
     reference object.
-

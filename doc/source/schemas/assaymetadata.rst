@@ -1,4 +1,4 @@
-Assaymetadata
+AssayMetadata
 *************
 
 This protocol defines metadata objects describing experimental or analytical procedures, performed on biological objects (e.g. biosamples) or readouts from experimental procedures.
@@ -50,7 +50,7 @@ This protocol defines metadata objects describing experimental or analytical pro
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-  
+
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -248,4 +248,3 @@ This protocol defines metadata objects describing experimental or analytical pro
   An analysis contains an interpretation of one or several experiments.
     (e.g. SNVs, copy number variations, methylation status) together with
     information about the methodology used.
-

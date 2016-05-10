@@ -3,7 +3,7 @@
 .. _assaymetadata_experiment:
 
 **********************************
-Assaymetadata: *Experiment* Object
+AssayMetadata: *Experiment* Object
 **********************************
 
 Experiment in the GA4GH Schema
@@ -30,7 +30,7 @@ Attribute             Notes
 .. _assaymetadata_analysis:
 
 ********************************
-Assaymetadata: *Analysis* Object
+AssayMetadata: *Analysis* Object
 ********************************
 
 Analysis in the GA4GH Schema

@@ -4,7 +4,7 @@
 This protocol defines the :ref:`"biological metadata" objects<biometadata>`, which can be considered data representations of concrete biological samples or entities (e.g. the DNA extracted from a tissue sample, a human individual).
 */
 
-protocol Biometadata {
+protocol BioMetadata {
 
   import idl "common.avdl";
   import idl "metadata.avdl";

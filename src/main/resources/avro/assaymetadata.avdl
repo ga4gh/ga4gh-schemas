@@ -4,15 +4,14 @@
 This protocol defines metadata objects describing experimental or analytical procedures, performed on biological objects (e.g. biosamples) or readouts from experimental procedures.
 */
 
-protocol Assaymetadata {
+protocol AssayMetadata {
 
   import idl "common.avdl";
   import idl "metadata.avdl";
 
   /**
-  An analysis contains an interpretation of one or several experiments.
-  (e.g. SNVs, copy number variations, methylation status) together with
-  information about the methodology used.
+  An analysis describes the computational methodologies applied to the
+  interpretation of one or several experiments.
   */
   record Analysis {
 
