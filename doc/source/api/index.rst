@@ -52,6 +52,14 @@ using terms from an established sequence ontology.
 .. toctree::
    sequence_annotations
 
+RNA Quantifications
+@@@@@@@@@@@@@@@@@@@
+
+RNA Quantification data from RNA-Seq experiments.
+
+.. toctree::
+   rnaquantification
+
 Metadata
 @@@@@@@@
 
@@ -73,3 +81,5 @@ algorithms which help to describe, classify, and understand variants.
 
 .. _SAM/BAM: https://samtools.github.io/hts-specs/SAMv1.pdf
 .. _VCF: https://samtools.github.io/hts-specs/VCFv4.2.pdf
+
+

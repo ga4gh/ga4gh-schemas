@@ -53,10 +53,4 @@ class TestValidateSchemas(unittest.TestCase):
         """
         if isinstance(schemaClass.schema, avro.schema.RecordSchema):
             for field in schemaClass.getFields():
-                if isinstance(field.type, avro.schema.UnionSchema):
-                    t0 = field.type.schemas[0]
-                    if not (isinstance(t0, avro.schema.PrimitiveSchema) and
-                            t0.type == "null"):
-                        msg = "Schema union assumptions violated: {}.{}"
-                        raise Exception(msg.format(
-                            schemaClass.name, field.name))
+                pass
