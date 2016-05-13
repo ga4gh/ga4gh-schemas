@@ -3,7 +3,7 @@ protocol RnaQuantificationMethods {
 
 import idl "methods.avdl";
 import idl "common.avdl";
-import idl "rnaquantification.avdl";
+import idl "rnaQuantifications.avdl";
 
 /****************  /rnaquantification/search  *******************/
 /**
