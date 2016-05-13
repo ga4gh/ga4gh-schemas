@@ -12,8 +12,8 @@ Schemas
    reads
    referencemethods
    references
-   rnaquantificationmethods
-   rnaquantifications
+   rnaQuantificationmethods
+   rnaQuantifications
    sequenceAnnotations
    sequenceAnnotationmethods
    variantmethods

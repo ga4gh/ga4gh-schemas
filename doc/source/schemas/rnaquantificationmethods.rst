@@ -1,31 +1,18 @@
 RnaQuantificationMethods
 ************************
 
- .. function:: searchQuantificationGroup(request)
+ .. function:: searchRnaQuantifications(request)
 
-  :param request: SearchQuantificationGroupRequest: This request maps to the body of 'POST /quantificationgroup/search'
+  :param request: SearchRnaQuantificationsRequest: This request maps to the body of 'POST /rnaquantifications/search'
     as JSON.
-  :return type: SearchQuantificationGroupResponse
+  :return type: SearchRnaQuantificationsResponse
   :throws: GAException
 
-Gets a list of 'QuantificationGroup' matching the search criteria.
+Gets a list of 'RnaQuantification's matching the search criteria.
 
-'POST /quantificationgroup/search' must accept JSON version of
-'SearchQuantificationGroupRequest' as the post body and will return a JSON
-version of 'SearchQuantificationGroupResponse'.
-
- .. function:: searchRnaQuantification(request)
-
-  :param request: SearchRnaQuantificationRequest: This request maps to the body of 'POST /rnaquantification/search'
-    as JSON.
-  :return type: SearchRnaQuantificationResponse
-  :throws: GAException
-
-Gets a list of 'RnaQuantification' matching the search criteria.
-
-'POST /rnaquantification/search' must accept JSON version of
-'SearchRnaQuantificationRequest' as the post body and will return a JSON
-version of 'SearchRnaQuantificationResponse'.
+'POST /rnaquantifications/search' must accept JSON version of
+'SearchRnaQuantificationsRequest' as the post body and will return a JSON
+version of 'SearchRnaQuantificationsResponse'.
 
  .. function:: getRnaQuantification(id)
 
@@ -33,21 +20,34 @@ version of 'SearchRnaQuantificationResponse'.
   :return type: org.ga4gh.models.RnaQuantification
   :throws: GAException
 
-Gets a `RnaQuantification` by ID.
-`GET /rnaquantification/{id}` will return a JSON version of `RnaQuantification`.
+Gets an `RnaQuantification` by ID.
+`GET /rnaquantifications/{id}` will return a JSON version of `RnaQuantification`.
 
- .. function:: searchExpressionLevel(request)
+ .. function:: searchQuantificationGroups(request)
 
-  :param request: SearchExpressionLevelRequest: This request maps to the body of 'POST /expressionlevel/search'
+  :param request: SearchQuantificationGroupsRequest: This request maps to the body of 'POST /quantificationgroups/search'
     as JSON.
-  :return type: SearchExpressionLevelResponse
+  :return type: SearchQuantificationGroupsResponse
   :throws: GAException
 
-Gets a list of 'ExpressionLevel' matching the search criteria.
+Gets a list of 'QuantificationGroup's matching the search criteria.
 
-'POST /expressionlevel/search' must accept JSON version of
-'SearchExpressionLevelRequest' as the post body and will return a JSON
-version of 'SearchExpressionLevelResponse'.
+'POST /quantificationgroups/search' must accept JSON version of
+'SearchQuantificationGroupsRequest' as the post body and will return a JSON
+version of 'SearchQuantificationGroupsResponse'.
+
+ .. function:: searchExpressionLevels(request)
+
+  :param request: SearchExpressionLevelsRequest: This request maps to the body of 'POST /expressionlevels/search'
+    as JSON.
+  :return type: SearchExpressionLevelsResponse
+  :throws: GAException
+
+Gets a list of 'ExpressionLevel's matching the search criteria.
+
+'POST /expressionlevels/search' must accept JSON version of
+'SearchExpressionLevelsRequest' as the post body and will return a JSON
+version of 'SearchExpressionLevelsResponse'.
 
 .. avro:error:: GAException
 
@@ -601,7 +601,7 @@ version of 'SearchExpressionLevelResponse'.
 
   The actual numerical quantification for each feature.
 
-.. avro:record:: SearchRnaQuantificationRequest
+.. avro:record:: SearchRnaQuantificationsRequest
 
   :field rnaQuantificationId:
     If present, return only Rna Quantifications which belong to this set.
@@ -619,23 +619,23 @@ version of 'SearchExpressionLevelResponse'.
       'nextPageToken' from the previous response.
   :type pageToken: null|string
 
-  This request maps to the body of 'POST /rnaquantification/search'
+  This request maps to the body of 'POST /rnaquantifications/search'
   as JSON.
 
-.. avro:record:: SearchRnaQuantificationResponse
+.. avro:record:: SearchRnaQuantificationsResponse
 
-  :field rnaQuantification:
+  :field rnaQuantifications:
     The list of matching quantifications.
-  :type rnaQuantification: array<org.ga4gh.models.RnaQuantification>
+  :type rnaQuantifications: array<org.ga4gh.models.RnaQuantification>
   :field nextPageToken:
     The continuation token, which is used to page through large result sets.
       To get the next page of results, set this parameter to the value of
       'nextPageToken' from the previous response.
   :type nextPageToken: null|string
 
-  This is the response from 'POST /rnaquantification/search' expressed as JSON.
+  This is the response from 'POST /rnaquantifications/search' expressed as JSON.
 
-.. avro:record:: SearchExpressionLevelRequest
+.. avro:record:: SearchExpressionLevelsRequest
 
   :field expressionLevelId:
     If present, return matching Expression Level record.
@@ -649,7 +649,7 @@ version of 'SearchExpressionLevelResponse'.
   :field threshold:
     Only return ExpressionLevel records with expressions exceeding
       this value.  (Defaults to 0.0)
-  :type threshold: null|float
+  :type threshold: float|null
   :field pageSize:
     Specifies the maximum number of results to return in a single page.
       If unspecified, a system default will be used.
@@ -660,23 +660,23 @@ version of 'SearchExpressionLevelResponse'.
       'nextPageToken' from the previous response.
   :type pageToken: null|string
 
-  This request maps to the body of 'POST /expressionlevel/search'
+  This request maps to the body of 'POST /expressionlevels/search'
   as JSON.
 
-.. avro:record:: SearchExpressionLevelResponse
+.. avro:record:: SearchExpressionLevelsResponse
 
-  :field expressionLevel:
+  :field expressionLevels:
     The list of matching quantifications.
-  :type expressionLevel: array<org.ga4gh.models.ExpressionLevel>
+  :type expressionLevels: array<org.ga4gh.models.ExpressionLevel>
   :field nextPageToken:
     The continuation token, which is used to page through large result sets.
       To get the next page of results, set this parameter to the value of
       'nextPageToken' from the previous response.
   :type nextPageToken: null|string
 
-  This is the response from 'POST /expressionlevel/search' expressed as JSON.
+  This is the response from 'POST /expressionlevels/search' expressed as JSON.
 
-.. avro:record:: SearchQuantificationGroupRequest
+.. avro:record:: SearchQuantificationGroupsRequest
 
   :field rnaQuantificationId:
     RNA Quantification to search.
@@ -694,19 +694,19 @@ version of 'SearchExpressionLevelResponse'.
       'nextPageToken' from the previous response.
   :type pageToken: null|string
 
-  This request maps to the body of 'POST /quantificationgroup/search'
+  This request maps to the body of 'POST /quantificationgroups/search'
   as JSON.
 
-.. avro:record:: SearchQuantificationGroupResponse
+.. avro:record:: SearchQuantificationGroupsResponse
 
-  :field quantificationGroup:
+  :field quantificationGroups:
     The list of matching quantification groups.
-  :type quantificationGroup: array<org.ga4gh.models.QuantificationGroup>
+  :type quantificationGroups: array<org.ga4gh.models.QuantificationGroup>
   :field nextPageToken:
     The continuation token, which is used to page through large result sets.
       To get the next page of results, set this parameter to the value of
       'nextPageToken' from the previous response.
   :type nextPageToken: null|string
 
-  This is the response from 'POST /quantificationgroup/search' expressed as JSON.
+  This is the response from 'POST /quantificationgroups/search' expressed as JSON.
 
