@@ -251,4 +251,224 @@ protocol BioMetadata {
     map<array<string>> info = {};
   }
 
+  /**
+  Representation of a disease. The object should in minimal version report the
+  kind of the disease and a temporal parameter.
+
+  The "Disease" object is not intended to represent extended clinical records,
+  but as a basic representation of the most relevant attributes in the context
+  of the study at hand.
+
+  GA4GH metadata does not attempt to encode detailed phenotypes of the disease
+  or longitudinal concepts. Association of diseases and disease phenotypes
+  (e.g Li-Fraumeni syndrome and resulting malignancies) is complex and left to
+  external processes utilizing GA4GH type records in combination with medical
+  information systems.
+
+  TODO:
+    - need to link to clinical data. Reference to clinical working group
+    - need keyword/value table, also human notes
+  */
+  record Disease {
+
+    /**
+    The diagnosis, defined through an OntologyTerm.
+    */
+    OntologyTerm disease;
+
+    /**
+    The stage of the disease at diagnosis. This is not updated to reflect
+    progression of the disease, which is recorded in the clinical data.
+    e.g. OntologyTerm representation for stage T2N1M0.
+    */
+    union { null, OntologyTerm } stageAtDiagnosis = null;
+
+    /**
+    Age of onset of the disease in ISO 8601 duration PnYnMnDTnHnMnS
+    in a suitable approximation
+    Example: P47Y08M (47 years, 8 months)
+    */
+    union { null, string } ageOfOnset = null;
+
+    /**
+    Date the diagnosis was made/assigned. This is NOT when the record was
+    created.
+    Format: ISO 8601 (cf. documentation on time formats)
+    */
+    union { null, string } dateTimeDiagnosis = null;
+
+  }
+
+  /**
+  Record of phenotypes observed in an individual, which maybe independent of a
+  disease diagnosis.
+  Phenotype-disease links are complex and as this is a process
+  performed by clinicians, presentations can be atypical and phenotypes
+  unrelated to an individual diagnosis may be present.
+  We also want to record phenotypes in the absences of a diagnosis.
+  */
+  record Phenotype {
+
+    /**
+    The phenotype, defined through an OntologyTerm.
+    */
+    OntologyTerm phenotype;
+
+    /**
+    Age of onset of the phenotype.
+    TODO: need to define format (see Disease)
+    */
+    union { null, string } ageOfOnset = null;
+
+    /**
+    Date the phenotype was identified/assigned.
+    Format: ISO 8601 (cf. documentation on time formats)
+    */
+    union { null, string } dateTimeIdentified = null;
+
+  }
+
+  /**
+  Observations are single measurements, which can be described through their
+  type, value and unit, as well as an associated dateTime value. This could be
+  numerical values with a unit, or observations defined through ontologies.
+
+  Examples would be body height, body weight, BMI...
+
+  TODO:
+    - need keyword/value table, also human notes
+  */
+  record Observation {
+
+    /**
+    The id of the observation. This is facultative and allows the use of
+    "relationship objects" to assign e.g. evidence levels between an observation
+    and e.g. a phenotype object.
+    Format: UUIDv4 recommended
+    */
+    union { null, string } id = null;
+
+    /**
+    The type of the observation.
+    */
+    OntologyTerm observation;
+
+    /**
+    The value of the observation.
+    */
+    OntologyTerm value;
+
+    /**
+    The unit of the observation; e.g. for numeric values.
+    */
+    union { null, string } unit = null;
+
+    /**
+    Date the observation was made/assigned (e.g. date of diagnosis, observation
+    of phenotype...). Suitable e.g. for health related purposes, epidemiology,
+    experimental setups (time series)...
+    Format: ISO 8601 (cf. documentation on time formats)
+    */
+    union { null, string } dateTimeObserved = null;
+
+    /**
+    Age at time of the observation.
+    This is highly relevant in the human context and usually the primary
+    available time related parameter available, as date of birth might not
+    be available.
+    */
+    union { null, string } ageAtObservation = null;
+
+  }
+
+  /**
+  Interventions are e.g. medical treatments.  This is a summary of the clinical
+  information intended to be used in basic analysis when clinical information
+  may not be avalable. This could be e.g. OntologyTerm based representations of
+
+    medical procedure, SIO_001024
+    cognitive behavior, NBO_0000607
+    drug, CHEBI_23888
+
+  */
+  record Intervention {
+
+    /**
+    The id of the intervention. This is facultative and allows the association
+    of an intervention to e.g. a phenotype object, through a relationship.
+    */
+    union { null, string } id = null;
+
+    /**
+    The type of the intervention.
+    */
+    union { null, OntologyTerm } intervention = null;
+
+    /**
+    A description of the intervention.
+    */
+    union { null, string } description = null;
+
+    /**
+    Date the the invervention started.
+    Format: ISO 8601 (cf. documentation on time formats)
+    */
+    union { null, string } dateTimeIntervention = null;
+
+    /**
+    TODO: need keyword/value table, also human notes
+    */
+
+  }
+
+  /**
+  NOTE: Copied from genotypephenotype.avdl
+  Evidence for the phenotype association.
+  This is also a stub for further expansion. We should consider moving this into
+  its own schema.
+  TODO: Move Evidence from genotypephenotype.avdl to metadata.avdl?
+  */
+  record Evidence {
+
+    /**
+    ECO or OBI is recommended
+    */
+    OntologyTerm evidenceType;
+
+    /**
+    A textual description of the evidence. This is used to complement the
+    structured description in the evidenceType field
+    */
+    union { null, string } description = null;
+
+  }
+
+  /**
+  Associations allow to "glue" two objects together, in lieu of forced nesting.
+  The concept borrows from the G2P definitions.
+  TODO: Move Association from G2P?
+  */
+  record Association {
+
+    /**
+    A list of exactly two object ids.
+    This is the minimum object glue; e.g. for association of the intervention
+    (applied to an individual) with a sample.
+    TODO: Separate attributes instead of list of 2?
+    */
+    array<string> ids;
+
+    /**
+    A textual description of the association.
+    */
+    union { null, string } description = null;
+
+    /**
+    The evidence for this specific instance of association between the
+    different objects.
+    */
+    array<Evidence> evidence = [];
+
+  }
+
 }
