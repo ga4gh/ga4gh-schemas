@@ -365,14 +365,14 @@ Gets an `VariantAnnotationSet` by ID.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field createDateTime:
+  :field created:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: string
-  :field updateDateTime:
+  :type created: string
+  :field updated:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+  :type updated: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
@@ -443,14 +443,14 @@ Gets an `VariantAnnotationSet` by ID.
   :type name: null|string
   :field description:
   :type description: null|string
-  :field createDateTime:
+  :field created:
     The time at which this record was created. 
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: null|string
-  :field updateDateTime:
+  :type created: null|string
+  :field updated:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+  :type updated: string
   :field type:
     The type of analysis.
   :type type: null|string
@@ -580,9 +580,9 @@ Gets an `VariantAnnotationSet` by ID.
   :field variantAnnotationSetId:
     The ID of the variant annotation set this record belongs to.
   :type variantAnnotationSetId: string
-  :field createDateTime:
+  :field created:
     The :ref:`ISO 8601 <metadata_date_time>` time at which this record was created.
-  :type createDateTime: null|string
+  :type created: null|string
   :field transcriptEffects:
     The transcript effect annotation for the alleles of this variant. Each one
       represents the effect of a single allele on a single transcript.
