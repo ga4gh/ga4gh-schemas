@@ -1,0 +1,166 @@
+@namespace("org.ga4gh.methods")
+
+protocol SequenceAnnotationMethods {
+
+  import idl "common.avdl";
+  import idl "methods.avdl";
+  import idl "sequenceAnnotations.avdl";
+
+  /******************  /featuresets/search  *********************/
+  /** This request maps to the body of `POST /featuresets/search` as JSON. */
+  record SearchFeatureSetsRequest {
+    /**
+    The `Dataset` to search.
+    */
+    string datasetId;
+
+    /**
+    Specifies the maximum number of results to return in a single page.
+    If unspecified, a system default will be used.
+    */
+    union { null, int } pageSize = null;
+
+    /**
+    The continuation token, which is used to page through large result sets.
+    To get the next page of results, set this parameter to the value of
+    `nextPageToken` from the previous response.
+    */
+    union { null, string } pageToken = null;
+  }
+
+  /** This is the response from `POST /featuresets/search` expressed as JSON. */
+  record SearchFeatureSetsResponse {
+    /** The list of matching feature sets. */
+    array<org.ga4gh.models.FeatureSet> featureSets = [];
+
+    /**
+    The continuation token, which is used to page through large result sets.
+    Provide this value in a subsequent request to return the next page of
+    results. This field will be empty if there aren't any additional results.
+    */
+    union { null, string } nextPageToken = null;
+  }
+
+  /**
+  Gets a list of `FeatureSet` matching the search criteria.
+
+  `POST /featuresets/search` must accept a JSON version of
+  `SearchFeatureSetsRequest` as the post body and will return a JSON version
+  of `SearchFeatureSetsResponse`.
+  */
+  SearchFeatureSetsResponse searchFeatureSets(
+    /** This request maps to the body of `POST /featuresets/search` as JSON. */
+    SearchFeatureSetsRequest request) throws GAException;
+
+  /**************** /featuresets/{id} *******************/
+  /**
+  Gets a `FeatureSet` by ID.
+  `GET /featuresets/{id}` will return a JSON version of `FeatureSet`.
+  */
+  org.ga4gh.models.FeatureSet getFeatureSet(
+    /**
+    The ID of the `FeatureSet`.
+    */
+    string id) throws GAException;
+
+
+  /****************** /features/search *****************/
+  /**
+  This request maps to the body of `POST /features/search` as JSON.
+  */
+  record SearchFeaturesRequest {
+    /**
+    The annotation set to search within. Either `featureSetId` or
+    `parentId` must be non-empty.
+    */
+    union { null, string } featureSetId;
+
+    /**
+    Restricts the search to direct children of the given parent `feature`
+    ID. Either `featureSetId` or `parentId` must be non-empty.
+    */
+    union { null, string } parentId;
+
+    /**
+    Only return features on the reference with this name 
+    (matched to literal reference name as imported from the GFF3).
+    */
+    string referenceName;
+
+    /**
+    Required. The beginning of the window (0-based, inclusive) for which
+    overlapping features should be returned.  Genomic positions are
+    non-negative integers less than reference length.  Requests spanning the
+    join of circular genomes are represented as two requests one on each side
+    of the join (position 0).
+    */
+    long start;
+
+    /**
+    Required. The end of the window (0-based, exclusive) for which overlapping
+    features should be returned.
+    */
+    long end;
+
+    // TODO: To be replaced with a fully featured ontology search
+    // once the Metadata definitions are rounded out.
+    /**
+    If specified, this query matches only annotations whose `featureType`
+    matches one of the provided ontology terms.
+    */
+    array<string> featureTypes = [];
+
+    /**
+    Specifies the maximum number of results to return in a single page.
+    If unspecified, a system default will be used.
+    */
+    union { null, int } pageSize = null;
+
+    /**
+    The continuation token, which is used to page through large result sets.
+    To get the next page of results, set this parameter to the value of
+    `nextPageToken` from the previous response.
+    */
+    union { null, string } pageToken = null;
+  }
+
+  /** This is the response from `POST /features/search` expressed as JSON. */
+  record SearchFeaturesResponse {
+    /**
+    The list of matching annotations, sorted by start position. Annotations which
+    share a start position are returned in a deterministic order.
+    */
+    array<org.ga4gh.models.Feature> features = [];
+
+    /**
+    The continuation token, which is used to page through large result sets.
+    Provide this value in a subsequent request to return the next page of
+    results. This field will be empty if there aren't any additional results.
+    */
+    union { null, string } nextPageToken = null;
+  }
+
+  /**
+  Gets a list of `Feature` matching the search criteria.
+
+  `POST /features/search` must accept a JSON version of
+  `SearchFeaturesRequest` as the post body and will return a JSON version of
+  `SearchFeaturesResponse`.
+  */
+  SearchFeaturesResponse searchFeatures(
+    /** This request maps to the body of `POST /features/search` as JSON. */
+    SearchFeaturesRequest request) throws GAException;
+
+
+  /****************  /features/{id}  *******************/
+  /**
+  Gets a `org.ga4gh.models.Feature` by ID.
+  `GET /features/{id}` will return a JSON version of `Feature`.
+  */
+  org.ga4gh.models.Feature getFeature(
+    /**
+    The ID of the `Feature`.
+    */
+    string id) throws GAException;
+
+}
