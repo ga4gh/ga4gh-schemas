@@ -187,14 +187,14 @@ of `SearchIndividualsResponse`.
     The experiment's description. This attribute contains human readable text.
       The "description" attributes should not contain any structured data.
   :type description: null|string
-  :field createDateTime:
+  :field created:
     The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: string
-  :field updateDateTime:
+  :type created: string
+  :field updated:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+  :type updated: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
@@ -265,14 +265,14 @@ of `SearchIndividualsResponse`.
   :type name: null|string
   :field description:
   :type description: null|string
-  :field createDateTime:
+  :field created:
     The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: null|string
-  :field updateDateTime:
+  :type created: null|string
+  :field updated:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+  :type updated: string
   :field type:
     The type of analysis.
   :type type: null|string
@@ -305,14 +305,14 @@ of `SearchIndividualsResponse`.
     The Individual's description. This attribute contains human readable text.
         The "description" attributes should not contain any structured data.
   :type description: null|string
-  :field createDateTime:
+  :field created:
     The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
         was created.
-  :type createDateTime: string
-  :field updateDateTime:
+  :type created: string
+  :field updated:
     The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
         was updated.
-  :type updateDateTime: string
+  :type updated: string
   :field species:
     For a representation of an NCBI Taxon ID as an OntologyTerm, see
         NCBITaxon Ontology
@@ -350,13 +350,13 @@ of `SearchIndividualsResponse`.
   :field disease:
     OntologyTerm describing the primary disease associated with this BioSample.
   :type disease: null|OntologyTerm
-  :field createDateTime:
+  :field created:
     The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
        was created.
-  :type createDateTime: string
-  :field updateDateTime:
+  :type created: string
+  :field updated:
     The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record was updated.
-  :type updateDateTime: string
+  :type updated: string
   :field individualId:
     The individual this biosample was derived from.
   :type individualId: null|string

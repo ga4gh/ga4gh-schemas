@@ -149,14 +149,14 @@ This protocol defines metadata objects describing experimental or analytical pro
     The experiment's description. This attribute contains human readable text.
         The "description" attributes should not contain any structured data.
   :type description: null|string
-  :field createDateTime:
+  :field created:
     The time at which this record was created.
         Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: string
-  :field updateDateTime:
+  :type created: string
+  :field updated:
     The time at which this record was last updated.
         Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+  :type updated: string
   :field runTime:
     The time at which this experiment was performed.
         Granularity here is variable (e.g. date only).
@@ -227,14 +227,14 @@ This protocol defines metadata objects describing experimental or analytical pro
   :type name: null|string
   :field description:
   :type description: null|string
-  :field createDateTime:
+  :field created:
     The time at which this record was created.
         Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: null|string
-  :field updateDateTime:
+  :type created: null|string
+  :field updated:
     The time at which this record was last updated.
         Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+  :type updated: string
   :field type:
     The type of analysis.
   :type type: null|string

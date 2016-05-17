@@ -37,13 +37,13 @@ protocol BioMetadata {
     The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
     was created.
     */
-    string createDateTime;
+    string created;
 
     /**
     The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
     was updated.
     */
-    string updateDateTime;
+    string updated;
 
     /**
     For a representation of an NCBI Taxon ID as an OntologyTerm, see
@@ -109,12 +109,12 @@ protocol BioMetadata {
    The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
    was created.
    */
-   string createDateTime;
+   string created;
 
    /**
    The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record was updated.
    */
-   string updateDateTime;
+   string updated;
 
    /**
    The individual this biosample was derived from.

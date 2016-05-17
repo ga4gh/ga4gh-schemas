@@ -69,13 +69,13 @@ record Experiment {
   The time at which this record was created.
   Format: :ref:`ISO 8601 <metadata_date_time>`
   */
-  string createDateTime;
+  string created;
 
   /**
   The time at which this record was last updated.
   Format: :ref:`ISO 8601 <metadata_date_time>`
   */
-  string updateDateTime;
+  string updated;
 
   /**
   The time at which this experiment was performed.

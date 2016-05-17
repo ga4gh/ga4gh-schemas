@@ -50,7 +50,7 @@ This protocol defines the :ref:`"biological metadata" objects<biometadata>`, whi
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-
+  
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -149,14 +149,14 @@ This protocol defines the :ref:`"biological metadata" objects<biometadata>`, whi
     The experiment's description. This attribute contains human readable text.
       The "description" attributes should not contain any structured data.
   :type description: null|string
-  :field createDateTime:
+  :field created:
     The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: string
-  :field updateDateTime:
+  :type created: string
+  :field updated:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+  :type updated: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
@@ -217,38 +217,6 @@ This protocol defines the :ref:`"biological metadata" objects<biometadata>`, whi
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
 
-.. avro:record:: Analysis
-
-  :field id:
-    Formats of id | name | description | accessions are described in the
-      documentation on general attributes and formats.
-  :type id: string
-  :field name:
-  :type name: null|string
-  :field description:
-  :type description: null|string
-  :field createDateTime:
-    The time at which this record was created.
-      Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: null|string
-  :field updateDateTime:
-    The time at which this record was last updated.
-      Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
-  :field type:
-    The type of analysis.
-  :type type: null|string
-  :field software:
-    The software run to generate this analysis.
-  :type software: array<string>
-  :field info:
-    A map of additional analysis information.
-  :type info: map<array<string>>
-
-  An analysis contains an interpretation of one or several experiments.
-  (e.g. SNVs, copy number variations, methylation status) together with
-  information about the methodology used.
-
 .. avro:record:: Individual
 
   :field id:
@@ -263,14 +231,14 @@ This protocol defines the :ref:`"biological metadata" objects<biometadata>`, whi
     The Individual's description. This attribute contains human readable text.
         The "description" attributes should not contain any structured data.
   :type description: null|string
-  :field createDateTime:
+  :field created:
     The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
         was created.
-  :type createDateTime: string
-  :field updateDateTime:
+  :type created: string
+  :field updated:
     The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
         was updated.
-  :type updateDateTime: string
+  :type updated: string
   :field species:
     For a representation of an NCBI Taxon ID as an OntologyTerm, see
         NCBITaxon Ontology
@@ -308,13 +276,13 @@ This protocol defines the :ref:`"biological metadata" objects<biometadata>`, whi
   :field disease:
     OntologyTerm describing the primary disease associated with this BioSample.
   :type disease: null|OntologyTerm
-  :field createDateTime:
+  :field created:
     The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
        was created.
-  :type createDateTime: string
-  :field updateDateTime:
+  :type created: string
+  :field updated:
     The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record was updated.
-  :type updateDateTime: string
+  :type updated: string
   :field individualId:
     The individual this biosample was derived from.
   :type individualId: null|string
@@ -331,3 +299,4 @@ This protocol defines the :ref:`"biological metadata" objects<biometadata>`, whi
     genomic array as well as RNA-seq experiments) may refer to the same BioSample.
     In the context of the GA4GH metadata schema, BioSample constitutes the central
     reference object.
+

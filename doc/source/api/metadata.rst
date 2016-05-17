@@ -49,9 +49,9 @@ Attribute                 Note
 *name*                    a more descriptive object label/identifier
 *description*             a string describing aspects of the object; *not* to
                           be used for a list or nested object
-*createDateTime*              the time the record was created, in ISO8601
+*created*              the time the record was created, in ISO8601
                           (see :ref:`Date and Time<metadata_date_time>`)
-*updateDateTime*          the time the record was updated, in ISO8601
+*updated*          the time the record was updated, in ISO8601
                           (see :ref:`Date and Time<metadata_date_time>`)
 ========================= ======================================================
 
@@ -103,8 +103,8 @@ Units of time are:
 
 **Implementations**
 
-* updateDateTime (ubiquitous object time stamp)
-* createDateTime (ubiquitous object time stamp)
+* updated (ubiquitous object time stamp)
+* created (ubiquitous object time stamp)
 
 Durations
 =========

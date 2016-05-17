@@ -90,7 +90,7 @@ Gets a list of `Feature` matching the search criteria.
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-  
+
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -185,14 +185,14 @@ Gets a list of `Feature` matching the search criteria.
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field createDateTime:
-    The time at which this record was created. 
+  :field created:
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: string
-  :field updateDateTime:
+  :type created: string
+  :field updated:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+  :type updated: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
@@ -263,14 +263,14 @@ Gets a list of `Feature` matching the search criteria.
   :type name: null|string
   :field description:
   :type description: null|string
-  :field createDateTime:
-    The time at which this record was created. 
+  :field created:
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type createDateTime: null|string
-  :field updateDateTime:
+  :type created: null|string
+  :field updated:
     The time at which this record was last updated.
       Format: :ref:`ISO 8601 <metadata_date_time>`
-  :type updateDateTime: string
+  :type updated: string
   :field type:
     The type of analysis.
   :type type: null|string
@@ -411,7 +411,7 @@ Gets a list of `Feature` matching the search criteria.
         ID. Either `featureSetId` or `parentId` must be non-empty.
   :type parentId: null|string
   :field referenceName:
-    Only return features on the reference with this name 
+    Only return features on the reference with this name
         (matched to literal reference name as imported from the GFF3).
   :type referenceName: string
   :field start:
@@ -454,4 +454,3 @@ Gets a list of `Feature` matching the search criteria.
   :type nextPageToken: null|string
 
   This is the response from `POST /features/search` expressed as JSON.
-

@@ -22,8 +22,8 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this Experiment
-*createDateTime*      * the time the record was created, in ISO8601
-*updateDateTime*      * the time the record was updated, in ISO8601
+*created*             * the time the record was created, in ISO8601
+*updated*             * the time the record was updated, in ISO8601
 *info*                * additional, structured information
 ===================== ==========================================================
 
@@ -49,7 +49,7 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this Analysis
-*createDateTime*      * the time the record was created, in ISO8601
-*updateDateTime*      * the time the record was updated, in ISO8601
+*created*             * the time the record was created, in ISO8601
+*updated*             * the time the record was updated, in ISO8601
 *info*                * additional, structured information
 ===================== ==========================================================

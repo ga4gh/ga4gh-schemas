@@ -41,22 +41,22 @@
 <text transform="translate(40 20)" ><tspan x="0" dy="18" font-weight="900">Individual</tspan>
 </text>
 <rect x="20" y="45" width="160" height="154" />
-<text transform="translate(40 45)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">createDateTime</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">sex</tspan><tspan 	x="0" dy="18">species</tspan><tspan 	x="0" dy="18">updateDateTime</tspan></text>
+<text transform="translate(40 45)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">created</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">sex</tspan><tspan 	x="0" dy="18">species</tspan><tspan 	x="0" dy="18">updated</tspan></text>
 <rect x="20" y="219" width="160" height="25" />
 <text transform="translate(40 219)" ><tspan x="0" dy="18" font-weight="900">BioSample</tspan>
 </text>
 <rect x="20" y="244" width="160" height="154" />
-<text transform="translate(40 244)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">createDateTime</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">disease</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">individualId</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">updateDateTime</tspan></text>
+<text transform="translate(40 244)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">created</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">disease</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">individualId</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">updated</tspan></text>
 <rect x="20" y="418" width="160" height="25" />
 <text transform="translate(40 418)" ><tspan x="0" dy="18" font-weight="900">Experiment</tspan>
 </text>
 <rect x="20" y="443" width="160" height="298" />
-<text transform="translate(40 443)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">createDateTime</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">instrumentDataFile</tspan><tspan 	x="0" dy="18">instrumentModel</tspan><tspan 	x="0" dy="18">library</tspan><tspan 	x="0" dy="18">libraryLayout</tspan><tspan 	x="0" dy="18">molecule</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">platformUnit</tspan><tspan 	x="0" dy="18">runTime</tspan><tspan 	x="0" dy="18">selection</tspan><tspan 	x="0" dy="18">sequencingCenter</tspan><tspan 	x="0" dy="18">strategy</tspan><tspan 	x="0" dy="18">updateDateTime</tspan></text>
+<text transform="translate(40 443)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">created</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">instrumentDataFile</tspan><tspan 	x="0" dy="18">instrumentModel</tspan><tspan 	x="0" dy="18">library</tspan><tspan 	x="0" dy="18">libraryLayout</tspan><tspan 	x="0" dy="18">molecule</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">platformUnit</tspan><tspan 	x="0" dy="18">runTime</tspan><tspan 	x="0" dy="18">selection</tspan><tspan 	x="0" dy="18">sequencingCenter</tspan><tspan 	x="0" dy="18">strategy</tspan><tspan 	x="0" dy="18">updated</tspan></text>
 <rect x="20" y="761" width="160" height="25" />
 <text transform="translate(40 761)" ><tspan x="0" dy="18" font-weight="900">Analysis</tspan>
 </text>
 <rect x="20" y="786" width="160" height="154" />
-<text transform="translate(40 786)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">createDateTime</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">software</tspan><tspan 	x="0" dy="18">type</tspan><tspan 	x="0" dy="18">updateDateTime</tspan></text>
+<text transform="translate(40 786)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">created</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">software</tspan><tspan 	x="0" dy="18">type</tspan><tspan 	x="0" dy="18">updated</tspan></text>
 <line stroke-dasharray="5, 5"
 x1="20"
 y1="960"

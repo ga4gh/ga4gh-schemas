@@ -29,13 +29,13 @@ protocol AssayMetadata {
     The time at which this record was created.
     Format: :ref:`ISO 8601 <metadata_date_time>`
     */
-    union { null, string } createDateTime = null;
+    union { null, string } created = null;
 
     /**
     The time at which this record was last updated.
     Format: :ref:`ISO 8601 <metadata_date_time>`
     */
-    string updateDateTime;
+    string updated;
 
     /** The type of analysis. */
     union { null, string } type = null;
@@ -75,13 +75,13 @@ protocol AssayMetadata {
     The time at which this record was created.
     Format: :ref:`ISO 8601 <metadata_date_time>`
     */
-    string createDateTime;
+    string created;
 
     /**
     The time at which this record was last updated.
     Format: :ref:`ISO 8601 <metadata_date_time>`
     */
-    string updateDateTime;
+    string updated;
 
     /**
     The time at which this experiment was performed.
