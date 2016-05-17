@@ -6,7 +6,7 @@
 .. _biometadata_biosample:
 
 ****************************
-Metadata: *BioSample* Object
+BioMetadata: *BioSample* Object
 ****************************
 
 BioSample in the GA4GH Schema
@@ -46,7 +46,7 @@ Attribute             Notes
 .. _biometadata_Individual:
 
 *****************************
-Metadata: *Individual* Object
+BioMetadata: *Individual* Object
 *****************************
 
 Individual in the GA4GH Schema

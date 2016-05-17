@@ -49,9 +49,9 @@ Attribute                 Note
 *name*                    a more descriptive object label/identifier
 *description*             a string describing aspects of the object; *not* to
                           be used for a list or nested object
-*created*              the time the record was created, in ISO8601
+*created*                 the time the record was created, in ISO8601
                           (see :ref:`Date and Time<metadata_date_time>`)
-*updated*          the time the record was updated, in ISO8601
+*updated*                 the time the record was updated, in ISO8601
                           (see :ref:`Date and Time<metadata_date_time>`)
 ========================= ======================================================
 
@@ -191,5 +191,5 @@ variants, and expression levels for a particular research project;
 Dataset Y has all the work product from a particular grant).
 
 For data accessors, datasets are a simple way to scope exploration and
-analysis (e.g. "Are there any supporting examples in 1000genomes?"; 
+analysis (e.g. "Are there any supporting examples in 1000genomes?";
 "What is the distribution of that result in the data from our project?").
