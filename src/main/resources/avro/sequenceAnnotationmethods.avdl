@@ -96,7 +96,7 @@ protocol SequenceAnnotationMethods {
            The annotation set to search within. Either `featureSetId` or
            `parentId` must be non-empty.
         */
-        array<FeatureQuery> features = [];
+        array<TermQuery> termQueries = [];
 
         /**
            Specifies the maximum number of results to return in a single page.
