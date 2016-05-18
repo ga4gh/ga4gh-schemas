@@ -87,12 +87,16 @@ protocol SequenceAnnotationMethods {
        This request maps to the body of `POST /features/search` as JSON.
     */
     record SearchFeaturesRequest {
+
+    /**
+    The `PhenotypeAssociationSet` to search.
+    */
+    string phenotypeAssociationSetId;
         /**
            The annotation set to search within. Either `featureSetId` or
            `parentId` must be non-empty.
         */
-        union {null, string, org.ga4gh.models.ExternalIdentifier, OntologyTermQuery,
-                FeatureQuery} phenotype = null;
+        array<FeatureQuery> features = [];
 
         /**
            Specifies the maximum number of results to return in a single page.
