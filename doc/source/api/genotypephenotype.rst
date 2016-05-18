@@ -296,67 +296,84 @@ Search for Feature - alternatives
 
 
 **Current work**
-~~~~~~~~~~~~~~~~
 
 *Free form strings in queries*
 
->>>
+```
 If I understand this correctly, I think we should be concerned about clashing of unscoped identifiers. For example, I read this as supporting something like { 'phenotype': ['FH'] }, in which I think it's unclear whether that's FH the gene (via "ExternalIdentifierQuery") or Familial Hypercholesterolemia (via "PhenotypeQuery"). Is that (or something like it) a valid concern here?
 https://github.com/ga4gh/schemas/pull/432#issuecomment-189512499
 The semantics of SearchGenotypePhenotypeRequest are very unclear. I would really have no idea how to construct a query.
 https://github.com/ga4gh/schemas/pull/432#discussion_r54935254
->>>
+```
 
 
 
-Concerns with approach #1 & #2. Arguably name and description should be proper fields of Feature, not buried in an attributes hash.
-
-| Alternative: deprecate the <string> query type and replace it with TermQuery that takes a `term` or `wildcard`
-| POST /search/feature
-| { "term" : { "name" : "KIT" }  }
-| { "term" : { "description" : "KIT N822K" }  }
-| { "wildcard" : { "name" : "K??" }  }
-| { "wildcard" : { "description" : "KIT N82*" }  }
-| The system will respond with features that match on the field described.
-| The client would then use the featureIds returned to re-query  /genotypephenotype/search
-
-| Alternative: Create a new endpoint(s)  /feature/search, /phenotype/search
 
 # proposed schema changes
 
->>>
-record TermQuery {
+```
+record EvidenceQuery {
   /**
-  Query on terms, currently `term` (exact match) or `wildcard` (regexp).
-  The key of the map is an index into the entity's properties.
-  This improves clarity of what exact properties are in scope for the query.
+  only those fields from evidence that are `queryable`
   */
- union { null, map<string,ExternalIdentifierQuery,OntologyTermQuery> } term = {};
- union { null, map<string> } wildcard = {};
+  union { null, OntologyTerm }  evidenceType;
+  union { null, string } description = null;
+  union { null, array<org.ga4gh.models.ExternalIdentifier> }  ids = null; /* new field */
 }
 
-...
+record FeatureQuery {
+  /**
+  only those fields from evidence that are `queryable`
+  */
+  union { null, string } name; /* new field */
+  union { null, string } description; /* new field */
+  union { null, string } featureSetId;
+  union { null, string } referenceName;
+  union { null, long } start = 0;
+  union { null, long } end;
+  union { null, Strand } strand;
+  union { null, OntologyTerm } type; /* new field  */
+  union { null, OntologyTerm } featureType;
+  union { null, array<org.ga4gh.models.ExternalIdentifier> }  ids = null; /* new field */
+}
+
+record PhenotypeQuery {
+  /**
+  only those fields from evidence that are `queryable`
+  */
+
+  union { null, OntologyTerm } type;
+  union { null, array<OntologyTerm> } qualifier = null;
+  union { null, OntologyTerm } ageOfOnset = null;
+  union { null, string } description = null;
+  union { null, array<org.ga4gh.models.ExternalIdentifier> }  ids = null;  /* new field */
+}
+
+```
 
 ## New entry points
+One criticism of the current API is that it is overloaded, it violates a design goal of separation of concerns.
+Specifically it combines the search for evidence with search for features & search for genotypes
 
-Move search,alias matching and external identifiers to dedicated end points.
+This proposal move search,alias matching and external identifiers lookup to dedicated end points.
 
-POST features/search  TermQuery
-   Return a list of Features that match the TermQuery
-   For scenarios where G2P is implemented in concert with sequence annotations, this would be implemented by the Sequence Annotation team
-   For scenarios where G2P is implemented in a standalone fashion, this would be implemented by the G2P team
-   Returns [{Feature}].  The client can use Feature.id returned to formulate SearchGenotypePhenotype
+`POST features/search  FeatureQuery`
+  * Return a list of Features that match the FeatureQuery
+  * For scenarios where G2P is implemented in concert with sequence annotations, this would be implemented by the Sequence Annotation team
+  * For scenarios where G2P is implemented in a standalone fashion, this would be implemented by the G2P team
+  * Returns [{Feature}].  The client can use Feature.id returned to formulate SearchGenotypePhenotype
 
-POST phenotypes/search  TermQuery
-  Return a list of phenotypes that match the TermQuery.
-  Implemented by G2P team.
-  Returns [{Phenotype}]. The client can use Phenotype.id returned to formulate SearchGenotypePhenotype
+`POST phenotypes/search  PhenotypeQuery`
+  * Return a list of phenotypes that match the PhenotypeQuery.
+  * Implemented by G2P team.
+  * Returns [{Phenotype}]. The client can use Phenotype.id returned to formulate SearchGenotypePhenotype
 
 ## Changes to existing API
 
 The SearchGenotypePhenotype search is simplified.  Features and Phenotypes are expressed as a simple array of strings.
-Evidence can be queried via the new TermPaper.
+Evidence can be queried via the new EvidenceQuery.
 
+```
 record SearchGenotypePhenotypeRequest {
 
   ...
@@ -365,145 +382,144 @@ record SearchGenotypePhenotypeRequest {
 
   union {null, array<string> } phenotypeIds = null;
 
-  union {null, TermQuery } evidence = null;
+  union {null, array<EvidenceQuery> } evidence = null;
 
   ...
 
 }
 
->>>
+```
 
+## Multiple server collation - Background
 
-**Implementation Guidance: Queries (New API) **
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-*Id Searches: Feature Lookup*
-
-| Q: I have a featureId  ("f12345").
-| Create a SearchGenotypePhenotypeRequest
-| ``{… "featureIds" : ["f12345"]  … }``
-| The system will respond with evidence for features that match on that identifier
-
-| Q: I only want somatic variant features `SO:0001777` how do I limit results?
-| Create a TermQuery, specify featureType
-| POST to feature/search
-| ``{ "featureType":[{"id":"http://www.ebi.ac.uk/efo/EFO_0003767"}] }  … }``
-| The client then would construct a SearchGenotypePhenotypeRequest
-| The system will respond with features that match on that type
-
-| Q: I have a SNPid ("rs6920220"). Create an TermQuery/External Identifier.
-| POST to feature/search
-| ``{"term": {"external_ids": [{"ids":{"identifier": "rs6920220", "version": "*", "database": "dbSNP"}}]}}``
-| The system will respond with features that match on external identifier.
-| The client then would construct a SearchGenotypePhenotypeRequest
-| Dependency: external_ids to be added to Feature
-
-| Q: I have an identifier for BRCA1  `GO:0070531` how do I query for feature?
-| POST to feature/search
-| ``{"term": {"ontologies": {"terms":[{"id": "GO:0070531"}]}   }}``
-| The system will respond with features that match on ontology term.
-| The client then would construct a SearchGenotypePhenotypeRequest
-| Dependency: ontologies to be added to Feature
-
-*Id Searches: Phenotype Lookup*
-
-| Q: I have a phenotype id (“p12345”)
-| Create a SearchGenotypePhenotypeRequest
-| ``{..., "phenotypeIds": ["p12345"],...}``
-| The system will respond with evidence that match on PhenotypeInstance.id
-
-| Q: I have a Disease ontology id ("http://www.ebi.ac.uk/efo/EFO_0003767").
-| POST TermQuery/OntologyTerm to phenotype/search
-| ``{… "term" : {"type":{ "terms":[{"id":"http://www.ebi.ac.uk/efo/EFO_0003767"}] }}  … }``
-| The system will respond with phenotypes that match on OntologyTerm.id
-| The client then would construct a SearchGenotypePhenotypeRequest
-
-| Q: I have an ontology term for a phenotype (HP:0001507, 'Growth abnormality' ), how do I query it?
-| POST TermQuery/OntologyTerm to phenotype/search
-| ``{… "term" : {"type":{ "terms":[{"id":"HP:0001507"}] }}  … }``
-| The system will respond with phenotypes that match on OntologyTerm.id
-| The client then would construct a SearchGenotypePhenotypeRequest
-
-| Q: I am only interested in phenotypes qualified with (PATO_0001899, `decreased circumference`  )
-| POST TermQuery/OntologyTerm to phenotype/search
-| ``{… "term" : {"qualifier":{ "terms":[{"id":"http://purl.obolibrary.org/obo/PATO_0001899"}] }}  … }``
-| The system will respond with phenotypes whose qualifiers that match that ontology 'is_a'
-| The client then would construct a SearchGenotypePhenotypeRequest
-
-| Q: I am only interested in phenotypes with  ageOfOnset of  (HP:0003581, `adult onset`  )
-| POST TermQuery/OntologyTerm to phenotype/search
-| ``{… "term" : {"ageOfOnset":{ "terms":[{"id":"http://purl.obolibrary.org/obo/HP_0003581"}] }}  … }``
-| The system will respond with phenotypes whose ageOfOnset that match
-| The client then would construct a SearchGenotypePhenotypeRequest
-
-
-
-
-*Multiple server collation Background*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 G2P servers are implemented in three different contexts:
 
 * As a wrapper around standalone local G2P "knowledge bases" (eg Monarch, CiVIC,etc).  Important considerations are the API needs to function independently of other parts of the API and separately from any specific omics dataset.  Often, these databases are not curated with complete Feature fields (referenceName,start,end,strand)
 
-|image-g2p-standalone|
+![image](https://cloud.githubusercontent.com/assets/47808/14397288/6743ed28-fd91-11e5-9329-66012b722141.png)
 
 * Coupled with sequence annotation and GA4GH datasets.  Clients will want implementation specific featureId/genotypeId to match and integrate with the rest of the APIs.
 
-|image-g2p-integrated|
+![image](https://cloud.githubusercontent.com/assets/47808/14397306/7ad8bb70-fd91-11e5-9295-85c7034ce544.png)
+
 
 
 * Operating in concert with other instances of g2p servers where the client's loosely federated query is supported by heterogeneous server.  Challenges:  Normalizing API behavior across implementations (featureId for given region different per implementation)
 
-|image-g2p-federated|
+![image](https://cloud.githubusercontent.com/assets/47808/14397316/8a268b8e-fd91-11e5-907d-441fca3450cb.png)
 
 
 **Flexible representation of Feature**
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Not all G2P databases have complete genomic location information or are associated with GA4GH omics dataset.
 
-| #1 Q: I only have gene name to represent a Genomic Feature ("KIT").
-| Create a Feature, use Key values suggested by http://www.sequenceontology.org/gff3.shtml
-| ``{"feature": {"attributes": {"vals": {"Name": ["KIT"]}}} }``
-| Other values may be null
+## Suggestion, add the following as optional properties to Feature [type, ids, name, description]
 
-| #2 Q: I only have description to represent a Genomic Feature ("KIT N822K").
-| Create a Feature, use Key values suggested by http://www.sequenceontology.org/gff3.shtml
-| ``{"feature": {"attributes": {"vals": {"Description": ["KIT N822K"]}}} }``
-| Other values may be null
+* Q: I only have gene name to represent a Genomic Feature ("KIT").
+  * Currently, create a Feature, use Key values suggested by http://www.sequenceontology.org/gff3.shtml
+  * ``{"feature": {"attributes": {"vals": {"Name": ["KIT"]}}} }``
+  * Other values may be null.
 
-| #1 Q: I have results from multiple G2P Servers.  How do I collate them?
-| A) Use HGVS' DNA annotation for featureId. This should be unique for identical features across datasets and implementations?
-| B) Can we leverage external identifiers?
+* Q: I only have description to represent a Genomic Feature ("KIT N822K").
+  * Currently, create a Feature, use Key values suggested by http://www.sequenceontology.org/gff3.shtml
+  * ``{"feature": {"attributes": {"vals": {"Description": ["KIT N822K"]}}} }``
+  * Other values may be null
+
+* Q: I need to lookup Feature by type/externalId/name/description.
+
+* Q: I have results from multiple G2P Servers.  How do I collate them?
+  * A) Use HGVS' DNA annotation for featureId. This should be unique for identical features across datasets and implementations?
+  * B) Can we leverage external identifiers?
 
 
 **Expanding scope to entities other than Feature**
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Consider instead a PhenotypeAssociation which has a wider scope; the objects it
 connects and the evidence type determines the meaning of the association
 
-|image-g2p-expanded-scope|
+![image](https://cloud.githubusercontent.com/assets/47808/14397329/99fc7c30-fd91-11e5-8346-e95f97bfb78c.png)
+
 
 # extensions to query
 
-## POST feature/[id]/associations  TermQuery
-  Return a list of Evidence that match the TermQuery.  If TermQuery is not provided, all evidence is returned.
-  Implemented by G2P team.
-  For scenarios where G2P is implemented in concert with sequence annotations, the G2P datamodel will need a way to communicate with the sequenceAnnotation datamodel. ie Feature[] features = Feature.search(ids)
-  Returns [{`Feature`PhenotypeAssociationSet}]
+`POST feature/[id]/associations  FeatureAssociationQuery`
+  * Return a list of Evidence that match the Query.  If Query is not provided, all evidence is returned.
+  * Implemented by G2P team.
+  * For scenarios where G2P is implemented in concert with sequence annotations, the G2P datamodel will need a way to communicate with the sequenceAnnotation datamodel. ie Feature[] features = Feature.search(ids)
+  * Returns [{`Feature`PhenotypeAssociationSet}]
+  * Note: G2P will need to resolve those featureIds with variant annotations
+  ![image](https://cloud.githubusercontent.com/assets/47808/14392685/8083e320-fd77-11e5-927e-9a847ca2fce2.png)
 
-## POST phenotype/[id]/associations  TermQuery
-  Return a list of Evidence that match the TermQuery.  If TermQuery is not provided, all evidence is returned.
-  Implemented by G2P team.
-  Returns [{`EntityName`PhenotypeAssociationSet}]
+`POST phenotype/[id]/associations  PhenotypeAssociationQuery`
+  * Return a list of Evidence that match the Query.  If Query is not provided, all evidence is returned.
+  * Implemented by G2P team.
+  * Returns [{`EntityName`PhenotypeAssociationSet}]
 
-## POST [protein/feature-event/biosample/individual/callset]/[id]/associations  TermQuery
-  Direction for future capabilities.
-  Return a list of Evidence that match the TermQuery.  If TermQuery is not provided, all evidence is returned.
-  Implemented by G2P team .
-  Returns [{`EntityName`PhenotypeAssociationSet}]
+ `POST [protein|feature-event|biosample|individual|callset]/[id]/associations`  `EntityName`AssociationQuery
+  * Direction for future capabilities.
+  * Return a list of Evidence  Associations that match the Query.  If Query is not provided, all evidence is returned.
+  * Implemented by G2P team .
+  * Returns [{`EntityName`PhenotypeAssociationSet}]
+
+
+  **Implementation Guidance: Queries (New API) **
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  *Id Searches: Feature Lookup*
+
+  | Q: I have a featureId  ("f12345").
+  | Create a SearchGenotypePhenotypeRequest
+  | ``{… "featureIds" : ["f12345"]  … }``
+  | The system will respond with evidence for features that match on that identifier
+
+  | Q: I only want somatic variant features `SO:0001777` how do I limit results?
+  | Create a FeatureQuery, specify featureType
+  | POST to feature/search
+  | The client then would use those feature.id to construct a SearchGenotypePhenotypeRequest
+  | The system will respond with features that match on that type
+
+  | Q: I have a SNPid ("rs6920220").
+  | Create a FeatureQuery.ids
+  | POST to feature/search
+  | The system will respond with features that match on external identifier.
+  | The client then would use those feature.id to construct a SearchGenotypePhenotypeRequest
+  | Dependency: external_ids to be added to Feature.ids
+
+  | Q: I have an identifier for BRCA1  `GO:0070531` how do I query for feature?
+  | Create a FeatureQuery.type
+  | POST to feature/search
+  | The system will respond with features that match on ontology term.
+  | The client then would use those feature.id to construct a SearchGenotypePhenotypeRequest
+  | Dependency: ontologies to be added to Feature.type
+
+  *Id Searches: Phenotype Lookup*
+
+  | Q: I have a phenotype id (“p12345”)
+  | Create a SearchGenotypePhenotypeRequest
+  | ``{..., "phenotypeIds": ["p12345"],...}``
+  | The system will respond with evidence that match on PhenotypeInstance.id
+
+  | Q: I have a Disease ontology id ("http://www.ebi.ac.uk/efo/EFO_0003767").
+  | POST PhenotypeQuery.type to phenotype/search
+  | The system will respond with phenotypes that match on OntologyTerm.id
+  | The client then would use those phenotype.id to construct a SearchGenotypePhenotypeRequest
+
+  | Q: I have an ontology term for a phenotype (HP:0001507, 'Growth abnormality' ), how do I query it?
+  | POST PhenotypeQuery.qualifier to phenotype/search
+  | The system will respond with phenotypes that match on OntologyTerm.id
+  | The client then would use those phenotype.id to construct a SearchGenotypePhenotypeRequest
+
+  | Q: I am only interested in phenotypes qualified with (PATO_0001899, `decreased circumference`  )
+  | POST PhenotypeQuery.qualifier to phenotype/search
+  | The system will respond with phenotypes whose qualifiers that match that ontology 'is_a'
+  | The client then would use those phenotype.id to construct a SearchGenotypePhenotypeRequest
+
+  | Q: I am only interested in phenotypes with  ageOfOnset of  (HP:0003581, `adult onset`  )
+  | POST PhenotypeQuery.ageOfOnset to phenotype/search
+  | The system will respond with phenotypes whose ageOfOnset that match
+  | The client then would use those phenotype.id to construct a SearchGenotypePhenotypeRequest
+
 
 
 ::
