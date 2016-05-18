@@ -129,7 +129,7 @@ record TermQuery {
   /**
   The query type, currently `term` (exact match) or `wildcard` (regexp).
   */
- union { null, map<string> } term = {};
+ union { null, map<union{string, ExternalIdentifierQuery, OntologyTermQuery}> } term = {};
  union { null, map<string> } wildcard = {};
 }
 
