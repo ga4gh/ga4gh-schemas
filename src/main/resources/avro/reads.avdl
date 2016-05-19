@@ -8,6 +8,7 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
 protocol Reads {
 
 import idl "common.avdl";
+import idl "assaymetadata.avdl";
 import idl "metadata.avdl";
 
 /**
@@ -66,6 +67,12 @@ record ReadGroup {
   The BioSample this read group's data was generated from.
   */
   union { null, string } bioSampleId;
+
+  /**
+  The optional name of the sample. This field represents 
+  the SM tag in a BAM.
+  */
+  union { null, string } sampleName;
 
   /** The experiment used to generate this read group. */
   union { null, Experiment } experiment;

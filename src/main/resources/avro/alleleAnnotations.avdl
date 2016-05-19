@@ -7,7 +7,7 @@ This protocol defines types used by the GA4GH Allele Annotation API.
 protocol AlleleAnnotations{
 
 import idl "common.avdl";
-import idl "metadata.avdl";
+import idl "assaymetadata.avdl";
 import idl "variants.avdl";
 
 /*
