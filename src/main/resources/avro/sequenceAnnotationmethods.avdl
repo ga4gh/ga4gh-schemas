@@ -86,12 +86,13 @@ protocol SequenceAnnotationMethods {
     /**
        This request maps to the body of `POST /features/search` as JSON.
     */
-    record SearchFeaturesRequest {
+    record SearchFeatureRequest {
 
-    /**
-    The `PhenotypeAssociationSet` to search.
-    */
-    string phenotypeAssociationSetId;
+        /**
+           The `PhenotypeAssociationSet` to search.
+        */
+        string phenotypeAssociationSetId;
+        
         /**
            The annotation set to search within. Either `featureSetId` or
            `parentId` must be non-empty.
@@ -113,7 +114,7 @@ protocol SequenceAnnotationMethods {
     }
 
     /** This is the response from `POST /features/search` expressed as JSON. */
-    record SearchFeaturesResponse {
+    record SearchFeatureResponse {
         /**
            The list of matching annotations, sorted by start position. Annotations which
            share a start position are returned in a deterministic order.
@@ -132,12 +133,12 @@ protocol SequenceAnnotationMethods {
        Gets a list of `Feature` matching the search criteria.
 
        `POST /features/search` must accept a JSON version of
-       `SearchFeaturesRequest` as the post body and will return a JSON version of
-       `SearchFeaturesResponse`.
+       `SearchFeatureRequest` as the post body and will return a JSON version of
+       `SearchFeatureResponse`.
     */
-    SearchFeaturesResponse searchFeatures(
+    SearchFeatureResponse searchfeature(
         /** This request maps to the body of `POST /features/search` as JSON. */
-        SearchFeaturesRequest request) throws GAException;
+        SearchFeatureRequest request) throws GAException;
 
 
     /****************  /features/{id}  *******************/
