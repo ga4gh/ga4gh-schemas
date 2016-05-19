@@ -1,7 +1,7 @@
-Metadata
-********
+BioMetadata
+***********
 
-This protocol defines metadata used in the other GA4GH protocols.
+This protocol defines the :ref:`"biological metadata" objects<biometadata>`, which can be considered data representations of concrete biological samples or entities (e.g. the DNA extracted from a tissue sample, a human individual).
 
 .. avro:enum:: Strand
 
@@ -216,4 +216,87 @@ This protocol defines metadata used in the other GA4GH protocols.
   A Dataset is a collection of related data of multiple types.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Individual
+
+  :field id:
+    The Individual's :ref:`id <apidesign_object_ids>`. This is unique in the
+        context of the server instance.
+  :type id: string
+  :field name:
+    The Individual's :ref:`name <apidesign_object_names>`. This is a label or
+        symbolic identifier for the individual.
+  :type name: null|string
+  :field description:
+    The Individual's description. This attribute contains human readable text.
+        The "description" attributes should not contain any structured data.
+  :type description: null|string
+  :field created:
+    The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
+        was created.
+  :type created: string
+  :field updated:
+    The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
+        was updated.
+  :type updated: string
+  :field species:
+    For a representation of an NCBI Taxon ID as an OntologyTerm, see
+        NCBITaxon Ontology
+          http://www.obofoundry.org/ontology/ncbitaxon.html
+        For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
+        this is NCBITaxon:9606, which has the URI
+        http://purl.obolibrary.org/obo/NCBITaxon_9606
+  :type species: null|OntologyTerm
+  :field sex:
+    The genetic sex of this individual.
+        Use `null` when unknown or not applicable.
+        Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
+  :type sex: null|OntologyTerm
+  :field info:
+    A map of additional information.
+  :type info: map<array<string>>
+
+  An individual (or subject) typically corresponds to an individual
+    human or another organism.
+
+.. avro:record:: BioSample
+
+  :field id:
+    The BioSample :ref:`id <apidesign_object_ids>`. This is unique in the
+       context of the server instance.
+  :type id: string
+  :field name:
+    The BioSample's :ref:`name <apidesign_object_names>`. This is a label or
+       symbolic identifier for the biosample.
+  :type name: null|string
+  :field description:
+    The biosample's description. This attribute contains human readable text.
+       The "description" attributes should not contain any structured data.
+  :type description: null|string
+  :field disease:
+    OntologyTerm describing the primary disease associated with this BioSample.
+  :type disease: null|OntologyTerm
+  :field created:
+    The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
+       was created.
+  :type created: string
+  :field updated:
+    The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record was updated.
+  :type updated: string
+  :field individualId:
+    The individual this biosample was derived from.
+  :type individualId: null|string
+  :field info:
+    A map of additional information.
+  :type info: map<array<string>>
+
+  A BioSample refers to a unit of biological material from which the substrate
+    molecules (e.g. genomic DNA, RNA, proteins) for molecular analyses (e.g.
+    sequencing, array hybridisation, mass-spectrometry) are extracted. Examples
+    would be a tissue biopsy, a single cell from a culture for single cell genome
+    sequencing or a protein fraction from a gradient centrifugation.
+    Several instances (e.g. technical replicates) or types of experiments (e.g.
+    genomic array as well as RNA-seq experiments) may refer to the same BioSample.
+    In the context of the GA4GH metadata schema, BioSample constitutes the central
+    reference object.
 

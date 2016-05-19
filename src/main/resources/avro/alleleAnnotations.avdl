@@ -7,7 +7,7 @@ This protocol defines types used by the GA4GH Allele Annotation API.
 protocol AlleleAnnotations{
 
 import idl "common.avdl";
-import idl "metadata.avdl";
+import idl "assaymetadata.avdl";
 import idl "variants.avdl";
 
 /*
@@ -165,7 +165,7 @@ record VariantAnnotation {
   string variantAnnotationSetId;
 
   /** The :ref:`ISO 8601 <metadata_date_time>` time at which this record was created. */
-  union { null, string } createDateTime = null;
+  union { null, string } created = null;
 
   /**
   The transcript effect annotation for the alleles of this variant. Each one

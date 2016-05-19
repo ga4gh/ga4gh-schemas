@@ -166,12 +166,9 @@ See {TODO: LINK TO VARIANTS OVERVIEW} for more information.
   :field name:
     The call set name.
   :type name: null|string
-  :field sampleId:
-    The sample this call set's data was generated from.
-      Note: the current API does not have a rigorous definition of sample. Therefore, this
-      field actually contains an arbitrary string, typically corresponding to the sampleId
-      field in the read groups used to generate this call set.
-  :type sampleId: null|string
+  :field bioSampleId:
+    The BioSample this call set's data was generated from.
+  :type bioSampleId: null|string
   :field variantSetIds:
     The IDs of the variant sets this call set has calls in.
   :type variantSetIds: array<string>

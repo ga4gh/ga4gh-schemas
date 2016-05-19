@@ -118,6 +118,12 @@ record SearchReadGroupSetsRequest {
   union { null, string } name = null;
 
   /**
+  Specifying the id of a BioSample record will return only readgroups
+  with the given bioSampleId.
+  */
+  union { null, string } bioSampleId = null;
+
+  /**
   Specifies the maximum number of results to return in a single page.
   If unspecified, a system default will be used.
   */
@@ -146,10 +152,10 @@ record SearchReadGroupSetsResponse {
 
 /**
 Gets a list of `ReadGroupSet` matching the search criteria.
-
 `POST /readgroupsets/search` must accept a JSON version of
 `SearchReadGroupSetsRequest` as the post body and will return a JSON
-version of `SearchReadGroupSetsResponse`.
+version of `SearchReadGroupSetsResponse`. Only readgroups that
+match an optionally supplied bioSampleId will be included in the response.
 */
 SearchReadGroupSetsResponse searchReadGroupSets(
   /**
