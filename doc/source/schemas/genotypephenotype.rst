@@ -170,18 +170,18 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   :field description:
     A description of the experiment.
   :type description: null|string
-  :field recordCreateTime:
+  :field createDateTime:
     The time at which this record was created. 
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordCreateTime: string
-  :field recordUpdateTime:
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: string
+  :field updateDateTime:
     The time at which this record was last updated.
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  :type recordUpdateTime: string
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
   :field runTime:
     The time at which this experiment was performed.
       Granularity here is variable (e.g. date only).
-      Format: ISO 8601, YYYY-MM-DDTHH:MM:SS (e.g. 2015-02-10T00:03:42)
+      Format: :ref:`ISO 8601 <metadata_date_time>`
   :type runTime: null|string
   :field molecule:
     The molecule examined in this experiment. (e.g. genomics DNA, total RNA)
@@ -220,7 +220,7 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a `Sample`.
+  An experimental preparation of a sample.
 
 .. avro:record:: Dataset
 
@@ -237,6 +237,38 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   A Dataset is a collection of related data of multiple types.
   Data providers decide how to group data into datasets.
   See [Metadata API](../api/metadata.html) for a more detailed discussion.
+
+.. avro:record:: Analysis
+
+  :field id:
+    Formats of id | name | description | accessions are described in the
+      documentation on general attributes and formats.
+  :type id: string
+  :field name:
+  :type name: null|string
+  :field description:
+  :type description: null|string
+  :field createDateTime:
+    The time at which this record was created. 
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type createDateTime: null|string
+  :field updateDateTime:
+    The time at which this record was last updated.
+      Format: :ref:`ISO 8601 <metadata_date_time>`
+  :type updateDateTime: string
+  :field type:
+    The type of analysis.
+  :type type: null|string
+  :field software:
+    The software run to generate this analysis.
+  :type software: array<string>
+  :field info:
+    A map of additional analysis information.
+  :type info: map<array<string>>
+
+  An analysis contains an interpretation of one or several experiments.
+  (e.g. SNVs, copy number variations, methylation status) together with
+  information about the methodology used.
 
 .. avro:record:: Attributes
 
@@ -307,7 +339,7 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   :type id: string
   :field datasetId:
     The ID of the dataset this annotation set belongs to.
-  :type datasetId: null|string
+  :type datasetId: string
   :field referenceSetId:
     The ID of the reference set which defines the coordinate-space for this
         set of annotations.
@@ -336,10 +368,10 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   :type datasetId: string
   :field info:
     Optional additional information for this phenotype association set.
-  :type info: map<array<string>>
+  :type info: null|map<array<string>>
 
-  A PhenotypeAssociationSet is a collection of phenotype association results. 
-  Such results are grouped by data source and possibly release version or analysis 
+  A PhenotypeAssociationSet is a collection of phenotype association results.
+  Such results are grouped by data source and possibly release version or analysis
   type.
 
 .. avro:record:: EnvironmentalContext
@@ -355,13 +387,13 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
       Anatomy (Uberon): http://www.ontobee.org/browser/index.php?o=uberon
   :type environmentType: OntologyTerm
   :field description:
-    A textual description of the environment. This is used to complement 
+    A textual description of the environment. This is used to complement
     	the structured description in the environmentType field
   :type description: null|string
 
   The context in which a genotype gives rise to a phenotype.
   This is fairly open-ended; as a stub we have a simple ontology term.
-  For example, a controlled term for a drug, or perhaps an instance of a 
+  For example, a controlled term for a drug, or perhaps an instance of a
   complex environment including temperature and air quality, or perhaps
   the anatomical environment (gut vs tissue type vs whole organism).
 
@@ -374,9 +406,9 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
     HPO is recommended
   :type type: OntologyTerm
   :field qualifier:
-    PATO is recommended.  Often this qualifier might be for abnormal/normal, 
+    PATO is recommended.  Often this qualifier might be for abnormal/normal,
       or severity.
-      For example, severe: http://purl.obolibrary.org/obo/PATO_0000396 
+      For example, severe: http://purl.obolibrary.org/obo/PATO_0000396
       or abnormal: http://purl.obolibrary.org/obo/PATO_0000460
   :type qualifier: null|array<OntologyTerm>
   :field ageOfOnset:
@@ -384,12 +416,15 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
       http://purl.obolibrary.org/obo/HP_0011007
   :type ageOfOnset: null|OntologyTerm
   :field description:
-    A textual description of the phenotype. This is used to complement the 
+    A textual description of the phenotype. This is used to complement the
       structured phenotype description in the type field.
   :type description: null|string
+  :field info:
+    Additional annotation data in key-value pairs.
+  :type info: null|map<array<string>>
 
   An association to a phenotype and related information.
-  This record is intended primarily to be used in conjunction with variants, but 
+  This record is intended primarily to be used in conjunction with variants, but
   the record can also be composed with other kinds of entities such as diseases
 
 .. avro:record:: Evidence
@@ -398,30 +433,33 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
     ECO or OBI is recommended
   :type evidenceType: OntologyTerm
   :field description:
-    A textual description of the evidence. This is used to complement the 
+    A textual description of the evidence. This is used to complement the
     	structured description in the evidenceType field
   :type description: null|string
+  :field info:
+    Additional annotation data in key-value pairs.
+  :type info: null|map<array<string>>
 
   Evidence for the phenotype association.
-  This is also a stub for further expansion.  We should consider moving this into 
+  This is also a stub for further expansion.  We should consider moving this into
   it's own schema.
 
 .. avro:record:: FeaturePhenotypeAssociation
 
   :field id:
   :type id: string
-  :field phenotypeAssociationId:
+  :field phenotypeAssociationSetId:
     The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
       belongs to.
-  :type phenotypeAssociationId: string
+  :type phenotypeAssociationSetId: string
   :field features:
     The set of features of the organism that bears the phenotype.
         This could be as complete as a full complement of variants,
         or as minimal as the confirmed variants that are known causation
-        for the annotated phenotype.  
-        Examples of features could be variations at the nucleotide level, 
+        for the annotated phenotype.
+        Examples of features could be variations at the nucleotide level,
         large rearrangements at the chromosome level, or relevant epigenetic
-        markers.  Relevant genomic feature types are suggested to be 
+        markers.  Relevant genomic feature types are suggested to be
         those typed in the Sequence Ontology (SO).
     
         The feature set can have only one item, and must not be null.
@@ -432,8 +470,8 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   :type evidence: array<Evidence>
   :field phenotype:
     The phenotypic component of this association.
-        Note that we delegate this to a separate record to allow us the flexibility 
-    	to composition of phenotype associations with records that are not 
+        Note that we delegate this to a separate record to allow us the flexibility
+    	to composition of phenotype associations with records that are not
     	variant sets - for example, diseases.
   :type phenotype: PhenotypeInstance
   :field description:
