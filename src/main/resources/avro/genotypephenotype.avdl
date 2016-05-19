@@ -56,7 +56,7 @@ record PhenotypeAssociationSet {
   /**
   Optional additional information for this phenotype association set.
   */
-  map<array<string>> info = {};
+  union { null, map<array<string>> } info = null;
   }
 
 /**
@@ -122,6 +122,9 @@ record PhenotypeInstance {
   */
   union { null, string } description = null;
 
+  /** Additional annotation data in key-value pairs. */
+  union { null, map<array<string>> } info = null;
+
 }
 
 
@@ -142,7 +145,7 @@ record Evidence {
   union { null, string } description = null;
 
   /** Additional annotation data in key-value pairs. */
-  map<array<string>> info = {};  
+  union { null, map<array<string>> } info = null;
 }
 
 /**

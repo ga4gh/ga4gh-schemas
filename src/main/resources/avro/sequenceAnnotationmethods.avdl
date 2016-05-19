@@ -71,7 +71,6 @@ record FeatureQuery {
   only those fields from feature that are `queryable`
   */
   union { null, string } name; /* new field, regex */
-  union { null, string } description; /* new field,regex */
   union { null, string } featureSetId;
   union { null, string } referenceName;
   union { null, long } start;
