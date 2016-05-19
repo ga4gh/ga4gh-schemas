@@ -202,7 +202,7 @@ record Variant {
   The reference on which this variant occurs.
   (e.g. `chr20` or `X`)
   */
-  string referenceName;
+  string referenceId;
 
   /**
   The start position at which this variant occurs (0-based).

@@ -84,8 +84,15 @@ protocol SequenceAnnotationMethods {
     /**
     Only return features on the reference with this name 
     (matched to literal reference name as imported from the GFF3).
+    One of referenceName or referenceId is required.
     */
-    string referenceName;
+    union { null, string } referenceName = null;
+    
+    /**
+    Only return features on the reference with this ID
+    One of referenceName or referenceId is required.
+    */
+    union { null, string } referenceId = null;
 
     /**
     Required. The beginning of the window (0-based, inclusive) for which

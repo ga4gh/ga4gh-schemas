@@ -20,11 +20,18 @@ record SearchReadsRequest {
   array<string> readGroupIds;
 
   /**
-  The reference to query. Leaving blank returns results from all
-  references, including unmapped reads - this could be very large.
+  The reference to query. Omitting both referenceName and referenceId
+  returns results from all references, including unmapped reads - 
+  this could be very large.
   */
   union { null, string } referenceId = null;
 
+  /**
+  The reference to query. Omitting both referenceName and referenceId
+  returns results from all references, including unmapped reads - 
+  this could be very large.
+  */
+  union { null, string } referenceName = null;
   /**
   The start position (0-based) of this query.
   If a reference is specified, this defaults to 0.
