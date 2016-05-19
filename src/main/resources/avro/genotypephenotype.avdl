@@ -45,7 +45,7 @@ record PhenotypeAssociationSet {
   /**
   Optional additional information for this phenotype association set.
   */
-  map<array<string>> info = {};
+  union { null, map<array<string>> } info = null;
   }
 /**
 The context in which a genotype gives rise to a phenotype.
@@ -99,6 +99,10 @@ record PhenotypeInstance {
   structured phenotype description in the type field.
   */
   union { null, string } description = null;
+
+  /** Additional annotation data in key-value pairs. */
+  union { null, map<array<string>> } info = null;
+
 }
 /**
 Evidence for the phenotype association.
@@ -114,7 +118,7 @@ record Evidence {
     */
   union { null, string } description = null;
   /** Additional annotation data in key-value pairs. */
-  map<array<string>> info = {};  
+  union { null, map<array<string>> } info = null;
 }
 /**
 An association between one or more genomic features and a phenotype.
