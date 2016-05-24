@@ -48,17 +48,17 @@ The refactored API move search,alias matching and external identifiers lookup to
 
 ###Entity Searches
 
-* /features/search  
+* ``/datasets/<datasetId>/features/search``
 	* 	Given a SearchFeaturesRequest, return matching _features_ in the `current 'omics dataset`.
-* /genotypes/search 
+* ``/associations/<phenotypeAssociationSetId>/genotypes/search``
 	* 	Given a SearchGenotypesRequest, return matching _genotypes_ in the in the `current g2p dataset.` 
-* /phenotypes/search  
+* ``/associations/<phenotypeAssociationSetId>/phenotypes/search`` 
 	* 	Given a SearchPhenotypesRequest, return matching _phenotypes_ in the in the `current g2p dataset.` 
 
 
 ###Association Search
 
-* /genotypephenotypes/search
+* ``/associations/<phenotypeAssociationSetId>/genotypephenotypes/search``
 	* 	Given a SearchGenotypePhenotypeRequest, return matching _evidence associations_ in the `current g2p dataset.` 
 
 
@@ -78,6 +78,7 @@ Details
 ###``/phenotypes/search``
 
 ![](../_static/search_phenotypes_request.png)
+
 
 
 Terms within a query are combined via AND 
@@ -216,7 +217,7 @@ ___
 The endpoint accepts a SearchGenotypePhenotypeRequest POST. 
 The request may contain a feature, phenotype, and/or evidence, which are combined as a logical AND to query the underlying datastore. Missing types are treated as a wildcard, returning all data.  The genotype and phenotype fields are either null or a list of identifiers returned from the entity queries.  The evidence query object allows filtering by evidence type.
 
-![http://yuml.me/edit/bf06b90a](http://yuml.me/c433cade.png)
+![http://yuml.me/edit/bf06b90a](../static/search)
 
 The SearchGenotypePhenotype search is simplified.  Features and Phenotypes are expressed as a simple array of strings.
 Evidence can be queried via the new EvidenceQuery.
@@ -404,13 +405,9 @@ G2P servers are implemented in three different contexts:
 
 **Flexible representation of Feature**
 
-Not all G2P databases have complete genomic location information or are associated with GA4GH omics dataset.
 
-* Q: I only have gene name to represent a Genomic Feature ("KIT").
-
-* Q: I only have description to represent a Genomic Feature ("KIT N822K").
+* Q: I only have description to represent a Genomic Feature ("KIT N822K"). (Not all G2P databases have complete genomic location information or are associated with GA4GH omics dataset.)
 * Q: I need to lookup Feature by protein/externalId/name/description.
-
 * Q: I have results from multiple G2P Servers.  How do I collate them?
   * Use HGVS' DNA annotation for featureId. This should be unique for identical features across datasets and implementations?
 
@@ -423,12 +420,20 @@ connects and the evidence type determines the meaning of the association
 ![image](https://cloud.githubusercontent.com/assets/47808/14397329/99fc7c30-fd91-11e5-8346-e95f97bfb78c.png)
 
 
-### Convience endpoints
+### Convenience endpoints
 
+(As needed)
 
 ```
-GET /dataset/<datasetId>/feature/<id>/associations
-GET /dataset/<datasetId>/genotype/<id>/associations
-GET /dataset/<datasetId>/phenotype/<id>/associations
-GET /dataset/<datasetId>/environment/<id>/associations
+GET /associationsets/<phenotypeAssociationSetId>/feature/<id>/associations
+GET /associationsets/<phenotypeAssociationSetId>/feature/<id>/genotypes
+GET /associationsets/<phenotypeAssociationSetId>/feature/<id>/phenotypes
+
+GET /associationsets/<phenotypeAssociationSetId>/genotype/<id>/associations
+GET /associationsets/<phenotypeAssociationSetId>/genotype/<id>/features
+GET /associationsets/<phenotypeAssociationSetId>/genotype/<id>/phenotypes
+
+GET /associationsets/<phenotypeAssociationSetId>/phenotypes/<id>/associations
+GET /associationsets/<phenotypeAssociationSetId>/phenotypes/<id>/features
+GET /associationsets/<phenotypeAssociationSetId>/phenotypes/<id>/genotypes
 ```
