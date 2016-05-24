@@ -65,9 +65,10 @@ SearchPhenotypeAssociationSetsResponse searchPhenotypeAssociationSets(
 Query phenotype. See genotypephenotype.avdl for property explanations.
 */
 record PhenotypeQuery {
+  union { null, string } id; 
   union { null, string } description; /* The system should support regular expression matches */
   union { null, org.ga4gh.models.OntologyTerm } type = null;
-  union { null, array<org.ga4gh.models.OntologyTerm> } qualifier = null;  /* terms should be OR'd together. e.g. (severe OR abnormal) */
+  union { null, array<org.ga4gh.models.OntologyTerm> } qualifiers = null;  /* terms should be OR'd together. e.g. (severe OR abnormal) */
   union { null, org.ga4gh.models.OntologyTerm } ageOfOnset = null;
 }
 
@@ -114,15 +115,6 @@ record GenotypeQuery {
   union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null; /* new field */
 }
 
-/**
-Text search either by exact match `term` or regexp `wildcard`.  Keys in the map correspond to fields to search on.
-e.g.  
- { "term" : { "name" : "KIT" }  }
- { "term" : { "description" : "KIT N822K" }  }
- { "wildcard" : { "name" : "K??" }  }
- { "wildcard" : { "description" : "KIT N82*" }  }
-*/
-
 record SearchPhenotypesRequest {
 
   /**
@@ -146,12 +138,12 @@ record SearchPhenotypesRequest {
   union { null, string } pageToken = null;
 }
 
-/** This is the response from `POST /phenotype/search` expressed as JSON. */
-record SearchPhenotypesResponse {
+/** This is the response from `POST /phenotypes/search` expressed as JSON. */
+record SearchPhenotypeResponse {
   /**
-  The list of matching FeaturePhenotypeInstances.
+  The list of matching PhenotypeInstances.
   */
-  org.ga4gh.models.PhenotypeInstance  phenotype ;
+  array<org.ga4gh.models.PhenotypeInstance>  phenotypes ;
 
   /**
   The continuation token, which is used to page through large result sets.
@@ -175,7 +167,7 @@ SearchPhenotypesResponse searchPhenotype(
   SearchPhenotypesRequest request) throws GAException;
 
 
-/******************  /genotype/search  *********************/
+/******************  /genotypes/search  *********************/
 
 record SearchGenotypesRequest {
 
@@ -200,7 +192,7 @@ record SearchGenotypesRequest {
   union { null, string } pageToken = null;
 }
 
-/** This is the response from `POST /genotype/search` expressed as JSON. */
+/** This is the response from `POST /genotypes/search` expressed as JSON. */
 record SearchGenotypesResponse {
   /**
   The list of matching Features.  As other associations are defined, this
@@ -218,7 +210,7 @@ record SearchGenotypesResponse {
 }
 
 
-/******************  /genotypephenotype/search  *********************/
+/******************  /genotypephenotypes/search  *********************/
 
 
 /**
