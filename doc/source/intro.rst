@@ -53,29 +53,29 @@ define the types of things that API clients and servers exchange:
 requests for data, server responses, error messages, and objects
 actually representing pieces of genomics data.
 
-The schemas are written in Avro Interface Description Language
-(extension .avdl). For more details on Avro and how it is used in the
-GA4GH APIs, see :ref:`avro`.
+The schemas are written in Protocol Buffers Interface Description
+Language (extension .proto). For more details on Protocol Buffers
+and how it is used in the GA4GH APIs, see :ref:`proto`.
 
 Here is an example schema definition for a Variant (with comments
 removed)::
 
-  record Variant {
-    string id;
-    string variantSetId;
-    array<string> names = [];
-    union { null, long } created = null;
-    union { null, long } updated = null;
-    string referenceName;
-    long start;
-    long end;
-    string referenceBases;
-    array<string> alternateBases = [];
-    map<array<string>> info = {};
-    array<Call> calls = [];
+  message Variant {
+    string id = 1;
+    string variant_set_id = 2;
+    repeated string names = 3;
+    int64 created = 4;
+    int64 updated = 5;
+    string reference_name = 6;
+    int64 start = 7;
+    int64 end = 8;
+    string reference_bases = 9;
+    repeated string alternate_bases = 10;
+    map<string, google.protobuf.ListValue> info = 11;
+    repeated Call calls = 12;
   }
 
 On the wire, the GA4GH web API takes the form of a client and a server
 exchanging JSON-serialized objects over HTTP or HTTPS. For more
 details on JSON, including how the GA4GH web API serializes and
-deserializes Avro-specified objects in JSON, see :ref:`json`.
+deserializes Protocol Buffers objects in JSON, see :ref:`json`.
