@@ -70,15 +70,15 @@ record FeatureQuery {
   /**
   only those fields from feature that are `queryable`
   */
-  union { null, string } name; /* new field, regex */
+  union { null, string } name; /* regex */
   union { null, string } featureSetId;
   union { null, string } referenceName;
   union { null, long } start;
   union { null, long } end;
   union { null, org.ga4gh.models.Strand } strand;
-  union { null, org.ga4gh.models.OntologyTerm } type; /* new field  */
+  union { null, org.ga4gh.models.OntologyTerm } type;
   union { null, org.ga4gh.models.OntologyTerm } featureType;
-  union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null; /* new field */
+  union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null;  
 }
 
   /**
