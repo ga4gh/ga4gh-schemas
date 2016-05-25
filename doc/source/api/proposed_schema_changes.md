@@ -44,14 +44,19 @@ A feature or phenotype can potentially be represented in increasing
 specificity as either [a string, an ontology identifier, an external
 identifier, or as a feature 'entity'].  One criticism of the previous API is that it is overloaded, it violates a design goal of separation of concerns.  Specifically it combines the search for evidence with search for features & search for genotypes.
 
-The refactored API move search,alias matching and external identifiers lookup to dedicated end points. To separate concens a client perform the query for evidence in two steps first find the desired entities and then you those enitity identifiers to narrow the search for evidence.
+The refactored API move search,alias matching and external identifiers lookup to dedicated end points. To separate concens, a client performs the queries for evidence in two steps: first find the desired entities and then you those enitity identifiers to narrow the search for evidence.
+
+Additionally the API supports two implementation styles: integrated and standalone.
+
+![sequence](../_static/g2p-sequence-diagram.png)
+
 
 ###Entity Searches
 
 * ``/datasets/<datasetId>/features/search``
-	* 	Given a SearchFeaturesRequest, return matching _features_ in the `current 'omics dataset`.
+	* 	Given a SearchFeaturesRequest, return matching _features_ in the `current 'omics dataset`. Intended for sequence annotation and GA4GH datasets. 
 * ``/associations/<phenotypeAssociationSetId>/genotypes/search``
-	* 	Given a SearchGenotypesRequest, return matching _genotypes_ in the in the `current g2p dataset.` 
+	* 	Given a SearchGenotypesRequest, return matching _genotypes_ in the in the `current g2p dataset.`.  Intended for standalone local G2P "knowledge bases"
 * ``/associations/<phenotypeAssociationSetId>/phenotypes/search`` 
 	* 	Given a SearchPhenotypesRequest, return matching _phenotypes_ in the in the `current g2p dataset.` 
 
@@ -155,7 +160,6 @@ ___
 
 ###``/features/search``
 
-![](../_static/search_features_request.png)
 
 
 Terms within a query are combined via AND 
@@ -217,7 +221,7 @@ ___
 The endpoint accepts a SearchGenotypePhenotypeRequest POST. 
 The request may contain a feature, phenotype, and/or evidence, which are combined as a logical AND to query the underlying datastore. Missing types are treated as a wildcard, returning all data.  The genotype and phenotype fields are either null or a list of identifiers returned from the entity queries.  The evidence query object allows filtering by evidence type.
 
-![http://yuml.me/edit/bf06b90a](../static/search)
+![http://yuml.me/edit/bf06b90a](../_static/search_genotype_phenotype_request.png)
 
 The SearchGenotypePhenotype search is simplified.  Features and Phenotypes are expressed as a simple array of strings.
 Evidence can be queried via the new EvidenceQuery.
@@ -244,8 +248,6 @@ The response is returned as a list of associations.
 ![](https://raw.githubusercontent.com/ohsu-computational-biology/schemas/a44e67210724af58041fa83c898b1701b53ca84f/doc/source/_static/g2p_response.png)
 
 
-  * For scenarios where G2P is implemented in concert with sequence annotations, the G2P datamodel will communicate with the sequenceAnnotation datamodel. ie Feature[] features = Feature.search(ids)
-  ![image](https://cloud.githubusercontent.com/assets/47808/14392685/8083e320-fd77-11e5-927e-9a847ca2fce2.png)
 
 ####*Implementation Guidance: Results*
 
