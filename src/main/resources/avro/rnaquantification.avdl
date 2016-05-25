@@ -105,11 +105,6 @@ record ExpressionLevel {
   */
   string quantificationGroupId;
 
-  /** 
-  The associated annotation. 
-  */
-  string annotationId;
-
   /**
   The number of reads mapped to this feature.
   */

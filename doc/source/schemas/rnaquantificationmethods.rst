@@ -576,9 +576,6 @@ version of 'SearchExpressionLevelResponse'.
   :field quantificationGroupId:
     The associated QuantificationGroup.
   :type quantificationGroupId: string
-  :field annotationId:
-    The associated annotation.
-  :type annotationId: string
   :field rawReadCount:
     The number of reads mapped to this feature.
   :type rawReadCount: float
