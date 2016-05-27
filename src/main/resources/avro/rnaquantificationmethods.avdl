@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/reads.proto";
+import "ga4gh/rna_quantification.proto";
 
 service RnaQuantificationService {
 // Gets a list of 'RnaQuantification' matching the search criteria.
