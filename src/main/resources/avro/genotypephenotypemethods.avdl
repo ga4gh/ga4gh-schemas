@@ -78,7 +78,7 @@ SearchPhenotypeAssociationSetsResponse searchPhenotypeAssociationSets(
 Query phenotype. See genotypephenotype.avdl for property explanations.
 */
 record PhenotypeQuery {
-  union { null, string } id; 
+  union { null, string } id;
   union { null, string } description; /* The system should support regular expression matches */
   union { null, org.ga4gh.models.OntologyTerm } type = null;
   union { null, array<org.ga4gh.models.OntologyTerm> } qualifiers = null;  /* terms should be OR'd together. e.g. (severe OR abnormal) */
@@ -116,16 +116,14 @@ record GenotypeQuery {
   This is similar to FeatureQuery  '/features/search' served by Sequence Annotations
   But is intended to be served from the G2P knowledgebase
   */
-  union { null, string } name; /* new field, regex */
-  union { null, string } description; /* new field,regex */
+  union { null, string } name; /* regex */
   union { null, string } featureSetId;
   union { null, string } referenceName;
   union { null, long } start;
   union { null, long } end;
   union { null, org.ga4gh.models.Strand } strand;
-  union { null, org.ga4gh.models.OntologyTerm } type; /* new field  */
   union { null, org.ga4gh.models.OntologyTerm } featureType;
-  union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null; /* new field */
+  union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null;
 }
 
 record SearchPhenotypesRequest {
@@ -152,7 +150,7 @@ record SearchPhenotypesRequest {
 }
 
 /** This is the response from `POST /phenotypes/search` expressed as JSON. */
-record SearchPhenotypeResponse {
+record SearchPhenotypesResponse {
   /**
   The list of matching PhenotypeInstances.
   */
@@ -173,11 +171,11 @@ Gets a list of evidence accessible through the API.
 `SearchGenotypePhenotypeRequest` as the post body and will return a JSON version
 of `SearchGenotypePhenotypeResponse`.
 */
-SearchPhenotypeResponse searchPhenotype(
+SearchPhenotypesResponse searchPhenotypes(
   /**
   This request maps to the body of `POST /phenotype/search` as JSON.
   */
-  SearchPhenotypeRequest request) throws GAException;
+  SearchPhenotypesRequest request) throws GAException;
 
 
 /******************  /genotypes/search  *********************/
