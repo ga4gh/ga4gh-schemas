@@ -62,7 +62,7 @@ message SearchRnaQuantificationRequest {
 // This is the response from 'POST /rnaquantification/search' expressed as JSON.
 message SearchRnaQuantificationResponse {
   // The list of matching quantifications.
-  repeated RnaQuantification rna_quantification = 1;
+  repeated RnaQuantification rna_quantifications = 1;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
@@ -106,7 +106,7 @@ message SearchExpressionLevelRequest {
 // This is the response from 'POST /expressionlevel/search' expressed as JSON.
 message SearchExpressionLevelResponse {
   // The list of matching quantifications.
-  repeated ExpressionLevel expression_level = 1;
+  repeated ExpressionLevel expression_levels = 1;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
@@ -137,7 +137,7 @@ message SearchQuantificationGroupRequest {
 // This is the response from 'POST /quantificationgroup/search' expressed as JSON.
 message SearchQuantificationGroupResponse {
   // The list of matching quantification groups.
-  repeated QuantificationGroup quantification_group = 1;
+  repeated QuantificationGroup quantification_groups = 1;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
