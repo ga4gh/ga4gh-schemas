@@ -191,7 +191,7 @@ This protocol defines metadata used in the other GA4GH protocols.
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a sample.
+  An experimental preparation of a `Sample`.
 
 .. avro:record:: Dataset
 

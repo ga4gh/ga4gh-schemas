@@ -5,6 +5,8 @@ Schemas
 
 .. toctree::
    common
+   genotypephenotype
+   genotypephenotypemethods
    metadata
    metadatamethods
    methods
@@ -12,6 +14,7 @@ Schemas
    reads
    referencemethods
    references
+   sequenceAnnotations
    variantmethods
    variants
    alleleAnnotationmethods
