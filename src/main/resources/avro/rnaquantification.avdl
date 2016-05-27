@@ -1,140 +1,95 @@
-@namespace("org.ga4gh.models")
-/**
-This protocol defines feature expression counts on GA4GH reads. 
-*/
-protocol RnaQuantifications {
+syntax = "proto3";
 
-import idl "common.avdl";
-import idl "reads.avdl";
+package ga4gh;
 
-/**
-Units for expression level.
-FPKM - number of Fragments Per Kilobase of feature length per Million reads
-FPKM is calculated by dividing the fragment count per feature by the total number of reads in millions (FPM - Fragments Per Million).  FPM is then divided by feature length in kilobases to obtain FPKM.
+import "ga4gh/common.proto";
+import "ga4gh/metadata.proto";
+import "google/protobuf/struct.proto";
 
-TPM - Transcripts per kilobase Per Million reads
-TPM is calculated by first dividing the fragment/read count by feature length in kilobases (RPK - Reads Per Kilobase).  The count of all RPKs in the sample are then divided by a million to generate a 'per million' scaling value.  For each feature RPK divided by the 'per million' scaling factor generated TPM.
-*/
+// Units for expression level.
+// FPKM - number of Fragments Per Kilobase of feature length per Million reads
+// FPKM is calculated by dividing the fragment count per feature by the total
+// number of reads in millions (FPM - Fragments Per Million).  FPM is then
+// divided by feature length in kilobases to obtain FPKM.
+
+// TPM - Transcripts per kilobase Per Million reads
+// TPM is calculated by first dividing the fragment/read count by feature length
+// in kilobases (RPK - Reads Per Kilobase).  The count of all RPKs in the sample
+// are then divided by a million to generate a 'per million' scaling value.  For
+// each feature RPK divided by the 'per million' scaling factor generated TPM.
+
 enum ExpressionUnits {
-  FPKM,
-  TPM
+  FPKM = 0;
+  TPM = 1;
 }
 
-/**
-Top level identifying information
-*/
-record RnaQuantification {
-  /** 
-  The unique ID assigned to the results of running the described programs on the
-specified reads and assignment to the listed annotation.
-  */
-  string id;
+// Top level identifying information
+message RnaQuantification {
+  // The unique ID assigned to the results of running the described programs
+  // on the specified reads and assignment to the listed annotation.
+  string id = 1;
  
-  /**
-  Name
-  */
-  union {null, string} name = null;
+  // Name
+  string name = 2;
 
-  /**
-  Description
-  */
-  union {null, string} description = null;
+  // Description
+  string description = 3;
 
-  /**
-  ID of the ReadGroup providing the reads for the analysis.
-  */
-  string readGroupId;
+  // ID of the ReadGroup providing the reads for the analysis.
+  string read_group_id = 4;
 
-  /**
-  List of programIds used in the analysis.
-  */
-  array<string> programIds = [];
+  // List of programIds used in the analysis.
+  repeated string program_ids = 5;
 
-  /**
-  List of annotations used.
-  */
-  array<string> annotationIds = [];
+  // List of annotations used.
+  repeated string annotation_ids = 6;
 }
 
-/**
-Identifying information for annotated features.
-*/
-record QuantificationGroup {
-  /**
-  Quantification group ID
-  */
-  string id;
+// Identifying information for annotated features.
+message QuantificationGroup {
+  // Quantification group ID
+  string id = 1;
 
-  /** 
-  The associated RnaQuantification.
-  */
-  string analysisId;
+  // The associated RnaQuantification.
+  string analysis_id = 2;
  
-  /**
-  Name
-  */
-  union {null, string} name = null;
+  // Name
+  string name = 3;
 
-  /**
-  Description
-  */
-  union {null, string} description = null;
+  // Description
+  string description = 4;
 
-  /**
-  A map of additional feature group information.
-  */
-  map<array<string>> info = {};
+  // A map of additional feature group information.
+  map<string, google.protobuf.ListValue> info = 5;
 }
 
-/**
-The actual numerical quantification for each feature.
-*/
-record ExpressionLevel {
-  /**
-  Expression ID
-  */
-  string id;
+// The actual numerical quantification for each feature.
+message ExpressionLevel {
+  //Expression ID
+  string id = 1;
 
-  /**
-  Name
-  */
-  union {null, string} name = null;
+  // Name
+  string name = 2;
 
-  /** 
-  The associated QuantificationGroup. 
-  */
-  string quantificationGroupId;
+  // The associated QuantificationGroup. 
+  string quantification_group_id = 3;
 
-  /**
-  The number of reads mapped to this feature.
-  */
-  float rawReadCount;
+  // The number of reads mapped to this feature.
+  float32 raw_read_count = 4;
 
-  /**
-  Numerical expression value.
-  */
-  union { null, float } expression = null;
+  // Numerical expression value.
+  float32 expression = 5;
 
-  /**
-  True if the expression value is a normalized value.
-  */
-  union { null, boolean } isNormalized = null;
+  // True if the expression value is a normalized value.
+  bool is_normalized = 6;
 
-  /**
-  The units of the expression value if one is given.
-  */
-  union { null, ExpressionUnits } units = null;
+  // The units of the expression value if one is given.
+  ExpressionUnits units = 7;
 
-  /**
-  Weighted score for the expression value.
-  */
-  union { null, float } score = null;
+  // Weighted score for the expression value.
+  float32 score = 8;
 
-  /**
-  Confidence interval on the expression value.  Expressed as a sorted array
-  from low to high.
-  */
-  array<float> confInterval = [];
-}
-
+  // Confidence interval on the expression value.  Expressed as a sorted array
+  // from low to high.
+  repeated float32 conf_interval = 9;
 }
