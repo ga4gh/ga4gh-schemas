@@ -10,8 +10,8 @@ service RnaQuantificationService {
 // 'POST /rnaquantification/search' must accept JSON version of
 // 'SearchRnaQuantificationRequest' as the post body and will return a JSON
 // version of 'SearchRnaQuantificationResponse'.
-rpc SearchRnaQuantification(SearchRnaQuantificationRequest)
-      returns (SearchRnaQuantificationResponse);
+rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
+      returns (SearchRnaQuantificationsResponse);
 
 
 // Gets a `RnaQuantification` by ID.
@@ -25,8 +25,8 @@ rpc GetRnaQuantification(GetRnaQuantificationRequest)
 // 'POST /expressionlevel/search' must accept JSON version of
 // 'SearchExpressionLevelRequest' as the post body and will return a JSON
 // version of 'SearchExpressionLevelResponse'.
-rpc SearchExpressionLevel(SearchExpressionLevelRequest)
-      returns (SearchExpressionLevelResponse);
+rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
+      returns (SearchExpressionLevelsResponse);
 
 
 // Gets a list of 'QuantificationGroup' matching the search criteria.
@@ -34,15 +34,15 @@ rpc SearchExpressionLevel(SearchExpressionLevelRequest)
 // 'POST /quantificationgroup/search' must accept JSON version of
 // 'SearchQuantificationGroupRequest' as the post body and will return a JSON
 // version of 'SearchQuantificationGroupResponse'.
-rpc SearchQuantificationGroup(SearchQuantificationGroupRequest)
-      returns (SearchQuantificationGroupResponse);
+rpc SearchQuantificationGroups(SearchQuantificationGroupsRequest)
+      returns (SearchQuantificationGroupsResponse);
 }
 
 // ****************  /rnaquantification/search  *******************
 
 // This request maps to the body of 'POST /rnaquantification/search'
 // as JSON.
-message SearchRnaQuantificationRequest {
+message SearchRnaQuantificationsRequest {
   // If present, return only Rna Quantifications which belong to this set.
   string rna_quantification_id = 1;
 
@@ -60,7 +60,7 @@ message SearchRnaQuantificationRequest {
 }
 
 // This is the response from 'POST /rnaquantification/search' expressed as JSON.
-message SearchRnaQuantificationResponse {
+message SearchRnaQuantificationsResponse {
   // The list of matching quantifications.
   repeated RnaQuantification rna_quantifications = 1;
 
@@ -79,7 +79,7 @@ message GetRnaQuantificationRequest {
 // ****************  /expressionlevel/search  *******************
 // This request maps to the body of 'POST /expressionlevel/search'
 // as JSON.
-message SearchExpressionLevelRequest {
+message SearchExpressionLevelsRequest {
   // If present, return matching Expression Level record.
   string expression_level_id = 1;
 
@@ -104,7 +104,7 @@ message SearchExpressionLevelRequest {
 }
 
 // This is the response from 'POST /expressionlevel/search' expressed as JSON.
-message SearchExpressionLevelResponse {
+message SearchExpressionLevelsResponse {
   // The list of matching quantifications.
   repeated ExpressionLevel expression_levels = 1;
 
@@ -117,7 +117,7 @@ message SearchExpressionLevelResponse {
 // ****************  /quantificationgroup/search  *******************
 // This request maps to the body of 'POST /quantificationgroup/search'
 // as JSON.
-message SearchQuantificationGroupRequest {
+message SearchQuantificationGroupsRequest {
   // RNA Quantification to search.
   string rna_quantification_id = 1;
 
@@ -135,7 +135,7 @@ message SearchQuantificationGroupRequest {
 }
 
 // This is the response from 'POST /quantificationgroup/search' expressed as JSON.
-message SearchQuantificationGroupResponse {
+message SearchQuantificationGroupsResponse {
   // The list of matching quantification groups.
   repeated QuantificationGroup quantification_groups = 1;
 
