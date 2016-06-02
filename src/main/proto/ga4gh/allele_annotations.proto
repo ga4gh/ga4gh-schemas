@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/metadata.proto";
+import "google/protobuf/struct.proto";
+
+/*
+The VariantAnnotation record groups different types of annotation records by
+Variant.
+
+The TranscriptEffect sub record holds information on the effect of a specific
+allele on a specific transcript. As Variants may overlap multiple transcripts,
+they may have multiple TranscriptEffect records. Variants with multiple
+alternate alleles will have multiple TranscriptEffect records per transcript. (2
+alternate alleles x 3 transcripts = 6 TranscriptEffect records)
+
+VariantAnnotation records belong to VariantAnnotationSets. VariantAnnotationSets
+are created by comparing a number of Variants from a VariantSet to a specific
+set of reference data using specific software tools. A VariantAnnotationSet
+contains information on reference data and software versions used in calculating
+the annotation; it is essential this information is exhaustive.
+*/
+
+// An AnalysisResult record holds the output of a prediction package such as
+// SIFT on a specific allele.
+message AnalysisResult {
+  // The ID of the analysis record for this result
+  string analysis_id = 1;
+
+  // The text-based result for this analysis
+  string result = 2;
+
+  // The numeric score for this analysis
+  int32 score = 3;
+}
+
+// An allele location record holds the location of an allele relative to a non -
+// genomic coordinate system such as a CDS or protein and holds the reference
+// and alternate sequence where appropriate
+message AlleleLocation {
+  // Relative start position of the allele in this coordinate system
+  int32 start = 1;
+
+  // Relative end position of the allele in this coordinate system
+  int32 end = 2;
+
+  // Reference sequence in feature (this should be the codon at CDS level)
+  string reference_sequence = 3;
+
+  // Alternate sequence in feature (this should be the codon at CDS level)
+  string alternate_sequence = 4;
+}
+
+// A VariantAnnotationSet record groups VariantAnnotation records. It is derived
+// from a VariantSet and holds information describing the software and reference
+// data used in the annotation.
+
+message VariantAnnotationSet {
+  // The ID of the variant annotation set record
+  string id = 1;
+
+  // The ID of the variant set to which this annotation set belongs
+  string variantSet_id = 2;
+
+  // The variant annotation set name.
+  string name = 3;
+
+  //  Analysis details. It is essential to supply versions for all software and
+  // reference data used.
+  Analysis analysis = 4;
+}
+
+// A HGVSAnnotation record holds Human Genome Variation Society descriptions of
+// the sequence change with respect to genomic, transcript and protein
+// sequences. See: http:// www.hgvs.org/mutnomen/recs.html.
+// Descriptions should be provided at genomic level
+//  - Descriptions at transcript level should be provided when the allele
+//    lies within a transcript
+//  - Descriptions at protein level should be provided when the allele
+//    lies within the translated sequence or stop codon.
+message HGVSAnnotation {
+  string genomic = 1;
+  string transcript = 2;
+  string protein = 3;
+}
+
+// A transcript effect record is a set of information describing the effect of
+// an allele on a transcript
+
+message TranscriptEffect {
+  //  The ID of the transcript effect record
+  string id = 1;
+
+  // TODO: derive unique id from digest of data [location, allele, transcript?]
+
+  // The id of the transcript feature the annotation is relative to.
+  string feature_id = 2;
+
+  // Alternate allele - a variant may have more than one alternate allele,
+  // each of which will have distinct annotation.
+  string alternate_bases = 3;
+
+  // Effect of variant on this feature.
+  repeated OntologyTerm effects = 4;
+
+  // Human Genome Variation Society variant descriptions.
+  HGVSAnnotation hgvs_annotation = 5;
+
+  // Change relative to cDNA.
+  AlleleLocation cdna_location = 6;
+
+  // Change relative to coding sequence.
+  AlleleLocation cds_location = 7;
+
+  // Change relative to protein.
+  AlleleLocation protein_location = 8;
+
+  // Output from prediction packages such as SIFT.
+  repeated AnalysisResult analysis_results = 9;
+}
+
+// A `VariantAnnotation` record represents the result of comparing a variant to
+// a set of reference data.
+message VariantAnnotation {
+  // The ID of this VariantAnnotation.
+  string id = 1;
+
+  // The variant ID.
+  string variant_id = 2;
+
+  // The ID of the variant annotation set this record belongs to.
+  string variant_annotation_set_id = 3;
+
+  // The time at which this record was created, in ISO 8601 format.
+  string create_date_time = 4;
+
+  // The transcript effect annotation for the alleles of this variant. Each
+  // one represents the effect of a single allele on a single transcript.
+  repeated TranscriptEffect transcript_effects = 5;
+
+  // Additional annotation data in key-value pairs.
+  map<string, google.protobuf.ListValue> info = 6;
+}
