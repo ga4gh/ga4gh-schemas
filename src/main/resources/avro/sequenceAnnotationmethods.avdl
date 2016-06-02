@@ -82,6 +82,11 @@ protocol SequenceAnnotationMethods {
     union { null, string } parentId;
 
     /**
+    The name of the Feature e.g 'KIT'.
+    */
+    union { null, string } name = null;
+
+    /**
     Only return features on the reference with this name
     (matched to literal reference name as imported from the GFF3).
     */
