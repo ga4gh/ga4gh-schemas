@@ -75,6 +75,7 @@ message SearchRnaQuantificationsResponse {
 message GetRnaQuantificationRequest {
   // The ID of the `RnaQuantification`.
   string rna_quantification_id = 1;
+}
 
 // ****************  /expressionlevel/search  *******************
 // This request maps to the body of 'POST /expressionlevel/search'
@@ -91,7 +92,7 @@ message SearchExpressionLevelsRequest {
 
   // Only return ExpressionLevel records with expressions exceeding
   // this value.  (Defaults to 0.0)
-  float32 threshold = 4;
+  float threshold = 4;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.

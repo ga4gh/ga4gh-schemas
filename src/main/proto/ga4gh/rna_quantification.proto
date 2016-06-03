@@ -76,10 +76,10 @@ message ExpressionLevel {
   string quantification_group_id = 3;
 
   // The number of reads mapped to this feature.
-  float32 raw_read_count = 4;
+  float raw_read_count = 4;
 
   // Numerical expression value.
-  float32 expression = 5;
+  float expression = 5;
 
   // True if the expression value is a normalized value.
   bool is_normalized = 6;
@@ -88,9 +88,9 @@ message ExpressionLevel {
   ExpressionUnit units = 7;
 
   // Weighted score for the expression value.
-  float32 score = 8;
+  float score = 8;
 
   // Confidence interval on the expression value.  Expressed as a sorted array
   // from low to high.
-  repeated float32 conf_interval = 9;
+  repeated float conf_interval = 9;
 }
