@@ -4,7 +4,7 @@ Installing the GA4GH Schemas
 The schemas are documents (text files) that formally describe the
 messages that pass between GA4GH reference servers and clients, which we
 also refer to collectively as "the API." The schemas are written in a
-language called `Avro <http://avro.apache.org>`__.
+language called `Protocol Buffers <https://developers.google.com/protocol-buffers/>`__.
 
 We use the schemas in a couple of different ways:
 
@@ -14,19 +14,21 @@ We use the schemas in a couple of different ways:
 Generating Source Code
 @@@@@@@@@@@@@@@@@@@@@@
 
-(To be written.)
+::
+
+$ cd src/main/proto && protoc --python_out=. ga4gh/*
 
 Installing the Documentation Tools and Generating Documentation
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-We use a tool called Sphinx to generate the documentation from Avro
-input files.
+We use a tool called Sphinx to generate the documentation from Protocol
+Buffers input files.
 
 Install prerequisites
 #####################
 
-To use the Sphinx/Avro documentation generator, you must install some
-software packages it requires.
+To use the Sphinx/Protocol Buffers documentation generator, you must
+install some software packages it requires.
 
 Maven
 $$$$$
