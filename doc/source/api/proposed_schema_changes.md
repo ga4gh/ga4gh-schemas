@@ -116,7 +116,7 @@ Q: I have a Disease ontology id ("http://www.ebi.ac.uk/efo/EFO_0003767").
 
 Use an OntologyTerm.
 ```
-request = ... "phenotype": {  "type": {"id": "http://www.ebi.ac.uk/efo/EFO_0003767"}  } ....
+request = { ...  "type": {"id": "http://www.ebi.ac.uk/efo/EFO_0003767"}  .... } 
 ```
 The system will respond with phenotypes that match on OntologyTerm.id
 
@@ -124,7 +124,7 @@ The system will respond with phenotypes that match on OntologyTerm.id
 Q: I have a phenotype id (“p12345”)
 Create an PhenotypeQuery using id field.
 ```
-request = ... "phenotype": {  "id": "p12345"  } ....
+request = ...  {  "id": "p12345"  } ....
 ```
 The system will respond with phenotypes that match on PhenotypeInstance.id
 
@@ -133,7 +133,7 @@ Q: I have an ontology term for a phenotype (HP:0001507, 'Growth abnormality' )
 
 Use an OntologyTerm.
 ```
-request = ... "phenotype": {  "type": {"id": "http://purl.obolibrary.org/obo/HP_0001507"}  } ....
+request = ...  {  "type": {"id": "http://purl.obolibrary.org/obo/HP_0001507"}  } ....
 ```
 The system will respond with phenotypes that match on OntologyTerm.id
 
@@ -141,7 +141,7 @@ The system will respond with phenotypes that match on OntologyTerm.id
 Q: I am only interested in phenotypes qualified with (PATO_0001899, `decreased circumference`  )
 Create a PhenotypeQuery
 ```
-request = ... "phenotype": {  "qualifiers": [{"id": "http://purl.obolibrary.org/obo/PATO_0001899"}] } ....
+request = ...  {  "qualifiers": [{"id": "http://purl.obolibrary.org/obo/PATO_0001899"}] } ....
 ```
 The system will respond with phenotypes whose qualifiers that match that ontology 'is\_a'
 
@@ -158,8 +158,9 @@ Note that you can wildcard description.
 
 ___
 
-###``/features/search``
+###``/genotypes/search``
 
+This endpoint is provided to serve features/variants/etc hosted by a g2p dataset when it is deployed independently of the sequenceAnnotations API.  The request and response payloads are similar to `features/search`.
 
 
 Terms within a query are combined via AND
@@ -176,32 +177,27 @@ query = (name="KIT" and referenceName ="hg38")
 
 The service returns a list of matching Features.
 
-####Examples:Feature Lookup
+####Examples:Genotype Lookup
 
 
 Q: I have a SNPid ("rs6920220"). Create an External Identifier Query.
 
-``{… "feature": {"ids": [{"identifier": "rs6920220", "version": "*", "database": "dbSNP"}]},  … }``
+``{… {"ids": [{"identifier": "rs6920220", "version": "*", "database": "dbSNP"}]},  … }``
 
-The ``/features/search`` endpoint will respond with features that match on external identifier.
+The   endpoint will respond with features that match on external identifier.
 Multiple identifiers are OR'd together.
 
 
-Q: I have a featureId  ("f12345").
-
-Use the `getFeature()` endpoint ``/features/{id}``
-The system will respond with the feature that match the id.
-
 Q: I have an identifier for BRCA1  `GO:0070531` how do I query for feature?
 Create an OntologyTerm query
-``{… "feature": {"type": {"id":"http://purl.obolibrary.org/obo/GO_0070531"},  … }``
+``{…   {"type": {"id":"http://purl.obolibrary.org/obo/GO_0070531"},  … }``
 
-The ``/features/search`` endpoint  will respond with features that match on that term
+The endpoint  will respond with features that match on that term
 
 Q: I only want somatic variant features `SO:0001777` how do I limit results?
 Specify featureType
-``{… "feature": {"featureType":"http://purl.obolibrary.org/obo/SO_0001777",  … }``
-The ``/features/search`` endpoint  will respond with features that match on that type
+``{… {"featureType":"http://purl.obolibrary.org/obo/SO_0001777",  … }``
+The  endpoint  will respond with features that match on that type
 
 
 
@@ -209,10 +205,11 @@ The ``/features/search`` endpoint  will respond with features that match on that
 
 ___
 
-###``/genotypes/search``
-This endpoint is provided to serve features/variants/etc hosted by a g2p dataset when it is deployed independently of the sequenceAnnotations API.  The request and response payloads are identical.
+###``/features/search``
 
 
+
+**See sequence annotations documentation**
 
 ___
 
@@ -221,27 +218,11 @@ ___
 The endpoint accepts a SearchGenotypePhenotypeRequest POST.
 The request may contain a feature, phenotype, and/or evidence, which are combined as a logical AND to query the underlying datastore. Missing types are treated as a wildcard, returning all data.  The genotype and phenotype fields are either null or a list of identifiers returned from the entity queries.  The evidence query object allows filtering by evidence type.
 
-![http://yuml.me/edit/bf06b90a](../_static/search_genotype_phenotype_request.png)
+![http://yuml.me/edit/024cf70f](../_static/search_genotype_phenotype_request.png)
 
 The SearchGenotypePhenotype search is simplified.  Features and Phenotypes are expressed as a simple array of strings.
 Evidence can be queried via the new EvidenceQuery.
 
-```
-record SearchGenotypePhenotypeRequest {
-
-  ...
-
-  union {null, array<string> } featureIds = null;
-
-  union {null, array<string> } phenotypeIds = null;
-
-  union {null, array<EvidenceQuery> } evidence = null;
-
-  ...
-
-}
-
-```
 
 The response is returned as a list of associations.
 
