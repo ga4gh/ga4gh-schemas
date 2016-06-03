@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/allele_annotations.proto";
+import "ga4gh/metadata.proto";
+
+service AlleleAnnotationService {
+  // Gets a list of `VariantAnnotation`s matching the search criteria.
+  //
+  // This allows the mining of allele-specific annotations on a VariantSet by
+  // either a region or by a set of genomic features. Where a region is supplied
+  // annotation of all alleles vs all features in the region is returned. Where
+  // a set of features is supplied, only annotations against these features
+  // (matching on featuretype and id) are returned and other overlapping
+  // features are ignored.
+  //
+  // variantannotationsets/search returns information on the input to the
+  // annotation. This will be a VariantSet and the reference data and software
+  // versions used in calculating the annotation. It is essential this
+  // information is exhaustive.
+  //
+  // `POST /variantannotations/search` must accept a JSON version of
+  // `SearchVariantAnnotationsRequest` as the post body and will return a JSON
+  // version of `SearchVariantAnnotationsResponse`.
+  rpc SearchVariantAnnotations(SearchVariantAnnotationsRequest)
+      returns (SearchVariantAnnotationsResponse);
+
+  // Returns a list of available variant annotation sets.
+  //
+  // `POST /variantannotationsets/search` must accept a JSON version of
+  // `SearchVariantAnnotationSetsRequest` as the post body and will return a
+  // JSON version of `SearchVariantAnnotationSetsResponse`.
+  rpc SearchVariantAnnotationSets(SearchVariantAnnotationSetsRequest)
+      returns (SearchVariantAnnotationSetsResponse);
+
+  // Gets an `VariantAnnotationSet` by ID.
+  //
+  // `GET /variantannotationsets/{variant_annotation_set_id}` will return a JSON
+  // version of `VariantAnnotationSet`.
+  rpc GetVariantAnnotationSet(GetVariantAnnotationSetRequest)
+      returns (VariantAnnotationSet);
+}
+
+/******************  /variantannotations  *********************/
+// This request maps to the body of `POST /variantannotations/search` as JSON.
+message SearchVariantAnnotationsRequest {
+  // Required. The ID of the variant annotation set to search over.
+  string variant_annotation_set_id = 1;
+
+  // Only return variants with reference alleles on the reference with this
+  // name. One of this field or `reference_id` is required.
+  string reference_name = 2;
+
+  // Only return variants with reference alleles on the reference with this
+  // ID. One of this field or `reference_name` is required.
+  string reference_id = 3;
+
+  // Required if reference_name or reference_id supplied. The beginning of the
+  // window (0-based, inclusive) for which variants with overlapping reference
+  // alleles should be returned. Genomic positions are non-negative integers
+  // less than reference length. Requests spanning the join of circular
+  // genomes are represented as two requests one on each side of the join
+  // (position 0).
+  int64 start = 4;
+
+  // Required if reference_name or reference_id supplied. The end of the window
+  // (0-based, exclusive) for which variants with overlapping reference
+  // alleles should be returned.
+  int64 end = 5;
+
+  // This section will be re-instated when features are available in the API
+  //
+  // Only return variant annotations for any of these features.
+  // Features may include specific transcripts or genes. A search by gene will
+  // return information for all transcripts associated with the gene in the
+  // variant annotation set.
+  // This or a location (referenceName/referenceId plus optional start and end)
+  // must be supplied.
+  // If empty, return all variant annotations in specified window.
+  // repeated string feature_ids;
+
+  // This filter allows variant, transcript combinations to be extracted by
+  // effect type(s). Only return variant annotations including any of these
+  // effects and only return transcript effects including any of these
+  // effects. Exact matching across all fields of the Sequence Ontology
+  // OntologyTerm is required. (A transcript effect may have multiple SO
+  // effects which will all be reported.) If empty, return all variant
+  // annotations.
+  repeated OntologyTerm effects = 6;
+
+  // Specifies the maximum number of results to return in a single page. If
+  // unspecified, a system default will be used.
+  int32 page_size = 7;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 8;
+}
+
+// This is the response from `POST /variantannotations/search` expressed as
+// JSON.
+message SearchVariantAnnotationsResponse {
+  // The list of matching variant annotations.
+  repeated VariantAnnotation variant_annotations = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+/******************  /variantannotationsets  *********************/
+// This request maps to the body of `POST /variantannotationsets/search` as
+// JSON.
+message SearchVariantAnnotationSetsRequest {
+  // Required. The `VariantSet` to search.
+  string variant_set_id = 1;
+
+  // Specifies the maximum number of results to return in a single page. If
+  // unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 3;
+}
+
+// This is the response from `POST /variantannotationsets/search` expressed as
+// JSON.
+message SearchVariantAnnotationSetsResponse {
+  // The list of matching variant annotation sets.
+  repeated VariantAnnotationSet variant_annotation_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /variantannotationsets/{id}`.
+message GetVariantAnnotationSetRequest {
+  // The ID of the `VariantAnnotationSet` to be retrieved.
+  string variant_annotation_set_id = 1;
+}
