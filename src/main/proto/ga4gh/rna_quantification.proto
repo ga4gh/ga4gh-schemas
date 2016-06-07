@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "google/protobuf/struct.proto";
+
+// Units for expression level.
+// FPKM - number of Fragments Per Kilobase of feature length per Million reads
+// FPKM is calculated by dividing the fragment count per feature by the total
+// number of reads in millions (FPM - Fragments Per Million).  FPM is then
+// divided by feature length in kilobases to obtain FPKM.
+
+// TPM - Transcripts per kilobase Per Million reads
+// TPM is calculated by first dividing the fragment/read count by feature length
+// in kilobases (RPK - Reads Per Kilobase).  The count of all RPKs in the sample
+// are then divided by a million to generate a 'per million' scaling value.  For
+// each feature RPK divided by the 'per million' scaling factor generated TPM.
+
+enum ExpressionUnit {
+  EXPRESSION_UNIT_UNSPECIFIED = 0;
+  FPKM = 1;
+  TPM = 2;
+}
+
+// Top level identifying information
+message RnaQuantification {
+  // The unique ID assigned to the results of running the described programs
+  // on the specified reads and assignment to the listed annotation.
+  string id = 1;
+ 
+  // Name
+  string name = 2;
+
+  // Description
+  string description = 3;
+
+  // ID of the ReadGroup providing the reads for the analysis.
+  string read_group_id = 4;
+
+  // List of programIds used in the analysis.
+  repeated string program_ids = 5;
+
+  // List of annotations used.
+  repeated string annotation_ids = 6;
+}
+
+// Identifying information for annotated features.
+message QuantificationGroup {
+  // Quantification group ID
+  string id = 1;
+
+  // The associated RnaQuantification.
+  string analysis_id = 2;
+ 
+  // Name
+  string name = 3;
+
+  // Description
+  string description = 4;
+
+  // A map of additional feature group information.
+  map<string, google.protobuf.ListValue> info = 5;
+}
+
+// The actual numerical quantification for each feature.
+message ExpressionLevel {
+  //Expression ID
+  string id = 1;
+
+  // Name
+  string name = 2;
+
+  // The associated QuantificationGroup. 
+  string quantification_group_id = 3;
+
+  // The number of reads mapped to this feature.
+  float raw_read_count = 4;
+
+  // Numerical expression value.
+  float expression = 5;
+
+  // True if the expression value is a normalized value.
+  bool is_normalized = 6;
+
+  // The units of the expression value if one is given.
+  ExpressionUnit units = 7;
+
+  // Weighted score for the expression value.
+  float score = 8;
+
+  // Confidence interval on the expression value.  Expressed as a sorted array
+  // from low to high.
+  repeated float conf_interval = 9;
+}
