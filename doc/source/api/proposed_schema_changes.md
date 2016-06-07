@@ -55,9 +55,9 @@ Additionally the API supports two implementation styles: integrated and standalo
 
 * ``/datasets/<datasetId>/features/search``
 	* 	Given a SearchFeaturesRequest, return matching _features_ in the `current 'omics dataset`. Intended for sequence annotation and GA4GH datasets.
-* ``/associations/<phenotypeAssociationSetId>/genotypes/search``
+* ``/genotypes/search``
 	* 	Given a SearchGenotypesRequest, return matching _genotypes_ in the in the `current g2p dataset.`.  Intended for standalone local G2P "knowledge bases"
-* ``/associations/<phenotypeAssociationSetId>/phenotypes/search``
+* ``/phenotypes/search``
 	* 	Given a SearchPhenotypesRequest, return matching _phenotypes_ in the in the `current g2p dataset.`
 
 
@@ -116,7 +116,7 @@ Q: I have a Disease ontology id ("http://www.ebi.ac.uk/efo/EFO_0003767").
 
 Use an OntologyTerm.
 ```
-request = { ...  "type": {"id": "http://www.ebi.ac.uk/efo/EFO_0003767"}  .... } 
+request = { ...  "type": {"id": "http://www.ebi.ac.uk/efo/EFO_0003767"}  .... }
 ```
 The system will respond with phenotypes that match on OntologyTerm.id
 
