@@ -173,6 +173,7 @@ record SearchGenotypesRequest {
   This is similar to FeatureQuery  '/features/search' served by Sequence Annotations
   But is intended to be served from the G2P knowledgebase
   */
+  union { null, string } id; 
   union { null, string } name; /* regex */
   union { null, string } referenceName;
   union { null, long } start;
