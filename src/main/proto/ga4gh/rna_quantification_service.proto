@@ -43,6 +43,12 @@ rpc SearchExpressionLevelGroups(SearchExpressionLevelGroupsRequest)
       returns (SearchExpressionLevelGroupsResponse);
 }
 
+// Gets a `ExpressionLevelGroup` by ID.
+// `GET /expressionlevelgroups/{id}` will return a JSON version of
+// `ExpressionLevelGroup`.
+rpc GetExpressionLevelGroup(GetExpressionLevelGroupRequest)
+      returns (ExpressionLevelGroup);
+
 // ****************  /rnaquantifications/search  *******************
 
 // This request maps to the body of 'POST /rnaquantifications/search'
@@ -117,7 +123,7 @@ message SearchExpressionLevelsResponse {
   string next_page_token = 2;
 }
 
-// This request maps to the URL `GET /rnaquantification/{rna_quantification_id}`.
+// This request maps to the URL `GET /expressionlevels/{expression_level_id}`.
 
 message GetExpressionLevelRequest {
   // The ID of the `ExpressionLevel`.
@@ -131,17 +137,14 @@ message SearchExpressionLevelGroupsRequest {
   // RNA Quantification to search.
   string rna_quantification_id = 1;
 
-  // ExpressionLevel Group of interest.
-  string expression_level_group_id = 2;
-
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
-  int32 page_size = 3;
+  int32 page_size = 2;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
   // 'nextPageToken' from the previous response.
-  string page_token = 4;
+  string page_token = 3;
 }
 
 // This is the response from 'POST /expressionlevelgroups/search' expressed as JSON.
@@ -153,4 +156,11 @@ message SearchExpressionLevelGroupsResponse {
   // To get the next page of results, set this parameter to the value of
   // 'nextPageToken' from the previous response.
   string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /expressionlevelgroups/{expression_level_group_id}`.
+
+message GetExpressionLevelGroupRequest {
+  // The ID of the `ExpressionLevelGroup`.
+  string expression_level_group_id = 1;
 }
