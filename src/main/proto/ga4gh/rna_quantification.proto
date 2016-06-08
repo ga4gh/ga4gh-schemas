@@ -34,31 +34,47 @@ message RnaQuantification {
   // Description
   string description = 3;
 
-  // ID of the ReadGroup providing the reads for the analysis.
-  string read_group_id = 4;
+  // ID(s) of the ReadGroup(s) providing the reads for the analysis.
+  repeated string read_group_ids = 4;
 
-  // List of programIds used in the analysis.
-  repeated string program_ids = 5;
+  // Program can be used to track the provenance of how read data was quantified.
+  message Program {
+    // The command line used to run this program.
+    string command_line = 1;
+
+    // The user specified ID of the program.
+    string id = 2;
+
+    // The name of the program.
+    string name = 3;
+
+    // The ID of the program run before this one.
+    string prev_program_id = 4;
+
+    // The version of the program run.
+    string version = 5;
+  }
+  repeated Program programs = 5;
 
   // List of annotations used.
-  repeated string annotation_ids = 6;
+  repeated string feature_set_ids = 6;
 }
 
-// Identifying information for annotated features.
-message QuantificationGroup {
-  // Quantification group ID
+// Identifying information for a group of feature expression values.
+message ExpressionLevelGroup {
+  // ExpressionLevel group ID
   string id = 1;
 
   // The associated RnaQuantification.
-  string analysis_id = 2;
+  string rna_quantification_id = 2;
  
-  // Name
+  // User assigned short name for the collection
   string name = 3;
 
   // Description
   string description = 4;
 
-  // A map of additional feature group information.
+  // A map of additional group information.
   map<string, google.protobuf.ListValue> info = 5;
 }
 
@@ -70,25 +86,30 @@ message ExpressionLevel {
   // Name
   string name = 2;
 
-  // The associated QuantificationGroup. 
-  string quantification_group_id = 3;
+  // Id of the feature
+  string feature_id = 3;
+
+  // The associated ExpressionLevelGroup. 
+  string expression_level_group_id = 4;
 
   // The number of reads mapped to this feature.
-  float raw_read_count = 4;
+  float raw_read_count = 5;
 
   // Numerical expression value.
-  float expression = 5;
+  float expression = 6;
 
   // True if the expression value is a normalized value.
-  bool is_normalized = 6;
+  bool is_normalized = 7;
 
   // The units of the expression value if one is given.
-  ExpressionUnit units = 7;
+  ExpressionUnit units = 8;
 
   // Weighted score for the expression value.
-  float score = 8;
+  float score = 9;
 
-  // Confidence interval on the expression value.  Expressed as a sorted array
-  // from low to high.
-  repeated float conf_interval = 9;
+  // Lower bound of the confidence interval on the expression value.
+  float conf_interval_low = 10;
+  
+  // Upper bound of the confidence interval on the expression value.
+  float conf_interval_high = 11;
 }
