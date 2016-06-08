@@ -131,3 +131,21 @@ message Analysis {
   // A map of additional analysis information.
   map<string, google.protobuf.ListValue> info = 8;
 }
+
+// A Program describes software used in data processing or analysis.
+message Program {
+  // The command line used to run this program.
+  string command_line = 1;
+
+  // The user specified ID of the program.
+  string id = 2;
+
+  // The name of the program.
+  string name = 3;
+
+  // The ID of the program run before this one.
+  string prev_program_id = 4;
+
+  // The version of the program run.
+  string version = 5;
+}

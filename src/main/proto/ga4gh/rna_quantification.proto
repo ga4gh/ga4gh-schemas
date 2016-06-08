@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "google/protobuf/struct.proto";
+import "ga4gh/metadata.proto";
 
 // Units for expression level.
 // FPKM - number of Fragments Per Kilobase of feature length per Million reads
@@ -22,6 +23,22 @@ enum ExpressionUnit {
   TPM = 2;
 }
 
+// A collection of associated RNAQuantifications.  Typically this will be all
+// the Quantifications of samples from an experiment.
+message RnaQuantificationSet {
+  // The RNA quantification set ID.
+  string id = 1;
+
+  // The ID of the dataset this RNA Quantification set belongs to.
+  string dataset_id = 2;
+
+  // The RNA quantification set name.
+  string name = 3;
+
+  // The RNA quantifications in this set.
+  repeated RnaQuantification rna_quantifications = 4;
+}
+
 // Top level identifying information
 message RnaQuantification {
   // The unique ID assigned to the results of running the described programs
@@ -37,45 +54,26 @@ message RnaQuantification {
   // ID(s) of the ReadGroup(s) providing the reads for the analysis.
   repeated string read_group_ids = 4;
 
-  // Program can be used to track the provenance of how read data was quantified.
-  message Program {
-    // The command line used to run this program.
-    string command_line = 1;
-
-    // The user specified ID of the program.
-    string id = 2;
-
-    // The name of the program.
-    string name = 3;
-
-    // The ID of the program run before this one.
-    string prev_program_id = 4;
-
-    // The version of the program run.
-    string version = 5;
-  }
+  // Programs can be used to track the provenance of how read data was quantified.
   repeated Program programs = 5;
 
-  // List of annotations used.
+  // List of annotation sets used.
   repeated string feature_set_ids = 6;
 }
 
-// Identifying information for a group of feature expression values.
-message ExpressionLevelGroup {
-  // ExpressionLevel group ID
+// Identifying information for a group of features.
+message FeatureGroup {
+  // feature group ID
   string id = 1;
 
-  // The associated RnaQuantification.
-  string rna_quantification_id = 2;
+  // The associated features.
+  repeated string feature_ids = 2;
  
   // User assigned short name for the collection
   string name = 3;
 
   // Description
   string description = 4;
-
-  // A map of additional group information.
-  map<string, google.protobuf.ListValue> info = 5;
 }
 
 // The actual numerical quantification for each feature.
@@ -89,8 +87,8 @@ message ExpressionLevel {
   // Id of the feature
   string feature_id = 3;
 
-  // The associated ExpressionLevelGroup. 
-  string expression_level_group_id = 4;
+  // The associated RnaQuantification
+  string rna_quantification_id = 4;
 
   // The number of reads mapped to this feature.
   float raw_read_count = 5;
@@ -112,4 +110,7 @@ message ExpressionLevel {
   
   // Upper bound of the confidence interval on the expression value.
   float conf_interval_high = 11;
+
+  // Associated feature groups
+  repeated string feature_group_ids = 12;
 }
