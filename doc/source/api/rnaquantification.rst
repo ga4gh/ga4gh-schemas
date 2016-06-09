@@ -71,11 +71,13 @@ The annotation API needs to also be flexible enough to handle multiple reference
 RNA Quantification Schema
 --------------------------
 
-The RNA Quantification Schema is designed around a quantification analysis.  Each set of feature quantifications describes the results of running an analysis ona set of input data.
+The RNA Quantification Schema is designed around a quantification analysis.  Each set of feature quantifications describes the results of running an analysis on a set of input data.
 
-The RnaQuantification identifies the experiment and describes the analysis pipeline used as well as the input dataset and annotations, if any, used.  ReadCounts and Characterization are optional API elements that further describe RNASeq analyses.
+The RnaQuantification identifies the experiment and describes the analysis pipeline used as well as the input dataset and annotations, if any, used.
 
-ExpressionLevel contains the identity of the specific feature measured as well as the final resulting quantification from the pipeline.  The FeatureSet exists to group related features if it is desirable to do so.  For example, in the case where exon-level quantifications would be grouped by parent gene or transcript.
+ExpressionLevel contains the identity of the specific feature measured as well as the final resulting quantification from the pipeline.
+
+The QuantificationGroup exists to group related features if it is desirable to do so.  For example, in the case where exon-level quantifications would be grouped by parent gene or transcript.  Another use of QuantificationGroup could be to create a retrievable set of gene results (from a disease-related panel fr exapmle) for downstream analysis.
 
 
 ..todo::

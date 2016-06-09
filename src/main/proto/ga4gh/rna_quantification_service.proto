@@ -5,9 +5,24 @@ package ga4gh;
 import "ga4gh/rna_quantification.proto";
 
 service RnaQuantificationService {
+// Gets a list of 'RnaQuantificationSet' matching the search criteria.
+
+// 'POST /rnaquantificationsets/search' must accept JSON version of
+// 'SearchRnaQuantificationSetRequest' as the post body and will return a JSON
+// version of 'SearchRnaQuantificationSetResponse'.
+rpc SearchRnaQuantificationSets(SearchRnaQuantificationSetsRequest)
+      returns (SearchRnaQuantificationSetsResponse);
+
+
+// Gets a `RnaQuantificationSet` by ID.
+// `GET /rnaquantificationsets/{id}` will return a JSON version of
+// `RnaQuantificationSet`.
+rpc GetRnaQuantificationSet(GetRnaQuantificationSetRequest)
+      returns (RnaQuantificationSet);
+
 // Gets a list of 'RnaQuantification' matching the search criteria.
 
-// 'POST /rnaquantification/search' must accept JSON version of
+// 'POST /rnaquantifications/search' must accept JSON version of
 // 'SearchRnaQuantificationRequest' as the post body and will return a JSON
 // version of 'SearchRnaQuantificationResponse'.
 rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
@@ -15,36 +30,82 @@ rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
 
 
 // Gets a `RnaQuantification` by ID.
-// `GET /rnaquantification/{id}` will return a JSON version of
+// `GET /rnaquantifications/{id}` will return a JSON version of
 // `RnaQuantification`.
 rpc GetRnaQuantification(GetRnaQuantificationRequest)
       returns (RnaQuantification);
 
 // Gets a list of 'ExpressionLevel' matching the search criteria.
 
-// 'POST /expressionlevel/search' must accept JSON version of
+// 'POST /expressionlevels/search' must accept JSON version of
 // 'SearchExpressionLevelRequest' as the post body and will return a JSON
 // version of 'SearchExpressionLevelResponse'.
 rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
       returns (SearchExpressionLevelsResponse);
 
+// Gets a `ExpressionLevel` by ID.
+// `GET /expressionlevels/{id}` will return a JSON version of
+// `ExpressionLevel`.
+rpc GetExpressionLevel(GetExpressionLevelRequest)
+      returns (ExpressionLevel);
 
-// Gets a list of 'QuantificationGroup' matching the search criteria.
+// Gets a list of 'FeatureGroup' matching the search criteria.
 
-// 'POST /quantificationgroup/search' must accept JSON version of
-// 'SearchQuantificationGroupRequest' as the post body and will return a JSON
-// version of 'SearchQuantificationGroupResponse'.
-rpc SearchQuantificationGroups(SearchQuantificationGroupsRequest)
-      returns (SearchQuantificationGroupsResponse);
+// 'POST /featuregroups/search' must accept JSON version of
+// 'SearchFeatureGroupRequest' as the post body and will return a JSON
+// version of 'SearchFeatureGroupResponse'.
+rpc SearchFeatureGroups(SearchFeatureGroupsRequest)
+      returns (SearchFeatureGroupsResponse);
+
+// Gets a `FeatureGroup` by ID.
+// `GET /featuregroups/{id}` will return a JSON version of
+// `FeatureGroup`.
+rpc GetFeatureGroup(GetFeatureGroupRequest)
+      returns (FeatureGroup);
+}
+// ****************  /rnaquantificationsets/search  *******************
+
+// This request maps to the body of 'POST /rnaquantificationsets/search'
+// as JSON.
+message SearchRnaQuantificationSetsRequest {
+  // The `Dataset` to search.
+  string dataset_id = 1;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string page_token = 3;
 }
 
-// ****************  /rnaquantification/search  *******************
+// This is the response from 'POST /rnaquantificationsets/search' expressed as JSON.
+message SearchRnaQuantificationSetsResponse {
+  // The list of matching quantification sets.
+  repeated RnaQuantificationSet rna_quantification_sets = 1;
 
-// This request maps to the body of 'POST /rnaquantification/search'
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /rnaquantificationsets/{rna_quantification_set_id}`.
+
+message GetRnaQuantificationSetRequest {
+  // The ID of the `RnaQuantificationSet`.
+  string rna_quantification_set_id = 1;
+}
+
+// ****************  /rnaquantifications/search  *******************
+
+// This request maps to the body of 'POST /rnaquantifications/search'
 // as JSON.
 message SearchRnaQuantificationsRequest {
   // If present, return only Rna Quantifications which belong to this set.
-  string rna_quantification_id = 1;
+  string rna_quantification_set_id = 1;
 
   // The `Dataset` to search.
   string dataset_id = 2;
@@ -59,7 +120,7 @@ message SearchRnaQuantificationsRequest {
   string page_token = 4;
 }
 
-// This is the response from 'POST /rnaquantification/search' expressed as JSON.
+// This is the response from 'POST /rnaquantifications/search' expressed as JSON.
 message SearchRnaQuantificationsResponse {
   // The list of matching quantifications.
   repeated RnaQuantification rna_quantifications = 1;
@@ -77,34 +138,31 @@ message GetRnaQuantificationRequest {
   string rna_quantification_id = 1;
 }
 
-// ****************  /expressionlevel/search  *******************
-// This request maps to the body of 'POST /expressionlevel/search'
+// ****************  /expressionlevels/search  *******************
+// This request maps to the body of 'POST /expressionlevels/search'
 // as JSON.
 message SearchExpressionLevelsRequest {
-  // If present, return matching Expression Level record.
-  string expression_level_id = 1;
-
-  // If present return only ExpressionLevel records which belong to this set.
-  string quantification_group_id = 2;
+  // If present return only ExpressionLevel records which belong to this group.
+  string quantification_group_id = 1;
 
   // The rnaQuantification to restrict search to.
-  string rna_quantification_id = 3;
+  string rna_quantification_id = 2;
 
   // Only return ExpressionLevel records with expressions exceeding
   // this value.  (Defaults to 0.0)
-  float threshold = 4;
+  float threshold = 3;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
-  int32 page_size = 5;
+  int32 page_size = 4;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
   // 'nextPageToken' from the previous response.
-  string page_token = 6;
+  string page_token = 5;
 }
 
-// This is the response from 'POST /expressionlevel/search' expressed as JSON.
+// This is the response from 'POST /expressionlevels/search' expressed as JSON.
 message SearchExpressionLevelsResponse {
   // The list of matching quantifications.
   repeated ExpressionLevel expression_levels = 1;
@@ -115,33 +173,44 @@ message SearchExpressionLevelsResponse {
   string next_page_token = 2;
 }
 
-// ****************  /quantificationgroup/search  *******************
-// This request maps to the body of 'POST /quantificationgroup/search'
+// This request maps to the URL `GET /expressionlevels/{expression_level_id}`.
+
+message GetExpressionLevelRequest {
+  // The ID of the `ExpressionLevel`.
+  string expression_level_id = 1;
+}
+
+// ****************  /featuregroups/search  *******************
+// This request maps to the body of 'POST /featuregroups/search'
 // as JSON.
-message SearchQuantificationGroupsRequest {
+message SearchFeatureGroupsRequest {
   // RNA Quantification to search.
   string rna_quantification_id = 1;
 
-  // Quantification Groups of interest.
-  string quantification_group_id = 2;
-
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
-  int32 page_size = 3;
+  int32 page_size = 2;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
   // 'nextPageToken' from the previous response.
-  string page_token = 4;
+  string page_token = 3;
 }
 
-// This is the response from 'POST /quantificationgroup/search' expressed as JSON.
-message SearchQuantificationGroupsResponse {
-  // The list of matching quantification groups.
-  repeated QuantificationGroup quantification_groups = 1;
+// This is the response from 'POST /featuregroups/search' expressed as JSON.
+message SearchFeatureGroupsResponse {
+  // The list of matching feature groups.
+  repeated FeatureGroup feature_groups = 1;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
   // 'nextPageToken' from the previous response.
   string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /featuregroups/{feature_group_id}`.
+
+message GetFeatureGroupRequest {
+  // The ID of the `FeatureGroup`.
+  string feature_group_id = 1;
 }
