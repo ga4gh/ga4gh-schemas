@@ -56,14 +56,13 @@ rpc GetExpressionLevel(GetExpressionLevelRequest)
 // version of 'SearchFeatureGroupResponse'.
 rpc SearchFeatureGroups(SearchFeatureGroupsRequest)
       returns (SearchFeatureGroupsResponse);
-}
 
 // Gets a `FeatureGroup` by ID.
 // `GET /featuregroups/{id}` will return a JSON version of
 // `FeatureGroup`.
 rpc GetFeatureGroup(GetFeatureGroupRequest)
       returns (FeatureGroup);
-
+}
 // ****************  /rnaquantificationsets/search  *******************
 
 // This request maps to the body of 'POST /rnaquantificationsets/search'

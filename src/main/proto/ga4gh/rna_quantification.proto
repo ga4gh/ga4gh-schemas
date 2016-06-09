@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "google/protobuf/struct.proto";
 import "ga4gh/metadata.proto";
 
 // Units for expression level.
