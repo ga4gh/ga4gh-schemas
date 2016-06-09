@@ -17,6 +17,26 @@ contain description and environment fields in addition to the relevant
 feature, phenotype, and evidence fields for that instance of
 association.
 
+## Multiple server collation - Background
+
+
+G2P servers planned to be implemented in three different contexts:
+
+* As a wrapper around standalone local G2P "knowledge bases" (eg Monarch, CiVIC,etc).  Important considerations are the API needs to function independently of other parts of the API and separately from any specific omics dataset.  Often, these databases are not curated with complete Feature fields (referenceName,start,end,strand)
+
+![image](https://cloud.githubusercontent.com/assets/47808/14397288/6743ed28-fd91-11e5-9329-66012b722141.png)
+
+* Coupled with sequence annotation and GA4GH datasets.  Clients will want implementation specific featureId/genotypeId to match and integrate with the rest of the APIs.
+
+![image](https://cloud.githubusercontent.com/assets/47808/14397306/7ad8bb70-fd91-11e5-9295-85c7034ce544.png)
+
+
+
+* Operating in concert with other instances of g2p servers where the client's loosely federated query is supported by heterogeneous server.  Challenges:  Normalizing API behavior across implementations (featureId for given region different per implementation)
+
+![image](https://cloud.githubusercontent.com/assets/47808/14397316/8a268b8e-fd91-11e5-907d-441fca3450cb.png)
+
+
 ## Data Model
 
 Intent: The GA4GH Ontology schema provides structures for unambiguous
@@ -77,8 +97,30 @@ Usage
 Many types rely heavily on the concept of an [OntologyTerm](https://github.com/ga4gh/schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/ontologies.avdl#L10)  (see end of document for discussion on usage of OntologyTerms).
 
 
-Details
--------
+##Implementation
+
+![image](https://cloud.githubusercontent.com/assets/47808/15920813/d70195a0-2dd1-11e6-9c74-ba552735404d.png)
+
+
+### Source Code
+* [Front End](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/frontend.py) '/genotypes/search', '/phenotypes/search', '/genotypephenotypes/search'
+* [Back End](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/backend.py) 'runSearchGenotypePhenotypes', 'runSearchPhenotypes', 'runSearchGenotypes' 
+* [Datamodel](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/datamodel/genotype_phenotype.py) 'getAssociations'
+
+### Tests 
+* [End to End](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/tests/end_to_end/test_g2p.py) 
+
+   **Help Wanted:** Any or all use cases and scenarios
+
+
+### Acceptance
+* Submittal of 3 simultaneous pull-requests for server, schema and compliance repositories
+* 2 +1 for each repository from outside the development team
+* Additional 3 day review for schemas
+
+
+
+##API Details and Examples
 
 ###``/phenotypes/search``
 
@@ -209,7 +251,7 @@ ___
 
 
 
-**See sequence annotations documentation**
+**See sequence annotations [documentation](https://github.com/ga4gh/schemas/blob/master/doc/source/api/sequence_annotations.rst)**
 
 ___
 
@@ -360,27 +402,6 @@ versioning and some frequently released ontologies may use a datestamp,
 or build number.
 
 
-
-
-
-## Multiple server collation - Background
-
-
-G2P servers are implemented in three different contexts:
-
-* As a wrapper around standalone local G2P "knowledge bases" (eg Monarch, CiVIC,etc).  Important considerations are the API needs to function independently of other parts of the API and separately from any specific omics dataset.  Often, these databases are not curated with complete Feature fields (referenceName,start,end,strand)
-
-![image](https://cloud.githubusercontent.com/assets/47808/14397288/6743ed28-fd91-11e5-9329-66012b722141.png)
-
-* Coupled with sequence annotation and GA4GH datasets.  Clients will want implementation specific featureId/genotypeId to match and integrate with the rest of the APIs.
-
-![image](https://cloud.githubusercontent.com/assets/47808/14397306/7ad8bb70-fd91-11e5-9295-85c7034ce544.png)
-
-
-
-* Operating in concert with other instances of g2p servers where the client's loosely federated query is supported by heterogeneous server.  Challenges:  Normalizing API behavior across implementations (featureId for given region different per implementation)
-
-![image](https://cloud.githubusercontent.com/assets/47808/14397316/8a268b8e-fd91-11e5-907d-441fca3450cb.png)
 
 
 ---
