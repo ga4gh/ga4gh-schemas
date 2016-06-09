@@ -34,9 +34,6 @@ message RnaQuantificationSet {
 
   // The RNA quantification set name.
   string name = 3;
-
-  // The RNA quantifications in this set.
-  repeated RnaQuantification rna_quantifications = 4;
 }
 
 // Top level identifying information
@@ -59,6 +56,9 @@ message RnaQuantification {
 
   // List of annotation sets used.
   repeated string feature_set_ids = 6;
+
+  // ID of the containing RnaQuantificationSet.
+  string rna_quantification_set_id = 7;
 }
 
 // Identifying information for a group of features.
