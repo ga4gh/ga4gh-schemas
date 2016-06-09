@@ -184,8 +184,8 @@ message GetExpressionLevelRequest {
 // This request maps to the body of 'POST /featuregroups/search'
 // as JSON.
 message SearchFeatureGroupsRequest {
-  // RNA Quantification to search.
-  string rna_quantification_id = 1;
+  // The `Dataset` to search.
+  string dataset_id = 1;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.

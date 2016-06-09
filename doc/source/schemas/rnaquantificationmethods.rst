@@ -178,9 +178,9 @@ Gets a `ExpressionLevel` by ID.
 
 .. proto3:message:: SearchFeatureGroupsRequest
 
-  :field rna_quantification_id:
-    RNA Quantification to search.
-  :type rna_quantification_id: string
+  :field dataset_id:
+    The `Dataset` to search.
+  :type dataset_id: string
   :field page_size:
     Specifies the maximum number of results to return in a single page.
       If unspecified, a system default will be used.

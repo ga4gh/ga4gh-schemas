@@ -23,7 +23,10 @@ enum ExpressionUnit {
 }
 
 // A collection of associated RNAQuantifications.  Typically this will be all
-// the Quantifications of samples from an experiment.
+// the Quantifications of samples from an experiment.  For example, a time
+// course experiment would be described by a RnaQuantificationSet with the
+// individual RNASeq experiments of the time point being represented as the
+// member RnaQuantifications.
 message RnaQuantificationSet {
   // The RNA quantification set ID.
   string id = 1;
