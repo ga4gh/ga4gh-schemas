@@ -108,10 +108,13 @@ protocol Metadata {
     array<string> accessions;
 
     /**
-    The times at which this record was created / updated.
-    Format: ISO 8601 (cf. documentation on time formats)
+    The :ref:`ISO 8601<metadata_date_time>` time at which this IndividualGroup's record was created.
     */
     string created;
+
+    /**
+    The :ref:`ISO 8601<metadata_date_time>` time at which this IndividualGroup's record was updated.
+    */
     string updated;
 
     /**
