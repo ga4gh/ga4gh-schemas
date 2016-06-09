@@ -23,7 +23,7 @@ rpc GetRnaQuantificationSet(GetRnaQuantificationSetRequest)
 // Gets a list of 'RnaQuantification' matching the search criteria.
 
 // 'POST /rnaquantifications/search' must accept JSON version of
-// 'SearchRnaQuantificationRequest' as the post body and will return a JSON
+// 'SearchRnaQuantificationsRequest' as the post body and will return a JSON
 // version of 'SearchRnaQuantificationResponse'.
 rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
       returns (SearchRnaQuantificationsResponse);
@@ -143,7 +143,7 @@ message GetRnaQuantificationRequest {
 // as JSON.
 message SearchExpressionLevelsRequest {
   // If present return only ExpressionLevel records which belong to this group.
-  string quantification_group_id = 1;
+  string feature_group_id = 1;
 
   // The rnaQuantification to restrict search to.
   string rna_quantification_id = 2;
