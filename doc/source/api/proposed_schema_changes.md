@@ -104,11 +104,11 @@ Many types rely heavily on the concept of an [OntologyTerm](https://github.com/g
 
 ### Source Code
 * [Front End](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/frontend.py) '/genotypes/search', '/phenotypes/search', '/genotypephenotypes/search'
-* [Back End](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/backend.py) 'runSearchGenotypePhenotypes', 'runSearchPhenotypes', 'runSearchGenotypes' 
+* [Back End](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/backend.py) 'runSearchGenotypePhenotypes', 'runSearchPhenotypes', 'runSearchGenotypes'
 * [Datamodel](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/datamodel/genotype_phenotype.py) 'getAssociations'
 
-### Tests 
-* [End to End](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/tests/end_to_end/test_g2p.py) 
+### Tests
+* [End to End](https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/tests/end_to_end/test_g2p.py)
 
    **Help Wanted:** Any or all use cases and scenarios
 
