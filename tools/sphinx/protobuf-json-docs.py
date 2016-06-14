@@ -74,7 +74,7 @@ def traverse(proto_file):
 
     tree = collections.defaultdict(collections.defaultdict)
     for loc in proto_file.source_code_info.location:
-        if loc.leading_comments or loc.trailing_comments or loc.leading_detached_comments:
+        if loc.leading_comments or loc.trailing_comments:
             place = tree
             for p in loc.path:
                 if not place.has_key(p):
@@ -82,9 +82,8 @@ def traverse(proto_file):
                 place = place[p]
             place["leading_comments"] = loc.leading_comments
             place["trailing_comments"] = loc.trailing_comments
-            place["leading_detached_comments"] = loc.leading_detached_comments
 
-    if set(tree.keys()).difference(set([4,5,12])) != set():
+    if set(tree.keys()).difference(set([4,5])) != set():
         raise Exception, sorted(tree.keys())
 
     return {"types":
@@ -92,7 +91,7 @@ def traverse(proto_file):
             _traverse(proto_file.package, proto_file.enum_type, tree[5]), # 5 is enum_type in FileDescriptorProto
             _traverse(proto_file.package, proto_file.message_type, tree[4]), # 4 is enum_type in FileDescriptorProto
         ),
-        "file": tree[12]
+        "file": ["".join(x.leading_detached_comments) for x in proto_file.source_code_info.location if len(x.leading_detached_comments) > 0]
     }
 
 def generate_code(request, response):
@@ -146,10 +145,7 @@ def generate_code(request, response):
 
             types.append(data)
 
-        if results["file"].has_key("leading_detached_comments"):
-            comments = "".join(results["file"]["leading_detached_comments"])
-        else:
-            comments = ""
+        comments = "".join(results["file"]).strip()
         output = {
             "types": types,
             "protocol": proto_file.name.split("/")[-1].split(".")[0],
