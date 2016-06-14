@@ -80,9 +80,6 @@ def traverse(proto_file):
                     for nested_item in _traverse(nested, nested_package):
                         yield nested_item, nested_package
 
-    import pprint
-    open("dump", "w").write(pprint.pformat(proto_file.source_code_info))
-
     tree = collections.defaultdict(collections.defaultdict)
     for loc in proto_file.source_code_info.location:
         if loc.leading_comments or loc.trailing_comments:
@@ -165,6 +162,7 @@ def generate_code(request, response):
                         "request": {
                             "name": "request",
                             "type": m.input_type[1:],
+                            "doc": ''
                         },
                         "response": m.output_type[1:],
                         "errors" : [ "GAException" ]

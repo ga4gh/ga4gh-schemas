@@ -56,16 +56,13 @@ if __name__ == '__main__':
       # process formal parameters ('request')
       request = message_def['request']
       # collect the names
-      param_names = []
-      for param in request:
-        param_names.append(param['name'])
+
       response = message_def['response']
       errors = message_def['errors']
       output += " .. function:: %s(%s)\n\n" % (message_name,
-                                               ', '.join(param_names))
-      for param in request:
-        output += "  :param %s: %s: %s\n" % (param['name'], param['type'],
-                                             param['doc'])
+                                               ', '.join([request['name']]))
+      output += "  :param %s: %s: %s\n" % (request['name'], request['type'],
+                                           request['doc'])
       output += "  :return type: %s\n" % response
       output += "  :throws: %s\n\n" % ', '.join(errors)
       output += cleanup_doc(doc)
@@ -74,7 +71,7 @@ if __name__ == '__main__':
     for item in data['types']:
       output += '.. avro:%s:: %s\n\n' % (item['type'], item['name'])
 
-      if item['type'] == 'record':
+      if item['type'] == 'message':
         for field in item['fields']:
           output += '  :field %s:\n' % field['name']
           if 'doc' in field:
@@ -142,16 +139,14 @@ if __name__ == '__main__':
       # process formal parameters ('request')
       request = message_def['request']
       # collect the names
-      param_names = []
-      for param in request:
-        param_names.append(param['name'])
+      param_names = [request['name']]
       response = message_def['response']
       errors = message_def['errors']
       output += " .. function:: %s(%s)\n\n" % (message_name,
                                                ', '.join(param_names))
       for param in request:
-        output += "  :param %s: %s: %s\n" % (param['name'], param['type'],
-                                             param['doc'])
+        output += "  :param %s: %s: %s\n" % (request['name'], request['type'],
+                                             request['doc'])
       output += "  :return type: %s\n" % response
       output += "  :throws: %s\n\n" % ', '.join(errors)
       output += cleanup_doc(doc)
@@ -160,7 +155,7 @@ if __name__ == '__main__':
     for item in data['types']:
       output += '.. avro:%s:: %s\n\n' % (item['type'], item['name'])
 
-      if item['type'] == 'record':
+      if item['type'] == 'message':
         for field in item['fields']:
           output += '  :field %s:\n' % field['name']
           if 'doc' in field:

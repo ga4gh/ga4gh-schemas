@@ -1,10 +1,10 @@
-# avdl-to-rst Makefile
+# proto-to-rst Makefile
 #
-# GA4GH schema docs are generated from avdl comments.  The process is
+# GA4GH schema docs are generated from proto comments.  The process is
 # coordinated by this Makefile in these steps:
-#   * All .avdl files are converted to .avpr using the avro-tools
-#   package, which is downloaded if needed.
-#   * All .avpr files are converted to .rst using a python script in
+#   * All .proto files are converted to .json using the
+#   protoc json plugin `tools/sphinx/my-plugin.py`.
+#   * All .json files are converted to .rst using a python script in
 #   schemas/tools.
 
 
@@ -13,30 +13,26 @@
 .DELETE_ON_ERROR:
 
 CACHE_DIR:=${HOME}/.cache/ga4gh
-AVPR_DIR:=/tmp/ga4gh-${UID}/avpr
-AVDL_DIR:=../../../src/main/resources/avro
+JSON_DIR:=/tmp/ga4gh-${UID}/json
+PROTO_BASE_DIR:=../../../src/main/proto
+PROTO_DIR:=${PROTO_BASE_DIR}/ga4gh
 
 AVPR2REST_PATH:=../../../tools/sphinx/avpr2rest.py
-AVRO_JAR_PATH:=${CACHE_DIR}/avro-tools.jar
-AVRO_JAR_URL:=http://www.us.apache.org/dist/avro/avro-1.7.7/java/avro-tools-1.7.7.jar
+PROTOC_PLUGIN_PATH:=../../../tools/sphinx/protobuf-json-docs.py
 
-AVDL_BASENAMES:=$(subst ${AVDL_DIR}/,,$(wildcard ${AVDL_DIR}/*.avdl))
-AVPR_BASENAMES:=${AVDL_BASENAMES:.avdl=.avpr}
-RST_BASENAMES:=${AVDL_BASENAMES:.avdl=.rst}
+PROTO_BASENAMES:=$(subst ${PROTO_DIR}/,,$(wildcard ${PROTO_DIR}/*.proto))
+AVPR_BASENAMES:=${PROTO_BASENAMES:.proto=.proto.json}
+RST_BASENAMES:=${PROTO_BASENAMES:.proto=.rst}
 
 
 default: ${RST_BASENAMES}
 
+%.proto.json: ${PROTO_DIR}/%.proto
+	mkdir -p ${JSON_DIR}
+	protoc --proto_path ${PROTO_BASE_DIR} --plugin=protoc-gen-custom=${PROTOC_PLUGIN_PATH} --custom_out=${JSON_DIR} $<
 
-${AVRO_JAR_PATH}:
-	mkdir -p ${@D}
-	curl -o $@ ${AVRO_JAR_URL}
-
-%.avpr: ${AVDL_DIR}/%.avdl ${AVRO_JAR_PATH}
-	java -jar ${AVRO_JAR_PATH} idl $< $@
-
-%.rst: %.avpr
-	python ${AVPR2REST_PATH} $< .
+%.rst: %.proto.json
+	python ${AVPR2REST_PATH} ${JSON_DIR}/ga4gh/$< .
 
 .PHONY: clean cleaner cleanest
 clean:

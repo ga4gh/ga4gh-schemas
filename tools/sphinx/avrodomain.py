@@ -71,7 +71,7 @@ class AvroObject(ObjectDescription):
       return _('%s (Avro fixed-width value)') % name
     if self.objtype == 'enum':
       return _('%s (Avro enum)') % name
-    if self.objtype == 'record':
+    if self.objtype == 'message':
       return _('%s (Avro record)') % name
     if self.objtype == 'error':
       return _('%s (Avro error)') % name
@@ -109,12 +109,12 @@ class AvroEnum(AvroObject):
   ]
 
 class AvroRecord(AvroObject):
-  prefix = 'record'
+  prefix = 'message'
   doc_field_types = [
     TypedField('fields', label=l_('Fields'),
                names=('field','member'),
                typenames=('type',),
-               typerolename='record')
+               typerolename='message')
   ]
 
 class AvroError(AvroRecord):
@@ -139,7 +139,7 @@ class AvroDomain(Domain):
   object_types = {
     'fixed':  ObjType(l_('fixed'),  'fixed'),
     'enum':   ObjType(l_('enum'),   'enum'),
-    'record': ObjType(l_('record'), 'record'),
+    'message': ObjType(l_('message'), 'message'),
     'error':  ObjType(l_('error'),  'error'),
     'rpc':    ObjType(l_('rpc'),    'rpc'),
   }
@@ -147,7 +147,7 @@ class AvroDomain(Domain):
   directives = {
     'fixed':  AvroFixedField,
     'enum':   AvroEnum,
-    'record': AvroRecord,
+    'message': AvroRecord,
     'error':  AvroError,
     'rpc':    AvroRPCMessage
   }
@@ -155,7 +155,7 @@ class AvroDomain(Domain):
   roles = {
     'fixed':  XRefRole(),
     'enum':   XRefRole(),
-    'record': XRefRole(),
+    'message': XRefRole(),
     'error':  XRefRole(),
     'rpc':    XRefRole()
   }
