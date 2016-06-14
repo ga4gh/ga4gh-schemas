@@ -56,13 +56,16 @@ if __name__ == '__main__':
       # process formal parameters ('request')
       request = message_def['request']
       # collect the names
-
+      param_names = []
+      for param in request:
+        param_names.append(param['name'])
       response = message_def['response']
       errors = message_def['errors']
       output += " .. function:: %s(%s)\n\n" % (message_name,
-                                               ', '.join([request['name']]))
-      output += "  :param %s: %s: %s\n" % (request['name'], request['type'],
-                                           request['doc'])
+                                               ', '.join(param_names))
+      for param in request:
+        output += "  :param %s: %s: %s\n" % (param['name'], param['type'],
+                                             param['doc'])
       output += "  :return type: %s\n" % response
       output += "  :throws: %s\n\n" % ', '.join(errors)
       output += cleanup_doc(doc)
@@ -139,14 +142,16 @@ if __name__ == '__main__':
       # process formal parameters ('request')
       request = message_def['request']
       # collect the names
-      param_names = [request['name']]
+      param_names = []
+      for param in request:
+        param_names.append(param['name'])
       response = message_def['response']
       errors = message_def['errors']
       output += " .. function:: %s(%s)\n\n" % (message_name,
                                                ', '.join(param_names))
       for param in request:
-        output += "  :param %s: %s: %s\n" % (request['name'], request['type'],
-                                             request['doc'])
+        output += "  :param %s: %s: %s\n" % (param['name'], param['type'],
+                                             param['doc'])
       output += "  :return type: %s\n" % response
       output += "  :throws: %s\n\n" % ', '.join(errors)
       output += cleanup_doc(doc)
