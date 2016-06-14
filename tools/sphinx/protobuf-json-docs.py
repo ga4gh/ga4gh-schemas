@@ -30,7 +30,7 @@ def convert_protodef_to_editable(proto):
 def traverse(proto_file):
 
     def _collapse_comments(comments):
-        return comments["leading_comments"] + comments["trailing_comments"]
+        return (comments["leading_comments"] + comments["trailing_comments"]).strip()
 
     def _traverse(package, items, tree):
         for item_index, item in enumerate(items):
@@ -38,7 +38,8 @@ def traverse(proto_file):
             if item_index in tree:
                 comments = tree[item_index]
                 if "leading_comments" in comments or "trailing_comments" in comments:
-                    item.comments = _collapse_comments(comments)
+                    item.comment = _collapse_comments(comments)
+                    #raise Exception, item.__dict__
                     del comments["leading_comments"]
                     del comments["trailing_comments"]
                 if item.kind is EnumDescriptorProto:
@@ -68,9 +69,12 @@ def traverse(proto_file):
                     for nested_item in _traverse(nested, nested_package):
                         yield nested_item, nested_package
 
+    import pprint
+    open("dump", "w").write(pprint.pformat(proto_file.source_code_info))
+
     tree = collections.defaultdict(collections.defaultdict)
     for loc in proto_file.source_code_info.location:
-        if loc.leading_comments or loc.trailing_comments:
+        if loc.leading_comments or loc.trailing_comments or loc.leading_detached_comments:
             place = tree
             for p in loc.path:
                 if not place.has_key(p):
@@ -78,47 +82,80 @@ def traverse(proto_file):
                 place = place[p]
             place["leading_comments"] = loc.leading_comments
             place["trailing_comments"] = loc.trailing_comments
+            place["leading_detached_comments"] = loc.leading_detached_comments
 
-    return itertools.chain(
-        _traverse(proto_file.package, proto_file.enum_type, tree[5]), # 5 is enum_type in FileDescriptorProto
-        _traverse(proto_file.package, proto_file.message_type, tree[4]), # 4 is enum_type in FileDescriptorProto
-    )
+    if set(tree.keys()).difference(set([4,5,12])) != set():
+        raise Exception, sorted(tree.keys())
+
+    return {"types":
+        itertools.chain(
+            _traverse(proto_file.package, proto_file.enum_type, tree[5]), # 5 is enum_type in FileDescriptorProto
+            _traverse(proto_file.package, proto_file.message_type, tree[4]), # 4 is enum_type in FileDescriptorProto
+        ),
+        "file": tree[12]
+    }
 
 def generate_code(request, response):
     for proto_file in request.proto_file:
-        output = []
+        types = []
 
-        # Parse request
-        for item, package in traverse(proto_file):
+        results = traverse(proto_file)
+        for item, package in results["types"]:
             data = {
-                'package': proto_file.package or '&lt;root&gt;',
-                'filename': proto_file.name,
                 'name': item.name,
                 'doc': item.comment
             }
 
             if item.kind == DescriptorProto:
                 data.update({
-                    'type': 'Message',
-                    'properties': [{
-                        'name': f.name,
-                        'type': int(f.type),
-                        'doc': f.comment
-                        }
-                        for f in item.field]
+                    'type': 'message',
+                    'fields': []
                 })
+                for f in item.field:
+                    if f.type in [1]:
+                        kind = "double"
+                    elif f.type in [3]:
+                        kind = "long"
+                    elif f.type in [5]:
+                        kind = "integer"
+                    elif f.type in [8]:
+                        kind = "boolean"
+                    elif f.type in [9]:
+                        kind = "string"
+                    elif f.type in [11]:
+                        kind = "message"
+                    elif f.type in [12]:
+                        kind = "bytes"
+                    elif f.type in [14]:
+                        kind = "enum"
+                    else:
+                        raise Exception, f.type
+                    data["fields"].append({
+                        'name': f.name,
+                        'type': kind,
+                        'doc': f.comment
+                        })
 
             elif item.kind == EnumDescriptorProto:
+                comments = ["\n* `%s`: %s"%(v.name, v.comment) for v in item.value]
                 data.update({
-                    'type': 'Enum',
-                    'values': [{
-                        'name': v.name,
-                        'value': v.number,
-                        'doc': v.comment}
-                       for v in item.value]
+                    'type': 'enum',
+                    'symbols': [v.name for v in item.value]
                 })
+                data["doc"] += " ".join(comments)
 
-            output.append(data)
+            types.append(data)
+
+        if results["file"].has_key("leading_detached_comments"):
+            comments = "".join(results["file"]["leading_detached_comments"])
+        else:
+            comments = ""
+        output = {
+            "types": types,
+            "protocol": proto_file.name.split("/")[-1].split(".")[0],
+            'doc': comments,
+            "namespace": proto_file.package,
+        }
 
         # Fill response
         f = response.file.add()
