@@ -159,11 +159,11 @@ def generate_code(request, response):
                 for m in item.method:
                     messages[m.name] = {
                         "doc": m.comment,
-                        "request": {
+                        "request": [{
                             "name": "request",
                             "type": m.input_type[1:],
                             "doc": ''
-                        },
+                        }],
                         "response": m.output_type[1:],
                         "errors" : [ "GAException" ]
                     }
