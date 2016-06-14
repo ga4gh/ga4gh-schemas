@@ -6,7 +6,7 @@ import collections
 from google.protobuf.compiler import plugin_pb2 as plugin
 import itertools
 import json
-from google.protobuf.descriptor_pb2 import DescriptorProto, EnumDescriptorProto, EnumValueDescriptorProto, FieldDescriptorProto
+from google.protobuf.descriptor_pb2 import DescriptorProto, EnumDescriptorProto, EnumValueDescriptorProto, FieldDescriptorProto, ServiceDescriptorProto, MethodDescriptorProto
 
 def convert_protodef_to_editable(proto):
     class Editable(object):
@@ -22,6 +22,11 @@ def convert_protodef_to_editable(proto):
                 self.number = prot.number
             elif isinstance(prot, FieldDescriptorProto):
                 self.type = prot.type
+            elif isinstance(prot, ServiceDescriptorProto):
+                self.method = [convert_protodef_to_editable(x) for x in prot.method]
+            elif isinstance(prot, MethodDescriptorProto):
+                self.input_type = prot.input_type
+                self.output_type = prot.output_type
             else:
                 raise Exception, type(prot)
 
@@ -54,6 +59,12 @@ def traverse(proto_file):
                             field_comment = comments[2][k]
                             if field_comment != {}:
                                 item.field[k].comment = _collapse_comments(field_comment)
+                elif item.kind is ServiceDescriptorProto:
+                    if 2 in comments: # method in ServiceDescriptorProto
+                        for k in comments[2]:
+                            method_comment = comments[2][k]
+                            if method_comment != {}:
+                                item.method[k].comment = _collapse_comments(method_comment)
                 else:
                     raise Exception, item.kind
 
@@ -83,13 +94,14 @@ def traverse(proto_file):
             place["leading_comments"] = loc.leading_comments
             place["trailing_comments"] = loc.trailing_comments
 
-    if set(tree.keys()).difference(set([4,5])) != set():
+    if set(tree.keys()).difference(set([4,5,6])) != set():
         raise Exception, sorted(tree.keys())
 
     return {"types":
         itertools.chain(
+            _traverse(proto_file.package, proto_file.service, tree[6]), # 5 is enum_type in FileDescriptorProto
             _traverse(proto_file.package, proto_file.enum_type, tree[5]), # 5 is enum_type in FileDescriptorProto
-            _traverse(proto_file.package, proto_file.message_type, tree[4]), # 4 is enum_type in FileDescriptorProto
+            _traverse(proto_file.package, proto_file.message_type, tree[4]), # 4 is message_type in FileDescriptorProto
         ),
         "file": ["".join(x.leading_detached_comments) for x in proto_file.source_code_info.location if len(x.leading_detached_comments) > 0]
     }
@@ -110,9 +122,11 @@ def generate_code(request, response):
                     'type': 'message',
                     'fields': []
                 })
-                for f in item.field:
+                for f in item.field: # types from FieldDescriptorProto
                     if f.type in [1]:
                         kind = "double"
+                    elif f.type in [2]:
+                        kind = "float"
                     elif f.type in [3]:
                         kind = "long"
                     elif f.type in [5]:
@@ -142,6 +156,13 @@ def generate_code(request, response):
                     'symbols': [v.name for v in item.value]
                 })
                 data["doc"] += " ".join(comments)
+            elif item.kind == ServiceDescriptorProto:
+                data.update({
+                    'type': 'service',
+                    'methods': [{"name": m.name, "input": m.input_type[1:], "output": m.output_type[1:]} for m in item.method]
+                })
+            else:
+                raise Exception, item.kind
 
             types.append(data)
 
