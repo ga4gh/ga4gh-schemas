@@ -103,9 +103,9 @@ Unresolved Issues
 
 * What is the definition of the wire protocol?  HTTP 1.0? Is HTTP 1.1
   chunked encoding allowed?  What is the specification for the
-  generate JSON for a given an Avro schema?
+  generated JSON for a given an Protocol Buffers schema?
 
-* What is the role of Avro?  Is it for documentation-only or for use
-  as an IDL?
+* What is the role of Protocol Buffers?  Is it for documentation-only
+ or for use as an IDL?
 
 * Need overall object relationship diagram.
