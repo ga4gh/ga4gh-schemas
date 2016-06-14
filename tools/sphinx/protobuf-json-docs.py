@@ -153,7 +153,7 @@ def generate_code(request, response):
                     'type': 'enum',
                     'symbols': [v.name for v in item.value]
                 })
-                data["doc"] += " ".join(comments)
+                data["doc"] += "\n" + " ".join(comments)
                 types.append(data)
             elif item.kind == ServiceDescriptorProto:
                 for m in item.method:
