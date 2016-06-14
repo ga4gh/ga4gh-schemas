@@ -109,6 +109,7 @@ def traverse(proto_file):
 def generate_code(request, response):
     for proto_file in request.proto_file:
         types = []
+        messages = {}
 
         results = traverse(proto_file)
         for item, package in results["types"]:
@@ -148,7 +149,7 @@ def generate_code(request, response):
                         'type': kind,
                         'doc': f.comment
                         })
-
+                types.append(data)
             elif item.kind == EnumDescriptorProto:
                 comments = ["\n* `%s`: %s"%(v.name, v.comment) for v in item.value]
                 data.update({
@@ -156,19 +157,26 @@ def generate_code(request, response):
                     'symbols': [v.name for v in item.value]
                 })
                 data["doc"] += " ".join(comments)
+                types.append(data)
             elif item.kind == ServiceDescriptorProto:
-                data.update({
-                    'type': 'service',
-                    'methods': [{"name": m.name, "input": m.input_type[1:], "output": m.output_type[1:]} for m in item.method]
-                })
+                for m in item.method:
+                    messages[m.name] = {
+                        "doc": m.comment,
+                        "request": {
+                            "name": "request",
+                            "type": m.input_type[1:],
+                        },
+                        "response": m.output_type[1:],
+                        "errors" : [ "GAException" ]
+                    }
             else:
                 raise Exception, item.kind
 
-            types.append(data)
 
         comments = "".join(results["file"]).strip()
         output = {
             "types": types,
+            "messages": messages,
             "protocol": proto_file.name.split("/")[-1].split(".")[0],
             'doc': comments,
             "namespace": proto_file.package,
