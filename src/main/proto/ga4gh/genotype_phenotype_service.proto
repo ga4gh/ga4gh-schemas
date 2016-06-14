@@ -18,6 +18,27 @@ import "ga4gh/genotype_phenotype.proto";
    Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
 */
 
+service GenotypePhenotypeService {
+    
+    rpc SearchPhenotypeAssociationSets(SearchPhenotypeAssociationSetsRequest)
+        return (SearchPhenotypeAssociationSetsResponse);
+
+    rpc SearchPhenotype(SearchPhenotypesRequest)
+        return (SearchPhenotypesResponse);
+
+    rpc GetFeatureAssociations(SearchGenotypePhenotypeRequest)
+        return (SearchGenotypePhenotypeResponse);
+
+    rpc GetPhenotypeAssociations(SearchGenotypePhenotypeRequest)
+        return (SearchGenotypePhenotypeResponse);
+
+    rpc GetGenotypeAssociations(GetEntityGenotypePhenotypeRequest)
+        return (SearchGenotypePhenotypeResponse);
+
+    rpc GetEnvironmentAssociations(GetEntityGenotypePhenotypeRequest)
+        return (SearchGenotypePhenotypeResponse);
+}
+
 /******************  /phenotypeassociationsets/search  *********************/
 // This request maps to the body of `POST /phenotypeassociationsets/search` as JSON.
 message SearchPhenotypeAssociationSetsRequest {
