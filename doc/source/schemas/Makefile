@@ -17,7 +17,7 @@ JSON_DIR:=/tmp/ga4gh-${UID}/json
 PROTO_BASE_DIR:=../../../src/main/proto
 PROTO_DIR:=${PROTO_BASE_DIR}/ga4gh
 
-AVPR2REST_PATH:=../../../tools/sphinx/avpr2rest.py
+AVPR2REST_PATH:=../../../tools/sphinx/protodoc2rst.py
 PROTOC_PLUGIN_PATH:=../../../tools/sphinx/protobuf-json-docs.py
 
 PROTO_BASENAMES:=$(subst ${PROTO_DIR}/,,$(wildcard ${PROTO_DIR}/*.proto))

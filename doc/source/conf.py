@@ -49,7 +49,7 @@ for protofile in os.listdir(schema_dir):
     cmd = "protoc --proto_path %s --plugin=protoc-gen-custom=%s --custom_out=%s %s" % (base_dir, os.path.join(sphinx_path, "protobuf-json-docs.py"), json_dir, fullpath)
     print cmd
     subprocess.check_call(cmd, shell=True)
-    cmd = "python %s %s/ga4gh/%s schemas/" %(os.path.join(sphinx_path, "avpr2rest.py"), json_dir, json_file)
+    cmd = "python %s %s/ga4gh/%s schemas/" %(os.path.join(sphinx_path, "protodoc2rst.py"), json_dir, json_file)
     print cmd
     subprocess.check_call(cmd, shell=True)
 
