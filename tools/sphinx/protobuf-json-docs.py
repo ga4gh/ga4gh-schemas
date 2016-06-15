@@ -162,10 +162,10 @@ def generate_code(request, response):
                         "doc": m.comment,
                         "request": [{
                             "name": "request",
-                            "type": m.input_type[1:],
+                            "type": ":avro:message:`%s`" % m.input_type.replace(".ga4gh.", ""),
                         }],
-                        "response": m.output_type[1:],
-                        "errors" : [ "GAException" ]
+                        "response": ":avro:message:`%s`" % m.output_type.replace(".ga4gh.", ""),
+                        "errors" : [ ":avro:message:`GAException`" ]
                     }
             else:
                 raise Exception, item.kind
