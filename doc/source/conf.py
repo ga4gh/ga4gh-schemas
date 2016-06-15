@@ -19,7 +19,8 @@ import subprocess
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('../../tools/sphinx'))
+sphinx_path = '../../tools/sphinx'
+sys.path.insert(0, os.path.abspath(sphinx_path))
 
 # -- General configuration ------------------------------------------------
 
@@ -37,7 +38,18 @@ extensions = [
     'avrodomain',
 ]
 
-subprocess.check_call("protoc")
+base_dir = "../../src/main/proto"
+json_dir = os.path.join(base_dir, "json")
+schema_dir = os.path.join(base_dir, "ga4gh")
+for protofile in os.listdir(schema_dir):
+    fullpath = os.path.join(schema_dir, protofile)
+    json_file = protofile.replace(".proto", ".json")
+    cmd = "protoc --proto_path %s --plugin=protoc-gen-custom=%s --custom_out=%s %s" % (base_dir, os.path.join(sphinx_path, "protobuf-json-docs.py"), json_dir, fullpath)
+    print cmd
+    subprocess.check_call(cmd, shell=True)
+    cmd = "python %s %s/ga4gh/%s %s" %(os.path.join(sphinx_path, "avpr2rest.py"), json_dir, json_file, "schemas/%s.rst" % protofile)
+    print cmd
+    subprocess.check_call(cmd, shell=True)
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
