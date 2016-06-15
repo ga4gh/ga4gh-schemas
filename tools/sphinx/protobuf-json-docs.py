@@ -21,6 +21,8 @@ def convert_protodef_to_editable(proto):
             elif isinstance(prot, EnumValueDescriptorProto):
                 self.number = prot.number
             elif isinstance(prot, FieldDescriptorProto):
+                if prot.type in [11, 14]:
+                    self.ref_type = prot.type_name.replace(".ga4gh.", "")
                 self.type = prot.type
             elif isinstance(prot, ServiceDescriptorProto):
                 self.method = [convert_protodef_to_editable(x) for x in prot.method]
@@ -134,12 +136,10 @@ def generate_code(request, response):
                         kind = "boolean"
                     elif f.type in [9]:
                         kind = "string"
-                    elif f.type in [11]:
-                        kind = "message"
+                    elif f.type in [11, 14]:
+                        kind = ":avro:message:`%s`" % f.ref_type
                     elif f.type in [12]:
                         kind = "bytes"
-                    elif f.type in [14]:
-                        kind = "enum"
                     else:
                         raise Exception, f.type
                     data["fields"].append({
