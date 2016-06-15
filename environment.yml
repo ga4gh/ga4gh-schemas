@@ -1,5 +1,5 @@
 dependencies:
-- ioos::protobuf=3.0.0b2.post2=py27_3
+- protobuf=3.0.0b2.post2=py27_3
 - openssl=1.0.2h=1
 - pip=8.1.2=py27_0
 - python=2.7.11=0
@@ -12,4 +12,3 @@ dependencies:
 - zlib=1.2.8=3
 - pip:
   - protobuf==3.0.0b2
-prefix: /home/palfrey/.miniconda2/envs/ga4gh
