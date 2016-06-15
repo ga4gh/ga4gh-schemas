@@ -39,7 +39,7 @@ extensions = [
 ]
 
 base_dir = "../../src/main/proto"
-json_dir = os.path.join(base_dir, "json")
+json_dir = os.path.join("_build", "json-temp")
 if not os.path.exists(json_dir):
     os.mkdir(json_dir)
 schema_dir = os.path.join(base_dir, "ga4gh")
