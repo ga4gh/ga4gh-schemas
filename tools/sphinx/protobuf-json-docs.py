@@ -26,6 +26,7 @@ def convert_protodef_to_editable(proto):
                 if prot.type in [11, 14]:
                     self.ref_type = prot.type_name.replace(".ga4gh.", "")
                 self.type = prot.type
+                self.label = prot.label
             elif isinstance(prot, ServiceDescriptorProto):
                 self.method = [convert_protodef_to_editable(x) for x in prot.method]
             elif isinstance(prot, MethodDescriptorProto):
@@ -141,6 +142,8 @@ def generate_code(request, response):
                         kind = "string"
                     elif f.type in [11, 14]:
                         kind = ":avro:message:`%s`" % f.ref_type
+                        if f.label == 3: # LABEL_REPEATED
+                            kind = "list of " + kind
                     elif f.type in [12]:
                         kind = "bytes"
                     else:
