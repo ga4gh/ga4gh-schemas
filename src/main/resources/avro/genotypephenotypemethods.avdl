@@ -160,9 +160,9 @@ record SearchGenotypesRequest {
   This is similar to FeatureQuery  '/features/search' served by Sequence Annotations
   But is intended to be served from the G2P knowledgebase
   */
-  union { null, string } id; 
-  union { null, string } name; /* regex */
-  union { null, string } referenceName;
+  union { null, string } id;
+  union { null, string } name; /* regex TODO - do we need both name and referenceName?*/
+  union { null, string } referenceName; /* regex */
   union { null, long } start;
   union { null, long } end;
   union { null, org.ga4gh.models.Strand } strand;
