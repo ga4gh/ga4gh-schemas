@@ -1,4 +1,3 @@
-name: ga4gh
 dependencies:
 - ioos::protobuf=3.0.0b2.post2=py27_3
 - openssl=1.0.2h=1
@@ -14,4 +13,3 @@ dependencies:
 - pip:
   - protobuf==3.0.0b2
 prefix: /home/palfrey/.miniconda2/envs/ga4gh
-
