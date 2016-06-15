@@ -1,5 +1,9 @@
 .. _assaymetadata:
 
+.. image:: /_static/assaymetadata_schema.png
+   :scale: 50 %
+   :align: right
+
 .. _assaymetadata_experiment:
 
 **********************************

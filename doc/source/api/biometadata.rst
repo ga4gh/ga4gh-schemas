@@ -1,6 +1,7 @@
 .. _biometadata:
 
 .. image:: /_static/biometadata_schema.png
+   :scale: 50 %
    :align: right
 
 .. _biometadata_biosample:
@@ -16,7 +17,7 @@ The majority of use cases of GA4GH
 schema compatible resources will serve to facilitate the retrieval of *molecular
 features* (DNA sequence variations, gene expression, protein variants) measured
 by performing *experimental* (whole genome sequencing, expression arrays, mass
-spectroscopy) in conjunction with *bioinformatics* procedures, appied to a
+spectroscopy) in conjunction with *bioinformatics* procedures, applied to a
 preparation of target molecules (e.g. DNA, RNA) which has been extracted from a
 *biological sample* (e.g. tissue biopsy, single cell from FACS,
 environmental sample).
