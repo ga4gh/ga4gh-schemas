@@ -61,16 +61,6 @@ SearchPhenotypeAssociationSetsResponse searchPhenotypeAssociationSets(
 
 /******************  /phenotypes/search  *********************/
 
-/**
-Query phenotype. See genotypephenotype.avdl for property explanations.
-*/
-record PhenotypeQuery {
-  union { null, string } id; 
-  union { null, string } description; /* The system should support regular expression matches */
-  union { null, org.ga4gh.models.OntologyTerm } type = null;
-  union { null, array<org.ga4gh.models.OntologyTerm> } qualifiers = null;  /* terms should be OR'd together. e.g. (severe OR abnormal) */
-  union { null, org.ga4gh.models.OntologyTerm } ageOfOnset = null;
-}
 
 /**
 One or more ontology terms can be queried together.
@@ -98,23 +88,6 @@ record EvidenceQuery {
 }
 
 
-record GenotypeQuery {
-  /**
-  This is similar to FeatureQuery  '/features/search' served by Sequence Annotations
-  But is intended to be served from the G2P knowledgebase
-  */
-  union { null, string } name; /* new field, regex */
-  union { null, string } description; /* new field,regex */
-  union { null, string } featureSetId;
-  union { null, string } referenceName;
-  union { null, long } start;
-  union { null, long } end;
-  union { null, org.ga4gh.models.Strand } strand;
-  union { null, org.ga4gh.models.OntologyTerm } type; /* new field  */
-  union { null, org.ga4gh.models.OntologyTerm } featureType;
-  union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null; /* new field */
-}
-
 record SearchPhenotypesRequest {
 
   /**
@@ -122,7 +95,14 @@ record SearchPhenotypesRequest {
   */
   string phenotypeAssociationSetId;
 
-  PhenotypeQuery phenotype ;
+  /**
+  Query phenotype. See genotypephenotype.avdl for property explanations.
+  */
+  union { null, string } id;
+  union { null, string } description; /* The system should support regular expression matches */
+  union { null, org.ga4gh.models.OntologyTerm } type = null;
+  union { null, array<org.ga4gh.models.OntologyTerm> } qualifiers = null;  /* terms should be OR'd together. e.g. (severe OR abnormal) */
+  union { null, org.ga4gh.models.OntologyTerm } ageOfOnset = null;
 
   /**
   Specifies the maximum number of results to return in a single page.
@@ -139,7 +119,7 @@ record SearchPhenotypesRequest {
 }
 
 /** This is the response from `POST /phenotypes/search` expressed as JSON. */
-record SearchPhenotypeResponse {
+record SearchPhenotypesResponse {
   /**
   The list of matching PhenotypeInstances.
   */
@@ -160,7 +140,7 @@ Gets a list of evidence accessible through the API.
 `SearchGenotypePhenotypeRequest` as the post body and will return a JSON version
 of `SearchGenotypePhenotypeResponse`.
 */
-SearchPhenotypesResponse searchPhenotype(
+SearchPhenotypesResponse searchPhenotypes(
   /**
   This request maps to the body of `POST /phenotype/search` as JSON.
   */
@@ -176,7 +156,19 @@ record SearchGenotypesRequest {
   */
   string phenotypeAssociationSetId;
 
-  GenotypeQuery genotype  ;
+  /**
+  This is similar to FeatureQuery  '/features/search' served by Sequence Annotations
+  But is intended to be served from the G2P knowledgebase
+  */
+  union { null, string } id; 
+  union { null, string } name; /* regex */
+  union { null, string } referenceName;
+  union { null, long } start;
+  union { null, long } end;
+  union { null, org.ga4gh.models.Strand } strand;
+  union { null, org.ga4gh.models.OntologyTerm } featureType;
+  union { null, array<org.ga4gh.models.ExternalIdentifier> } externalIdentifiers = null;
+
 
    /**
   Specifies the maximum number of results to return in a single page.
@@ -249,10 +241,24 @@ record SearchGenotypePhenotypeRequest {
   */
   string phenotypeAssociationSetId;
 
+  /**
+  The Features from sequence annotations returned from /features/search
+  */
   union {null, array<string>} featureIds = null;
 
+  /**
+  The Genotypes from g2p returned from /genotypes/search
+  */
+  union {null, array<string>} genotypeIds = null;
+
+  /**
+  The Phenotypes from g2p returned from /phenotypes/search
+  */
   union {null, array<string>} phenotypeIds = null;
 
+  /**
+  The Evidence types desired
+  */
   union {null, array<EvidenceQuery>} evidence = null;
 
 
