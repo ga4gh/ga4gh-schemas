@@ -35,7 +35,8 @@ def convert_protodef_to_editable(proto):
 def traverse(proto_file):
 
     def _collapse_comments(comments):
-        return (comments["leading_comments"] + comments["trailing_comments"]).strip()
+        return '\n'.join(
+            [c.strip() for c in (comments["leading_comments"] + comments["trailing_comments"]).split('\n')])
 
     def _traverse(package, items, tree):
         for item_index, item in enumerate(items):
@@ -170,8 +171,7 @@ def generate_code(request, response):
             else:
                 raise Exception, item.kind
 
-
-        comments = "".join(results["file"]).strip()
+        comments = "\n".join(results["file"])
         output = {
             "types": types,
             "messages": messages,
