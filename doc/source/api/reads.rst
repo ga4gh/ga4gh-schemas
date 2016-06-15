@@ -20,35 +20,35 @@ The model has the following data types:
 ============================== ============================================ ==================
 Record                         | Description                                SAM/BAM rough equivalent
 ============================== ============================================ ==================
-:avro:record:`ReadAlignment`   | One alignment for one read                 A single line in a file
-:avro:record:`ReadGroup`       | A group of read alignments                 A single RG tag
-:avro:record:`ReadGroupSet`    | Collecton of ReadGroups that map to the    Single SAM/BAM file
+:avro:message:`ReadAlignment`   | One alignment for one read                 A single line in a file
+:avro:message:`ReadGroup`       | A group of read alignments                 A single RG tag
+:avro:message:`ReadGroupSet`    | Collecton of ReadGroups that map to the    Single SAM/BAM file
                                | same genome
-:avro:record:`Program`         | Software version and parameters that were  PN, CL tags in SAM header
+:avro:message:`Program`         | Software version and parameters that were  PN, CL tags in SAM header
                                | used to align reads to the genome
-:avro:record:`ReadStats`       | Counts of aligned and unaligned reads      Samtools flagstats on a file
+:avro:message:`ReadStats`       | Counts of aligned and unaligned reads      Samtools flagstats on a file
                                | for a ReadGroup or ReadGroupSet
 ============================== ============================================ ==================
 
 The relationships are mostly one to many (e.g. each
-:avro:record:`ReadAlignment` is part of exactly one
-:avro:record:`ReadGroup`), with the exception that a
-:avro:record:`ReadGroup` is allowed to be part of more than one
-:avro:record:`ReadGroupSet`.
+:avro:message:`ReadAlignment` is part of exactly one
+:avro:message:`ReadGroup`), with the exception that a
+:avro:message:`ReadGroup` is allowed to be part of more than one
+:avro:message:`ReadGroupSet`.
 
-:avro:record:`Dataset` --< :avro:record:`ReadGroupSet` >--< :avro:record:`ReadGroup` --< :avro:record:`ReadAlignment`
+:avro:message:`Dataset` --< :avro:message:`ReadGroupSet` >--< :avro:message:`ReadGroup` --< :avro:message:`ReadAlignment`
 
-* A :avro:record:`Dataset` is a general-purpose container, defined in
+* A :avro:message:`Dataset` is a general-purpose container, defined in
   metadata.avdl.
-* A :avro:record:`ReadGroupSet` is a logical collection of ReadGroups,
+* A :avro:message:`ReadGroupSet` is a logical collection of ReadGroups,
   as determined by the data owner.  Typically one
-  :avro:record:`ReadGroupSet` represents all the Reads from one
+  :avro:message:`ReadGroupSet` represents all the Reads from one
   experimental sample, which traditionally would be stored in a single
   BAM file.
-* A :avro:record:`ReadGroup` is all the data that's processed the same
+* A :avro:message:`ReadGroup` is all the data that's processed the same
   way by the sequencer.  There are typically 1-10 ReadGroups in a
-  :avro:record:`ReadGroupSet`.
-* A :avro:record:`ReadAlignment` object is a flattened representation
+  :avro:message:`ReadGroupSet`.
+* A :avro:message:`ReadAlignment` object is a flattened representation
   of several layers of bioinformatics hierarchy, including fragments,
   reads, and alignments, stored in one object for easy access.
 
@@ -56,9 +56,9 @@ The relationships are mostly one to many (e.g. each
 ReadAlignment: detailed discussion
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-One :avro:record:`ReadAlignment` object represents the following
+One :avro:message:`ReadAlignment` object represents the following
 logical hierarchy. See the field definitions in the
-:avro:record:`ReadAlignment` object for more details.
+:avro:message:`ReadAlignment` object for more details.
 
 .. image:: /_static/read_alignment_diagrams.png
 
