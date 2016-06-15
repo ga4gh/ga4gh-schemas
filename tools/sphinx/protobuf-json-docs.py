@@ -18,6 +18,8 @@ def convert_protodef_to_editable(proto):
                 self.value = [convert_protodef_to_editable(x) for x in prot.value]
             elif isinstance(prot, DescriptorProto):
                 self.field = [convert_protodef_to_editable(x) for x in prot.field]
+                self.enum_type = [convert_protodef_to_editable(x) for x in prot.enum_type]
+                self.nested_type = prot.nested_type
             elif isinstance(prot, EnumValueDescriptorProto):
                 self.number = prot.number
             elif isinstance(prot, FieldDescriptorProto):
@@ -31,6 +33,7 @@ def convert_protodef_to_editable(proto):
                 self.output_type = prot.output_type
             else:
                 raise Exception, type(prot)
+
 
     return Editable(proto)
 
@@ -73,15 +76,15 @@ def traverse(proto_file):
 
             yield item, package
 
-            if isinstance(item, DescriptorProto):
+            if item.kind is DescriptorProto:
                 for enum in item.enum_type:
                     yield enum, package
 
                 for nested in item.nested_type:
-                    nested_package = package + item.name
+                    nested_package = package + "." + item.name
 
-                    for nested_item in _traverse(nested, nested_package):
-                        yield nested_item, nested_package
+                    for nested_item, np in _traverse(nested_package, [nested], tree[item_index]):
+                        yield nested_item, np
 
     tree = collections.defaultdict(collections.defaultdict)
     for loc in proto_file.source_code_info.location:
@@ -114,7 +117,7 @@ def generate_code(request, response):
         results = traverse(proto_file)
         for item, package in results["types"]:
             data = {
-                'name': item.name,
+                'name': (package + "." + item.name).replace("ga4gh.", ""),
                 'doc': item.comment
             }
 
