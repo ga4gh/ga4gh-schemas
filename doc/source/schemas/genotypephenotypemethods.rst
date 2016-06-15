@@ -120,7 +120,7 @@ This request maps to the body of `POST /phenotype/associations` as JSON.
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-  
+
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -212,7 +212,7 @@ This request maps to the body of `POST /phenotype/associations` as JSON.
     A description of the experiment.
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: string
   :field updateDateTime:
@@ -290,7 +290,7 @@ This request maps to the body of `POST /phenotype/associations` as JSON.
   :field description:
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: null|string
   :field updateDateTime:
@@ -502,7 +502,7 @@ This request maps to the body of `POST /phenotype/associations` as JSON.
         large rearrangements at the chromosome level, or relevant epigenetic
         markers.  Relevant genomic feature types are suggested to be
         those typed in the Sequence Ontology (SO).
-    
+
         The feature set can have only one item, and must not be null.
   :type features: array<Feature>
   :field evidence:
@@ -713,15 +713,15 @@ This request maps to the body of `POST /phenotype/associations` as JSON.
   :type pageToken: null|string
 
   This request maps to the body of `POST /genotypephenotype/search` as JSON.
-  
+
   The goal here is to allow users to query using one or more of
   Genotype, Phenotype, Environment, and Evidence.
-  
+
   A query using one of the above items is to mean, by default,
   that the remainder of the query is as a "wildcard", such
   that all matches to just that query term would come back.
   Combinations of the above are to act like AND rather than OR.
-  
+
   The "genotype" part of the query methods can be one or more
   genomic features.  Associations can be made at many
   levels of granularity (from whole genotypes down to individual
@@ -735,7 +735,7 @@ This request maps to the body of `POST /phenotype/associations` as JSON.
   to the BRCA2, all associations to sequence variants of BRCA2 would also
   be returned.  Similarly, queries with OntologyTerms should perform
   the subclass closure.
-  
+
   Each query can be made against a string, an array of external
   identifers (such as for gene or SNP ids), ontology term ids, or
   full feature/phenotype/evidence objects.
@@ -770,4 +770,3 @@ This request maps to the body of `POST /phenotype/associations` as JSON.
       To get the next page of results, set this parameter to the value of
       `nextPageToken` from the previous response.
   :type pageToken: null|string
-

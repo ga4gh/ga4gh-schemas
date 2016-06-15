@@ -1,6 +1,4 @@
-
-#Summary
--------
+# Summary
 
 This API endpoints allows users to search for genotype-phenotype
 associations in a GA4GH datastore. The user can search for associations
@@ -37,7 +35,17 @@ G2P servers planned to be implemented in three different contexts:
 ![image](https://cloud.githubusercontent.com/assets/47808/14397316/8a268b8e-fd91-11e5-907d-441fca3450cb.png)
 
 
+## Approach
+We based our original work on the model captured in [ga4gh/schemas commit of Jul 30, 2015](https://github.com/ga4gh/schemas/tree/be171b00a5f164836dfd40ea5ae75ea56924d316).  This version of the schema predates the [separated genotype to phenotype files from baseline](https://github.com/ga4gh/schemas/commit/846b711fdcf544bf889cc7dbab19c6c48e9a9428).  After on review of the schemas and code, the team had feedback about separation of responsibility in the original API.  The API was refactored to separate the searches for genotype, phenotype, feature and associations.
+
+
 ## Data Model
+
+
+The cancer genome database [Clinical Genomics Knowledge Base](http://nif-crawler.neuinfo.org/monarch/ttl/cgd.ttl) published by the Monarch project was the source of Evidence.
+
+![image](https://cloud.githubusercontent.com/assets/47808/9338065/a0a84b8e-4597-11e5-82ed-65d7b9f3ae97.png)
+
 
 Intent: The GA4GH Ontology schema provides structures for unambiguous
 references to ontological concepts and/or controlled vocabularies within
@@ -58,11 +66,9 @@ and
 
 ##API
 
-The G2P schemas define a several endpoints broken into two entity searches and an association search.   
+The G2P schemas define several endpoints broken into two entity searches and an association search.
 
-A feature or phenotype can potentially be represented in increasing
-specificity as either [a string, an ontology identifier, an external
-identifier, or as a feature 'entity'].  One criticism of the previous API is that it is overloaded, it violates a design goal of separation of concerns.  Specifically it combines the search for evidence with search for features & search for genotypes.
+A feature or phenotype can potentially be represented in increasing specificity as either [a string, an ontology identifier, an external identifier, or as a feature 'entity'].  One criticism of the previous API is that it is overloaded, violating the design goal of separation of concerns.  Specifically it combines the search for evidence with search for features & search for genotypes.
 
 The refactored API move search,alias matching and external identifiers lookup to dedicated end points. To separate concens, a client performs the queries for evidence in two steps: first find the desired entities and then you those enitity identifiers to narrow the search for evidence.
 
@@ -154,11 +160,11 @@ The service returns a list of matching PhenotypeInstances.
 
 #### Examples:Phenotype Lookup
 
-Q: I have a Disease ontology id ("http://www.ebi.ac.uk/efo/EFO_0003767").
+Q: I have a Disease ontology id ("OBO:OMIM_606764").
 
 Use an OntologyTerm.
 ```
-request = { ...  "type": {"id": "http://www.ebi.ac.uk/efo/EFO_0003767"}  .... }
+request = { ...  "type": {"id": "http://purl.obolibrary.org/obo/OMIM_606764"}  .... }
 ```
 The system will respond with phenotypes that match on OntologyTerm.id
 
@@ -195,8 +201,8 @@ Create an PhenotypeQuery using description field.
 ``{"description": "inflammatory bowel disease",...}``
 The system responds with Phenotypes that match on OntologyTerm.description
 Note that you can wildcard description.
-``{"description": "*bowel*",...}``
-
+``{"description": ".*bowel.*",...}``
+[Supported regex](https://www.w3.org/TR/xpath-functions/#regex-syntax)
 
 ___
 

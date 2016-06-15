@@ -5,7 +5,7 @@ This protocol defines annotations on GA4GH genomic sequences It includes two
 types of annotations: continuous and discrete hierarchical.
 
 The discrete hierarchical annotations are derived from the Sequence Ontology
-(SO) and GFF3 work 
+(SO) and GFF3 work
 
    http://www.sequenceontology.org/gff3.shtml
 
@@ -64,7 +64,7 @@ core generic record which corresponds to the a GFF3 record.
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-  
+
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -156,7 +156,7 @@ core generic record which corresponds to the a GFF3 record.
     A description of the experiment.
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: string
   :field updateDateTime:
@@ -234,7 +234,7 @@ core generic record which corresponds to the a GFF3 record.
   :field description:
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: null|string
   :field updateDateTime:
@@ -339,4 +339,3 @@ core generic record which corresponds to the a GFF3 record.
   :field info:
     Remaining structured metadata key-value pairs.
   :type info: map<array<string>>
-

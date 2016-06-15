@@ -79,7 +79,7 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-  
+
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -171,7 +171,7 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
     A description of the experiment.
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: string
   :field updateDateTime:
@@ -249,7 +249,7 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   :field description:
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: null|string
   :field updateDateTime:
@@ -461,7 +461,7 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
         large rearrangements at the chromosome level, or relevant epigenetic
         markers.  Relevant genomic feature types are suggested to be
         those typed in the Sequence Ontology (SO).
-    
+
         The feature set can have only one item, and must not be null.
   :type features: array<Feature>
   :field evidence:
@@ -486,4 +486,3 @@ Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
   The instance of association allows us to link a feature to a phenotype,
   multiple times, each bearing potentially different levels of confidence,
   such as resulting from alternative experiments and analysis.
-

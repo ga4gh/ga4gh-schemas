@@ -1,51 +1,40 @@
-
 @namespace("org.ga4gh.methods")
 /**
-This protocol defines genotype to phenotype association
-query system.
-
-Suggested ontologies used in type-based queries include:
-
-Phenotype:
-Human Phenotype Ontology (HPO): http://www.ontobee.org/browser/index.php?o=hp
-Disease Ontology (DO): http://purl.obolibrary.org/obo/DOID_4
-
-Feature:
-Sequence Ontology (SO): http://www.sequenceontology.org/browser/
-
-Evidence:
-Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
-Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
+   This protocol defines genotype to phenotype association
+   query system.
+   Suggested ontologies used in type-based queries include:
+   Phenotype:
+   Human Phenotype Ontology (HPO): http://www.ontobee.org/browser/index.php?o=hp
+   Disease Ontology (DO): http://purl.obolibrary.org/obo/DOID_4
+   Feature:
+   Sequence Ontology (SO): http://www.sequenceontology.org/browser/
+   Evidence:
+   Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
+   Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
 */
 protocol GenotypePhenotypeMethods {
-
-
-import idl "genotypephenotype.avdl";
-import idl "methods.avdl";
-import idl "common.avdl";
-
+    import idl "genotypephenotype.avdl";
+    import idl "methods.avdl";
+    import idl "common.avdl";
 /******************  /phenotypeassociationsets/search  *********************/
 /** This request maps to the body of `POST /phenotypeassociationsets/search` as JSON. */
-record SearchPhenotypeAssociationSetsRequest {
-  /**
-  The `Dataset` to search.
-  */
-  string datasetId;
-
-  /**
-  Specifies the maximum number of results to return in a single page.
-  If unspecified, a system default will be used.
-  */
-  union { null, int } pageSize = null;
-
-  /**
-  The continuation token, which is used to page through large result sets.
-  To get the next page of results, set this parameter to the value of
-  `nextPageToken` from the previous response.
-  */
-  union { null, string } pageToken = null;
-}
-
+    record SearchPhenotypeAssociationSetsRequest {
+        /**
+           The `Dataset` to search.
+        */
+        string datasetId;
+        /**
+           Specifies the maximum number of results to return in a single page.
+           If unspecified, a system default will be used.
+        */
+        union { null, int } pageSize = null;
+        /**
+           The continuation token, which is used to page through large result sets.
+           To get the next page of results, set this parameter to the value of
+           `nextPageToken` from the previous response.
+        */
+        union { null, string } pageToken = null;
+    }
 /** This is the response from `POST /phenotypeassociationsets/search` expressed as JSON. */
 record SearchPhenotypeAssociationSetsResponse {
 
@@ -61,16 +50,14 @@ record SearchPhenotypeAssociationSetsResponse {
 }
 
 /**
-Gets a list of `PhenotypeAssociationSet`s matching the search criteria.
-
-`POST /phenotypeassociationsets/search` must accept a JSON version of
-`SearchPhenotypeAssociationSetsRequest` as the post body and will return a JSON version
-of `SearchPhenotypeAssociationSetsResponse`.
+   Gets a list of `PhenotypeAssociationSet`s matching the search criteria.
+   `POST /phenotypeassociationsets/search` must accept a JSON version of
+   `SearchPhenotypeAssociationSetsRequest` as the post body and will return a JSON version
+   of `SearchPhenotypeAssociationSetsResponse`.
 */
 SearchPhenotypeAssociationSetsResponse searchPhenotypeAssociationSets(
   /** This request maps to the body of `POST /phenotypeassociationsets/search` as JSON. */
   SearchPhenotypeAssociationSetsRequest request) throws GAException;
-
 
 /******************  /phenotypes/search  *********************/
 
@@ -91,7 +78,7 @@ record ExternalIdentifierQuery {
 }
 
 /**
-Evidence for the phenotype association.
+   Evidence for the phenotype association.
 */
 record EvidenceQuery {
   /** ECO or OBI is recommended */
@@ -173,9 +160,9 @@ record SearchGenotypesRequest {
   This is similar to FeatureQuery  '/features/search' served by Sequence Annotations
   But is intended to be served from the G2P knowledgebase
   */
-  union { null, string } id; 
-  union { null, string } name; /* regex */
-  union { null, string } referenceName;
+  union { null, string } id;
+  union { null, string } name; /* regex TODO - do we need both name and referenceName?*/
+  union { null, string } referenceName; /* regex */
   union { null, long } start;
   union { null, long } end;
   union { null, org.ga4gh.models.Strand } strand;

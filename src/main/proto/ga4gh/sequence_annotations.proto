@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/common.proto";
+import "ga4gh/metadata.proto";
+import "google/protobuf/struct.proto";
+
+/*
+This protocol defines annotations on GA4GH genomic sequences It includes two
+types of annotations: continuous and discrete hierarchical.
+
+The discrete hierarchical annotations are derived from the Sequence Ontology
+(SO) and GFF3 work
+
+   http://www.sequenceontology.org/gff3.shtml
+
+The goal is to be able to store annotations using the GFF3 and SO conceptual
+model, although there is not necessarly a one-to-one mapping in Avro records
+to GFF3 records.
+
+The minimum requirement is to be able to accurately represent the current
+state of the art annotation data and the full SO model.  Feature is the
+core generic record which corresponds to the a GFF3 record.
+*/
+
+// Type defining a collection of attributes associated with various protocol
+// records. Each attribute is a name that maps to an array of one or more
+// values. Values can be strings, external identifiers, or ontology terms Values
+// should be split into the array elements instead of using a separator syntax
+// that needs to parsed.
+message Attributes {
+  message AttributeValue {
+    oneof value {
+      string string_value = 1;
+      ExternalIdentifier external_identifier = 2;
+      OntologyTerm ontology_term = 3;
+    }
+  }
+  message AttributeValueList {
+    repeated AttributeValue values = 1;
+  }
+  map<string, AttributeValueList> vals = 1;
+}
+
+// Node in the annotation graph that annotates a contiguous region of a
+// sequence.
+message Feature {
+  // Id of this annotation node.
+  string id = 1;
+
+  // Parent Id of this node. Set to empty string if node has no parent.
+  string parent_id = 2;
+
+  // Ordered array of Child Ids of this node. Since not all child nodes are
+  // ordered by genomic coordinates, this can't always be reconstructed from
+  // parent_id's of the children alone.
+  repeated string child_ids = 3;
+
+  // Identifier for the containing feature set.
+  string feature_set_id = 4;
+
+  // The reference on which this feature occurs (e.g. `chr20` or `X`).
+  string reference_name = 5;
+
+  // The start position at which this feature occurs (0-based). This
+  // corresponds to the first base of the string of reference bases. Genomic
+  // positions are non-negative integers less than reference length. Features
+  // spanning the join of circular genomes are represented as two features one
+  // on each side of the join (position 0).
+  int64 start = 6;
+
+  // The end position (exclusive), resulting in [start, end) closed-open
+  // interval. This is typically calculated by `start +
+  // reference_bases.length`.
+  int64 end = 7;
+
+  // The strand on which the feature is present.
+  Strand strand = 8;
+
+  // Feature that is annotated by this region.  Normally, this will be a term
+  // in the Sequence Ontology.
+  OntologyTerm feature_type = 9;
+
+  // Name/value attributes of the annotation.  Attribute names follow the GFF3
+  // naming convention of reserved names starting with an upper cases character,
+  // and user-define names start with lower-case.  Most GFF3 pre-defined
+  // attributes apply, the exceptions are ID and Parent, which are defined as
+  // fields. Additional, the following attributes are added:
+  //   * Score - the GFF3 score column
+  //   * Phase - the GFF3 phase column for CDS features.
+  Attributes attributes = 10;
+}
+
+// A set of sequence features annotations.
+message FeatureSet {
+  // The ID of this annotation set.
+  string id = 1;
+
+  // The ID of the dataset this annotation set belongs to.
+  string dataset_id = 2;
+
+  // The ID of the reference set which defines the coordinate-space for this
+  // set of annotations.
+  string reference_set_id = 3;
+
+  // The display name for this annotation set.
+  string name = 4;
+
+  // The source URI describing the file from which this annotation set was
+  // generated, if any.
+  string source_uri = 5;
+
+  // Remaining structured metadata key-value pairs.
+  map<string, google.protobuf.ListValue> info = 6;
+}
