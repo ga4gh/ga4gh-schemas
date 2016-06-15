@@ -3,6 +3,7 @@ target
 *~
 #*
 doc/source/schemas/*.proto.rst
+doc/source/schemas/build.rst
 build
 
 #********** windows template**********

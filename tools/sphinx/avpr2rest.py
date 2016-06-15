@@ -64,8 +64,7 @@ if __name__ == '__main__':
       output += " .. function:: %s(%s)\n\n" % (message_name,
                                                ', '.join(param_names))
       for param in request:
-        output += "  :param %s: %s: %s\n" % (param['name'], param['type'],
-                                             param['doc'])
+        output += "  :param %s: %s\n" % (param['name'], param['type'])
       output += "  :return type: %s\n" % response
       output += "  :throws: %s\n\n" % ', '.join(errors)
       output += cleanup_doc(doc)
@@ -150,8 +149,7 @@ if __name__ == '__main__':
       output += " .. function:: %s(%s)\n\n" % (message_name,
                                                ', '.join(param_names))
       for param in request:
-        output += "  :param %s: %s: %s\n" % (param['name'], param['type'],
-                                             param['doc'])
+        output += "  :param %s: %s\n" % (param['name'], param['type'])
       output += "  :return type: %s\n" % response
       output += "  :throws: %s\n\n" % ', '.join(errors)
       output += cleanup_doc(doc)

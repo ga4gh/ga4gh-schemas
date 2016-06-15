@@ -163,7 +163,6 @@ def generate_code(request, response):
                         "request": [{
                             "name": "request",
                             "type": m.input_type[1:],
-                            "doc": ''
                         }],
                         "response": m.output_type[1:],
                         "errors" : [ "GAException" ]
