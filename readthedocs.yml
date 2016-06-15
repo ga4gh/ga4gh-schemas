@@ -1,4 +1,4 @@
 conda:
-    file: environment.yml
-     channels:
-         - ioos
+  file: environment.yml
+  channels:
+    - ioos
