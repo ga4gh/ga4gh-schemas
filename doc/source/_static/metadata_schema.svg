@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+	width="280"
+	height="1017"
+	xmlns:dc="http://purl.org/dc/elements/1.1/">
+<defs>
+  <style type="text/css">
+   <![CDATA[
+    text {
+        font-family: Helvetica,Arial;
+        font-size: 10pt;
+    }
+    rect {
+    	fill:		rgb(255,255,255);
+    	stroke:	rgb(0,0,0);
+    	stroke-width:			1;
+    }
+    line {
+    	fill:		rgb(255,255,255);
+    	stroke:	rgb(0,0,0);
+    	stroke-width:		1;
+		}
+   	path {
+    	fill:		rgb(255,255,255);
+    	stroke:	rgb(0,0,0);
+    	stroke-width:		1;
+    }
+   ]]>
+  </style>
+
+  <marker id="circle" markerWidth="20"  orient="auto"  markerHeight="20"  refx="14" refy="10">
+    <circle cx="10" cy="10" r="4" stroke="black" fill="white"/>
+  </marker>
+
+  <path id="arrow" d="M-2,0 l4,-5 l0,10 l-4,-5" stroke="black" fill="white" />
+
+ </defs>
+
+<rect x="20" y="20" width="160" height="25" />
+<text transform="translate(40 20)" ><tspan x="0" dy="18" font-weight="900">Individual</tspan>
+</text>
+<rect x="20" y="45" width="160" height="154" />
+<text transform="translate(40 45)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">created</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">sex</tspan><tspan 	x="0" dy="18">species</tspan><tspan 	x="0" dy="18">updated</tspan></text>
+<rect x="20" y="219" width="160" height="25" />
+<text transform="translate(40 219)" ><tspan x="0" dy="18" font-weight="900">BioSample</tspan>
+</text>
+<rect x="20" y="244" width="160" height="154" />
+<text transform="translate(40 244)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">created</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">disease</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">individualId</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">updated</tspan></text>
+<rect x="20" y="418" width="160" height="25" />
+<text transform="translate(40 418)" ><tspan x="0" dy="18" font-weight="900">Experiment</tspan>
+</text>
+<rect x="20" y="443" width="160" height="298" />
+<text transform="translate(40 443)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">created</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">info</tspan><tspan 	x="0" dy="18">instrumentDataFile</tspan><tspan 	x="0" dy="18">instrumentModel</tspan><tspan 	x="0" dy="18">library</tspan><tspan 	x="0" dy="18">libraryLayout</tspan><tspan 	x="0" dy="18">molecule</tspan><tspan 	x="0" dy="18">name</tspan><tspan 	x="0" dy="18">platformUnit</tspan><tspan 	x="0" dy="18">runTime</tspan><tspan 	x="0" dy="18">selection</tspan><tspan 	x="0" dy="18">sequencingCenter</tspan><tspan 	x="0" dy="18">strategy</tspan><tspan 	x="0" dy="18">updated</tspan></text>
+<rect x="20" y="761" width="160" height="25" />
+<text transform="translate(40 761)" ><tspan x="0" dy="18" font-weight="900">Dataset</tspan>
+</text>
+<rect x="20" y="786" width="160" height="64" />
+<text transform="translate(40 786)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan 	x="0" dy="18">description</tspan><tspan 	x="0" dy="18">name</tspan></text>
+<line stroke-dasharray="5, 5"
+x1="20"
+y1="870"
+x2="180"
+y2="870"
+/>
+<rect x="20" y="890" width="160" height="25" />
+<text transform="translate(40 890)" ><tspan x="0" dy="18" font-weight="900">OtherGA4GHobject</tspan>
+</text>
+<rect x="20" y="915" width="160" height="82" />
+<text transform="translate(40 915)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">bioSampleId</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">datasetId</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">experimentId</tspan></text>
+<path d="
+M180,55
+L230,55
+L230,329
+L180,329"
+style="fill: none;  "
+
+/>
+<use xlink:href="#arrow" x="205" y="55" />
+<use xlink:href="#arrow" x="205" y="329"
+transform="rotate(180 205 329)" />
+
+<path d="
+M180,258
+L235,258
+L235,946
+L180,946"
+style="fill: none;  "
+
+/>
+<use xlink:href="#arrow" x="207.5" y="258" />
+<use xlink:href="#arrow" x="207.5" y="946"
+transform="rotate(180 207.5 946)" />
+
+<path d="
+M180,455
+L210,455
+L210,982
+L180,982"
+style="fill: none;  "
+
+/>
+<use xlink:href="#arrow" x="195" y="455" />
+<use xlink:href="#arrow" x="195" y="982"
+transform="rotate(180 195 982)" />
+
+<path d="
+M180,796
+L185,796
+L185,964
+L180,964"
+style="fill: none;  "
+
+/>
+<use xlink:href="#arrow" x="182.5" y="796" />
+<use xlink:href="#arrow" x="182.5" y="964"
+transform="rotate(180 182.5 964)" />
+
+</svg>
