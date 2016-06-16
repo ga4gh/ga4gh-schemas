@@ -149,7 +149,7 @@ message SearchPhenotypesRequest {
 }
 
 // This is the response from `POST /phenotypes/search` expressed as JSON.
-message SearchPhenotypeResponse {
+message SearchPhenotypesResponse {
     // The list of matching PhenotypeInstances.
     repeated PhenotypeInstance phenotypes = 1;
 
