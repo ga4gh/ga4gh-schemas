@@ -20,6 +20,7 @@ def convert_protodef_to_editable(proto):
                 self.field = [convert_protodef_to_editable(x) for x in prot.field]
                 self.enum_type = [convert_protodef_to_editable(x) for x in prot.enum_type]
                 self.nested_type = prot.nested_type
+                self.oneof_decl = prot.oneof_decl
             elif isinstance(prot, EnumValueDescriptorProto):
                 self.number = prot.number
             elif isinstance(prot, FieldDescriptorProto):
@@ -51,7 +52,6 @@ def traverse(proto_file):
                 comments = tree[item_index]
                 if "leading_comments" in comments or "trailing_comments" in comments:
                     item.comment = _collapse_comments(comments)
-                    #raise Exception, item.__dict__
                     del comments["leading_comments"]
                     del comments["trailing_comments"]
                 if item.kind is EnumDescriptorProto:
@@ -153,6 +153,13 @@ def generate_code(request, response):
                         'type': kind,
                         'doc': f.comment
                         })
+                if len(item.oneof_decl) > 0:
+                    data["fields"] = [
+                        {
+                            "name": item.oneof_decl[0].name,
+                            "type": [" %s "% x["type"] for x in data["fields"]],
+                            "doc": ", ".join([x["doc"] for x in data["fields"] if x["doc"] != ""])
+                        }]
                 types.append(data)
             elif item.kind == EnumDescriptorProto:
                 comments = ["\n* `%s`: %s"%(v.name, v.comment) for v in item.value]
