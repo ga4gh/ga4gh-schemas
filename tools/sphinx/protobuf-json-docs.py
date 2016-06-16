@@ -1,4 +1,14 @@
 #!/usr/bin/env python
+"""
+Plugin for generation of Sphinx-suitable JSON from Protobuf definitions
+It's a plugin for protoc as per https://developers.google.com/protocol-buffers/docs/reference/other
+
+Usage:
+     protoc --plugin=protoc-gen-custom=<script path>/protobuf-json-docs.py <proto file>
+
+The JSON output can then be interpreted by protobufdomain.py to make RST files for Sphinx
+
+"""
 
 import sys
 import collections
@@ -9,9 +19,14 @@ import json
 from google.protobuf.descriptor_pb2 import DescriptorProto, EnumDescriptorProto, EnumValueDescriptorProto, FieldDescriptorProto, ServiceDescriptorProto, MethodDescriptorProto
 
 def simplify_name(name):
+    "Remove all the namespace information to make short names for Sphinx"
     return name.split(".")[-1]
 
 def convert_protodef_to_editable(proto):
+    """
+    Protobuf objects can't have arbitrary fields addedd and we need to later on
+    add comments to them, so we instead make "Editable" objects that can do so
+    """
     class Editable(object):
         def __init__(self, prot):
             self.kind = type(prot)
@@ -43,7 +58,11 @@ def convert_protodef_to_editable(proto):
     return Editable(proto)
 
 def traverse(proto_file):
-
+    """
+    proto_file is a FileDescriptorProto from protoc. We walk the SourceCodeInfo
+    in this file, and find all the comments, and return a flattened out tree
+    of all the messages and enums
+    """
     def _collapse_comments(comments):
         return '\n'.join(
             [c.strip() for c in (comments["leading_comments"] + comments["trailing_comments"]).split('\n')])
@@ -114,6 +133,9 @@ def traverse(proto_file):
     }
 
 def type_to_string(f, map_types):
+    """
+    Convert type info to pretty names, based on numbers from from FieldDescriptorProto
+    """
     if f.type in [1]:
         return "double"
     elif f.type in [2]:
@@ -135,8 +157,6 @@ def type_to_string(f, map_types):
                 "key": " %s "% type_to_string(ref_fields["key"], map_types),
                 "value": " %s "% type_to_string(ref_fields["value"], map_types)
             }
-        elif ref_name.find("InfoEntry") != -1:
-            raise Exception, (f.__dict__, ref_name)
         else:
             kind = ":protobuf:message:`%s`" % simplify_name(f.ref_type)
             if f.label == 3: # LABEL_REPEATED
@@ -149,6 +169,10 @@ def type_to_string(f, map_types):
         raise Exception, f.type
 
 def generate_code(request, response):
+    """
+    Core function. Starts from a CodeGeneratorRequest and adds files to
+    a CodeGeneratorResponse
+    """
     for proto_file in request.proto_file:
         types = []
         messages = {}
@@ -174,7 +198,7 @@ def generate_code(request, response):
                     'type': 'message',
                     'fields': []
                 })
-                for f in item.field: # types from FieldDescriptorProto
+                for f in item.field:
                     kind = type_to_string(f, map_types)
                     data["fields"].append({
                         'name': f.name,
@@ -186,7 +210,7 @@ def generate_code(request, response):
                         {
                             "name": item.oneof_decl[0].name,
                             "type": [" %s "% x["type"] for x in data["fields"]],
-                            "doc": ", ".join([x["doc"] for x in data["fields"] if x["doc"] != ""])
+                            "doc": "\n".join(["%s: %s"%(x["type"],x["doc"]) for x in data["fields"] if x["doc"] != ""])
                         }]
                 types.append(data)
             elif item.kind == EnumDescriptorProto:

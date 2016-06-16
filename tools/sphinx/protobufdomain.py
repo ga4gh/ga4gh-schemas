@@ -3,7 +3,7 @@
     protobufdomain
     ~~~~~~~~~~
 
-    Protobuf domain.
+    Protobuf Sphinx domain.
 """
 
 __version__ = "0.1"

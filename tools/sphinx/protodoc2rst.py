@@ -10,7 +10,7 @@ def cleanup_doc(doc,indent=0):
 
 def get_file_locations():
   parser = argparse.ArgumentParser()
-  parser.add_argument('input', help='Input AVPR filename(s)', nargs='+')
+  parser.add_argument('input', help='Input Protobuf JSON filename(s)', nargs='+')
   parser.add_argument('output', help='Output directory')
   args = parser.parse_args()
   return (args.input, args.output)
@@ -35,15 +35,15 @@ def typename(typeobject):
 
 if __name__ == '__main__':
 
-  avpr_filenames, rest_directory = get_file_locations()
+  json_filenames, rest_directory = get_file_locations()
 
-  for avpr_filename in avpr_filenames:
-    base_filename = os.path.basename(avpr_filename)
+  for json_filename in json_filenames:
+    base_filename = os.path.basename(json_filename)
     name = os.path.splitext(base_filename)[0]
 
     rest_filename = os.path.join(rest_directory, name+'.rst')
 
-    with open(avpr_filename,'r') as f:
+    with open(json_filename,'r') as f:
       data = json.load(f)
 
     output = data['protocol'] + '\n'
