@@ -14,6 +14,7 @@ def convert_protodef_to_editable(proto):
             self.kind = type(prot)
             self.name = prot.name
             self.comment = ""
+            self.options = dict([(key.name, value) for (key, value) in prot.options.ListFields()])
             if isinstance(prot, EnumDescriptorProto):
                 self.value = [convert_protodef_to_editable(x) for x in prot.value]
             elif isinstance(prot, DescriptorProto):
@@ -102,13 +103,46 @@ def traverse(proto_file):
         raise Exception, sorted(tree.keys())
 
     return {"types":
-        itertools.chain(
+        list(itertools.chain(
             _traverse(proto_file.package, proto_file.service, tree[6]), # 5 is enum_type in FileDescriptorProto
             _traverse(proto_file.package, proto_file.enum_type, tree[5]), # 5 is enum_type in FileDescriptorProto
             _traverse(proto_file.package, proto_file.message_type, tree[4]), # 4 is message_type in FileDescriptorProto
-        ),
+        )),
         "file": ["".join(x.leading_detached_comments) for x in proto_file.source_code_info.location if len(x.leading_detached_comments) > 0]
     }
+
+def type_to_string(f, package, map_types):
+    if f.type in [1]:
+        return "double"
+    elif f.type in [2]:
+        return "float"
+    elif f.type in [3]:
+        return "long"
+    elif f.type in [5]:
+        return "integer"
+    elif f.type in [8]:
+        return "boolean"
+    elif f.type in [9]:
+        return "string"
+    elif f.type in [11, 14]:
+        ref_name = (package + "." + f.ref_type)
+        if ref_name in map_types:
+            ref_fields = map_types[ref_name]
+            return {
+                "type": "map",
+                "key": " %s "% type_to_string(ref_fields["key"], package, map_types),
+                "value": " %s "% type_to_string(ref_fields["value"], package, map_types)
+                }
+        else:
+            kind = ":avro:message:`%s`" % f.ref_type
+            if f.label == 3: # LABEL_REPEATED
+                return "list of " + kind
+            else:
+                return kind
+    elif f.type in [12]:
+        return "bytes"
+    else:
+        raise Exception, f.type
 
 def generate_code(request, response):
     for proto_file in request.proto_file:
@@ -116,9 +150,19 @@ def generate_code(request, response):
         messages = {}
 
         results = traverse(proto_file)
+        map_types = {}
+        def full_name(package, item):
+            return "%s.%s" % (package, item.name)
         for item, package in results["types"]:
+            if item.options.has_key("map_entry"):
+                map_types[full_name(package, item)] = dict([(x.name,x) for x in item.field])
+        for item, package in results["types"]:
+            name = full_name(package, item)
+            if name in map_types:
+                continue
+                pass
             data = {
-                'name': (package + "." + item.name).replace("ga4gh.", ""),
+                'name': name.replace("ga4gh.", ""),
                 'doc': item.comment
             }
 
@@ -128,26 +172,7 @@ def generate_code(request, response):
                     'fields': []
                 })
                 for f in item.field: # types from FieldDescriptorProto
-                    if f.type in [1]:
-                        kind = "double"
-                    elif f.type in [2]:
-                        kind = "float"
-                    elif f.type in [3]:
-                        kind = "long"
-                    elif f.type in [5]:
-                        kind = "integer"
-                    elif f.type in [8]:
-                        kind = "boolean"
-                    elif f.type in [9]:
-                        kind = "string"
-                    elif f.type in [11, 14]:
-                        kind = ":avro:message:`%s`" % f.ref_type
-                        if f.label == 3: # LABEL_REPEATED
-                            kind = "list of " + kind
-                    elif f.type in [12]:
-                        kind = "bytes"
-                    else:
-                        raise Exception, f.type
+                    kind = type_to_string(f, package, map_types)
                     data["fields"].append({
                         'name': f.name,
                         'type': kind,

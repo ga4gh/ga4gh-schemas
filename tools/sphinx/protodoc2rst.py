@@ -21,7 +21,9 @@ def typename(typeobject):
     if typeobject['type'] == 'array':
       return 'array<%s>' % typename(typeobject['items'])
     elif typeobject['type'] == 'map':
-      return 'map<%s>' % typename(typeobject['values'])
+      return 'map<%s, %s>' % (typename(typeobject['key']), typename(typeobject['value']))
+    else:
+      raise Exception, "Unsupported type object: %s" %(typeobject['type'])
 
   elif isinstance(typeobject, basestring):
     return typeobject
