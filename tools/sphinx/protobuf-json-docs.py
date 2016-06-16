@@ -138,7 +138,7 @@ def type_to_string(f, map_types):
         elif ref_name.find("InfoEntry") != -1:
             raise Exception, (f.__dict__, ref_name)
         else:
-            kind = ":avro:message:`%s`" % simplify_name(f.ref_type)
+            kind = ":protobuf:message:`%s`" % simplify_name(f.ref_type)
             if f.label == 3: # LABEL_REPEATED
                 return "list of " + kind
             else:
@@ -203,10 +203,10 @@ def generate_code(request, response):
                         "doc": m.comment,
                         "request": [{
                             "name": "request",
-                            "type": ":avro:message:`%s`" % simplify_name(m.input_type),
+                            "type": ":protobuf:message:`%s`" % simplify_name(m.input_type),
                         }],
-                        "response": ":avro:message:`%s`" % simplify_name(m.output_type),
-                        "errors" : [ ":avro:message:`GAException`" ]
+                        "response": ":protobuf:message:`%s`" % simplify_name(m.output_type),
+                        "errors" : [ ":protobuf:message:`GAException`" ]
                     }
             else:
                 raise Exception, item.kind

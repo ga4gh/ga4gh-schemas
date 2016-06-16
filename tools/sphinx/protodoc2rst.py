@@ -73,7 +73,7 @@ if __name__ == '__main__':
       output += "\n\n"
 
     for item in data['types']:
-      output += '.. avro:%s:: %s\n\n' % (item['type'], item['name'])
+      output += '.. protobuf:%s:: %s\n\n' % (item['type'], item['name'])
 
       if item['type'] == 'message':
         for field in item['fields']:

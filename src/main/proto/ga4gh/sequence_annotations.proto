@@ -16,7 +16,7 @@ The discrete hierarchical annotations are derived from the Sequence Ontology
    http://www.sequenceontology.org/gff3.shtml
 
 The goal is to be able to store annotations using the GFF3 and SO conceptual
-model, although there is not necessarly a one-to-one mapping in Avro records
+model, although there is not necessarly a one-to-one mapping in Protobuf messages
 to GFF3 records.
 
 The minimum requirement is to be able to accurately represent the current

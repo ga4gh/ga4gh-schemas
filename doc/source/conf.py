@@ -35,7 +35,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'avrodomain',
+    'protobufdomain',
 ]
 
 base_dir = "../../src/main/proto"
