@@ -21,22 +21,22 @@ import "ga4gh/genotype_phenotype.proto";
 service GenotypePhenotypeService {
     
     rpc SearchPhenotypeAssociationSets(SearchPhenotypeAssociationSetsRequest)
-        return (SearchPhenotypeAssociationSetsResponse);
+        returns (SearchPhenotypeAssociationSetsResponse);
 
     rpc SearchPhenotype(SearchPhenotypesRequest)
-        return (SearchPhenotypesResponse);
+        returns (SearchPhenotypesResponse);
 
     rpc GetFeatureAssociations(SearchGenotypePhenotypeRequest)
-        return (SearchGenotypePhenotypeResponse);
+        returns (SearchGenotypePhenotypeResponse);
 
     rpc GetPhenotypeAssociations(SearchGenotypePhenotypeRequest)
-        return (SearchGenotypePhenotypeResponse);
+        returns (SearchGenotypePhenotypeResponse);
 
     rpc GetGenotypeAssociations(GetEntityGenotypePhenotypeRequest)
-        return (SearchGenotypePhenotypeResponse);
+        returns (SearchGenotypePhenotypeResponse);
 
     rpc GetEnvironmentAssociations(GetEntityGenotypePhenotypeRequest)
-        return (SearchGenotypePhenotypeResponse);
+        returns (SearchGenotypePhenotypeResponse);
 }
 
 /******************  /phenotypeassociationsets/search  *********************/
@@ -157,7 +157,7 @@ message SearchPhenotypeResponse {
 
 /******************  /genotypes/search  *********************/
 
-messsage SearchGenotypesRequest {
+message SearchGenotypesRequest {
     // The `PhenotypeAssociationSet` to search.
   string phenotype_association_set_id = 1;
 
@@ -219,7 +219,7 @@ Each query can be made against a string, an array of external
 identifers (such as for gene or SNP ids), ontology term ids, or
 full feature/phenotype/evidence objects.
 */
-record SearchGenotypePhenotypeRequest {
+message SearchGenotypePhenotypeRequest {
   // The `PhenotypeAssociationSet` to search.
   string phenotype_association_set_id = 1;
 
@@ -240,7 +240,7 @@ record SearchGenotypePhenotypeRequest {
 }
 
 // This is the response from `POST /genotypephenotype/search` expressed as JSON.
-record SearchGenotypePhenotypeResponse {
+message SearchGenotypePhenotypeResponse {
   // The list of matching FeaturePhenotypeAssociation.
     repeated FeaturePhenotypeAssociation associations = 1;
 
@@ -250,7 +250,7 @@ record SearchGenotypePhenotypeResponse {
     string next_page_token = 2;
 }
 
-record GetEntityGenotypePhenotypeRequest {
+message GetEntityGenotypePhenotypeRequest {
 
   // The `PhenotypeAssociationSet` to search.
   string phenotype_association_set_id = 1;
