@@ -45,6 +45,8 @@ if not os.path.exists(json_dir):
 schema_dir = base_dir
 for root, dirs, files in os.walk(schema_dir):
     for f in files:
+        if not f.endswith(".proto"):
+            continue
         fullpath = os.path.join(root, f)
         json_file = f + ".json"
         cmd = "protoc --proto_path %s --plugin=protoc-gen-custom=%s --custom_out=%s %s" % (base_dir, os.path.join(sphinx_path, "protobuf-json-docs.py"), json_dir, fullpath)
