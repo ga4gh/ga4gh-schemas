@@ -8,6 +8,9 @@ import itertools
 import json
 from google.protobuf.descriptor_pb2 import DescriptorProto, EnumDescriptorProto, EnumValueDescriptorProto, FieldDescriptorProto, ServiceDescriptorProto, MethodDescriptorProto
 
+def simplify_name(name):
+    return name.split(".")[-1]
+
 def convert_protodef_to_editable(proto):
     class Editable(object):
         def __init__(self, prot):
@@ -26,7 +29,7 @@ def convert_protodef_to_editable(proto):
                 self.number = prot.number
             elif isinstance(prot, FieldDescriptorProto):
                 if prot.type in [11, 14]:
-                    self.ref_type = prot.type_name.replace(".ga4gh.", "")
+                    self.ref_type = prot.type_name[1:]
                 self.type = prot.type
                 self.label = prot.label
             elif isinstance(prot, ServiceDescriptorProto):
@@ -36,7 +39,6 @@ def convert_protodef_to_editable(proto):
                 self.output_type = prot.output_type
             else:
                 raise Exception, type(prot)
-
 
     return Editable(proto)
 
@@ -111,7 +113,7 @@ def traverse(proto_file):
         "file": ["".join(x.leading_detached_comments) for x in proto_file.source_code_info.location if len(x.leading_detached_comments) > 0]
     }
 
-def type_to_string(f, package, map_types):
+def type_to_string(f, map_types):
     if f.type in [1]:
         return "double"
     elif f.type in [2]:
@@ -125,16 +127,18 @@ def type_to_string(f, package, map_types):
     elif f.type in [9]:
         return "string"
     elif f.type in [11, 14]:
-        ref_name = (package + "." + f.ref_type)
+        ref_name = f.ref_type
         if ref_name in map_types:
             ref_fields = map_types[ref_name]
             return {
                 "type": "map",
-                "key": " %s "% type_to_string(ref_fields["key"], package, map_types),
-                "value": " %s "% type_to_string(ref_fields["value"], package, map_types)
-                }
+                "key": " %s "% type_to_string(ref_fields["key"], map_types),
+                "value": " %s "% type_to_string(ref_fields["value"], map_types)
+            }
+        elif ref_name.find("InfoEntry") != -1:
+            raise Exception, (f.__dict__, ref_name)
         else:
-            kind = ":avro:message:`%s`" % f.ref_type
+            kind = ":avro:message:`%s`" % simplify_name(f.ref_type)
             if f.label == 3: # LABEL_REPEATED
                 return "list of " + kind
             else:
@@ -160,9 +164,8 @@ def generate_code(request, response):
             name = full_name(package, item)
             if name in map_types:
                 continue
-                pass
             data = {
-                'name': name.replace("ga4gh.", ""),
+                'name': simplify_name(name),
                 'doc': item.comment
             }
 
@@ -172,7 +175,7 @@ def generate_code(request, response):
                     'fields': []
                 })
                 for f in item.field: # types from FieldDescriptorProto
-                    kind = type_to_string(f, package, map_types)
+                    kind = type_to_string(f, map_types)
                     data["fields"].append({
                         'name': f.name,
                         'type': kind,
@@ -200,9 +203,9 @@ def generate_code(request, response):
                         "doc": m.comment,
                         "request": [{
                             "name": "request",
-                            "type": ":avro:message:`%s`" % m.input_type.replace(".ga4gh.", ""),
+                            "type": ":avro:message:`%s`" % simplify_name(m.input_type),
                         }],
-                        "response": ":avro:message:`%s`" % m.output_type.replace(".ga4gh.", ""),
+                        "response": ":avro:message:`%s`" % simplify_name(m.output_type),
                         "errors" : [ ":avro:message:`GAException`" ]
                     }
             else:

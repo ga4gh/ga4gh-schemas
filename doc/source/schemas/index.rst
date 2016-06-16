@@ -17,3 +17,4 @@ Schemas
    allele_annotation_service.proto.rst
    sequence_annotations.proto.rst
    sequence_annotation_service.proto.rst
+   struct.proto.rst
