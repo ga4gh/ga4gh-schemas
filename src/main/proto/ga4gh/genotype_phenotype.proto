@@ -2,9 +2,8 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/common.proto";
 import "ga4gh/metadata.proto";
-import "google/protobuf/struct.proto";
+import "ga4gh/sequence_annotations.proto";
 
 /**
 This protocol defines the associations between genotype
