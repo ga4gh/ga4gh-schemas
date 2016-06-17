@@ -55,6 +55,8 @@ for root, dirs, files in os.walk(schema_dir):
 
 for root, dirs, files in os.walk(json_dir):
     for f in files:
+        if not f.endswith(".json"):
+            continue
         cmd = "python %s %s/%s schemas/" %(os.path.join(sphinx_path, "protodoc2rst.py"), root, f)
         print cmd
         subprocess.check_call(cmd, shell=True)
