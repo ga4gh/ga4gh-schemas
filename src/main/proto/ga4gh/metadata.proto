@@ -30,7 +30,7 @@ message OntologyTerm {
 
 // An experimental preparation of a sample.
 message Experiment {
-  // The experiment UUID. This is globally unique.
+  // The experiment ID
   string id = 1;
 
   // The name of the experiment.
