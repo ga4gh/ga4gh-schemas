@@ -24,7 +24,7 @@ data-provider-specified collection of related data of multiple types.
 Logically, it's akin to a folder, where it's up to the provider what
 goes into the folder. Individual data objects are linked by
 `datasetId` fields to `Dataset objects
-<../schemas/metadata.html#avro.Dataset>`_.
+<../schemas/metadata.proto.html#protobuf.Dataset>`_.
 
 Since the grouping of content in a dataset is determined by the data
 provider, users should not make semantic assumptions about that data.
