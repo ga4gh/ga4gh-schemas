@@ -14,8 +14,7 @@ message Individual {
   // context of the server instance.
   string id = 1;
 
-  // The Individual's :ref:`name <apidesign_object_names>`. This is a label or
-  // symbolic identifier for the individual.
+  // The Individual's name. This is a label or symbolic identifier for the individual.
   string name = 2;
 
   // The Individual's description. This attribute contains human readable text.
@@ -64,8 +63,7 @@ message BioSample {
   // context of the server instance.
   string id = 1;
 
-  // The BioSample's :ref:`name <apidesign_object_names>`. This is a label or
-  // symbolic identifier for the biosample.
+  // The BioSample's name This is a label or symbolic identifier for the biosample.
   string name = 2;
 
   // The biosample's description. This attribute contains human readable text.

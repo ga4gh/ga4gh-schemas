@@ -32,11 +32,10 @@ service BioMetadataService {
 // *********************  /individuals ********************************
 // This request maps to the body of `POST /individuals/search` as JSON.
 message SearchIndividualsRequest {
-  // The dataset to search within.
+  // Optionally specify the dataset to search within.
   string dataset_id = 1;
 
-  // Returns Individuals with the given :ref:`name <apidesign_object_names>`
-  // found by case-sensitive string matching.
+  // Returns Individuals with the given name found by case-sensitive string matching.
   string name = 2;
 
   // Specifies the maximum number of results to return in a single page.
@@ -63,11 +62,10 @@ message SearchIndividualsResponse {
 // *********************  /biosamples ********************************
 
 message SearchBioSamplesRequest {
-  // The dataset to search within.
+  // Optionally specify the dataset to search within.
   string dataset_id = 1;
   
-  // Returns BioSamples with the given :ref:`name <apidesign_object_names>`
-  // found by case-sensitive string matching.
+  // Returns BioSamples with the given name found by case-sensitive string matching.
   string name = 2;
   
   // Returns BioSamples for the provided individual ID.
