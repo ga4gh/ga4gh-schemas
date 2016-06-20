@@ -14,11 +14,13 @@
 
 import sys
 import os
+import subprocess
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('../../tools/sphinx'))
+sphinx_path = '../../tools/sphinx'
+sys.path.insert(0, os.path.abspath(sphinx_path))
 
 # -- General configuration ------------------------------------------------
 
@@ -33,8 +35,31 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'avrodomain',
+    'protobufdomain',
 ]
+
+base_dir = "../../src/main/proto"
+json_dir = os.path.join("_build", "json-temp")
+if not os.path.exists(json_dir):
+    os.makedirs(json_dir)
+schema_dir = base_dir
+for root, dirs, files in os.walk(schema_dir):
+    for f in files:
+        if not f.endswith(".proto"):
+            continue
+        fullpath = os.path.join(root, f)
+        json_file = f + ".json"
+        cmd = "protoc --proto_path %s --plugin=protoc-gen-custom=%s --custom_out=%s %s" % (base_dir, os.path.join(sphinx_path, "protobuf-json-docs.py"), json_dir, fullpath)
+        print cmd
+        subprocess.check_call(cmd, shell=True)
+
+for root, dirs, files in os.walk(json_dir):
+    for f in files:
+        if not f.endswith(".json"):
+            continue
+        cmd = "python %s %s/%s schemas/" %(os.path.join(sphinx_path, "protodoc2rst.py"), root, f)
+        print cmd
+        subprocess.check_call(cmd, shell=True)
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-    avrodomain
+    protobufdomain
     ~~~~~~~~~~
 
-    Apache Avro domain.
+    Protobuf Sphinx domain.
 """
 
 __version__ = "0.1"
-# for this module's sphinx doc 
+# for this module's sphinx doc
 release = __version__
 version = release.rsplit('.', 1)[0]
 
@@ -29,7 +29,7 @@ from sphinx.util.docfields import Field, GroupedField, TypedField
 # By default, disable this warning.
 WARN_ABOUT_DUPLICATES = False
 
-avro_sig_regex = re.compile(
+protobuf_sig_regex = re.compile(
   r'''^
       ([^(]*?)       # type
       (\w+)          # name
@@ -37,23 +37,23 @@ avro_sig_regex = re.compile(
       $
    ''', re.X)
 
-class AvroObject(ObjectDescription):
-  """Description of a general Avro object."""
+class ProtobufObject(ObjectDescription):
+  """Description of a general Protobuf object."""
   prefix = None
-  
+
   def handle_signature(self,sig,signode):
     sig = sig.strip()
-    type_name, name, arglist = avro_sig_regex.match(sig).groups()
-    
+    type_name, name, arglist = protobuf_sig_regex.match(sig).groups()
+
     if self.prefix:
       signode += addnodes.desc_annotation(self.prefix+' ', self.prefix+' ')
-    
+
     if type_name:
       signode += addnodes.desc_type(type_name, type_name)
-    
+
     if name:
       signode += addnodes.desc_name(name,name)
-    
+
     if arglist:
       paramlist = addnodes.desc_parameterlist()
       for arg in arglist.split(','):
@@ -63,64 +63,64 @@ class AvroObject(ObjectDescription):
         param += nodes.emphasis(' '+argname,' '+argname)
         paramlist += param
       signode += paramlist
-    
+
     return name
-  
+
   def get_index_text(self,name):
     if self.objtype == 'fixed':
-      return _('%s (Avro fixed-width value)') % name
+      return _('%s (Protobuf fixed-width value)') % name
     if self.objtype == 'enum':
-      return _('%s (Avro enum)') % name
-    if self.objtype == 'record':
-      return _('%s (Avro record)') % name
+      return _('%s (Protobuf enum)') % name
+    if self.objtype == 'message':
+      return _('%s (Protobuf message)') % name
     if self.objtype == 'error':
-      return _('%s (Avro error)') % name
+      return _('%s (Protobuf error)') % name
     if self.objtype == 'rpc':
-      return _('%s (Avro RPC)') % name
-  
+      return _('%s (Protobuf RPC)') % name
+
   def add_target_and_index(self, name, sig, signode):
-    targetname = 'avro.' + name
+    targetname = 'protobuf.' + name
     if targetname not in self.state.document.ids:
       signode['names'].append(targetname)
       signode['ids'].append(targetname)
       signode['first'] = (not self.names)
       self.state.document.note_explicit_target(signode)
-      objects = self.env.domaindata['avro']['objects']
+      objects = self.env.domaindata['protobuf']['objects']
       if name in objects and WARN_ABOUT_DUPLICATES:
-        self.state_machine.reporter.warning('duplicate Avro object description of %s.' % name, line=self.lineno)
+        self.state_machine.reporter.warning('duplicate Protobuf object description of %s.' % name, line=self.lineno)
       objects[name] = (self.env.docname, self.objtype)
-    
+
     indextext = self.get_index_text(name)
     if indextext:
       self.indexnode['entries'].append(('single',indextext,targetname,''))
 
-class AvroFixedField(AvroObject):
+class ProtobufFixedField(ProtobufObject):
   prefix = 'fixed'
   doc_field_types = [
     Field('size', label=l_('Size'),
           names=('size',))
   ]
 
-class AvroEnum(AvroObject):
+class ProtobufEnum(ProtobufObject):
   prefix = 'enum'
   doc_field_types = [
     Field('symbols', label=l_('Symbols'),
           names=('symbols',))
   ]
 
-class AvroRecord(AvroObject):
-  prefix = 'record'
+class ProtobufMessage(ProtobufObject):
+  prefix = 'message'
   doc_field_types = [
     TypedField('fields', label=l_('Fields'),
                names=('field','member'),
                typenames=('type',),
-               typerolename='record')
+               typerolename='message')
   ]
 
-class AvroError(AvroRecord):
+class ProtobufError(ProtobufMessage):
   prefix = 'error'
 
-class AvroRPCMessage(AvroObject):
+class ProtobufRPCMessage(ProtobufObject):
   doc_field_types = [
     TypedField('arguments', label=l_('Arguments'),
                names=('argument','arg','param'),
@@ -132,47 +132,47 @@ class AvroRPCMessage(AvroObject):
           names=('returns','return'))
   ]
 
-class AvroDomain(Domain):
-  name = "avro"
-  label = "Apache Avro"
-  
+class ProtobufDomain(Domain):
+  name = "protobuf"
+  label = "Apache Protobuf"
+
   object_types = {
     'fixed':  ObjType(l_('fixed'),  'fixed'),
     'enum':   ObjType(l_('enum'),   'enum'),
-    'record': ObjType(l_('record'), 'record'),
+    'message': ObjType(l_('message'), 'message'),
     'error':  ObjType(l_('error'),  'error'),
     'rpc':    ObjType(l_('rpc'),    'rpc'),
   }
-  
+
   directives = {
-    'fixed':  AvroFixedField,
-    'enum':   AvroEnum,
-    'record': AvroRecord,
-    'error':  AvroError,
-    'rpc':    AvroRPCMessage
+    'fixed':  ProtobufFixedField,
+    'enum':   ProtobufEnum,
+    'message': ProtobufMessage,
+    'error':  ProtobufError,
+    'rpc':    ProtobufRPCMessage
   }
-  
+
   roles = {
     'fixed':  XRefRole(),
     'enum':   XRefRole(),
-    'record': XRefRole(),
+    'message': XRefRole(),
     'error':  XRefRole(),
     'rpc':    XRefRole()
   }
-  
+
   initial_data = {
     'objects': {}
   }
-  
+
   def resolve_xref(self, env, fromdocname, builder, typ, target, node, contnode):
     if target not in self.data['objects']:
       return None
     obj = self.data['objects'][target]
-    return make_refnode(builder, fromdocname, obj[0], 'avro.' + target, contnode, target)
-  
+    return make_refnode(builder, fromdocname, obj[0], 'protobuf.' + target, contnode, target)
+
   def get_objects(self):
     for refname, (docname, type) in list(self.data['objects'].items()):
-      yield (refname, refname, type, docname, 'avro.' + refname, 1)
+      yield (refname, refname, type, docname, 'protobuf.' + refname, 1)
 
 def setup(app):
-  app.add_domain(AvroDomain)
+  app.add_domain(ProtobufDomain)

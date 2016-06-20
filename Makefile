@@ -23,12 +23,8 @@ help:
 # doc/source is the root of the rst files; the ../.. components effectively
 # counter the cd doc/source to place the docs at the schemas root
 .PHONY: docs
-docs: docs-schemas
+docs:
 	cd doc/source; sphinx-build -b html -d ../../${BUILD_DIR}/doctrees . ../../${BUILD_DIR}/html
-
-#=> docs-schema -- generate rst files from avdl
-docs-schemas:
-	make -C doc/source/schemas default
 
 .PHONY: package
 package:
@@ -38,10 +34,7 @@ package:
 .PHONY: clean cleaner cleanest
 clean:
 	find . -regex '.*\(~\|\.bak\)' -print0 | xargs -0r /bin/rm -v
-	make -C doc/source/schemas $@
 cleaner: clean
-	make -C doc/source/schemas $@
 cleanest: cleaner
 	find . -regex '.*\(\.orig\)' -print0 | xargs -0r /bin/rm -v
 	rm -fr target
-	make -C doc/source/schemas $@

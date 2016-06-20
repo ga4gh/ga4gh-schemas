@@ -28,6 +28,12 @@ Metadata Records
 :ref:`Dataset<metadata_dataset>`
 ====================================
 
+All GA4GH data objects are part of a *dataset*. A dataset is a
+data-provider-specified collection of related data of multiple types.
+Logically, it's akin to a folder, where it's up to the provider what
+goes into the folder. Individual data objects are linked by
+`datasetId` fields to `Dataset objects
+<../schemas/metadata.proto.html#protobuf.Dataset>`_.
 
 Common Attribute Names and Formats
 ----------------------------------
