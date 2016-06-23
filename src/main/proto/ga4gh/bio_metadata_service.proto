@@ -21,12 +21,12 @@ service BioMetadataService {
 
   // Gets an `Individual` by ID.
   // `GET /individuals/{id}` will return a JSON version of `Individual`.
-  rpc GetIndividual(SearchIndividualsRequest)
+  rpc GetIndividual(GetIndividualRequest)
       returns (Individual);
 
   // Gets a `BioSample` by ID.
   // `GET /biosamples/{id}` will return a JSON version of `BioSample`.
-  rpc GetBioSample(SearchIndividualsRequest)
+  rpc GetBioSample(GetBioSampleRequest)
       returns (BioSample);
 }
 // *********************  /individuals ********************************
@@ -46,6 +46,18 @@ message SearchIndividualsRequest {
   // To get the next page of results, set this parameter to the value of
   // `nextPageToken` from the previous response.
   string page_token = 4;
+}
+
+// This request maps to the URL `GET /individuals/{individual_id}`.
+message GetIndividualRequest {
+  // The ID of the individual requested
+  string individual_id = 1;
+}
+
+// This request maps to the URL `GET /biosamples/{bio_sample_id}`.
+message GetBioSampleRequest {
+  // The ID of the biosample requested
+  string bio_sample_id = 1;
 }
 
 //This is the response from `POST /individuals/search` expressed as JSON.
