@@ -71,20 +71,6 @@ message SearchPhenotypeAssociationSetsResponse {
 
 /******************  /phenotypes/search  *********************/
 
-
-// Query phenotype. See genotypephenotype.avdl for property explanations.
-message PhenotypeQuery {
-    string id = 1;
-    
-    string description = 2; /* The system should support regular expression matches */
-    
-    OntologyTerm type = 3;
-    
-    repeated OntologyTerm qualifiers = 4;  /* terms should be OR'd together. e.g. (severe OR abnormal) */
-
-    OntologyTerm age_of_on_set = 5;
-}
-
 // One or more ontology terms can be queried together.
 message OntologyTermQuery {
     repeated OntologyTerm terms = 1;
@@ -109,19 +95,27 @@ message EvidenceQuery {
 message SearchPhenotypesRequest {
     // The `PhenotypeAssociationSet` to search.
 
-  string phenotype_association_set_id = 1;
+    string phenotype_association_set_id = 1;
 
-  PhenotypeQuery phenotype = 2;
+    string id = 2;
+    
+    string description = 3; /* The system should support regular expression matches */
+    
+    OntologyTerm type = 4;
+    
+    repeated OntologyTerm qualifiers = 5;  /* terms should be OR'd together. e.g. (severe OR abnormal) */
 
-  // Specifies the maximum number of results to return in a single page.
-  // If unspecified, a system default will be used.
+    OntologyTerm age_of_on_set = 6;
+
+    // Specifies the maximum number of results to return in a single page.
+    // If unspecified, a system default will be used.
   
-  int64 page_size = 3;
+    int64 page_size = 7;
 
-  // The continuation token, which is used to page through large result sets.
-  // To get the next page of results, set this parameter to the value of
-  // `nextPageToken` from the previous response.
-  string page_token = 4;
+    // The continuation token, which is used to page through large result sets.
+    // To get the next page of results, set this parameter to the value of
+    // `nextPageToken` from the previous response.
+    string page_token = 8;
 }
 
 // This is the response from `POST /phenotypes/search` expressed as JSON.
