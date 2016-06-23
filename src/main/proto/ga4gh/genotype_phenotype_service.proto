@@ -106,30 +106,6 @@ message EvidenceQuery {
     repeated ExternalIdentifier external_identifiers = 3; /* new field */
 }
 
-message GenotypeQuery {
-    // This is similar to FeatureQuery  '/features/search' served by Sequence Annotations
-    // But is intended to be served from the G2P knowledgebase
-    string name = 1; /* new field, regex */
-    
-    string description = 2; /* new field,regex */
-    
-    string feature_set_id = 3;
-    
-    string reference_name = 4;
-    
-    int64 start = 5;
-    
-    int64 end = 6;
-    
-    Strand strand = 7;
-    
-    OntologyTerm type = 8; /* new field  */
-    
-    OntologyTerm feature_type = 9;
-    
-    repeated ExternalIdentifier external_identifiers = 10; /* new field */
-}
-
 message SearchPhenotypesRequest {
     // The `PhenotypeAssociationSet` to search.
 
@@ -163,9 +139,23 @@ message SearchPhenotypesResponse {
 
 message SearchGenotypesRequest {
     // The `PhenotypeAssociationSet` to search.
-  string phenotype_association_set_id = 1;
+    string phenotype_association_set_id = 1;
+    
+    string id = 2;
 
-  GenotypeQuery genotype = 2;
+    string name = 3; /* new field, regex */
+    
+    string reference_name = 4;
+    
+    int64 start = 5;
+    
+    int64 end = 6;
+    
+    Strand strand = 7;
+    
+    OntologyTerm feature_type = 9;
+    
+    repeated ExternalIdentifier external_identifiers = 10; /* new field */
 
 
   // Specifies the maximum number of results to return in a single page.
