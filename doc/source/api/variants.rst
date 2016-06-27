@@ -4,7 +4,7 @@
 Variants API
 !!!!!!!!!!!!
 
-See `Variants schema <../schemas/variants.html>`_ for a detailed reference.
+See `Variants schema <../schemas/variants.proto.html>`_ for a detailed reference.
 
 
 Variants Data Model

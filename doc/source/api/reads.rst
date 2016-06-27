@@ -4,7 +4,7 @@
 Reads API
 !!!!!!!!!
 
-See `Reads schema <../schemas/reads.html>`_ for a detailed reference.
+See `Reads schema <../schemas/reads.proto.html>`_ for a detailed reference.
 
 
 Reads Data Model
