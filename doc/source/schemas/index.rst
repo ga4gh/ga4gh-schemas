@@ -5,6 +5,9 @@ Schemas
 
 .. toctree::
    common.proto.rst
+   assay_metadata.proto.rst
+   bio_metadata.proto.rst
+   bio_metadata_service.proto.rst
    metadata.proto.rst
    metadata_service.proto.rst
    reads.proto.rst
