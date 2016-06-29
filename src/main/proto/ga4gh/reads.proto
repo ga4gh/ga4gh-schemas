@@ -8,7 +8,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/common.proto";
-import "ga4gh/metadata.proto";
+import "ga4gh/assay_metadata.proto";
 import "google/protobuf/struct.proto";
 
 // ReadStats can be used to provide summary statistics about read data.
@@ -38,28 +38,30 @@ message ReadGroup {
   // The read group description.
   string description = 4;
 
-  // The sample this read group's data was generated from.
-  // Note: the current API does not have a rigorous definition of sample.
-  // Therefore, this field actually contains an arbitrary string, typically
+  // A name for the sample this read group's data were generated from.
+  // This field contains an arbitrary string, typically
   // corresponding to the SM tag in a BAM file.
-  string sample_id = 5;
+  string sample_name = 5;
+  
+  // The BioSample this read group's data was generated from.
+  string bio_sample_id = 6;
 
   // The experiment used to generate this read group.
-  Experiment experiment = 6;
+  Experiment experiment = 7;
 
   // The predicted insert size of this read group.
-  int32 predicted_insert_size = 7;
+  int32 predicted_insert_size = 8;
 
   // The time at which this read group was created in milliseconds from the
   // epoch.
-  int64 created = 8;
+  int64 created = 9;
 
   // The time at which this read group was last updated in milliseconds
   // from the epoch.
-  int64 updated = 9;
+  int64 updated = 10;
 
   // Statistical data on reads in this read group.
-  ReadStats stats = 10;
+  ReadStats stats = 11;
 
   // Program can be used to track the provenance of how read data was generated.
   message Program {
@@ -78,14 +80,14 @@ message ReadGroup {
     // The version of the program run.
     string version = 5;
   }
-  repeated Program programs = 11;
+  repeated Program programs = 12;
 
   // The ID of the reference set to which the reads in this read group are
   // aligned. Required if there are any read alignments.
-  string reference_set_id = 12;
+  string reference_set_id = 13;
 
   // A map of additional read group information.
-  map<string, google.protobuf.ListValue> info = 13;
+  map<string, google.protobuf.ListValue> info = 14;
 }
 
 // A ReadGroupSet is a logical collection of ReadGroups. Typically one
