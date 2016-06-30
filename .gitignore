@@ -2,7 +2,9 @@
 target
 *~
 #*
-doc/source/schemas/*.avpr
+doc/source/schemas/*.proto.rst
+doc/source/schemas/build.rst
+doc/source/_build/
 build
 
 #********** windows template**********
@@ -72,4 +74,5 @@ target/
 
 #********** IntelliJ files ******
 *.iml
+
 

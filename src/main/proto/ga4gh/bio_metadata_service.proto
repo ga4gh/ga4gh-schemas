@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/bio_metadata.proto";
+
+
+service BioMetadataService {
+  // Gets a list of Individuals accessible through the API.
+  // `POST /individuals/search` must accept a JSON version of
+  // `SearchIndividualsRequest` as the post body and will return a JSON version
+  // of `SearchIndividualsResponse`.
+  rpc SearchIndividuals(SearchIndividualsRequest)
+      returns (SearchIndividualsResponse);
+  
+  // `POST /biosamples/search` must accept a JSON version of
+  // `SearchBioSamplesRequest` as the post body and will return a JSON version
+  // of `SearchBioSamplesResponse`.
+  rpc SearchBioSamples(SearchBioSamplesRequest)
+      returns (SearchBioSamplesResponse);
+
+  // Gets an `Individual` by ID.
+  // `GET /individuals/{id}` will return a JSON version of `Individual`.
+  rpc GetIndividual(GetIndividualRequest)
+      returns (Individual);
+
+  // Gets a `BioSample` by ID.
+  // `GET /biosamples/{id}` will return a JSON version of `BioSample`.
+  rpc GetBioSample(GetBioSampleRequest)
+      returns (BioSample);
+}
+// *********************  /individuals ********************************
+// This request maps to the body of `POST /individuals/search` as JSON.
+message SearchIndividualsRequest {
+  // Optionally specify the dataset to search within.
+  string dataset_id = 1;
+
+  // Returns Individuals with the given name found by case-sensitive string matching.
+  string name = 2;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 3;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `nextPageToken` from the previous response.
+  string page_token = 4;
+}
+
+// This request maps to the URL `GET /individuals/{individual_id}`.
+message GetIndividualRequest {
+  // The ID of the individual requested
+  string individual_id = 1;
+}
+
+// This request maps to the URL `GET /biosamples/{bio_sample_id}`.
+message GetBioSampleRequest {
+  // The ID of the biosample requested
+  string bio_sample_id = 1;
+}
+
+//This is the response from `POST /individuals/search` expressed as JSON.
+message SearchIndividualsResponse {
+  // The list of individuals.
+  repeated Individual individuals = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// *********************  /biosamples ********************************
+
+message SearchBioSamplesRequest {
+  // Optionally specify the dataset to search within.
+  string dataset_id = 1;
+  
+  // Returns BioSamples with the given name found by case-sensitive string matching.
+  string name = 2;
+  
+  // Returns BioSamples for the provided individual ID.
+  string individual_id = 3;
+  
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+  
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `nextPageToken` from the previous response.
+  string page_token = 5;
+}
+
+//This is the response from `POST /biosamples/search` expressed as JSON.
+
+message SearchBioSamplesResponse {
+  // The list of biosamples.
+  repeated BioSample biosamples = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+

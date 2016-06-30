@@ -68,12 +68,8 @@ message CallSet {
   // The call set name.
   string name = 2;
 
-  // The sample this call set's data was generated from.
-  // Note: the current API does not have a rigorous definition of sample.
-  // Therefore, this field actually contains an arbitrary string, typically
-  // corresponding to the sampleId field in the read groups used to generate
-  // this call set.
-  string sample_id = 3;
+  // The BioSample the call set data was generated from.
+  string bio_sample_id = 3;
 
   // The IDs of the variant sets this call set has calls in.
   repeated string variant_set_ids = 4;

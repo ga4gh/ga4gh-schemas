@@ -1,5 +1,5 @@
 PyYAML
-avro
+protobuf==3.0.0b3
 flake8
 humanize
 nose
