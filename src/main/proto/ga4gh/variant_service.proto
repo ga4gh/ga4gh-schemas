@@ -142,16 +142,17 @@ message SearchCallSetsRequest {
   // Only return call sets with this name (case-sensitive, exact match).
   string name = 2;
 
-  // TODO: Add more ways to search by other metadata
+  // Return only call sets generated from the provided BioSample ID.
+  string bio_sample_id = 3;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
-  int32 page_size = 3;
+  int32 page_size = 4;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
   // `next_page_token` from the previous response.
-  string page_token = 4;
+  string page_token = 5;
 }
 
 // This is the response from `POST /callsets/search` expressed as JSON.

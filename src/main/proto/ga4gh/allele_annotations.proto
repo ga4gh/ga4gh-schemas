@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/metadata.proto";
+import "ga4gh/assay_metadata.proto";
 import "google/protobuf/struct.proto";
 
 /*
@@ -133,7 +134,7 @@ message VariantAnnotation {
   string variant_annotation_set_id = 3;
 
   // The time at which this record was created, in ISO 8601 format.
-  string create_date_time = 4;
+  string created = 4;
 
   // The transcript effect annotation for the alleles of this variant. Each
   // one represents the effect of a single allele on a single transcript.
