@@ -2,7 +2,7 @@
 Allele Annotation API
 !!!!!!!!!!!!!!!!!!!!!!
 
-See `Allele Annotation schema <../schemas/alleleAnnotations.html>`_ for a detailed reference.
+See `Allele Annotation schema <../schemas/allele_annotations.proto.html>`_ for a detailed reference.
 
 Introduction
 @@@@@@@@@@@@
