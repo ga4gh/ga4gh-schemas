@@ -59,6 +59,8 @@ Metadata allows organizing all the primary data types.
 
 .. toctree::
    metadata
+   biometadata
+   assaymetadata
 
 
 Allele Annotations
