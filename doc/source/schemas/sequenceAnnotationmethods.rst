@@ -1,9 +1,47 @@
-Reads
-*****
+SequenceAnnotationMethods
+*************************
 
-This file defines the objects used to represent a reads and alignments, most importantly
-ReadGroupSet, ReadGroup, and ReadAlignment.
-See {TODO: LINK TO READS OVERVIEW} for more information.
+ .. function:: searchFeatureSets(request)
+
+  :param request: SearchFeatureSetsRequest: This request maps to the body of `POST /featuresets/search` as JSON.
+  :return type: SearchFeatureSetsResponse
+  :throws: GAException
+
+Gets a list of `FeatureSet` matching the search criteria.
+
+  `POST /featuresets/search` must accept a JSON version of
+  `SearchFeatureSetsRequest` as the post body and will return a JSON version
+  of `SearchFeatureSetsResponse`.
+
+ .. function:: getFeatureSet(id)
+
+  :param id: string: The ID of the `FeatureSet`.
+  :return type: org.ga4gh.models.FeatureSet
+  :throws: GAException
+
+Gets a `FeatureSet` by ID.
+  `GET /featuresets/{id}` will return a JSON version of `FeatureSet`.
+
+ .. function:: getFeature(id)
+
+  :param id: string: The ID of the `Feature`.
+  :return type: org.ga4gh.models.Feature
+  :throws: GAException
+
+Gets a `org.ga4gh.models.Feature` by ID.
+  `GET /features/{id}` will return a JSON version of `Feature`.
+
+ .. function:: searchFeatures(request)
+
+  :param request: SearchFeaturesRequest: This request maps to the body of `POST /features/search` as JSON.
+  :return type: SearchFeaturesResponse
+  :throws: GAException
+
+Gets a list of `Feature` matching the search criteria.
+
+  `POST /features/search` must accept a JSON version of
+  `SearchFeaturesRequest` as the post body and will return a JSON version of
+  `SearchFeaturesResponse`.
 
 .. avro:enum:: Strand
 
@@ -106,6 +144,10 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   A structure for an instance of a CIGAR operation.
   `FIXME: This belongs under Reads (only readAlignment refers to this)`
 
+.. avro:error:: GAException
+
+  A general exception type.
+
 .. avro:record:: OntologyTerm
 
   :field id:
@@ -193,7 +235,7 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
     A map of additional experiment information.
   :type info: map<array<string>>
 
-  An experimental preparation of a `Sample`.
+  An experimental preparation of a sample.
 
 .. avro:record:: Dataset
 
@@ -243,223 +285,173 @@ See {TODO: LINK TO READS OVERVIEW} for more information.
   (e.g. SNVs, copy number variations, methylation status) together with
   information about the methodology used.
 
-.. avro:record:: Program
+.. avro:record:: Attributes
 
-  :field commandLine:
-    The command line used to run this program.
-  :type commandLine: null|string
-  :field id:
-    The user specified ID of the program.
-  :type id: null|string
-  :field name:
-    The name of the program.
-  :type name: null|string
-  :field prevProgramId:
-    The ID of the program run before this one.
-  :type prevProgramId: null|string
-  :field version:
-    The version of the program run.
-  :type version: null|string
+  :field vals:
+  :type vals: map<array<string|ExternalIdentifier|OntologyTerm>>
 
-  Program can be used to track the provenance of how read data was generated.
+  Type defining a collection of attributes associated with various protocol
+    records.  Each attribute is a name that maps to an array of one or more
+    values.  Values can be strings, external identifiers, or ontology terms.
+    Values should be split into the array elements instead of using a separator
+    syntax that needs to parsed.
 
-.. avro:record:: ReadStats
-
-  :field alignedReadCount:
-    The number of aligned reads.
-  :type alignedReadCount: null|long
-  :field unalignedReadCount:
-    The number of unaligned reads.
-  :type unalignedReadCount: null|long
-  :field baseCount:
-    The total number of bases.
-      This is equivalent to the sum of `alignedSequence.length` for all reads.
-  :type baseCount: null|long
-
-  ReadStats can be used to provide summary statistics about read data.
-
-.. avro:record:: ReadGroup
+.. avro:record:: Feature
 
   :field id:
-    The read group ID.
+    Id of this annotation node.
+  :type id: string
+  :field parentId:
+    Parent Id of this node. Set to empty string if node has no parent.
+  :type parentId: string
+  :field childIds:
+    Ordered array of Child Ids of this node.
+        Since not all child nodes are ordered by genomic coordinates,
+        this can't always be reconstructed from parentId's of the children alone.
+  :type childIds: array<string>
+  :field featureSetId:
+    Identifier for the containing feature set.
+  :type featureSetId: string
+  :field referenceName:
+    The reference on which this feature occurs.
+        (e.g. `chr20` or `X`)
+  :type referenceName: string
+  :field start:
+    The start position at which this feature occurs (0-based).
+        This corresponds to the first base of the string of reference bases.
+        Genomic positions are non-negative integers less than reference length.
+        Features spanning the join of circular genomes are represented as
+        two features one on each side of the join (position 0).
+  :type start: long
+  :field end:
+    The end position (exclusive), resulting in [start, end) closed-open interval.
+        This is typically calculated by `start + referenceBases.length`.
+  :type end: long
+  :field strand:
+    The strand on which the feature is present.
+  :type strand: Strand
+  :field featureType:
+    Feature that is annotated by this region.  Normally, this will be a term in
+        the Sequence Ontology.
+  :type featureType: OntologyTerm
+  :field attributes:
+    Name/value attributes of the annotation.  Attribute names follow the GFF3
+        naming convention of reserved names starting with an upper cases
+        character, and user-define names start with lower-case.  Most GFF3
+        pre-defined attributes apply, the exceptions are ID and Parent, which are
+        defined as fields. Additional, the following attributes are added:
+        * Score - the GFF3 score column
+        * Phase - the GFF3 phase column for CDS features.
+  :type attributes: Attributes
+
+  Node in the annotation graph that annotates a contiguous region of a
+    sequence.
+
+.. avro:record:: FeatureSet
+
+  :field id:
+    The ID of this annotation set.
   :type id: string
   :field datasetId:
-    The ID of the dataset this read group belongs to.
+    The ID of the dataset this annotation set belongs to.
   :type datasetId: null|string
-  :field name:
-    The read group name.
-  :type name: null|string
-  :field description:
-    The read group description.
-  :type description: null|string
-  :field sampleId:
-    The sample this read group's data was generated from.
-      Note: the current API does not have a rigorous definition of sample. Therefore, this
-      field actually contains an arbitrary string, typically corresponding to the SM tag in a
-      BAM file.
-  :type sampleId: null|string
-  :field experiment:
-    The experiment used to generate this read group.
-  :type experiment: null|Experiment
-  :field predictedInsertSize:
-    The predicted insert size of this read group.
-  :type predictedInsertSize: null|int
-  :field created:
-    The time at which this read group was created in milliseconds from the epoch.
-  :type created: null|long
-  :field updated:
-    The time at which this read group was last updated in milliseconds
-      from the epoch.
-  :type updated: null|long
-  :field stats:
-    Statistical data on reads in this read group.
-  :type stats: null|ReadStats
-  :field programs:
-    The programs used to generate this read group.
-  :type programs: array<Program>
   :field referenceSetId:
-    The ID of the reference set to which the reads in this read group are aligned.
-      Required if there are any read alignments.
+    The ID of the reference set which defines the coordinate-space for this
+        set of annotations.
   :type referenceSetId: null|string
-  :field info:
-    A map of additional read group information.
-  :type info: map<array<string>>
-
-  A ReadGroup is a set of reads derived from one physical sequencing process.
-
-.. avro:record:: ReadGroupSet
-
-  :field id:
-    The read group set ID.
-  :type id: string
-  :field datasetId:
-    The ID of the dataset this read group set belongs to.
-  :type datasetId: null|string
   :field name:
-    The read group set name.
+    The display name for this annotation set.
   :type name: null|string
-  :field stats:
-    Statistical data on reads in this read group set.
-  :type stats: null|ReadStats
-  :field readGroups:
-    The read groups in this set.
-  :type readGroups: array<ReadGroup>
-
-  A ReadGroupSet is a logical collection of ReadGroups. Typically one ReadGroupSet
-  represents all the reads from one experimental sample.
-
-.. avro:record:: LinearAlignment
-
-  :field position:
-    The position of this alignment.
-  :type position: Position
-  :field mappingQuality:
-    The mapping quality of this alignment, meaning the likelihood that the read
-      maps to this position.
-    
-      Specifically, this is -10 log10 Pr(mapping position is wrong), rounded to the
-      nearest integer.
-  :type mappingQuality: null|int
-  :field cigar:
-    Represents the local alignment of this sequence (alignment matches, indels, etc)
-      versus the reference.
-  :type cigar: array<CigarUnit>
-
-  A linear alignment describes the alignment of a read to a Reference, using a
-  position and CIGAR array.
-
-.. avro:record:: ReadAlignment
-
-  :field id:
-    The read alignment ID. This ID is unique within the read group this
-      alignment belongs to.
-    
-      For performance reasons, this field may be omitted by a backend.
-      If provided, its intended use is to make caching and UI display easier for
-      genome browsers and other lightweight clients.
-  :type id: null|string
-  :field readGroupId:
-    The ID of the read group this read belongs to.
-      (Every read must belong to exactly one read group.)
-  :type readGroupId: string
-  :field fragmentName:
-    The fragment name. Equivalent to QNAME (query template name) in SAM.
-  :type fragmentName: string
-  :field properPlacement:
-    The orientation and the distance between reads from the fragment are
-      consistent with the sequencing protocol (equivalent to SAM flag 0x2)
-  :type properPlacement: null|boolean
-  :field duplicateFragment:
-    The fragment is a PCR or optical duplicate (SAM flag 0x400).
-  :type duplicateFragment: null|boolean
-  :field numberReads:
-    The number of reads in the fragment (extension to SAM flag 0x1)
-  :type numberReads: null|int
-  :field fragmentLength:
-    The observed length of the fragment, equivalent to TLEN in SAM.
-  :type fragmentLength: null|int
-  :field readNumber:
-    The read ordinal in the fragment, 0-based and less than numberReads. This
-      field replaces SAM flag 0x40 and 0x80 and is intended to more cleanly
-      represent multiple reads per fragment.
-  :type readNumber: null|int
-  :field failedVendorQualityChecks:
-    The read fails platform or vendor quality checks (SAM flag 0x200).
-  :type failedVendorQualityChecks: null|boolean
-  :field alignment:
-    The alignment for this alignment record. This field will be null if the read
-      is unmapped.
-  :type alignment: null|LinearAlignment
-  :field secondaryAlignment:
-    Whether this alignment is secondary. Equivalent to SAM flag 0x100.
-      A secondary alignment represents an alternative to the primary alignment
-      for this read. Aligners may return secondary alignments if a read can map
-      ambiguously to multiple coordinates in the genome.
-    
-      By convention, each read has one and only one alignment where both
-      secondaryAlignment and supplementaryAlignment are false.
-  :type secondaryAlignment: null|boolean
-  :field supplementaryAlignment:
-    Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
-      Supplementary alignments are used in the representation of a chimeric
-      alignment. In a chimeric alignment, a read is split into multiple
-      linear alignments that map to different reference contigs. The first
-      linear alignment in the read will be designated as the representative alignment;
-      the remaining linear alignments will be designated as supplementary alignments.
-      These alignments may have different mapping quality scores.
-    
-      In each linear alignment in a chimeric alignment, the read will be hard clipped.
-      The `alignedSequence` and `alignedQuality` fields in the alignment record will
-      only represent the bases for its respective linear alignment.
-  :type supplementaryAlignment: null|boolean
-  :field alignedSequence:
-    The bases of the read sequence contained in this alignment record (equivalent
-      to SEQ in SAM).
-    
-      `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
-      and quality. This will occur if the alignment is part of a chimeric alignment,
-      or if the read was trimmed. When this occurs, the CIGAR for this read will
-      begin/end with a hard clip operator that will indicate the length of the
-      excised sequence.
-  :type alignedSequence: null|string
-  :field alignedQuality:
-    The quality of the read sequence contained in this alignment record
-      (equivalent to QUAL in SAM).
-    
-      `alignedSequence` and `alignedQuality` may be shorter than the full read sequence
-      and quality. This will occur if the alignment is part of a chimeric alignment,
-      or if the read was trimmed. When this occurs, the CIGAR for this read will
-      begin/end with a hard clip operator that will indicate the length of the excised sequence.
-  :type alignedQuality: array<int>
-  :field nextMatePosition:
-    The mapping of the primary alignment of the `(readNumber+1)%numberReads`
-      read in the fragment. It replaces mate position and mate strand in SAM.
-  :type nextMatePosition: null|Position
+  :field sourceURI:
+    The source URI describing the file from which this annotation set was
+        generated, if any.
+  :type sourceURI: null|string
   :field info:
-    A map of additional read alignment information.
+    Remaining structured metadata key-value pairs.
   :type info: map<array<string>>
 
-  Each read alignment describes an alignment with additional information
-  about the fragment and the read. A read alignment object is equivalent to a
-  line in a SAM file.
+.. avro:record:: SearchFeatureSetsRequest
+
+  :field datasetId:
+    The `Dataset` to search.
+  :type datasetId: string
+  :field pageSize:
+    Specifies the maximum number of results to return in a single page.
+        If unspecified, a system default will be used.
+  :type pageSize: null|int
+  :field pageToken:
+    The continuation token, which is used to page through large result sets.
+        To get the next page of results, set this parameter to the value of
+        `nextPageToken` from the previous response.
+  :type pageToken: null|string
+
+  This request maps to the body of `POST /featuresets/search` as JSON.
+
+.. avro:record:: SearchFeatureSetsResponse
+
+  :field featureSets:
+    The list of matching feature sets.
+  :type featureSets: array<org.ga4gh.models.FeatureSet>
+  :field nextPageToken:
+    The continuation token, which is used to page through large result sets.
+        Provide this value in a subsequent request to return the next page of
+        results. This field will be empty if there aren't any additional results.
+  :type nextPageToken: null|string
+
+  This is the response from `POST /featuresets/search` expressed as JSON.
+
+.. avro:record:: SearchFeaturesRequest
+
+  :field featureSetId:
+    The annotation set to search within. Either `featureSetId` or
+        `parentId` must be non-empty.
+  :type featureSetId: null|string
+  :field parentId:
+    Restricts the search to direct children of the given parent `feature`
+        ID. Either `featureSetId` or `parentId` must be non-empty.
+  :type parentId: null|string
+  :field referenceName:
+    Only return features on the reference with this name 
+        (matched to literal reference name as imported from the GFF3).
+  :type referenceName: string
+  :field start:
+    Required. The beginning of the window (0-based, inclusive) for which
+        overlapping features should be returned.  Genomic positions are
+        non-negative integers less than reference length.  Requests spanning the
+        join of circular genomes are represented as two requests one on each side
+        of the join (position 0).
+  :type start: long
+  :field end:
+    Required. The end of the window (0-based, exclusive) for which overlapping
+        features should be returned.
+  :type end: long
+  :field featureTypes:
+    If specified, this query matches only annotations whose `featureType`
+        matches one of the provided ontology terms.
+  :type featureTypes: array<string>
+  :field pageSize:
+    Specifies the maximum number of results to return in a single page.
+        If unspecified, a system default will be used.
+  :type pageSize: null|int
+  :field pageToken:
+    The continuation token, which is used to page through large result sets.
+        To get the next page of results, set this parameter to the value of
+        `nextPageToken` from the previous response.
+  :type pageToken: null|string
+
+  This request maps to the body of `POST /features/search` as JSON.
+
+.. avro:record:: SearchFeaturesResponse
+
+  :field features:
+    The list of matching annotations, sorted by start position. Annotations which
+        share a start position are returned in a deterministic order.
+  :type features: array<org.ga4gh.models.Feature>
+  :field nextPageToken:
+    The continuation token, which is used to page through large result sets.
+        Provide this value in a subsequent request to return the next page of
+        results. This field will be empty if there aren't any additional results.
+  :type nextPageToken: null|string
+
+  This is the response from `POST /features/search` expressed as JSON.
 

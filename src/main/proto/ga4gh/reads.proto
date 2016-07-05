@@ -1,0 +1,229 @@
+// This file defines the objects used to represent a reads and alignments, most
+// importantly
+// ReadGroupSet, ReadGroup, and ReadAlignment.
+// See {TODO: LINK TO READS OVERVIEW} for more information.
+
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/common.proto";
+import "ga4gh/metadata.proto";
+import "google/protobuf/struct.proto";
+
+// ReadStats can be used to provide summary statistics about read data.
+message ReadStats {
+  // The number of aligned reads.
+  int64 aligned_read_count = 1;
+
+  // The number of unaligned reads.
+  int64 unaligned_read_count = 2;
+
+  // The total number of bases.
+  // This is equivalent to the sum of `alignedSequence.length` for all reads.
+  int64 base_count = 3;
+}
+
+// A ReadGroup is a set of reads derived from one physical sequencing process.
+message ReadGroup {
+  // The read group ID.
+  string id = 1;
+
+  // The ID of the dataset this read group belongs to.
+  string dataset_id = 2;
+
+  // The read group name.
+  string name = 3;
+
+  // The read group description.
+  string description = 4;
+
+  // The sample this read group's data was generated from.
+  // Note: the current API does not have a rigorous definition of sample.
+  // Therefore, this field actually contains an arbitrary string, typically
+  // corresponding to the SM tag in a BAM file.
+  string sample_id = 5;
+
+  // The experiment used to generate this read group.
+  Experiment experiment = 6;
+
+  // The predicted insert size of this read group.
+  int32 predicted_insert_size = 7;
+
+  // The time at which this read group was created in milliseconds from the
+  // epoch.
+  int64 created = 8;
+
+  // The time at which this read group was last updated in milliseconds
+  // from the epoch.
+  int64 updated = 9;
+
+  // Statistical data on reads in this read group.
+  ReadStats stats = 10;
+
+  // Program can be used to track the provenance of how read data was generated.
+  message Program {
+    // The command line used to run this program.
+    string command_line = 1;
+
+    // The user specified ID of the program.
+    string id = 2;
+
+    // The name of the program.
+    string name = 3;
+
+    // The ID of the program run before this one.
+    string prev_program_id = 4;
+
+    // The version of the program run.
+    string version = 5;
+  }
+  repeated Program programs = 11;
+
+  // The ID of the reference set to which the reads in this read group are
+  // aligned. Required if there are any read alignments.
+  string reference_set_id = 12;
+
+  // A map of additional read group information.
+  map<string, google.protobuf.ListValue> info = 13;
+}
+
+// A ReadGroupSet is a logical collection of ReadGroups. Typically one
+// ReadGroupSet represents all the reads from one experimental sample.
+message ReadGroupSet {
+  // The read group set ID.
+  string id = 1;
+
+  // The ID of the dataset this read group set belongs to.
+  string dataset_id = 2;
+
+  // The read group set name.
+  string name = 3;
+
+  // Statistical data on reads in this read group set.
+  ReadStats stats = 4;
+
+  // The read groups in this set.
+  repeated ReadGroup read_groups = 5;
+
+  // NB: we require that all readgroups in the set are mapped to the same
+  // referenceSet.
+}
+
+// A linear alignment describes the alignment of a read to a Reference, using a
+// position and CIGAR array.
+message LinearAlignment {
+  // The position of this alignment.
+  Position position = 1;
+
+  // The mapping quality of this alignment, meaning the likelihood that the read
+  // maps to this position.
+  //
+  // Specifically, this is -10 log10 Pr(mapping position is wrong), rounded to
+  // the nearest integer.
+  int32 mapping_quality = 2;
+
+  // Represents the local alignment of this sequence (alignment matches, indels,
+  // etc)
+  // versus the reference.
+  repeated CigarUnit cigar = 3;
+}
+
+// Each read alignment describes an alignment with additional information
+// about the fragment and the read. A read alignment object is equivalent to a
+// line in a SAM file.
+message ReadAlignment {
+  // The read alignment ID. This ID is unique within the read group this
+  // alignment belongs to.
+  //
+  // For performance reasons, this field may be omitted by a backend.
+  // If provided, its intended use is to make caching and UI display easier for
+  // genome browsers and other lightweight clients.
+  string id = 1;
+
+  // The ID of the read group this read belongs to.
+  // (Every read must belong to exactly one read group.)
+  string read_group_id = 2;
+
+  // fragment attributes
+
+  // The fragment name. Equivalent to QNAME (query template name) in SAM.
+  string fragment_name = 3;
+
+  // The orientation and the distance between reads from the fragment are
+  // inconsistent with the sequencing protocol (inverse of SAM flag 0x2).
+  bool improper_placement = 4;
+
+  // The fragment is a PCR or optical duplicate (SAM flag 0x400).
+  bool duplicate_fragment = 5;
+
+  // The number of reads in the fragment (extension to SAM flag 0x1).
+  int32 number_reads = 6;
+
+  // The observed length of the fragment, equivalent to TLEN in SAM.
+  int32 fragment_length = 7;
+
+  // read attributes
+
+  // The read ordinal in the fragment, 0-based and less than numberReads. This
+  // field replaces SAM flag 0x40 and 0x80 and is intended to more cleanly
+  // represent multiple reads per fragment.
+  int32 read_number = 8;
+
+  // The read fails platform or vendor quality checks (SAM flag 0x200).
+  bool failed_vendor_quality_checks = 9;
+
+  // The alignment for this alignment message. This field will be null if the
+  // read is unmapped.
+  LinearAlignment alignment = 10;
+
+  // Whether this alignment is secondary. Equivalent to SAM flag 0x100.
+  // A secondary alignment represents an alternative to the primary alignment
+  // for this read. Aligners may return secondary alignments if a read can map
+  // ambiguously to multiple coordinates in the genome.
+  //
+  // By convention, each read has one and only one alignment where both
+  // secondaryAlignment and supplementaryAlignment are false.
+  bool secondary_alignment = 11;
+
+  // Whether this alignment is supplementary. Equivalent to SAM flag 0x800.
+  // Supplementary alignments are used in the representation of a chimeric
+  // alignment. In a chimeric alignment, a read is split into multiple
+  // linear alignments that map to different reference contigs. The first
+  // linear alignment in the read will be designated as the representative
+  // alignment; the remaining linear alignments will be designated as
+  // supplementary alignments. These alignments may have different mapping
+  // quality scores.
+  //
+  // In each linear alignment in a chimeric alignment, the read will be hard
+  // clipped. The `alignedSequence` and `alignedQuality` fields in the alignment
+  // message will only represent the bases for its respective linear alignment.
+  bool supplementary_alignment = 12;
+
+  // The bases of the read sequence contained in this alignment record
+  // (equivalent to SEQ in SAM).
+  //
+  // `alignedSequence` and `alignedQuality` may be shorter than the full read
+  // sequence and quality. This will occur if the alignment is part of a
+  // chimeric alignment, or if the read was trimmed. When this occurs, the CIGAR
+  // for this read will begin/end with a hard clip operator that will indicate
+  // the length of the excised sequence.
+  string aligned_sequence = 13;
+
+  // The quality of the read sequence contained in this alignment message
+  // (equivalent to QUAL in SAM).
+  //
+  // `alignedSequence` and `alignedQuality` may be shorter than the full read
+  // sequence and quality. This will occur if the alignment is part of a
+  // chimeric alignment, or if the read was trimmed. When this occurs, the CIGAR
+  // for this read will begin/end with a hard clip operator that will indicate
+  // the length of the excised sequence.
+  repeated int32 aligned_quality = 14;
+
+  // The mapping of the primary alignment of the `(readNumber+1)%numberReads`
+  // read in the fragment. It replaces mate position and mate strand in SAM.
+  Position next_mate_position = 15;
+
+  // A map of additional read alignment information.
+  map<string, google.protobuf.ListValue> info = 16;
+}
