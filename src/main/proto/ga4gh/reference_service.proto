@@ -35,7 +35,7 @@ service ReferenceService {
 
   // Lists `Reference` bases by ID and optional range.
   //
-  // `GET /references/{id}/bases` will return a JSON version of
+  // `POST /references/{id}/bases` will return a JSON version of
   // `ListReferenceBasesResponse`.
   rpc ListReferenceBases(ListReferenceBasesRequest)
       returns (ListReferenceBasesResponse);
@@ -126,11 +126,9 @@ message GetReferenceRequest {
   string reference_id = 1;
 }
 
-// The parameters for a `GET /references/{reference_id}/bases` request. When
-// sending a request, the `reference_id` should be encoded in the URL path,
-// while all other parameters should be encoded as URL query parameters.
-//
-// For example: `GET /references/{id}/bases?start=100&end=200`
+// This request retrieves a region of a reference genome when sent to 
+// the `references/{reference_id}/bases` endpoint. The `reference_id` is
+// expected to be retrieved from the path.
 message ListReferenceBasesRequest {
   // The ID of the `Reference` to be retrieved.
   string reference_id = 1;
