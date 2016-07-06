@@ -16,7 +16,7 @@ The discrete hierarchical annotations are derived from the Sequence Ontology
    http://www.sequenceontology.org/gff3.shtml
 
 The goal is to be able to store annotations using the GFF3 and SO conceptual
-model, although there is not necessarly a one-to-one mapping in Avro records
+model, although there is not necessarly a one-to-one mapping in Protobuf messages
 to GFF3 records.
 
 The minimum requirement is to be able to accurately represent the current
@@ -48,39 +48,46 @@ message Attributes {
 message Feature {
   // Id of this annotation node.
   string id = 1;
+  
+  // An optional name to provide for the feature.
+  string name = 2;
+  
+  // The gene symbol the feature occurs on. This field may be
+  // replaced with a more generic representation in a future version.
+  string gene_symbol = 3;
 
   // Parent Id of this node. Set to empty string if node has no parent.
-  string parent_id = 2;
+  string parent_id = 4;
 
   // Ordered array of Child Ids of this node. Since not all child nodes are
   // ordered by genomic coordinates, this can't always be reconstructed from
   // parent_id's of the children alone.
-  repeated string child_ids = 3;
+  repeated string child_ids = 5;
 
   // Identifier for the containing feature set.
-  string feature_set_id = 4;
+  string feature_set_id = 6;
 
   // The reference on which this feature occurs (e.g. `chr20` or `X`).
-  string reference_name = 5;
+  string reference_name = 7;
 
   // The start position at which this feature occurs (0-based). This
   // corresponds to the first base of the string of reference bases. Genomic
   // positions are non-negative integers less than reference length. Features
   // spanning the join of circular genomes are represented as two features one
   // on each side of the join (position 0).
-  int64 start = 6;
+  int64 start = 8;
 
   // The end position (exclusive), resulting in [start, end) closed-open
   // interval. This is typically calculated by `start +
   // reference_bases.length`.
-  int64 end = 7;
+  int64 end = 9;
 
   // The strand on which the feature is present.
-  Strand strand = 8;
+  Strand strand = 10;
 
   // Feature that is annotated by this region.  Normally, this will be a term
   // in the Sequence Ontology.
-  OntologyTerm feature_type = 9;
+  OntologyTerm feature_type = 11;
 
   // Name/value attributes of the annotation.  Attribute names follow the GFF3
   // naming convention of reserved names starting with an upper cases character,
@@ -89,7 +96,7 @@ message Feature {
   // fields. Additional, the following attributes are added:
   //   * Score - the GFF3 score column
   //   * Phase - the GFF3 phase column for CDS features.
-  Attributes attributes = 10;
+  Attributes attributes = 12;
 }
 
 // A set of sequence features annotations.

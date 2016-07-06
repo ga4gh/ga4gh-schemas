@@ -1,47 +1,36 @@
-SequenceAnnotationMethods
-*************************
+GenotypePhenotype
+*****************
 
- .. function:: searchFeatureSets(request)
+This protocol defines the associations between genotype
+and phenotype (G2P).  Associations can be made as a
+result of literature curation, computational modeling,
+inference, etc., and modeled and shared using this schema.
 
-  :param request: SearchFeatureSetsRequest: This request maps to the body of `POST /featuresets/search` as JSON.
-  :return type: SearchFeatureSetsResponse
-  :throws: GAException
+Here, we follow the dogma of:
 
-Gets a list of `FeatureSet` matching the search criteria.
+      Genotype + Environment = Phenotype
 
-  `POST /featuresets/search` must accept a JSON version of
-  `SearchFeatureSetsRequest` as the post body and will return a JSON version
-  of `SearchFeatureSetsResponse`.
+where a G2P association is between the G(enotype) in the context of
+some E(environment), which gives rise to a P(henotype). These
+associations have further evidence, provenance, and attribution.
 
- .. function:: getFeatureSet(id)
+We leverage the GenomicFeature in the sequenceAnnotation schema here
+as it can accomodate any genomic feature from a single nucleotide variation
+(SNV), up through a gene, and/or complex rearrangements.  Each can
+be modeled as genomic features, and generally linked to a phenotype.
+Collections of these features can represent a genotype at different levels
+of completeness.  Therefore, we can represent single allelic variation,
+allelic complement, and multiple variants in a genotype that can each or
+collectively be associated with a phenotype.
 
-  :param id: string: The ID of the `FeatureSet`.
-  :return type: org.ga4gh.models.FeatureSet
-  :throws: GAException
-
-Gets a `FeatureSet` by ID.
-  `GET /featuresets/{id}` will return a JSON version of `FeatureSet`.
-
- .. function:: getFeature(id)
-
-  :param id: string: The ID of the `Feature`.
-  :return type: org.ga4gh.models.Feature
-  :throws: GAException
-
-Gets a `org.ga4gh.models.Feature` by ID.
-  `GET /features/{id}` will return a JSON version of `Feature`.
-
- .. function:: searchFeatures(request)
-
-  :param request: SearchFeaturesRequest: This request maps to the body of `POST /features/search` as JSON.
-  :return type: SearchFeaturesResponse
-  :throws: GAException
-
-Gets a list of `Feature` matching the search criteria.
-
-  `POST /features/search` must accept a JSON version of
-  `SearchFeaturesRequest` as the post body and will return a JSON version of
-  `SearchFeaturesResponse`.
+To enable standardized integration, this schema relies heavily on
+OntologyTerms, for typing phenotype, genomic features, and levels
+of evidence.  Suggested ontologies to leverage include (with browser links):
+Human Phenotype Ontology (HPO): http://www.ontobee.org/browser/index.php?o=hp
+Disease Ontology (DO): http://purl.obolibrary.org/obo/DOID_4
+Sequence Ontology (SO): http://www.sequenceontology.org/browser/
+Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
+Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
 
 .. avro:enum:: Strand
 
@@ -90,7 +79,7 @@ Gets a list of `Feature` matching the search criteria.
   An enum for the different types of CIGAR alignment operations that exist.
   Used wherever CIGAR alignments are used. The different enumerated values
   have the following usage:
-  
+
   * `ALIGNMENT_MATCH`: An alignment match indicates that a sequence can be
     aligned to the reference without evidence of an INDEL. Unlike the
     `SEQUENCE_MATCH` and `SEQUENCE_MISMATCH` operators, the `ALIGNMENT_MATCH`
@@ -144,10 +133,6 @@ Gets a list of `Feature` matching the search criteria.
   A structure for an instance of a CIGAR operation.
   `FIXME: This belongs under Reads (only readAlignment refers to this)`
 
-.. avro:error:: GAException
-
-  A general exception type.
-
 .. avro:record:: OntologyTerm
 
   :field id:
@@ -186,7 +171,7 @@ Gets a list of `Feature` matching the search criteria.
     A description of the experiment.
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: string
   :field updateDateTime:
@@ -264,7 +249,7 @@ Gets a list of `Feature` matching the search criteria.
   :field description:
   :type description: null|string
   :field createDateTime:
-    The time at which this record was created. 
+    The time at which this record was created.
       Format: :ref:`ISO 8601 <metadata_date_time>`
   :type createDateTime: null|string
   :field updateDateTime:
@@ -354,7 +339,7 @@ Gets a list of `Feature` matching the search criteria.
   :type id: string
   :field datasetId:
     The ID of the dataset this annotation set belongs to.
-  :type datasetId: null|string
+  :type datasetId: string
   :field referenceSetId:
     The ID of the reference set which defines the coordinate-space for this
         set of annotations.
@@ -370,88 +355,134 @@ Gets a list of `Feature` matching the search criteria.
     Remaining structured metadata key-value pairs.
   :type info: map<array<string>>
 
-.. avro:record:: SearchFeatureSetsRequest
+.. avro:record:: PhenotypeAssociationSet
 
+  :field id:
+    The phenotype association set ID.
+  :type id: string
+  :field name:
+    The phenotype association set name.
+  :type name: null|string
   :field datasetId:
-    The `Dataset` to search.
+    The ID of the dataset this phenotype association set belongs to.
   :type datasetId: string
-  :field pageSize:
-    Specifies the maximum number of results to return in a single page.
-        If unspecified, a system default will be used.
-  :type pageSize: null|int
-  :field pageToken:
-    The continuation token, which is used to page through large result sets.
-        To get the next page of results, set this parameter to the value of
-        `nextPageToken` from the previous response.
-  :type pageToken: null|string
+  :field info:
+    Optional additional information for this phenotype association set.
+  :type info: null|map<array<string>>
 
-  This request maps to the body of `POST /featuresets/search` as JSON.
+  A PhenotypeAssociationSet is a collection of phenotype association results.
+  Such results are grouped by data source and possibly release version or analysis
+  type.
 
-.. avro:record:: SearchFeatureSetsResponse
+.. avro:record:: EnvironmentalContext
 
-  :field featureSets:
-    The list of matching feature sets.
-  :type featureSets: array<org.ga4gh.models.FeatureSet>
-  :field nextPageToken:
-    The continuation token, which is used to page through large result sets.
-        Provide this value in a subsequent request to return the next page of
-        results. This field will be empty if there aren't any additional results.
-  :type nextPageToken: null|string
+  :field id:
+    The Environment ID.
+  :type id: null|string
+  :field environmentType:
+    Examples of some environment types could be drawn from:
+      Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
+      Chemical Entities of Interest (ChEBI): http://www.ontobee.org/browser/index.php?o=chebi
+      Environment Ontology (ENVO):  http://www.ontobee.org/browser/index.php?o=ENVO
+      Anatomy (Uberon): http://www.ontobee.org/browser/index.php?o=uberon
+  :type environmentType: OntologyTerm
+  :field description:
+    A textual description of the environment. This is used to complement
+    	the structured description in the environmentType field
+  :type description: null|string
 
-  This is the response from `POST /featuresets/search` expressed as JSON.
+  The context in which a genotype gives rise to a phenotype.
+  This is fairly open-ended; as a stub we have a simple ontology term.
+  For example, a controlled term for a drug, or perhaps an instance of a
+  complex environment including temperature and air quality, or perhaps
+  the anatomical environment (gut vs tissue type vs whole organism).
 
-.. avro:record:: SearchFeaturesRequest
+.. avro:record:: PhenotypeInstance
 
-  :field featureSetId:
-    The annotation set to search within. Either `featureSetId` or
-        `parentId` must be non-empty.
-  :type featureSetId: null|string
-  :field parentId:
-    Restricts the search to direct children of the given parent `feature`
-        ID. Either `featureSetId` or `parentId` must be non-empty.
-  :type parentId: null|string
-  :field referenceName:
-    Only return features on the reference with this name 
-        (matched to literal reference name as imported from the GFF3).
-  :type referenceName: string
-  :field start:
-    Required. The beginning of the window (0-based, inclusive) for which
-        overlapping features should be returned.  Genomic positions are
-        non-negative integers less than reference length.  Requests spanning the
-        join of circular genomes are represented as two requests one on each side
-        of the join (position 0).
-  :type start: long
-  :field end:
-    Required. The end of the window (0-based, exclusive) for which overlapping
-        features should be returned.
-  :type end: long
-  :field featureTypes:
-    If specified, this query matches only annotations whose `featureType`
-        matches one of the provided ontology terms.
-  :type featureTypes: array<string>
-  :field pageSize:
-    Specifies the maximum number of results to return in a single page.
-        If unspecified, a system default will be used.
-  :type pageSize: null|int
-  :field pageToken:
-    The continuation token, which is used to page through large result sets.
-        To get the next page of results, set this parameter to the value of
-        `nextPageToken` from the previous response.
-  :type pageToken: null|string
+  :field id:
+    The Phenotype ID.
+  :type id: null|string
+  :field type:
+    HPO is recommended
+  :type type: OntologyTerm
+  :field qualifier:
+    PATO is recommended.  Often this qualifier might be for abnormal/normal,
+      or severity.
+      For example, severe: http://purl.obolibrary.org/obo/PATO_0000396
+      or abnormal: http://purl.obolibrary.org/obo/PATO_0000460
+  :type qualifier: null|array<OntologyTerm>
+  :field ageOfOnset:
+    HPO is recommended, for example, subclasses of
+      http://purl.obolibrary.org/obo/HP_0011007
+  :type ageOfOnset: null|OntologyTerm
+  :field description:
+    A textual description of the phenotype. This is used to complement the
+      structured phenotype description in the type field.
+  :type description: null|string
+  :field info:
+    Additional annotation data in key-value pairs.
+  :type info: null|map<array<string>>
 
-  This request maps to the body of `POST /features/search` as JSON.
+  An association to a phenotype and related information.
+  This record is intended primarily to be used in conjunction with variants, but
+  the record can also be composed with other kinds of entities such as diseases
 
-.. avro:record:: SearchFeaturesResponse
+.. avro:record:: Evidence
 
+  :field evidenceType:
+    ECO or OBI is recommended
+  :type evidenceType: OntologyTerm
+  :field description:
+    A textual description of the evidence. This is used to complement the
+    	structured description in the evidenceType field
+  :type description: null|string
+  :field info:
+    Additional annotation data in key-value pairs.
+  :type info: null|map<array<string>>
+
+  Evidence for the phenotype association.
+  This is also a stub for further expansion.  We should consider moving this into
+  it's own schema.
+
+.. avro:record:: FeaturePhenotypeAssociation
+
+  :field id:
+  :type id: string
+  :field phenotypeAssociationSetId:
+    The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
+      belongs to.
+  :type phenotypeAssociationSetId: string
   :field features:
-    The list of matching annotations, sorted by start position. Annotations which
-        share a start position are returned in a deterministic order.
-  :type features: array<org.ga4gh.models.Feature>
-  :field nextPageToken:
-    The continuation token, which is used to page through large result sets.
-        Provide this value in a subsequent request to return the next page of
-        results. This field will be empty if there aren't any additional results.
-  :type nextPageToken: null|string
+    The set of features of the organism that bears the phenotype.
+        This could be as complete as a full complement of variants,
+        or as minimal as the confirmed variants that are known causation
+        for the annotated phenotype.
+        Examples of features could be variations at the nucleotide level,
+        large rearrangements at the chromosome level, or relevant epigenetic
+        markers.  Relevant genomic feature types are suggested to be
+        those typed in the Sequence Ontology (SO).
 
-  This is the response from `POST /features/search` expressed as JSON.
+        The feature set can have only one item, and must not be null.
+  :type features: array<Feature>
+  :field evidence:
+    The evidence for this specific instance of association between the
+        features and the phenotype.
+  :type evidence: array<Evidence>
+  :field phenotype:
+    The phenotypic component of this association.
+        Note that we delegate this to a separate record to allow us the flexibility
+    	to composition of phenotype associations with records that are not
+    	variant sets - for example, diseases.
+  :type phenotype: PhenotypeInstance
+  :field description:
+    A textual description of the association.
+  :type description: null|string
+  :field environmentalContexts:
+    The context in which the phenotype arises.
+      Multiple contexts can be specified - these are assumed to all hold together
+  :type environmentalContexts: array<EnvironmentalContext>
 
+  An association between one or more genomic features and a phenotype.
+  The instance of association allows us to link a feature to a phenotype,
+  multiple times, each bearing potentially different levels of confidence,
+  such as resulting from alternative experiments and analysis.

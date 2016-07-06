@@ -3,7 +3,7 @@
 ************************
 Sequence Annotations API
 ************************
-For the Sequence Annotation schema definitions, see `Sequence Annotation schema <../schemas/sequenceAnnotations.html>`_
+For the Sequence Annotation schema definitions, see `Sequence Annotation schema <../schemas/sequence_annotations.proto.html>`_
 
 
 ------------------------
