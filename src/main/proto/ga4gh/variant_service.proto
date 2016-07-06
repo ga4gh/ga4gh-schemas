@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/variants.proto";
+import "google/api/annotations.proto";
 
 service VariantService {
   // Gets a list of `VariantSet` matching the search criteria.
@@ -11,37 +12,69 @@ service VariantService {
   // `SearchVariantSetsRequest` as the post body and will return a JSON version
   // of `SearchVariantSetsResponse`.
   rpc SearchVariantSets(SearchVariantSetsRequest)
-      returns (SearchVariantSetsResponse);
+      returns (SearchVariantSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.5a/variantsets/search"
+        body: "*"
+      };
+    };
 
   // Gets a `VariantSet` by ID.
   //
   // `GET /variantsets/{variant_set_id}` will return a JSON version of
   // `VariantSet`.
-  rpc GetVariantSet(GetVariantSetRequest) returns (VariantSet);
+  rpc GetVariantSet(GetVariantSetRequest)
+      returns (VariantSet) {
+      option (google.api.http) = {
+        get: "/v0.6.5a/variantsets/{variant_set_id}"
+      };
+    };
 
   // Gets a list of `Variant` matching the search criteria.
   //
   // `POST /variants/search` must accept a JSON version of
   // `SearchVariantsRequest` as the post body and will return a JSON version of
   // `SearchVariantsResponse`.
-  rpc SearchVariants(SearchVariantsRequest) returns (SearchVariantsResponse);
+  rpc SearchVariants(SearchVariantsRequest)
+      returns (SearchVariantsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.5a/variants/search"
+        body: "*"
+      };
+    };
 
   // Gets a `Variant` by ID.
   //
   // `GET /variants/{id}` will return a JSON version of `Variant`.
-  rpc GetVariant(GetVariantRequest) returns (Variant);
+  rpc GetVariant(GetVariantRequest)
+      returns (Variant) {
+      option (google.api.http) = {
+        post: "/v0.6.5a/variants/{variant_id}"
+      };
+    };
 
   // Gets a list of call sets matching the search criteria.
   //
   // `POST /callsets/search` must accept a JSON version of
   // `SearchCallSetsRequest` as the post body and will return a JSON version of
   // `SearchCallSetsResponse`.
-  rpc SearchCallSets(SearchCallSetsRequest) returns (SearchCallSetsResponse);
+  rpc SearchCallSets(SearchCallSetsRequest)
+    returns (SearchCallSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.5a/callsets/search"
+        body: "*"
+      };
+    };
 
   // Gets a `CallSet` by ID.
   //
   // `GET /callsets/{id}` will return a JSON version of `CallSet`.
-  rpc GetCallSet(GetCallSetRequest) returns (CallSet);
+  rpc GetCallSet(GetCallSetRequest)
+    returns (CallSet) {
+    option (google.api.http) = {
+      get: "/v0.6.5a/callsets/{call_set_id}"
+    };
+  };
 }
 
 // ******************  /variantsets  *********************

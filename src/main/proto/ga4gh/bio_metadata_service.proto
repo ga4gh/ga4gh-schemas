@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/bio_metadata.proto";
+import "google/api/annotations.proto";
 
 
 service BioMetadataService {
@@ -11,23 +12,41 @@ service BioMetadataService {
   // `SearchIndividualsRequest` as the post body and will return a JSON version
   // of `SearchIndividualsResponse`.
   rpc SearchIndividuals(SearchIndividualsRequest)
-      returns (SearchIndividualsResponse);
+      returns (SearchIndividualsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.5a/individuals/search"
+        body: "*"
+      };
+    };
   
   // `POST /biosamples/search` must accept a JSON version of
   // `SearchBioSamplesRequest` as the post body and will return a JSON version
   // of `SearchBioSamplesResponse`.
   rpc SearchBioSamples(SearchBioSamplesRequest)
-      returns (SearchBioSamplesResponse);
+      returns (SearchBioSamplesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.5a/biosamples/search"
+        body: "*"
+      };
+    };
 
   // Gets an `Individual` by ID.
   // `GET /individuals/{id}` will return a JSON version of `Individual`.
   rpc GetIndividual(GetIndividualRequest)
-      returns (Individual);
+      returns (Individual) {
+      option (google.api.http) = {
+        get: "/v0.6.5a/individuals/{individual_id}"
+      };
+    };
 
   // Gets a `BioSample` by ID.
   // `GET /biosamples/{id}` will return a JSON version of `BioSample`.
   rpc GetBioSample(GetBioSampleRequest)
-      returns (BioSample);
+      returns (BioSample) {
+      option (google.api.http) = {
+        get: "/v0.6.5a/biosamples/{bio_sample_id}"
+      };
+    };
 }
 // *********************  /individuals ********************************
 // This request maps to the body of `POST /individuals/search` as JSON.
