@@ -8,6 +8,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/common.proto";
+import "ga4gh/metadata.proto";
 import "ga4gh/assay_metadata.proto";
 import "google/protobuf/struct.proto";
 
@@ -63,23 +64,6 @@ message ReadGroup {
   // Statistical data on reads in this read group.
   ReadStats stats = 11;
 
-  // Program can be used to track the provenance of how read data was generated.
-  message Program {
-    // The command line used to run this program.
-    string command_line = 1;
-
-    // The user specified ID of the program.
-    string id = 2;
-
-    // The name of the program.
-    string name = 3;
-
-    // The ID of the program run before this one.
-    string prev_program_id = 4;
-
-    // The version of the program run.
-    string version = 5;
-  }
   repeated Program programs = 12;
 
   // The ID of the reference set to which the reads in this read group are
