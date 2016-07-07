@@ -54,7 +54,7 @@ message RnaQuantification {
   repeated string read_group_ids = 4;
 
   // Programs can be used to track the provenance of how read data was quantified.
-  repeated Program programs = 5;
+  repeated string programs = 5;
 
   // List of annotation sets used.
   repeated string feature_set_ids = 6;
