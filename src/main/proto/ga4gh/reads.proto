@@ -32,50 +32,56 @@ message ReadGroup {
 
   // The ID of the dataset this read group belongs to.
   string dataset_id = 2;
+  
+  // The ID of the read group set this read group belongs to.
+  string read_group_set_id = 3;
 
   // The read group name.
-  string name = 3;
+  string name = 4;
 
   // The read group description.
-  string description = 4;
+  string description = 5;
 
   // A name for the sample this read group's data were generated from.
   // This field contains an arbitrary string, typically
   // corresponding to the SM tag in a BAM file.
-  string sample_name = 5;
+  string sample_name = 6;
   
   // The BioSample this read group's data was generated from.
-  string bio_sample_id = 6;
+  string bio_sample_id = 7;
 
   // The experiment used to generate this read group.
-  Experiment experiment = 7;
+  Experiment experiment = 8;
 
   // The predicted insert size of this read group.
-  int32 predicted_insert_size = 8;
+  int32 predicted_insert_size = 9;
 
   // The time at which this read group was created in milliseconds from the
   // epoch.
-  int64 created = 9;
+  int64 created = 10;
 
   // The time at which this read group was last updated in milliseconds
   // from the epoch.
-  int64 updated = 10;
+  int64 updated = 11;
 
   // Statistical data on reads in this read group.
-  ReadStats stats = 11;
+  ReadStats stats = 12;
 
+  // Program can be used to track the provenance of how read data was generated.
   repeated Program programs = 12;
 
   // The ID of the reference set to which the reads in this read group are
   // aligned. Required if there are any read alignments.
-  string reference_set_id = 13;
+  string reference_set_id = 14;
 
   // A map of additional read group information.
-  map<string, google.protobuf.ListValue> info = 14;
+  map<string, google.protobuf.ListValue> info = 15;
 }
 
 // A ReadGroupSet is a logical collection of ReadGroups. Typically one
 // ReadGroupSet represents all the reads from one experimental sample.
+// All read groups require that all readgroups in the set are mapped to
+// the same referenceSet.
 message ReadGroupSet {
   // The read group set ID.
   string id = 1;
@@ -88,12 +94,6 @@ message ReadGroupSet {
 
   // Statistical data on reads in this read group set.
   ReadStats stats = 4;
-
-  // The read groups in this set.
-  repeated ReadGroup read_groups = 5;
-
-  // NB: we require that all readgroups in the set are mapped to the same
-  // referenceSet.
 }
 
 // A linear alignment describes the alignment of a read to a Reference, using a
@@ -110,8 +110,7 @@ message LinearAlignment {
   int32 mapping_quality = 2;
 
   // Represents the local alignment of this sequence (alignment matches, indels,
-  // etc)
-  // versus the reference.
+  // etc) versus the reference.
   repeated CigarUnit cigar = 3;
 }
 
