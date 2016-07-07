@@ -34,48 +34,48 @@ message ReadGroup {
   string dataset_id = 2;
   
   // The ID of the read group set this read group belongs to.
-  string read_group_set_id = 3;
+  string read_group_set_id = 15;
 
   // The read group name.
-  string name = 4;
+  string name = 3;
 
   // The read group description.
-  string description = 5;
+  string description = 4;
 
   // A name for the sample this read group's data were generated from.
   // This field contains an arbitrary string, typically
   // corresponding to the SM tag in a BAM file.
-  string sample_name = 6;
+  string sample_name = 5;
   
   // The BioSample this read group's data was generated from.
-  string bio_sample_id = 7;
+  string bio_sample_id = 6;
 
   // The experiment used to generate this read group.
-  Experiment experiment = 8;
+  Experiment experiment = 7;
 
   // The predicted insert size of this read group.
-  int32 predicted_insert_size = 9;
+  int32 predicted_insert_size = 8;
 
   // The time at which this read group was created in milliseconds from the
   // epoch.
-  int64 created = 10;
+  int64 created = 9;
 
   // The time at which this read group was last updated in milliseconds
   // from the epoch.
-  int64 updated = 11;
+  int64 updated = 10;
 
   // Statistical data on reads in this read group.
-  ReadStats stats = 12;
+  ReadStats stats = 11;
 
   // Program can be used to track the provenance of how read data was generated.
   repeated Program programs = 12;
 
   // The ID of the reference set to which the reads in this read group are
   // aligned. Required if there are any read alignments.
-  string reference_set_id = 14;
+  string reference_set_id = 13;
 
   // A map of additional read group information.
-  map<string, google.protobuf.ListValue> info = 15;
+  map<string, google.protobuf.ListValue> info = 14;
 }
 
 // A ReadGroupSet is a logical collection of ReadGroups. Typically one
@@ -94,6 +94,9 @@ message ReadGroupSet {
 
   // Statistical data on reads in this read group set.
   ReadStats stats = 4;
+  
+  // IDs of the Read Groups in this ReadGroupSet
+  repeated string read_group_ids = 6;
 }
 
 // A linear alignment describes the alignment of a read to a Reference, using a
