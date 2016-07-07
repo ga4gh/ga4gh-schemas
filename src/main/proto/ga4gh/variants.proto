@@ -92,6 +92,9 @@ message CallSet {
 // and phasing. For example, a call might assign a probability of 0.32 to
 // the occurrence of a SNP named rs1234 in a call set with the name NA12345.
 message Call {
+  // The call ID.
+  string id = 7;
+  
   // The name of the call set this variant call belongs to.
   // If this field is not present, the ordering of the call sets from a
   // `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
@@ -107,6 +110,9 @@ message Call {
   // The number of results will also be the same.
   string call_set_id = 2;
 
+  // The ID of the variant this call is made against.
+  string variant_id = 8;
+  
   // The genotype of this variant call.
   //
   // A 0 value represents the reference allele of the associated `Variant`. Any

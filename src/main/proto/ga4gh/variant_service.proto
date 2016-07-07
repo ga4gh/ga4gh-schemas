@@ -133,6 +133,46 @@ message GetVariantRequest {
   string variant_id = 1;
 }
 
+// ******************  /calls  *********************
+// This request maps to the body of `POST /calls/search` as JSON.
+message SearchCallsRequest {
+  // The VariantSet to search.
+  string variant_set_id = 1;
+
+  // Only return calls with this Call Set ID.
+  string call_set_id = 2;
+  
+  // Only returns calls for this variant ID.
+  string variant_id = 3;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 5;
+}
+
+// This is the response from `POST /calls/search` expressed as JSON.
+message SearchCallsResponse {
+  // The list of matching calls.
+  repeated Call calls = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /calls/{id}`.
+message GetCallRequest {
+  // The ID of the `Call` to be retrieved.
+  string call_id = 1;
+}
+
+
 // ******************  /callsets  *********************
 // This request maps to the body of `POST /callsets/search` as JSON.
 message SearchCallSetsRequest {
