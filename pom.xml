@@ -185,7 +185,6 @@
           </execution>
         </executions>
       </plugin>
-<!-- FIXME: Doc generation temporarily disabled due to dependency on avro.
      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -205,7 +204,7 @@
 	    <argument>docs</argument>
 	  </arguments>
         </configuration>
-      </plugin> -->
+      </plugin>
     </plugins>
   </build>
   <dependencies>
