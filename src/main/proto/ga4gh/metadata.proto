@@ -40,4 +40,7 @@ message Dataset {
 
   // Additional, human-readable information on the dataset.
   string description = 3;
+  
+  // A map of additional variant information.
+  map<string, google.protobuf.ListValue> info = 4;
 }
