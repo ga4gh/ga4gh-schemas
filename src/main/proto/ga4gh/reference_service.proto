@@ -89,6 +89,10 @@ message GetReferenceSetRequest {
 message SearchReferencesRequest {
   // The `ReferenceSet` to search.
   string reference_set_id = 1;
+  
+  // If specified, return references with this name (case-sensitive,
+  // exact match).
+  string name = 6;
 
   // If specified, return the references for which the
   // `md5checksum` matches this string (case-sensitive, exact match).
