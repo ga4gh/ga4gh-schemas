@@ -185,25 +185,22 @@
           </execution>
         </executions>
       </plugin>
-     <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.4.0</version>
+      <plugin>
+        <groupId>org.tomdz.maven</groupId>
+        <artifactId>sphinx-maven-plugin</artifactId>
+        <version>1.0.2</version>
+        <configuration>
+          <sourceDirectory>doc/source</sourceDirectory>
+          <outputDirectory>target/docs</outputDirectory>
+        </configuration>
         <executions>
           <execution>
-            <id>build-docs</id>
             <phase>package</phase>
             <goals>
-               <goal>exec</goal>
+              <goal>generate</goal>
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <executable>make</executable>
-	  <arguments>
-	    <argument>docs</argument>
-	  </arguments>
-        </configuration>
       </plugin>
     </plugins>
   </build>
