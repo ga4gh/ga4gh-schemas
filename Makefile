@@ -1,40 +1,39 @@
-# GA4GH top level Makefile (requires GNU make)
+# GA4GH top level Makefile to build document (requires GNU make)
+#
+# make is use to allow building on readthedocs.org, which does not
+# support JAVA required for maven.
 
 .DELETE_ON_ERROR:
-.PHONY : FORCE
 .PRECIOUS :
 .SUFFIXES :
 
-SHELL:=/bin/bash -o pipefail
-SELF:=$(firstword $(MAKEFILE_LIST))
+# enable more robust bash
+SHELL:=/bin/bash -beEu -o pipefail
 BUILD_DIR:=target/doc
 
 ############################################################################
-#= BASIC USAGE
 default: help
 
-#=> help -- display this help message
 .PHONY: help
 help:
-	@tools/makefile-extract-documentation "${SELF}"
+	@echo "targets: " >&2
+	@echo "   help - display this help messsage" >&2
+	@echo "   docs - build HTML documentation in ${BUILD_DIR}" >&2
+	@echo "   package - run mvn package" >&2
+	@echo "   clean - delete generated documentation" >&2
+	@exit 1
 
-#=> docs -- make docs (in build/html)
 # N.B. this command mimics behavior on RTD
 # doc/source is the root of the rst files; the ../.. components effectively
 # counter the cd doc/source to place the docs at the schemas root
 .PHONY: docs
 docs:
-	cd doc/source; sphinx-build -b html -d ../../${BUILD_DIR}/doctrees . ../../${BUILD_DIR}/html
+	cd doc/source && sphinx-build -b html -d ../../${BUILD_DIR}/doctrees . ../../${BUILD_DIR}/html
 
 .PHONY: package
 package:
 	mvn package
 
-
-.PHONY: clean cleaner cleanest
+.PHONY: clean
 clean:
-	find . -regex '.*\(~\|\.bak\)' -print0 | xargs -0r /bin/rm -v
-cleaner: clean
-cleanest: cleaner
-	find . -regex '.*\(\.orig\)' -print0 | xargs -0r /bin/rm -v
-	rm -fr target
+	rm -rf ${BUILD_DIR}
