@@ -113,6 +113,9 @@ message Call {
   // The ID of the variant this call is made against.
   string variant_id = 8;
   
+  // The ID of the variant set this call is a member of.
+  string variant_set_id = 9;
+  
   // The genotype of this variant call.
   //
   // A 0 value represents the reference allele of the associated `Variant`. Any

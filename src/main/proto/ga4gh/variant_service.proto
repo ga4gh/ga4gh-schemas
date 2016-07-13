@@ -136,13 +136,13 @@ message GetVariantRequest {
 // ******************  /calls  *********************
 // This request maps to the body of `POST /calls/search` as JSON.
 message SearchCallsRequest {
-  // The VariantSet to search.
+  // Only returns calls from the provided variant set (required).
   string variant_set_id = 1;
 
-  // Only return calls with this Call Set ID.
+  // If specified, only return calls with this Call Set ID.
   string call_set_id = 2;
   
-  // Only returns calls for this variant ID.
+  // If specified, only returns calls for this variant ID.
   string variant_id = 3;
 
   // Specifies the maximum number of results to return in a single page.
