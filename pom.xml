@@ -35,7 +35,7 @@
   </developers>
 
   <properties>
-    <proto.version>3.0.0-beta-2</proto.version>
+    <proto.version>3.0.0-beta-3</proto.version>
     <maven.enforcer.jdk-version>[1.6,)</maven.enforcer.jdk-version>
     <maven.enforcer.maven-version>[3.0.4,)</maven.enforcer.maven-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
