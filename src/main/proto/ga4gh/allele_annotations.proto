@@ -62,7 +62,7 @@ message VariantAnnotationSet {
   string id = 1;
 
   // The ID of the variant set to which this annotation set belongs
-  string variantSet_id = 2;
+  string variant_set_id = 2;
 
   // The variant annotation set name.
   string name = 3;
