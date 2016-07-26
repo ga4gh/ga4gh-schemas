@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/metadata.proto";
+import "google/protobuf/struct.proto";
 
 /**
 This protocol defines the associations between genotype
@@ -43,7 +44,7 @@ message PhenotypeAssociationSet {
     string dataset_id = 3;
 
     // Optional additional information for this phenotype association set.
-    repeated string info = 4;
+    map<string, google.protobuf.ListValue> info = 4;
 }
 
 // The context in which a genotype gives rise to a phenotype.
@@ -95,7 +96,7 @@ message PhenotypeInstance {
     string description = 5;
 
     // Additional annotation data in key-value pairs.
-    repeated string info = 6;
+    map<string, google.protobuf.ListValue> info = 6;
 }
 // Evidence for the phenotype association.
 // This is also a stub for further expansion.  We should consider moving this into
@@ -109,7 +110,7 @@ message Evidence {
     string description = 2;
 
     // Additional annotation data in key-value pairs.
-    repeated string info = 3;
+    map<string, google.protobuf.ListValue> info = 3;
 }
 
 // An association between one or more genomic features and a phenotype.
