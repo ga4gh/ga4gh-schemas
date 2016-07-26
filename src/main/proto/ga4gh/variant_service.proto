@@ -83,10 +83,6 @@ message SearchVariantsRequest {
   // The `VariantSet` to search.
   string variant_set_id = 1;
 
-  // Only return variant calls which belong to call sets with these IDs.
-  // If unspecified, return all variants and no variant call objects.
-  repeated string call_set_ids = 2;
-
   // Required. Only return variants on this reference.
   string reference_name = 3;
 

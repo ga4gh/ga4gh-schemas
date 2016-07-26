@@ -92,9 +92,6 @@ message CallSet {
 // and phasing. For example, a call might assign a probability of 0.32 to
 // the occurrence of a SNP named rs1234 in a call set with the name NA12345.
 message Call {
-  // The call ID.
-  string id = 7;
-  
   // The name of the call set this variant call belongs to.
   // If this field is not present, the ordering of the call sets from a
   // `SearchCallSetsRequest` over this `VariantSet` is guaranteed to match
@@ -109,13 +106,10 @@ message Call {
   // the ordering of the calls on this `Variant`.
   // The number of results will also be the same.
   string call_set_id = 2;
+  
+  // ID of the variant this call was made against.
+  string variant_id = 7;
 
-  // The ID of the variant this call is made against.
-  string variant_id = 8;
-  
-  // The ID of the variant set this call is a member of.
-  string variant_set_id = 9;
-  
   // The genotype of this variant call.
   //
   // A 0 value represents the reference allele of the associated `Variant`. Any
@@ -193,9 +187,4 @@ message Variant {
 
   // A map of additional variant information.
   map<string, google.protobuf.ListValue> info = 11;
-
-  // The variant calls for this particular variant. Each one represents the
-  // determination of genotype with respect to this variant. `Call`s in this
-  // array are implicitly associated with this `Variant`.
-  repeated Call calls = 12;
 }
