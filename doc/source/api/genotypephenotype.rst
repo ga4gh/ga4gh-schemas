@@ -30,7 +30,6 @@ G2P servers are planned to be implemented in three different contexts:
 .. figure:: https://cloud.githubusercontent.com/assets/47808/14397288/6743ed28-fd91-11e5-9329-66012b722141.png
    :alt: image
 
-   image
 
 -  Coupled with sequence annotation and GA4GH datasets. Clients will
    want implementation specific featureId/genotypeId to match and
@@ -39,7 +38,6 @@ G2P servers are planned to be implemented in three different contexts:
 .. figure:: https://cloud.githubusercontent.com/assets/47808/14397306/7ad8bb70-fd91-11e5-9295-85c7034ce544.png
    :alt: image
 
-   image
 
 -  Operating in concert with other instances of g2p servers where the
    client's loosely federated query is supported by heterogeneous
@@ -49,7 +47,6 @@ G2P servers are planned to be implemented in three different contexts:
 .. figure:: https://cloud.githubusercontent.com/assets/47808/14397316/8a268b8e-fd91-11e5-907d-441fca3450cb.png
    :alt: image
 
-   image
 
 Approach
 --------
@@ -75,7 +72,6 @@ by the Monarch project was the source of Evidence.
 .. figure:: https://cloud.githubusercontent.com/assets/47808/9338065/a0a84b8e-4597-11e5-82ed-65d7b9f3ae97.png
    :alt: image
 
-   image
 
 Intent: The GA4GH Ontology schema provides structures for unambiguous
 references to ontological concepts and/or controlled vocabularies within
@@ -117,7 +113,6 @@ standalone.
 .. figure:: ../_static/g2p-sequence-diagram.png
    :alt: sequence
 
-   sequence
 
 Entity Searches
 ~~~~~~~~~~~~~~~
@@ -166,7 +161,6 @@ Implementation
 .. figure:: https://cloud.githubusercontent.com/assets/47808/15920813/d70195a0-2dd1-11e6-9c74-ba552735404d.png
    :alt: image
 
-   image
 
 Source Code
 ~~~~~~~~~~~
@@ -511,7 +505,6 @@ association
 .. figure:: https://cloud.githubusercontent.com/assets/47808/14397329/99fc7c30-fd91-11e5-8346-e95f97bfb78c.png
    :alt: image
 
-   image
 
 Convenience endpoints
 ---------------------
