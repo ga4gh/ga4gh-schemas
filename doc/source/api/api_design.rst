@@ -493,13 +493,14 @@ Directions for future capabilities.
 
 **Flexible representation of Feature**
 
--  Q: I only have description to represent a Genomic Feature ("KIT
-   N822K"). (Not all G2P databases have complete genomic location
-   information or are associated with GA4GH omics dataset.)
--  Q: I need to lookup Feature by protein/externalId/name/description.
--  Q: I have results from multiple G2P Servers. How do I collate them?
--  Use HGVS' DNA annotation for featureId. This should be unique for
-   identical features across datasets and implementations?
+-  Q: I need to lookup Feature by proteinName or other external id. How do look them up?
+      Currently, sequence annotation's features/search supports search by name or location.
+      Future versions should implement lookup by alias/
+
+-  Q: I have results from multiple G2P Servers. How do I collate them across datasets and implementations?
+      This is a subject for the investigation as we create a federation of G2P servers.
+      The responsibility for collating features and associations across servers.
+      One strategy might be to use HGVS' DNA annotation for as a neutral identifier for feature.
 
 **Expanding scope to entities other than Feature**
 
