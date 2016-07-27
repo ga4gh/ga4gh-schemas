@@ -19,13 +19,13 @@ association.
 Multiple server collation - Background
 --------------------------------------
 
-G2P servers planned to be implemented in three different contexts:
+G2P servers are planned to be implemented in three different contexts:
 
 -  As a wrapper around standalone local G2P "knowledge bases" (eg
    Monarch, CiVIC,etc). Important considerations are the API needs to
    function independently of other parts of the API and separately from
    any specific omics dataset. Often, these databases are not curated
-   with complete Feature fields (referenceName,start,end,strand)
+   with complete Feature fields (referenceName, start, end, strand)
 
 .. figure:: https://cloud.githubusercontent.com/assets/47808/14397288/6743ed28-fd91-11e5-9329-66012b722141.png
    :alt: image
@@ -101,14 +101,14 @@ and an association search.
 A feature or phenotype can potentially be represented in increasing
 specificity as either [a string, an ontology identifier, an external
 identifier, or as a feature 'entity']. One criticism of the previous API
-is that it is overloaded, violating the design goal of separation of
+is that it was overloaded, violating the design goal of separation of
 concerns. Specifically it combines the search for evidence with search
 for features & search for genotypes.
 
-The refactored API move search,alias matching and external identifiers
+The refactored API moves search, alias matching and external identifiers
 lookup to dedicated end points. To separate concens, a client performs
 the queries for evidence in two steps: first find the desired entities
-and then you those enitity identifiers to narrow the search for
+and then use those enitity identifiers to narrow the search for
 evidence.
 
 Additionally the API supports two implementation styles: integrated and
@@ -142,7 +142,7 @@ Entity Searches
 Association Search
 ~~~~~~~~~~~~~~~~~~
 
--  ``/associations/<phenotypeAssociationSetId>/genotypephenotypes/search``
+-  ``/genotypephenotypes/search``
 
    -  Given a SearchGenotypePhenotypeRequest, return matching *evidence
       associations* in the ``current g2p dataset.``
@@ -195,7 +195,7 @@ Acceptance
 
 -  Submittal of 3 simultaneous pull-requests for server, schema and
    compliance repositories
--  2 +1 for each repository from outside the development team
+-  2 +1s for each repository from outside the development team
 -  Additional 3 day review for schemas
 
 API Details and Examples
@@ -205,7 +205,7 @@ API Details and Examples
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. figure:: ../_static/search_phenotypes_request.png
-   :alt: 
+   :alt:
 
 Terms within a query are combined via AND e.g
 
@@ -272,9 +272,9 @@ Q: I am only interested in phenotypes qualified with (PATO\_0001899,
     request = ...  {  "qualifiers": [{"id": "http://purl.obolibrary.org/obo/PATO_0001899"}] } ....
 
 The system will respond with phenotypes whose qualifiers that match that
-ontology 'is\_a'
+ontology 'is\_a'.
 
-Q: I have a disease name "inflammatory bowel disease"
+Q: I have a disease name "inflammatory bowel disease".
 
 Create an PhenotypeQuery using description field.
 ``{"description": "inflammatory bowel disease",...}`` The system
@@ -293,7 +293,7 @@ dataset when it is deployed independently of the sequenceAnnotations
 API. The request and response payloads are similar to
 ``features/search``.
 
-Terms within a query are combined via AND e.g
+Terms within a query are combined via AND e.g:
 
 ::
 
@@ -316,15 +316,15 @@ The endpoint will respond with features that match on external
 identifier. Multiple identifiers are OR'd together.
 
 Q: I have an identifier for BRCA1 ``GO:0070531`` how do I query for
-feature? Create an OntologyTerm query
+feature? Create an OntologyTerm query:
 ``{…   {"type": {"id":"http://purl.obolibrary.org/obo/GO_0070531"},  … }``
 
-The endpoint will respond with features that match on that term
+The endpoint will respond with features that match on that term.
 
 Q: I only want somatic variant features ``SO:0001777`` how do I limit
 results? Specify featureType
 ``{… {"featureType":"http://purl.obolibrary.org/obo/SO_0001777",  … }``
-The endpoint will respond with features that match on that type
+The endpoint will respond with features that match on that type.
 
 --------------
 
@@ -358,7 +358,7 @@ queried via the new EvidenceQuery.
 The response is returned as a list of associations.
 
 .. figure:: https://raw.githubusercontent.com/ohsu-computational-biology/schemas/a44e67210724af58041fa83c898b1701b53ca84f/doc/source/_static/g2p_response.png
-   :alt: 
+   :alt:
 
 *Implementation Guidance: Results*
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -366,7 +366,7 @@ The response is returned as a list of associations.
 Q: I need a place to store publication identifiers or model machine
 learning and statistical data.
 
-The "info" key value pair addition to Evidence
+The "info" key value pair addition to Evidence.
 
 ::
 
@@ -425,9 +425,9 @@ If I left both the ``genotype`` and ``evidence`` fields as ``null``, I
 would receive back all associations which involve GIST as a phenotype.
 
 2) As a non-Hodgkin's lymphoma researcher, I may know that the gene
-   *CD20* has abnormal expression in
+   *CD20* has an abnormal expression in
    ``Hodgkin's lymphoma <http://purl.obolibrary.org/obo/DOID_8567>``\ **.
-   I might be interested in knowing whether *CD20* also has abnormal
+   I might be interested in knowing whether *CD20* also has an abnormal
    expression in
    ``non-Hodgkin lymphoma <http://purl.obolibrary.org/obo/DOID_0060060>``**.
    Therefore I could perform a query with *CD20* as a feature,
@@ -465,7 +465,7 @@ more general OntologyTerm is supplied.
 describing some attribute. Annotations have associations with
 OntologyTerms to allow these to be added after annotations are captured.
 OntologyTerms are preferred over Annotations in all cases. Annotations
-can be used in conjucntion with OntologyTerms
+can be used in conjucntion with OntologyTerms.
 
 *OntologyTerm* - the preferred term for the class in question. For
 example http://purl.obolibrary.org/obo/HP\_0011927 preferred term is
@@ -473,10 +473,10 @@ example http://purl.obolibrary.org/obo/HP\_0011927 preferred term is
 term that should be used.
 
 *OntologyTerm identifier* - An identifier for a single ontology term
-from a single ontology source specified as a CURIE (preferred) or PURL
+from a single ontology source specified as a CURIE (preferred) or PURL.
 
 *OntologySource* - the name of ontology from which the term is obtained.
-e.g. 'Human Phenotype Ontology'
+e.g. 'Human Phenotype Ontology'.
 
 *OntologySource identifier* - the identifier -a CURIE (preferred) or
 PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
