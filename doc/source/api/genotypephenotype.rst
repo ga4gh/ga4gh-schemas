@@ -325,8 +325,8 @@ The endpoint will respond with features that match on that type.
 ``/features/search``
 ~~~~~~~~~~~~~~~~~~~~
 
-**See sequence annotations
-`documentation <https://github.com/ga4gh/schemas/blob/master/doc/source/api/sequence_annotations.rst>`__**
+See sequence annotations `documentation <sequence_annotations.html>`__.
+
 
 --------------
 
