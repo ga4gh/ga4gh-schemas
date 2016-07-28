@@ -5,6 +5,7 @@ API Design
 !!!!!!!!!!
 
 .. _apidesign_object_ids:
+
 Object Ids
 @@@@@@@@@@
 
@@ -106,6 +107,6 @@ Unresolved Issues
   generated JSON for a given an Protocol Buffers schema?
 
 * What is the role of Protocol Buffers?  Is it for documentation-only
- or for use as an IDL?
+  or for use as an IDL?
 
 * Need overall object relationship diagram.
