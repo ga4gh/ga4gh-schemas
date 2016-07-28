@@ -104,7 +104,8 @@ message GetRnaQuantificationSetRequest {
 // This request maps to the body of 'POST /rnaquantifications/search'
 // as JSON.
 message SearchRnaQuantificationsRequest {
-  // If present, return only Rna Quantifications which belong to this set.
+  // Return only Rna Quantifications which belong to this set.
+  // Must be specified.
   string rna_quantification_set_id = 1;
 
   // The `Dataset` to search.
