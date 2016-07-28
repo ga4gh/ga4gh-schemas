@@ -92,7 +92,7 @@ class ProtobufObject(ObjectDescription):
 
     indextext = self.get_index_text(name)
     if indextext:
-      #FIXME When sphinx-maven has a 1.4 later version of sphinx
+      #FIXME When sphinx-maven has a 1.4 or later version of sphinx
       # 1.4 and later versions of sphinx expect a fifth entry for the index tuple
       # and will throw a warning. To support the version of sphinx in use by the
       # maven plugin we allow for this warning.
