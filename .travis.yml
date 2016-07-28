@@ -1,3 +1,6 @@
+# n.b. whenprotobuf version changes, it must be update in three places in this
+# file (no macros or variables in YAML).
+
 language: python
 python:
   - "2.7"
@@ -5,6 +8,12 @@ python:
 install:
     - sudo apt-get update -qq
     - pip install -r requirements.txt
+cache:
+    directories:
+    - /tmp/proto3.0.0-beta-3.1
+before_script:
+    - bash tools/travis-install-protoc.sh 3.0.0-beta-3.1
+    - export PATH=/tmp/proto3.0.0-beta-3.1/bin:$PATH
 script:
     - flake8 scripts tests
     - nosetests -v tests

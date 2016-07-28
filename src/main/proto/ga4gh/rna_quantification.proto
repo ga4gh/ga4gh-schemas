@@ -63,21 +63,6 @@ message RnaQuantification {
   string rna_quantification_set_id = 7;
 }
 
-// Identifying information for a group of features.
-message FeatureGroup {
-  // feature group ID
-  string id = 1;
-
-  // The associated features.
-  repeated string feature_ids = 2;
- 
-  // User assigned short name for the collection
-  string name = 3;
-
-  // Description
-  string description = 4;
-}
-
 // The actual numerical quantification for each feature.
 message ExpressionLevel {
   //Expression ID
@@ -112,7 +97,4 @@ message ExpressionLevel {
   
   // Upper bound of the confidence interval on the expression value.
   float conf_interval_high = 11;
-
-  // Associated feature groups
-  repeated string feature_group_ids = 12;
 }

@@ -34,34 +34,16 @@
     </developer>
   </developers>
 
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
   <properties>
-    <proto.version>3.0.0-beta-2</proto.version>
+    <proto.version>3.0.0-beta-3</proto.version>
     <maven.enforcer.jdk-version>[1.6,)</maven.enforcer.jdk-version>
     <maven.enforcer.maven-version>[3.0.4,)</maven.enforcer.maven-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.targetEncoding>UTF-8</project.build.targetEncoding>
   </properties>
-
-  <!-- pluginRepositories can be removed entirely once
-       https://github.com/sergei-ivanov/maven-protoc-plugin/issues/11 is
-       resolved. -->
-  <pluginRepositories>
-    <pluginRepository>
-        <releases>
-            <updatePolicy>never</updatePolicy>
-        </releases>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-        <id>central</id>
-        <name>Central Repository</name>
-        <url>https://repo.maven.apache.org/maven2</url>
-    </pluginRepository>
-    <pluginRepository>
-        <id>protoc-plugin</id>
-        <url>https://dl.bintray.com/sergei-ivanov/maven/</url>
-    </pluginRepository>
-  </pluginRepositories>
 
   <build>
     <extensions>
@@ -76,12 +58,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>2.6.1</version>
+          <version>3.0.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.3</version>
+          <version>3.5.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -91,7 +73,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>1.4</version>
+          <version>1.4.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -106,12 +88,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>2.6</version>
+          <version>3.0.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.9.1</version>
+          <version>2.10.4</version>
           <configuration>
             <detectLinks>true</detectLinks>
             <quiet>true</quiet>
@@ -121,7 +103,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.5.1</version>
+          <version>2.5.3</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <useReleaseProfile>false</useReleaseProfile>
@@ -132,37 +114,36 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>2.7</version>
+          <version>3.0.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.5.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.4</version>
+          <version>3.0.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.18.1</version>
+          <version>2.19.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.5.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.xolstice.maven.plugins</groupId>
+          <artifactId>protobuf-maven-plugin</artifactId>
+          <version>0.5.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
-      <plugin>
-        <groupId>com.google.protobuf.tools</groupId>
-        <artifactId>maven-protoc-plugin</artifactId>
-        <version>0.4.4</version>
-        <configuration>
-          <protocArtifact>com.google.protobuf:protoc:${proto.version}:exe:${os.detected.classifier}</protocArtifact>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>compile-python</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
@@ -185,27 +166,38 @@
           </execution>
         </executions>
       </plugin>
-<!-- FIXME: Doc generation temporarily disabled due to dependency on avro.
-     <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.4.0</version>
+      <plugin>
+        <groupId>org.tomdz.maven</groupId>
+        <artifactId>sphinx-maven-plugin</artifactId>
+        <version>1.0.2</version>
+        <configuration>
+          <sourceDirectory>doc/source</sourceDirectory>
+          <outputDirectory>target/docs</outputDirectory>
+        </configuration>
         <executions>
           <execution>
-            <id>build-docs</id>
             <phase>package</phase>
             <goals>
-               <goal>exec</goal>
+              <goal>generate</goal>
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.xolstice.maven.plugins</groupId>
+        <artifactId>protobuf-maven-plugin</artifactId>
         <configuration>
-          <executable>make</executable>
-	  <arguments>
-	    <argument>docs</argument>
-	  </arguments>
+          <protocArtifact>com.google.protobuf:protoc:${proto.version}:exe:${os.detected.classifier}</protocArtifact>
         </configuration>
-      </plugin> -->
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+              <goal>compile-python</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -264,7 +256,7 @@
                 <goals>
                   <goal>jar-no-fork</goal>
                 </goals>
-             </execution>
+              </execution>
             </executions>
           </plugin>
         </plugins>
