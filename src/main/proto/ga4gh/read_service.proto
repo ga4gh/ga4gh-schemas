@@ -16,7 +16,7 @@ service ReadService {
   rpc SearchReadGroupSets(SearchReadGroupSetsRequest)
       returns (SearchReadGroupSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.5a/readgroupsets/search"
+        post: "/v0.6.6a/readgroupsets/search"
         body: "*"
       };
     };
@@ -28,7 +28,7 @@ service ReadService {
   rpc GetReadGroupSet(GetReadGroupSetRequest)
     returns (ReadGroupSet) {
       option (google.api.http) = {
-        get: "/v0.6.5a/readgroupsets/{read_group_set_id}"
+        get: "/v0.6.6a/readgroupsets/{read_group_set_id}"
       };
     };
 
@@ -55,7 +55,7 @@ service ReadService {
   rpc SearchReads(SearchReadsRequest)
     returns (SearchReadsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.5a/reads/search"
+        post: "/v0.6.6a/reads/search"
         body: "*"
       };
     };
