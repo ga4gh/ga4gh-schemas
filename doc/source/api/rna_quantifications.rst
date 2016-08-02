@@ -78,6 +78,3 @@ The RnaQuantificationSet collects a group of related RnaQuantifications.  These 
 The RnaQuantification describes the analysis pipeline used as well as the input reads dataset and which sequence annotations, if any, used.
 
 ExpressionLevel contains the identity of the specific feature measured as well as the final resulting quantification from the pipeline.
-
-The FeatureGroup exists to group related features if it is desirable to do so.  For example, in the case where exon-level quantifications would be grouped by parent gene or transcript.  Another use of FeatureGroup could be to create a retrievable set of gene results (from a disease-related panel for exapmle) for downstream analysis.
-
