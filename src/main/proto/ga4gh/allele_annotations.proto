@@ -119,6 +119,9 @@ message TranscriptEffect {
 
   // Output from prediction packages such as SIFT.
   repeated AnalysisResult analysis_results = 9;
+  
+  // Additional data in key-value pairs.
+  map<string, google.protobuf.ListValue> info = 10;
 }
 
 // A `VariantAnnotation` record represents the result of comparing a variant to
