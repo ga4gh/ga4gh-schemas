@@ -74,12 +74,12 @@ by the Monarch project was the source of Evidence.
 
 
 Intent: The GA4GH Ontology schema provides structures for unambiguous
-references to ontological concepts and/or controlled vocabularies within
-AVRO. The structures provided are not intended for de novo modeling of
-ontologies, or representing complete ontologies within AVRO. References
-to e.g. classes from external ontologies or controlled vocabularies
-should be interpreted only in their original context i.e. the source
-ontology.
+references to ontological concepts and/or controlled vocabularies
+within Protocol Buffers. The structures provided are not intended for
+de novo modeling of ontologies, or representing complete ontologies
+within Protocol Buffers. References to e.g. classes from external
+ontologies or controlled vocabularies should be interpreted only in
+their original context i.e. the source ontology.
 
 Due to the flexibility of the data model, users have a number of options
 for specifying each query term
@@ -167,14 +167,16 @@ Source Code
 
 -  `Front
    End <https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/frontend.py>`__
-   '/genotypes/search', '/phenotypes/search',
+   '/genotypes/search', '/datasets/<datasetId>/features/search', '/phenotypes/search',
    '/genotypephenotypes/search'
 -  `Back
    End <https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/backend.py>`__
-   'runSearchGenotypePhenotypes', 'runSearchPhenotypes',
+   'runSearchFeatures', 'runSearchGenotypePhenotypes', 'runSearchPhenotypes',
    'runSearchGenotypes'
 -  `Datamodel <https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/datamodel/genotype_phenotype.py>`__
    'getAssociations'
+   `Datamodel <https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/datamodel/genotype_phenotype_featureset.py>`__
+   'getAssociations' (Features)
 
 Tests
 ~~~~~
@@ -285,7 +287,7 @@ regex <https://www.w3.org/TR/xpath-functions/#regex-syntax>`__
 This endpoint is provided to serve features/variants/etc hosted by a g2p
 dataset when it is deployed independently of the sequenceAnnotations
 API. The request and response payloads are similar to
-``features/search``.
+``/datasets/<datasetId>/features/search``.
 
 Terms within a query are combined via AND e.g:
 
@@ -322,7 +324,7 @@ The endpoint will respond with features that match on that type.
 
 --------------
 
-``/features/search``
+``/datasets/<datasetId>/features/search``
 ~~~~~~~~~~~~~~~~~~~~
 
 See sequence annotations `documentation <sequence_annotations.html>`__.
