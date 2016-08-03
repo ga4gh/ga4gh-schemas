@@ -6,23 +6,23 @@ import "ga4gh/common.proto";
 import "ga4gh/metadata.proto";
 import "google/protobuf/struct.proto";
 
-/*
-This protocol defines annotations on GA4GH genomic sequences It includes two
-types of annotations: continuous and discrete hierarchical.
 
-The discrete hierarchical annotations are derived from the Sequence Ontology
-(SO) and GFF3 work
+// This protocol defines annotations on GA4GH genomic sequences It includes two
+// types of annotations: continuous and discrete hierarchical.
+//
+// The discrete hierarchical annotations are derived from the Sequence Ontology
+// (SO) and GFF3 work
+//
+//    http://www.sequenceontology.org/gff3.shtml
+//
+// The goal is to be able to store annotations using the GFF3 and SO conceptual
+// model, although there is not necessarly a one-to-one mapping in Protobuf messages
+// to GFF3 records.
+//
+// The minimum requirement is to be able to accurately represent the current
+// state of the art annotation data and the full SO model.  Feature is the
+// core generic record which corresponds to the a GFF3 record.
 
-   http://www.sequenceontology.org/gff3.shtml
-
-The goal is to be able to store annotations using the GFF3 and SO conceptual
-model, although there is not necessarly a one-to-one mapping in Protobuf messages
-to GFF3 records.
-
-The minimum requirement is to be able to accurately represent the current
-state of the art annotation data and the full SO model.  Feature is the
-core generic record which corresponds to the a GFF3 record.
-*/
 
 // Type defining a collection of attributes associated with various protocol
 // records. Each attribute is a name that maps to an array of one or more
