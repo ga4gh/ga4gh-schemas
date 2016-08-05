@@ -38,8 +38,8 @@ rpc GetRnaQuantification(GetRnaQuantificationRequest)
 // Gets a list of 'ExpressionLevel' matching the search criteria.
 
 // 'POST /expressionlevels/search' must accept JSON version of
-// 'SearchExpressionLevelRequest' as the post body and will return a JSON
-// version of 'SearchExpressionLevelResponse'.
+// 'SearchExpressionLevelsRequest' as the post body and will return a JSON
+// version of 'SearchExpressionLevelsResponse'.
 rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
       returns (SearchExpressionLevelsResponse);
 
@@ -94,17 +94,14 @@ message SearchRnaQuantificationsRequest {
   // Must be specified.
   string rna_quantification_set_id = 1;
 
-  // The `Dataset` to search.
-  string dataset_id = 2;
-
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
-  int32 page_size = 3;
+  int32 page_size = 2;
 
   // The continuation token, which is used to page through large result sets.
   // To get the next page of results, set this parameter to the value of
   // 'nextPageToken' from the previous response.
-  string page_token = 4;
+  string page_token = 3;
 }
 
 // This is the response from 'POST /rnaquantifications/search' expressed as JSON.
