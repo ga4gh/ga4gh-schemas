@@ -88,7 +88,7 @@ message PhenotypeInstance {
     // HPO is recommended, for example, subclasses of
     // http://purl.obolibrary.org/obo/HP_0011007
 
-    OntologyTerm age_of_on_set = 4;
+    OntologyTerm age_of_onset = 4;
 
     // A textual description of the phenotype. This is used to complement the
     // structured phenotype description in the type field.
@@ -106,7 +106,7 @@ message Evidence {
     OntologyTerm evidence_type = 1;
 
     // A textual description of the evidence. This is used to complement the
-    // structured description in the evidenceType field
+    // structured description in the evidence_type field
     string description = 2;
 
     // Additional annotation data in key-value pairs.
@@ -144,9 +144,6 @@ message FeaturePhenotypeAssociation {
     repeated Evidence evidence = 4;
 
     // The phenotypic component of this association.
-    // Note that we delegate this to a separate record to allow us the flexibility
-    // to composition of phenotype associations with records that are not
-    // variant sets - for example, diseases.
 
     PhenotypeInstance phenotype = 5;
 
