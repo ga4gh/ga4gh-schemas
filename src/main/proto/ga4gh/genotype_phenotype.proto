@@ -154,4 +154,7 @@ message FeaturePhenotypeAssociation {
     // The context in which the phenotype arises.
     // Multiple contexts can be specified - these are assumed to all hold together
     repeated EnvironmentalContext environmental_contexts = 7;
+
+    // Additional annotation data in key-value pairs.
+    map<string, google.protobuf.ListValue> info = 8;
 }
