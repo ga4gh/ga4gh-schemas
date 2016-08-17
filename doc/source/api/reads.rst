@@ -22,7 +22,7 @@ Record                                Description                               
 ==================================== =========================================== ========================
 :protobuf:message:`ReadAlignment`     One alignment for one read                 A single line in a file
 :protobuf:message:`ReadGroup`         A group of read alignments                 A single RG tag
-:protobuf:message:`ReadGroupSet`      Collecton of ReadGroups that map to the    Single SAM/BAM file
+:protobuf:message:`ReadGroupSet`      Collection of ReadGroups that map to the   Single SAM/BAM file
                                       same genome
 :protobuf:message:`Program`           Software version and parameters that were  PN, CL tags in SAM header
                                       used to align reads to the genome
