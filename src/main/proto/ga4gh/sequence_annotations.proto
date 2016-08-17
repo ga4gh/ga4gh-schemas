@@ -88,7 +88,14 @@ message Feature {
   // Feature that is annotated by this region.  Normally, this will be a term
   // in the Sequence Ontology.
   OntologyTerm feature_type = 11;
-
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
+  string created = 13;
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 14;
   // Name/value attributes of the annotation.  Attribute names follow the GFF3
   // naming convention of reserved names starting with an upper cases character,
   // and user-define names start with lower-case.  Most GFF3 pre-defined
@@ -117,7 +124,15 @@ message FeatureSet {
   // The source URI describing the file from which this annotation set was
   // generated, if any.
   string source_uri = 5;
-
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
+  string created = 7;
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 8;
+  
   // Remaining structured metadata key-value pairs.
   map<string, google.protobuf.ListValue> info = 6;
 }

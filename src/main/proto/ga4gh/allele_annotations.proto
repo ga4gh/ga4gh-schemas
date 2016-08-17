@@ -133,8 +133,13 @@ message VariantAnnotation {
   // The ID of the variant annotation set this record belongs to.
   string variant_annotation_set_id = 3;
 
-  // The time at which this record was created, in ISO 8601 format.
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
   string created = 4;
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 7;
 
   // The transcript effect annotation for the alleles of this variant. Each
   // one represents the effect of a single allele on a single transcript.

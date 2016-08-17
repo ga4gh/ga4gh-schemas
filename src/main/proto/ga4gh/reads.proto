@@ -53,13 +53,13 @@ message ReadGroup {
   // The predicted insert size of this read group.
   int32 predicted_insert_size = 8;
 
-  // The time at which this read group was created in milliseconds from the
-  // epoch.
-  int64 created = 9;
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
+  string created = 15;
 
-  // The time at which this read group was last updated in milliseconds
-  // from the epoch.
-  int64 updated = 10;
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 16;
 
   // Statistical data on reads in this read group.
   ReadStats stats = 11;

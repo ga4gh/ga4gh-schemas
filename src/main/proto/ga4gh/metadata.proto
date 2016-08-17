@@ -40,8 +40,16 @@ message Dataset {
 
   // Additional, human-readable information on the dataset.
   string description = 3;
-
-  // A map of additional dataset information.
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
+  string created = 5;
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 6;
+  
+  // A map of additional variant information.
   map<string, google.protobuf.ListValue> info = 4;
 }
 

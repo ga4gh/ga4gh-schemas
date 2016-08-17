@@ -60,20 +60,21 @@ and how it is used in the GA4GH APIs, see :ref:`proto`.
 Here is an example schema definition for a Variant (with comments
 removed)::
 
-  message Variant {
-    string id = 1;
-    string variant_set_id = 2;
-    repeated string names = 3;
-    int64 created = 4;
-    int64 updated = 5;
-    string reference_name = 6;
-    int64 start = 7;
-    int64 end = 8;
-    string reference_bases = 9;
-    repeated string alternate_bases = 10;
-    map<string, google.protobuf.ListValue> info = 11;
-    repeated Call calls = 12;
-  }
+message Variant {
+  string id = 1;
+  string variant_set_id = 2;
+  repeated string names = 3;
+  string created = 13;
+  string updated = 14;
+  string reference_name = 6;
+  int64 start = 7;
+  int64 end = 8;
+  string reference_bases = 9;
+  repeated string alternate_bases = 10;
+  map<string, google.protobuf.ListValue> info = 11;
+  repeated Call calls = 12;
+}
+
 
 On the wire, the GA4GH web API takes the form of a client and a server
 exchanging JSON-serialized objects over HTTP or HTTPS. For more

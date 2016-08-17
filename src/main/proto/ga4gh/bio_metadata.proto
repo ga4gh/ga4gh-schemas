@@ -83,7 +83,8 @@ message Biosample {
   // was created.
   string created = 6;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record was updated.
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
+  // was updated.
   string updated = 7;
 
   // The individual this biosample was derived from.

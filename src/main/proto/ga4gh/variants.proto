@@ -51,6 +51,14 @@ message VariantSet {
   // The ID of the reference set that describes the sequences used by the
   // variants in this set.
   string reference_set_id = 4;
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
+  string created = 6;
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 7;
 
   // Optional metadata associated with this variant set.
   // This array can be used to store information about the variant set, such as
@@ -74,12 +82,13 @@ message CallSet {
   // The IDs of the variant sets this call set has calls in.
   repeated string variant_set_ids = 4;
 
-  // The date this call set was created in milliseconds from the epoch.
-  int64 created = 5;
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
+  string created = 8;
 
-  // The time at which this call set was last updated in
-  // milliseconds from the epoch.
-  int64 updated = 6;
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 9;
 
   // A map of additional call set information.
   map<string, google.protobuf.ListValue> info = 7;
@@ -126,7 +135,7 @@ message Call {
   // the phase of the bases and is consistent with any other variant calls on
   // the same contig which have the same phaseset string.
   string phaseset = 4;
-
+  
   // The genotype likelihoods for this variant call. Each array entry
   // represents how likely a specific genotype is for this call as
   // log10(P(data | genotype)), analogous to the GL tag in the VCF spec. The
@@ -153,12 +162,13 @@ message Variant {
   // Names for the variant, for example a RefSNP ID.
   repeated string names = 3;
 
-  // The date this variant was created in milliseconds from the epoch.
-  int64 created = 4;
-
-  // The time at which this variant was last updated in
-  // milliseconds from the epoch.
-  int64 updated = 5;
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
+  string created = 13;
+  
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 14;
 
   // The reference on which this variant occurs.
   // (e.g. `chr20` or `X`)
