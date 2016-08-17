@@ -1,0 +1,100 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/metadata.proto";
+
+// Units for expression level.
+// FPKM - number of Fragments Per Kilobase of feature length per Million reads
+// FPKM is calculated by dividing the fragment count per feature by the total
+// number of reads in millions (FPM - Fragments Per Million).  FPM is then
+// divided by feature length in kilobases to obtain FPKM.
+
+// TPM - Transcripts per kilobase Per Million reads
+// TPM is calculated by first dividing the fragment/read count by feature length
+// in kilobases (RPK - Reads Per Kilobase).  The count of all RPKs in the sample
+// are then divided by a million to generate a 'per million' scaling value.  For
+// each feature RPK divided by the 'per million' scaling factor generated TPM.
+
+enum ExpressionUnit {
+  EXPRESSION_UNIT_UNSPECIFIED = 0;
+  FPKM = 1;
+  TPM = 2;
+}
+
+// A collection of associated RNAQuantifications.  Typically this will be all
+// the Quantifications of samples from an experiment.  For example, a time
+// course experiment would be described by a RnaQuantificationSet with the
+// individual RNASeq experiments of the time point being represented as the
+// member RnaQuantifications.
+message RnaQuantificationSet {
+  // The RNA quantification set ID.
+  string id = 1;
+
+  // The ID of the dataset this RNA Quantification set belongs to.
+  string dataset_id = 2;
+
+  // The RNA quantification set name.
+  string name = 3;
+}
+
+// Top level identifying information
+message RnaQuantification {
+  // The unique ID assigned to the results of running the described programs
+  // on the specified reads and assignment to the listed annotation.
+  string id = 1;
+ 
+  // Name
+  string name = 2;
+
+  // Description
+  string description = 3;
+
+  // ID(s) of the ReadGroup(s) providing the reads for the analysis.
+  repeated string read_group_ids = 4;
+
+  // Programs can be used to track the provenance of how read data was quantified.
+  repeated Program programs = 5;
+
+  // List of annotation sets used.
+  repeated string feature_set_ids = 6;
+
+  // ID of the containing RnaQuantificationSet.
+  string rna_quantification_set_id = 7;
+}
+
+// The actual numerical quantification for each feature.
+message ExpressionLevel {
+  //Expression ID
+  string id = 1;
+
+  // Name
+  string name = 2;
+
+  // Id of the feature
+  string feature_id = 3;
+
+  // The associated RnaQuantification
+  string rna_quantification_id = 4;
+
+  // The number of reads mapped to this feature.
+  float raw_read_count = 5;
+
+  // Numerical expression value.
+  float expression = 6;
+
+  // True if the expression value is a normalized value.
+  bool is_normalized = 7;
+
+  // The units of the expression value if one is given.
+  ExpressionUnit units = 8;
+
+  // Weighted score for the expression value.
+  float score = 9;
+
+  // Lower bound of the confidence interval on the expression value.
+  float conf_interval_low = 10;
+  
+  // Upper bound of the confidence interval on the expression value.
+  float conf_interval_high = 11;
+}

@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "google/protobuf/struct.proto";
-
 // An ontology term describing an attribute. (e.g. the phenotype attribute
 // 'polydactyly' from HPO)
 message OntologyTerm {
@@ -40,12 +38,9 @@ message Dataset {
 
   // Additional, human-readable information on the dataset.
   string description = 3;
-  
-  // A map of additional variant information.
-  map<string, google.protobuf.ListValue> info = 4;
 }
 
-// Program can be used to track the provenance of how read data was generated.
+// A Program describes software used in data processing or analysis.
 message Program {
   // The command line used to run this program.
   string command_line = 1;
