@@ -9,6 +9,7 @@ Examples for OntologyTerm use
 * Info: Ontogenesis blog
 * Info: Working implementation of the GA4GH docsystem's Ontologies document
 
+.. _ciliopathy:
 
 Why should we use an ontology term?
 ===================================
@@ -38,30 +39,34 @@ What is the minimum attribute requirement for  OntologyTerm in GA4GH?
 
 Conceptually (and consistent with the metadata branch)
 
-:ontologyId:
-  required and implemented as URI
-  we assume this resolves to a meaningful document, e.g. http://purl.obolibrary.org/obo/SO_0000147
+:termId:
+  The unique identifier of the term in an ontology source. This should be a CURIE (e.g., SO:0001234), but may be an alphanumerical string (e.g., 8000/3) if no CURIE are available.
 :term:
   preferred but not required (e.g. ‘exon’); corresponds to class label
+:termUri:
+  A fully qualified URI that can be used to access details regarding the term. e.g. http://purl.bioontology.org/ontology/SNOMEDCT/76345009.
 :sourceName:
   not required since should be resolved from prefix etc., but supporting/fall-back in case of non-standard/deprecated/entropic annotations; possible use for CURIEs in compact sequence ontology implementations  (e.g. SO:0000147)
 :sourceVersion:
-  not required but good practice; if no explicit versioning, ISO8601 formatted data of retrieval should be used
+  not required but good practice; if no explicit versioning, ISO8601 formatted data of retrieval should be used.
 
 
 Ontology Selection and Overlap
 ==============================
 
 Sometimes a single ontology provides excellent coverage of a domain. For
-example the Sequence Ontology is used successfully in GFF files to annotate
-exons, introns etc. There are multiple ontologies in some domains which overlap
-in scope and content and also interoperation between ontologies. For example
-the Human Phenotype Ontology (HP) provides terms describing human phenotypes.
-Disease phenotype associations are not provided in the HP, rather as supporting
-files with common cross references such as OMIM identifiers. When selecting an
-ontology consider coverage - how much of your data is represented; structure -
-does the ontology provide structure that meets your use cases, e.g.
-contains a class ciliopathy (see above), update frequency, ability to request
+example, the Sequence Ontology is used successfully in GFF files to annotate
+exons, introns, etc. There are multiple ontologies in some domains which overlap
+in scope and content and also interoperation between ontologies.
+
+
+For example, the Human Phenotype Ontology (HP) provides terms describing human phenotypes.
+Disease phenotype associations are not provided directly by the HP, but rather as supporting
+files with common cross references such as OMIM identifiers.
+
+
+When selecting an ontology consider coverage - how much of your data is represented? Does the ontology provide structure that meets your use cases? For the case above
+contains a class ciliopathy_, update frequency, ability to request
 terms when needed, adherence to community standards  e.g. OBO foundry provides
 recommendations on versioning strategy and term deprecation.
 Note that OBO policy dictates that when the meaning of a class changes,
@@ -84,23 +89,27 @@ Examples
 Genotypic sex
 =============
 
-:ontologyId:
-	"http://purl.obolibrary.org/obo/PATO_0020001",
+:termId:
+  "PATO:0020001",
 :term:
   "male genotypic sex" ,
+:termUri:
+  "http://purl.obolibrary.org/obo/PATO_0020001"
 :sourceName:
-	"PATO Phenotypic quality",
+  "PATO Phenotypic quality",
 
 
 Sequence Ontology
 =================
 
-:ontologyId:
-  "http://purl.obolibrary.org/obo/SO_0001583",
+:termId:
+  "SO:0001583",
 :term:
-	"missense_variant",
+  "missense_variant",
+:termUri:
+  "http://purl.obolibrary.org/obo/SO_0001583",
 :sourceName:
-	"Sequence Ontology",
+  "Sequence Ontology",
 :sourceVersion:
   "release_2.5.3"
 
@@ -108,86 +117,100 @@ Sequence Ontology
 Human Phenotype ontology
 ========================
 
-:ontologyId:
-  "http://purl.obolibrary.org/obo/HP_0000819",
+:termId:
+  "HP:0000819",
 :term:
-	"Diabetes mellitus",
+  "Diabetes mellitus",
+:termUri:
+  "http://purl.obolibrary.org/obo/HP_0000819",
 :sourceName:
-	"human_phenotype Ontology",
+  "human_phenotype Ontology",
 :sourceVersion:
-	"release_Jan2016*"
+  "release_Jan2016*"
 
 ----
 
-:ontologyId:
-	"http://www.ebi.ac.uk/efo/HP_0012059",
+:termId:
+  "HP:0012059",
 :term:
-	"Lentigo maligna melanoma",
+  "Lentigo maligna melanoma",
+:termUri:
+  "http://www.ebi.ac.uk/efo/HP_0012059",
 :sourceName:
-	"human_phenotype_ontology",
+  "human_phenotype_ontology",
 :sourceVersion:
-	"2016-01-14”
+  "2016-01-14”
 
 
 Body part (Uberon)
 ==================
 
-:ontologyId:
-	"http://www.ebi.ac.uk/efo/UBERON_0003403",
+:termId:
+  "UBERON:0003403",
 :term:
-	"skin of forearm",
+  "skin of forearm",
+:termUri:
+  "http://www.ebi.ac.uk/efo/UBERON_0003403",
 :sourceName:
-	"uberon",
+  "uberon",
 :sourceVersion:
-	"2015-11-23”
+  "2015-11-23”
 
 
 Human disease ontology
 ======================
 
-:ontologyId:
-	"http://purl.obolibrary.org/obo/DOID_9351",
+:termId:
+  "DOID:9351",
 :term:
-	"diabetes mellitus",
+  "diabetes mellitus",
+:termUri:
+  "DOID_9351",
 :sourceName:
-	"disease_ontology",
+  "disease_ontology",
 :sourceVersion:
-	"2016-01-25"
+  "2016-01-25"
 
 
 Experimental factor ontology
 ============================
 
-:ontologyId:
-	"http://purl.obolibrary.org/obo/EFO_0000400",
+:termId:
+  "EFO:0000400",
 :term:
-	"diabetes mellitus",
+  "diabetes mellitus",
+:termUri:
+  "http://purl.obolibrary.org/obo/EFO_0000400",
 :sourceName:
-	"experimental_factor_ontology",
+  "experimental_factor_ontology",
 :sourceVersion:
-	"V2.68”
+  "V2.68”
 
 ----
 
-:ontologyId:
-	"http://www.ebi.ac.uk/efo/EFO_0004422",
+:termId:
+  "EFO:0004422",
 :term:
-	"exome",
+  "exome",
+:termUri:
+  "http://www.ebi.ac.uk/efo/EFO_0004422",
 :sourceName:
-	"Experimental Factor Ontology",
+  "Experimental Factor Ontology",
 :sourceVersion:
-	"release_2.68"
+  "release_2.68"
 
 
 SNOMEDCT representation of ICD-O 3 Cancer Histology
 ===================================================
 
-:ontologyId:
-	"http://purl.bioontology.org/ontology/SNMI/M-94703“
+:termId:
+  "M-94703“,
 :term:
-	"Medulloblastoma, NOS”
+  "Medulloblastoma, NOS”,
+:termUri:
+  "http://purl.bioontology.org/ontology/SNMI/M-94703",
 :sourceName:
-	"SNOMED CT model component”
+  "SNOMED CT model component”,
 :sourceVersion:
   "2016-01-28"
 
@@ -195,11 +218,13 @@ SNOMEDCT representation of ICD-O 3 Cancer Histology
 Unit Ontology
 =============
 
-:ontologyId:
-	"http://purl.obolibrary.org/obo/UO_0000016",
+:termId:
+  "UO:0000016",
 :term:
-	"millimetre",
+  "millimetre",
+:termUri:
+  "http://purl.obolibrary.org/obo/UO_0000016",
 :sourceName:
-	"Unit Ontology",
+  "Unit Ontology",
 :sourceVersion:
-	"2015-12-17"
+  "2015-12-17"
