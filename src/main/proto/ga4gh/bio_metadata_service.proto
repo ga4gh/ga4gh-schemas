@@ -20,10 +20,10 @@ service BioMetadataService {
     };
   
   // `POST /biosamples/search` must accept a JSON version of
-  // `SearchBioSamplesRequest` as the post body and will return a JSON version
-  // of `SearchBioSamplesResponse`.
-  rpc SearchBioSamples(SearchBioSamplesRequest)
-    returns (SearchBioSamplesResponse) {
+  // `SearchBiosamplesRequest` as the post body and will return a JSON version
+  // of `SearchBiosamplesResponse`.
+  rpc SearchBiosamples(SearchBiosamplesRequest)
+    returns (SearchBiosamplesResponse) {
       option (google.api.http) = {
         post: "/v0.6.0a8/biosamples/search"
         body: "*"
@@ -39,10 +39,10 @@ service BioMetadataService {
       };
     };
 
-  // Gets a `BioSample` by ID.
-  // `GET /biosamples/{id}` will return a JSON version of `BioSample`.
-  rpc GetBioSample(GetBioSampleRequest)
-    returns (BioSample) {
+  // Gets a `Biosample` by ID.
+  // `GET /biosamples/{id}` will return a JSON version of `Biosample`.
+  rpc GetBioSample(GetBiosampleRequest)
+    returns (Biosample) {
         option (google.api.http) = {
           get: "/v0.6.0a8/biosamples/{bio_sample_id}"
         };
@@ -73,10 +73,10 @@ message GetIndividualRequest {
   string individual_id = 1;
 }
 
-// This request maps to the URL `GET /biosamples/{bio_sample_id}`.
-message GetBioSampleRequest {
+// This request maps to the URL `GET /biosamples/{biosample_id}`.
+message GetBiosampleRequest {
   // The ID of the biosample requested
-  string bio_sample_id = 1;
+  string biosample_id = 1;
 }
 
 //This is the response from `POST /individuals/search` expressed as JSON.
@@ -92,14 +92,14 @@ message SearchIndividualsResponse {
 
 // *********************  /biosamples ********************************
 //This is the request sent to `POST /biosamples/search` expressed as JSON.
-message SearchBioSamplesRequest {
+message SearchBiosamplesRequest {
   // Optionally specify the dataset to search within.
   string dataset_id = 1;
   
-  // Returns BioSamples with the given name found by case-sensitive string matching.
+  // Returns Biosamples with the given name found by case-sensitive string matching.
   string name = 2;
   
-  // Returns BioSamples for the provided individual ID.
+  // Returns Biosamples for the provided individual ID.
   string individual_id = 3;
   
   // Specifies the maximum number of results to return in a single page.
@@ -113,9 +113,9 @@ message SearchBioSamplesRequest {
 }
 
 //This is the response from `POST /biosamples/search` expressed as JSON.
-message SearchBioSamplesResponse {
+message SearchBiosamplesResponse {
   // The list of biosamples.
-  repeated BioSample biosamples = 1;
+  repeated Biosample biosamples = 1;
 
   // The continuation token, which is used to page through large result sets.
   // Provide this value in a subsequent request to return the next page of
