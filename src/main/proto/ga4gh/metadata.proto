@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "google/protobuf/struct.proto";
+import "ga4gh/common.proto";
 
 // An ontology term describing an attribute. (e.g. the phenotype attribute
 // 'polydactyly' from HPO)
@@ -32,7 +32,7 @@ message Dataset {
   string description = 3;
 
   // A map of additional dataset information.
-  map<string, google.protobuf.ListValue> info = 4;
+  Attributes attributes = 5;
 }
 
 // A Program describes software used in data processing or analysis.
@@ -51,4 +51,34 @@ message Program {
 
   // The version of the program run.
   string version = 5;
+}
+
+enum NullValue {
+  // Null value.
+  NULL_VALUE = 0;
+}
+
+// Type defining a collection of attributes associated with various protocol
+// records. Each attribute is a name that maps to an array of one or more
+// values. Values can be strings, external identifiers, or ontology terms Values
+// should be split into the array elements instead of using a separator syntax
+// that needs to parsed.
+message AttributeValue {
+  oneof value {
+    string string_value = 1;
+    ExternalIdentifier external_identifier = 2;
+    OntologyTerm ontology_term = 3;
+    int64 int64_value = 4;
+    int32 int32_value = 5;
+    bool bool_value = 6;
+    double double_value = 7;
+    NullValue null_value = 8;
+  }
+}
+
+message Attributes {
+  message AttributeValueList {
+    repeated AttributeValue values = 1;
+  }
+  map<string, AttributeValueList> attr = 1;
 }

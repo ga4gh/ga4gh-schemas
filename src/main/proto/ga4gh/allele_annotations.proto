@@ -66,9 +66,12 @@ message VariantAnnotationSet {
   // The variant annotation set name.
   string name = 3;
 
-  //  Analysis details. It is essential to supply versions for all software and
+  // Analysis details. It is essential to supply versions for all software and
   // reference data used.
   Analysis analysis = 4;
+  
+// A map of additional information about the Annotation Set.
+  Attributes attributes = 5;
 }
 
 // A HGVSAnnotation record holds Human Genome Variation Society descriptions of
@@ -117,8 +120,8 @@ message TranscriptEffect {
   // Output from prediction packages such as SIFT.
   repeated AnalysisResult analysis_results = 9;
   
-  // Additional data in key-value pairs.
-  map<string, google.protobuf.ListValue> info = 10;
+  // A map of additional information about the Transcript Effect.
+  Attributes attributes = 11;
 }
 
 // A `VariantAnnotation` record represents the result of comparing a variant to
@@ -140,6 +143,6 @@ message VariantAnnotation {
   // one represents the effect of a single allele on a single transcript.
   repeated TranscriptEffect transcript_effects = 5;
 
-  // Additional annotation data in key-value pairs.
-  map<string, google.protobuf.ListValue> info = 6;
+  // A map of additional information about the Annotation.
+  Attributes attributes = 7;
 }

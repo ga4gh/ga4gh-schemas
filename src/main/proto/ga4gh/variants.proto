@@ -6,7 +6,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "google/protobuf/struct.proto";
+import "ga4gh/metadata.proto";
 
 // This metadata represents VCF header information.
 message VariantSetMetadata {
@@ -32,8 +32,8 @@ message VariantSetMetadata {
   // A textual description of this metadata.
   string description = 6;
 
-  // Remaining structured metadata key-value pairs.
-  map<string, google.protobuf.ListValue> info = 7;
+  // A map of additional information about the metadata record.
+  Attributes attributes = 8;
 }
 
 // A VariantSet is a collection of variants and variant calls intended to be
@@ -81,8 +81,8 @@ message CallSet {
   // milliseconds from the epoch.
   int64 updated = 6;
 
-  // A map of additional call set information.
-  map<string, google.protobuf.ListValue> info = 7;
+  // A map of additional information about the Call Set.
+  Attributes attributes = 8;
 }
 
 // A `Call` represents the determination of genotype with respect to a
@@ -133,8 +133,8 @@ message Call {
   // value ordering is defined by the GL tag in the VCF spec.
   repeated double genotype_likelihood = 5;
 
-  // A map of additional variant call information.
-  map<string, google.protobuf.ListValue> info = 6;
+  // A map of additional information about the Call.
+  Attributes attributes = 7;
 }
 
 // A `Variant` represents a change in DNA sequence relative to some reference.
@@ -183,9 +183,9 @@ message Variant {
   // The bases that appear instead of the reference bases. Multiple alternate
   // alleles are possible.
   repeated string alternate_bases = 10;
-
-  // A map of additional variant information.
-  map<string, google.protobuf.ListValue> info = 11;
+  
+  // A map of additional information about the Variant.
+  Attributes attributes = 13;
 
   // The variant calls for this particular variant. Each one represents the
   // determination of genotype with respect to this variant. `Call`s in this

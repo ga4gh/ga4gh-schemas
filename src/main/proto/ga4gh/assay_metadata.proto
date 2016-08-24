@@ -2,8 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "google/protobuf/struct.proto";
-
+import "ga4gh/metadata.proto";
 
 // An experimental preparation of a sample.
 message Experiment {
@@ -64,7 +63,7 @@ message Experiment {
   string platform_unit = 15;
 
   // A map of additional experiment information.
-  map<string, google.protobuf.ListValue> info = 16;
+  Attributes attributes = 17;
 }
 
 // An analysis contains an interpretation of one or several experiments. (e.g.
@@ -92,6 +91,6 @@ message Analysis {
   repeated string software = 7;
 
   // A map of additional analysis information.
-  map<string, google.protobuf.ListValue> info = 8;
+  Attributes attributes = 9;
 }
 

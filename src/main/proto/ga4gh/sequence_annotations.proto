@@ -4,7 +4,6 @@ package ga4gh;
 
 import "ga4gh/common.proto";
 import "ga4gh/metadata.proto";
-import "google/protobuf/struct.proto";
 
 
 // This protocol defines annotations on GA4GH genomic sequences It includes two
@@ -22,26 +21,6 @@ import "google/protobuf/struct.proto";
 // The minimum requirement is to be able to accurately represent the current
 // state of the art annotation data and the full SO model.  Feature is the
 // core generic record which corresponds to the a GFF3 record.
-
-
-// Type defining a collection of attributes associated with various protocol
-// records. Each attribute is a name that maps to an array of one or more
-// values. Values can be strings, external identifiers, or ontology terms Values
-// should be split into the array elements instead of using a separator syntax
-// that needs to parsed.
-message Attributes {
-  message AttributeValue {
-    oneof value {
-      string string_value = 1;
-      ExternalIdentifier external_identifier = 2;
-      OntologyTerm ontology_term = 3;
-    }
-  }
-  message AttributeValueList {
-    repeated AttributeValue values = 1;
-  }
-  map<string, AttributeValueList> vals = 1;
-}
 
 // Node in the annotation graph that annotates a contiguous region of a
 // sequence.
@@ -118,6 +97,6 @@ message FeatureSet {
   // generated, if any.
   string source_uri = 5;
 
-  // Remaining structured metadata key-value pairs.
-  map<string, google.protobuf.ListValue> info = 6;
+  // A map of additional Feature Set information.
+  Attributes attributes = 12;
 }
