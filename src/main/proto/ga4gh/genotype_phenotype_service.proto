@@ -97,7 +97,7 @@ message SearchPhenotypesRequest {
 
     repeated OntologyTerm qualifiers = 5;  /* terms should be OR'd together. e.g. (severe OR abnormal) */
 
-    OntologyTerm age_of_on_set = 6;
+    OntologyTerm age_of_onset = 6;
 
     // Specifies the maximum number of results to return in a single page.
     // If unspecified, a system default will be used.
@@ -106,7 +106,7 @@ message SearchPhenotypesRequest {
 
     // The continuation token, which is used to page through large result sets.
     // To get the next page of results, set this parameter to the value of
-    // `nextPageToken` from the previous response.
+    // `next_page_token` from the previous response.
     string page_token = 8;
 }
 
