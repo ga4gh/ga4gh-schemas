@@ -1,7 +1,13 @@
+.. _g2p:
+
+*************************
+Genotype To Phenotype API
+*************************
+
 Summary
 =======
 
-This API endpoints allows users to search for genotype-phenotype
+This API allows users to search for genotype-phenotype
 associations in a GA4GH datastore. The user can search for associations
 by building queries composed of features, phenotypes, and/or evidence
 terms. The API is designed to accommodate search terms specified as
@@ -117,17 +123,11 @@ standalone.
 Entity Searches
 ~~~~~~~~~~~~~~~
 
--  ``/datasets/<datasetId>/features/search``
+-  ``/features/search``
 
    -  Given a SearchFeaturesRequest, return matching *features* in the
       ``current 'omics dataset``. Intended for sequence annotation and
       GA4GH datasets.
-
--  ``/genotypes/search``
-
-   -  Given a SearchGenotypesRequest, return matching *genotypes* in the
-      in the ``current g2p dataset.``. Intended for standalone local G2P
-      "knowledge bases"
 
 -  ``/phenotypes/search``
 
@@ -145,7 +145,7 @@ Association Search
 Usage
 -----
 
-1. As a GA4GH client, use entity queries the for the genotypes and
+1. As a GA4GH client, use entity queries for the genotypes and
    phenotypes you are interested in.
 2. Create an association search using the entity identifiers from step
    1.
@@ -324,7 +324,7 @@ The endpoint will respond with features that match on that type.
 
 --------------
 
-``/datasets/<datasetId>/features/search``
+``/features/search``
 ~~~~~~~~~~~~~~~~~~~~
 
 See sequence annotations `documentation <sequence_annotations.html>`__.
@@ -417,7 +417,7 @@ URI's in the ``associations`` field could - hypothetically - be followed
 to discover that
 ``GIST patients with wild-type *KIT* have decreased sensitivity to therapy with imatinib <http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2651076/>``\ \_\_.
 
-If I left both the ``genotype`` and ``evidence`` fields as ``null``, I
+If I left both the ``feature`` and ``evidence`` fields as ``null``, I
 would receive back all associations which involve GIST as a phenotype.
 
 2) As a non-Hodgkin's lymphoma researcher, I may know that the gene
@@ -445,7 +445,7 @@ Ontologies
 ----------
 
 **Usage:** Multiple ontology terms can be supplied e.g. to describe a
-series of phenotypes for a specific sample. The ontology.avdl is not
+series of phenotypes for a specific sample. The OntologyTerm message is not
 intended to model relationships between terms, or to provide mappings
 between ontologies for the same concept. Should an OntologyTerm be
 unavailable, or terms unmapped then an 'annotation' can be provided
@@ -455,32 +455,7 @@ annotations can be supplied with related ontology terms if desired. A
 use case could be when a free text annotation is very specific and a
 more general OntologyTerm is supplied.
 
-**Definitions:**
-
-*Annotation* - A free text annotation which is not an ontology term
-describing some attribute. Annotations have associations with
-OntologyTerms to allow these to be added after annotations are captured.
-OntologyTerms are preferred over Annotations in all cases. Annotations
-can be used in conjucntion with OntologyTerms.
-
-*OntologyTerm* - the preferred term for the class in question. For
-example http://purl.obolibrary.org/obo/HP\_0011927 preferred term is
-'short digit' and synonym is 'VERY SHORT DIGIT'. 'short digit' is the
-term that should be used.
-
-*OntologyTerm identifier* - An identifier for a single ontology term
-from a single ontology source specified as a CURIE (preferred) or PURL.
-
-*OntologySource* - the name of ontology from which the term is obtained.
-e.g. 'Human Phenotype Ontology'.
-
-*OntologySource identifier* - the identifier -a CURIE (preferred) or
-PURL for an ontology source e.g. http://purl.obolibrary.org/obo/hp.obo
-
-*OntologySource version* - the version of the ontology from which the
-OntologyTerm is obtained. E.g. 2.6.1. There is no standard for ontology
-versioning and some frequently released ontologies may use a datestamp,
-or build number.
+:ref:`Read more about Ontology Terms<metadata_ontologies>`
 
 --------------
 
@@ -507,22 +482,3 @@ association
 .. figure:: https://cloud.githubusercontent.com/assets/47808/14397329/99fc7c30-fd91-11e5-8346-e95f97bfb78c.png
    :alt: image
 
-
-Convenience endpoints
----------------------
-
-(As needed)
-
-::
-
-    GET /associationsets/<phenotypeAssociationSetId>/feature/<id>/associations
-    GET /associationsets/<phenotypeAssociationSetId>/feature/<id>/genotypes
-    GET /associationsets/<phenotypeAssociationSetId>/feature/<id>/phenotypes
-
-    GET /associationsets/<phenotypeAssociationSetId>/genotype/<id>/associations
-    GET /associationsets/<phenotypeAssociationSetId>/genotype/<id>/features
-    GET /associationsets/<phenotypeAssociationSetId>/genotype/<id>/phenotypes
-
-    GET /associationsets/<phenotypeAssociationSetId>/phenotypes/<id>/associations
-    GET /associationsets/<phenotypeAssociationSetId>/phenotypes/<id>/features
-    GET /associationsets/<phenotypeAssociationSetId>/phenotypes/<id>/genotypes

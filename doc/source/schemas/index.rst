@@ -21,3 +21,5 @@ Schemas
    sequence_annotations.proto.rst
    sequence_annotation_service.proto.rst
    struct.proto.rst
+   genotype_phenotype.proto.rst
+   genotype_phenotype_service.proto.rst
