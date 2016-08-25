@@ -7,7 +7,7 @@ import "ga4gh/metadata.proto";
 import "ga4gh/genotype_phenotype.proto";
 
 
-/**
+/*
    This protocol defines genotype to phenotype association
    query system.
    Suggested ontologies used in type-based queries include:
@@ -20,19 +20,28 @@ import "ga4gh/genotype_phenotype.proto";
    Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
    Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
 */
-
 service GenotypePhenotypeService {
 
-    rpc SearchPhenotypeAssociationSets(SearchPhenotypeAssociationSetsRequest)
-        returns (SearchPhenotypeAssociationSetsResponse);
+  // Gets a list of association sets accessible through the API.
+  // `POST /phenotypeassociationsets/search` must accept a JSON version of
+  // `SearchPhenotypeAssociationSetsRequest` as the post body and will return a JSON version
+  // of `SearchPhenotypeAssociationSetsResponse`.
+  rpc SearchPhenotypeAssociationSets(SearchPhenotypeAssociationSetsRequest)
+    returns (SearchPhenotypeAssociationSetsResponse);
 
-    rpc SearchPhenotype(SearchPhenotypesRequest)
-        returns (SearchPhenotypesResponse);
+  // Gets a list of phenotypes accessible through the API.
+  // `POST /phenotypes/search` must accept a JSON version of
+  // `SearchPhenotypesRequest` as the post body and will return a JSON version
+  // of `SearchPhenotypeAssociationSetsResponse`.
+  rpc SearchPhenotype(SearchPhenotypesRequest)
+      returns (SearchPhenotypesResponse);
 
-    // see SequenceAnnotations.SearchFeatureSets
-
-    rpc GetPhenotypeAssociations(SearchGenotypePhenotypeRequest)
-        returns (SearchGenotypePhenotypeResponse);
+  // Gets a list of genotype-phenotype assoications accessible through the API.
+  // `POST /genotypephenotype/search` must accept a JSON version of
+  // `SearchPhenotypesRequest` as the post body and will return a JSON version
+  // of `SearchPhenotypeAssociationSetsResponse`.
+  rpc GetPhenotypeAssociations(SearchGenotypePhenotypeRequest)
+      returns (SearchGenotypePhenotypeResponse);
 
 }
 
@@ -51,6 +60,7 @@ message SearchPhenotypeAssociationSetsRequest {
     // `nextPageToken` from the previous response.
     string page_token = 3;
 }
+
 // This is the response from `POST /phenotypeassociationsets/search` expressed as JSON.
 message SearchPhenotypeAssociationSetsResponse {
     // The list of matching phenotype association sets.
@@ -63,7 +73,6 @@ message SearchPhenotypeAssociationSetsResponse {
 }
 
 /******************  /phenotypes/search  *********************/
-
 // One or more ontology terms can be queried together.
 message OntologyTermQuery {
     repeated OntologyTerm terms = 1;
@@ -80,28 +89,34 @@ message EvidenceQuery {
     // ECO or OBI is recommended
     OntologyTerm evidenceType = 1;
 
-    string description = 2;  /*regex*/
+    // regex
+    string description = 2;
 
-    repeated ExternalIdentifier external_identifiers = 3; /* new field */
+    // new field
+    repeated ExternalIdentifier external_identifiers = 3;
 }
 
 message SearchPhenotypesRequest {
     // The `PhenotypeAssociationSet` to search. Mandatory
     string phenotype_association_set_id = 1;
 
+    // Phenotype ID
     string id = 2;
 
-    string description = 3; /* The system should support regular expression matches */
+    // The system should support regular expression matches
+    string description = 3;
 
+    // type
     OntologyTerm type = 4;
 
-    repeated OntologyTerm qualifiers = 5;  /* terms should be OR'd together. e.g. (severe OR abnormal) */
+    // terms should be OR'd together. e.g. (severe OR abnormal)
+    repeated OntologyTerm qualifiers = 5;
 
+    // Age of onset
     OntologyTerm age_of_onset = 6;
 
     // Specifies the maximum number of results to return in a single page.
     // If unspecified, a system default will be used.
-
     int64 page_size = 7;
 
     // The continuation token, which is used to page through large result sets.
@@ -123,8 +138,7 @@ message SearchPhenotypesResponse {
 
 
 /******************  /genotypephenotypes/search  *********************/
-
-/**
+/*
 This request maps to the body of `POST /genotypephenotype/search` as JSON.
 
 The goal here is to allow users to query using one or more of
@@ -154,15 +168,17 @@ identifers (such as for gene or SNP ids), ontology term ids, or
 full feature/phenotype/evidence objects.
 */
 message SearchGenotypePhenotypeRequest {
-    // The `PhenotypeAssociationSet` to search. Mandatory
-    string phenotype_association_set_id = 1;
+  // The `PhenotypeAssociationSet` to search. Mandatory
+  string phenotype_association_set_id = 1;
 
-    // At least one feature_id or phenotype_id must be provided.
-    repeated string feature_ids = 2;
+  // At least one feature_id or phenotype_id must be provided.
+  repeated string feature_ids = 2;
 
-    repeated string phenotype_ids = 3;
+  // Phenotype IDs
+  repeated string phenotype_ids = 3;
 
-    repeated EvidenceQuery evidence = 4;
+  // evidence
+  repeated EvidenceQuery evidence = 4;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
