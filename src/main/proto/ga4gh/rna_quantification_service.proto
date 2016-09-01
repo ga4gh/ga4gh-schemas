@@ -93,6 +93,9 @@ message SearchRnaQuantificationsRequest {
   // Return only Rna Quantifications which belong to this set.
   // Must be specified.
   string rna_quantification_set_id = 1;
+  
+  // Return only RNA quantifications regarding the specified biosample. Optional.
+  string bio_sample_id = 4;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
