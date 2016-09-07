@@ -62,7 +62,7 @@ message VariantAnnotationSet {
   string id = 1;
 
   // The ID of the variant set to which this annotation set belongs
-  string variantSet_id = 2;
+  string variant_set_id = 2;
 
   // The variant annotation set name.
   string name = 3;
@@ -119,6 +119,9 @@ message TranscriptEffect {
 
   // Output from prediction packages such as SIFT.
   repeated AnalysisResult analysis_results = 9;
+  
+  // Additional data in key-value pairs.
+  map<string, google.protobuf.ListValue> info = 10;
 }
 
 // A `VariantAnnotation` record represents the result of comparing a variant to

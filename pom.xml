@@ -172,7 +172,7 @@
         <version>1.0.2</version>
         <configuration>
           <sourceDirectory>doc/source</sourceDirectory>
-          <outputDirectory>target/docs</outputDirectory>
+          <outputDirectory>target/doc</outputDirectory>
         </configuration>
         <executions>
           <execution>
