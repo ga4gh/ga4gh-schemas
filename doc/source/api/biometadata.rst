@@ -37,7 +37,7 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this BioSample
-*disease*             * OntologyTerm annotating the disease of the sample
+*sample_characteristics*             * List of OntologyTerm objects annotating the biological characteristics (e.g. anatomic location, patho-histology) of the sample
 *individualId*        * the *id* of the *Individual* this BioSample was derived from
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601
