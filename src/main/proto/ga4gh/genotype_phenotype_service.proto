@@ -37,10 +37,10 @@ service GenotypePhenotypeService {
       returns (SearchPhenotypesResponse);
 
   // Gets a list of genotype-phenotype assoications accessible through the API.
-  // `POST /genotypephenotype/search` must accept a JSON version of
+  // `POST /featurephenotypeassociations/search` must accept a JSON version of
   // `SearchPhenotypesRequest` as the post body and will return a JSON version
   // of `SearchPhenotypeAssociationSetsResponse`.
-  rpc GetPhenotypeAssociations(SearchGenotypePhenotypeRequest)
+  rpc SearchPhenotypeAssociations(SearchGenotypePhenotypeRequest)
       returns (SearchGenotypePhenotypeResponse);
 
 }
@@ -89,10 +89,10 @@ message EvidenceQuery {
     // ECO or OBI is recommended
     OntologyTerm evidenceType = 1;
 
-    // regex
+    // The system may support regex. https://www.w3.org/TR/xpath-functions/#regex-syntax
     string description = 2;
 
-    // new field
+    // Only match Evidence messages that have any of these external identifiers
     repeated ExternalIdentifier external_identifiers = 3;
 }
 
@@ -101,18 +101,19 @@ message SearchPhenotypesRequest {
     string phenotype_association_set_id = 1;
 
     // Phenotype ID
+    // TODO remove if a get-by-phenotype ID endpoint is added
     string id = 2;
 
-    // The system should support regular expression matches
+    // The system may support regex. https://www.w3.org/TR/xpath-functions/#regex-syntax
     string description = 3;
 
-    // type
+    // Only return results that match this type
     OntologyTerm type = 4;
 
     // terms should be OR'd together. e.g. (severe OR abnormal)
     repeated OntologyTerm qualifiers = 5;
 
-    // Age of onset
+    // Only return results that match this age of onset
     OntologyTerm age_of_onset = 6;
 
     // Specifies the maximum number of results to return in a single page.
@@ -137,9 +138,9 @@ message SearchPhenotypesResponse {
 }
 
 
-/******************  /genotypephenotypes/search  *********************/
+/******************  /featurephenotypeassociations/search  *********************/
 /*
-This request maps to the body of `POST /genotypephenotype/search` as JSON.
+This request maps to the body of `POST /featurephenotypeassociations/search` as JSON.
 
 The goal here is to allow users to query using one or more of
 Genotype, Phenotype, Environment, and Evidence.

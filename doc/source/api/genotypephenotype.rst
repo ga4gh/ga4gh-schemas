@@ -137,7 +137,7 @@ Entity Searches
 Association Search
 ~~~~~~~~~~~~~~~~~~
 
--  ``/genotypephenotypes/search``
+-  ``/featurephenotypeassociations/search``
 
    -  Given a SearchGenotypePhenotypeRequest, return matching *evidence
       associations* in the ``current g2p dataset.``
@@ -481,4 +481,3 @@ association
 
 .. figure:: https://cloud.githubusercontent.com/assets/47808/14397329/99fc7c30-fd91-11e5-8346-e95f97bfb78c.png
    :alt: image
-

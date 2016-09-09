@@ -70,10 +70,10 @@ message SearchFeaturesRequest {
   // The annotation set to search within. Either `feature_set_id` or
   // `parent_id` must be non-empty.
   string feature_set_id = 1;
-  
+
   // Only returns features with this name (case-sensitive, exact match).
   string name = 2;
-  
+
   // Only return features with matching the provided gene symbol
   // (case-sensitive, exact match).
   // This field may be replaced with a more generic representation
@@ -88,14 +88,16 @@ message SearchFeaturesRequest {
   // (matched to literal reference name as imported from the GFF3).
   string reference_name = 5;
 
-  // Required. The beginning of the window (0-based, inclusive) for which
+  // Required, if name or symbol not provided.
+  // The beginning of the window (0-based, inclusive) for which
   // overlapping features should be returned.  Genomic positions are
   // non-negative integers less than reference length.  Requests spanning the
   // join of circular genomes are represented as two requests one on each side
   // of the join (position 0).
   int64 start = 6;
 
-  // Required. The end of the window (0-based, exclusive) for which overlapping
+  // Required, if name or symbol not provided.
+  // The end of the window (0-based, exclusive) for which overlapping
   // features should be returned.
   int64 end = 7;
 
