@@ -79,7 +79,7 @@ message EnvironmentalContext {
 message PhenotypeInstance {
     // The Phenotype ID.
     string id = 1;
-    
+
     // HPO is recommended
     OntologyTerm type = 2;
 
@@ -90,7 +90,7 @@ message PhenotypeInstance {
     repeated OntologyTerm qualifier = 3;
 
     // HPO is recommended, for example, subclasses of
-    // http://purl.obolibrary.org/obo/HP_0011007
+    // http://www.human-phenotype-ontology.org/hpoweb/showterm?id=HP:0011007
     // TODO: also allow quantitative recording?
     OntologyTerm age_of_onset = 4;
 
