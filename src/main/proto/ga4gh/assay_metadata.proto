@@ -94,3 +94,4 @@ message Analysis {
   // A map of additional analysis information.
   map<string, google.protobuf.ListValue> info = 8;
 }
+

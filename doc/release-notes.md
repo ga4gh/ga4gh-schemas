@@ -1,3 +1,65 @@
+# Schema Release `v0.6.0.a7` 
+
+Changes to `ga4gh/schemas` `master` branch since version `0.6.0a6` (Jul 25, 2016)
+
+Introduced RNA API endpoints including the following:
+'POST /rnaquantificationsets/search'
+'GET /rnaquantificationsets/{id}'
+'POST /rnaquantifications/search'
+'GET /rnaquantifications/{id}'
+'POST /expressionlevels/search'
+'GET /expressionlevels/{id}'
+
+# Schema Release `v0.6.0.a6` 
+
+Changes to `ga4gh/schemas` `master` branch since version `0.6.0a5` (Jun 20, 2016)
+NOTE: release notes have not been updated for several versions. 
+
+## changes made in the most recent release
+
+* Metadata section added
+* Now support searching features by 'name' and 'gene_symbol' 
+
+
+# Schema Release `v0.6.0.a5`
+
+Changes to `ga4gh/schemas` `master` branch since version `v0.6.0a4` (Apr 7, 2016)
+
+First Protocol Buffers (protobuf v3.0.0) version of the GA4GH API. 
+Same set of features (messages, endpoints) as previous alpha release.
+
+IMPORTANT: The switch from AVRO to protobuf in this pre-release will 
+break compatibility with all client applications written against the 
+previous AVRO schema version.
+
+
+# Schema Release `v0.6.0.a4`
+
+Changes to `ga4gh/schemas` `master` branch since version `v0.6.0a3` (Mar 1, 2016)
+
+Introduced Sequence Annotations API record types (FeatureSet and Feature) 
+and associated endpoints 
+`POST featuresets/search`
+`GET featuresets/<id>`
+`POST features/search`
+`GET features/<id>`
+
+
+# Schema Release `v0.6.0.a3`
+
+Changes to `ga4gh/schemas` `master` branch since version `v0.6.0a2` (Feb 24, 2016)
+
+Changed properPlacement in Reads API to improperPlacement (defaults to 
+False), corrected documentation on variation annotation and dateTime format.
+
+
+# Schema Release `v0.6.0.a62
+
+Changes to `ga4gh/schemas` `master` branch since version `v0.6.0a1` (Dec 15, 2015)
+
+Added Variant Annotations draft API
+
+
 # Changes to `ga4gh/schemas` `master` branch since version `v0.5.1` (Oct 2, 2014)
 
 ## Pervasive changes

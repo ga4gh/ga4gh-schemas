@@ -101,7 +101,6 @@ message SearchFeaturesRequest {
 
   // TODO: To be replaced with a fully featured ontology search
   // once the Metadata definitions are rounded out.
-
   // If specified, this query matches only annotations whose `feature_type`
   // matches one of the provided ontology terms.
   repeated string feature_types = 8;

@@ -72,7 +72,8 @@ target/
 
 !.travis.yml
 
-#********** IntelliJ files ******
+#********* IntelliJ files *******
 *.iml
 
-
+#********* Java artifacts *******
+*.class

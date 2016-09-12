@@ -9,7 +9,7 @@ service ReadService {
   //
   // `POST /readgroupsets/search` must accept a JSON version of
   // `SearchReadGroupSetsRequest` as the post body and will return a JSON
-  // version of `SearchReadGroupSetsResponse`. Only readgroups that
+  // version of `SearchReadGroupSetsResponse` . Only readgroups that
   // match an optionally supplied bioSampleId will be included in the
   // response.
   rpc SearchReadGroupSets(SearchReadGroupSetsRequest)
@@ -18,13 +18,13 @@ service ReadService {
   // Gets a `ReadGroupSet` by ID.
   //
   // `GET /readgroupsets/{read_group_set_id}` will return a JSON version of
-  // `ReadGroupSet`.
+  // `ReadGroupSet` .
   rpc GetReadGroupSet(GetReadGroupSetRequest) returns (ReadGroupSet);
 
-  // Gets a list of `ReadAlignment`s for one or more `ReadGroup`s.
+  // Gets a list of `ReadAlignment` s for one or more `ReadGroup` s.
   //
   // `searchReads` operates over a genomic coordinate space of reference sequence
-  // and position defined by the `Reference`s to which the requested `ReadGroup`s are
+  // and position defined by the `Reference` s to which the requested `ReadGroup` s are
   // aligned.
   //
   // If a target positional range is specified, search returns all reads whose
