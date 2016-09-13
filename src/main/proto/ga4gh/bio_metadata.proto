@@ -89,7 +89,10 @@ message BioSample {
   // The individual this biosample was derived from.
   string individual_id = 8;
 
-  // An age object describing the
+  // An age object describing the age of the individual this biosample was
+  // derived from at the time of collection. The Age object allows the encoding
+  // of the age either as ISO8601 duraion or time interval (preferred), or
+  // as ontology term object.
   Age individual_age_at_collection = 9;
 
   // A map of additional information.
