@@ -4,7 +4,11 @@ Installing the GA4GH Schemas
 The schemas are documents (text files) that formally describe the
 messages that pass between GA4GH reference servers and clients, which we
 also refer to collectively as "the API." The schemas are written in a
-language called `Protocol Buffers <https://developers.google.com/protocol-buffers/>`__.
+language called `Protocol Buffers 3 <https://developers.google.com/protocol-buffers/>`__.
+
+For instructions on how to install Protocol Buffers 3 in your system,
+consult the `protocol buffers C++ installation instructions page
+<https://github.com/google/protobuf/blob/master/src/README.md>`__.
 
 We use the schemas in a couple of different ways:
 
