@@ -89,8 +89,11 @@ message BioSample {
   // The individual this biosample was derived from.
   string individual_id = 8;
 
+  // An age object describing the
+  Age individual_age_at_collection = 9;
+
   // A map of additional information.
-  map<string, google.protobuf.ListValue> info = 9;
+  map<string, google.protobuf.ListValue> info = 10;
 
 }
 
@@ -98,7 +101,7 @@ message BioSample {
 // value in ISO8601, with arbitrary granularity; and the representation of an
 // "age class" as qualitative ontology term.
 // If available, a quantitative value should be used & take precedence over the
-// age class, and class assignment should be performed at user/API level. 
+// age class, and class assignment should be performed at user/API level.
 message Age {
 
   // The :ref:`ISO 8601<metadata_date_time>` age of this object as ISO8601
