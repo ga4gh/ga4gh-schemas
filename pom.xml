@@ -4,7 +4,7 @@
   <groupId>org.ga4gh</groupId>
   <artifactId>ga4gh-schemas</artifactId>
   <packaging>jar</packaging>
-  <version>master-SNAPSHOT</version>
+  <version>g2p-SNAPSHOT</version>
 
   <name>GA4GH: Schemas</name>
   <description>Data models and APIs for Genomic data.</description>
@@ -161,7 +161,7 @@
                 <requireJavaVersion>
                   <version>${maven.enforcer.jdk-version}</version>
                 </requireJavaVersion>
-              </rules>
+              </rules>    
             </configuration>
           </execution>
         </executions>
