@@ -36,7 +36,7 @@ service ReferenceService {
   // `SearchReferencesRequest` as the post body and will return a JSON
   // version of `SearchReferencesResponse`.
   rpc SearchReferences(SearchReferencesRequest)
-      returns (SearchReferencesResponse) {
+    returns (SearchReferencesResponse) {
       option (google.api.http) = {
         post: "/v0.6.0a8/references/search"
         body: "*"
@@ -48,7 +48,7 @@ service ReferenceService {
   // `GET /references/{reference_id}` will return a JSON version of
   // `Reference`.
   rpc GetReference(GetReferenceRequest)
-      returns (Reference) {
+    returns (Reference) {
       option (google.api.http) = {
         get: "/v0.6.0a8/references/{reference_id}"
       };
@@ -59,12 +59,13 @@ service ReferenceService {
   // `POST /listreferencebases` will return a JSON version of
   // `ListReferenceBasesResponse`.
   rpc ListReferenceBases(ListReferenceBasesRequest)
-      returns (ListReferenceBasesResponse) {
+    returns (ListReferenceBasesResponse) {
       option (google.api.http) = {
         post: "/v0.6.0a8/references/{reference_id}/bases"
         body: "*"
       };
     };
+
 }
 
 // ****************  /referencesets  *******************

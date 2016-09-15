@@ -12,7 +12,7 @@ service BioMetadataService {
   // `SearchIndividualsRequest` as the post body and will return a JSON version
   // of `SearchIndividualsResponse`.
   rpc SearchIndividuals(SearchIndividualsRequest)
-      returns (SearchIndividualsResponse) {
+    returns (SearchIndividualsResponse) {
       option (google.api.http) = {
         post: "/v0.6.0a8/individuals/search"
         body: "*"
@@ -23,7 +23,7 @@ service BioMetadataService {
   // `SearchBioSamplesRequest` as the post body and will return a JSON version
   // of `SearchBioSamplesResponse`.
   rpc SearchBioSamples(SearchBioSamplesRequest)
-      returns (SearchBioSamplesResponse) {
+    returns (SearchBioSamplesResponse) {
       option (google.api.http) = {
         post: "/v0.6.0a8/biosamples/search"
         body: "*"
@@ -33,7 +33,7 @@ service BioMetadataService {
   // Gets an `Individual` by ID.
   // `GET /individuals/{id}` will return a JSON version of `Individual`.
   rpc GetIndividual(GetIndividualRequest)
-      returns (Individual) {
+    returns (Individual) {
       option (google.api.http) = {
         get: "/v0.6.0a8/individuals/{individual_id}"
       };
@@ -42,11 +42,11 @@ service BioMetadataService {
   // Gets a `BioSample` by ID.
   // `GET /biosamples/{id}` will return a JSON version of `BioSample`.
   rpc GetBioSample(GetBioSampleRequest)
-      returns (BioSample) {
-      option (google.api.http) = {
-        get: "/v0.6.0a8/biosamples/{bio_sample_id}"
+    returns (BioSample) {
+        option (google.api.http) = {
+          get: "/v0.6.0a8/biosamples/{bio_sample_id}"
+        };
       };
-    };
 }
 // *********************  /individuals ********************************
 // This request maps to the body of `POST /individuals/search` as JSON.

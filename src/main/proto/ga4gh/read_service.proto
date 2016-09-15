@@ -14,9 +14,9 @@ service ReadService {
   // match an optionally supplied bioSampleId will be included in the
   // response.
   rpc SearchReadGroupSets(SearchReadGroupSetsRequest)
-      returns (SearchReadGroupSetsResponse) {
+    returns (SearchReadGroupSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.6a/readgroupsets/search"
+        post: "/v0.6.0a8/readgroupsets/search"
         body: "*"
       };
     };
@@ -24,18 +24,13 @@ service ReadService {
   // Gets a `ReadGroupSet` by ID.
   //
   // `GET /readgroupsets/{read_group_set_id}` will return a JSON version of
-<<<<<<< HEAD
   // `ReadGroupSet`.
   rpc GetReadGroupSet(GetReadGroupSetRequest)
     returns (ReadGroupSet) {
       option (google.api.http) = {
-        get: "/v0.6.6a/readgroupsets/{read_group_set_id}"
+        get: "/v0.6.0a8/readgroupsets/{read_group_set_id}"
       };
     };
-=======
-  // `ReadGroupSet` .
-  rpc GetReadGroupSet(GetReadGroupSetRequest) returns (ReadGroupSet);
->>>>>>> upstream/master
 
   // Gets a list of `ReadAlignment` s for one or more `ReadGroup` s.
   //
@@ -60,7 +55,7 @@ service ReadService {
   rpc SearchReads(SearchReadsRequest)
     returns (SearchReadsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.6a/reads/search"
+        post: "/v0.6.0a8/reads/search"
         body: "*"
       };
     };

@@ -12,7 +12,7 @@ service VariantService {
   // `SearchVariantSetsRequest` as the post body and will return a JSON version
   // of `SearchVariantSetsResponse`.
   rpc SearchVariantSets(SearchVariantSetsRequest)
-      returns (SearchVariantSetsResponse) {
+    returns (SearchVariantSetsResponse) {
       option (google.api.http) = {
         post: "/v0.6.0a8/variantsets/search"
         body: "*"
@@ -24,7 +24,7 @@ service VariantService {
   // `GET /variantsets/{variant_set_id}` will return a JSON version of
   // `VariantSet`.
   rpc GetVariantSet(GetVariantSetRequest)
-      returns (VariantSet) {
+    returns (VariantSet) {
       option (google.api.http) = {
         get: "/v0.6.0a8/variantsets/{variant_set_id}"
       };
@@ -36,7 +36,7 @@ service VariantService {
   // `SearchVariantsRequest` as the post body and will return a JSON version of
   // `SearchVariantsResponse`.
   rpc SearchVariants(SearchVariantsRequest)
-      returns (SearchVariantsResponse) {
+    returns (SearchVariantsResponse) {
       option (google.api.http) = {
         post: "/v0.6.0a8/variants/search"
         body: "*"
@@ -47,7 +47,7 @@ service VariantService {
   //
   // `GET /variants/{id}` will return a JSON version of `Variant`.
   rpc GetVariant(GetVariantRequest)
-      returns (Variant) {
+    returns (Variant) {
       option (google.api.http) = {
         post: "/v0.6.0a8/variants/{variant_id}"
       };
@@ -71,10 +71,11 @@ service VariantService {
   // `GET /callsets/{id}` will return a JSON version of `CallSet`.
   rpc GetCallSet(GetCallSetRequest)
     returns (CallSet) {
-    option (google.api.http) = {
-      get: "/v0.6.0a8/callsets/{call_set_id}"
+      option (google.api.http) = {
+        get: "/v0.6.0a8/callsets/{call_set_id}"
+      };
     };
-  };
+
 }
 
 // ******************  /variantsets  *********************

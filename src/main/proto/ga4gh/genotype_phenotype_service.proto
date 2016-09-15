@@ -5,7 +5,7 @@ package ga4gh;
 import "ga4gh/common.proto";
 import "ga4gh/metadata.proto";
 import "ga4gh/genotype_phenotype.proto";
-
+import "google/api/annotations.proto";
 
 /*
    This protocol defines genotype to phenotype association
@@ -27,21 +27,36 @@ service GenotypePhenotypeService {
   // `SearchPhenotypeAssociationSetsRequest` as the post body and will return a JSON version
   // of `SearchPhenotypeAssociationSetsResponse`.
   rpc SearchPhenotypeAssociationSets(SearchPhenotypeAssociationSetsRequest)
-    returns (SearchPhenotypeAssociationSetsResponse);
+    returns (SearchPhenotypeAssociationSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/phenotypeassociationsets/search"
+        body: "*"
+      };
+    };
 
   // Gets a list of phenotypes accessible through the API.
   // `POST /phenotypes/search` must accept a JSON version of
   // `SearchPhenotypesRequest` as the post body and will return a JSON version
   // of `SearchPhenotypeAssociationSetsResponse`.
   rpc SearchPhenotype(SearchPhenotypesRequest)
-      returns (SearchPhenotypesResponse);
+    returns (SearchPhenotypesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/phenotypes/search"
+        body: "*"
+      };
+    };
 
   // Gets a list of genotype-phenotype assoications accessible through the API.
   // `POST /featurephenotypeassociations/search` must accept a JSON version of
   // `SearchPhenotypesRequest` as the post body and will return a JSON version
   // of `SearchPhenotypeAssociationSetsResponse`.
   rpc SearchPhenotypeAssociations(SearchGenotypePhenotypeRequest)
-      returns (SearchGenotypePhenotypeResponse);
+    returns (SearchGenotypePhenotypeResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/featurephenotypeassociations/search"
+        body: "*"
+      };
+    };
 
 }
 

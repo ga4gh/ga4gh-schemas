@@ -12,7 +12,7 @@ service SequenceAnnotationService {
   // `SearchFeatureSetsRequest` as the post body and will return a JSON version
   // of `SearchFeatureSetsResponse`.
   rpc SearchFeatureSets(SearchFeatureSetsRequest)
-      returns (SearchFeatureSetsResponse) {
+    returns (SearchFeatureSetsResponse) {
       option (google.api.http) = {
         post: "/v0.6.0a8/featuresets/search"
         body: "*"
@@ -51,6 +51,7 @@ service SequenceAnnotationService {
         get: "/v0.6.0a8/features/{feature_id}"
       };
     };
+
 }
 
 /******************  /featuresets  *********************/
