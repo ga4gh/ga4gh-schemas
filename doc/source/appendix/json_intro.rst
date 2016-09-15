@@ -8,9 +8,9 @@ JSON, or JavaScript Object Notation, is officially defined `here <http://json.or
 
 The GA4GH Web API uses a JSON wire protocol, exchanging JSON representations of the objects defined in its Protocol Buffers schemas. More information on the schemas is available in :ref:`proto`; basically, the Protocol Buffers type definitions say what attributes any given JSON object ought to have, and what ought to be stored in each of them.
 
------------------------
+------------------------
 GA4GH JSON Serialization
------------------------
+------------------------
 
 The GA4GH web APIs use Protocol Buffers IDL to define their schemas, and use the associated Google Protocol Buffers JSON serialization libraries. Notice that the Protocol Buffers IDL uses snake case, while the on-the-wire protocol is in camel case.
 

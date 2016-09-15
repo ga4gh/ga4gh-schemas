@@ -14,7 +14,7 @@ service ReferenceService {
   rpc SearchReferenceSets(SearchReferenceSetsRequest)
       returns (SearchReferenceSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.6a/referencesets/search"
+        post: "/v0.6.0a8/referencesets/search"
         body: "*"
       };
     };
@@ -26,7 +26,7 @@ service ReferenceService {
   rpc GetReferenceSet(GetReferenceSetRequest)
     returns (ReferenceSet) {
       option (google.api.http) = {
-        get: "/v0.6.6a/referencesets/{reference_set_id}"
+        get: "/v0.6.0a8/referencesets/{reference_set_id}"
       };
     };
 
@@ -38,7 +38,7 @@ service ReferenceService {
   rpc SearchReferences(SearchReferencesRequest)
       returns (SearchReferencesResponse) {
       option (google.api.http) = {
-        post: "/v0.6.6a/references/search"
+        post: "/v0.6.0a8/references/search"
         body: "*"
       };
     };
@@ -50,18 +50,18 @@ service ReferenceService {
   rpc GetReference(GetReferenceRequest)
       returns (Reference) {
       option (google.api.http) = {
-        get: "/v0.6.6a/references/{reference_id}"
+        get: "/v0.6.0a8/references/{reference_id}"
       };
     };
 
   // Lists `Reference` bases by ID and optional range.
   //
-  // `GET /references/{id}/bases` will return a JSON version of
+  // `POST /listreferencebases` will return a JSON version of
   // `ListReferenceBasesResponse`.
   rpc ListReferenceBases(ListReferenceBasesRequest)
       returns (ListReferenceBasesResponse) {
       option (google.api.http) = {
-        post: "/v0.6.6a/references/{reference_id}/bases"
+        post: "/v0.6.0a8/references/{reference_id}/bases"
         body: "*"
       };
     };
@@ -152,11 +152,8 @@ message GetReferenceRequest {
   string reference_id = 1;
 }
 
-// The parameters for a `GET /references/{reference_id}/bases` request. When
-// sending a request, the `reference_id` should be encoded in the URL path,
-// while all other parameters should be encoded as URL query parameters.
-//
-// For example: `GET /references/{id}/bases?start=100&end=200`
+// This request retrieves a region of a reference genome when sent to 
+// the `/listreferencebases` endpoint.
 message ListReferenceBasesRequest {
   // The ID of the `Reference` to be retrieved.
   string reference_id = 1;
@@ -177,7 +174,7 @@ message ListReferenceBasesRequest {
   string page_token = 4;
 }
 
-// The response from `GET /references/{id}/bases` expressed as JSON.
+// The response from `POST /listreferencebases` expressed as JSON.
 message ListReferenceBasesResponse {
   // The offset position (0-based) of the given sequence from the start of this
   // `Reference`. This value will differ for each page in a paginated request.

@@ -7,7 +7,7 @@ import "google/api/annotations.proto";
 import "ga4gh/metadata.proto";
 
 service AlleleAnnotationService {
-  // Gets a list of `VariantAnnotation`s matching the search criteria.
+  // Gets a list of `VariantAnnotation` messages matching the search criteria.
   //
   // This allows the mining of allele-specific annotations on a VariantSet by
   // either a region or by a set of genomic features. Where a region is supplied
@@ -16,7 +16,7 @@ service AlleleAnnotationService {
   // (matching on featuretype and id) are returned and other overlapping
   // features are ignored.
   //
-  // variantannotationsets/search returns information on the input to the
+  // `variantannotationsets/search` returns information on the input to the
   // annotation. This will be a VariantSet and the reference data and software
   // versions used in calculating the annotation. It is essential this
   // information is exhaustive.
@@ -27,7 +27,7 @@ service AlleleAnnotationService {
   rpc SearchVariantAnnotations(SearchVariantAnnotationsRequest)
       returns (SearchVariantAnnotationsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.6a/variantannotations/search"
+        post: "/v0.6.0a8/variantannotations/search"
         body: "*"
       };
     };
@@ -40,7 +40,7 @@ service AlleleAnnotationService {
   rpc SearchVariantAnnotationSets(SearchVariantAnnotationSetsRequest)
       returns (SearchVariantAnnotationSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.6a/variantannotationsets/search"
+        post: "/v0.6.0a8/variantannotationsets/search"
         body: "*"
       };
     };
@@ -52,7 +52,7 @@ service AlleleAnnotationService {
   rpc GetVariantAnnotationSet(GetVariantAnnotationSetRequest)
       returns (VariantAnnotationSet) {
       option (google.api.http) = {
-        get: "/v0.6.6a/variantannotationset/{variant_annotation_set_id}"
+        get: "/v0.6.0a8/variantannotationset/{variant_annotation_set_id}"
       };
     };
 }

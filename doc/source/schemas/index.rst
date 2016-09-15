@@ -16,8 +16,12 @@ Schemas
    reference_service.proto.rst
    variants.proto.rst
    variant_service.proto.rst
+   rna_quantification.proto.rst
+   rna_quantification_service.proto.rst
    allele_annotations.proto.rst
    allele_annotation_service.proto.rst
    sequence_annotations.proto.rst
    sequence_annotation_service.proto.rst
    struct.proto.rst
+   genotype_phenotype.proto.rst
+   genotype_phenotype_service.proto.rst

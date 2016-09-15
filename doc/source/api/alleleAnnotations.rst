@@ -17,7 +17,7 @@ This API supports the mining of variant annotations by region
 and the filtering of the results by predicted functional effect.
 
 Allele Annotation Schema Entities
-@@@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 The ``VariantAnnotation`` data model, is based on the results provided by variant 
 annotation programs such as VEP, SnpEff and Annovar and others, as well as the 

@@ -131,9 +131,9 @@ e.g. "age at diagnosis"; but also "progression free survival", "followup" or "ti
 * short time interval (e.g. 30min in experimental time series) in PTnM
     - *PT30M*
     - A common use for durations is the recording of time points in time series,
-    e.g. experimental interventions and observations (collections of cells from
-    an in vitro treatment experiment; recurring drug doses in a chemotherapy
-    treatment).
+      e.g. experimental interventions and observations (collections of cells from
+      an in vitro treatment experiment; recurring drug doses in a chemotherapy
+      treatment).
 
 Time intervals
 ==============
@@ -170,7 +170,7 @@ data-provider-specified collection of related data of multiple types.
 Logically, it's akin to a folder, where it's up to the provider what
 goes into the folder. Individual data objects are linked by
 `datasetId` fields to `Dataset objects
-<../schemas/metadata.html#avro.Dataset>`_.
+<../schemas/metadata.proto.html#protobuf.Dataset>`_.
 
 Since the grouping of content in a dataset is determined by the data
 provider, users should not make semantic assumptions about that data.

@@ -21,10 +21,10 @@ Experiment attributes
 Attribute             Notes
 ===================== ==========================================================
 *id*                  * the Experiment's id
-                      * unique in the context of the server
-                      * used for referencing this Experiment
+-                     * unique in the context of the server
+-                     * used for referencing this Experiment
 *name*                * a human readable object label/identifier
-                      * not to be used for referencing
+-                     * not to be used for referencing
 *description*         * additional, unstructured information about this Experiment
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601
@@ -48,10 +48,10 @@ Analysis attributes
 Attribute             Notes
 ===================== ==========================================================
 *id*                  * the Analysis's id
-                      * unique in the context of the server
-                      * used for referencing this Analysis
+-                     * unique in the context of the server
+-                     * used for referencing this Analysis
 *name*                * a human readable object label/identifier
-                      * not to be used for referencing
+-                     * not to be used for referencing
 *description*         * additional, unstructured information about this Analysis
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601

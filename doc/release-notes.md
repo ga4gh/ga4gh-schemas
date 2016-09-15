@@ -1,3 +1,15 @@
+# Schema Release `v0.6.0.a7` 
+
+Changes to `ga4gh/schemas` `master` branch since version `0.6.0a6` (Jul 25, 2016)
+
+Introduced RNA API endpoints including the following:
+'POST /rnaquantificationsets/search'
+'GET /rnaquantificationsets/{id}'
+'POST /rnaquantifications/search'
+'GET /rnaquantifications/{id}'
+'POST /expressionlevels/search'
+'GET /expressionlevels/{id}'
+
 # Schema Release `v0.6.0.a6` 
 
 Changes to `ga4gh/schemas` `master` branch since version `0.6.0a5` (Jun 20, 2016)

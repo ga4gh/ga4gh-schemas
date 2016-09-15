@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/rna_quantification.proto";
+
+service RnaQuantificationService {
+// Gets a list of 'RnaQuantificationSet' matching the search criteria.
+
+// 'POST /rnaquantificationsets/search' must accept JSON version of
+// 'SearchRnaQuantificationSetRequest' as the post body and will return a JSON
+// version of 'SearchRnaQuantificationSetResponse'.
+rpc SearchRnaQuantificationSets(SearchRnaQuantificationSetsRequest)
+      returns (SearchRnaQuantificationSetsResponse);
+
+
+// Gets a `RnaQuantificationSet` by ID.
+// `GET /rnaquantificationsets/{id}` will return a JSON version of
+// `RnaQuantificationSet`.
+rpc GetRnaQuantificationSet(GetRnaQuantificationSetRequest)
+      returns (RnaQuantificationSet);
+
+// Gets a list of 'RnaQuantification' matching the search criteria.
+
+// 'POST /rnaquantifications/search' must accept JSON version of
+// 'SearchRnaQuantificationsRequest' as the post body and will return a JSON
+// version of 'SearchRnaQuantificationResponse'.
+rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
+      returns (SearchRnaQuantificationsResponse);
+
+
+// Gets a `RnaQuantification` by ID.
+// `GET /rnaquantifications/{id}` will return a JSON version of
+// `RnaQuantification`.
+rpc GetRnaQuantification(GetRnaQuantificationRequest)
+      returns (RnaQuantification);
+
+// Gets a list of 'ExpressionLevel' matching the search criteria.
+
+// 'POST /expressionlevels/search' must accept JSON version of
+// 'SearchExpressionLevelsRequest' as the post body and will return a JSON
+// version of 'SearchExpressionLevelsResponse'.
+rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
+      returns (SearchExpressionLevelsResponse);
+
+// Gets a `ExpressionLevel` by ID.
+// `GET /expressionlevels/{id}` will return a JSON version of
+// `ExpressionLevel`.
+rpc GetExpressionLevel(GetExpressionLevelRequest)
+      returns (ExpressionLevel);
+}
+// ****************  /rnaquantificationsets/search  *******************
+
+// This request maps to the body of 'POST /rnaquantificationsets/search'
+// as JSON.
+message SearchRnaQuantificationSetsRequest {
+  // The `Dataset` to search.
+  string dataset_id = 1;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string page_token = 3;
+}
+
+// This is the response from 'POST /rnaquantificationsets/search' expressed as JSON.
+message SearchRnaQuantificationSetsResponse {
+  // The list of matching quantification sets.
+  repeated RnaQuantificationSet rna_quantification_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /rnaquantificationsets/{rna_quantification_set_id}`.
+
+message GetRnaQuantificationSetRequest {
+  // The ID of the `RnaQuantificationSet`.
+  string rna_quantification_set_id = 1;
+}
+
+// ****************  /rnaquantifications/search  *******************
+
+// This request maps to the body of 'POST /rnaquantifications/search'
+// as JSON.
+message SearchRnaQuantificationsRequest {
+  // Return only Rna Quantifications which belong to this set.
+  // Must be specified.
+  string rna_quantification_set_id = 1;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string page_token = 3;
+}
+
+// This is the response from 'POST /rnaquantifications/search' expressed as JSON.
+message SearchRnaQuantificationsResponse {
+  // The list of matching quantifications.
+  repeated RnaQuantification rna_quantifications = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /rnaquantification/{rna_quantification_id}`.
+
+message GetRnaQuantificationRequest {
+  // The ID of the `RnaQuantification`.
+  string rna_quantification_id = 1;
+}
+
+// ****************  /expressionlevels/search  *******************
+// This request maps to the body of 'POST /expressionlevels/search'
+// as JSON.
+message SearchExpressionLevelsRequest {
+  // The rnaQuantification to restrict search to.
+  string rna_quantification_id = 1;
+  
+  // Only return expressions with any of the specified feature_ids.
+  repeated string feature_ids = 2;
+
+  // Only return ExpressionLevel records with expressions exceeding
+  // this value.  (Defaults to 0.0)
+  float threshold = 3;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string page_token = 5;
+}
+
+// This is the response from 'POST /expressionlevels/search' expressed as JSON.
+message SearchExpressionLevelsResponse {
+  // The list of matching quantifications.
+  repeated ExpressionLevel expression_levels = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /expressionlevels/{expression_level_id}`.
+
+message GetExpressionLevelRequest {
+  // The ID of the `ExpressionLevel`.
+  string expression_level_id = 1;
+}
+

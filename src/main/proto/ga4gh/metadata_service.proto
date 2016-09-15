@@ -14,7 +14,7 @@ service MetadataService {
   rpc SearchDatasets(SearchDatasetsRequest)
     returns (SearchDatasetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.6a/datasets/search"
+        post: "/v0.6.0a8/datasets/search"
         body: "*"
       };
     };
@@ -26,7 +26,7 @@ service MetadataService {
   rpc GetDataset(GetDatasetRequest)
     returns (Dataset) {
       option (google.api.http) = {
-        get: "/v0.6.6a/datasets/{dataset_id}"
+        get: "/v0.6.0a8/datasets/{dataset_id}"
       };
     };
 }
