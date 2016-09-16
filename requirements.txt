@@ -4,5 +4,5 @@ flake8
 humanize
 nose
 requests
-sphinx==1.2.3
+sphinx==1.4.6
 sphinx_rtd_theme
