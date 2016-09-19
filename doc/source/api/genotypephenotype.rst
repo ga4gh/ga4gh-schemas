@@ -166,23 +166,23 @@ Source Code
 ~~~~~~~~~~~
 
 -  `Front
-   End <https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/frontend.py>`__
-   '/genotypes/search', '/datasets/<datasetId>/features/search', '/phenotypes/search',
-   '/genotypephenotypes/search'
+   End <https://github.com/ga4gh/server/blob/g2p/ga4gh/frontend.py>`__
+   '/features/search', '/datasets/<datasetId>/features/search', '/phenotypes/search',
+   '/featurephenotypeassociations/search'
 -  `Back
-   End <https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/backend.py>`__
+   End <https://github.com/ga4gh/server/blob/g2p/ga4gh/backend.py>`__
    'runSearchFeatures', 'runSearchGenotypePhenotypes', 'runSearchPhenotypes',
    'runSearchGenotypes'
--  `Datamodel <https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/datamodel/genotype_phenotype.py>`__
+-  `Datamodel <https://github.com/ga4gh/server/blob/g2p/ga4gh/datamodel/genotype_phenotype.py>`__
    'getAssociations'
-   `Datamodel <https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/ga4gh/datamodel/genotype_phenotype_featureset.py>`__
+   `Datamodel <https://github.com/ga4gh/server/blob/g2p/ga4gh/datamodel/genotype_phenotype_featureset.py>`__
    'getAssociations' (Features)
 
 Tests
 ~~~~~
 
 -  `End to
-   End <https://github.com/ohsu-computational-biology/server/blob/g2p-2.0/tests/end_to_end/test_g2p.py>`__
+   End <https://github.com/ga4gh/server/blob/g2p/tests/end_to_end/test_g2p.py>`__
 
 **Help Wanted:** Any or all use cases and scenarios
 
@@ -281,12 +281,12 @@ regex <https://www.w3.org/TR/xpath-functions/#regex-syntax>`__
 
 --------------
 
-``/genotypes/search``
+``/features/search``
 ~~~~~~~~~~~~~~~~~~~~~
 
 This endpoint is provided to serve features/variants/etc hosted by a g2p
 dataset when it is deployed independently of the sequenceAnnotations
-API. The request and response payloads are similar to
+API. The request and response payloads are identical to
 ``/datasets/<datasetId>/features/search``.
 
 Terms within a query are combined via AND e.g:
@@ -304,12 +304,16 @@ The service returns a list of matching Features.
 Examples:Genotype Lookup
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
+Note:  since we have switched to relying on the features/search API,
+external identifier queries have been deprecated. Refer to features/search documentation.
+
 Q: I have a SNPid ("rs6920220"). Create an External Identifier Query.
 
 ``{… {"ids": [{"identifier": "rs6920220", "version": "*", "database": "dbSNP"}]},  … }``
 
 The endpoint will respond with features that match on external
 identifier. Multiple identifiers are OR'd together.
+
 
 Q: I have an identifier for BRCA1 ``GO:0070531`` how do I query for
 feature? Create an OntologyTerm query:
@@ -332,7 +336,7 @@ See sequence annotations `documentation <sequence_annotations.html>`__.
 
 --------------
 
-``/genotypephenotypes/search``
+``/featurephenotypeassociations/search``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The endpoint accepts a SearchGenotypePhenotypeRequest POST. The request
@@ -406,7 +410,7 @@ Use cases
    (e.g. genes) which are associated with the sensitivity of GIST to
    imatinib. Suppose I am specifically interested in a gene, *KIT*,
    which is implicated in the pathogenesis of several cancer types. I
-   could submit a query to ``/genotypephenotype/search`` with GIST as
+   could submit a query to ``/featurephenotypeassociations/search`` with GIST as
    the phenotype, *KIT* as the feature, and
    ``clinical study evidence <http://purl.obolibrary.org/obo/ECO_0000180>``\ \_\_
    as the evidence.
