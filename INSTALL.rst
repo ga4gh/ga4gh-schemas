@@ -123,21 +123,3 @@ $ mvn package
 The documentation you generate will reside in
 ``target/generated-docs/merged/html``. To view it, open the file
 ``target/generated-docs/merged/html/index.html`` in a browser.
-
-Generating API Definitions
-@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-Follow directions available `here <https://github.com/gengo/grpc-gateway>`_
-to install prerequisites. With the dependencies on your path run:
-
-::
-
-  $ mkdir -p target/swagger
-  $ protoc -Isrc/main/proto \
-  -I/usr/local/include -I. -I$GOPATH/src  \
-  -I$GOPATH/src/github.com/gengo/grpc-gateway/third_party/googleapis \
-  --swagger_out=logtostderr=true:target/. \
-  src/main/proto/ga4gh/*service.proto
-
-This will create a directory (target/ga4gh) of JSON files describing
-the API that can be used with Open API Specification tools like `swagger-codegen <https://github.com/swagger-api/swagger-codegen>`_.
