@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/references.proto";
+import "google/api/annotations.proto";
 
 service ReferenceService {
   // Gets a list of `ReferenceSet` matching the search criteria.
@@ -11,13 +12,23 @@ service ReferenceService {
   // `SearchReferenceSetsRequest` as the post body and will return a JSON
   // version of `SearchReferenceSetsResponse`.
   rpc SearchReferenceSets(SearchReferenceSetsRequest)
-      returns (SearchReferenceSetsResponse);
+      returns (SearchReferenceSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/referencesets/search"
+        body: "*"
+      };
+    };
 
   // Gets a `ReferenceSet` by ID.
   //
   // `GET /referencesets/{reference_set_id}` will return a JSON version of
   // `ReferenceSet`.
-  rpc GetReferenceSet(GetReferenceSetRequest) returns (ReferenceSet);
+  rpc GetReferenceSet(GetReferenceSetRequest)
+    returns (ReferenceSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/referencesets/{reference_set_id}"
+      };
+    };
 
   // Gets a list of `Reference` matching the search criteria.
   //
@@ -25,20 +36,36 @@ service ReferenceService {
   // `SearchReferencesRequest` as the post body and will return a JSON
   // version of `SearchReferencesResponse`.
   rpc SearchReferences(SearchReferencesRequest)
-      returns (SearchReferencesResponse);
+    returns (SearchReferencesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/references/search"
+        body: "*"
+      };
+    };
 
   // Gets a `Reference` by ID.
   //
   // `GET /references/{reference_id}` will return a JSON version of
   // `Reference`.
-  rpc GetReference(GetReferenceRequest) returns (Reference);
+  rpc GetReference(GetReferenceRequest)
+    returns (Reference) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/references/{reference_id}"
+      };
+    };
 
   // Lists `Reference` bases by ID and optional range.
   //
   // `POST /listreferencebases` will return a JSON version of
   // `ListReferenceBasesResponse`.
   rpc ListReferenceBases(ListReferenceBasesRequest)
-      returns (ListReferenceBasesResponse);
+    returns (ListReferenceBasesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/references/{reference_id}/bases"
+        body: "*"
+      };
+    };
+
 }
 
 // ****************  /referencesets  *******************

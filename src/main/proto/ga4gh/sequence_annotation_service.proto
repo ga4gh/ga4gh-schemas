@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/sequence_annotations.proto";
+import "google/api/annotations.proto";
 
 service SequenceAnnotationService {
   // Gets a list of `FeatureSet` matching the search criteria.
@@ -11,24 +12,46 @@ service SequenceAnnotationService {
   // `SearchFeatureSetsRequest` as the post body and will return a JSON version
   // of `SearchFeatureSetsResponse`.
   rpc SearchFeatureSets(SearchFeatureSetsRequest)
-      returns (SearchFeatureSetsResponse);
+    returns (SearchFeatureSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/featuresets/search"
+        body: "*"
+      };
+    };
 
   // Gets a `FeatureSet` by ID.
   //
   // `GET /featuresets/{id}` will return a JSON version of `FeatureSet`.
-  rpc GetFeatureSet(GetFeatureSetRequest) returns (FeatureSet);
+  rpc GetFeatureSet(GetFeatureSetRequest)
+    returns (FeatureSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/featuresets/{feature_set_id}"
+      };
+    };
 
   // Gets a list of `Feature` matching the search criteria.
   //
   // `POST /features/search` must accept a JSON version of
   // `SearchFeaturesRequest` as the post body and will return a JSON version of
   // `SearchFeaturesResponse`.
-  rpc SearchFeatures(SearchFeaturesRequest) returns (SearchFeaturesResponse);
+  rpc SearchFeatures(SearchFeaturesRequest)
+    returns (SearchFeaturesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/features/search"
+        body: "*"
+      };
+    };
 
   // Gets a `org.ga4gh.models.Feature` by ID.
   //
   // `GET /features/{id}` will return a JSON version of `Feature`.
-  rpc GetFeature(GetFeatureRequest) returns (Feature);
+  rpc GetFeature(GetFeatureRequest)
+    returns (Feature) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/features/{feature_id}"
+      };
+    };
+
 }
 
 /******************  /featuresets  *********************/

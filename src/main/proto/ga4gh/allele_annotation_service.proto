@@ -4,6 +4,7 @@ package ga4gh;
 
 import "ga4gh/allele_annotations.proto";
 import "ga4gh/metadata.proto";
+import "google/api/annotations.proto";
 
 service AlleleAnnotationService {
   // Gets a list of `VariantAnnotation` messages matching the search criteria.
@@ -24,7 +25,12 @@ service AlleleAnnotationService {
   // `SearchVariantAnnotationsRequest` as the post body and will return a JSON
   // version of `SearchVariantAnnotationsResponse`.
   rpc SearchVariantAnnotations(SearchVariantAnnotationsRequest)
-      returns (SearchVariantAnnotationsResponse);
+    returns (SearchVariantAnnotationsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/variantannotations/search"
+        body: "*"
+      };
+    };
 
   // Returns a list of available variant annotation sets.
   //
@@ -32,14 +38,24 @@ service AlleleAnnotationService {
   // `SearchVariantAnnotationSetsRequest` as the post body and will return a
   // JSON version of `SearchVariantAnnotationSetsResponse`.
   rpc SearchVariantAnnotationSets(SearchVariantAnnotationSetsRequest)
-      returns (SearchVariantAnnotationSetsResponse);
+    returns (SearchVariantAnnotationSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/variantannotationsets/search"
+        body: "*"
+      };
+    };
 
   // Gets an `VariantAnnotationSet` by ID.
   //
   // `GET /variantannotationsets/{variant_annotation_set_id}` will return a JSON
   // version of `VariantAnnotationSet`.
   rpc GetVariantAnnotationSet(GetVariantAnnotationSetRequest)
-      returns (VariantAnnotationSet);
+    returns (VariantAnnotationSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/variantannotationset/{variant_annotation_set_id}"
+      };
+    };
+
 }
 
 /******************  /variantannotations  *********************/

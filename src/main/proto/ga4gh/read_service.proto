@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/reads.proto";
+import "google/api/annotations.proto";
 
 service ReadService {
   // Gets a list of `ReadGroupSet` matching the search criteria.
@@ -13,13 +14,23 @@ service ReadService {
   // match an optionally supplied bioSampleId will be included in the
   // response.
   rpc SearchReadGroupSets(SearchReadGroupSetsRequest)
-      returns (SearchReadGroupSetsResponse);
+    returns (SearchReadGroupSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/readgroupsets/search"
+        body: "*"
+      };
+    };
 
   // Gets a `ReadGroupSet` by ID.
   //
   // `GET /readgroupsets/{read_group_set_id}` will return a JSON version of
-  // `ReadGroupSet` .
-  rpc GetReadGroupSet(GetReadGroupSetRequest) returns (ReadGroupSet);
+  // `ReadGroupSet`.
+  rpc GetReadGroupSet(GetReadGroupSetRequest)
+    returns (ReadGroupSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/readgroupsets/{read_group_set_id}"
+      };
+    };
 
   // Gets a list of `ReadAlignment` s for one or more `ReadGroup` s.
   //
@@ -41,7 +52,13 @@ service ReadService {
   //
   // `POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
   // the post body and will return a JSON version of `SearchReadsResponse`.
-  rpc SearchReads(SearchReadsRequest) returns (SearchReadsResponse);
+  rpc SearchReads(SearchReadsRequest)
+    returns (SearchReadsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/reads/search"
+        body: "*"
+      };
+    };
 }
 
 // ******************  /readgroupsets  *********************/

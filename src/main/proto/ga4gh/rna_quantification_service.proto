@@ -3,51 +3,78 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/rna_quantification.proto";
+import "google/api/annotations.proto";
 
 service RnaQuantificationService {
-// Gets a list of 'RnaQuantificationSet' matching the search criteria.
-
-// 'POST /rnaquantificationsets/search' must accept JSON version of
-// 'SearchRnaQuantificationSetRequest' as the post body and will return a JSON
-// version of 'SearchRnaQuantificationSetResponse'.
-rpc SearchRnaQuantificationSets(SearchRnaQuantificationSetsRequest)
-      returns (SearchRnaQuantificationSetsResponse);
-
-
-// Gets a `RnaQuantificationSet` by ID.
-// `GET /rnaquantificationsets/{id}` will return a JSON version of
-// `RnaQuantificationSet`.
-rpc GetRnaQuantificationSet(GetRnaQuantificationSetRequest)
-      returns (RnaQuantificationSet);
-
-// Gets a list of 'RnaQuantification' matching the search criteria.
-
-// 'POST /rnaquantifications/search' must accept JSON version of
-// 'SearchRnaQuantificationsRequest' as the post body and will return a JSON
-// version of 'SearchRnaQuantificationResponse'.
-rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
-      returns (SearchRnaQuantificationsResponse);
+  // Gets a list of 'RnaQuantificationSet' matching the search criteria.
+  // 'POST /rnaquantificationsets/search' must accept JSON version of
+  // 'SearchRnaQuantificationSetRequest' as the post body and will return a JSON
+  // version of 'SearchRnaQuantificationSetResponse'.
+  rpc SearchRnaQuantificationSets(SearchRnaQuantificationSetsRequest)
+    returns (SearchRnaQuantificationSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/rnaquantificationsets/search"
+        body: "*"
+      };
+    };
 
 
-// Gets a `RnaQuantification` by ID.
-// `GET /rnaquantifications/{id}` will return a JSON version of
-// `RnaQuantification`.
-rpc GetRnaQuantification(GetRnaQuantificationRequest)
-      returns (RnaQuantification);
+  // Gets a `RnaQuantificationSet` by ID.
+  // `GET /rnaquantificationsets/{id}` will return a JSON version of
+  // `RnaQuantificationSet`.
+  rpc GetRnaQuantificationSet(GetRnaQuantificationSetRequest)
+    returns (RnaQuantificationSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/rnaquantificationsets/{rna_quantification_set_id}"
+      };
+    };
 
-// Gets a list of 'ExpressionLevel' matching the search criteria.
+  // Gets a list of 'RnaQuantification' matching the search criteria.
+  // 'POST /rnaquantifications/search' must accept JSON version of
+  // 'SearchRnaQuantificationsRequest' as the post body and will return a JSON
+  // version of 'SearchRnaQuantificationResponse'.
+  rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
+    returns (SearchRnaQuantificationsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/rnaquantifications/search"
+        body: "*"
+      };
+    };
 
-// 'POST /expressionlevels/search' must accept JSON version of
-// 'SearchExpressionLevelsRequest' as the post body and will return a JSON
-// version of 'SearchExpressionLevelsResponse'.
-rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
-      returns (SearchExpressionLevelsResponse);
+
+  // Gets a `RnaQuantification` by ID.
+  // `GET /rnaquantifications/{id}` will return a JSON version of
+  // `RnaQuantification`.
+  rpc GetRnaQuantification(GetRnaQuantificationRequest)
+    returns (RnaQuantification) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/rnaquantifications/{rna_quantification_id}"
+      };
+    };
+
+  // Gets a list of 'ExpressionLevel' matching the search criteria.
+
+  // 'POST /expressionlevels/search' must accept JSON version of
+  // 'SearchExpressionLevelsRequest' as the post body and will return a JSON
+  // version of 'SearchExpressionLevelsResponse'.
+  rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
+    returns (SearchExpressionLevelsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/expressionlevels/search"
+        body: "*"
+      };
+    };
 
 // Gets a `ExpressionLevel` by ID.
 // `GET /expressionlevels/{id}` will return a JSON version of
 // `ExpressionLevel`.
-rpc GetExpressionLevel(GetExpressionLevelRequest)
-      returns (ExpressionLevel);
+  rpc GetExpressionLevel(GetExpressionLevelRequest)
+    returns (ExpressionLevel) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/expressionlevels/{expression_level_id}"
+      };
+    };
+
 }
 // ****************  /rnaquantificationsets/search  *******************
 

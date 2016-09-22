@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/metadata.proto";
+import "google/api/annotations.proto";
 
 service MetadataService {
   // Gets a list of `Dataset` matching the search criteria.
@@ -10,13 +11,25 @@ service MetadataService {
   // `POST /datasets/search` must accept a JSON version of
   // `SearchDatasetsRequest` as the post body and will return a JSON
   // version of `SearchDatasetsResponse`.
-  rpc SearchDatasets(SearchDatasetsRequest) returns (SearchDatasetsResponse);
+  rpc SearchDatasets(SearchDatasetsRequest)
+    returns (SearchDatasetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/datasets/search"
+        body: "*"
+      };
+    };
 
   // Gets a `Dataset` by ID.
   //
   // `GET /datasets/{dataset_id}` will return a JSON version of
   // `Dataset`.
-  rpc GetDataset(GetDatasetRequest) returns (Dataset);
+  rpc GetDataset(GetDatasetRequest)
+    returns (Dataset) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/datasets/{dataset_id}"
+      };
+    };
+
 }
 
 // ****************  /datasets  *******************
