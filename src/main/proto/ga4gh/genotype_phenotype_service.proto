@@ -32,14 +32,14 @@ service GenotypePhenotypeService {
   // Gets a list of phenotypes accessible through the API.
   // `POST /phenotypes/search` must accept a JSON version of
   // `SearchPhenotypesRequest` as the post body and will return a JSON version
-  // of `SearchPhenotypeAssociationSetsResponse`.
+  // of `SearchPhenotypesResponse`.
   rpc SearchPhenotype(SearchPhenotypesRequest)
       returns (SearchPhenotypesResponse);
 
   // Gets a list of genotype-phenotype assoications accessible through the API.
   // `POST /featurephenotypeassociations/search` must accept a JSON version of
   // `SearchPhenotypesRequest` as the post body and will return a JSON version
-  // of `SearchPhenotypeAssociationSetsResponse`.
+  // of `SearchGenotypePhenotypeResponse`.
   rpc SearchPhenotypeAssociations(SearchGenotypePhenotypeRequest)
       returns (SearchGenotypePhenotypeResponse);
 
