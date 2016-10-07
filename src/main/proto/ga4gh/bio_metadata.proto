@@ -103,12 +103,44 @@ message BioSample {
 // of phenotypes, diseases ... which may be described through one or several
 // ontology terms
 message BioCharacteristic {
+  // A free text description of the specific disease diagnosis or phenotype
+  // here, which is then characterized by zero or more OntologyTerm objects.
+  // The description should be concise and should not include data points
+  // better expressed through specific attributes elsewhere in the schema.
+  // Example (for a single disease item):
+  //   "squamous cell carcinoma, base of tongue, stage 2"
   string description = 1;
+
+  // The ontologyTerms attribute contains a list of zero (discouraged) or more
+  // OntologyTerm objects covering the characteristic (e.g. disease diagnosis,
+  // phenotype) reorted here.
+  // Example (for a single diagnosis "squamous cell carcinoma, base of tongue"):
+  //   {
+  //     termId: “DOID:0050865”,
+  //     termUri: “http://purl.obolibrary.org/obo/DOID_0050865”,
+  //     term: “tongue squamous cell carcinoma”,
+  //   },
+  //   {
+  //     termId: “UBERON:0006919”,
+  //     termUri: “http://purl.obolibrary.org/obo/UBERON_0006919”,
+  //     term: “tongue squamous epithelium”,
+  //   },
+  //   {
+  //     termId: “UBERON:0010033”
+  //     termUri: “http://purl.obolibrary.org/obo/UBERON_0010033”,
+  //     term: “posterior part of tongue”,
+  //   },
   repeated OntologyTerm ontologyTerms = 2;
 }
 
-// Characteristics
+// Characteristics is a wrapper object for the diseases, phenotypes associated
+// with a first class BioMetadata object (Individual, Biosample).
 message Characteristics {
+  // Diseases associated with the parent BioMetadata object (Individual,
+  // Biosample).
   repeated BioCharacteristic diseases = 1;
+
+  // Phenotypes associated with the parent BioMetadata object (Individual,
+  // Biosample).
   repeated BioCharacteristic phenotypes = 2;
 }
