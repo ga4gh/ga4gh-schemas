@@ -54,7 +54,6 @@ message Individual {
 
 }
 
-
 // A BioSample refers to a unit of biological material from which the substrate
 // molecules (e.g. genomic DNA, RNA, proteins) for molecular analyses (e.g.
 // sequencing, array hybridisation, mass-spectrometry) are extracted. Examples
@@ -129,7 +128,7 @@ message BioCharacteristic {
   //     term: “posterior part of tongue”,
   //
   repeated OntologyTerm ontologyTerms = 2;
-  
+
 }
 
 // Characteristics is a wrapper object for the diseases, phenotypes associated
