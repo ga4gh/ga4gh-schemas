@@ -129,6 +129,7 @@ message BioCharacteristic {
   //     term: “posterior part of tongue”,
   //
   repeated OntologyTerm ontologyTerms = 2;
+  
 }
 
 // Characteristics is a wrapper object for the diseases, phenotypes associated
@@ -141,4 +142,5 @@ message Characteristics {
   // Phenotypes associated with the parent BioMetadata object (Individual,
   // Biosample).
   repeated BioCharacteristic phenotypes = 2;
+
 }
