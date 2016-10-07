@@ -24,13 +24,17 @@ message Individual {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
+  // characteristics object uses lists of BioCharacteristic objects to describe
+  // diseases and phenotypes associated with this Individual.
+  Characteristics characteristics = 5;
+
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
   // was created.
-  string created = 5;
+  string created = 6;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
   // was updated.
-  string updated = 6;
+  string updated = 7;
 
   // For a representation of an NCBI Taxon ID as an OntologyTerm, see
   // NCBITaxon Ontology
@@ -38,15 +42,15 @@ message Individual {
   // For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
   // this is NCBITaxon:9606, which has the URI
   // http://purl.obolibrary.org/obo/NCBITaxon_9606
-  OntologyTerm species = 7;
+  OntologyTerm species = 8;
 
   // The genetic sex of this individual.
   // Use `null` when unknown or not applicable.
   // Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
-  OntologyTerm sex = 8;
+  OntologyTerm sex = 9;
 
   // A map of additional information.
-  map<string, google.protobuf.ListValue> info = 9;
+  map<string, google.protobuf.ListValue> info = 10;
 
 }
 
@@ -76,8 +80,9 @@ message BioSample {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
-  // OntologyTerm describing the primary disease associated with this BioSample.
-  OntologyTerm disease = 5;
+  // characteristics object uses lists of BioCharacteristic objects to describe
+  // diseases and phenotypes associated with this BioSample.
+  Characteristics characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
   // was created.
@@ -92,4 +97,18 @@ message BioSample {
   // A map of additional information.
   map<string, google.protobuf.ListValue> info = 9;
 
+}
+
+// BioCharacteristic is a prototype wrapper object for single instances
+// of phenotypes, diseases ... which may be described through one or several
+// ontology terms
+message BioCharacteristic {
+  string description = 1;
+  repeated OntologyTerm ontologyTerms = 2;
+}
+
+// Characteristics
+message Characteristics {
+  repeated BioCharacteristic diseases = 1;
+  repeated BioCharacteristic phenotypes = 2;
 }
