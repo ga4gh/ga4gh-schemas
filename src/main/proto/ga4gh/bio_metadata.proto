@@ -115,21 +115,19 @@ message BioCharacteristic {
   // OntologyTerm objects covering the characteristic (e.g. disease diagnosis,
   // phenotype) reorted here.
   // Example (for a single diagnosis "squamous cell carcinoma, base of tongue"):
-  //   {
+  //
   //     termId: “DOID:0050865”,
   //     termUri: “http://purl.obolibrary.org/obo/DOID_0050865”,
   //     term: “tongue squamous cell carcinoma”,
-  //   },
-  //   {
+  //
   //     termId: “UBERON:0006919”,
   //     termUri: “http://purl.obolibrary.org/obo/UBERON_0006919”,
   //     term: “tongue squamous epithelium”,
-  //   },
-  //   {
-  //     termId: “UBERON:0010033”
+  //
+  //     termId: “UBERON:0010033”,
   //     termUri: “http://purl.obolibrary.org/obo/UBERON_0010033”,
   //     term: “posterior part of tongue”,
-  //   },
+  //
   repeated OntologyTerm ontologyTerms = 2;
 }
 
