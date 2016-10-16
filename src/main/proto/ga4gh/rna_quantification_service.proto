@@ -142,7 +142,7 @@ message SearchRnaQuantificationsResponse {
   string next_page_token = 2;
 }
 
-// This request maps to the URL `GET /rnaquantification/{rna_quantification_id}`.
+// This request maps to the URL `GET /rnaquantifications/{rna_quantification_id}`.
 
 message GetRnaQuantificationRequest {
   // The ID of the `RnaQuantification`.
