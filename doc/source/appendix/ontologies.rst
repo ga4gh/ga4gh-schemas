@@ -85,11 +85,11 @@ Genotypic sex
 =============
 
 :ontologyId:
-	"http://purl.obolibrary.org/obo/PATO_0020001",
+  "http://purl.obolibrary.org/obo/PATO_0020001",
 :term:
   "male genotypic sex" ,
 :sourceName:
-	"PATO Phenotypic quality",
+  "PATO Phenotypic quality",
 
 
 Sequence Ontology
@@ -98,9 +98,9 @@ Sequence Ontology
 :ontologyId:
   "http://purl.obolibrary.org/obo/SO_0001583",
 :term:
-	"missense_variant",
+  "missense_variant",
 :sourceName:
-	"Sequence Ontology",
+  "Sequence Ontology",
 :sourceVersion:
   "release_2.5.3"
 
@@ -111,83 +111,83 @@ Human Phenotype ontology
 :ontologyId:
   "http://purl.obolibrary.org/obo/HP_0000819",
 :term:
-	"Diabetes mellitus",
+  "Diabetes mellitus",
 :sourceName:
-	"human_phenotype Ontology",
+  "human_phenotype Ontology",
 :sourceVersion:
-	"release_Jan2016*"
+  "release_Jan2016*"
 
 ----
 
 :ontologyId:
-	"http://www.ebi.ac.uk/efo/HP_0012059",
+  "http://www.ebi.ac.uk/efo/HP_0012059",
 :term:
-	"Lentigo maligna melanoma",
+  "Lentigo maligna melanoma",
 :sourceName:
-	"human_phenotype_ontology",
+  "human_phenotype_ontology",
 :sourceVersion:
-	"2016-01-14”
+  "2016-01-14”
 
 
 Body part (Uberon)
 ==================
 
 :ontologyId:
-	"http://www.ebi.ac.uk/efo/UBERON_0003403",
+  "http://www.ebi.ac.uk/efo/UBERON_0003403",
 :term:
-	"skin of forearm",
+  "skin of forearm",
 :sourceName:
-	"uberon",
+  "uberon",
 :sourceVersion:
-	"2015-11-23”
+  "2015-11-23”
 
 
 Human disease ontology
 ======================
 
 :ontologyId:
-	"http://purl.obolibrary.org/obo/DOID_9351",
+  "http://purl.obolibrary.org/obo/DOID_9351",
 :term:
-	"diabetes mellitus",
+  "diabetes mellitus",
 :sourceName:
-	"disease_ontology",
+  "disease_ontology",
 :sourceVersion:
-	"2016-01-25"
+  "2016-01-25"
 
 
 Experimental factor ontology
 ============================
 
 :ontologyId:
-	"http://purl.obolibrary.org/obo/EFO_0000400",
+  "http://purl.obolibrary.org/obo/EFO_0000400",
 :term:
-	"diabetes mellitus",
+  "diabetes mellitus",
 :sourceName:
-	"experimental_factor_ontology",
+  "experimental_factor_ontology",
 :sourceVersion:
-	"V2.68”
+  "V2.68”
 
 ----
 
 :ontologyId:
-	"http://www.ebi.ac.uk/efo/EFO_0004422",
+  "http://www.ebi.ac.uk/efo/EFO_0004422",
 :term:
-	"exome",
+  "exome",
 :sourceName:
-	"Experimental Factor Ontology",
+  "Experimental Factor Ontology",
 :sourceVersion:
-	"release_2.68"
+  "release_2.68"
 
 
 SNOMEDCT representation of ICD-O 3 Cancer Histology
 ===================================================
 
 :ontologyId:
-	"http://purl.bioontology.org/ontology/SNMI/M-94703“
+  "http://purl.bioontology.org/ontology/SNMI/M-94703“
 :term:
-	"Medulloblastoma, NOS”
+  "Medulloblastoma, NOS”
 :sourceName:
-	"SNOMED CT model component”
+  "SNOMED CT model component”
 :sourceVersion:
   "2016-01-28"
 
@@ -196,10 +196,10 @@ Unit Ontology
 =============
 
 :ontologyId:
-	"http://purl.obolibrary.org/obo/UO_0000016",
+  "http://purl.obolibrary.org/obo/UO_0000016",
 :term:
-	"millimetre",
+  "millimetre",
 :sourceName:
-	"Unit Ontology",
+  "Unit Ontology",
 :sourceVersion:
-	"2015-12-17"
+  "2015-12-17"

@@ -115,14 +115,14 @@ message BioCharacteristic {
   // phenotype) reorted here.
   // Example (for a single diagnosis "squamous cell carcinoma, base of tongue"):
   //
-  //     termId: “DOID:0050865”,
-  //     term: “tongue squamous cell carcinoma”,
+  //     termId: "DOID:0050865",
+  //     term: "tongue squamous cell carcinoma",
   //
-  //     termId: “UBERON:0006919”,
-  //     term: “tongue squamous epithelium”,
+  //     termId: "UBERON:0006919",
+  //     term: "tongue squamous epithelium",
   //
-  //     termId: “UBERON:0010033”,
-  //     term: “posterior part of tongue”,
+  //     termId: "UBERON:0010033",
+  //     term: "posterior part of tongue",
   //
   repeated OntologyTerm ontologyTerms = 2;
 
