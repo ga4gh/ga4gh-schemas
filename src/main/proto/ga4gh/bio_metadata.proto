@@ -150,14 +150,14 @@ message BioCharacteristic {
 }
 
 // Characteristics is a wrapper object for the diseases, phenotypes associated
-// with a first class BioMetadata object (Individual, Biosample).
+// with a first class BioMetadata object (Individual, BioSample).
 message Characteristics {
   // Diseases associated with the parent BioMetadata object (Individual,
-  // Biosample).
+  // BioSample).
   repeated BioCharacteristic diseases = 1;
 
   // Phenotypes associated with the parent BioMetadata object (Individual,
-  // Biosample).
+  // BioSample).
   repeated BioCharacteristic phenotypes = 2;
 
 }

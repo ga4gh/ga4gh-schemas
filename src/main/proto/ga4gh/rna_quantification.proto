@@ -47,7 +47,7 @@ message RnaQuantification {
   // Name
   string name = 2;
   
-  // Biosample ID
+  // BioSample ID
   string bio_sample_id = 8;
 
   // Description
