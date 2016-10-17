@@ -116,18 +116,36 @@ message BioCharacteristic {
   // Example (for a single diagnosis "squamous cell carcinoma, base of tongue"):
   //
   //     termId: “DOID:0050865”,
-  //     termUri: “http://purl.obolibrary.org/obo/DOID_0050865”,
   //     term: “tongue squamous cell carcinoma”,
   //
   //     termId: “UBERON:0006919”,
-  //     termUri: “http://purl.obolibrary.org/obo/UBERON_0006919”,
   //     term: “tongue squamous epithelium”,
   //
   //     termId: “UBERON:0010033”,
-  //     termUri: “http://purl.obolibrary.org/obo/UBERON_0010033”,
   //     term: “posterior part of tongue”,
   //
   repeated OntologyTerm ontologyTerms = 2;
+
+  // negatedOntologyTerms are used to describe features which are explicitely
+  // not part of the BioCharacteristic.
+  // Example: For a phenotype
+  //
+  //      description: "Bilateral ventricle anomalies (but not hypertrophy)"
+  //
+  //   ...  one could use the ontologyTerms
+  //
+  //      termId: "HP:0001711"
+  //      label: "Abnormality of the left ventricle"
+  //
+  //      id: "HP:0001707"
+  //      label: "Abnormality of the right ventricle"
+  //
+  //   ... and add to negatedOntologyTerms
+  //
+  //      termId: "HP:0001714"
+  //      label: "Ventricular hypertrophy"
+  //
+  repeated OntologyTerm negatedOntologyTerms = 3;
 
 }
 

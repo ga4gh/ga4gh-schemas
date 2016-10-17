@@ -69,7 +69,7 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this Individual
-*characteristics*     * a Characteristics objects containing lists of phenotypes and diseases associated with this Individual, in the form of BioCharacteristic objects 
+*characteristics*     * a Characteristics objects containing lists of phenotypes and diseases associated with this Individual, in the form of BioCharacteristic objects
 *species*             * OntologyTerm representing the species (NCBITaxon:9606)
 *sex*                 * OntologyTerm for the genetic sex of this individual.
 *created*             * the time the record was created, in ISO8601
@@ -88,7 +88,7 @@ BioCharacteristic in the GA4GH Schema
 
 A BioCharacteristic is an object, defining a single phenotype or diagnosis
 through the use of a free text description and a representation by one or
-more OntologyTerm objects.
+more "ontologyTerms" objects as well as zero or more "negatedOntologyTerms".
 
 .. _biometadata_Characteristics:
 
