@@ -24,13 +24,17 @@ message Individual {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
+  // characteristics object uses lists of BioCharacteristic objects to describe
+  // diseases and phenotypes associated with this Individual.
+  Characteristics characteristics = 5;
+
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
   // was created.
-  string created = 5;
+  string created = 6;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
   // was updated.
-  string updated = 6;
+  string updated = 7;
 
   // For a representation of an NCBI Taxon ID as an OntologyTerm, see
   // NCBITaxon Ontology
@@ -38,18 +42,17 @@ message Individual {
   // For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
   // this is NCBITaxon:9606, which has the URI
   // http://purl.obolibrary.org/obo/NCBITaxon_9606
-  OntologyTerm species = 7;
+  OntologyTerm species = 8;
 
   // The genetic sex of this individual.
   // Use `null` when unknown or not applicable.
   // Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
-  OntologyTerm sex = 8;
+  OntologyTerm sex = 9;
 
   // A map of additional information.
-  map<string, google.protobuf.ListValue> info = 9;
+  map<string, google.protobuf.ListValue> info = 10;
 
 }
-
 
 // A BioSample refers to a unit of biological material from which the substrate
 // molecules (e.g. genomic DNA, RNA, proteins) for molecular analyses (e.g.
@@ -76,8 +79,9 @@ message BioSample {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
-  // OntologyTerm describing the primary disease associated with this BioSample.
-  OntologyTerm disease = 5;
+  // characteristics object uses lists of BioCharacteristic objects to describe
+  // diseases and phenotypes associated with this BioSample.
+  Characteristics characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
   // was created.
@@ -91,5 +95,69 @@ message BioSample {
 
   // A map of additional information.
   map<string, google.protobuf.ListValue> info = 9;
+
+}
+
+// BioCharacteristic is a prototype wrapper object for single instances
+// of phenotypes, diseases ... which may be described through one or several
+// ontology terms
+message BioCharacteristic {
+  // A free text description of the specific disease diagnosis or phenotype
+  // here, which is then characterized by zero or more OntologyTerm objects.
+  // The description should be concise and should not include data points
+  // better expressed through specific attributes elsewhere in the schema.
+  // Example (for a single disease item):
+  //   "squamous cell carcinoma, base of tongue, stage 2"
+  string description = 1;
+
+  // The ontologyTerms attribute contains a list of zero (discouraged) or more
+  // OntologyTerm objects covering the characteristic (e.g. disease diagnosis,
+  // phenotype) reorted here.
+  // Example (for a single diagnosis "squamous cell carcinoma, base of tongue"):
+  //
+  //     termId: "DOID:0050865",
+  //     term: "tongue squamous cell carcinoma",
+  //
+  //     termId: "UBERON:0006919",
+  //     term: "tongue squamous epithelium",
+  //
+  //     termId: "UBERON:0010033",
+  //     term: "posterior part of tongue",
+  //
+  repeated OntologyTerm ontologyTerms = 2;
+
+  // negatedOntologyTerms are used to describe features which are explicitely
+  // not part of the BioCharacteristic.
+  // Example: For a phenotype
+  //
+  //      description: "Bilateral ventricle anomalies (but not hypertrophy)"
+  //
+  //   ...  one could use the ontologyTerms
+  //
+  //      termId: "HP:0001711"
+  //      label: "Abnormality of the left ventricle"
+  //
+  //      id: "HP:0001707"
+  //      label: "Abnormality of the right ventricle"
+  //
+  //   ... and add to negatedOntologyTerms
+  //
+  //      termId: "HP:0001714"
+  //      label: "Ventricular hypertrophy"
+  //
+  repeated OntologyTerm negatedOntologyTerms = 3;
+
+}
+
+// Characteristics is a wrapper object for the diseases, phenotypes associated
+// with a first class BioMetadata object (Individual, BioSample).
+message Characteristics {
+  // Diseases associated with the parent BioMetadata object (Individual,
+  // BioSample).
+  repeated BioCharacteristic diseases = 1;
+
+  // Phenotypes associated with the parent BioMetadata object (Individual,
+  // BioSample).
+  repeated BioCharacteristic phenotypes = 2;
 
 }
