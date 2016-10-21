@@ -13,7 +13,7 @@ message OntologyTerm {
   // scope of the schema or its resource implementation.
   string termId = 1;
 
-  // Ontology term - the label of the ontology term the id is pointing to.
+  // Ontology term - the label of the ontology term the termId is pointing to.
   string term = 2;
 
 }
