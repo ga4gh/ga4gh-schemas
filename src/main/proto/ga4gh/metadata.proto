@@ -7,27 +7,15 @@ import "google/protobuf/struct.proto";
 // An ontology term describing an attribute. (e.g. the phenotype attribute
 // 'polydactyly' from HPO)
 message OntologyTerm {
-  // The unique identifier of the term in an ontology source. This should
-  // be a CURIE (e.g., SO:0001234), but may be an alphanumerical string
-  // (e.g., 8000/3) if no URI available.
-  string term_id = 5;
+  // Ontology term identifier - the CURIE for an ontology term. It
+  // differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
+  // in that it is a CURIE pointing to an information resource outside of the
+  // scope of the schema or its resource implementation.
+  string id = 1;
 
-  // Ontology term - the representation the `term_id` is pointing to.
+  // Ontology term - the label of the ontology term the id is pointing to.
   string term = 2;
 
-  // A fully qualified URI that can be used to access details regarding the term.
-  // e.g. http://purl.bioontology.org/ontology/SNOMEDCT/76345009.
-  string term_uri = 6;
-
-  // Ontology source name - the name of ontology from which the term is obtained
-  // e.g. 'Human Phenotype Ontology'
-  string source_name = 3;
-
-  // Ontology source version - the version of the ontology from which the
-  // OntologyTerm is obtained; e.g. 2.6.1. There is no standard for ontology
-  // versioning and some frequently released ontologies may use a datestamp, or
-  // build number.
-  string source_version = 4;
 }
 
 // A Dataset is a collection of related data of multiple types.
