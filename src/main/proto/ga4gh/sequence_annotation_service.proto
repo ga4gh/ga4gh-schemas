@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/sequence_annotations.proto";
+import "google/api/annotations.proto";
 
 service SequenceAnnotationService {
   // Gets a list of `FeatureSet` matching the search criteria.
@@ -11,24 +12,46 @@ service SequenceAnnotationService {
   // `SearchFeatureSetsRequest` as the post body and will return a JSON version
   // of `SearchFeatureSetsResponse`.
   rpc SearchFeatureSets(SearchFeatureSetsRequest)
-      returns (SearchFeatureSetsResponse);
+    returns (SearchFeatureSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/featuresets/search"
+        body: "*"
+      };
+    };
 
   // Gets a `FeatureSet` by ID.
   //
   // `GET /featuresets/{id}` will return a JSON version of `FeatureSet`.
-  rpc GetFeatureSet(GetFeatureSetRequest) returns (FeatureSet);
+  rpc GetFeatureSet(GetFeatureSetRequest)
+    returns (FeatureSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/featuresets/{feature_set_id}"
+      };
+    };
 
   // Gets a list of `Feature` matching the search criteria.
   //
   // `POST /features/search` must accept a JSON version of
   // `SearchFeaturesRequest` as the post body and will return a JSON version of
   // `SearchFeaturesResponse`.
-  rpc SearchFeatures(SearchFeaturesRequest) returns (SearchFeaturesResponse);
+  rpc SearchFeatures(SearchFeaturesRequest)
+    returns (SearchFeaturesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/features/search"
+        body: "*"
+      };
+    };
 
   // Gets a `org.ga4gh.models.Feature` by ID.
   //
   // `GET /features/{id}` will return a JSON version of `Feature`.
-  rpc GetFeature(GetFeatureRequest) returns (Feature);
+  rpc GetFeature(GetFeatureRequest)
+    returns (Feature) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/features/{feature_id}"
+      };
+    };
+
 }
 
 /******************  /featuresets  *********************/
@@ -70,10 +93,10 @@ message SearchFeaturesRequest {
   // The annotation set to search within. Either `feature_set_id` or
   // `parent_id` must be non-empty.
   string feature_set_id = 1;
-  
+
   // Only returns features with this name (case-sensitive, exact match).
   string name = 2;
-  
+
   // Only return features with matching the provided gene symbol
   // (case-sensitive, exact match).
   // This field may be replaced with a more generic representation
@@ -88,14 +111,16 @@ message SearchFeaturesRequest {
   // (matched to literal reference name as imported from the GFF3).
   string reference_name = 5;
 
-  // Required. The beginning of the window (0-based, inclusive) for which
+  // Required, if name or symbol not provided.
+  // The beginning of the window (0-based, inclusive) for which
   // overlapping features should be returned.  Genomic positions are
   // non-negative integers less than reference length.  Requests spanning the
   // join of circular genomes are represented as two requests one on each side
   // of the join (position 0).
   int64 start = 6;
 
-  // Required. The end of the window (0-based, exclusive) for which overlapping
+  // Required, if name or symbol not provided.
+  // The end of the window (0-based, exclusive) for which overlapping
   // features should be returned.
   int64 end = 7;
 

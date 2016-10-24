@@ -119,13 +119,14 @@ def traverse(proto_file):
                 place = place[p]
             place["leading_comments"] = loc.leading_comments
             place["trailing_comments"] = loc.trailing_comments
-
-    if set(tree.keys()).difference(set([4,5,6])) != set():
-        raise Exception, sorted(tree.keys())
+    
+    # Only message, services, enums, extensions, options
+    if set(tree.keys()).difference(set([4, 5, 6, 7, 8])) != set():
+        raise Exception, tree
 
     return {"types":
         list(itertools.chain(
-            _traverse(proto_file.package, proto_file.service, tree[6]), # 5 is enum_type in FileDescriptorProto
+            _traverse(proto_file.package, proto_file.service, tree[6]), # 6 is service_type in FileDescriptorProto
             _traverse(proto_file.package, proto_file.enum_type, tree[5]), # 5 is enum_type in FileDescriptorProto
             _traverse(proto_file.package, proto_file.message_type, tree[4]), # 4 is message_type in FileDescriptorProto
         )),
@@ -135,6 +136,7 @@ def traverse(proto_file):
 def type_to_string(f, map_types):
     """
     Convert type info to pretty names, based on numbers from from FieldDescriptorProto
+    https://developers.google.com/protocol-buffers/docs/reference/cpp/google.protobuf.descriptor.pb
     """
     if f.type in [1]:
         return "double"
@@ -142,6 +144,8 @@ def type_to_string(f, map_types):
         return "float"
     elif f.type in [3]:
         return "long"
+    elif f.type in [4]:
+        return "uint64"
     elif f.type in [5]:
         return "integer"
     elif f.type in [8]:
