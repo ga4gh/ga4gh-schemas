@@ -53,13 +53,11 @@ message ReadGroup {
   // The predicted insert size of this read group.
   int32 predicted_insert_size = 8;
 
-  // The time at which this read group was created in milliseconds from the
-  // epoch.
-  int64 created = 9;
+  // The time at which this read group was created in ISO 8601.
+  string created = 9;
 
-  // The time at which this read group was last updated in milliseconds
-  // from the epoch.
-  int64 updated = 10;
+  // The time at which this read group was last updated in ISO 8601.
+  string updated = 10;
 
   // Statistical data on reads in this read group.
   ReadStats stats = 11;
