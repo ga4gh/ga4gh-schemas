@@ -13,7 +13,7 @@ API Goals
     freely available open standard for interoperability, that uses
     common web protocols to support serving and sharing of data on DNA
     sequences and genomic variation. The API is implemented as a
-    webservice to create a data source which may be integrated into
+    Web service to create a data source which may be integrated into
     visualization software, web-based genomics portals or processed as
     part of genomic analysis pipelines. It overcomes the barriers of
     incompatible infrastructure between organizations and institutions

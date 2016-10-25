@@ -12,7 +12,7 @@ Feature Based Hierarchy
 The central object of the GA4GH Sequence Annotation API is a Feature.  The Feature describes an interval of interest on some reference(s).  It has a span from a start position to a stop position as well as descriptive data.  A Feature can have a parent Feature, and can have an ordered array of child Features, which enables the construction of more complex representations in a hierarchical way.
 
 For example, a single gene Feature may be parent to several different transcript Features.  The specific exons for each transcript would have that transcript Feature as parent.  The same physical exon may occur as part of two different transcript Features, but in our notation, it would be
-encoded as two separate exon Features, each with a different parent, both occupying the same genomic coordinates. This structure can also exend to annotating CDS, binding sites or any other sub-gene level features.
+encoded as two separate exon Features, each with a different parent, both occupying the same genomic coordinates. This structure can also extend to annotating CDS, binding sites or any other sub-gene level features.
 
 
 ------------------------------

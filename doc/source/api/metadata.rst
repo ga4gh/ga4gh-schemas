@@ -110,13 +110,13 @@ Durations
 =========
 
 
-Durations are the most common form of time intervals. They do not reference to
+Durations are the most common form of time intervals. They do not refer to
 (e.g. start or end) time points.
 They are indicated with a leading "P", followed by unit delimited
 quantifiers. A leading "T" is required before the start of the time components.
 Durations do not have to be normalized; "PT50H" is equally valid as "P2T2H".
 A frequent use of durations in biomedical data resources are *age* values,
-e.g. "age at diagnosis"; but also "progression free survival", "followup" or "time to recurremce" (these are descriptive labels, which do not necessarily represent GA4GH schema use).
+e.g. "age at diagnosis"; but also "progression free survival", "followup" or "time to recurrence" (these are descriptive labels, which do not necessarily represent GA4GH schema use).
 
 **Examples**
 
@@ -143,7 +143,7 @@ either two time points for start and end, or one time point and a leading
 (time point indicates end) or trailing (time point indicates start) duration.
 The time elements are separated by a forward slash "/".
 
-While such anchored time intervals represent an option to capture different time features in a single value and to avoid disconnected references, in the context of the data schema anchored intervals will presumablyused less frequently, with a qualitative anchor ("date of diagnosis", "time of sampling") representing the point of reference.
+While such anchored time intervals represent an option to capture different time features in a single value and to avoid disconnected references, in the context of the data schema, *anchored intervals* will presumably be used less frequently, with a qualitative anchor ("date of diagnosis", "time of sampling") representing the point of reference.
 
 
 **Examples**
