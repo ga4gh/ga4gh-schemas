@@ -21,7 +21,8 @@ message Reference {
   // excluding all whitespace characters (this is equivalent to SQ:M5 in SAM).
   string md5checksum = 3;
 
-  // The name of this reference. (e.g. '22').
+  // The name of this reference. (e.g. '22'). This should be unique within the
+  // Reference Set.
   string name = 4;
 
   // The URI from which the sequence was obtained. Specifies a FASTA format
