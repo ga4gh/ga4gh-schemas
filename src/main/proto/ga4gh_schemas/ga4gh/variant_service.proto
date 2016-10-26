@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package ga4gh;
+package ga4gh_schemas.ga4gh;
 
-import "ga4gh/variants.proto";
-import "google/api/annotations.proto";
+import "ga4gh_schemas/ga4gh/variants.proto";
+import "ga4gh_schemas/google/api/annotations.proto";
 
 service VariantService {
   // Gets a list of `VariantSet` matching the search criteria.
@@ -13,7 +13,7 @@ service VariantService {
   // of `SearchVariantSetsResponse`.
   rpc SearchVariantSets(SearchVariantSetsRequest)
     returns (SearchVariantSetsResponse) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         post: "/v0.6.0a8/variantsets/search"
         body: "*"
       };
@@ -25,7 +25,7 @@ service VariantService {
   // `VariantSet`.
   rpc GetVariantSet(GetVariantSetRequest)
     returns (VariantSet) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         get: "/v0.6.0a8/variantsets/{variant_set_id}"
       };
     };
@@ -37,7 +37,7 @@ service VariantService {
   // `SearchVariantsResponse`.
   rpc SearchVariants(SearchVariantsRequest)
     returns (SearchVariantsResponse) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         post: "/v0.6.0a8/variants/search"
         body: "*"
       };
@@ -48,7 +48,7 @@ service VariantService {
   // `GET /variants/{id}` will return a JSON version of `Variant`.
   rpc GetVariant(GetVariantRequest)
     returns (Variant) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         post: "/v0.6.0a8/variants/{variant_id}"
       };
     };
@@ -60,7 +60,7 @@ service VariantService {
   // `SearchCallSetsResponse`.
   rpc SearchCallSets(SearchCallSetsRequest)
     returns (SearchCallSetsResponse) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         post: "/v0.6.0a8/callsets/search"
         body: "*"
       };
@@ -71,7 +71,7 @@ service VariantService {
   // `GET /callsets/{id}` will return a JSON version of `CallSet`.
   rpc GetCallSet(GetCallSetRequest)
     returns (CallSet) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         get: "/v0.6.0a8/callsets/{call_set_id}"
       };
     };

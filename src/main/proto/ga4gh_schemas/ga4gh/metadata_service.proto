@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package ga4gh;
+package ga4gh_schemas.ga4gh;
 
-import "ga4gh/metadata.proto";
-import "google/api/annotations.proto";
+import "ga4gh_schemas/ga4gh/metadata.proto";
+import "ga4gh_schemas/google/api/annotations.proto";
 
 service MetadataService {
   // Gets a list of `Dataset` matching the search criteria.
@@ -13,7 +13,7 @@ service MetadataService {
   // version of `SearchDatasetsResponse`.
   rpc SearchDatasets(SearchDatasetsRequest)
     returns (SearchDatasetsResponse) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         post: "/v0.6.0a8/datasets/search"
         body: "*"
       };
@@ -25,7 +25,7 @@ service MetadataService {
   // `Dataset`.
   rpc GetDataset(GetDatasetRequest)
     returns (Dataset) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         get: "/v0.6.0a8/datasets/{dataset_id}"
       };
     };

@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package ga4gh;
+package ga4gh_schemas.ga4gh;
 
-import "ga4gh/bio_metadata.proto";
-import "google/api/annotations.proto";
+import "ga4gh_schemas/ga4gh/bio_metadata.proto";
+import "ga4gh_schemas/google/api/annotations.proto";
 
 
 service BioMetadataService {
@@ -13,7 +13,7 @@ service BioMetadataService {
   // of `SearchIndividualsResponse`.
   rpc SearchIndividuals(SearchIndividualsRequest)
     returns (SearchIndividualsResponse) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         post: "/v0.6.0a8/individuals/search"
         body: "*"
       };
@@ -24,7 +24,7 @@ service BioMetadataService {
   // of `SearchBioSamplesResponse`.
   rpc SearchBioSamples(SearchBioSamplesRequest)
     returns (SearchBioSamplesResponse) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         post: "/v0.6.0a8/biosamples/search"
         body: "*"
       };
@@ -34,7 +34,7 @@ service BioMetadataService {
   // `GET /individuals/{id}` will return a JSON version of `Individual`.
   rpc GetIndividual(GetIndividualRequest)
     returns (Individual) {
-      option (google.api.http) = {
+      option (ga4gh_schemas.google.api.http) = {
         get: "/v0.6.0a8/individuals/{individual_id}"
       };
     };
@@ -43,7 +43,7 @@ service BioMetadataService {
   // `GET /biosamples/{id}` will return a JSON version of `BioSample`.
   rpc GetBioSample(GetBioSampleRequest)
     returns (BioSample) {
-        option (google.api.http) = {
+        option (ga4gh_schemas.google.api.http) = {
           get: "/v0.6.0a8/biosamples/{bio_sample_id}"
         };
       };
