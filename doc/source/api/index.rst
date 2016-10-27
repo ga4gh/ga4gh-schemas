@@ -73,6 +73,15 @@ algorithms which help to describe, classify, and understand variants.
    alleleAnnotations
 
 
+RNA Quantification
+@@@@@@@@@@@@@@@@@@@@@
+
+The RNA quantifications provides a means of obtaining feature level
+quantifications derived from a set of RNA reads.
+
+.. toctree::
+   rna_quantifications
+
 Genotype to Phenotype
 @@@@@@@@@@@@@@@@@@@@@
 
