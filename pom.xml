@@ -176,7 +176,7 @@
         </configuration>
         <executions>
           <execution>
-            <phase>package</phase>
+            <phase>site</phase>
             <goals>
               <goal>generate</goal>
             </goals>
