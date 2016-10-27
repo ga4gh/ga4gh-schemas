@@ -56,7 +56,6 @@ message AlleleLocation {
 // A VariantAnnotationSet record groups VariantAnnotation records. It is derived
 // from a VariantSet and holds information describing the software and reference
 // data used in the annotation.
-
 message VariantAnnotationSet {
   // The ID of the variant annotation set record
   string id = 1;
@@ -88,14 +87,12 @@ message HGVSAnnotation {
 
 // A transcript effect record is a set of information describing the effect of
 // an allele on a transcript
-
 message TranscriptEffect {
   //  The ID of the transcript effect record
   string id = 1;
 
-  // TODO: derive unique id from digest of data [location, allele, transcript?]
-
   // The id of the transcript feature the annotation is relative to.
+  // TODO: derive unique id from digest of data [location, allele, transcript?]
   string feature_id = 2;
 
   // Alternate allele - a variant may have more than one alternate allele,

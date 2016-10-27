@@ -42,7 +42,7 @@ service SequenceAnnotationService {
       };
     };
 
-  // Gets a `org.ga4gh.models.Feature` by ID.
+  // Gets a `Feature` by ID.
   //
   // `GET /features/{id}` will return a JSON version of `Feature`.
   rpc GetFeature(GetFeatureRequest)

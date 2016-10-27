@@ -91,7 +91,7 @@ message SearchIndividualsResponse {
 }
 
 // *********************  /biosamples ********************************
-
+//This is the request sent to `POST /biosamples/search` expressed as JSON.
 message SearchBioSamplesRequest {
   // Optionally specify the dataset to search within.
   string dataset_id = 1;
@@ -113,7 +113,6 @@ message SearchBioSamplesRequest {
 }
 
 //This is the response from `POST /biosamples/search` expressed as JSON.
-
 message SearchBioSamplesResponse {
   // The list of biosamples.
   repeated BioSample biosamples = 1;

@@ -39,7 +39,7 @@ Batch-level: Adjustments or normalization done at the batch level
 Case 3: Obtain input data to use in Assembly activities
 
 User desires:
-Sequence level read data for both mapped and unmapped reads in the associated RNA experiment.  For typical read data this is contained in the fastq file(s) produced by the sequencer pipeline.  The API should either provide the original fastq or the read data necessary and sufficient to generate it.  It is desirable to be able to easily retrieve all the related reads at the fragment level for downstream analysis.  At this time, these would be either single or paired reads but for future-proofing the API should be able to handle the delivery of an arbitrary number of reads for a specific fragment.
+Sequence level read data for both mapped and unmapped reads in the associated RNA experiment.  For typical read data this is contained in the FASTQ file(s) produced by the sequencer pipeline.  The API should either provide the original FASTQ or the read data necessary and sufficient to generate it.  It is desirable to be able to easily retrieve all the related reads at the fragment level for downstream analysis.  At this time, these would be either single or paired reads but for future-proofing the API should be able to handle the delivery of an arbitrary number of reads for a specific fragment.
 
 Case 4: Obtain input data for DESeq Differential Expression analysis
 
@@ -49,7 +49,7 @@ Feature quantification array for two or more comparable RNASeq experimental resu
 Case 5: Obtain input data for RNASeq analysis by Kallisto software
 
 User desires:
-Calculate feature quantification by a new method.  In the Kallisto example here, the software does not utilize read alignments.  Repository needs to be able to supply raw read sequence (fastq format or convertible to fastq) and optionally annotation for the user.
+Calculate feature quantification by a new method.  In the Kallisto example here, the software does not utilize read alignments.  Repository needs to be able to supply raw read sequence (FASTQ format or convertible to FASTQ) and optionally annotation for the user.
 
 Case 6: Obtain quantification data for non-read-based RNA experiments (MicroArrays)
 

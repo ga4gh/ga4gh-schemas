@@ -10,7 +10,7 @@ See `Variants schema <../schemas/variants.proto.html>`_ for a detailed reference
 Variants Data Model
 @@@@@@@@@@@@@@@@@@@
 
-The Variants data model, although based on the VCF format, allows for more versaitle
+The Variants data model, although based on the VCF format, allows for more versatile
 interaction with the data. Instead of sending whole VCF files, the
 server can send information on specific variants or genomic regions
 instead. And instead of getting the whole genotype matrix, it's
