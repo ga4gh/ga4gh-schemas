@@ -118,7 +118,7 @@ message Call {
   // represented the heterozygous value "CA" for this variant. If the genotype
   // was instead [0, 1] the represented value would be "TA". Ordering of the
   // genotype values is important if the phaseset field is present.
-  repeated int32 genotype = 3;
+  google.protobuf.ListValue genotype = 7;
 
   // If this field is populated, this variant call's genotype ordering implies
   // the phase of the bases and is consistent with any other variant calls on
