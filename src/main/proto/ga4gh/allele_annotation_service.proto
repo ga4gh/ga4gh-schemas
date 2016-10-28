@@ -104,7 +104,11 @@ message SearchVariantAnnotationsRequest {
   
   // Only return variants with an allele frequency annotation over this value.
   // Return all variants by default.
-  double frequency_threshold = 10;
+  double minimum_frequency = 10;
+  
+  // Only return variants with an allele frequency annotation under this value.
+  // Return all variants by default.
+  double maximum_frequency = 11;
 
   // Specifies the maximum number of results to return in a single page. If
   // unspecified, a system default will be used.
