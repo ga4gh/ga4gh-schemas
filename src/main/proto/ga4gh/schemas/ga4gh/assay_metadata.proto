@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ga4gh_schemas.ga4gh;
+package ga4gh.schemas.ga4gh;
 
 import "google/protobuf/struct.proto";
 
