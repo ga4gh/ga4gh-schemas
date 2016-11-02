@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package ga4gh;
+package ga4gh.schemas.ga4gh;
 
-import "ga4gh/metadata.proto";
+import "ga4gh/schemas/ga4gh/metadata.proto";
 
 // Units for expression level.
 // FPKM - number of Fragments Per Kilobase of feature length per Million reads

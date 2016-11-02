@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package ga4gh;
+package ga4gh.schemas.ga4gh;
 
-import "ga4gh/rna_quantification.proto";
-import "google/api/annotations.proto";
+import "ga4gh/schemas/ga4gh/rna_quantification.proto";
+import "ga4gh/schemas/google/api/annotations.proto";
 
 service RnaQuantificationService {
   // Gets a list of 'RnaQuantificationSet' matching the search criteria.
@@ -12,7 +12,7 @@ service RnaQuantificationService {
   // version of 'SearchRnaQuantificationSetResponse'.
   rpc SearchRnaQuantificationSets(SearchRnaQuantificationSetsRequest)
     returns (SearchRnaQuantificationSetsResponse) {
-      option (google.api.http) = {
+      option (.ga4gh.schemas.google.api.http) = {
         post: "/v0.6.0a8/rnaquantificationsets/search"
         body: "*"
       };
@@ -24,7 +24,7 @@ service RnaQuantificationService {
   // `RnaQuantificationSet`.
   rpc GetRnaQuantificationSet(GetRnaQuantificationSetRequest)
     returns (RnaQuantificationSet) {
-      option (google.api.http) = {
+      option (.ga4gh.schemas.google.api.http) = {
         get: "/v0.6.0a8/rnaquantificationsets/{rna_quantification_set_id}"
       };
     };
@@ -35,7 +35,7 @@ service RnaQuantificationService {
   // version of 'SearchRnaQuantificationResponse'.
   rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
     returns (SearchRnaQuantificationsResponse) {
-      option (google.api.http) = {
+      option (.ga4gh.schemas.google.api.http) = {
         post: "/v0.6.0a8/rnaquantifications/search"
         body: "*"
       };
@@ -47,7 +47,7 @@ service RnaQuantificationService {
   // `RnaQuantification`.
   rpc GetRnaQuantification(GetRnaQuantificationRequest)
     returns (RnaQuantification) {
-      option (google.api.http) = {
+      option (.ga4gh.schemas.google.api.http) = {
         get: "/v0.6.0a8/rnaquantifications/{rna_quantification_id}"
       };
     };
@@ -59,7 +59,7 @@ service RnaQuantificationService {
   // version of 'SearchExpressionLevelsResponse'.
   rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
     returns (SearchExpressionLevelsResponse) {
-      option (google.api.http) = {
+      option (.ga4gh.schemas.google.api.http) = {
         post: "/v0.6.0a8/expressionlevels/search"
         body: "*"
       };
@@ -70,7 +70,7 @@ service RnaQuantificationService {
 // `ExpressionLevel`.
   rpc GetExpressionLevel(GetExpressionLevelRequest)
     returns (ExpressionLevel) {
-      option (google.api.http) = {
+      option (.ga4gh.schemas.google.api.http) = {
         get: "/v0.6.0a8/expressionlevels/{expression_level_id}"
       };
     };

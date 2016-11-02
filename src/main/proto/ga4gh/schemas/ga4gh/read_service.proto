@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package ga4gh;
+package ga4gh.schemas.ga4gh;
 
-import "ga4gh/reads.proto";
-import "google/api/annotations.proto";
+import "ga4gh/schemas/ga4gh/reads.proto";
+import "ga4gh/schemas/google/api/annotations.proto";
 
 service ReadService {
   // Gets a list of `ReadGroupSet` matching the search criteria.
@@ -15,7 +15,7 @@ service ReadService {
   // response.
   rpc SearchReadGroupSets(SearchReadGroupSetsRequest)
     returns (SearchReadGroupSetsResponse) {
-      option (google.api.http) = {
+      option (.ga4gh.schemas.google.api.http) = {
         post: "/v0.6.0a8/readgroupsets/search"
         body: "*"
       };
@@ -27,7 +27,7 @@ service ReadService {
   // `ReadGroupSet`.
   rpc GetReadGroupSet(GetReadGroupSetRequest)
     returns (ReadGroupSet) {
-      option (google.api.http) = {
+      option (.ga4gh.schemas.google.api.http) = {
         get: "/v0.6.0a8/readgroupsets/{read_group_set_id}"
       };
     };
@@ -54,7 +54,7 @@ service ReadService {
   // the post body and will return a JSON version of `SearchReadsResponse`.
   rpc SearchReads(SearchReadsRequest)
     returns (SearchReadsResponse) {
-      option (google.api.http) = {
+      option (.ga4gh.schemas.google.api.http) = {
         post: "/v0.6.0a8/reads/search"
         body: "*"
       };

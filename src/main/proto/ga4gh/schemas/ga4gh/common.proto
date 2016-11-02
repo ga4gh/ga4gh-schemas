@@ -3,7 +3,7 @@
 
 syntax = "proto3";
 
-package ga4gh;
+package ga4gh.schemas.ga4gh;
 
 // When returning an HTTP error response, a server may also return a JSON formatted GAException
 // to better describe the error.

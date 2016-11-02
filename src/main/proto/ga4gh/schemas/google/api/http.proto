@@ -14,7 +14,7 @@
 
 syntax = "proto3";
 
-package google.api;
+package ga4gh.schemas.google.api;
 
 option cc_enable_arenas = true;
 option java_multiple_files = true;
@@ -37,8 +37,8 @@ message Http {
 // REST APIs.  The mapping determines what portions of the request
 // message are populated from the path, query parameters, or body of
 // the HTTP request.  The mapping is typically specified as an
-// `google.api.http` annotation, see "google/api/annotations.proto"
-// for details.
+// `ga4gh.schemas.google.api.http` annotation, see 
+// "ga4gh/schemas/google/api/annotations.proto" for details.
 //
 // The mapping consists of a field specifying the path template and
 // method kind.  The path template can refer to fields in the request
@@ -48,7 +48,7 @@ message Http {
 // ```proto
 // service Messaging {
 //   rpc GetMessage(GetMessageRequest) returns (Message) {
-//     option (google.api.http).get = "/v1/messages/{message_id}/{sub.subfield}";
+//     option (.ga4gh.schemas.google.api.http).get = "/v1/messages/{message_id}/{sub.subfield}";
 //   }
 // }
 // message GetMessageRequest {
@@ -107,7 +107,7 @@ message Http {
 // ```proto
 // service Messaging {
 //   rpc UpdateMessage(UpdateMessageRequest) returns (Message) {
-//     option (google.api.http) = {
+//     option (.ga4gh.schemas.google.api.http) = {
 //       put: "/v1/messages/{message_id}"
 //       body: "message"
 //     };
@@ -135,7 +135,7 @@ message Http {
 // ```proto
 // service Messaging {
 //   rpc UpdateMessage(Message) returns (Message) {
-//     option (google.api.http) = {
+//     option (.ga4gh.schemas.google.api.http) = {
 //       put: "/v1/messages/{message_id}"
 //       body: "*"
 //     };
@@ -165,7 +165,7 @@ message Http {
 // ```proto
 // service Messaging {
 //   rpc GetMessage(GetMessageRequest) returns (Message) {
-//     option (google.api.http) = {
+//     option (.ga4gh.schemas.google.api.http) = {
 //       get: "/v1/messages/{message_id}"
 //       additional_bindings {
 //         get: "/v1/users/{user_id}/messages/{message_id}"
