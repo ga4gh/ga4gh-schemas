@@ -118,6 +118,8 @@ message Call {
   // represented the heterozygous value "CA" for this variant. If the genotype
   // was instead [0, 1] the represented value would be "TA". Ordering of the
   // genotype values is important if the phaseset field is present.
+  // Missing genotype genotypes may be indicated using the "dot annotation" [".", "."],
+  // as specified in VCF4.2; this is e.g. used for types of structural variants.
   google.protobuf.ListValue genotype = 7;
 
   // If this field is populated, this variant call's genotype ordering implies
