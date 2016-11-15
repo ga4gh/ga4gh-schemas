@@ -17,3 +17,4 @@ before_script:
 script:
     - flake8 scripts tests
     - nosetests -v tests
+    - python scripts/package_python.py a.b.c
