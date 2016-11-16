@@ -52,7 +52,7 @@ service AlleleAnnotationService {
   rpc GetVariantAnnotationSet(GetVariantAnnotationSetRequest)
     returns (VariantAnnotationSet) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/variantannotationset/{variant_annotation_set_id}"
+        get: "/v0.6.0a8/variantannotationsets/{variant_annotation_set_id}"
       };
     };
 
