@@ -6,6 +6,9 @@ doc/source/schemas/*.proto.rst
 doc/source/schemas/build.rst
 doc/source/_build/
 build
+python/ga4gh/schemas/
+python/dist/
+python/ga4gh_schemas.egg-info/
 
 #********** windows template**********
 

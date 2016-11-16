@@ -1,0 +1,9 @@
+# This file lists the requirements needed to develop on ga4gh-schemas
+
+# Include the requirements.txt file
+-r requirements.txt
+
+nose
+pep8
+flake8
+coverage

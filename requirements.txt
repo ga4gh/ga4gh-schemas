@@ -1,3 +1,4 @@
+ga4gh-common==0.0.5
 PyYAML
 protobuf==3.0.0b3
 flake8
