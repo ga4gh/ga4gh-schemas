@@ -16,5 +16,7 @@ before_script:
     - export PATH=/tmp/proto3.0.0-beta-3.1/bin:$PATH
 script:
     - flake8 scripts tests
-    - nosetests -v tests
-    - python scripts/package_python.py a.b.c
+    - nosetests -v tests/test_maven.py
+    - python scripts/package_python.py a.b.c -w
+    - python python/setup.py install
+    - nosetests -v tests/test_imports.py

@@ -7,9 +7,9 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/common.proto";
-import "ga4gh/assay_metadata.proto";
-import "ga4gh/metadata.proto";
+import "common.proto";
+import "assay_metadata.proto";
+import "metadata.proto";
 import "google/protobuf/struct.proto";
 
 // ReadStats can be used to provide summary statistics about read data.

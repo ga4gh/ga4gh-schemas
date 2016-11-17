@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/allele_annotations.proto";
-import "ga4gh/metadata.proto";
-import "google/api/annotations.proto";
+import "allele_annotations.proto";
+import "metadata.proto";
+import "elgoog/api/annotations.proto";
 
 service AlleleAnnotationService {
   // Gets a list of `VariantAnnotation` messages matching the search criteria.
@@ -26,7 +26,7 @@ service AlleleAnnotationService {
   // version of `SearchVariantAnnotationsResponse`.
   rpc SearchVariantAnnotations(SearchVariantAnnotationsRequest)
     returns (SearchVariantAnnotationsResponse) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         post: "/v0.6.0a8/variantannotations/search"
         body: "*"
       };
@@ -39,7 +39,7 @@ service AlleleAnnotationService {
   // JSON version of `SearchVariantAnnotationSetsResponse`.
   rpc SearchVariantAnnotationSets(SearchVariantAnnotationSetsRequest)
     returns (SearchVariantAnnotationSetsResponse) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         post: "/v0.6.0a8/variantannotationsets/search"
         body: "*"
       };
@@ -51,7 +51,7 @@ service AlleleAnnotationService {
   // version of `VariantAnnotationSet`.
   rpc GetVariantAnnotationSet(GetVariantAnnotationSetRequest)
     returns (VariantAnnotationSet) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         get: "/v0.6.0a8/variantannotationsets/{variant_annotation_set_id}"
       };
     };

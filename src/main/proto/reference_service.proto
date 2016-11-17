@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/references.proto";
-import "google/api/annotations.proto";
+import "references.proto";
+import "elgoog/api/annotations.proto";
 
 service ReferenceService {
   // Gets a list of `ReferenceSet` matching the search criteria.
@@ -13,7 +13,7 @@ service ReferenceService {
   // version of `SearchReferenceSetsResponse`.
   rpc SearchReferenceSets(SearchReferenceSetsRequest)
       returns (SearchReferenceSetsResponse) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         post: "/v0.6.0a8/referencesets/search"
         body: "*"
       };
@@ -25,7 +25,7 @@ service ReferenceService {
   // `ReferenceSet`.
   rpc GetReferenceSet(GetReferenceSetRequest)
     returns (ReferenceSet) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         get: "/v0.6.0a8/referencesets/{reference_set_id}"
       };
     };
@@ -37,7 +37,7 @@ service ReferenceService {
   // version of `SearchReferencesResponse`.
   rpc SearchReferences(SearchReferencesRequest)
     returns (SearchReferencesResponse) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         post: "/v0.6.0a8/references/search"
         body: "*"
       };
@@ -49,7 +49,7 @@ service ReferenceService {
   // `Reference`.
   rpc GetReference(GetReferenceRequest)
     returns (Reference) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         get: "/v0.6.0a8/references/{reference_id}"
       };
     };
@@ -60,7 +60,7 @@ service ReferenceService {
   // `ListReferenceBasesResponse`.
   rpc ListReferenceBases(ListReferenceBasesRequest)
     returns (ListReferenceBasesResponse) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         post: "/v0.6.0a8/references/{reference_id}/bases"
         body: "*"
       };
