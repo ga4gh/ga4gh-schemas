@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/common.proto";
-import "ga4gh/metadata.proto";
-import "ga4gh/genotype_phenotype.proto";
-import "google/api/annotations.proto";
+import "common.proto";
+import "metadata.proto";
+import "genotype_phenotype.proto";
+import "elgoog/api/annotations.proto";
 
 /*
    This protocol defines genotype to phenotype association
@@ -28,7 +28,7 @@ service GenotypePhenotypeService {
   // of `SearchPhenotypeAssociationSetsResponse`.
   rpc SearchPhenotypeAssociationSets(SearchPhenotypeAssociationSetsRequest)
     returns (SearchPhenotypeAssociationSetsResponse) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         post: "/v0.6.0a8/phenotypeassociationsets/search"
         body: "*"
       };
@@ -40,7 +40,7 @@ service GenotypePhenotypeService {
   // of `SearchPhenotypeAssociationSetsResponse`.
   rpc SearchPhenotype(SearchPhenotypesRequest)
     returns (SearchPhenotypesResponse) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         post: "/v0.6.0a8/phenotypes/search"
         body: "*"
       };
@@ -52,7 +52,7 @@ service GenotypePhenotypeService {
   // of `SearchPhenotypeAssociationSetsResponse`.
   rpc SearchPhenotypeAssociations(SearchGenotypePhenotypeRequest)
     returns (SearchGenotypePhenotypeResponse) {
-      option (google.api.http) = {
+      option (elgoog.api.http) = {
         post: "/v0.6.0a8/featurephenotypeassociations/search"
         body: "*"
       };

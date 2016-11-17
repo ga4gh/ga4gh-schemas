@@ -14,7 +14,7 @@
 
 syntax = "proto3";
 
-package google.api;
+package elgoog.api;
 
 option cc_enable_arenas = true;
 option java_multiple_files = true;

@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/metadata.proto";
-import "ga4gh/assay_metadata.proto";
+import "metadata.proto";
+import "assay_metadata.proto";
 import "google/protobuf/struct.proto";
 
 /*

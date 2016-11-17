@@ -9,38 +9,49 @@ import argparse
 import fnmatch
 import os
 import tempfile
+from distutils.core import run_setup
 
 import process_schemas
 
-# run setup
-# change travis
-
 
 def doLineReplacements(line):
+    """
+    Given a line of a proto file, replace the line with one that is
+    appropriate for the hierarchy that we want to compile
+    """
+    # google packages
+    if 'package elgoog.api;' in line:
+        return line.replace(
+            'package elgoog.api;',
+            'package ga4gh.schemas.elgoog.api;')
+    if 'import "elgoog/api/' in line:
+        return line.replace(
+            'import "elgoog/api/',
+            'import "ga4gh/schemas/elgoog/api/')
+    if 'option (google.api.http)' in line:
+        return line.replace(
+            'option (elgoog.api.http)',
+            'option (.ga4gh.schemas.elgoog.api.http)')
+    # import lines to skip
+    if 'import "google/protobuf/' in line:
+        return line
+    # ga4gh packages
     if 'package ga4gh;' in line:
         return line.replace(
             'package ga4gh;',
-            'package ga4gh.schemas.ga4gh;')
-    if 'package google.api;' in line:
+            'package ga4gh.schemas;')
+    if 'import "' in line:
         return line.replace(
-            'package google.api;',
-            'package ga4gh.schemas.google.api;')
-    if 'import "ga4gh/' in line:
-        return line.replace(
-            'import "ga4gh/',
-            'import "ga4gh/schemas/ga4gh/')
-    if 'import "google/api/' in line:
-        return line.replace(
-            'import "google/api/',
-            'import "ga4gh/schemas/google/api/')
-    if 'option (google.api.http)' in line:
-        return line.replace(
-            'option (google.api.http)',
-            'option (.ga4gh.schemas.google.api.http)')
+            'import "',
+            'import "ga4gh/schemas/')
     return line
 
 
 def copySchemaFile(src, dst):
+    """
+    Copy a proto file to the temporary directory, with appropriate
+    line replacements
+    """
     with open(src) as srcFile, open(dst, 'w') as dstFile:
         srcLines = srcFile.readlines()
         for srcLine in srcLines:
@@ -49,6 +60,10 @@ def copySchemaFile(src, dst):
 
 
 def createSchemaFiles(tempPath, schemasPath):
+    """
+    Create a hierarchy of proto files in a temporary directory, copied
+    from the schemasPath hierarchy
+    """
     ga4ghPath = os.path.join(tempPath, 'ga4gh')
     os.mkdir(ga4ghPath)
     ga4ghSchemasPath = os.path.join(ga4ghPath, 'schemas')
@@ -67,11 +82,26 @@ def createSchemaFiles(tempPath, schemasPath):
             copySchemaFile(src, dst)
 
 
+def createPackage(wheel):
+    """
+    Invoke setup.py to create a package
+    """
+    os.chdir('python')
+    if wheel:
+        script_args = ['bdist_wheel', '--universal']
+    else:
+        script_args = ['sdist']
+    run_setup('setup.py', script_args=script_args)
+
+
 def main(args=None):
     parser = argparse.ArgumentParser(
         description="Script to create a python package of the schemas")
     parser.add_argument(
         "version", help="Version number of the schema we're compiling")
+    parser.add_argument(
+        "--wheel", "-w", action="store_true",
+        help="build a universal wheel instead of an sdist archive")
     parsedArgs = parser.parse_args(args)
 
     # create modified proto files in a temporary directory
@@ -82,10 +112,8 @@ def main(args=None):
     # create *_pb2.py files under the python directory
     process_schemas.main([parsedArgs.version, tempPath])
 
-    # run sdist
-    from distutils.core import run_setup
-    os.chdir('python')
-    run_setup('setup.py', script_args=['sdist'])
+    # create a package
+    createPackage(parsedArgs.wheel)
 
 
 if __name__ == '__main__':

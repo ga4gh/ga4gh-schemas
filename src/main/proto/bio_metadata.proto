@@ -3,7 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "google/protobuf/struct.proto";
-import "ga4gh/metadata.proto";
+import "metadata.proto";
 
 
 // An individual (or subject) typically corresponds to an individual
