@@ -88,7 +88,6 @@ def createPackage(wheel):
     """
     Invoke setup.py to create a package
     """
-    os.chdir('python')
     if wheel:
         script_args = ['bdist_wheel', '--universal']
     else:

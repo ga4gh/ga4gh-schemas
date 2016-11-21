@@ -9,18 +9,11 @@ except ImportError:
     use_setuptools()
     from setuptools import setup
 
-
-# this is a hack that allows us to run setup from the root schemas dir;
-# it's better to run it from the python dir
-import os
-if os.path.split(os.getcwd())[1] != 'python':
-    os.chdir('python')
-
-with open("README.pypi.rst") as readmeFile:
+with open("python/README.pypi.rst") as readmeFile:
     long_description = readmeFile.read()
 
 install_requires = []
-with open("requirements.txt") as requirementsFile:
+with open("python/requirements.txt") as requirementsFile:
     for line in requirementsFile:
         line = line.strip()
         if len(line) == 0:
@@ -37,14 +30,15 @@ setup(
     packages=[
         "ga4gh",
         "ga4gh.schemas",
+        "ga4gh.schemas.ga4gh",
         "ga4gh.schemas.google",
         "ga4gh.schemas.google.api"
     ],
     namespace_packages=["ga4gh"],
     url="https://github.com/ga4gh/schemas",
-    use_scm_version={"write_to": "python/ga4gh/schemas/_version.py",
-        "root": ".."},
+    use_scm_version={"write_to": "python/ga4gh/schemas/_version.py"},
     entry_points={},
+    package_dir={'': 'python'},
     # BEGIN BOILERPLATE
     long_description=long_description,
     install_requires=install_requires,
