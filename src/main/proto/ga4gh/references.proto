@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ga4gh;
 
+import "ga4gh/metadata.proto";
+
 // A `Reference` is a canonical assembled contig, intended to act as a
 // reference coordinate space for other genomic annotations. A single
 // `Reference` might represent the human chromosome 1, for instance.
@@ -54,6 +56,9 @@ message Reference {
   // this is NCBITaxon:9606, which has the URI
   // http://purl.obolibrary.org/obo/NCBITaxon_9606
   OntologyTerm species = 10;
+
+  // A map of additional information.
+  Attributes attributes = 11;
 }
 
 // A `ReferenceSet` is a set of `Reference` s which typically comprise a
@@ -100,4 +105,7 @@ message ReferenceSet {
   // additional sequences, or some of the sequences within it are derived
   // (see the definition of `isDerived` in `Reference`).
   bool is_derived = 9;
+  
+  // A map of additional information.
+  Attributes attributes = 11;
 }
