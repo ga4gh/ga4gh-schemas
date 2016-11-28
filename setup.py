@@ -9,11 +9,11 @@ except ImportError:
     use_setuptools()
     from setuptools import setup
 
-with open("README.pypi.rst") as readmeFile:
+with open("python/README.pypi.rst") as readmeFile:
     long_description = readmeFile.read()
 
 install_requires = []
-with open("requirements.txt") as requirementsFile:
+with open("python/requirements.txt") as requirementsFile:
     for line in requirementsFile:
         line = line.strip()
         if len(line) == 0:
@@ -27,12 +27,18 @@ setup(
     # END BOILERPLATE
     name="ga4gh_schemas",
     description="GA4GH api schemas",
-    packages=["ga4gh", "ga4gh.schemas"],
+    packages=[
+        "ga4gh",
+        "ga4gh.schemas",
+        "ga4gh.schemas.ga4gh",
+        "ga4gh.schemas.google",
+        "ga4gh.schemas.google.api"
+    ],
     namespace_packages=["ga4gh"],
     url="https://github.com/ga4gh/schemas",
-    use_scm_version={"write_to": "python/ga4gh/schemas/_version.py",
-        "root": ".."},
+    use_scm_version={"write_to": "python/ga4gh/schemas/_version.py"},
     entry_points={},
+    package_dir={'': 'python'},
     # BEGIN BOILERPLATE
     long_description=long_description,
     install_requires=install_requires,

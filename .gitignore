@@ -7,8 +7,9 @@ doc/source/schemas/build.rst
 doc/source/_build/
 build
 python/ga4gh/schemas/
-python/dist/
-python/ga4gh_schemas.egg-info/
+*dist/
+*ga4gh_schemas.egg-info/
+_version.py
 
 #********** windows template**********
 
