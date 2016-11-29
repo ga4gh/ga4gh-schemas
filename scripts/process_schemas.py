@@ -14,8 +14,34 @@ import subprocess
 import fnmatch
 import re
 import argparse
+import shlex
 
-import ga4gh.common.utils as utils
+
+def runCommandSplits(splits, silent=False, shell=False):
+    """
+    Run a shell command given the command's parsed command line
+    """
+    try:
+        if silent:
+            with open(os.devnull, 'w') as devnull:
+                subprocess.check_call(
+                    splits, stdout=devnull, stderr=devnull, shell=shell)
+        else:
+            subprocess.check_call(splits, shell=shell)
+    except OSError, e:
+        if e.errno == 2:  # cmd not found
+            raise Exception(
+                "Can't find command while trying to run {}".format(splits))
+        else:
+            raise
+
+
+def runCommand(command, silent=False, shell=False):
+    """
+    Run a shell command
+    """
+    splits = shlex.split(command)
+    runCommandSplits(splits, silent=silent, shell=shell)
 
 
 class ProtobufGenerator(object):
@@ -70,7 +96,7 @@ class ProtobufGenerator(object):
                 protoc = c
                 break
             except Exception:
-                utils.log(
+                print(
                     "Not using {path} because it returned " +
                     "'{version}' rather than \"libprotoc <version>\", where " +
                     "<version> >= 3.0.0").format(path=c, format=output)
@@ -78,7 +104,7 @@ class ProtobufGenerator(object):
         if protoc is None:
             raise Exception("Can't find a good protoc. Tried {}".format(
                 protocs))
-        utils.log("Using protoc: '{}'".format(protoc))
+        print("Using protoc: '{}'".format(protoc))
         return protoc
 
     def _writePythonFiles(self, source_path, protoc, destination_path):
@@ -90,17 +116,17 @@ class ProtobufGenerator(object):
         if len(protos) == 0:
             raise Exception(
                 "Didn't find any proto files in ".format(source_path))
-        utils.log("Proto files source: '{}'".format(source_path))
-        utils.log("pb2 files destination: '{}'".format(destination_path))
+        print("Proto files source: '{}'".format(source_path))
+        print("pb2 files destination: '{}'".format(destination_path))
         cmdString = (
-            "{protoc} -I {source_path} "
+            "{protoc} -I {source_path} -I ./src/main "
             "--python_out={destination_path} {proto_files}")
         cmd = cmdString.format(
             protoc=protoc, source_path=source_path,
             destination_path=destination_path,
             proto_files=" ".join(protos))
-        utils.runCommand(cmd)
-        utils.log("{} pb2 files written".format(len(protos)))
+        runCommand(cmd)
+        print("{} pb2 files written".format(len(protos)))
 
     def _writeVersionFile(self):
         versionFilePath = "python/ga4gh/schemas/_protocol_version.py"

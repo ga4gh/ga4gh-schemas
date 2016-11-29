@@ -4,4 +4,11 @@
 # These requirements are read directly into setup.py, so specify them
 # in the order that they should be in in setup.py
 ga4gh-common==0.0.5
-protobuf==3.0.0b3
+PyYAML
+protobuf==3.1.0.post1
+flake8
+humanize
+nose
+requests
+sphinx==1.4.6
+sphinx_rtd_theme

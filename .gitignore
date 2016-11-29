@@ -10,6 +10,7 @@ python/ga4gh/schemas/
 *dist/
 *ga4gh_schemas.egg-info/
 _version.py
+python/ga4gh/schemas/_protocol_version.py
 
 #********** windows template**********
 
