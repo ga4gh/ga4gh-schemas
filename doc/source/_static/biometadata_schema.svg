@@ -43,7 +43,7 @@
 <rect x="20" y="45" width="160" height="28" />
 <text transform="translate(40 45)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan></text>
 <rect x="20" y="93" width="160" height="25" />
-<text transform="translate(40 93)" ><tspan x="0" dy="18" font-weight="900">BioSample</tspan>
+<text transform="translate(40 93)" ><tspan x="0" dy="18" font-weight="900">Biosample</tspan>
 </text>
 <rect x="20" y="118" width="160" height="46" />
 <text transform="translate(40 118)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">individualId</tspan></text>
@@ -57,7 +57,7 @@ y2="184"
 <text transform="translate(40 204)" ><tspan x="0" dy="18" font-weight="900">OtherGA4GHobject</tspan>
 </text>
 <rect x="20" y="229" width="160" height="46" />
-<text transform="translate(40 229)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">bioSampleId</tspan></text>
+<text transform="translate(40 229)" ><tspan  style="font-weight: 900; fill: red;" 	x="0" dy="18">id</tspan><tspan  font-style="italic" style="" 	x="0" dy="18">biosampleId</tspan></text>
 <path d="
 M180,128
 L195,128

@@ -1,7 +1,7 @@
 .. _biometadata:
 
-.. image:: /_static/biometadata_schema.png
-   :scale: 50 %
+.. image:: /_static/biometadata_schema.svg
+   :width: 184 px
    :align: right
 
 .. _biometadata_biosample:

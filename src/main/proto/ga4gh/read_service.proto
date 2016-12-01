@@ -11,7 +11,7 @@ service ReadService {
   // `POST /readgroupsets/search` must accept a JSON version of
   // `SearchReadGroupSetsRequest` as the post body and will return a JSON
   // version of `SearchReadGroupSetsResponse` . Only readgroups that
-  // match an optionally supplied bioSampleId will be included in the
+  // match an optionally supplied biosampleId will be included in the
   // response.
   rpc SearchReadGroupSets(SearchReadGroupSetsRequest)
     returns (SearchReadGroupSetsResponse) {
@@ -78,7 +78,7 @@ message SearchReadGroupSetsRequest {
   string name = 2;
 
   //  Specifying the id of a Biosample record will return only readgroups
-  //  with the given bioSampleId.
+  //  with the given biosampleId.
   string biosample_id = 3;
 
   // Specifies the maximum number of results to return in a single page.
