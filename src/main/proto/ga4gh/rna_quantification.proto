@@ -69,7 +69,7 @@ message RnaQuantification {
   string rna_quantification_set_id = 7;
   
   // A map of additional information about the Quantification.
-  Attributes attributes = 8;
+  Attributes attributes = 9;
 }
 
 // The actual numerical quantification for each feature.
