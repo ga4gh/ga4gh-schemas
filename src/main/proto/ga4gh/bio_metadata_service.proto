@@ -41,10 +41,10 @@ service BioMetadataService {
 
   // Gets a `Biosample` by ID.
   // `GET /biosamples/{id}` will return a JSON version of `Biosample`.
-  rpc GetBioSample(GetBiosampleRequest)
+  rpc GetBiosample(GetBiosampleRequest)
     returns (Biosample) {
         option (google.api.http) = {
-          get: "/v0.6.0a8/biosamples/{bio_sample_id}"
+          get: "/v0.6.0a8/biosamples/{biosample_id}"
         };
       };
 }
