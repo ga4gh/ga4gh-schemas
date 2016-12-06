@@ -95,9 +95,9 @@ with open("python/requirements.txt") as requirementsFile:
 
 tempPath = 'package_python'
 try:
-  shutil.rmtree(tempPath)
+    shutil.rmtree(tempPath)
 except Exception as e:
-  print('tempfile directory does not exist, creating...')
+    print('tempfile directory does not exist, creating...')
 shutil.copytree('python', tempPath)
 schemasPath = 'src/main/proto/'
 createSchemaFiles(tempPath, schemasPath)
@@ -138,4 +138,5 @@ setup(
     setup_requires=['setuptools_scm'],
 )
 
-shutil.rmtree('package_python')
+shutil.rmtree('package_python', True)
+
