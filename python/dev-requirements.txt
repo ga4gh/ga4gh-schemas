@@ -5,3 +5,10 @@
 
 pep8
 coverage
+PyYAML
+flake8
+humanize
+nose
+requests
+sphinx==1.4.6
+sphinx_rtd_theme
