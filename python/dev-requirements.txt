@@ -3,7 +3,12 @@
 # Include the requirements.txt file
 -r requirements.txt
 
-nose
 pep8
-flake8
 coverage
+PyYAML
+flake8
+humanize
+nose
+requests
+sphinx==1.4.6
+sphinx_rtd_theme

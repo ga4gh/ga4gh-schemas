@@ -7,14 +7,14 @@ python:
 
 install:
     - sudo apt-get update -qq
-    - pip install -r requirements.txt
+    - python setup.py install
 cache:
     directories:
-    - /tmp/proto3.0.0-beta-3.1
-before_script:
-    - bash tools/travis-install-protoc.sh 3.0.0-beta-3.1
-    - export PATH=/tmp/proto3.0.0-beta-3.1/bin:$PATH
+    - /tmp/proto3.1.0
+before_install:
+    - bash tools/travis-install-protoc.sh 3.1.0
+    - export PATH=/tmp/proto3.1.0/bin:$PATH
+    - pip install -r python/dev-requirements.txt
 script:
     - flake8 scripts tests
-    - python scripts/package_python.py a.b.c -w
-    - nosetests -v tests
+    - python -mnose tests
