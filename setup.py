@@ -18,67 +18,6 @@ except ImportError:
     use_setuptools()
     from setuptools import setup
 
-def createSchemaFiles(tempPath, schemasPath):
-    """
-    Create a hierarchy of proto files in a temporary directory, copied
-    from the schemasPath hierarchy
-    """
-    ga4ghPath = os.path.join(tempPath, 'ga4gh')
-    ga4ghSchemasPath = os.path.join(ga4ghPath, 'schemas')
-    for root, dirs, files in os.walk(schemasPath):
-        for protoFilePath in fnmatch.filter(files, '*.proto'):
-            src = os.path.join(root, protoFilePath)
-            dst = os.path.join(
-                ga4ghSchemasPath,
-                os.path.relpath(root, schemasPath), protoFilePath)
-            copySchemaFile(src, dst)
-
-
-def doLineReplacements(line):
-    """
-    Given a line of a proto file, replace the line with one that is
-    appropriate for the hierarchy that we want to compile
-    """
-    # ga4gh packages
-    packageString = 'package ga4gh;'
-    if packageString in line:
-        return line.replace(
-            packageString,
-            'package ga4gh.schemas.ga4gh;')
-    importString = 'import "ga4gh/'
-    if importString in line:
-        return line.replace(
-            importString,
-            'import "ga4gh/schemas/ga4gh/')
-    # google packages
-    googlePackageString = 'package google.api;'
-    if googlePackageString in line:
-        return line.replace(
-            googlePackageString,
-            'package ga4gh.schemas.google.api;')
-    googleImportString = 'import "google/api/'
-    if googleImportString in line:
-        return line.replace(
-            googleImportString,
-            'import "ga4gh/schemas/google/api/')
-    optionString = 'option (google.api.http)'
-    if optionString in line:
-        return line.replace(
-            optionString,
-            'option (.ga4gh.schemas.google.api.http)')
-    return line
-
-def copySchemaFile(src, dst):
-    """
-    Copy a proto file to the temporary directory, with appropriate
-    line replacements
-    """
-    with open(src) as srcFile, open(dst, 'w') as dstFile:
-        srcLines = srcFile.readlines()
-        for srcLine in srcLines:
-            toWrite = doLineReplacements(srcLine)
-            dstFile.write(toWrite)
-
 with open("python/README.pypi.rst") as readmeFile:
     long_description = readmeFile.read()
 
@@ -100,7 +39,7 @@ except Exception as e:
     print('tempfile directory does not exist, creating...')
 shutil.copytree('python', tempPath)
 schemasPath = 'src/main/proto/'
-createSchemaFiles(tempPath, schemasPath)
+process_schemas.createSchemaFiles(tempPath, schemasPath)
 process_schemas.main([PROTOCOL_VERSION, tempPath])
 
 setup(
