@@ -32,15 +32,9 @@ with open("python/requirements.txt") as requirementsFile:
         pinnedVersion = line.split()[0]
         install_requires.append(pinnedVersion)
 
-tempPath = 'package_python'
-try:
-    shutil.rmtree(tempPath)
-except Exception as e:
-    print('tempfile directory does not exist, creating...')
-shutil.copytree('python', tempPath)
 schemasPath = 'src/main/proto/'
-process_schemas.createSchemaFiles(tempPath, schemasPath)
-process_schemas.main([PROTOCOL_VERSION, tempPath])
+process_schemas.createSchemaFiles('python', schemasPath)
+process_schemas.main([PROTOCOL_VERSION, 'python'])
 
 setup(
     name="ga4gh_schemas",
@@ -56,7 +50,7 @@ setup(
     url="https://github.com/ga4gh/schemas",
     use_scm_version={"write_to": "python/ga4gh/schemas/_version.py"},
     entry_points={},
-    package_dir={'': tempPath},
+    package_dir={'': 'python'},
     long_description=long_description,
     install_requires=install_requires,
     license='Apache License 2.0',
