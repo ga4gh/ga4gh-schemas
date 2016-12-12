@@ -76,19 +76,18 @@ message ReferenceSet {
   // hexadecimal string.
   string md5checksum = 3;
 
-  // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human) indicating
-  // the species which this assembly is intended to model. Note that contained
-  // `Reference` s may specify a different `ncbiTaxonId`, as assemblies may
-  // contain reference sequences which do not belong to the modeled species,
-  // e.g.
-  // EBV in a human reference genome.
-  int32 ncbi_taxon_id = 4;
+  // For a representation of an NCBI Taxon ID as an OntologyTerm, see
+  // NCBITaxon Ontology
+  //   http://www.obofoundry.org/ontology/ncbitaxon.html
+  // For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
+  // this is NCBITaxon:9606, which has the URI
+  // http://purl.obolibrary.org/obo/NCBITaxon_9606
+  OntologyTerm species = 10;
 
   // Optional free text description of this reference set.
   string description = 5;
 
-  // next information about the source of the sequences
-
+  // The remaining information is about the source of the sequences
   // Public id of this reference set, such as `GRCh37`.
   string assembly_id = 6;
 
