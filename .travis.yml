@@ -16,5 +16,6 @@ before_install:
     - export PATH=/tmp/proto3.1.0/bin:$PATH
     - pip install -r python/dev-requirements.txt
 script:
+    - make docs
     - flake8 scripts tests
     - python -mnose tests
