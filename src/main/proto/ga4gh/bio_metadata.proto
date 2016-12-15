@@ -76,8 +76,15 @@ message BioSample {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
-  // OntologyTerm describing the primary disease associated with this BioSample.
-  OntologyTerm disease = 5;
+  // Zero or more OntologyTerm objects describing characteristics of this
+  // Biosample. These should not be used to annotate general characteristics
+  // of the individual this Biosample was derived from.
+  // Example: In a Biosample comprised of leukemic blasts from an individual
+  // with Down syndrome (DS) and Acute Myeloid Leukemia,
+  // sample_characteristics would contain OntologyTerm objects referring to
+  // the tissue type (e.g. bone marrow) and the type of leukemia,
+  // but not the diagnosis of DS
+  repeated OntologyTerm sample_characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
   // was created.
