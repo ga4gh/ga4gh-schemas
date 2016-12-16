@@ -47,7 +47,7 @@ message Dataset {
 
   // A list of External Identifier messages that can be used to identify this
   // item in another database.
-  repeated ExternalIdentifier external_identifiers = 15;
+  repeated ExternalIdentifier external_identifiers = 5;
 }
 
 // A Program describes software used in data processing or analysis.

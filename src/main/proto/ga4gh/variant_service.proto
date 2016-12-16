@@ -86,10 +86,11 @@ message SearchVariantSetsRequest {
   string dataset_id = 1;
 
   // Filters results using the provided external identifier. Only returns
-  // results that strictly match the provided fields of the identifier.
+  // results that strictly match the provided fields of the external identifier.
   // Returns any items with an external identifier that matches all of
-  // the provided fields. For example, searching without an identifier
-  // will return all messages external identifiers with the provided `db`.
+  // the provided fields. For example, searching with only the `database`
+  // set to `dbsnp` will filter results for those that include external
+  // identifiers with a `database` field strictly matching the request.
   ExternalIdentifier external_identifier = 4;
 
   // Specifies the maximum number of results to return in a single page.
@@ -144,10 +145,11 @@ message SearchVariantsRequest {
   int64 end = 5;
 
   // Filters results using the provided external identifier. Only returns
-  // results that strictly match the provided fields of the identifier.
+  // results that strictly match the provided fields of the external identifier.
   // Returns any items with an external identifier that matches all of
-  // the provided fields. For example, searching without an identifier
-  // will return all messages external identifiers with the provided `db`.
+  // the provided fields. For example, searching with only the `database`
+  // set to `dbsnp` will filter results for those that include external
+  // identifiers with a `database` field strictly matching the request.
   ExternalIdentifier external_identifier = 8;
 
   // Specifies the maximum number of results to return in a single page.
@@ -195,10 +197,11 @@ message SearchCallSetsRequest {
   string bio_sample_id = 3;
 
   // Filters results using the provided external identifier. Only returns
-  // results that strictly match the provided fields of the identifier.
+  // results that strictly match the provided fields of the external identifier.
   // Returns any items with an external identifier that matches all of
-  // the provided fields. For example, searching without an identifier
-  // will return all messages external identifiers with the provided `db`.
+  // the provided fields. For example, searching with only the `database`
+  // set to `dbsnp` will filter results for those that include external
+  // identifiers with a `database` field strictly matching the request.
   ExternalIdentifier external_identifier = 6;
 
   // Specifies the maximum number of results to return in a single page.
