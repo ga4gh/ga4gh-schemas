@@ -92,31 +92,41 @@ def parse_message(cluster, fields, containments, nests, id_targets, id_reference
     clusters[cluster.name].append(message.name)
 
 def parse_cluster(cluster, fields, containments, nests, id_targets, id_references, clusters):
+    cluster_name = cluster.name
+    if cluster_name.endswith("google/protobuf/struct.proto") or cluster_name.endswith("google/api/http.proto") or cluster_name.endswith("google/protobuf/descriptor.proto"):
+        pass
+    else:
+        clusters[cluster_name] = []
 
-    clusters[cluster.name] = []
+        # process all the enum-types in the cluster
+        for enum in cluster.enum_type:
+            # Track all the enum "fields"
+            fields[enum.name] = []
+            for field in enum.value:
+                # An Enum field is a string. field types in
+                # DescriptorProto uses 9 for TYPE_STRING
+                fields[enum.name].append((field.name, 9))
+            # Record the name of the enum as a type in the current cluster
+            clusters[cluster.name].append(enum.name)
 
-    # process all the enum-types in the cluster
-    for enum in cluster.enum_type:
-        # Track all the enum "fields"
-        fields[enum.name] = []
-        for field in enum.value:
-            # An Enum field is a string. field types in
-            # DescriptorProto uses 9 for TYPE_STRING
-            fields[enum.name].append((field.name, 9))
-        # Record the name of the enum as a type in the current cluster
-        clusters[cluster.name].append(enum.name)
+        # Track all the message-types in the cluster
+        for message_index in range(0, len(cluster.message_type)):
+            message = cluster.message_type[message_index]
+            # Recursively parse each message
+            parse_message(cluster, fields, containments, nests, id_targets, id_references, clusters, message, message_index)
+            # Note: the message will add itself to the cluster
 
-    # Track all the message-types in the cluster
-    for message_index in range(0, len(cluster.message_type)):
-        message = cluster.message_type[message_index]
-        # Recursively parse each message
-        parse_message(cluster, fields, containments, nests, id_targets, id_references, clusters, message, message_index)
-        # Note: the message will add itself to the cluster
-
-def write_graph(fields, containments, nests, matched_references, clusters):#, response):
+def write_graph(fields, containments, nests, matched_references, clusters):
 
     # Start a digraph
     graph = "digraph UML {\n"
+
+    # Set the image's size, in inches
+    graph += "size= \"33,33\";\n"
+
+    # Add a title
+    graph += "labelloc=\"t\";\n"
+    graph += "label=<<FONT POINT-SIZE=\"45\">GA4GH Schema Diagram</FONT>>;\n"
 
     # Define node properties: shaped like UML items.
     graph += "node [\n"

@@ -4,6 +4,7 @@ An automatically generated UML diagram of the current schema can be seen below.
 Please open it a new tab for details. Containments are indicated by orange lines, whereas Id-references are indicated by dashed green lines.
 
 .. image:: /_build/generated_images/schema_uml.svg
+           :target: ../_images/schema_uml.svg
 
 Schemas
 !!!!!!!
