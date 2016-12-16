@@ -53,4 +53,7 @@ message ExternalIdentifier {
 
   // The version of the object or the database, e.g. `78`.
   string version = 3;
+
+  // The full URI to access the object.
+  string uri = 4;
 }
