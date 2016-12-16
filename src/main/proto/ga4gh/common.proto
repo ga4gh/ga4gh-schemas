@@ -43,7 +43,7 @@ message Position {
   Strand strand = 3;
 }
 
-// Identifier from a public database
+// Identifier from an external database
 message ExternalIdentifier {
   // The source of the identifier, e.g. `Ensembl`.
   string database = 1;
@@ -54,6 +54,10 @@ message ExternalIdentifier {
   // The version of the object or the database, e.g. `78`.
   string version = 3;
 
+  // For some databases, the same entry can have
+  // multiple versions.
+  string entry_version = 4;
+
   // The full URI to access the object.
-  string uri = 4;
+  string uri = 5;
 }
