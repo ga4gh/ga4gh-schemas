@@ -5,6 +5,7 @@ package ga4gh;
 import "ga4gh/metadata.proto";
 import "ga4gh/assay_metadata.proto";
 import "google/protobuf/struct.proto";
+import "ga4gh/common.proto";
 
 /*
 The VariantAnnotation record groups different types of annotation records by
@@ -69,6 +70,10 @@ message VariantAnnotationSet {
   //  Analysis details. It is essential to supply versions for all software and
   // reference data used.
   Analysis analysis = 4;
+
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 5;
 }
 
 // A HGVSAnnotation record holds Human Genome Variation Society descriptions of
@@ -142,4 +147,8 @@ message VariantAnnotation {
 
   // Additional annotation data in key-value pairs.
   map<string, google.protobuf.ListValue> info = 6;
+
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 15;
 }

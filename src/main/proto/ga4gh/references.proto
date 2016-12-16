@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ga4gh;
 
+import "ga4gh/common.proto";
+
 // A `Reference` is a canonical assembled contig, intended to act as a
 // reference coordinate space for other genomic annotations. A single
 // `Reference` might represent the human chromosome 1, for instance.
@@ -29,10 +31,11 @@ message Reference {
   // instead of attempting to retrieve this URI.
   string source_uri = 5;
 
+  // A list of External Identifier messages that can be used to identify this
+  // sequence in another database.
   // All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) which
-  // must include
-  // a version number, e.g. `GCF_000001405.26`.
-  repeated string source_accessions = 6;
+  // must include a version number, e.g. `GCF_000001405.26`.
+  repeated ExternalIdentifier external_identifiers = 10;
 
   // A sequence X is said to be derived from source sequence Y, if X and Y
   // are of the same length and the per-base sequence divergence at A/C/G/T
@@ -88,9 +91,11 @@ message ReferenceSet {
   // Specifies a FASTA format file/string.
   string source_uri = 7;
 
-  // All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) ideally
-  // with a version number, e.g. `NC_000001.11`.
-  repeated string source_accessions = 8;
+  // A list of External Identifier messages that can be used to identify this
+  // sequence in another database.
+  // All known corresponding accession IDs in INSDC (GenBank/ENA/DDBJ) which
+  // must include a version number, e.g. `GCF_000001405.26`.
+  repeated ExternalIdentifier external_identifiers = 10;
 
   // A reference set may be derived from a source if it contains
   // additional sequences, or some of the sequences within it are derived

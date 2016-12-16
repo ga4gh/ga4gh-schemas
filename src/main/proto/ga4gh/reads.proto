@@ -73,6 +73,10 @@ message ReadGroup {
 
   // A map of additional read group information.
   map<string, google.protobuf.ListValue> info = 14;
+
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 15;
 }
 
 // A ReadGroupSet is a logical collection of ReadGroups. Typically one
@@ -95,6 +99,10 @@ message ReadGroupSet {
 
   // NB: we require that all readgroups in the set are mapped to the same
   // referenceSet.
+
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 6;
 }
 
 // A linear alignment describes the alignment of a read to a Reference, using a

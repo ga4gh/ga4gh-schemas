@@ -4,6 +4,7 @@ package ga4gh;
 
 import "google/protobuf/struct.proto";
 import "ga4gh/metadata.proto";
+import "ga4gh/common.proto";
 
 
 // An individual (or subject) typically corresponds to an individual
@@ -48,6 +49,9 @@ message Individual {
   // A map of additional information.
   map<string, google.protobuf.ListValue> info = 9;
 
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 10;
 }
 
 
@@ -92,4 +96,7 @@ message BioSample {
   // A map of additional information.
   map<string, google.protobuf.ListValue> info = 9;
 
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 10;
 }

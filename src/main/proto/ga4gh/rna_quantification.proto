@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/metadata.proto";
+import "ga4gh/common.proto";
 
 // Units for expression level.
 // FPKM - number of Fragments Per Kilobase of feature length per Million reads
@@ -36,6 +37,10 @@ message RnaQuantificationSet {
 
   // The RNA quantification set name.
   string name = 3;
+
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 4;
 }
 
 // Top level identifying information
@@ -64,6 +69,10 @@ message RnaQuantification {
 
   // ID of the containing RnaQuantificationSet.
   string rna_quantification_set_id = 7;
+
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 9;
 }
 
 // The actual numerical quantification for each feature.
@@ -100,4 +109,8 @@ message ExpressionLevel {
   
   // Upper bound of the confidence interval on the expression value.
   float conf_interval_high = 11;
+
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 12;
 }

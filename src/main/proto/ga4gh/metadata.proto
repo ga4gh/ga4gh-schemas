@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "google/protobuf/struct.proto";
+import "ga4gh/common.proto";
 
 // An ontology term describing an attribute. (e.g. the phenotype attribute
 // 'polydactyly' from HPO)
@@ -43,6 +44,10 @@ message Dataset {
 
   // A map of additional dataset information.
   map<string, google.protobuf.ListValue> info = 4;
+
+  // A list of External Identifier messages that can be used to identify this
+  // item in another database.
+  repeated ExternalIdentifier external_identifiers = 15;
 }
 
 // A Program describes software used in data processing or analysis.
