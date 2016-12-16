@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/rna_quantification.proto";
+import "ga4gh/common.proto";
 import "google/api/annotations.proto";
 
 service RnaQuantificationService {
@@ -84,6 +85,13 @@ message SearchRnaQuantificationSetsRequest {
   // The `Dataset` to search.
   string dataset_id = 1;
 
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 4;
+
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
   int32 page_size = 2;
@@ -123,6 +131,13 @@ message SearchRnaQuantificationsRequest {
   
   // Return only RNA quantifications regarding the specified biosample. Optional.
   string bio_sample_id = 4;
+
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 5;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
@@ -165,6 +180,13 @@ message SearchExpressionLevelsRequest {
   // Only return ExpressionLevel records with expressions exceeding
   // this value.  (Defaults to 0.0)
   float threshold = 3;
+
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 6;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.

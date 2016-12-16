@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/metadata.proto";
+import "ga4gh/common.proto";
 import "google/api/annotations.proto";
 
 service MetadataService {
@@ -36,6 +37,13 @@ service MetadataService {
 
 // This request maps to the body of `POST /datasets/search` as JSON.
 message SearchDatasetsRequest {
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 3;
+
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
   int32 page_size = 1;

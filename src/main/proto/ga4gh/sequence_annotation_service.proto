@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/sequence_annotations.proto";
+import "ga4gh/common.proto";
 import "google/api/annotations.proto";
 
 service SequenceAnnotationService {
@@ -59,6 +60,13 @@ service SequenceAnnotationService {
 message SearchFeatureSetsRequest {
   // The `Dataset` to search.
   string dataset_id = 1;
+
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 4;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
@@ -129,6 +137,13 @@ message SearchFeaturesRequest {
   // If specified, this query matches only annotations whose `feature_type`
   // matches one of the provided ontology terms.
   repeated string feature_types = 8;
+
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 11;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.

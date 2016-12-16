@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/references.proto";
+import "ga4gh/common.proto";
 import "google/api/annotations.proto";
 
 service ReferenceService {
@@ -76,9 +77,12 @@ message SearchReferenceSetsRequest {
   // See `ReferenceSet::md5checksum` for details.
   string md5checksum = 1;
 
-  // If unset, return the reference sets for which the `accession`
-  // matches this string (case-sensitive, exact match).
-  string accession = 2;
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 6;
 
   // If unset, return the reference sets for which the `assemblyId`
   // matches this string (case-sensitive, exact match).
@@ -122,9 +126,12 @@ message SearchReferencesRequest {
   // See `ReferenceSet::md5checksum` for details.
   string md5checksum = 2;
 
-  // If specified, return the references for which the `accession`
-  // matches this string (case-sensitive, exact match).
-  string accession = 3;
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 6;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.

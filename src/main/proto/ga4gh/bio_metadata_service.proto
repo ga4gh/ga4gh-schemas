@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/bio_metadata.proto";
+import "ga4gh/common.proto";
 import "google/api/annotations.proto";
 
 
@@ -57,6 +58,13 @@ message SearchIndividualsRequest {
   // Returns Individuals with the given name found by case-sensitive string matching.
   string name = 2;
 
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 5;
+
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
   int32 page_size = 3;
@@ -101,6 +109,13 @@ message SearchBioSamplesRequest {
   
   // Returns BioSamples for the provided individual ID.
   string individual_id = 3;
+
+  // Filters results using the provided external identifier. Only returns
+  // results that strictly match the provided fields of the identifier.
+  // Returns any items with an external identifier that matches all of
+  // the provided fields. For example, searching without an identifier
+  // will return all messages external identifiers with the provided `db`.
+  ExternalIdentifier external_identifier = 6;
   
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.
