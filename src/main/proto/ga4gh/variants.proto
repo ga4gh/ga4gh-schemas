@@ -7,6 +7,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/metadata.proto";
+import "google/protobuf/struct.proto";
 
 // This metadata represents VCF header information.
 message VariantSetMetadata {
@@ -134,7 +135,7 @@ message Call {
   repeated double genotype_likelihood = 5;
 
   // A map of additional information about the Call.
-  Attributes attributes = 7;
+  Attributes attributes = 8;
 }
 
 // A `Variant` represents a change in DNA sequence relative to some reference.
