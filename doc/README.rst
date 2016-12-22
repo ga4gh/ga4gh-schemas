@@ -13,7 +13,8 @@ branch.
 Building
 @@@@@@@@
 
-To build documentation, type::
+Make sure you have graphviz installed (`brew install graphviz` or `sudo apt-get install graphviz`).
+Then to build documentation, type::
 
   make docs
 
