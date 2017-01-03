@@ -43,9 +43,9 @@ message ReadGroup {
   // This field contains an arbitrary string, typically
   // corresponding to the SM tag in a BAM file.
   string sample_name = 5;
-
-  // The BioSample this read group's data was generated from.
-  string bio_sample_id = 6;
+  
+  // The Biosample this read group's data was generated from.
+  string biosample_id = 6;
 
   // The experiment used to generate this read group.
   Experiment experiment = 7;
