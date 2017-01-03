@@ -1,10 +1,7 @@
-# Schema Release `v0.6.0-a9`
+# Schema Release `v0.6.0a9`
 
 Changes to `ga4gh/schemas` `master` branch since version `0.6.0a8` (Oct 26, 2016)
 
-* Changed numbering of releases to us a `-` instead of a `.` preceding the alpha
-   release specifier. This is to become compliant with the Semantic Versioning 
-   2.0 specification.
 * Fixed bugs:
    * Fixed typo in get: `/v0.6.0a8/variantannotationset/{variant_annotation_set_id}`
    * Fix to be able to handle VCFs with genotype == `./.`
