@@ -4,7 +4,7 @@
   <groupId>org.ga4gh</groupId>
   <artifactId>ga4gh-schemas</artifactId>
   <packaging>jar</packaging>
-  <version>0.6.0-SNAPSHOT</version>
+  <version>0.6.0a</version>
 
   <name>GA4GH: Schemas</name>
   <description>Data models and APIs for Genomic data.</description>

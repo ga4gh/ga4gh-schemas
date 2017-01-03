@@ -1,3 +1,25 @@
+# Schema Release `v0.6.0-a9`
+
+Changes to `ga4gh/schemas` `master` branch since version `0.6.0a8` (Oct 26, 2016)
+
+* Changed numbering of releases to us a `-` instead of a `.` preceding the alpha
+   release specifier. This is to become compliant with the Semantic Versioning
+   2.0 specification.
+* Fixed bugs:
+   * Fixed typo in get: `/v0.6.0a8/variantannotationset/{variant_annotation_set_id}`
+   * Fix to be able to handle VCFs with genotype == `./.`
+* Upgrade to use protobuf release 3.1
+* Introduced a pip installable schemas package called `ga4gh-schemas`. We have also
+   created pip installable packages for a support library called `ga4gh-common`
+   and a client library module called `ga4gh-client`.
+* Introduced a schemas package release to Maven Central, which can be found by
+   searching for ga4gh on the Maven site.
+* Changed the name of the biosample terms to track be consistent with the use
+   of camel-case and the underscore character.
+* added a new schema visualization tool to create UML diagrams from the schemas.
+   The new diagrams can be viewed on the Schemas page in the Read The Docs
+   documents.
+
 # Schema Release `v0.6.0.a8` 
 
 Changes to `ga4gh/schemas` `master` branch since version `0.6.0a7` (Aug 19, 2016)
