@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/common.proto";
+import "google/protobuf/struct.proto";
 
 // An ontology term describing an attribute. (e.g. the phenotype attribute
 // 'polydactyly' from HPO)
@@ -73,12 +74,15 @@ message AttributeValue {
     bool bool_value = 6;
     double double_value = 7;
     NullValue null_value = 8;
+    Attributes attributes = 9;
+    AttributeValueList attribute_list = 10;
   }
 }
 
+message AttributeValueList {
+  repeated AttributeValue values = 1;
+}
+
 message Attributes {
-  message AttributeValueList {
-    repeated AttributeValue values = 1;
-  }
   map<string, AttributeValueList> attr = 1;
 }
