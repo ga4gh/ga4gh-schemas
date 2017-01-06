@@ -18,25 +18,28 @@ import "google/protobuf/struct.proto";
 // Step and span from the wiggle format are used for a simple compression.
 
 
-// A chunck of continuous data. Due to gaps in the signal, the values
+// A chunk of continuous data. Due to gaps in the signal, the values
 // cannot be represented by a single array, but require a set of arrays.
 message Continuous {
   // The start position at which this signal occurs (0-based). This
   // corresponds to the first base of the string of reference bases. Genomic
   // positions are non-negative integers less than reference length.
   int64 start = 1;
+
+  // The reference on which this feature occurs (e.g. `chr20` or `X`).
+  string reference_name = 2;
  
   // If not one, values are defined for every 'step' base, leaving
   // gaps of undefined regions.
-  int32 step = 2;
+  int32 step = 3;
 
   // The number of bases each value spans. For example if span is 5,
   // then the first value is defined over start plus the next 4 bases, the
   // second value over the following 5 bases, ...
-  int32 span = 3;
+  int32 span = 4;
 
   // The data values.
-  repeated double values = 4;
+  repeated double values = 5;
 }
 
 // A set of continuous data.
