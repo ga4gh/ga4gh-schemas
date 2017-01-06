@@ -14,7 +14,7 @@ service BioMetadataService {
   rpc SearchIndividuals(SearchIndividualsRequest)
     returns (SearchIndividualsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/individuals/search"
+        post: "/v0.6.0a9/individuals/search"
         body: "*"
       };
     };
@@ -25,7 +25,7 @@ service BioMetadataService {
   rpc SearchBiosamples(SearchBiosamplesRequest)
     returns (SearchBiosamplesResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/biosamples/search"
+        post: "/v0.6.0a9/biosamples/search"
         body: "*"
       };
     };
@@ -35,7 +35,7 @@ service BioMetadataService {
   rpc GetIndividual(GetIndividualRequest)
     returns (Individual) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/individuals/{individual_id}"
+        get: "/v0.6.0a9/individuals/{individual_id}"
       };
     };
 
@@ -44,7 +44,7 @@ service BioMetadataService {
   rpc GetBiosample(GetBiosampleRequest)
     returns (Biosample) {
         option (google.api.http) = {
-          get: "/v0.6.0a8/biosamples/{biosample_id}"
+          get: "/v0.6.0a9/biosamples/{biosample_id}"
         };
       };
 }
