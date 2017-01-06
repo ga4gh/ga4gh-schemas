@@ -4,7 +4,7 @@
 RNA Quantification API
 ***************************
 
-For the RNA Quantification schema definitions, see the `RNA Quantification schema <../schemas/rnaquantifications.proto.html>`_
+For the RNA Quantification schema definitions, see the `RNA Quantification schema <../schemas/rna_quantification.proto.html>`_
 
 
 --------------------
