@@ -29,7 +29,7 @@ service GenotypePhenotypeService {
   rpc SearchPhenotypeAssociationSets(SearchPhenotypeAssociationSetsRequest)
     returns (SearchPhenotypeAssociationSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/phenotypeassociationsets/search"
+        post: "/v0.6.0a9/phenotypeassociationsets/search"
         body: "*"
       };
     };
@@ -41,7 +41,7 @@ service GenotypePhenotypeService {
   rpc SearchPhenotype(SearchPhenotypesRequest)
     returns (SearchPhenotypesResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/phenotypes/search"
+        post: "/v0.6.0a9/phenotypes/search"
         body: "*"
       };
     };
@@ -53,7 +53,7 @@ service GenotypePhenotypeService {
   rpc SearchPhenotypeAssociations(SearchGenotypePhenotypeRequest)
     returns (SearchGenotypePhenotypeResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/featurephenotypeassociations/search"
+        post: "/v0.6.0a9/featurephenotypeassociations/search"
         body: "*"
       };
     };

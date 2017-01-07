@@ -27,7 +27,7 @@ service AlleleAnnotationService {
   rpc SearchVariantAnnotations(SearchVariantAnnotationsRequest)
     returns (SearchVariantAnnotationsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/variantannotations/search"
+        post: "/v0.6.0a9/variantannotations/search"
         body: "*"
       };
     };
@@ -40,7 +40,7 @@ service AlleleAnnotationService {
   rpc SearchVariantAnnotationSets(SearchVariantAnnotationSetsRequest)
     returns (SearchVariantAnnotationSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/variantannotationsets/search"
+        post: "/v0.6.0a9/variantannotationsets/search"
         body: "*"
       };
     };
@@ -52,7 +52,7 @@ service AlleleAnnotationService {
   rpc GetVariantAnnotationSet(GetVariantAnnotationSetRequest)
     returns (VariantAnnotationSet) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/variantannotationsets/{variant_annotation_set_id}"
+        get: "/v0.6.0a9/variantannotationsets/{variant_annotation_set_id}"
       };
     };
 
