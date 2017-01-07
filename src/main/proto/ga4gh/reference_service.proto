@@ -14,7 +14,7 @@ service ReferenceService {
   rpc SearchReferenceSets(SearchReferenceSetsRequest)
       returns (SearchReferenceSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/referencesets/search"
+        post: "/v0.6.0a9/referencesets/search"
         body: "*"
       };
     };
@@ -26,7 +26,7 @@ service ReferenceService {
   rpc GetReferenceSet(GetReferenceSetRequest)
     returns (ReferenceSet) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/referencesets/{reference_set_id}"
+        get: "/v0.6.0a9/referencesets/{reference_set_id}"
       };
     };
 
@@ -38,7 +38,7 @@ service ReferenceService {
   rpc SearchReferences(SearchReferencesRequest)
     returns (SearchReferencesResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/references/search"
+        post: "/v0.6.0a9/references/search"
         body: "*"
       };
     };
@@ -50,7 +50,7 @@ service ReferenceService {
   rpc GetReference(GetReferenceRequest)
     returns (Reference) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/references/{reference_id}"
+        get: "/v0.6.0a9/references/{reference_id}"
       };
     };
 
@@ -61,7 +61,7 @@ service ReferenceService {
   rpc ListReferenceBases(ListReferenceBasesRequest)
     returns (ListReferenceBasesResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/references/{reference_id}/bases"
+        post: "/v0.6.0a9/references/{reference_id}/bases"
         body: "*"
       };
     };
