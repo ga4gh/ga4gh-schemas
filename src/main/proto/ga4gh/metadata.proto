@@ -11,9 +11,9 @@ message OntologyTerm {
   // differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
   // in that it is a CURIE pointing to an information resource outside of the
   // scope of the schema or its resource implementation.
-  string id = 1;
+  string termId = 1;
 
-  // Ontology term - the label of the ontology term the id is pointing to.
+  // Ontology term - the label of the ontology term the termId is pointing to.
   string term = 2;
 
 }
