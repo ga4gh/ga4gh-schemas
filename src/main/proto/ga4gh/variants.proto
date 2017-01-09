@@ -191,4 +191,29 @@ message Variant {
   // determination of genotype with respect to this variant. `Call`s in this
   // array are implicitly associated with this `Variant`.
   repeated Call calls = 12;
+
+  // The "variant_type" is used to denote e.g. structural variants.
+  // Examples:
+  //   DUP  : duplication of sequence following "start"; not necessarily in situ
+  //   DEL  : deletion of sequence following "start"
+  string variant_type = 13;
+
+  // Length of the - if labeled as such in variant_type - somatic variation.
+  // Based on the use in VCFv4.2
+  int64 svlen = 14;
+
+  // In the case of structural variants, start and end of the variant may not 
+  // be known with an exact base position. "cipos" provides an interval with
+  // high confidence for the start position. The interval is provided by 0 or
+  // 2 signed integers which are added to the start position.
+  // Based on the use in VCFv4.2
+  // Example:
+  //   [ -12000, 1000 ]
+  repeated sint32 cipos = 15;
+
+  // Similar to "cipos", but for the variant's end position (which is derived
+  // from start + svlen).
+  // Example:
+  //   [ -1000, 0 ]
+  repeated sint32 ciend = 16;
 }
