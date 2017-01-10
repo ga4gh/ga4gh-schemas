@@ -52,6 +52,19 @@ service SequenceAnnotationService {
       };
     };
 
+  // Gets continuous values matching the search criteria.
+  //
+  // `POST /continuous/search` must accept a JSON version of
+  // `SearchContinuousRequest` as the post body and will return a JSON version
+  // of `SearchContinuousResponse`.
+  rpc SearchContinuous(SearchContinuousRequest)
+    returns (SearchContinuousResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/continuous/search"
+        body: "*"
+      };
+    };
+
 }
 
 /******************  /featuresets  *********************/
@@ -156,4 +169,31 @@ message SearchFeaturesResponse {
 message GetFeatureRequest {
   // The ID of the `Feature` to be retrieved.
   string feature_id = 1;
+}
+
+/****************** /continuous *****************/
+// This request maps to the body of `POST /continuous/search` as JSON.
+message SearchContinuousRequest {
+  // Get continuous values on this reference.
+  string reference_name = 1;
+
+  // The beginning of the window (0-based, inclusive) for which
+  // continuous values should be returned. Genomic positions are
+  // non-negative integers less than reference length.
+  int64 start = 2;
+
+  // The end of the window (0-based, exclusive) for which continuous
+  // values should be returned. A non-negeative integer less than the
+  // reference length.
+  int64 end = 3;
+}
+
+// This is the response from `POST /continuous/search` expressed as JSON.
+message SearchContinuousResponse {
+  // The list of matching continuous values, sorted by start position.
+  // All sampled values are returned within the query range are returned.
+  // Unsampled values lie outside of regions or are given a 
+  // 'NaN' value.
+  repeated Continuous region = 1;
+
 }
