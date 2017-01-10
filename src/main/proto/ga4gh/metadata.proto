@@ -3,21 +3,6 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/common.proto";
-import "google/protobuf/struct.proto";
-
-// An ontology term describing an attribute. (e.g. the phenotype attribute
-// 'polydactyly' from HPO)
-message OntologyTerm {
-  // Ontology term identifier - the CURIE for an ontology term. It
-  // differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
-  // in that it is a CURIE pointing to an information resource outside of the
-  // scope of the schema or its resource implementation.
-  string term_id = 1;
-
-  // Ontology term - the label of the ontology term the termId is pointing to.
-  string term = 2;
-
-}
 
 // A Dataset is a collection of related data of multiple types.
 // Data providers decide how to group data into datasets.
@@ -36,56 +21,3 @@ message Dataset {
   Attributes attributes = 5;
 }
 
-// A Program describes software used in data processing or analysis.
-message Program {
-  // The command line used to run this program.
-  string command_line = 1;
-
-  // The user specified ID of the program.
-  string id = 2;
-
-  // The name of the program.
-  string name = 3;
-
-  // The ID of the program run before this one.
-  string prev_program_id = 4;
-
-  // The version of the program run.
-  string version = 5;
-}
-
-enum NullValue {
-  // Null value.
-  NULL_VALUE = 0;
-}
-
-// Type defining a collection of attributes associated with various protocol
-// records. Each attribute is a name that maps to an array of one or more
-// values. Values are chosen from both internal protobuf types and GA4GH.
-//  Values should be split into array elements instead of using a separator
-// syntax that needs to parsed.
-message AttributeValue {
-  oneof value {
-    string string_value = 1;
-    int64 int64_value = 2;
-    int32 int32_value = 3;
-    bool bool_value = 4;
-    double double_value = 5;
-    ExternalIdentifier external_identifier = 6;
-    OntologyTerm ontology_term = 7;
-    Experiment experiment = 8;
-    Program program = 9;
-    Analysis analysis = 10;
-    NullValue null_value = 11;
-    Attributes attributes = 12;
-    AttributeValueList attribute_list = 13;
-  }
-}
-
-message AttributeValueList {
-  repeated AttributeValue values = 1;
-}
-
-message Attributes {
-  map<string, AttributeValueList> attr = 1;
-}

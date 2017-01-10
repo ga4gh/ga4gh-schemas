@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/metadata.proto";
+import "ga4gh/common.proto";
 
 // A `Reference` is a canonical assembled contig, intended to act as a
 // reference coordinate space for other genomic annotations. A single

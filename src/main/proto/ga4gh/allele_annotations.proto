@@ -2,8 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/metadata.proto";
-import "ga4gh/assay_metadata.proto";
+import "ga4gh/common.proto";
 
 /*
 The VariantAnnotation record groups different types of annotation records by
