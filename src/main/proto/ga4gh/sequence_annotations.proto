@@ -77,8 +77,30 @@ message Feature {
   Attributes attributes = 12;
 }
 
+// A set of sequence features annotations.
+message FeatureSet {
+  // The ID of this annotation set.
+  string id = 1;
 
-// This message defines a format for exchanging continous valued signal data,
+  // The ID of the dataset this annotation set belongs to.
+  string dataset_id = 2;
+
+  // The ID of the reference set which defines the coordinate-space for this
+  // set of annotations.
+  string reference_set_id = 3;
+
+  // The display name for this annotation set.
+  string name = 4;
+
+  // The source URI describing the file from which this annotation set was
+  // generated, if any.
+  string source_uri = 5;
+
+  // Remaining structured metadata key-value pairs.
+  map<string, google.protobuf.ListValue> info = 6;
+}
+
+// This message defines a format for exchanging continuous valued signal data,
 // such as those produced experimentally (e.g. ChIP-Seq data) or through 
 // calculations (e.g. conservation scores). It can be used, for example,
 // to share data stored in Wiggle, BigWig, and BedGraph formats.
@@ -90,10 +112,16 @@ message Continuous {
 
   // The contiguous data values. Unsampled bases are given as NaN.
   repeated double values = 2;
+
+  // Identifier for the containing continous set.
+  string continuous_set_id = 3;
+
+  // The reference on which this signal is defined (e.g. `chr20` or `X`).
+  string reference_name = 4;
 }
 
-// A set of sequence features annotations.
-message FeatureSet {
+// A set of sequence continous messages.
+message ContinuousSet {
   // The ID of this annotation set.
   string id = 1;
 
