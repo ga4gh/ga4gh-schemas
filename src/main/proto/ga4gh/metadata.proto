@@ -49,7 +49,7 @@ message Dataset {
   // was updated.
   string updated = 6;
   
-  // A map of additional variant information.
+  // A map of additional dataset information.
   map<string, google.protobuf.ListValue> info = 4;
 }
 

@@ -95,6 +95,14 @@ message ReadGroupSet {
 
   // NB: we require that all readgroups in the set are mapped to the same
   // referenceSet.
+
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
+  string created = 6;
+
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 7;
 }
 
 // A linear alignment describes the alignment of a read to a Reference, using a

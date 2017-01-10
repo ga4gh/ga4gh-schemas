@@ -96,4 +96,12 @@ message ReferenceSet {
   // additional sequences, or some of the sequences within it are derived
   // (see the definition of `isDerived` in `Reference`).
   bool is_derived = 9;
+
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was created.
+  string created = 10;
+
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
+  // was updated.
+  string updated = 11;
 }
