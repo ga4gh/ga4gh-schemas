@@ -61,21 +61,24 @@ enum NullValue {
 
 // Type defining a collection of attributes associated with various protocol
 // records. Each attribute is a name that maps to an array of one or more
-// values. Values can be strings, external identifiers, or ontology terms Values
-// should be split into the array elements instead of using a separator syntax
-// that needs to parsed.
+// values. Values are chosen from both internal protobuf types and GA4GH.
+//  Values should be split into array elements instead of using a separator
+// syntax that needs to parsed.
 message AttributeValue {
   oneof value {
     string string_value = 1;
-    ExternalIdentifier external_identifier = 2;
-    OntologyTerm ontology_term = 3;
-    int64 int64_value = 4;
-    int32 int32_value = 5;
-    bool bool_value = 6;
-    double double_value = 7;
-    NullValue null_value = 8;
-    Attributes attributes = 9;
-    AttributeValueList attribute_list = 10;
+    int64 int64_value = 2;
+    int32 int32_value = 3;
+    bool bool_value = 4;
+    double double_value = 5;
+    ExternalIdentifier external_identifier = 6;
+    OntologyTerm ontology_term = 7;
+    Experiment experiment = 8;
+    Program program = 9;
+    Analysis analysis = 10;
+    NullValue null_value = 11;
+    Attributes attributes = 12;
+    AttributeValueList attribute_list = 13;
   }
 }
 
