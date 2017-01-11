@@ -71,7 +71,7 @@ service SequenceAnnotationService {
   rpc GetContinuousSet(GetContinuousSetRequest)
     returns (ContinuousSet) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/continuoussets/{feature_set_id}"
+        get: "/v0.6.0a8/continuoussets/{continuous_set_id}"
       };
     };
 
@@ -230,7 +230,7 @@ message GetContinuousSetRequest {
 // This request maps to the body of `POST /continuous/search` as JSON.
 message SearchContinuousRequest {
   // The annotation set to search within. Required value.
-  string feature_set_id = 1;
+  string continuous_set_id = 1;
 
   // Get continuous values on this reference. Required value.
   string reference_name = 2;
