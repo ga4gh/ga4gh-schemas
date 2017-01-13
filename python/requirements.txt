@@ -1,0 +1,7 @@
+# This file lists requirements needed to run the executables shipped
+# by ga4gh-schemas
+#
+# These requirements are read directly into setup.py, so specify them
+# in the order that they should be in in setup.py
+ga4gh-common==0.0.5
+protobuf==3.1.0.post1

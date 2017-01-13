@@ -54,25 +54,25 @@ message Individual {
 
 }
 
-// A BioSample refers to a unit of biological material from which the substrate
+// A Biosample refers to a unit of biological material from which the substrate
 // molecules (e.g. genomic DNA, RNA, proteins) for molecular analyses (e.g.
 // sequencing, array hybridisation, mass-spectrometry) are extracted. Examples
 // would be a tissue biopsy, a single cell from a culture for single cell genome
 // sequencing or a protein fraction from a gradient centrifugation.
 // Several instances (e.g. technical replicates) or types of experiments (e.g.
-// genomic array as well as RNA-seq experiments) may refer to the same BioSample.
-// In the context of the GA4GH metadata schema, BioSample constitutes the central
+// genomic array as well as RNA-seq experiments) may refer to the same Biosample.
+// In the context of the GA4GH metadata schema, Biosample constitutes the central
 // reference object.
 
-message BioSample {
-  // The BioSample :ref:`id <apidesign_object_ids>`. This is unique in the
+message Biosample {
+  // The Biosample :ref:`id <apidesign_object_ids>`. This is unique in the
   // context of the server instance.
   string id = 1;
 
-  // The ID of the dataset this BioSample belongs to.
+  // The ID of the dataset this Biosample belongs to.
   string dataset_id = 2;
 
-  // The BioSample's name This is a label or symbolic identifier for the biosample.
+  // The Biosample's name This is a label or symbolic identifier for the biosample.
   string name = 3;
 
   // The biosample's description. This attribute contains human readable text.
@@ -83,11 +83,11 @@ message BioSample {
   // diseases and phenotypes associated with this BioSample.
   Characteristics characteristics = 5;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
   // was created.
   string created = 6;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this BioSample record was updated.
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record was updated.
   string updated = 7;
 
   // The individual this biosample was derived from.

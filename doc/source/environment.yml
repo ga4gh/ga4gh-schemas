@@ -13,4 +13,6 @@ dependencies:
 - wheel=0.29.0=py27_0
 - zlib=1.2.8=3
 - pip:
-    - protobuf==3.0.0b3
+    - protobuf==3.1.0.post1
+    - sphinx==1.5.1
+    - graphviz

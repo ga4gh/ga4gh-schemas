@@ -43,12 +43,12 @@ message RnaQuantification {
   // The unique ID assigned to the results of running the described programs
   // on the specified reads and assignment to the listed annotation.
   string id = 1;
- 
+
   // Name
   string name = 2;
-  
-  // BioSample ID
-  string bio_sample_id = 8;
+
+  // Biosample ID
+  string biosample_id = 8;
 
   // Description
   string description = 3;
@@ -97,7 +97,7 @@ message ExpressionLevel {
 
   // Lower bound of the confidence interval on the expression value.
   float conf_interval_low = 10;
-  
+
   // Upper bound of the confidence interval on the expression value.
   float conf_interval_high = 11;
 }

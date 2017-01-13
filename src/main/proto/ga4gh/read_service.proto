@@ -11,12 +11,12 @@ service ReadService {
   // `POST /readgroupsets/search` must accept a JSON version of
   // `SearchReadGroupSetsRequest` as the post body and will return a JSON
   // version of `SearchReadGroupSetsResponse` . Only readgroups that
-  // match an optionally supplied bioSampleId will be included in the
+  // match an optionally supplied biosampleId will be included in the
   // response.
   rpc SearchReadGroupSets(SearchReadGroupSetsRequest)
     returns (SearchReadGroupSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/readgroupsets/search"
+        post: "/v0.6.0a9/readgroupsets/search"
         body: "*"
       };
     };
@@ -28,7 +28,7 @@ service ReadService {
   rpc GetReadGroupSet(GetReadGroupSetRequest)
     returns (ReadGroupSet) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/readgroupsets/{read_group_set_id}"
+        get: "/v0.6.0a9/readgroupsets/{read_group_set_id}"
       };
     };
 
@@ -55,7 +55,7 @@ service ReadService {
   rpc SearchReads(SearchReadsRequest)
     returns (SearchReadsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/reads/search"
+        post: "/v0.6.0a9/reads/search"
         body: "*"
       };
     };
@@ -77,9 +77,9 @@ message SearchReadGroupSetsRequest {
   // Only return read group sets with this name (case-sensitive, exact match).
   string name = 2;
 
-  //  Specifying the id of a BioSample record will return only readgroups
-  //  with the given bioSampleId.
-  string bio_sample_id = 3;
+  //  Specifying the id of a Biosample record will return only readgroups
+  //  with the given biosampleId.
+  string biosample_id = 3;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.

@@ -13,7 +13,7 @@ service RnaQuantificationService {
   rpc SearchRnaQuantificationSets(SearchRnaQuantificationSetsRequest)
     returns (SearchRnaQuantificationSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/rnaquantificationsets/search"
+        post: "/v0.6.0a9/rnaquantificationsets/search"
         body: "*"
       };
     };
@@ -25,7 +25,7 @@ service RnaQuantificationService {
   rpc GetRnaQuantificationSet(GetRnaQuantificationSetRequest)
     returns (RnaQuantificationSet) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/rnaquantificationsets/{rna_quantification_set_id}"
+        get: "/v0.6.0a9/rnaquantificationsets/{rna_quantification_set_id}"
       };
     };
 
@@ -36,7 +36,7 @@ service RnaQuantificationService {
   rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
     returns (SearchRnaQuantificationsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/rnaquantifications/search"
+        post: "/v0.6.0a9/rnaquantifications/search"
         body: "*"
       };
     };
@@ -48,7 +48,7 @@ service RnaQuantificationService {
   rpc GetRnaQuantification(GetRnaQuantificationRequest)
     returns (RnaQuantification) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/rnaquantifications/{rna_quantification_id}"
+        get: "/v0.6.0a9/rnaquantifications/{rna_quantification_id}"
       };
     };
 
@@ -60,7 +60,7 @@ service RnaQuantificationService {
   rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
     returns (SearchExpressionLevelsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a8/expressionlevels/search"
+        post: "/v0.6.0a9/expressionlevels/search"
         body: "*"
       };
     };
@@ -71,7 +71,7 @@ service RnaQuantificationService {
   rpc GetExpressionLevel(GetExpressionLevelRequest)
     returns (ExpressionLevel) {
       option (google.api.http) = {
-        get: "/v0.6.0a8/expressionlevels/{expression_level_id}"
+        get: "/v0.6.0a9/expressionlevels/{expression_level_id}"
       };
     };
 
@@ -122,7 +122,7 @@ message SearchRnaQuantificationsRequest {
   string rna_quantification_set_id = 1;
   
   // Return only RNA quantifications regarding the specified biosample. Optional.
-  string bio_sample_id = 4;
+  string biosample_id = 4;
 
   // Specifies the maximum number of results to return in a single page.
   // If unspecified, a system default will be used.

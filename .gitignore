@@ -6,6 +6,14 @@ doc/source/schemas/*.proto.rst
 doc/source/schemas/build.rst
 doc/source/_build/
 build
+*dist/
+*ga4gh_schemas.egg-info/
+_version.py
+python/ga4gh/schemas/_protocol_version.py
+# Ignore proto included in the generated python package
+python/**/*.proto
+# Ignored generated protobuf bindings in the source tree
+*_pb2.py
 
 #********** windows template**********
 
