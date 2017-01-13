@@ -2,14 +2,7 @@
 
 # First, we try to use setuptools. If it's not available locally,
 # we fall back on ez_setup.
-import tempfile
-import os
-import fnmatch
 import shutil
-
-import scripts.process_schemas as process_schemas
-
-PROTOCOL_VERSION = "0.6.0a9"
 
 try:
     from setuptools import setup
@@ -31,10 +24,6 @@ with open("python/requirements.txt") as requirementsFile:
             continue
         pinnedVersion = line.split()[0]
         install_requires.append(pinnedVersion)
-
-schemasPath = 'src/main/proto/'
-process_schemas.createSchemaFiles('python', schemasPath)
-process_schemas.main([PROTOCOL_VERSION, 'python'])
 
 setup(
     name="ga4gh_schemas",
@@ -70,6 +59,3 @@ setup(
     # Use setuptools_scm to set the version number automatically from Git
     setup_requires=['setuptools_scm'],
 )
-
-shutil.rmtree('package_python', True)
-

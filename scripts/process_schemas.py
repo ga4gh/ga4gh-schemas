@@ -14,7 +14,8 @@ import subprocess
 import fnmatch
 import re
 import argparse
-import shlex
+
+import ga4gh.common.utils as utils
 
 
 def createSchemaFiles(tempPath, schemasPath):
@@ -78,33 +79,6 @@ def copySchemaFile(src, dst):
         for srcLine in srcLines:
             toWrite = doLineReplacements(srcLine)
             dstFile.write(toWrite)
-
-
-def runCommandSplits(splits, silent=False, shell=False):
-    """
-    Run a shell command given the command's parsed command line
-    """
-    try:
-        if silent:
-            with open(os.devnull, 'w') as devnull:
-                subprocess.check_call(
-                    splits, stdout=devnull, stderr=devnull, shell=shell)
-        else:
-            subprocess.check_call(splits, shell=shell)
-    except OSError, e:
-        if e.errno == 2:  # cmd not found
-            raise Exception(
-                "Can't find command while trying to run {}".format(splits))
-        else:
-            raise
-
-
-def runCommand(command, silent=False, shell=False):
-    """
-    Run a shell command
-    """
-    splits = shlex.split(command)
-    runCommandSplits(splits, silent=silent, shell=shell)
 
 
 class ProtobufGenerator(object):
@@ -188,7 +162,7 @@ class ProtobufGenerator(object):
             protoc=protoc, source_path=source_path,
             destination_path=destination_path,
             proto_files=" ".join(protos))
-        runCommand(cmd)
+        utils.runCommand(cmd)
         print("{} pb2 files written".format(len(protos)))
 
     def _writeVersionFile(self):
@@ -202,7 +176,7 @@ class ProtobufGenerator(object):
     def run(self, args):
         script_path = os.path.dirname(os.path.realpath(__file__))
         destination_path = os.path.realpath(
-            os.path.join(script_path, "../python"))
+            os.path.join(script_path, args.destpath))
         schemas_path = os.path.realpath(args.schemapath)
         protoc = self._getProtoc(destination_path)
         self._writePythonFiles(schemas_path, protoc, destination_path)
@@ -210,13 +184,20 @@ class ProtobufGenerator(object):
 
 
 def main(args=None):
+    defaultSchemaPath = "src/main/proto/"
+    defaultDestPath = "../python/ga4gh/schemas/"
     parser = argparse.ArgumentParser(
         description="Script to process GA4GH Protocol buffer schemas")
     parser.add_argument(
         "version", help="Version number of the schema we're compiling")
     parser.add_argument(
-        "schemapath",
-        help="Path to schemas.")
+        "-s", "--schemapath", default=defaultSchemaPath,
+        help="path to schemas (defaults to {})".format(defaultSchemaPath))
+    parser.add_argument(
+        "-d", "--destpath", default=defaultDestPath,
+        help=(
+            "the directory in which to write the compiled schema files "
+            "(defaults to {})".format(defaultDestPath)))
     parsedArgs = parser.parse_args(args)
     pb = ProtobufGenerator(parsedArgs.version)
     pb.run(parsedArgs)
