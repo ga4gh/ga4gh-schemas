@@ -184,6 +184,17 @@ message Variant {
   // alleles are possible.
   repeated string alternate_bases = 10;
 
+  // True if filters were applied for this variant. VCF column 7 "FILTER" any value other
+  // than the missing value.
+  bool filters_applied = 13;
+
+  // True if all filters for this variant passed. VCF column 7 "FILTER" value PASS.
+  bool filters_passed = 14;
+
+  // Zero or more filters that failed for this variant. VCF column 7 "FILTER" shared across
+  // all alleles in the same VCF record.
+  repeated string filters_failed = 15;
+
   // A map of additional variant information.
   map<string, google.protobuf.ListValue> info = 11;
 
