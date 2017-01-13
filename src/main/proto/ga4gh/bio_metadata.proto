@@ -54,6 +54,7 @@ message Individual {
 
 }
 
+
 // A Biosample refers to a unit of biological material from which the substrate
 // molecules (e.g. genomic DNA, RNA, proteins) for molecular analyses (e.g.
 // sequencing, array hybridisation, mass-spectrometry) are extracted. Examples
@@ -79,9 +80,14 @@ message Biosample {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
+<<<<<<< HEAD
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases and phenotypes associated with this BioSample.
   Characteristics characteristics = 5;
+=======
+  // OntologyTerm describing the primary disease associated with this Biosample.
+  OntologyTerm disease = 5;
+>>>>>>> master
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
   // was created.

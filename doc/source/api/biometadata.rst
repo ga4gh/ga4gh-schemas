@@ -38,7 +38,7 @@ Attribute             Notes
                       * not to be used for referencing
 *description*         * additional, unstructured information about this Biosample
 *characteristics*     * a Characteristics objects containing lists of phenotypes and diseases specifically associated with this Biosample, in the form of BioCharacteristic objects
-*individualId*        * the *id* of the *Individual* this biosample was derived from
+*individualId*        * the *id* of the *Individual* this Biosample was derived from
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601
 *info*                * additional, structured information
