@@ -202,7 +202,7 @@ class ProtobufGenerator(object):
     def run(self, args):
         script_path = os.path.dirname(os.path.realpath(__file__))
         destination_path = os.path.realpath(
-            os.path.join(script_path, "../python"))
+            os.path.join(script_path, args.destpath))
         schemas_path = os.path.realpath(args.schemapath)
         protoc = self._getProtoc(destination_path)
         self._writePythonFiles(schemas_path, protoc, destination_path)
@@ -210,6 +210,7 @@ class ProtobufGenerator(object):
 
 
 def main(args=None):
+    defaultDestPath = "../python/"
     parser = argparse.ArgumentParser(
         description="Script to process GA4GH Protocol buffer schemas")
     parser.add_argument(
@@ -217,6 +218,11 @@ def main(args=None):
     parser.add_argument(
         "schemapath",
         help="Path to schemas.")
+    parser.add_argument(
+        "-d", "--destpath", default=defaultDestPath,
+        help=(
+            "the directory in which to write the compiled schema files "
+            "(defaults to {})".format(defaultDestPath)))
     parsedArgs = parser.parse_args(args)
     pb = ProtobufGenerator(parsedArgs.version)
     pb.run(parsedArgs)
