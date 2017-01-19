@@ -32,9 +32,12 @@ with open("python/requirements.txt") as requirementsFile:
         pinnedVersion = line.split()[0]
         install_requires.append(pinnedVersion)
 
-schemasPath = 'src/main/proto/'
-process_schemas.createSchemaFiles('python', schemasPath)
-process_schemas.main([PROTOCOL_VERSION, 'python'])
+try:
+    schemasPath = 'src/main/proto/'
+    process_schemas.createSchemaFiles('python', schemasPath)
+    process_schemas.main([PROTOCOL_VERSION, 'python'])
+except Exception:
+    print("Couldn't find a good protoc, using precompiled protobuf.")
 
 setup(
     name="ga4gh_schemas",
@@ -70,6 +73,3 @@ setup(
     # Use setuptools_scm to set the version number automatically from Git
     setup_requires=['setuptools_scm'],
 )
-
-shutil.rmtree('package_python', True)
-
