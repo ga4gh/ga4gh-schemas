@@ -21,4 +21,4 @@ describe and serialize genomics data using a standard interchange format.
 Full documentation is available at `read-the-docs.org
 <http://ga4gh-schemas.readthedocs.io/en/stable/>`_.
 
-- To read more about how the GA4GH API uses Protocol Buffers, see here `here <http://ga4gh-schemas.readthedocs.io/en/stable/appendix/proto_intro.html>`_.
+- To read more about how the GA4GH API uses Protocol Buffers, see `here <http://ga4gh-schemas.readthedocs.io/en/stable/appendix/proto_intro.html>`_.
