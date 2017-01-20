@@ -404,46 +404,46 @@ Use cases
 ---------
 
 1) As a clinician or a genomics researcher, I may have a patient with
-   Gastrointestinal stromal tumor, GIST, and a proposed drug for
-   treatment, imatinib. In order to identify whether the patient would
+   Gastrointestinal stromal tumor, *GIST*, and a proposed drug for
+   treatment, *imatinib*. In order to identify whether the patient would
    respond well to treatment with the drug, I need a list of features
-   (e.g. genes) which are associated with the sensitivity of GIST to
-   imatinib. Suppose I am specifically interested in a gene, *KIT*,
+   (e.g. genes) which are associated with the sensitivity of *GIST* to
+   *imatinib*. Suppose I am specifically interested in a gene, *KIT*,
    which is implicated in the pathogenesis of several cancer types. I
-   could submit a query to ``/featurephenotypeassociations/search`` with GIST as
+   could submit a query to ``/featurephenotypeassociations/search`` with *GIST* as
    the phenotype, *KIT* as the feature, and
-   ``clinical study evidence <http://purl.obolibrary.org/obo/ECO_0000180>``\ \_\_
+   ``clinical study evidence <http://purl.obolibrary.org/obo/ECO_0000180>``
    as the evidence.
 
-In response, I will receive back a list of associations involving GIST
-and *KIT*, which I can filter for instances where imatinib is mentioned.
-URI's in the ``associations`` field could - hypothetically - be followed
-to discover that
-``GIST patients with wild-type *KIT* have decreased sensitivity to therapy with imatinib <http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2651076/>``\ \_\_.
+   In response, I will receive back a list of associations involving *GIST*
+   and *KIT*, which I can filter for instances where *imatinib* is mentioned.
+   URI's in the ``associations`` field could - hypothetically - be followed
+   to discover that
+   ``GIST patients with wild-type *KIT* have decreased sensitivity to therapy with imatinib   <http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2651076/>``.
 
-If I left both the ``feature`` and ``evidence`` fields as ``null``, I
-would receive back all associations which involve GIST as a phenotype.
+   If I left both the ``feature`` and ``evidence`` fields as ``null``, I
+   would receive back all associations which involve GIST as a phenotype.
 
 2) As a non-Hodgkin's lymphoma researcher, I may know that the gene
    *CD20* has an abnormal expression in
-   ``Hodgkin's lymphoma <http://purl.obolibrary.org/obo/DOID_8567>``\ **.
+   ``Hodgkin's lymphoma <http://purl.obolibrary.org/obo/DOID_8567>``.
    I might be interested in knowing whether *CD20* also has an abnormal
    expression in
-   ``non-Hodgkin lymphoma <http://purl.obolibrary.org/obo/DOID_0060060>``**.
+   ``non-Hodgkin lymphoma <http://purl.obolibrary.org/obo/DOID_0060060>``.
    Therefore I could perform a query with *CD20* as a feature,
    non-Hodgkin's lymphoma as a phenotype, and
-   ``RNA sequencing <http://purl.obolibrary.org/obo/OBI_0001177>``\ \_\_
+   ``RNA sequencing <http://purl.obolibrary.org/obo/OBI_0001177>``
    as the evidence type.
 
 3) As a genetic counselor, I may be wondering if a mutation in one of my
    clients' genes has ever been associated with a disease. I could then
    do a query based on the gene name as the feature and
-   ``disease <http://purl.obolibrary.org/obo/DOID_4>``\ \_\_ as the
+   ``disease <http://purl.obolibrary.org/obo/DOID_4>`` as the
    phenotype.
 
 For specifics of the json representations, please see the
-``server <https://github.com/ga4gh/server>``\ \_\_ and
-``compliance <https://github.com/ga4gh/compliance>``\ \_\_ repositories.
+``server <https://github.com/ga4gh/server>`` and
+``compliance <https://github.com/ga4gh/compliance>`` repositories.
 
 Ontologies
 ----------
