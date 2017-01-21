@@ -183,6 +183,17 @@ message Variant {
   // The bases that appear instead of the reference bases. Multiple alternate
   // alleles are possible.
   repeated string alternate_bases = 10;
+  
+  // Phred-scaled quality score for the assertion made in ALT.
+  // If ALT is '.' (no variant) then this is -10log10 prob(variant), and if ALT is
+  // not '.' this is -10log10 prob(no variant).
+  double quality = 13;
+
+  // A list of filters (normally quality filters) this variant has failed.
+  repeated string filters_failed = 14;
+  
+  // A list of filters (normally quality filters) this variant has passed.
+  repeated string filters_passed = 15;
 
   // A map of additional variant information.
   map<string, google.protobuf.ListValue> info = 11;
