@@ -72,5 +72,23 @@ notes for the PyPi package are maintained here.
 Release Notes
 #############
 
-* 0.0.8 2016-11-02
-  * Initial release from dcolligan/ga4gh-schemas
+
+`0.6.0a9.post2 2016-1-20 <https://pypi.python.org/pypi/ga4gh-schemas/0.6.0a9.post2>`_
+
+* Set the release version (`#790 <https://github.com/ga4gh/schemas/pull/790>`_).
+
+0.6.0a9.post1 2016-1
+
+* Remove protoc from install path (`#781 <https://github.com/ga4gh/schemas/pull/751>`_).
+
+0.6.0a9 2016-1
+
+* "BioSample" refactored to "Biosample".
+* Calls list supports if no genotype is reported.
+* Introduces a new versioning scheme to match 
+[ga4gh/schemas](https://github.com/ga4gh/schemas)
+* Improve setup process (`#751 <https://github.com/ga4gh/schemas/pull/751>`_, `#746 <https://github.com/ga4gh/schemas/pull/746>`_).
+
+0.0.8 2016-11-02
+
+* Initial release from dcolligan/ga4gh-schemas
