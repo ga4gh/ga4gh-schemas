@@ -14,7 +14,7 @@ describe and serialize genomics data using a standard interchange format.
     my_variant = variants.Variant(
         reference_name="1",
         start=1832,
-        end=4123,
+        end=1833,
         reference_bases="A",
         alternate_bases=["C"])
 
