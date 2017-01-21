@@ -73,20 +73,19 @@ Release Notes
 #############
 
 
-`0.6.0a9.post2 2016-1-20 <https://pypi.python.org/pypi/ga4gh-schemas/0.6.0a9.post2>`_
+`0.6.0a9.post2 <https://pypi.python.org/pypi/ga4gh-schemas/0.6.0a9.post2>`_ 2016-1-20 
 
 * Set the release version (`#790 <https://github.com/ga4gh/schemas/pull/790>`_).
 
-0.6.0a9.post1 2016-1
+`0.6.0a9.post1 <https://pypi.python.org/pypi/ga4gh-schemas/0.6.0a9.post1>`_ 2016-1
 
 * Remove protoc from install path (`#781 <https://github.com/ga4gh/schemas/pull/751>`_).
 
 0.6.0a9 2016-1
 
-* "BioSample" refactored to "Biosample".
-* Calls list supports if no genotype is reported.
-* Introduces a new versioning scheme to match 
-[ga4gh/schemas](https://github.com/ga4gh/schemas)
+* "BioSample" refactored to "Biosample" (`#697 <https://github.com/ga4gh/schemas/pull/697>`_).
+* Calls list supports if no genotype is reported (`#735 <https://github.com/ga4gh/schemas/pull/697>`_).
+* Introduces a new versioning scheme to match `ga4gh/schemas <https://github.com/ga4gh/schemas>`_ protocol version.
 * Improve setup process (`#751 <https://github.com/ga4gh/schemas/pull/751>`_, `#746 <https://github.com/ga4gh/schemas/pull/746>`_).
 
 0.0.8 2016-11-02
