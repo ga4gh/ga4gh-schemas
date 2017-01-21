@@ -16,14 +16,14 @@ You can install the schemas using `pip install ga4gh-schemas`.
     my_variant = variants.Variant(
         reference_name="1",
         start=1832,
-        end=4123,
+        end=1833,
         reference_bases="A",
         alternate_bases=["C"])
 
 Full documentation is available at `read-the-docs.org
 <http://ga4gh-schemas.readthedocs.io/en/stable/>`_.
 
-- To read more about how the GA4GH API uses Protocol Buffers, see here `here <http://ga4gh-schemas.readthedocs.io/en/stable/appendix/proto_intro.html>`_.
+- To read more about how the GA4GH API uses Protocol Buffers, see `here <http://ga4gh-schemas.readthedocs.io/en/stable/appendix/proto_intro.html>`_.
 
 ###########
 Development
