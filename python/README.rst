@@ -6,7 +6,7 @@ GA4GH Schemas Python
 ====================
 
 This is the GA4GH schemas compiled as Protocol Buffers descriptors. It can be used 
-describe and serialize genomics data using a standard interchange format.
+to describe and serialize genomics data using a standard interchange format.
 
 You can install the schemas using `pip install ga4gh-schemas`.
 
