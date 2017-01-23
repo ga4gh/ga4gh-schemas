@@ -9,7 +9,7 @@ import shlex
 import subprocess
 import unittest
 
-import utils
+import ga4gh.common.utils as utils
 
 
 class TestMaven(unittest.TestCase):
@@ -28,4 +28,14 @@ class TestMaven(unittest.TestCase):
         utils.log("Running '{}'".format(cmd))
         splits = shlex.split(cmd)
         output = subprocess.check_output(splits).split('\n')
-        utils.ensureNoWarnings(output, cmd)
+        self.ensureNoWarnings(output, cmd)
+
+    def ensureNoWarnings(self, lines, streamName):
+        pattern = '[WARNING]'
+        matchingLines = []
+        for line in lines:
+            if pattern in line:
+                matchingLines.append(line[:-1])
+        if len(matchingLines) != 0:
+            raise Exception("warning(s) detected in {}:\n{}".format(
+                streamName, '\n'.join(matchingLines)))

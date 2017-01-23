@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/metadata.proto";
+import "google/protobuf/struct.proto";
+
+/*
+This protocol defines the associations between genotype
+and phenotype (G2P).  Associations can be made as a
+result of literature curation, computational modeling,
+inference, etc., and modeled and shared using this schema.
+
+
+Here, we follow the dogma of:
+      Genotype + Environment = Phenotype
+
+Where a G2P association is between the G(enotype) in the context of
+some E(environment), which gives rise to a P(henotype). These
+associations have further evidence, provenance, and attribution.
+We leverage the GenomicFeature in the sequenceAnnotation schema here
+as it can accomodate any genomic feature from a single nucleotide variation
+(SNV), up through a gene, and/or complex rearrangements.  Each can
+be modeled as genomic features, and generally linked to a phenotype.
+Collections of these features can represent a genotype at different levels
+of completeness.  Therefore, we can represent single allelic variation,
+allelic complement, and multiple variants in a genotype that can each or
+collectively be associated with a phenotype.
+To enable standardized integration, this schema relies heavily on
+OntologyTerms, for typing phenotype, genomic features, and levels
+of evidence.  Suggested ontologies to leverage include (with browser links):
+
+  - Human Phenotype Ontology (HPO): http://www.ontobee.org/browser/index.php?o=hp
+  - Disease Ontology (DO): http://purl.obolibrary.org/obo/DOID_4
+  - Sequence Ontology (SO): http://www.sequenceontology.org/browser/
+  - Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
+  - Phenotypic Qualities (PATO): http://www.ontobee.org/browser/index.php?o=PATO
+*/
+
+// The top level container for phenotype association data.
+message PhenotypeAssociationSet {
+    // The phenotype association set ID.
+    string id = 1;
+
+    // The phenotype association set name.
+    string name = 2;
+
+    // The ID of the dataset this phenotype association set belongs to.
+    string dataset_id = 3;
+
+    // Optional additional information for this phenotype association set.
+    map<string, google.protobuf.ListValue> info = 4;
+}
+
+// The context in which a genotype gives rise to a phenotype.
+// This is fairly open-ended; as a stub we have a simple ontology term.
+// For example, a controlled term for a drug, or perhaps an instance of a
+// complex environment including temperature and air quality, or perhaps
+// the anatomical environment (gut vs tissue type vs whole organism).
+message EnvironmentalContext {
+    // The Environment ID.
+    string id = 1;
+
+    // Examples of some environment types could be drawn from:
+    // Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
+    // Chemical Entities of Interest (ChEBI): http://www.ontobee.org/browser/index.php?o=chebi
+    // Environment Ontology (ENVO):  http://www.ontobee.org/browser/index.php?o=ENVO
+    // Anatomy (Uberon): http://www.ontobee.org/browser/index.php?o=uberon
+    OntologyTerm environment_type = 2;
+
+    // A textual description of the environment. This is used to complement
+    // the structured description in the environmentType field
+    string description = 3;
+}
+
+// An association to a phenotype and related information.
+// This record is intended primarily to be used in conjunction with variants, but
+// the record can also be composed with other kinds of entities such as diseases
+message PhenotypeInstance {
+    // The Phenotype ID.
+    string id = 1;
+
+    // HPO is recommended
+    OntologyTerm type = 2;
+
+    // PATO is recommended.  Often this qualifier might be for abnormal/normal,
+    // or severity.
+    // For example, severe: http://purl.obolibrary.org/obo/PATO_0000396
+    // or abnormal: http://purl.obolibrary.org/obo/PATO_0000460
+    repeated OntologyTerm qualifier = 3;
+
+    // HPO is recommended, for example, subclasses of
+    // http://www.human-phenotype-ontology.org/hpoweb/showterm?id=HP:0011007
+    // TODO: also allow quantitative recording?
+    OntologyTerm age_of_onset = 4;
+
+    // A textual description of the phenotype. This is used to complement the
+    // structured phenotype description in the type field.
+    string description = 5;
+
+    // Additional annotation data in key-value pairs.
+    map<string, google.protobuf.ListValue> info = 6;
+}
+
+// Evidence for the phenotype association.
+// This is also a stub for further expansion.  We should consider moving this into
+// it's own schema.
+message Evidence {
+    // ECO or OBI is recommended
+    OntologyTerm evidence_type = 1;
+
+    // A textual description of the evidence. This is used to complement the
+    // structured description in the evidence_type field
+    string description = 2;
+
+    // Additional annotation data in key-value pairs.
+    map<string, google.protobuf.ListValue> info = 3;
+}
+
+// An association between one or more genomic features and a phenotype.
+// The instance of association allows us to link a feature to a phenotype,
+// multiple times, each bearing potentially different levels of confidence,
+// such as resulting from alternative experiments and analysis.
+message FeaturePhenotypeAssociation {
+    // A unique identifier for the association.
+    string id = 1;
+
+    // The ID of the PhenotypeAssociationSet this FeaturePhenotypeAssociation
+    // belongs to.
+    string phenotype_association_set_id = 2;
+
+    // The set of features of the organism that bears the phenotype.
+    // This could be as complete as a full complement of variants,
+    // or as minimal as the confirmed variants that are known causation
+    // for the annotated phenotype.
+    // Examples of features could be variations at the nucleotide level,
+    // large rearrangements at the chromosome level, or relevant epigenetic
+    // markers.  Relevant genomic feature types are suggested to be
+    // those typed in the Sequence Ontology (SO).
+    // The feature set can have only one item, and must not be null.
+    repeated string feature_ids = 3;
+
+    // The evidence for this specific instance of association between the
+    // features and the phenotype.
+    repeated Evidence evidence = 4;
+
+    // The phenotypic component of this association.
+    PhenotypeInstance phenotype = 5;
+
+    // A textual description of the association.
+    string description = 6;
+
+    // The context in which the phenotype arises.
+    // Multiple contexts can be specified - these are assumed to all hold together
+    repeated EnvironmentalContext environmental_contexts = 7;
+
+    // Additional annotation data in key-value pairs.
+    map<string, google.protobuf.ListValue> info = 8;
+}

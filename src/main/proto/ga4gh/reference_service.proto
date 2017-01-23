@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/references.proto";
+import "google/api/annotations.proto";
 
 service ReferenceService {
   // Gets a list of `ReferenceSet` matching the search criteria.
@@ -11,13 +12,23 @@ service ReferenceService {
   // `SearchReferenceSetsRequest` as the post body and will return a JSON
   // version of `SearchReferenceSetsResponse`.
   rpc SearchReferenceSets(SearchReferenceSetsRequest)
-      returns (SearchReferenceSetsResponse);
+      returns (SearchReferenceSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a9/referencesets/search"
+        body: "*"
+      };
+    };
 
   // Gets a `ReferenceSet` by ID.
   //
   // `GET /referencesets/{reference_set_id}` will return a JSON version of
   // `ReferenceSet`.
-  rpc GetReferenceSet(GetReferenceSetRequest) returns (ReferenceSet);
+  rpc GetReferenceSet(GetReferenceSetRequest)
+    returns (ReferenceSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a9/referencesets/{reference_set_id}"
+      };
+    };
 
   // Gets a list of `Reference` matching the search criteria.
   //
@@ -25,20 +36,36 @@ service ReferenceService {
   // `SearchReferencesRequest` as the post body and will return a JSON
   // version of `SearchReferencesResponse`.
   rpc SearchReferences(SearchReferencesRequest)
-      returns (SearchReferencesResponse);
+    returns (SearchReferencesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a9/references/search"
+        body: "*"
+      };
+    };
 
   // Gets a `Reference` by ID.
   //
   // `GET /references/{reference_id}` will return a JSON version of
   // `Reference`.
-  rpc GetReference(GetReferenceRequest) returns (Reference);
+  rpc GetReference(GetReferenceRequest)
+    returns (Reference) {
+      option (google.api.http) = {
+        get: "/v0.6.0a9/references/{reference_id}"
+      };
+    };
 
   // Lists `Reference` bases by ID and optional range.
   //
-  // `GET /references/{id}/bases` will return a JSON version of
+  // `POST /listreferencebases` will return a JSON version of
   // `ListReferenceBasesResponse`.
   rpc ListReferenceBases(ListReferenceBasesRequest)
-      returns (ListReferenceBasesResponse);
+    returns (ListReferenceBasesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a9/references/{reference_id}/bases"
+        body: "*"
+      };
+    };
+
 }
 
 // ****************  /referencesets  *******************
@@ -126,11 +153,8 @@ message GetReferenceRequest {
   string reference_id = 1;
 }
 
-// The parameters for a `GET /references/{reference_id}/bases` request. When
-// sending a request, the `reference_id` should be encoded in the URL path,
-// while all other parameters should be encoded as URL query parameters.
-//
-// For example: `GET /references/{id}/bases?start=100&end=200`
+// This request retrieves a region of a reference genome when sent to 
+// the `/listreferencebases` endpoint.
 message ListReferenceBasesRequest {
   // The ID of the `Reference` to be retrieved.
   string reference_id = 1;
@@ -151,7 +175,7 @@ message ListReferenceBasesRequest {
   string page_token = 4;
 }
 
-// The response from `GET /references/{id}/bases` expressed as JSON.
+// The response from `POST /listreferencebases` expressed as JSON.
 message ListReferenceBasesResponse {
   // The offset position (0-based) of the given sequence from the start of this
   // `Reference`. This value will differ for each page in a paginated request.

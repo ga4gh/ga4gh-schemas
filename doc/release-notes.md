@@ -1,14 +1,45 @@
+# Schema Release `v0.6.0a9`
+
+Changes to `ga4gh/schemas` `master` branch since version `0.6.0a8` (Oct 26, 2016)
+
+* Fixed bugs:
+   * Fixed typo in get: `/v0.6.0a8/variantannotationset/{variant_annotation_set_id}`
+   * Fix to be able to handle VCFs with genotype == `./.`
+* Upgrade to use protobuf release 3.1
+* Introduced a pip installable schemas package called `ga4gh-schemas`. We have also 
+   created pip installable packages for a support library called `ga4gh-common`
+   and a client library module called `ga4gh-client`.
+* Introduced a schemas package release to Maven Central. We will be posting regular
+   ga4gh packages for each official schema release to Maven going forward.
+* Changed the name of the biosample terms to track be consistent with the use
+   of camel-case and the underscore character.
+* Added a new schema visualization tool to create UML diagrams from the schemas.
+   The new diagrams can be viewed on the Schemas page in the Read The Docs 
+   documents.
+
+# Schema Release `v0.6.0.a8` 
+
+Changes to `ga4gh/schemas` `master` branch since version `0.6.0a7` (Aug 19, 2016)
+
+* Introduced G2P API endpoints including the following:
+  * POST `/phenotypeassociationsets/search`
+  * POST `/phenotypes/search`
+  * POST `/featurephenotypeassociations/search`
+* Add biometadata to RNA quantifications
+* Add protobuf based HTTP annotations
+
 # Schema Release `v0.6.0.a7` 
 
 Changes to `ga4gh/schemas` `master` branch since version `0.6.0a6` (Jul 25, 2016)
 
 Introduced RNA API endpoints including the following:
-'POST /rnaquantificationsets/search'
-'GET /rnaquantificationsets/{id}'
-'POST /rnaquantifications/search'
-'GET /rnaquantifications/{id}'
-'POST /expressionlevels/search'
-'GET /expressionlevels/{id}'
+
+* POST `/rnaquantificationsets/search`
+* GET `/rnaquantificationsets/{id}`
+* POST `/rnaquantifications/search`
+* GET `/rnaquantifications/{id}`
+* POST `/expressionlevels/search`
+* GET `/expressionlevels/{id}`
 
 # Schema Release `v0.6.0.a6` 
 

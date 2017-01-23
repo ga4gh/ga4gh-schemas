@@ -73,5 +73,25 @@ algorithms which help to describe, classify, and understand variants.
    alleleAnnotations
 
 
+RNA Quantification
+@@@@@@@@@@@@@@@@@@@@@
+
+The RNA quantifications provides a means of obtaining feature level
+quantifications derived from a set of RNA reads.
+
+.. toctree::
+   rna_quantifications
+
+Genotype to Phenotype
+@@@@@@@@@@@@@@@@@@@@@
+
+Genotype and phenotype data can be linked via evidence. This protocol
+provides methods for describing phenotypes and associating them
+with genomic features.
+
+.. toctree::
+   genotypephenotype
+
+
 .. _SAM/BAM: https://samtools.github.io/hts-specs/SAMv1.pdf
 .. _VCF: https://samtools.github.io/hts-specs/VCFv4.2.pdf

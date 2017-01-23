@@ -6,6 +6,11 @@ doc/source/schemas/*.proto.rst
 doc/source/schemas/build.rst
 doc/source/_build/
 build
+*dist/
+*ga4gh_schemas.egg-info/
+_version.py
+# Ignore proto included in the generated python package
+python/**/*.proto
 
 #********** windows template**********
 

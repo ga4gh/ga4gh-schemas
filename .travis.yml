@@ -6,14 +6,17 @@ python:
   - "2.7"
 
 install:
-    - sudo apt-get update -qq
-    - pip install -r requirements.txt
+    - python setup.py install
 cache:
     directories:
-    - /tmp/proto3.0.0-beta-3.1
-before_script:
-    - bash tools/travis-install-protoc.sh 3.0.0-beta-3.1
-    - export PATH=/tmp/proto3.0.0-beta-3.1/bin:$PATH
+    - /tmp/proto3.1.0
+before_install:
+    - sudo apt-get update -qq
+    - sudo apt-get install graphviz
+    - bash tools/travis-install-protoc.sh 3.1.0
+    - export PATH=/tmp/proto3.1.0/bin:$PATH
+    - pip install -r python/dev-requirements.txt
 script:
+    - make docs
     - flake8 scripts tests
-    - nosetests -v tests
+    - python -mnose tests

@@ -7,3 +7,4 @@ Appendix
    json_intro
    proto_intro
    samplecode_intro
+   swagger

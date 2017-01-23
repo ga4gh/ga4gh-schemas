@@ -1,8 +1,0 @@
-PyYAML
-protobuf==3.0.0b3
-flake8
-humanize
-nose
-requests
-sphinx==1.2.3
-sphinx_rtd_theme

@@ -1,0 +1,218 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/common.proto";
+import "ga4gh/metadata.proto";
+import "ga4gh/genotype_phenotype.proto";
+import "google/api/annotations.proto";
+
+/*
+   This protocol defines genotype to phenotype association
+   query system.
+   Suggested ontologies used in type-based queries include:
+   Phenotype:
+   Human Phenotype Ontology (HPO): http://www.ontobee.org/browser/index.php?o=hp
+   Disease Ontology (DO): http://purl.obolibrary.org/obo/DOID_4
+   Feature:
+   Sequence Ontology (SO): http://www.sequenceontology.org/browser/
+   Evidence:
+   Evidence Code Ontology (ECO): http://www.ontobee.org/browser/index.php?o=ECO
+   Ontology for Biomedical Investigations (OBI): http://purl.obofoundry.org/obo/obi/browse
+*/
+service GenotypePhenotypeService {
+
+  // Gets a list of association sets accessible through the API.
+  // `POST /phenotypeassociationsets/search` must accept a JSON version of
+  // `SearchPhenotypeAssociationSetsRequest` as the post body and will return a JSON version
+  // of `SearchPhenotypeAssociationSetsResponse`.
+  rpc SearchPhenotypeAssociationSets(SearchPhenotypeAssociationSetsRequest)
+    returns (SearchPhenotypeAssociationSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a9/phenotypeassociationsets/search"
+        body: "*"
+      };
+    };
+
+  // Gets a list of phenotypes accessible through the API.
+  // `POST /phenotypes/search` must accept a JSON version of
+  // `SearchPhenotypesRequest` as the post body and will return a JSON version
+  // of `SearchPhenotypeAssociationSetsResponse`.
+  rpc SearchPhenotype(SearchPhenotypesRequest)
+    returns (SearchPhenotypesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a9/phenotypes/search"
+        body: "*"
+      };
+    };
+
+  // Gets a list of genotype-phenotype assoications accessible through the API.
+  // `POST /featurephenotypeassociations/search` must accept a JSON version of
+  // `SearchPhenotypesRequest` as the post body and will return a JSON version
+  // of `SearchPhenotypeAssociationSetsResponse`.
+  rpc SearchPhenotypeAssociations(SearchGenotypePhenotypeRequest)
+    returns (SearchGenotypePhenotypeResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a9/featurephenotypeassociations/search"
+        body: "*"
+      };
+    };
+
+}
+
+/******************  /phenotypeassociationsets/search  *********************/
+// This request maps to the body of `POST /phenotypeassociationsets/search` as JSON.
+message SearchPhenotypeAssociationSetsRequest {
+    // The `Dataset` to search. Mandatory
+    string dataset_id = 1;
+
+    // Specifies the maximum number of results to return in a single page.
+    // If unspecified, a system default will be used.
+    int64 page_size = 2;
+
+    // The continuation token, which is used to page through large result sets.
+    // To get the next page of results, set this parameter to the value of
+    // `nextPageToken` from the previous response.
+    string page_token = 3;
+}
+
+// This is the response from `POST /phenotypeassociationsets/search` expressed as JSON.
+message SearchPhenotypeAssociationSetsResponse {
+    // The list of matching phenotype association sets.
+    repeated PhenotypeAssociationSet phenotype_association_sets = 1;
+
+    // The continuation token, which is used to page through large result sets.
+    // Provide this value in a subsequent request to return the next page of
+    // results. This field will be empty if there aren't any additional results.
+    string next_page_token = 2;
+}
+
+/******************  /phenotypes/search  *********************/
+// One or more ontology terms can be queried together.
+message OntologyTermQuery {
+    repeated OntologyTerm terms = 1;
+}
+
+// One or more ids can be queried together.  Generally used for instances
+// of a particular class of object (e.g. a specific gene or SNP).
+message ExternalIdentifierQuery {
+    repeated ExternalIdentifier ids = 1;
+}
+
+// Evidence for the phenotype association.
+message EvidenceQuery {
+    // ECO or OBI is recommended
+    OntologyTerm evidenceType = 1;
+
+    // The system may support regex. https://www.w3.org/TR/xpath-functions/#regex-syntax
+    string description = 2;
+
+    // Only match Evidence messages that have any of these external identifiers
+    repeated ExternalIdentifier external_identifiers = 3;
+}
+
+message SearchPhenotypesRequest {
+    // The `PhenotypeAssociationSet` to search. Mandatory
+    string phenotype_association_set_id = 1;
+
+    // Phenotype ID
+    // TODO remove if a get-by-phenotype ID endpoint is added
+    string id = 2;
+
+    // The system may support regex. https://www.w3.org/TR/xpath-functions/#regex-syntax
+    string description = 3;
+
+    // Only return results that match this type
+    OntologyTerm type = 4;
+
+    // terms should be OR'd together. e.g. (severe OR abnormal)
+    repeated OntologyTerm qualifiers = 5;
+
+    // Only return results that match this age of onset
+    OntologyTerm age_of_onset = 6;
+
+    // Specifies the maximum number of results to return in a single page.
+    // If unspecified, a system default will be used.
+    int64 page_size = 7;
+
+    // The continuation token, which is used to page through large result sets.
+    // To get the next page of results, set this parameter to the value of
+    // `next_page_token` from the previous response.
+    string page_token = 8;
+}
+
+// This is the response from `POST /phenotypes/search` expressed as JSON.
+message SearchPhenotypesResponse {
+    // The list of matching PhenotypeInstances.
+    repeated PhenotypeInstance phenotypes = 1;
+
+    // The continuation token, which is used to page through large result sets.
+    // Provide this value in a subsequent request to return the next page of
+    // results. This field will be empty if there aren't any additional results.
+    string next_page_token = 2;
+}
+
+
+/******************  /featurephenotypeassociations/search  *********************/
+/*
+This request maps to the body of `POST /featurephenotypeassociations/search` as JSON.
+
+The goal here is to allow users to query using one or more of
+Genotype, Phenotype, Environment, and Evidence.
+
+A query using one of the above items is to mean, by default,
+that the remainder of the query is as a "wildcard", such
+that all matches to just that query term would come back.
+Combinations of the above are to act like AND rather than OR.
+
+The "genotype" part of the query methods can be one or more
+genomic features.  Associations can be made at many
+levels of granularity (from whole genotypes down to individual
+SNVs), but users may use these methods with partial or
+inexact information.  Therefore, the query methods must be
+able to support query of some or all of the associated features.
+Furthermore, use of the relationships between genomic features
+means that when querying for a gene, any variants to that
+gene are also returned.  For example, a query with
+BRCA2 would mean that in addition to any direct associations
+to the BRCA2, all associations to sequence variants of BRCA2 would also
+be returned.  Similarly, queries with OntologyTerms should perform
+the subclass closure.
+
+Each query can be made against a string, an array of external
+identifers (such as for gene or SNP ids), ontology term ids, or
+full feature/phenotype/evidence objects.
+*/
+message SearchGenotypePhenotypeRequest {
+  // The `PhenotypeAssociationSet` to search. Mandatory
+  string phenotype_association_set_id = 1;
+
+  // At least one feature_id or phenotype_id must be provided.
+  repeated string feature_ids = 2;
+
+  // Phenotype IDs
+  repeated string phenotype_ids = 3;
+
+  // evidence
+  repeated EvidenceQuery evidence = 4;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int64 page_size = 5;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `nextPageToken` from the previous response.
+  string page_token = 6;
+}
+
+// This is the response from `POST /genotypephenotype/search` expressed as JSON.
+message SearchGenotypePhenotypeResponse {
+  // The list of matching FeaturePhenotypeAssociation.
+    repeated FeaturePhenotypeAssociation associations = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+    string next_page_token = 2;
+}
