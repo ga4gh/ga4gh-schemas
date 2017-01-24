@@ -14,8 +14,16 @@ import subprocess
 import fnmatch
 import re
 import argparse
+import shlex
 
-import ga4gh.common.utils as utils
+
+# IMPORTANT!
+# Do not import any ga4gh or otherwise non-standard packages in this file.
+# process_schemas is included in ga4gh-schema's install path in setup.py.
+# Importing, for instance, ga4gh-common here will break an install if
+# the environment does not have that package installed previously.
+# We really want to avoid this scenario!
+# (This does result in some code duplication in this file.)
 
 
 def createSchemaFiles(tempPath, schemasPath):
@@ -81,10 +89,45 @@ def copySchemaFile(src, dst):
             dstFile.write(toWrite)
 
 
+def runCommandSplits(splits, silent=False, shell=False):
+    """
+    Run a shell command given the command's parsed command line
+    """
+    try:
+        if silent:
+            with open(os.devnull, 'w') as devnull:
+                subprocess.check_call(
+                    splits, stdout=devnull, stderr=devnull, shell=shell)
+        else:
+            subprocess.check_call(splits, shell=shell)
+    except OSError, e:
+        if e.errno == 2:  # cmd not found
+            raise Exception(
+                "Can't find command while trying to run {}".format(splits))
+        else:
+            raise
+
+
+def runCommand(command, silent=False, shell=False):
+    """
+    Run a shell command
+    """
+    splits = shlex.split(command)
+    runCommandSplits(splits, silent=silent, shell=shell)
+
+
 class ProtobufGenerator(object):
 
     def __init__(self, version):
         self.version = version
+
+    def _find_in_path(self, cmd):
+        PATH = os.environ.get("PATH", os.defpath).split(os.pathsep)
+        for x in PATH:
+            possible = os.path.join(x, cmd)
+            if os.path.exists(possible):
+                return possible
+        return None
 
     def _assertSchemasExist(self, schemas_path):
         if not os.path.exists(schemas_path):
@@ -109,7 +152,7 @@ class ProtobufGenerator(object):
         protocs = [
             os.path.realpath(x) for x in
             "{}/protobuf/src/protoc".format(destination_path),
-            utils.getPathOfExecutable("protoc")
+            self._find_in_path("protoc")
             if x is not None]
         protoc = None
         for c in protocs:
@@ -137,8 +180,11 @@ class ProtobufGenerator(object):
         return protoc
 
     def _writePythonFiles(self, source_path, protoc, destination_path):
-        protos = utils.getFilePathsWithExtensionsInDirectory(
-            source_path, ["*.proto"])
+        protos = []
+        for root, dirs, files in os.walk(source_path):
+            protos.extend([
+                os.path.join(root, f)
+                for f in fnmatch.filter(files, "*.proto")])
         if len(protos) == 0:
             raise Exception(
                 "Didn't find any proto files in ".format(source_path))
@@ -151,7 +197,7 @@ class ProtobufGenerator(object):
             protoc=protoc, source_path=source_path,
             destination_path=destination_path,
             proto_files=" ".join(protos))
-        utils.runCommand(cmd)
+        runCommand(cmd)
         print("{} pb2 files written".format(len(protos)))
 
     def _writeVersionFile(self):
