@@ -143,6 +143,9 @@ message ReadAlignment {
   bool duplicate_fragment = 5;
 
   // The number of reads in the fragment (extension to SAM flag 0x1).
+  // A value of 1 means SAM flag 0x1 is unset.
+  // A value of [2, infinity) means SAM flag 0x1 is set.
+  // TODO what do other values mean?
   int32 number_reads = 6;
 
   // The observed length of the fragment, equivalent to TLEN in SAM.
@@ -151,13 +154,19 @@ message ReadAlignment {
   // The read ordinal in the fragment, 0-based and less than numberReads. This
   // field replaces SAM flag 0x40 and 0x80 and is intended to more cleanly
   // represent multiple reads per fragment.
+  // A read_number of 0 represents SAM flag 0x40 being set and 0x80 being
+  // unset.
+  // A read_number of 1 represents SAM flag 0x80 being set and 0x40 
+  // being unset.
+  // A read_number other than 0 or 1 means both SAM flags 0x40 and 0x80 are 
+  // set.
   int32 read_number = 8;
 
   // The read fails platform or vendor quality checks (SAM flag 0x200).
   bool failed_vendor_quality_checks = 9;
 
-  // The alignment for this alignment message. This field will be null if the
-  // read is unmapped.
+  // The alignment for this alignment message. This field will be unset if the
+  // read is unmapped (i.e. if SAM flag 0x4 is set).
   LinearAlignment alignment = 10;
 
   // Whether this alignment is secondary. Equivalent to SAM flag 0x100.
