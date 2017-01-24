@@ -32,9 +32,26 @@ with open("python/requirements.txt") as requirementsFile:
         pinnedVersion = line.split()[0]
         install_requires.append(pinnedVersion)
 
-schemasPath = 'src/main/proto/'
-process_schemas.createSchemaFiles('python', schemasPath)
-process_schemas.main([PROTOCOL_VERSION, 'python'])
+dependency_links = []
+try:
+    with open("python/constraints.txt") as constraintsFile:
+        for line in constraintsFile:
+            line = line.strip()
+            if len(line) == 0:
+                continue
+            if line[0] == '#':
+                continue
+            dependency_links.append(line)
+except EnvironmentError:
+    print('No constraints file found, proceeding without '
+          'creating dependency links.')
+
+try:
+    schemasPath = 'src/main/proto/'
+    process_schemas.createSchemaFiles('python', schemasPath)
+    process_schemas.main([PROTOCOL_VERSION, 'python'])
+except Exception:
+    print("Couldn't find a good protoc, using precompiled protobuf.")
 
 setup(
     name="ga4gh_schemas",
@@ -53,6 +70,7 @@ setup(
     package_dir={'': 'python'},
     long_description=long_description,
     install_requires=install_requires,
+    dependency_links=dependency_links,
     license='Apache License 2.0',
     include_package_data=True,
     zip_safe=True,
@@ -70,6 +88,3 @@ setup(
     # Use setuptools_scm to set the version number automatically from Git
     setup_requires=['setuptools_scm'],
 )
-
-shutil.rmtree('package_python', True)
-
