@@ -198,7 +198,7 @@ message Variant {
   //   DEL  : deletion of sequence following "start"
   string variant_type = 13;
 
-  // Length of the - if labeled as such in variant_type - somatic variation.
+  // Length of the - if labeled as such in variant_type - structural variation.
   // Based on the use in VCFv4.2
   int64 svlen = 14;
 
