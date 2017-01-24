@@ -5,7 +5,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import fnmatch
 import os
 import tempfile
 import unittest
@@ -19,18 +18,6 @@ import ga4gh.schemas._version as version  # NOQA
 
 
 class TestCompile(unittest.TestCase):
-
-    def _getPb2Files(self, sourceDir):
-        """
-        Return file paths of all pb2 files found in the sourceDir tree
-        """
-        pb2Files = []
-        for root, dirs, files in os.walk(sourceDir):
-            pb2Files.extend([
-                os.path.join(root, filename)
-                for filename in fnmatch.filter(files, "*_pb2.py")])
-        pb2Files.sort()
-        return pb2Files
 
     def _getDirAndFilenameOfPath(self, path):
         """
@@ -62,15 +49,19 @@ class TestCompile(unittest.TestCase):
         # get the file paths of the checked in pb2 files
         # (we do it in two calls to avoid the build/ tree, etc.
         # in the python directory which may contain pb2 files)
-        checkedInDirGa4gh = 'python/ga4gh'
-        checkedInDirGoogle = 'python/google'
-        checkedInFilePathsGa4gh = self._getPb2Files(checkedInDirGa4gh)
-        checkedInFilePathsGoogle = self._getPb2Files(checkedInDirGoogle)
+        pb2Patterns = ["*_pb2.py"]
+        checkedInDirGa4gh = 'python/ga4gh/schemas/ga4gh/'
+        checkedInDirGoogle = 'python/ga4gh/schemas/google/'
+        checkedInFilePathsGa4gh = utils.getFilePathsWithExtensionsInDirectory(
+                checkedInDirGa4gh, pb2Patterns)
+        checkedInFilePathsGoogle = utils.getFilePathsWithExtensionsInDirectory(
+                checkedInDirGoogle, pb2Patterns)
         checkedInFilePaths = sorted(
             checkedInFilePathsGa4gh + checkedInFilePathsGoogle)
 
         # check to see that the contents of the directories are the same
-        tempFilePaths = self._getPb2Files(schemaDest)
+        tempFilePaths = utils.getFilePathsWithExtensionsInDirectory(
+            schemaDest, pb2Patterns)
         self.assertEqual(len(checkedInFilePaths), len(tempFilePaths))
         for checkedInFilePath, tempFilePath in utils.zipLists(
                 checkedInFilePaths, tempFilePaths):

@@ -14,7 +14,8 @@ import subprocess
 import fnmatch
 import re
 import argparse
-import shlex
+
+import ga4gh.common.utils as utils
 
 
 def createSchemaFiles(tempPath, schemasPath):
@@ -80,33 +81,6 @@ def copySchemaFile(src, dst):
             dstFile.write(toWrite)
 
 
-def runCommandSplits(splits, silent=False, shell=False):
-    """
-    Run a shell command given the command's parsed command line
-    """
-    try:
-        if silent:
-            with open(os.devnull, 'w') as devnull:
-                subprocess.check_call(
-                    splits, stdout=devnull, stderr=devnull, shell=shell)
-        else:
-            subprocess.check_call(splits, shell=shell)
-    except OSError, e:
-        if e.errno == 2:  # cmd not found
-            raise Exception(
-                "Can't find command while trying to run {}".format(splits))
-        else:
-            raise
-
-
-def runCommand(command, silent=False, shell=False):
-    """
-    Run a shell command
-    """
-    splits = shlex.split(command)
-    runCommandSplits(splits, silent=silent, shell=shell)
-
-
 class ProtobufGenerator(object):
 
     def __init__(self, version):
@@ -125,14 +99,6 @@ class ProtobufGenerator(object):
                 os.path.realpath(source_path))
             raise Exception(msg)
 
-    def _find_in_path(self, cmd):
-        PATH = os.environ.get("PATH", os.defpath).split(os.pathsep)
-        for x in PATH:
-            possible = os.path.join(x, cmd)
-            if os.path.exists(possible):
-                return possible
-        return None
-
     # From http://stackoverflow.com/a/1714190/320546
     def _version_compare(self, version1, version2):
         def normalize(v):
@@ -143,7 +109,7 @@ class ProtobufGenerator(object):
         protocs = [
             os.path.realpath(x) for x in
             "{}/protobuf/src/protoc".format(destination_path),
-            self._find_in_path("protoc")
+            utils.getPathOfExecutable("protoc")
             if x is not None]
         protoc = None
         for c in protocs:
@@ -171,11 +137,8 @@ class ProtobufGenerator(object):
         return protoc
 
     def _writePythonFiles(self, source_path, protoc, destination_path):
-        protos = []
-        for root, dirs, files in os.walk(source_path):
-            protos.extend([
-                os.path.join(root, f)
-                for f in fnmatch.filter(files, "*.proto")])
+        protos = utils.getFilePathsWithExtensionsInDirectory(
+            source_path, ["*.proto"])
         if len(protos) == 0:
             raise Exception(
                 "Didn't find any proto files in ".format(source_path))
@@ -188,7 +151,7 @@ class ProtobufGenerator(object):
             protoc=protoc, source_path=source_path,
             destination_path=destination_path,
             proto_files=" ".join(protos))
-        runCommand(cmd)
+        utils.runCommand(cmd)
         print("{} pb2 files written".format(len(protos)))
 
     def _writeVersionFile(self):
