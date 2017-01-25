@@ -2,10 +2,6 @@
 
 # First, we try to use setuptools. If it's not available locally,
 # we fall back on ez_setup.
-import tempfile
-import os
-import fnmatch
-import shutil
 
 import scripts.process_schemas as process_schemas
 
