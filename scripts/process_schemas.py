@@ -25,69 +25,7 @@ import shlex
 # We really want to avoid this scenario!
 # (This does result in some code duplication in this file.)
 
-
-def createSchemaFiles(tempPath, schemasPath):
-    """
-    Create a hierarchy of proto files in a temporary directory, copied
-    from the schemasPath hierarchy
-    """
-    ga4ghPath = os.path.join(tempPath, 'ga4gh')
-    ga4ghSchemasPath = os.path.join(ga4ghPath, 'schemas')
-    for root, dirs, files in os.walk(schemasPath):
-        for protoFilePath in fnmatch.filter(files, '*.proto'):
-            src = os.path.join(root, protoFilePath)
-            dst = os.path.join(
-                ga4ghSchemasPath,
-                os.path.relpath(root, schemasPath), protoFilePath)
-            copySchemaFile(src, dst)
-
-
-def doLineReplacements(line):
-    """
-    Given a line of a proto file, replace the line with one that is
-    appropriate for the hierarchy that we want to compile
-    """
-    # ga4gh packages
-    packageString = 'package ga4gh;'
-    if packageString in line:
-        return line.replace(
-            packageString,
-            'package ga4gh.schemas.ga4gh;')
-    importString = 'import "ga4gh/'
-    if importString in line:
-        return line.replace(
-            importString,
-            'import "ga4gh/schemas/ga4gh/')
-    # google packages
-    googlePackageString = 'package google.api;'
-    if googlePackageString in line:
-        return line.replace(
-            googlePackageString,
-            'package ga4gh.schemas.google.api;')
-    googleImportString = 'import "google/api/'
-    if googleImportString in line:
-        return line.replace(
-            googleImportString,
-            'import "ga4gh/schemas/google/api/')
-    optionString = 'option (google.api.http)'
-    if optionString in line:
-        return line.replace(
-            optionString,
-            'option (.ga4gh.schemas.google.api.http)')
-    return line
-
-
-def copySchemaFile(src, dst):
-    """
-    Copy a proto file to the temporary directory, with appropriate
-    line replacements
-    """
-    with open(src) as srcFile, open(dst, 'w') as dstFile:
-        srcLines = srcFile.readlines()
-        for srcLine in srcLines:
-            toWrite = doLineReplacements(srcLine)
-            dstFile.write(toWrite)
-
+# Below code duplicated from ga4gh-common
 
 def runCommandSplits(splits, silent=False, shell=False):
     """
@@ -115,11 +53,90 @@ def runCommand(command, silent=False, shell=False):
     splits = shlex.split(command)
     runCommandSplits(splits, silent=silent, shell=shell)
 
+# Above code duplicated from ga4gh-common
+
 
 class ProtobufGenerator(object):
 
     def __init__(self, version):
         self.version = version
+
+    def _createSchemaFiles(self, destPath, schemasPath):
+        """
+        Create a hierarchy of proto files in a destination directory, copied
+        from the schemasPath hierarchy
+        """
+        # Create the target directory hierarchy, if neccessary
+        ga4ghPath = os.path.join(destPath, 'ga4gh')
+        if not os.path.exists(ga4ghPath):
+            os.mkdir(ga4ghPath)
+        ga4ghSchemasPath = os.path.join(ga4ghPath, 'schemas')
+        if not os.path.exists(ga4ghSchemasPath):
+            os.mkdir(ga4ghSchemasPath)
+        ga4ghSchemasGa4ghPath = os.path.join(ga4ghSchemasPath, 'ga4gh')
+        if not os.path.exists(ga4ghSchemasGa4ghPath):
+            os.mkdir(ga4ghSchemasGa4ghPath)
+        ga4ghSchemasGooglePath = os.path.join(ga4ghSchemasPath, 'google')
+        if not os.path.exists(ga4ghSchemasGooglePath):
+            os.mkdir(ga4ghSchemasGooglePath)
+        ga4ghSchemasGoogleApiPath = os.path.join(
+            ga4ghSchemasGooglePath, 'api')
+        if not os.path.exists(ga4ghSchemasGoogleApiPath):
+            os.mkdir(ga4ghSchemasGoogleApiPath)
+
+        # rewrite the proto files to the destination
+        for root, dirs, files in os.walk(schemasPath):
+            for protoFilePath in fnmatch.filter(files, '*.proto'):
+                src = os.path.join(root, protoFilePath)
+                dst = os.path.join(
+                    ga4ghSchemasPath,
+                    os.path.relpath(root, schemasPath), protoFilePath)
+                self._copySchemaFile(src, dst)
+
+    def _doLineReplacements(self, line):
+        """
+        Given a line of a proto file, replace the line with one that is
+        appropriate for the hierarchy that we want to compile
+        """
+        # ga4gh packages
+        packageString = 'package ga4gh;'
+        if packageString in line:
+            return line.replace(
+                packageString,
+                'package ga4gh.schemas.ga4gh;')
+        importString = 'import "ga4gh/'
+        if importString in line:
+            return line.replace(
+                importString,
+                'import "ga4gh/schemas/ga4gh/')
+        # google packages
+        googlePackageString = 'package google.api;'
+        if googlePackageString in line:
+            return line.replace(
+                googlePackageString,
+                'package ga4gh.schemas.google.api;')
+        googleImportString = 'import "google/api/'
+        if googleImportString in line:
+            return line.replace(
+                googleImportString,
+                'import "ga4gh/schemas/google/api/')
+        optionString = 'option (google.api.http)'
+        if optionString in line:
+            return line.replace(
+                optionString,
+                'option (.ga4gh.schemas.google.api.http)')
+        return line
+
+    def _copySchemaFile(self, src, dst):
+        """
+        Copy a proto file to the temporary directory, with appropriate
+        line replacements
+        """
+        with open(src) as srcFile, open(dst, 'w') as dstFile:
+            srcLines = srcFile.readlines()
+            for srcLine in srcLines:
+                toWrite = self._doLineReplacements(srcLine)
+                dstFile.write(toWrite)
 
     def _find_in_path(self, cmd):
         PATH = os.environ.get("PATH", os.defpath).split(os.pathsep)
@@ -187,8 +204,7 @@ class ProtobufGenerator(object):
                 for f in fnmatch.filter(files, "*.proto")])
         if len(protos) == 0:
             raise Exception(
-                "Didn't find any proto files in ".format(source_path))
-        print("Proto files source: '{}'".format(source_path))
+                "Didn't find any proto files in '{}'".format(source_path))
         print("pb2 files destination: '{}'".format(destination_path))
         cmdString = (
             "{protoc} -I {source_path} -I ./src/main "
@@ -214,19 +230,24 @@ class ProtobufGenerator(object):
             os.path.join(script_path, args.destpath))
         schemas_path = os.path.realpath(args.schemapath)
         protoc = self._getProtoc(destination_path)
-        self._writePythonFiles(schemas_path, protoc, destination_path)
+        print("Writing protocol version '{}'".format(args.version))
+        print("Proto files source: '{}'".format(schemas_path))
+        print("Rewritten proto files source: '{}'".format(destination_path))
+        self._createSchemaFiles(destination_path, schemas_path)
+        self._writePythonFiles(destination_path, protoc, destination_path)
         self._writeVersionFile()
 
 
 def main(args=None):
     defaultDestPath = "../python/"
+    defaultSchemasPath = '../src/main/proto/'
     parser = argparse.ArgumentParser(
         description="Script to process GA4GH Protocol buffer schemas")
     parser.add_argument(
         "version", help="Version number of the schema we're compiling")
     parser.add_argument(
-        "schemapath",
-        help="Path to schemas.")
+        "-s", "--schemapath", default=defaultSchemasPath,
+        help="Path to schemas (defaults to {})".format(defaultSchemasPath))
     parser.add_argument(
         "-d", "--destpath", default=defaultDestPath,
         help=(

@@ -27,7 +27,6 @@ class TestCompile(unittest.TestCase):
             os.path.basename(os.path.dirname(path)),
             os.path.basename(path))
 
-    @unittest.skip
     def testCompile(self):
         """
         Compiles the schemas to a temporary directory and then checks
@@ -40,10 +39,10 @@ class TestCompile(unittest.TestCase):
         # compile the schemas to a temporary directory
         scriptPath = 'scripts/process_schemas.py'
         schemaVersion = '.'.join(version.version.split('.')[0:3])
-        schemaPath = 'src/main/proto/'
+        schemasDir = 'src/main/proto/'
         schemaDest = tempfile.mkdtemp()
-        cmd = "python {} {} {} -d {}".format(
-            scriptPath, schemaVersion, schemaPath, schemaDest)
+        cmd = "python {} {} -s {} -d {}".format(
+            scriptPath, schemaVersion, schemasDir, schemaDest)
         utils.runCommand(cmd, silent=True)
 
         # get the file paths of the checked in pb2 files
