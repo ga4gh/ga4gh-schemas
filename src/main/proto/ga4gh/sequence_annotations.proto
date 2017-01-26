@@ -103,11 +103,11 @@ message FeatureSet {
 // This message defines a format for exchanging continuous valued signal data,
 // such as those produced experimentally (e.g. ChIP-Seq data) or through 
 // calculations (e.g. conservation scores). It can be used, for example,
-// to share data stored in Wiggle, BigWig, and BedGraph formats.
+// to share data from Wiggle, BigWig, and BedGraph sources.
 message Continuous {
   // The start position at which this signal occurs (0-based). This
   // corresponds to the first base of the string of reference bases. Genomic
-  // positions are non-negative integers less than reference length.
+  // positions are non-negative integers less than the reference length.
   int64 start = 1;
 
   // The contiguous data values. Unsampled bases are given as NaN.
@@ -120,7 +120,10 @@ message Continuous {
   string reference_name = 4;
 }
 
-// A set of sequence continous messages.
+// A set of sequence continous messages. Continuous values can be sent
+// as a single Continuous message containing all values or a series
+// of Continuous messages to either limit the save of the values array
+// or to skip NaN values.
 message ContinuousSet {
   // The ID of this annotation set.
   string id = 1;
