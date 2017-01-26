@@ -1,12 +1,11 @@
 # Don't import __future__ packages here; they make setup fail
 
-# First, we try to use setuptools. If it's not available locally,
-# we fall back on ez_setup.
-
 import scripts.process_schemas as process_schemas
 
 PROTOCOL_VERSION = "0.6.0a9"
 
+# First, we try to use setuptools. If it's not available locally,
+# we fall back on ez_setup.
 try:
     from setuptools import setup
 except ImportError:
@@ -43,9 +42,7 @@ except EnvironmentError:
           'creating dependency links.')
 
 try:
-    schemasPath = 'src/main/proto/'
-    process_schemas.createSchemaFiles('python', schemasPath)
-    process_schemas.main([PROTOCOL_VERSION, 'python'])
+    process_schemas.main([PROTOCOL_VERSION])
 except Exception:
     print("Couldn't find a good protoc, using precompiled protobuf.")
 
