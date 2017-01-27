@@ -8,18 +8,22 @@ import "ga4gh/common.proto";
 // This protocol defines annotations on GA4GH genomic sequences It includes two
 // types of annotations: continuous and discrete hierarchical.
 //
-// The discrete hierarchical annotations are derived from the Sequence Ontology
-// (SO) and GFF3 work
+// The discrete hierarchical annotations (called Features) are derived from 
+// the Sequence Ontology (SO) and GFF3 work
 //
 //    http://www.sequenceontology.org/gff3.shtml
 //
 // The goal is to be able to store annotations using the GFF3 and SO conceptual
-// model, although there is not necessarly a one-to-one mapping in Protobuf messages
-// to GFF3 records.
+// model, although there is not necessarly a one-to-one mapping in Protobuf 
+// messages to GFF3 records.
 //
 // The minimum requirement is to be able to accurately represent the current
 // state of the art annotation data and the full SO model.  Feature is the
 // core generic record which corresponds to the a GFF3 record.
+//
+// The continuous data (called Continuous) represents numerical data
+// associated with each base position, such as is stored in BigWig, Wiggle
+// or BedGraph Formats
 
 // Node in the annotation graph that annotates a contiguous region of a
 // sequence.
@@ -120,9 +124,9 @@ message Continuous {
   string reference_name = 4;
 }
 
-// A set of sequence continous messages. Continuous values can be sent
+// A set of Continous messages. Continuous values can be sent
 // as a single Continuous message containing all values or a series
-// of Continuous messages to either limit the save of the values array
+// of Continuous messages to either limit the size of the values array
 // or to skip NaN values.
 message ContinuousSet {
   // The ID of this annotation set.
