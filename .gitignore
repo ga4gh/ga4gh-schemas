@@ -11,6 +11,8 @@ build
 _version.py
 # Ignore proto included in the generated python package
 python/**/*.proto
+# sphinx error log
+err.log
 
 #********** windows template**********
 
