@@ -13,16 +13,14 @@ from google.protobuf import descriptor_pb2
 _sym_db = _symbol_database.Default()
 
 
-from ga4gh.schemas.ga4gh import common_pb2 as ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/references.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n$ga4gh/schemas/ga4gh/references.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\"\x91\x02\n\tReference\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06length\x18\x02 \x01(\x03\x12\x13\n\x0bmd5checksum\x18\x03 \x01(\t\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x12\n\nsource_uri\x18\x05 \x01(\t\x12\x19\n\x11source_accessions\x18\x06 \x03(\t\x12\x12\n\nis_derived\x18\x07 \x01(\x08\x12\x19\n\x11source_divergence\x18\x08 \x01(\x02\x12\x32\n\x07species\x18\n \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x33\n\nattributes\x18\x0b \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\"\x93\x02\n\x0cReferenceSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0bmd5checksum\x18\x03 \x01(\t\x12\x32\n\x07species\x18\n \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x13\n\x0b\x64\x65scription\x18\x05 \x01(\t\x12\x13\n\x0b\x61ssembly_id\x18\x06 \x01(\t\x12\x12\n\nsource_uri\x18\x07 \x01(\t\x12\x19\n\x11source_accessions\x18\x08 \x03(\t\x12\x12\n\nis_derived\x18\t \x01(\x08\x12\x33\n\nattributes\x18\x0b \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributesb\x06proto3')
-  ,
-  dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,])
+  serialized_pb=_b('\n$ga4gh/schemas/ga4gh/references.proto\x12\x13ga4gh.schemas.ga4gh\"\xbf\x01\n\tReference\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0e\n\x06length\x18\x02 \x01(\x03\x12\x13\n\x0bmd5checksum\x18\x03 \x01(\t\x12\x0c\n\x04name\x18\x04 \x01(\t\x12\x12\n\nsource_uri\x18\x05 \x01(\t\x12\x19\n\x11source_accessions\x18\x06 \x03(\t\x12\x12\n\nis_derived\x18\x07 \x01(\x08\x12\x19\n\x11source_divergence\x18\x08 \x01(\x02\x12\x15\n\rncbi_taxon_id\x18\t \x01(\x05\"\xc1\x01\n\x0cReferenceSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0bmd5checksum\x18\x03 \x01(\t\x12\x15\n\rncbi_taxon_id\x18\x04 \x01(\x05\x12\x13\n\x0b\x64\x65scription\x18\x05 \x01(\t\x12\x13\n\x0b\x61ssembly_id\x18\x06 \x01(\t\x12\x12\n\nsource_uri\x18\x07 \x01(\t\x12\x19\n\x11source_accessions\x18\x08 \x03(\t\x12\x12\n\nis_derived\x18\t \x01(\x08\x62\x06proto3')
+)
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -92,16 +90,9 @@ _REFERENCE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='species', full_name='ga4gh.schemas.ga4gh.Reference.species', index=8,
-      number=10, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='attributes', full_name='ga4gh.schemas.ga4gh.Reference.attributes', index=9,
-      number=11, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='ncbi_taxon_id', full_name='ga4gh.schemas.ga4gh.Reference.ncbi_taxon_id', index=8,
+      number=9, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -117,8 +108,8 @@ _REFERENCE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=96,
-  serialized_end=369,
+  serialized_start=62,
+  serialized_end=253,
 )
 
 
@@ -151,9 +142,9 @@ _REFERENCESET = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='species', full_name='ga4gh.schemas.ga4gh.ReferenceSet.species', index=3,
-      number=10, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      name='ncbi_taxon_id', full_name='ga4gh.schemas.ga4gh.ReferenceSet.ncbi_taxon_id', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -192,13 +183,6 @@ _REFERENCESET = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    _descriptor.FieldDescriptor(
-      name='attributes', full_name='ga4gh.schemas.ga4gh.ReferenceSet.attributes', index=9,
-      number=11, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -211,14 +195,10 @@ _REFERENCESET = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=372,
-  serialized_end=647,
+  serialized_start=256,
+  serialized_end=449,
 )
 
-_REFERENCE.fields_by_name['species'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ONTOLOGYTERM
-_REFERENCE.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
-_REFERENCESET.fields_by_name['species'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ONTOLOGYTERM
-_REFERENCESET.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
 DESCRIPTOR.message_types_by_name['Reference'] = _REFERENCE
 DESCRIPTOR.message_types_by_name['ReferenceSet'] = _REFERENCESET
 
