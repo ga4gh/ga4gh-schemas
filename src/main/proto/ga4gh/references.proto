@@ -49,6 +49,9 @@ message Reference {
 
   // ID from http://www.ncbi.nlm.nih.gov/taxonomy (e.g. 9606->human).
   int32 ncbi_taxon_id = 9;
+
+  // Additional metadata (optional).
+  Metadata metadata = 10;
 }
 
 // A `ReferenceSet` is a set of `Reference` s which typically comprise a
@@ -97,11 +100,6 @@ message ReferenceSet {
   // (see the definition of `isDerived` in `Reference`).
   bool is_derived = 9;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was created.
-  string created = 10;
-
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was updated.
-  string updated = 11;
+  // Additional metadata (optional).
+  Metadata metadata = 12;
 }

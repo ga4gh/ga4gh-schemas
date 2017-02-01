@@ -69,6 +69,9 @@ message VariantAnnotationSet {
   //  Analysis details. It is essential to supply versions for all software and
   // reference data used.
   Analysis analysis = 4;
+
+  // Additional metadata (optional).
+  Metadata metadata = 5;
 }
 
 // A HGVSAnnotation record holds Human Genome Variation Society descriptions of
@@ -119,6 +122,9 @@ message TranscriptEffect {
   
   // Additional data in key-value pairs.
   map<string, google.protobuf.ListValue> info = 10;
+
+  // Additional metadata (optional).
+  Metadata metadata = 11;
 }
 
 // A `VariantAnnotation` record represents the result of comparing a variant to
@@ -133,18 +139,13 @@ message VariantAnnotation {
   // The ID of the variant annotation set this record belongs to.
   string variant_annotation_set_id = 3;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was created.
-  string created = 4;
-  
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was updated.
-  string updated = 7;
-
   // The transcript effect annotation for the alleles of this variant. Each
   // one represents the effect of a single allele on a single transcript.
   repeated TranscriptEffect transcript_effects = 5;
 
   // Additional annotation data in key-value pairs.
   map<string, google.protobuf.ListValue> info = 6;
+
+  // Additional metadata (optional).
+  Metadata metadata = 8;
 }

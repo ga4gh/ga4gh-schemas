@@ -53,14 +53,6 @@ message ReadGroup {
   // The predicted insert size of this read group.
   int32 predicted_insert_size = 8;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was created.
-  string created = 15;
-
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was updated.
-  string updated = 16;
-
   // Statistical data on reads in this read group.
   ReadStats stats = 11;
 
@@ -73,6 +65,9 @@ message ReadGroup {
 
   // A map of additional read group information.
   map<string, google.protobuf.ListValue> info = 14;
+
+  // Additional metadata (optional).
+  Metadata metadata = 17;
 }
 
 // A ReadGroupSet is a logical collection of ReadGroups. Typically one
@@ -96,13 +91,8 @@ message ReadGroupSet {
   // NB: we require that all readgroups in the set are mapped to the same
   // referenceSet.
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was created.
-  string created = 6;
-
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was updated.
-  string updated = 7;
+  // Additional metadata (optional).
+  Metadata metadata = 8;
 }
 
 // A linear alignment describes the alignment of a read to a Reference, using a
@@ -217,6 +207,9 @@ message ReadAlignment {
 
   // A map of additional read alignment information.
   map<string, google.protobuf.ListValue> info = 16;
+
+  // Additional metadata (optional).
+  Metadata metadata = 17;
 }
 
 // A single CIGAR operation.

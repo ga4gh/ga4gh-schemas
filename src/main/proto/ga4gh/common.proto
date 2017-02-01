@@ -54,3 +54,13 @@ message ExternalIdentifier {
   // The version of the object or the database, e.g. `78`.
   string version = 3;
 }
+
+message Metadata {
+  // The :ref:`ISO 8601<metadata_date_time>` time at which the data was
+  // created.
+  string created = 1;
+
+  // The :ref:`ISO 8601<metadata_date_time>` time at which the data was
+  // updated.
+  string updated = 2;
+}

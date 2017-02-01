@@ -37,13 +37,8 @@ message RnaQuantificationSet {
   // The RNA quantification set name.
   string name = 3;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was created.
-  string created = 4;
-
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was updated.
-  string updated = 5;
+    // Additional metadata (optional).
+  Metadata metadata = 6;
 }
 
 // Top level identifying information
@@ -73,13 +68,8 @@ message RnaQuantification {
   // ID of the containing RnaQuantificationSet.
   string rna_quantification_set_id = 7;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was created.
-  string created = 9;
-
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this record
-  // was updated.
-  string updated = 10;
+  // Additional metadata (optional).
+  Metadata metadata = 11;
 }
 
 // The actual numerical quantification for each feature.
@@ -116,4 +106,7 @@ message ExpressionLevel {
   
   // Upper bound of the confidence interval on the expression value.
   float conf_interval_high = 11;
+
+  // Additional metadata (optional).
+  Metadata metadata = 12;
 }

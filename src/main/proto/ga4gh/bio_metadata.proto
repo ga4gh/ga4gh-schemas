@@ -4,6 +4,7 @@ package ga4gh;
 
 import "google/protobuf/struct.proto";
 import "ga4gh/metadata.proto";
+import "ga4gh/common.proto";
 
 
 // An individual (or subject) typically corresponds to an individual
