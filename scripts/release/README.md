@@ -3,20 +3,21 @@ Notes for release managers
 
 This document describes how to make a GA4GH schemas release.
 
-Setup your environment
-1. Copy (or incorporate) the settings.xml file to ```~/.m2/settings.xml```
-2. Create a GPG key, and add it to KEYS. Review [the Maven guidelines on working
+Prerequisites:
+1. Create a GPG key. Review [the Maven guidelines on working
 with keys](http://central.sonatype.org/pages/working-with-pgp-signatures.html),
-as there are gotcha's related to working with primary vs. sub keys, and
-distributing your keys.
-3. Edit the username, password, etc in ```~/.m2/settings.xml```
+Setup your environment (add it to keys).
+2. Obtain a sonatype login (request from the project manager).
 
-Once your environment is setup, you'll be able to do a release.
+Setup:
+1. Add the GPG key to the KEYS file.
+1. Copy (or incorporate) the settings.xml file to ```~/.m2/settings.xml``` and
+   add your GPG key and sonatype login.
 
-Then from the project root directory, run `./scripts/release/release.sh`.
-If you have any problems, run `./scripts/release/rollback.sh`.
+Release:
+1. Update the version in pom.xml.
+2. mvn deploy
+3. From oss.sontaype.org#stagingRepositories, login and check the release just
+   uploaded. If good, use the close button above the repository list to make it
+   public. If there is a problem, the drop button will delete the release.
 
-Once you've successfully published the release, you will need to "close" and "release" it following the instructions at
-http://central.sonatype.org/pages/releasing-the-deployment.html#close-and-drop-or-release-your-staging-repository
-
-After the release is rsynced to the Maven Central repository, confirm checksums match and verify signatures.
