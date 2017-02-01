@@ -14,15 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
+from ga4gh.schemas.ga4gh import common_pb2 as ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/assay_metadata.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n(ga4gh/schemas/ga4gh/assay_metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a\x1cgoogle/protobuf/struct.proto\"\xd3\x03\n\nExperiment\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x1b\n\x13message_create_time\x18\x04 \x01(\t\x12\x1b\n\x13message_update_time\x18\x05 \x01(\t\x12\x10\n\x08run_time\x18\x06 \x01(\t\x12\x10\n\x08molecule\x18\x07 \x01(\t\x12\x10\n\x08strategy\x18\x08 \x01(\t\x12\x11\n\tselection\x18\t \x01(\t\x12\x0f\n\x07library\x18\n \x01(\t\x12\x16\n\x0elibrary_layout\x18\x0b \x01(\t\x12\x18\n\x10instrument_model\x18\x0c \x01(\t\x12\x1c\n\x14instrument_data_file\x18\r \x01(\t\x12\x19\n\x11sequencing_center\x18\x0e \x01(\t\x12\x15\n\rplatform_unit\x18\x0f \x01(\t\x12\x37\n\x04info\x18\x10 \x03(\x0b\x32).ga4gh.schemas.ga4gh.Experiment.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xfb\x01\n\x08\x41nalysis\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0f\n\x07\x63reated\x18\x04 \x01(\t\x12\x0f\n\x07updated\x18\x05 \x01(\t\x12\x0c\n\x04type\x18\x06 \x01(\t\x12\x10\n\x08software\x18\x07 \x03(\t\x12\x35\n\x04info\x18\x08 \x03(\x0b\x32\'.ga4gh.schemas.ga4gh.Analysis.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\x62\x06proto3')
+  serialized_pb=_b('\n(ga4gh/schemas/ga4gh/assay_metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a\x1cgoogle/protobuf/struct.proto\x1a ga4gh/schemas/ga4gh/common.proto\"\xca\x03\n\nExperiment\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x10\n\x08run_time\x18\x06 \x01(\t\x12\x10\n\x08molecule\x18\x07 \x01(\t\x12\x10\n\x08strategy\x18\x08 \x01(\t\x12\x11\n\tselection\x18\t \x01(\t\x12\x0f\n\x07library\x18\n \x01(\t\x12\x16\n\x0elibrary_layout\x18\x0b \x01(\t\x12\x18\n\x10instrument_model\x18\x0c \x01(\t\x12\x1c\n\x14instrument_data_file\x18\r \x01(\t\x12\x19\n\x11sequencing_center\x18\x0e \x01(\t\x12\x15\n\rplatform_unit\x18\x0f \x01(\t\x12\x37\n\x04info\x18\x10 \x03(\x0b\x32).ga4gh.schemas.ga4gh.Experiment.InfoEntry\x12/\n\x08metadata\x18\x11 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\x8a\x02\n\x08\x41nalysis\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x0c\n\x04type\x18\x06 \x01(\t\x12\x10\n\x08software\x18\x07 \x03(\t\x12\x35\n\x04info\x18\x08 \x03(\x0b\x32\'.ga4gh.schemas.ga4gh.Analysis.InfoEntry\x12/\n\x08metadata\x18\t \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\x62\x06proto3')
   ,
-  dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
+  dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -61,8 +62,8 @@ _EXPERIMENT_INFOENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=492,
-  serialized_end=563,
+  serialized_start=517,
+  serialized_end=588,
 )
 
 _EXPERIMENT = _descriptor.Descriptor(
@@ -94,93 +95,86 @@ _EXPERIMENT = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='message_create_time', full_name='ga4gh.schemas.ga4gh.Experiment.message_create_time', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='message_update_time', full_name='ga4gh.schemas.ga4gh.Experiment.message_update_time', index=4,
-      number=5, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='run_time', full_name='ga4gh.schemas.ga4gh.Experiment.run_time', index=5,
+      name='run_time', full_name='ga4gh.schemas.ga4gh.Experiment.run_time', index=3,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='molecule', full_name='ga4gh.schemas.ga4gh.Experiment.molecule', index=6,
+      name='molecule', full_name='ga4gh.schemas.ga4gh.Experiment.molecule', index=4,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='strategy', full_name='ga4gh.schemas.ga4gh.Experiment.strategy', index=7,
+      name='strategy', full_name='ga4gh.schemas.ga4gh.Experiment.strategy', index=5,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='selection', full_name='ga4gh.schemas.ga4gh.Experiment.selection', index=8,
+      name='selection', full_name='ga4gh.schemas.ga4gh.Experiment.selection', index=6,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='library', full_name='ga4gh.schemas.ga4gh.Experiment.library', index=9,
+      name='library', full_name='ga4gh.schemas.ga4gh.Experiment.library', index=7,
       number=10, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='library_layout', full_name='ga4gh.schemas.ga4gh.Experiment.library_layout', index=10,
+      name='library_layout', full_name='ga4gh.schemas.ga4gh.Experiment.library_layout', index=8,
       number=11, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='instrument_model', full_name='ga4gh.schemas.ga4gh.Experiment.instrument_model', index=11,
+      name='instrument_model', full_name='ga4gh.schemas.ga4gh.Experiment.instrument_model', index=9,
       number=12, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='instrument_data_file', full_name='ga4gh.schemas.ga4gh.Experiment.instrument_data_file', index=12,
+      name='instrument_data_file', full_name='ga4gh.schemas.ga4gh.Experiment.instrument_data_file', index=10,
       number=13, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='sequencing_center', full_name='ga4gh.schemas.ga4gh.Experiment.sequencing_center', index=13,
+      name='sequencing_center', full_name='ga4gh.schemas.ga4gh.Experiment.sequencing_center', index=11,
       number=14, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='platform_unit', full_name='ga4gh.schemas.ga4gh.Experiment.platform_unit', index=14,
+      name='platform_unit', full_name='ga4gh.schemas.ga4gh.Experiment.platform_unit', index=12,
       number=15, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.Experiment.info', index=15,
+      name='info', full_name='ga4gh.schemas.ga4gh.Experiment.info', index=13,
       number=16, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.Experiment.metadata', index=14,
+      number=17, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -196,8 +190,8 @@ _EXPERIMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=96,
-  serialized_end=563,
+  serialized_start=130,
+  serialized_end=588,
 )
 
 
@@ -234,8 +228,8 @@ _ANALYSIS_INFOENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=492,
-  serialized_end=563,
+  serialized_start=517,
+  serialized_end=588,
 )
 
 _ANALYSIS = _descriptor.Descriptor(
@@ -267,37 +261,30 @@ _ANALYSIS = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='created', full_name='ga4gh.schemas.ga4gh.Analysis.created', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='updated', full_name='ga4gh.schemas.ga4gh.Analysis.updated', index=4,
-      number=5, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='type', full_name='ga4gh.schemas.ga4gh.Analysis.type', index=5,
+      name='type', full_name='ga4gh.schemas.ga4gh.Analysis.type', index=3,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='software', full_name='ga4gh.schemas.ga4gh.Analysis.software', index=6,
+      name='software', full_name='ga4gh.schemas.ga4gh.Analysis.software', index=4,
       number=7, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.Analysis.info', index=7,
+      name='info', full_name='ga4gh.schemas.ga4gh.Analysis.info', index=5,
       number=8, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.Analysis.metadata', index=6,
+      number=9, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -313,16 +300,18 @@ _ANALYSIS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=566,
-  serialized_end=817,
+  serialized_start=591,
+  serialized_end=857,
 )
 
 _EXPERIMENT_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
 _EXPERIMENT_INFOENTRY.containing_type = _EXPERIMENT
 _EXPERIMENT.fields_by_name['info'].message_type = _EXPERIMENT_INFOENTRY
+_EXPERIMENT.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 _ANALYSIS_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
 _ANALYSIS_INFOENTRY.containing_type = _ANALYSIS
 _ANALYSIS.fields_by_name['info'].message_type = _ANALYSIS_INFOENTRY
+_ANALYSIS.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 DESCRIPTOR.message_types_by_name['Experiment'] = _EXPERIMENT
 DESCRIPTOR.message_types_by_name['Analysis'] = _ANALYSIS
 

@@ -6,6 +6,7 @@ syntax = "proto3";
 
 package ga4gh;
 
+import "ga4gh/common.proto";
 import "google/protobuf/struct.proto";
 
 // This metadata represents VCF header information.
@@ -139,7 +140,7 @@ message Call {
   map<string, google.protobuf.ListValue> info = 6;
 
   // Additional metadata (optional).
-  Metadata metadata = 15;
+  Metadata metadata = 8;
 }
 
 // A `Variant` represents a change in DNA sequence relative to some reference.

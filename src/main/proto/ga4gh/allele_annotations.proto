@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/metadata.proto";
+import "ga4gh/common.proto";
 import "ga4gh/assay_metadata.proto";
 import "google/protobuf/struct.proto";
 
@@ -147,5 +148,5 @@ message VariantAnnotation {
   map<string, google.protobuf.ListValue> info = 6;
 
   // Additional metadata (optional).
-  Metadata metadata = 8;
+  Metadata metadata = 7;
 }

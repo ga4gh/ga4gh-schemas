@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package ga4gh;
 
+import "ga4gh/common.proto";
+
 // A `Reference` is a canonical assembled contig, intended to act as a
 // reference coordinate space for other genomic annotations. A single
 // `Reference` might represent the human chromosome 1, for instance.
@@ -101,5 +103,5 @@ message ReferenceSet {
   bool is_derived = 9;
 
   // Additional metadata (optional).
-  Metadata metadata = 12;
+  Metadata metadata = 10;
 }

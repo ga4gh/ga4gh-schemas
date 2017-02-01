@@ -15,15 +15,16 @@ _sym_db = _symbol_database.Default()
 
 from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
 from ga4gh.schemas.ga4gh import metadata_pb2 as ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2
+from ga4gh.schemas.ga4gh import common_pb2 as ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/bio_metadata.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n&ga4gh/schemas/ga4gh/bio_metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a\x1cgoogle/protobuf/struct.proto\x1a\"ga4gh/schemas/ga4gh/metadata.proto\"\xd7\x02\n\nIndividual\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07\x63reated\x18\x05 \x01(\t\x12\x0f\n\x07updated\x18\x06 \x01(\t\x12\x32\n\x07species\x18\x07 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12.\n\x03sex\x18\x08 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x37\n\x04info\x18\t \x03(\x0b\x32).ga4gh.schemas.ga4gh.Individual.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xbc\x02\n\tBiosample\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x32\n\x07\x64isease\x18\x05 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x0f\n\x07\x63reated\x18\x06 \x01(\t\x12\x0f\n\x07updated\x18\x07 \x01(\t\x12\x15\n\rindividual_id\x18\x08 \x01(\t\x12\x36\n\x04info\x18\t \x03(\x0b\x32(.ga4gh.schemas.ga4gh.Biosample.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\x62\x06proto3')
+  serialized_pb=_b('\n&ga4gh/schemas/ga4gh/bio_metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a\x1cgoogle/protobuf/struct.proto\x1a\"ga4gh/schemas/ga4gh/metadata.proto\x1a ga4gh/schemas/ga4gh/common.proto\"\xe6\x02\n\nIndividual\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x32\n\x07species\x18\x07 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12.\n\x03sex\x18\x08 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x37\n\x04info\x18\t \x03(\x0b\x32).ga4gh.schemas.ga4gh.Individual.InfoEntry\x12/\n\x08metadata\x18\n \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xcb\x02\n\tBiosample\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x32\n\x07\x64isease\x18\x05 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x15\n\rindividual_id\x18\x08 \x01(\t\x12\x36\n\x04info\x18\t \x03(\x0b\x32(.ga4gh.schemas.ga4gh.Biosample.InfoEntry\x12/\n\x08metadata\x18\n \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\x62\x06proto3')
   ,
-  dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2.DESCRIPTOR,])
+  dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -62,8 +63,8 @@ _INDIVIDUAL_INFOENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=402,
-  serialized_end=473,
+  serialized_start=451,
+  serialized_end=522,
 )
 
 _INDIVIDUAL = _descriptor.Descriptor(
@@ -102,37 +103,30 @@ _INDIVIDUAL = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='created', full_name='ga4gh.schemas.ga4gh.Individual.created', index=4,
-      number=5, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='updated', full_name='ga4gh.schemas.ga4gh.Individual.updated', index=5,
-      number=6, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='species', full_name='ga4gh.schemas.ga4gh.Individual.species', index=6,
+      name='species', full_name='ga4gh.schemas.ga4gh.Individual.species', index=4,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='sex', full_name='ga4gh.schemas.ga4gh.Individual.sex', index=7,
+      name='sex', full_name='ga4gh.schemas.ga4gh.Individual.sex', index=5,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.Individual.info', index=8,
+      name='info', full_name='ga4gh.schemas.ga4gh.Individual.info', index=6,
       number=9, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.Individual.metadata', index=7,
+      number=10, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -148,8 +142,8 @@ _INDIVIDUAL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=130,
-  serialized_end=473,
+  serialized_start=164,
+  serialized_end=522,
 )
 
 
@@ -186,8 +180,8 @@ _BIOSAMPLE_INFOENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=402,
-  serialized_end=473,
+  serialized_start=451,
+  serialized_end=522,
 )
 
 _BIOSAMPLE = _descriptor.Descriptor(
@@ -233,30 +227,23 @@ _BIOSAMPLE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='created', full_name='ga4gh.schemas.ga4gh.Biosample.created', index=5,
-      number=6, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='updated', full_name='ga4gh.schemas.ga4gh.Biosample.updated', index=6,
-      number=7, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='individual_id', full_name='ga4gh.schemas.ga4gh.Biosample.individual_id', index=7,
+      name='individual_id', full_name='ga4gh.schemas.ga4gh.Biosample.individual_id', index=5,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.Biosample.info', index=8,
+      name='info', full_name='ga4gh.schemas.ga4gh.Biosample.info', index=6,
       number=9, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.Biosample.metadata', index=7,
+      number=10, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -272,8 +259,8 @@ _BIOSAMPLE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=476,
-  serialized_end=792,
+  serialized_start=525,
+  serialized_end=856,
 )
 
 _INDIVIDUAL_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
@@ -281,10 +268,12 @@ _INDIVIDUAL_INFOENTRY.containing_type = _INDIVIDUAL
 _INDIVIDUAL.fields_by_name['species'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2._ONTOLOGYTERM
 _INDIVIDUAL.fields_by_name['sex'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2._ONTOLOGYTERM
 _INDIVIDUAL.fields_by_name['info'].message_type = _INDIVIDUAL_INFOENTRY
+_INDIVIDUAL.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 _BIOSAMPLE_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
 _BIOSAMPLE_INFOENTRY.containing_type = _BIOSAMPLE
 _BIOSAMPLE.fields_by_name['disease'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2._ONTOLOGYTERM
 _BIOSAMPLE.fields_by_name['info'].message_type = _BIOSAMPLE_INFOENTRY
+_BIOSAMPLE.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 DESCRIPTOR.message_types_by_name['Individual'] = _INDIVIDUAL
 DESCRIPTOR.message_types_by_name['Biosample'] = _BIOSAMPLE
 

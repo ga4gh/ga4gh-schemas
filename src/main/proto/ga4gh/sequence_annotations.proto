@@ -99,7 +99,7 @@ message Feature {
   Attributes attributes = 12;
 
   // Additional metadata (optional).
-  Metadata metadata = 15;
+  Metadata metadata = 13;
 }
 
 // A set of sequence features annotations.
@@ -125,5 +125,5 @@ message FeatureSet {
   map<string, google.protobuf.ListValue> info = 6;
 
   // Additional metadata (optional).
-  Metadata metadata = 9;
+  Metadata metadata = 7;
 }

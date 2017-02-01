@@ -23,7 +23,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/reads.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n\x1fga4gh/schemas/ga4gh/reads.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\x1a(ga4gh/schemas/ga4gh/assay_metadata.proto\x1a\"ga4gh/schemas/ga4gh/metadata.proto\x1a\x1cgoogle/protobuf/struct.proto\"Y\n\tReadStats\x12\x1a\n\x12\x61ligned_read_count\x18\x01 \x01(\x03\x12\x1c\n\x14unaligned_read_count\x18\x02 \x01(\x03\x12\x12\n\nbase_count\x18\x03 \x01(\x03\"\xe9\x03\n\tReadGroup\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x13\n\x0bsample_name\x18\x05 \x01(\t\x12\x14\n\x0c\x62iosample_id\x18\x06 \x01(\t\x12\x33\n\nexperiment\x18\x07 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Experiment\x12\x1d\n\x15predicted_insert_size\x18\x08 \x01(\x05\x12\x0f\n\x07\x63reated\x18\t \x01(\x03\x12\x0f\n\x07updated\x18\n \x01(\x03\x12-\n\x05stats\x18\x0b \x01(\x0b\x32\x1e.ga4gh.schemas.ga4gh.ReadStats\x12.\n\x08programs\x18\x0c \x03(\x0b\x32\x1c.ga4gh.schemas.ga4gh.Program\x12\x18\n\x10reference_set_id\x18\r \x01(\t\x12\x36\n\x04info\x18\x0e \x03(\x0b\x32(.ga4gh.schemas.ga4gh.ReadGroup.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xa0\x01\n\x0cReadGroupSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12-\n\x05stats\x18\x04 \x01(\x0b\x32\x1e.ga4gh.schemas.ga4gh.ReadStats\x12\x33\n\x0bread_groups\x18\x05 \x03(\x0b\x32\x1e.ga4gh.schemas.ga4gh.ReadGroup\"\x8a\x01\n\x0fLinearAlignment\x12/\n\x08position\x18\x01 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Position\x12\x17\n\x0fmapping_quality\x18\x02 \x01(\x05\x12-\n\x05\x63igar\x18\x03 \x03(\x0b\x32\x1e.ga4gh.schemas.ga4gh.CigarUnit\"\xd5\x04\n\rReadAlignment\x12\n\n\x02id\x18\x01 \x01(\t\x12\x15\n\rread_group_id\x18\x02 \x01(\t\x12\x15\n\rfragment_name\x18\x03 \x01(\t\x12\x1a\n\x12improper_placement\x18\x04 \x01(\x08\x12\x1a\n\x12\x64uplicate_fragment\x18\x05 \x01(\x08\x12\x14\n\x0cnumber_reads\x18\x06 \x01(\x05\x12\x17\n\x0f\x66ragment_length\x18\x07 \x01(\x05\x12\x13\n\x0bread_number\x18\x08 \x01(\x05\x12$\n\x1c\x66\x61iled_vendor_quality_checks\x18\t \x01(\x08\x12\x37\n\talignment\x18\n \x01(\x0b\x32$.ga4gh.schemas.ga4gh.LinearAlignment\x12\x1b\n\x13secondary_alignment\x18\x0b \x01(\x08\x12\x1f\n\x17supplementary_alignment\x18\x0c \x01(\x08\x12\x18\n\x10\x61ligned_sequence\x18\r \x01(\t\x12\x17\n\x0f\x61ligned_quality\x18\x0e \x03(\x05\x12\x39\n\x12next_mate_position\x18\x0f \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Position\x12:\n\x04info\x18\x10 \x03(\x0b\x32,.ga4gh.schemas.ga4gh.ReadAlignment.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xb0\x02\n\tCigarUnit\x12;\n\toperation\x18\x01 \x01(\x0e\x32(.ga4gh.schemas.ga4gh.CigarUnit.Operation\x12\x18\n\x10operation_length\x18\x02 \x01(\x03\x12\x1a\n\x12reference_sequence\x18\x03 \x01(\t\"\xaf\x01\n\tOperation\x12\x19\n\x15OPERATION_UNSPECIFIED\x10\x00\x12\x13\n\x0f\x41LIGNMENT_MATCH\x10\x01\x12\n\n\x06INSERT\x10\x02\x12\n\n\x06\x44\x45LETE\x10\x03\x12\x08\n\x04SKIP\x10\x04\x12\r\n\tCLIP_SOFT\x10\x05\x12\r\n\tCLIP_HARD\x10\x06\x12\x07\n\x03PAD\x10\x07\x12\x12\n\x0eSEQUENCE_MATCH\x10\x08\x12\x15\n\x11SEQUENCE_MISMATCH\x10\tb\x06proto3')
+  serialized_pb=_b('\n\x1fga4gh/schemas/ga4gh/reads.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\x1a(ga4gh/schemas/ga4gh/assay_metadata.proto\x1a\"ga4gh/schemas/ga4gh/metadata.proto\x1a\x1cgoogle/protobuf/struct.proto\"Y\n\tReadStats\x12\x1a\n\x12\x61ligned_read_count\x18\x01 \x01(\x03\x12\x1c\n\x14unaligned_read_count\x18\x02 \x01(\x03\x12\x12\n\nbase_count\x18\x03 \x01(\x03\"\xf8\x03\n\tReadGroup\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x13\n\x0bsample_name\x18\x05 \x01(\t\x12\x14\n\x0c\x62iosample_id\x18\x06 \x01(\t\x12\x33\n\nexperiment\x18\x07 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Experiment\x12\x1d\n\x15predicted_insert_size\x18\x08 \x01(\x05\x12-\n\x05stats\x18\x0b \x01(\x0b\x32\x1e.ga4gh.schemas.ga4gh.ReadStats\x12.\n\x08programs\x18\x0c \x03(\x0b\x32\x1c.ga4gh.schemas.ga4gh.Program\x12\x18\n\x10reference_set_id\x18\r \x01(\t\x12\x36\n\x04info\x18\x0e \x03(\x0b\x32(.ga4gh.schemas.ga4gh.ReadGroup.InfoEntry\x12/\n\x08metadata\x18\x0f \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xd1\x01\n\x0cReadGroupSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12-\n\x05stats\x18\x04 \x01(\x0b\x32\x1e.ga4gh.schemas.ga4gh.ReadStats\x12\x33\n\x0bread_groups\x18\x05 \x03(\x0b\x32\x1e.ga4gh.schemas.ga4gh.ReadGroup\x12/\n\x08metadata\x18\x06 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\"\x8a\x01\n\x0fLinearAlignment\x12/\n\x08position\x18\x01 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Position\x12\x17\n\x0fmapping_quality\x18\x02 \x01(\x05\x12-\n\x05\x63igar\x18\x03 \x03(\x0b\x32\x1e.ga4gh.schemas.ga4gh.CigarUnit\"\x86\x05\n\rReadAlignment\x12\n\n\x02id\x18\x01 \x01(\t\x12\x15\n\rread_group_id\x18\x02 \x01(\t\x12\x15\n\rfragment_name\x18\x03 \x01(\t\x12\x1a\n\x12improper_placement\x18\x04 \x01(\x08\x12\x1a\n\x12\x64uplicate_fragment\x18\x05 \x01(\x08\x12\x14\n\x0cnumber_reads\x18\x06 \x01(\x05\x12\x17\n\x0f\x66ragment_length\x18\x07 \x01(\x05\x12\x13\n\x0bread_number\x18\x08 \x01(\x05\x12$\n\x1c\x66\x61iled_vendor_quality_checks\x18\t \x01(\x08\x12\x37\n\talignment\x18\n \x01(\x0b\x32$.ga4gh.schemas.ga4gh.LinearAlignment\x12\x1b\n\x13secondary_alignment\x18\x0b \x01(\x08\x12\x1f\n\x17supplementary_alignment\x18\x0c \x01(\x08\x12\x18\n\x10\x61ligned_sequence\x18\r \x01(\t\x12\x17\n\x0f\x61ligned_quality\x18\x0e \x03(\x05\x12\x39\n\x12next_mate_position\x18\x0f \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Position\x12:\n\x04info\x18\x10 \x03(\x0b\x32,.ga4gh.schemas.ga4gh.ReadAlignment.InfoEntry\x12/\n\x08metadata\x18\x11 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xb0\x02\n\tCigarUnit\x12;\n\toperation\x18\x01 \x01(\x0e\x32(.ga4gh.schemas.ga4gh.CigarUnit.Operation\x12\x18\n\x10operation_length\x18\x02 \x01(\x03\x12\x1a\n\x12reference_sequence\x18\x03 \x01(\t\"\xaf\x01\n\tOperation\x12\x19\n\x15OPERATION_UNSPECIFIED\x10\x00\x12\x13\n\x0f\x41LIGNMENT_MATCH\x10\x01\x12\n\n\x06INSERT\x10\x02\x12\n\n\x06\x44\x45LETE\x10\x03\x12\x08\n\x04SKIP\x10\x04\x12\r\n\tCLIP_SOFT\x10\x05\x12\r\n\tCLIP_HARD\x10\x06\x12\x07\n\x03PAD\x10\x07\x12\x12\n\x0eSEQUENCE_MATCH\x10\x08\x12\x15\n\x11SEQUENCE_MISMATCH\x10\tb\x06proto3')
   ,
   dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_ga4gh_dot_assay__metadata__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2.DESCRIPTOR,google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -79,8 +79,8 @@ _CIGARUNIT_OPERATION = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=1815,
-  serialized_end=1990,
+  serialized_start=1928,
+  serialized_end=2103,
 )
 _sym_db.RegisterEnumDescriptor(_CIGARUNIT_OPERATION)
 
@@ -163,8 +163,8 @@ _READGROUP_INFOENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=708,
-  serialized_end=779,
+  serialized_start=723,
+  serialized_end=794,
 )
 
 _READGROUP = _descriptor.Descriptor(
@@ -231,44 +231,37 @@ _READGROUP = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='created', full_name='ga4gh.schemas.ga4gh.ReadGroup.created', index=8,
-      number=9, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='updated', full_name='ga4gh.schemas.ga4gh.ReadGroup.updated', index=9,
-      number=10, type=3, cpp_type=2, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='stats', full_name='ga4gh.schemas.ga4gh.ReadGroup.stats', index=10,
+      name='stats', full_name='ga4gh.schemas.ga4gh.ReadGroup.stats', index=8,
       number=11, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='programs', full_name='ga4gh.schemas.ga4gh.ReadGroup.programs', index=11,
+      name='programs', full_name='ga4gh.schemas.ga4gh.ReadGroup.programs', index=9,
       number=12, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='reference_set_id', full_name='ga4gh.schemas.ga4gh.ReadGroup.reference_set_id', index=12,
+      name='reference_set_id', full_name='ga4gh.schemas.ga4gh.ReadGroup.reference_set_id', index=10,
       number=13, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.ReadGroup.info', index=13,
+      name='info', full_name='ga4gh.schemas.ga4gh.ReadGroup.info', index=11,
       number=14, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.ReadGroup.metadata', index=12,
+      number=15, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -285,7 +278,7 @@ _READGROUP = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=290,
-  serialized_end=779,
+  serialized_end=794,
 )
 
 
@@ -331,6 +324,13 @@ _READGROUPSET = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.ReadGroupSet.metadata', index=5,
+      number=6, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -343,8 +343,8 @@ _READGROUPSET = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=782,
-  serialized_end=942,
+  serialized_start=797,
+  serialized_end=1006,
 )
 
 
@@ -388,8 +388,8 @@ _LINEARALIGNMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=945,
-  serialized_end=1083,
+  serialized_start=1009,
+  serialized_end=1147,
 )
 
 
@@ -426,8 +426,8 @@ _READALIGNMENT_INFOENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=708,
-  serialized_end=779,
+  serialized_start=723,
+  serialized_end=794,
 )
 
 _READALIGNMENT = _descriptor.Descriptor(
@@ -549,6 +549,13 @@ _READALIGNMENT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.ReadAlignment.metadata', index=16,
+      number=17, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -561,8 +568,8 @@ _READALIGNMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1086,
-  serialized_end=1683,
+  serialized_start=1150,
+  serialized_end=1796,
 )
 
 
@@ -607,8 +614,8 @@ _CIGARUNIT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1686,
-  serialized_end=1990,
+  serialized_start=1799,
+  serialized_end=2103,
 )
 
 _READGROUP_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
@@ -617,8 +624,10 @@ _READGROUP.fields_by_name['experiment'].message_type = ga4gh_dot_schemas_dot_ga4
 _READGROUP.fields_by_name['stats'].message_type = _READSTATS
 _READGROUP.fields_by_name['programs'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2._PROGRAM
 _READGROUP.fields_by_name['info'].message_type = _READGROUP_INFOENTRY
+_READGROUP.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 _READGROUPSET.fields_by_name['stats'].message_type = _READSTATS
 _READGROUPSET.fields_by_name['read_groups'].message_type = _READGROUP
+_READGROUPSET.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 _LINEARALIGNMENT.fields_by_name['position'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._POSITION
 _LINEARALIGNMENT.fields_by_name['cigar'].message_type = _CIGARUNIT
 _READALIGNMENT_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
@@ -626,6 +635,7 @@ _READALIGNMENT_INFOENTRY.containing_type = _READALIGNMENT
 _READALIGNMENT.fields_by_name['alignment'].message_type = _LINEARALIGNMENT
 _READALIGNMENT.fields_by_name['next_mate_position'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._POSITION
 _READALIGNMENT.fields_by_name['info'].message_type = _READALIGNMENT_INFOENTRY
+_READALIGNMENT.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 _CIGARUNIT.fields_by_name['operation'].enum_type = _CIGARUNIT_OPERATION
 _CIGARUNIT_OPERATION.containing_type = _CIGARUNIT
 DESCRIPTOR.message_types_by_name['ReadStats'] = _READSTATS

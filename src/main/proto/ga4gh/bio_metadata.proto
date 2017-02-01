@@ -25,14 +25,6 @@ message Individual {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
-  // was created.
-  string created = 5;
-
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
-  // was updated.
-  string updated = 6;
-
   // For a representation of an NCBI Taxon ID as an OntologyTerm, see
   // NCBITaxon Ontology
   //   http://www.obofoundry.org/ontology/ncbitaxon.html
@@ -48,6 +40,9 @@ message Individual {
 
   // A map of additional information.
   map<string, google.protobuf.ListValue> info = 9;
+
+  // Additional metadata (optional).
+  Metadata metadata = 10;
 
 }
 
@@ -80,18 +75,12 @@ message Biosample {
   // OntologyTerm describing the primary disease associated with this Biosample.
   OntologyTerm disease = 5;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
-  // was created.
-  string created = 6;
-
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
-  // was updated.
-  string updated = 7;
-
   // The individual this biosample was derived from.
   string individual_id = 8;
 
   // A map of additional information.
   map<string, google.protobuf.ListValue> info = 9;
 
+  // Additional metadata (optional).
+  Metadata metadata = 10;
 }

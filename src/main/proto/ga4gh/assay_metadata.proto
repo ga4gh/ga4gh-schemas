@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "google/protobuf/struct.proto";
+import "ga4gh/common.proto";
 
 
 // An experimental preparation of a sample.
@@ -15,14 +16,6 @@ message Experiment {
 
   // A description of the experiment.
   string description = 3;
-
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
-  // was created.
-  string created = 17;
-
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
-  // was updated.
-  string updated = 18;
 
   // The time at which this experiment was performed.
   // Granularity here is variable (e.g. date only).
@@ -65,6 +58,9 @@ message Experiment {
 
   // A map of additional experiment information.
   map<string, google.protobuf.ListValue> info = 16;
+
+  // Additional metadata (optional).
+  Metadata metadata = 17;
 }
 
 // An analysis contains an interpretation of one or several experiments. (e.g.
@@ -79,12 +75,6 @@ message Analysis {
 
   string description = 3;
 
-  // The time at which this record was created, in ISO 8601 format.
-  string created = 4;
-
-  // The time at which this record was last updated, in ISO 8601 format.
-  string updated = 5;
-
   // The type of analysis.
   string type = 6;
 
@@ -93,5 +83,8 @@ message Analysis {
 
   // A map of additional analysis information.
   map<string, google.protobuf.ListValue> info = 8;
+
+  // Additional metadata (optional).
+  Metadata metadata = 9;
 }
 

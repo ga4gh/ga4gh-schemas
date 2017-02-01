@@ -67,7 +67,7 @@ message ReadGroup {
   map<string, google.protobuf.ListValue> info = 14;
 
   // Additional metadata (optional).
-  Metadata metadata = 17;
+  Metadata metadata = 15;
 }
 
 // A ReadGroupSet is a logical collection of ReadGroups. Typically one
@@ -92,7 +92,7 @@ message ReadGroupSet {
   // referenceSet.
 
   // Additional metadata (optional).
-  Metadata metadata = 8;
+  Metadata metadata = 6;
 }
 
 // A linear alignment describes the alignment of a read to a Reference, using a

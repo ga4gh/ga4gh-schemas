@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
+import "ga4gh/common.proto";
 import "google/protobuf/struct.proto";
 
 // An ontology term describing an attribute. (e.g. the phenotype attribute
@@ -45,7 +46,7 @@ message Dataset {
   map<string, google.protobuf.ListValue> info = 4;
 
     // Additional metadata (optional).
-  Metadata metadata = 7;
+  Metadata metadata = 5;
 }
 
 // A Program describes software used in data processing or analysis.

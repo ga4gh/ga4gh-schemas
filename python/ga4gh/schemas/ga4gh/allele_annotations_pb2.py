@@ -14,6 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 from ga4gh.schemas.ga4gh import metadata_pb2 as ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2
+from ga4gh.schemas.ga4gh import common_pb2 as ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2
 from ga4gh.schemas.ga4gh import assay_metadata_pb2 as ga4gh_dot_schemas_dot_ga4gh_dot_assay__metadata__pb2
 from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
 
@@ -22,9 +23,9 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/allele_annotations.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n,ga4gh/schemas/ga4gh/allele_annotations.proto\x12\x13ga4gh.schemas.ga4gh\x1a\"ga4gh/schemas/ga4gh/metadata.proto\x1a(ga4gh/schemas/ga4gh/assay_metadata.proto\x1a\x1cgoogle/protobuf/struct.proto\"D\n\x0e\x41nalysisResult\x12\x13\n\x0b\x61nalysis_id\x18\x01 \x01(\t\x12\x0e\n\x06result\x18\x02 \x01(\t\x12\r\n\x05score\x18\x03 \x01(\x05\"d\n\x0e\x41lleleLocation\x12\r\n\x05start\x18\x01 \x01(\x05\x12\x0b\n\x03\x65nd\x18\x02 \x01(\x05\x12\x1a\n\x12reference_sequence\x18\x03 \x01(\t\x12\x1a\n\x12\x61lternate_sequence\x18\x04 \x01(\t\"y\n\x14VariantAnnotationSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x16\n\x0evariant_set_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12/\n\x08\x61nalysis\x18\x04 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Analysis\"F\n\x0eHGVSAnnotation\x12\x0f\n\x07genomic\x18\x01 \x01(\t\x12\x12\n\ntranscript\x18\x02 \x01(\t\x12\x0f\n\x07protein\x18\x03 \x01(\t\"\xba\x04\n\x10TranscriptEffect\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\nfeature_id\x18\x02 \x01(\t\x12\x17\n\x0f\x61lternate_bases\x18\x03 \x01(\t\x12\x32\n\x07\x65\x66\x66\x65\x63ts\x18\x04 \x03(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12<\n\x0fhgvs_annotation\x18\x05 \x01(\x0b\x32#.ga4gh.schemas.ga4gh.HGVSAnnotation\x12:\n\rcdna_location\x18\x06 \x01(\x0b\x32#.ga4gh.schemas.ga4gh.AlleleLocation\x12\x39\n\x0c\x63\x64s_location\x18\x07 \x01(\x0b\x32#.ga4gh.schemas.ga4gh.AlleleLocation\x12=\n\x10protein_location\x18\x08 \x01(\x0b\x32#.ga4gh.schemas.ga4gh.AlleleLocation\x12=\n\x10\x61nalysis_results\x18\t \x03(\x0b\x32#.ga4gh.schemas.ga4gh.AnalysisResult\x12=\n\x04info\x18\n \x03(\x0b\x32/.ga4gh.schemas.ga4gh.TranscriptEffect.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xb3\x02\n\x11VariantAnnotation\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\nvariant_id\x18\x02 \x01(\t\x12!\n\x19variant_annotation_set_id\x18\x03 \x01(\t\x12\x0f\n\x07\x63reated\x18\x04 \x01(\t\x12\x41\n\x12transcript_effects\x18\x05 \x03(\x0b\x32%.ga4gh.schemas.ga4gh.TranscriptEffect\x12>\n\x04info\x18\x06 \x03(\x0b\x32\x30.ga4gh.schemas.ga4gh.VariantAnnotation.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\x62\x06proto3')
+  serialized_pb=_b('\n,ga4gh/schemas/ga4gh/allele_annotations.proto\x12\x13ga4gh.schemas.ga4gh\x1a\"ga4gh/schemas/ga4gh/metadata.proto\x1a ga4gh/schemas/ga4gh/common.proto\x1a(ga4gh/schemas/ga4gh/assay_metadata.proto\x1a\x1cgoogle/protobuf/struct.proto\"D\n\x0e\x41nalysisResult\x12\x13\n\x0b\x61nalysis_id\x18\x01 \x01(\t\x12\x0e\n\x06result\x18\x02 \x01(\t\x12\r\n\x05score\x18\x03 \x01(\x05\"d\n\x0e\x41lleleLocation\x12\r\n\x05start\x18\x01 \x01(\x05\x12\x0b\n\x03\x65nd\x18\x02 \x01(\x05\x12\x1a\n\x12reference_sequence\x18\x03 \x01(\t\x12\x1a\n\x12\x61lternate_sequence\x18\x04 \x01(\t\"\xaa\x01\n\x14VariantAnnotationSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x16\n\x0evariant_set_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12/\n\x08\x61nalysis\x18\x04 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Analysis\x12/\n\x08metadata\x18\x05 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\"F\n\x0eHGVSAnnotation\x12\x0f\n\x07genomic\x18\x01 \x01(\t\x12\x12\n\ntranscript\x18\x02 \x01(\t\x12\x0f\n\x07protein\x18\x03 \x01(\t\"\xeb\x04\n\x10TranscriptEffect\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\nfeature_id\x18\x02 \x01(\t\x12\x17\n\x0f\x61lternate_bases\x18\x03 \x01(\t\x12\x32\n\x07\x65\x66\x66\x65\x63ts\x18\x04 \x03(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12<\n\x0fhgvs_annotation\x18\x05 \x01(\x0b\x32#.ga4gh.schemas.ga4gh.HGVSAnnotation\x12:\n\rcdna_location\x18\x06 \x01(\x0b\x32#.ga4gh.schemas.ga4gh.AlleleLocation\x12\x39\n\x0c\x63\x64s_location\x18\x07 \x01(\x0b\x32#.ga4gh.schemas.ga4gh.AlleleLocation\x12=\n\x10protein_location\x18\x08 \x01(\x0b\x32#.ga4gh.schemas.ga4gh.AlleleLocation\x12=\n\x10\x61nalysis_results\x18\t \x03(\x0b\x32#.ga4gh.schemas.ga4gh.AnalysisResult\x12=\n\x04info\x18\n \x03(\x0b\x32/.ga4gh.schemas.ga4gh.TranscriptEffect.InfoEntry\x12/\n\x08metadata\x18\x0b \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xd3\x02\n\x11VariantAnnotation\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\nvariant_id\x18\x02 \x01(\t\x12!\n\x19variant_annotation_set_id\x18\x03 \x01(\t\x12\x41\n\x12transcript_effects\x18\x05 \x03(\x0b\x32%.ga4gh.schemas.ga4gh.TranscriptEffect\x12>\n\x04info\x18\x06 \x03(\x0b\x32\x30.ga4gh.schemas.ga4gh.VariantAnnotation.InfoEntry\x12/\n\x08metadata\x18\x07 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\x62\x06proto3')
   ,
-  dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_ga4gh_dot_assay__metadata__pb2.DESCRIPTOR,google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
+  dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_ga4gh_dot_assay__metadata__pb2.DESCRIPTOR,google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
@@ -70,8 +71,8 @@ _ANALYSISRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=177,
-  serialized_end=245,
+  serialized_start=211,
+  serialized_end=279,
 )
 
 
@@ -122,8 +123,8 @@ _ALLELELOCATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=247,
-  serialized_end=347,
+  serialized_start=281,
+  serialized_end=381,
 )
 
 
@@ -162,6 +163,13 @@ _VARIANTANNOTATIONSET = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.VariantAnnotationSet.metadata', index=4,
+      number=5, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -174,8 +182,8 @@ _VARIANTANNOTATIONSET = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=349,
-  serialized_end=470,
+  serialized_start=384,
+  serialized_end=554,
 )
 
 
@@ -219,8 +227,8 @@ _HGVSANNOTATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=472,
-  serialized_end=542,
+  serialized_start=556,
+  serialized_end=626,
 )
 
 
@@ -257,8 +265,8 @@ _TRANSCRIPTEFFECT_INFOENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1044,
-  serialized_end=1115,
+  serialized_start=1177,
+  serialized_end=1248,
 )
 
 _TRANSCRIPTEFFECT = _descriptor.Descriptor(
@@ -338,6 +346,13 @@ _TRANSCRIPTEFFECT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.TranscriptEffect.metadata', index=10,
+      number=11, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -350,8 +365,8 @@ _TRANSCRIPTEFFECT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=545,
-  serialized_end=1115,
+  serialized_start=629,
+  serialized_end=1248,
 )
 
 
@@ -388,8 +403,8 @@ _VARIANTANNOTATION_INFOENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1044,
-  serialized_end=1115,
+  serialized_start=1177,
+  serialized_end=1248,
 )
 
 _VARIANTANNOTATION = _descriptor.Descriptor(
@@ -421,23 +436,23 @@ _VARIANTANNOTATION = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='created', full_name='ga4gh.schemas.ga4gh.VariantAnnotation.created', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='transcript_effects', full_name='ga4gh.schemas.ga4gh.VariantAnnotation.transcript_effects', index=4,
+      name='transcript_effects', full_name='ga4gh.schemas.ga4gh.VariantAnnotation.transcript_effects', index=3,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.VariantAnnotation.info', index=5,
+      name='info', full_name='ga4gh.schemas.ga4gh.VariantAnnotation.info', index=4,
       number=6, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='metadata', full_name='ga4gh.schemas.ga4gh.VariantAnnotation.metadata', index=5,
+      number=7, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -453,11 +468,12 @@ _VARIANTANNOTATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1118,
-  serialized_end=1425,
+  serialized_start=1251,
+  serialized_end=1590,
 )
 
 _VARIANTANNOTATIONSET.fields_by_name['analysis'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_assay__metadata__pb2._ANALYSIS
+_VARIANTANNOTATIONSET.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 _TRANSCRIPTEFFECT_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
 _TRANSCRIPTEFFECT_INFOENTRY.containing_type = _TRANSCRIPTEFFECT
 _TRANSCRIPTEFFECT.fields_by_name['effects'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_metadata__pb2._ONTOLOGYTERM
@@ -467,10 +483,12 @@ _TRANSCRIPTEFFECT.fields_by_name['cds_location'].message_type = _ALLELELOCATION
 _TRANSCRIPTEFFECT.fields_by_name['protein_location'].message_type = _ALLELELOCATION
 _TRANSCRIPTEFFECT.fields_by_name['analysis_results'].message_type = _ANALYSISRESULT
 _TRANSCRIPTEFFECT.fields_by_name['info'].message_type = _TRANSCRIPTEFFECT_INFOENTRY
+_TRANSCRIPTEFFECT.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 _VARIANTANNOTATION_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
 _VARIANTANNOTATION_INFOENTRY.containing_type = _VARIANTANNOTATION
 _VARIANTANNOTATION.fields_by_name['transcript_effects'].message_type = _TRANSCRIPTEFFECT
 _VARIANTANNOTATION.fields_by_name['info'].message_type = _VARIANTANNOTATION_INFOENTRY
+_VARIANTANNOTATION.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 DESCRIPTOR.message_types_by_name['AnalysisResult'] = _ANALYSISRESULT
 DESCRIPTOR.message_types_by_name['AlleleLocation'] = _ALLELELOCATION
 DESCRIPTOR.message_types_by_name['VariantAnnotationSet'] = _VARIANTANNOTATIONSET

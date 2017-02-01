@@ -3,6 +3,7 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/metadata.proto";
+import "ga4gh/common.proto";
 
 // Units for expression level.
 // FPKM - number of Fragments Per Kilobase of feature length per Million reads
@@ -38,7 +39,7 @@ message RnaQuantificationSet {
   string name = 3;
 
     // Additional metadata (optional).
-  Metadata metadata = 6;
+  Metadata metadata = 4;
 }
 
 // Top level identifying information
@@ -69,7 +70,7 @@ message RnaQuantification {
   string rna_quantification_set_id = 7;
 
   // Additional metadata (optional).
-  Metadata metadata = 11;
+  Metadata metadata = 9;
 }
 
 // The actual numerical quantification for each feature.
