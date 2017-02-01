@@ -64,8 +64,6 @@ message Variant {
   string id = 1;
   string variant_set_id = 2;
   repeated string names = 3;
-  string created = 13;
-  string updated = 14;
   string reference_name = 6;
   int64 start = 7;
   int64 end = 8;
@@ -73,6 +71,7 @@ message Variant {
   repeated string alternate_bases = 10;
   map<string, google.protobuf.ListValue> info = 11;
   repeated Call calls = 12;
+  Metadata metadata = 15;
 }
 
 
