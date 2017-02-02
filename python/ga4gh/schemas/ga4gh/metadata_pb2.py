@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/metadata.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n\"ga4gh/schemas/ga4gh/metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a\x1cgoogle/protobuf/struct.proto\"U\n\x0cOntologyTerm\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04term\x18\x02 \x01(\t\x12\x13\n\x0bsource_name\x18\x03 \x01(\t\x12\x16\n\x0esource_version\x18\x04 \x01(\t\"\xb7\x01\n\x07\x44\x61taset\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x34\n\x04info\x18\x04 \x03(\x0b\x32&.ga4gh.schemas.ga4gh.Dataset.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"c\n\x07Program\x12\x14\n\x0c\x63ommand_line\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x17\n\x0fprev_program_id\x18\x04 \x01(\t\x12\x0f\n\x07version\x18\x05 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\"ga4gh/schemas/ga4gh/metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a\x1cgoogle/protobuf/struct.proto\"-\n\x0cOntologyTerm\x12\x0f\n\x07term_id\x18\x01 \x01(\t\x12\x0c\n\x04term\x18\x02 \x01(\t\"\xb7\x01\n\x07\x44\x61taset\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x34\n\x04info\x18\x04 \x03(\x0b\x32&.ga4gh.schemas.ga4gh.Dataset.InfoEntry\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"c\n\x07Program\x12\x14\n\x0c\x63ommand_line\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x17\n\x0fprev_program_id\x18\x04 \x01(\t\x12\x0f\n\x07version\x18\x05 \x01(\tb\x06proto3')
   ,
   dependencies=[google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -36,7 +36,7 @@ _ONTOLOGYTERM = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='ga4gh.schemas.ga4gh.OntologyTerm.id', index=0,
+      name='term_id', full_name='ga4gh.schemas.ga4gh.OntologyTerm.term_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -45,20 +45,6 @@ _ONTOLOGYTERM = _descriptor.Descriptor(
     _descriptor.FieldDescriptor(
       name='term', full_name='ga4gh.schemas.ga4gh.OntologyTerm.term', index=1,
       number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='source_name', full_name='ga4gh.schemas.ga4gh.OntologyTerm.source_name', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='source_version', full_name='ga4gh.schemas.ga4gh.OntologyTerm.source_version', index=3,
-      number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -76,7 +62,7 @@ _ONTOLOGYTERM = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=89,
-  serialized_end=174,
+  serialized_end=134,
 )
 
 
@@ -113,8 +99,8 @@ _DATASET_INFOENTRY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=289,
-  serialized_end=360,
+  serialized_start=249,
+  serialized_end=320,
 )
 
 _DATASET = _descriptor.Descriptor(
@@ -164,8 +150,8 @@ _DATASET = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=177,
-  serialized_end=360,
+  serialized_start=137,
+  serialized_end=320,
 )
 
 
@@ -223,8 +209,8 @@ _PROGRAM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=362,
-  serialized_end=461,
+  serialized_start=322,
+  serialized_end=421,
 )
 
 _DATASET_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
