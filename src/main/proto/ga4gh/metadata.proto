@@ -33,6 +33,12 @@ message Dataset {
 
   // A map of additional dataset information.
   map<string, google.protobuf.ListValue> info = 4;
+
+  // The time the dataset was created (ISO 8601 format).
+  string createDateTime = 5;
+
+  // The time the dataset was updated in (ISO 8601 format).
+  string updateDateTime = 6;
 }
 
 // A Program describes software used in data processing or analysis.
