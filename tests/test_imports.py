@@ -140,15 +140,15 @@ class TestSchemas(unittest.TestCase):
         """
         dataset = metadata_pb2.Dataset()
         ontologyTerm = common_pb2.OntologyTerm()
-        ontologyTerm.id = "test"
+        ontologyTerm.term_id = "test"
         ontologyKey = "my_ontology_term"
 
         dataset.attributes.attr[ontologyKey] \
             .values.add().ontology_term.MergeFrom(ontologyTerm)
-
+        term = dataset.attributes.attr[ontologyKey]
         self.assertEqual(
-            dataset.attributes.attr[ontologyKey].values[0].ontology_term.id,
-            ontologyTerm.id)
+            term.values[0].ontology_term.term_id,
+            ontologyTerm.term_id)
 
         experiment = common_pb2.Experiment()
         experiment.id = "test"
