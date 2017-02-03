@@ -41,7 +41,7 @@ Attribute             Notes
 *individualId*        * the *id* of the *Individual* this Biosample was derived from
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601
-*info*                * additional, structured information
+*attributes*          * additional, structured information
 ===================== ==========================================================
 
 .. _biometadata_Individual:
@@ -73,5 +73,5 @@ Attribute             Notes
 *sex*                 * OntologyTerm for the genetic sex of this individual.
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601
-*info*                * additional, structured information
+*attributes*          * additional, structured information
 ===================== ==========================================================
