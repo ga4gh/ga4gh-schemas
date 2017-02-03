@@ -2,21 +2,7 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "google/protobuf/struct.proto";
-
-// An ontology term describing an attribute. (e.g. the phenotype attribute
-// 'polydactyly' from HPO)
-message OntologyTerm {
-  // Ontology term identifier - the CURIE for an ontology term. It
-  // differs from the standard GA4GH schema's :ref:`id <apidesign_object_ids>`
-  // in that it is a CURIE pointing to an information resource outside of the
-  // scope of the schema or its resource implementation.
-  string term_id = 1;
-
-  // Ontology term - the label of the ontology term the termId is pointing to.
-  string term = 2;
-
-}
+import "ga4gh/common.proto";
 
 // A Dataset is a collection of related data of multiple types.
 // Data providers decide how to group data into datasets.
@@ -32,23 +18,6 @@ message Dataset {
   string description = 3;
 
   // A map of additional dataset information.
-  map<string, google.protobuf.ListValue> info = 4;
+  Attributes attributes = 5;
 }
 
-// A Program describes software used in data processing or analysis.
-message Program {
-  // The command line used to run this program.
-  string command_line = 1;
-
-  // The user specified ID of the program.
-  string id = 2;
-
-  // The name of the program.
-  string name = 3;
-
-  // The ID of the program run before this one.
-  string prev_program_id = 4;
-
-  // The version of the program run.
-  string version = 5;
-}
