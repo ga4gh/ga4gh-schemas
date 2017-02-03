@@ -10,6 +10,10 @@
 # enable more robust bash
 SHELL:=/bin/bash -beEu -o pipefail
 BUILD_DIR:=target/doc
+ERR_LOG:=2> err.log
+ifdef verbose
+ERR_LOG:=
+endif
 
 ############################################################################
 default: help
@@ -28,7 +32,7 @@ help:
 # counter the cd doc/source to place the docs at the schemas root
 .PHONY: docs
 docs:
-	cd doc/source && sphinx-build -b html -d ../../${BUILD_DIR}/doctrees . ../../${BUILD_DIR}/html
+	cd doc/source && sphinx-build -b html -d ../../${BUILD_DIR}/doctrees . ../../${BUILD_DIR}/html ${ERR_LOG}
 
 .PHONY: package
 package:

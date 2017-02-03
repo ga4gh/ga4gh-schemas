@@ -18,5 +18,5 @@ before_install:
     - pip install -r python/dev-requirements.txt -c python/constraints.txt
 script:
     - make docs
-    - flake8 scripts tests
+    - flake8 setup.py python scripts tests
     - python -mnose tests
