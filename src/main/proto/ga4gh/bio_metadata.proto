@@ -48,13 +48,8 @@ message Individual {
   // Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
   OntologyTerm sex = 9;
 
-<<<<<<< HEAD
-  // A map of additional information.
-  map<string, google.protobuf.ListValue> info = 10;
-=======
   // A map of additional information regarding the Individual.
   Attributes attributes = 10;
->>>>>>> master
 
 }
 
@@ -84,14 +79,9 @@ message Biosample {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
-<<<<<<< HEAD
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases and phenotypes associated with this BioSample.
   Characteristics characteristics = 5;
-=======
-  // OntologyTerm describing the primary disease associated with this Biosample.
-  OntologyTerm disease = 5;
->>>>>>> master
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
   // was created.
