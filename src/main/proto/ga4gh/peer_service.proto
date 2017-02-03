@@ -1,0 +1,142 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "ga4gh/common.proto";
+import "google/api/annotations.proto";
+
+/*
+This interface provides a peer listing functionality for servers.
+Clients can create listings of GA4GH services by requesting peer
+lists from known network participants.
+
+Network membership is voluntary, in that each peer is free to
+manage its peer list.
+*/
+
+service PeerService {
+  // Gets a list of `Peer` messages that are being managed by the
+  // service. If the peer list becomes very long it is spread
+  // across multiple pages.
+  //
+  // `POST /peers/list` must accept a JSON version of
+  // `ListPeersRequest` as the post body and will return a JSON
+  // version of `ListPeersResponse`.
+  rpc ListPeers(ListPeersRequest)
+    returns (ListPeersResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a10/peers/list"
+        body: "*"
+      };
+    };
+
+  // Allows a client to notify a service of a potential peer.
+  // Services are expected to log these requests and implement
+  // policies for adding peers to their peer lists as desired.
+  //
+  // The AnnouncePeerResponse only notifies the requester whether
+  // the request was valid. To find if their announce request
+  // has been accepted they must make a `ListPeersRequest`.
+  // `POST /peers/announce` must accept a JSON version of
+  // `AnnouncePeerRequest` as the post body and will return a JSON
+  // version of `AnnouncePeerResponse`.
+  rpc AnnouncePeer(AnnouncePeerRequest)
+    returns (AnnouncePeerResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a10/announce"
+      };
+    };
+
+  // Provides peers with a way to identify the protocol version
+  // of a peer. Other information describing the service can
+  // be included in the `info` field of the `GetInfoResponse`.
+  //
+  // `GET /info` will return a JSON version of `GetInfoResponse`.
+  // and does not require any parameters.
+  rpc Info(GetInfoRequest)
+    returns (GetInfoResponse) {
+      option (google.api.http) = {
+        get: "/v0.6.0a10/info"
+      };
+    };
+
+}
+
+// This request maps to the body of `POST /peers/list`.
+message ListPeersRequest {
+  // Specifies the maximum number of results to return in a single page. If
+  // unspecified, a system default will be used.
+  int32 page_size = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 2;
+}
+
+// This is the response from `POST /peers/list` expressed as
+// JSON.
+message ListPeersResponse {
+  // The list of `Peer` messages presented by the server. They
+  // are not expected in any particular order.
+  repeated Peer peers = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This is the request sent to `POST /peers/announce`.
+message AnnouncePeerRequest {
+  // This message contains information that can be used to connect
+  // to a possible peer.
+  Peer peer = 1;
+}
+
+// This is the response from `POST /peers/announce`.
+message AnnouncePeerResponse {
+  // This message notifies the client whether the AnnouncePeerRequest
+  // was well formed.
+  bool success = 1;
+
+  // Other information regarding an AnnouncePeerRequest can be sent in
+  // the attributes field.
+  Attributes attributes = 2;
+}
+
+message GetInfoRequest {
+
+}
+
+// This is the response from `GET /info`.
+message GetInfoResponse {
+  // The string of the protocol version offered by the service. For
+  // example, "0.6.0a10".
+  string protocol_version = 1;
+
+  // A map of additional information about the service can be included.
+  Attributes attributes = 2;
+}
+
+// Peers allow clients to represent services to each other so
+// ad-hoc networks can be easily constructed.
+message Peer {
+  // This is the base URL where the service can be accessed from. It is
+  // expected to be fully formed and to include the port number if the
+  // port in use is not standard (http 80, https 443).
+  //
+  // For example, the peer at 1kgenomes would appear as:
+  //   http://1kgenomes.ga4gh.org
+  //
+  // Trailing slashes should be ignored when constructing client
+  // requests based on this peer, and so shouldn't be included.
+  //
+  // This example shows a peer that has specified both a base path
+  // and a port.
+  //   http://myapp.mycloudservice.com:8080/data/ga4gh
+  string uri = 1;
+
+  // A map of additional information about the service can be included.
+  Attributes attributes = 2;
+}
