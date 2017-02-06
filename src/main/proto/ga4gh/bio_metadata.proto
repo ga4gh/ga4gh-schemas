@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "google/protobuf/struct.proto";
-import "ga4gh/metadata.proto";
 import "ga4gh/common.proto";
 
 
@@ -38,11 +36,11 @@ message Individual {
   // Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
   OntologyTerm sex = 8;
 
-  // A map of additional information.
-  map<string, google.protobuf.ListValue> info = 9;
+  // A map of additional information regarding the Individual.
+  Attributes attributes = 10;
 
   // Additional metadata (optional).
-  Metadata metadata = 10;
+  Metadata metadata = 11;
 
 }
 
@@ -78,9 +76,9 @@ message Biosample {
   // The individual this biosample was derived from.
   string individual_id = 8;
 
-  // A map of additional information.
-  map<string, google.protobuf.ListValue> info = 9;
+  // A map of additional information about the Biosample.
+  Attributes attributes = 10;
 
   // Additional metadata (optional).
-  Metadata metadata = 10;
+  Metadata metadata = 11;
 }

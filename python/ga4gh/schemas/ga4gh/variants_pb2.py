@@ -21,50 +21,13 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/variants.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n\"ga4gh/schemas/ga4gh/variants.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xaa\x02\n\x12VariantSetMetadata\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\n\n\x02id\x18\x03 \x01(\t\x12\x0c\n\x04type\x18\x04 \x01(\t\x12\x0e\n\x06number\x18\x05 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x06 \x01(\t\x12?\n\x04info\x18\x07 \x03(\x0b\x32\x31.ga4gh.schemas.ga4gh.VariantSetMetadata.InfoEntry\x12/\n\x08metadata\x18\x08 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xcc\x01\n\nVariantSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\ndataset_id\x18\x03 \x01(\t\x12\x18\n\x10reference_set_id\x18\x04 \x01(\t\x12\x45\n\x14variant_set_metadata\x18\x05 \x03(\x0b\x32\'.ga4gh.schemas.ga4gh.VariantSetMetadata\x12/\n\x08metadata\x18\x08 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\"\x82\x02\n\x07\x43\x61llSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0c\x62iosample_id\x18\x03 \x01(\t\x12\x17\n\x0fvariant_set_ids\x18\x04 \x03(\t\x12\x34\n\x04info\x18\x07 \x03(\x0b\x32&.ga4gh.schemas.ga4gh.CallSet.InfoEntry\x12/\n\x08metadata\x18\x08 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xbc\x02\n\x04\x43\x61ll\x12\x15\n\rcall_set_name\x18\x01 \x01(\t\x12\x13\n\x0b\x63\x61ll_set_id\x18\x02 \x01(\t\x12,\n\x08genotype\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.ListValue\x12\x10\n\x08phaseset\x18\x04 \x01(\t\x12\x1b\n\x13genotype_likelihood\x18\x05 \x03(\x01\x12\x31\n\x04info\x18\x06 \x03(\x0b\x32#.ga4gh.schemas.ga4gh.Call.InfoEntry\x12/\n\x08metadata\x18\x08 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"\xfc\x02\n\x07Variant\x12\n\n\x02id\x18\x01 \x01(\t\x12\x16\n\x0evariant_set_id\x18\x02 \x01(\t\x12\r\n\x05names\x18\x03 \x03(\t\x12\x16\n\x0ereference_name\x18\x06 \x01(\t\x12\r\n\x05start\x18\x07 \x01(\x03\x12\x0b\n\x03\x65nd\x18\x08 \x01(\x03\x12\x17\n\x0freference_bases\x18\t \x01(\t\x12\x17\n\x0f\x61lternate_bases\x18\n \x03(\t\x12\x34\n\x04info\x18\x0b \x03(\x0b\x32&.ga4gh.schemas.ga4gh.Variant.InfoEntry\x12(\n\x05\x63\x61lls\x18\x0c \x03(\x0b\x32\x19.ga4gh.schemas.ga4gh.Call\x12/\n\x08metadata\x18\x0f \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\x62\x06proto3')
+  serialized_pb=_b('\n\"ga4gh/schemas/ga4gh/variants.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xd5\x01\n\x12VariantSetMetadata\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\n\n\x02id\x18\x03 \x01(\t\x12\x0c\n\x04type\x18\x04 \x01(\t\x12\x0e\n\x06number\x18\x05 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x06 \x01(\t\x12\x33\n\nattributes\x18\x08 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\x12/\n\x08metadata\x18\t \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\"\xcc\x01\n\nVariantSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\ndataset_id\x18\x03 \x01(\t\x12\x18\n\x10reference_set_id\x18\x04 \x01(\t\x12\x45\n\x14variant_set_metadata\x18\x05 \x03(\x0b\x32\'.ga4gh.schemas.ga4gh.VariantSetMetadata\x12/\n\x08metadata\x18\x08 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\"\xb8\x01\n\x07\x43\x61llSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0c\x62iosample_id\x18\x03 \x01(\t\x12\x17\n\x0fvariant_set_ids\x18\x04 \x03(\t\x12\x33\n\nattributes\x18\x08 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\x12/\n\x08metadata\x18\t \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\"\xf5\x01\n\x04\x43\x61ll\x12\x15\n\rcall_set_name\x18\x01 \x01(\t\x12\x13\n\x0b\x63\x61ll_set_id\x18\x02 \x01(\t\x12,\n\x08genotype\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.ListValue\x12\x10\n\x08phaseset\x18\x04 \x01(\t\x12\x1b\n\x13genotype_likelihood\x18\x05 \x03(\x01\x12\x33\n\nattributes\x18\x08 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\x12/\n\x08metadata\x18\t \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\"\xb2\x02\n\x07Variant\x12\n\n\x02id\x18\x01 \x01(\t\x12\x16\n\x0evariant_set_id\x18\x02 \x01(\t\x12\r\n\x05names\x18\x03 \x03(\t\x12\x16\n\x0ereference_name\x18\x06 \x01(\t\x12\r\n\x05start\x18\x07 \x01(\x03\x12\x0b\n\x03\x65nd\x18\x08 \x01(\x03\x12\x17\n\x0freference_bases\x18\t \x01(\t\x12\x17\n\x0f\x61lternate_bases\x18\n \x03(\t\x12\x33\n\nattributes\x18\r \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\x12(\n\x05\x63\x61lls\x18\x0c \x03(\x0b\x32\x19.ga4gh.schemas.ga4gh.Call\x12/\n\x08metadata\x18\x0f \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadatab\x06proto3')
   ,
   dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
-
-_VARIANTSETMETADATA_INFOENTRY = _descriptor.Descriptor(
-  name='InfoEntry',
-  full_name='ga4gh.schemas.ga4gh.VariantSetMetadata.InfoEntry',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='key', full_name='ga4gh.schemas.ga4gh.VariantSetMetadata.InfoEntry.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='ga4gh.schemas.ga4gh.VariantSetMetadata.InfoEntry.value', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=351,
-  serialized_end=422,
-)
 
 _VARIANTSETMETADATA = _descriptor.Descriptor(
   name='VariantSetMetadata',
@@ -116,15 +79,15 @@ _VARIANTSETMETADATA = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.VariantSetMetadata.info', index=6,
-      number=7, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
+      name='attributes', full_name='ga4gh.schemas.ga4gh.VariantSetMetadata.attributes', index=6,
+      number=8, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
       name='metadata', full_name='ga4gh.schemas.ga4gh.VariantSetMetadata.metadata', index=7,
-      number=8, type=11, cpp_type=10, label=1,
+      number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -132,7 +95,7 @@ _VARIANTSETMETADATA = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_VARIANTSETMETADATA_INFOENTRY, ],
+  nested_types=[],
   enum_types=[
   ],
   options=None,
@@ -142,7 +105,7 @@ _VARIANTSETMETADATA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=124,
-  serialized_end=422,
+  serialized_end=337,
 )
 
 
@@ -207,47 +170,10 @@ _VARIANTSET = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=425,
-  serialized_end=629,
+  serialized_start=340,
+  serialized_end=544,
 )
 
-
-_CALLSET_INFOENTRY = _descriptor.Descriptor(
-  name='InfoEntry',
-  full_name='ga4gh.schemas.ga4gh.CallSet.InfoEntry',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='key', full_name='ga4gh.schemas.ga4gh.CallSet.InfoEntry.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='ga4gh.schemas.ga4gh.CallSet.InfoEntry.value', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=351,
-  serialized_end=422,
-)
 
 _CALLSET = _descriptor.Descriptor(
   name='CallSet',
@@ -285,53 +211,15 @@ _CALLSET = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.CallSet.info', index=4,
-      number=7, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='metadata', full_name='ga4gh.schemas.ga4gh.CallSet.metadata', index=5,
+      name='attributes', full_name='ga4gh.schemas.ga4gh.CallSet.attributes', index=4,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[_CALLSET_INFOENTRY, ],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=632,
-  serialized_end=890,
-)
-
-
-_CALL_INFOENTRY = _descriptor.Descriptor(
-  name='InfoEntry',
-  full_name='ga4gh.schemas.ga4gh.Call.InfoEntry',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='ga4gh.schemas.ga4gh.Call.InfoEntry.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='ga4gh.schemas.ga4gh.Call.InfoEntry.value', index=1,
-      number=2, type=11, cpp_type=10, label=1,
+      name='metadata', full_name='ga4gh.schemas.ga4gh.CallSet.metadata', index=5,
+      number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -342,15 +230,16 @@ _CALL_INFOENTRY = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=351,
-  serialized_end=422,
+  serialized_start=547,
+  serialized_end=731,
 )
+
 
 _CALL = _descriptor.Descriptor(
   name='Call',
@@ -395,53 +284,15 @@ _CALL = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.Call.info', index=5,
-      number=6, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='metadata', full_name='ga4gh.schemas.ga4gh.Call.metadata', index=6,
+      name='attributes', full_name='ga4gh.schemas.ga4gh.Call.attributes', index=5,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[_CALL_INFOENTRY, ],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=893,
-  serialized_end=1209,
-)
-
-
-_VARIANT_INFOENTRY = _descriptor.Descriptor(
-  name='InfoEntry',
-  full_name='ga4gh.schemas.ga4gh.Variant.InfoEntry',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='ga4gh.schemas.ga4gh.Variant.InfoEntry.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='ga4gh.schemas.ga4gh.Variant.InfoEntry.value', index=1,
-      number=2, type=11, cpp_type=10, label=1,
+      name='metadata', full_name='ga4gh.schemas.ga4gh.Call.metadata', index=6,
+      number=9, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -452,15 +303,16 @@ _VARIANT_INFOENTRY = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
   ],
-  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
+  options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=351,
-  serialized_end=422,
+  serialized_start=734,
+  serialized_end=979,
 )
+
 
 _VARIANT = _descriptor.Descriptor(
   name='Variant',
@@ -526,9 +378,9 @@ _VARIANT = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.Variant.info', index=8,
-      number=11, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
+      name='attributes', full_name='ga4gh.schemas.ga4gh.Variant.attributes', index=8,
+      number=13, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -549,7 +401,7 @@ _VARIANT = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_VARIANT_INFOENTRY, ],
+  nested_types=[],
   enum_types=[
   ],
   options=None,
@@ -558,28 +410,20 @@ _VARIANT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1212,
-  serialized_end=1592,
+  serialized_start=982,
+  serialized_end=1288,
 )
 
-_VARIANTSETMETADATA_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
-_VARIANTSETMETADATA_INFOENTRY.containing_type = _VARIANTSETMETADATA
-_VARIANTSETMETADATA.fields_by_name['info'].message_type = _VARIANTSETMETADATA_INFOENTRY
+_VARIANTSETMETADATA.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
 _VARIANTSETMETADATA.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 _VARIANTSET.fields_by_name['variant_set_metadata'].message_type = _VARIANTSETMETADATA
 _VARIANTSET.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
-_CALLSET_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
-_CALLSET_INFOENTRY.containing_type = _CALLSET
-_CALLSET.fields_by_name['info'].message_type = _CALLSET_INFOENTRY
+_CALLSET.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
 _CALLSET.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
-_CALL_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
-_CALL_INFOENTRY.containing_type = _CALL
 _CALL.fields_by_name['genotype'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
-_CALL.fields_by_name['info'].message_type = _CALL_INFOENTRY
+_CALL.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
 _CALL.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
-_VARIANT_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
-_VARIANT_INFOENTRY.containing_type = _VARIANT
-_VARIANT.fields_by_name['info'].message_type = _VARIANT_INFOENTRY
+_VARIANT.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
 _VARIANT.fields_by_name['calls'].message_type = _CALL
 _VARIANT.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
 DESCRIPTOR.message_types_by_name['VariantSetMetadata'] = _VARIANTSETMETADATA
@@ -589,19 +433,11 @@ DESCRIPTOR.message_types_by_name['Call'] = _CALL
 DESCRIPTOR.message_types_by_name['Variant'] = _VARIANT
 
 VariantSetMetadata = _reflection.GeneratedProtocolMessageType('VariantSetMetadata', (_message.Message,), dict(
-
-  InfoEntry = _reflection.GeneratedProtocolMessageType('InfoEntry', (_message.Message,), dict(
-    DESCRIPTOR = _VARIANTSETMETADATA_INFOENTRY,
-    __module__ = 'ga4gh.schemas.ga4gh.variants_pb2'
-    # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.VariantSetMetadata.InfoEntry)
-    ))
-  ,
   DESCRIPTOR = _VARIANTSETMETADATA,
   __module__ = 'ga4gh.schemas.ga4gh.variants_pb2'
   # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.VariantSetMetadata)
   ))
 _sym_db.RegisterMessage(VariantSetMetadata)
-_sym_db.RegisterMessage(VariantSetMetadata.InfoEntry)
 
 VariantSet = _reflection.GeneratedProtocolMessageType('VariantSet', (_message.Message,), dict(
   DESCRIPTOR = _VARIANTSET,
@@ -611,57 +447,25 @@ VariantSet = _reflection.GeneratedProtocolMessageType('VariantSet', (_message.Me
 _sym_db.RegisterMessage(VariantSet)
 
 CallSet = _reflection.GeneratedProtocolMessageType('CallSet', (_message.Message,), dict(
-
-  InfoEntry = _reflection.GeneratedProtocolMessageType('InfoEntry', (_message.Message,), dict(
-    DESCRIPTOR = _CALLSET_INFOENTRY,
-    __module__ = 'ga4gh.schemas.ga4gh.variants_pb2'
-    # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.CallSet.InfoEntry)
-    ))
-  ,
   DESCRIPTOR = _CALLSET,
   __module__ = 'ga4gh.schemas.ga4gh.variants_pb2'
   # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.CallSet)
   ))
 _sym_db.RegisterMessage(CallSet)
-_sym_db.RegisterMessage(CallSet.InfoEntry)
 
 Call = _reflection.GeneratedProtocolMessageType('Call', (_message.Message,), dict(
-
-  InfoEntry = _reflection.GeneratedProtocolMessageType('InfoEntry', (_message.Message,), dict(
-    DESCRIPTOR = _CALL_INFOENTRY,
-    __module__ = 'ga4gh.schemas.ga4gh.variants_pb2'
-    # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.Call.InfoEntry)
-    ))
-  ,
   DESCRIPTOR = _CALL,
   __module__ = 'ga4gh.schemas.ga4gh.variants_pb2'
   # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.Call)
   ))
 _sym_db.RegisterMessage(Call)
-_sym_db.RegisterMessage(Call.InfoEntry)
 
 Variant = _reflection.GeneratedProtocolMessageType('Variant', (_message.Message,), dict(
-
-  InfoEntry = _reflection.GeneratedProtocolMessageType('InfoEntry', (_message.Message,), dict(
-    DESCRIPTOR = _VARIANT_INFOENTRY,
-    __module__ = 'ga4gh.schemas.ga4gh.variants_pb2'
-    # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.Variant.InfoEntry)
-    ))
-  ,
   DESCRIPTOR = _VARIANT,
   __module__ = 'ga4gh.schemas.ga4gh.variants_pb2'
   # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.Variant)
   ))
 _sym_db.RegisterMessage(Variant)
-_sym_db.RegisterMessage(Variant.InfoEntry)
 
 
-_VARIANTSETMETADATA_INFOENTRY.has_options = True
-_VARIANTSETMETADATA_INFOENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
-_CALLSET_INFOENTRY.has_options = True
-_CALLSET_INFOENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
-_CALL_INFOENTRY.has_options = True
-_CALL_INFOENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
-_VARIANT_INFOENTRY.has_options = True
-_VARIANT_INFOENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
 # @@protoc_insertion_point(module_scope)

@@ -14,109 +14,19 @@ _sym_db = _symbol_database.Default()
 
 
 from ga4gh.schemas.ga4gh import common_pb2 as ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2
-from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
 
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/metadata.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n\"ga4gh/schemas/ga4gh/metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\x1a\x1cgoogle/protobuf/struct.proto\"U\n\x0cOntologyTerm\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04term\x18\x02 \x01(\t\x12\x13\n\x0bsource_name\x18\x03 \x01(\t\x12\x16\n\x0esource_version\x18\x04 \x01(\t\"\xe8\x01\n\x07\x44\x61taset\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x34\n\x04info\x18\x04 \x03(\x0b\x32&.ga4gh.schemas.ga4gh.Dataset.InfoEntry\x12/\n\x08metadata\x18\x05 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadata\x1aG\n\tInfoEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12)\n\x05value\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.ListValue:\x02\x38\x01\"c\n\x07Program\x12\x14\n\x0c\x63ommand_line\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x17\n\x0fprev_program_id\x18\x04 \x01(\t\x12\x0f\n\x07version\x18\x05 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\"ga4gh/schemas/ga4gh/metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\"\x9e\x01\n\x07\x44\x61taset\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x33\n\nattributes\x18\x05 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\x12/\n\x08metadata\x18\x06 \x01(\x0b\x32\x1d.ga4gh.schemas.ga4gh.Metadatab\x06proto3')
   ,
-  dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
+  dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
-
-_ONTOLOGYTERM = _descriptor.Descriptor(
-  name='OntologyTerm',
-  full_name='ga4gh.schemas.ga4gh.OntologyTerm',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='id', full_name='ga4gh.schemas.ga4gh.OntologyTerm.id', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='term', full_name='ga4gh.schemas.ga4gh.OntologyTerm.term', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='source_name', full_name='ga4gh.schemas.ga4gh.OntologyTerm.source_name', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='source_version', full_name='ga4gh.schemas.ga4gh.OntologyTerm.source_version', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=123,
-  serialized_end=208,
-)
-
-
-_DATASET_INFOENTRY = _descriptor.Descriptor(
-  name='InfoEntry',
-  full_name='ga4gh.schemas.ga4gh.Dataset.InfoEntry',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='key', full_name='ga4gh.schemas.ga4gh.Dataset.InfoEntry.key', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='value', full_name='ga4gh.schemas.ga4gh.Dataset.InfoEntry.value', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=_descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001')),
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=372,
-  serialized_end=443,
-)
 
 _DATASET = _descriptor.Descriptor(
   name='Dataset',
@@ -147,75 +57,16 @@ _DATASET = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='info', full_name='ga4gh.schemas.ga4gh.Dataset.info', index=3,
-      number=4, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='metadata', full_name='ga4gh.schemas.ga4gh.Dataset.metadata', index=4,
+      name='attributes', full_name='ga4gh.schemas.ga4gh.Dataset.attributes', index=3,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[_DATASET_INFOENTRY, ],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=211,
-  serialized_end=443,
-)
-
-
-_PROGRAM = _descriptor.Descriptor(
-  name='Program',
-  full_name='ga4gh.schemas.ga4gh.Program',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
     _descriptor.FieldDescriptor(
-      name='command_line', full_name='ga4gh.schemas.ga4gh.Program.command_line', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='id', full_name='ga4gh.schemas.ga4gh.Program.id', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='name', full_name='ga4gh.schemas.ga4gh.Program.name', index=2,
-      number=3, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='prev_program_id', full_name='ga4gh.schemas.ga4gh.Program.prev_program_id', index=3,
-      number=4, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='version', full_name='ga4gh.schemas.ga4gh.Program.version', index=4,
-      number=5, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='metadata', full_name='ga4gh.schemas.ga4gh.Dataset.metadata', index=4,
+      number=6, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -231,48 +82,20 @@ _PROGRAM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=445,
-  serialized_end=544,
+  serialized_start=94,
+  serialized_end=252,
 )
 
-_DATASET_INFOENTRY.fields_by_name['value'].message_type = google_dot_protobuf_dot_struct__pb2._LISTVALUE
-_DATASET_INFOENTRY.containing_type = _DATASET
-_DATASET.fields_by_name['info'].message_type = _DATASET_INFOENTRY
+_DATASET.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
 _DATASET.fields_by_name['metadata'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._METADATA
-DESCRIPTOR.message_types_by_name['OntologyTerm'] = _ONTOLOGYTERM
 DESCRIPTOR.message_types_by_name['Dataset'] = _DATASET
-DESCRIPTOR.message_types_by_name['Program'] = _PROGRAM
-
-OntologyTerm = _reflection.GeneratedProtocolMessageType('OntologyTerm', (_message.Message,), dict(
-  DESCRIPTOR = _ONTOLOGYTERM,
-  __module__ = 'ga4gh.schemas.ga4gh.metadata_pb2'
-  # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.OntologyTerm)
-  ))
-_sym_db.RegisterMessage(OntologyTerm)
 
 Dataset = _reflection.GeneratedProtocolMessageType('Dataset', (_message.Message,), dict(
-
-  InfoEntry = _reflection.GeneratedProtocolMessageType('InfoEntry', (_message.Message,), dict(
-    DESCRIPTOR = _DATASET_INFOENTRY,
-    __module__ = 'ga4gh.schemas.ga4gh.metadata_pb2'
-    # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.Dataset.InfoEntry)
-    ))
-  ,
   DESCRIPTOR = _DATASET,
   __module__ = 'ga4gh.schemas.ga4gh.metadata_pb2'
   # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.Dataset)
   ))
 _sym_db.RegisterMessage(Dataset)
-_sym_db.RegisterMessage(Dataset.InfoEntry)
-
-Program = _reflection.GeneratedProtocolMessageType('Program', (_message.Message,), dict(
-  DESCRIPTOR = _PROGRAM,
-  __module__ = 'ga4gh.schemas.ga4gh.metadata_pb2'
-  # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.Program)
-  ))
-_sym_db.RegisterMessage(Program)
 
 
-_DATASET_INFOENTRY.has_options = True
-_DATASET_INFOENTRY._options = _descriptor._ParseOptions(descriptor_pb2.MessageOptions(), _b('8\001'))
 # @@protoc_insertion_point(module_scope)

@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/metadata.proto";
 import "ga4gh/common.proto";
 
 // Units for expression level.
@@ -37,9 +36,12 @@ message RnaQuantificationSet {
 
   // The RNA quantification set name.
   string name = 3;
+  
+  // A map of additional information about the Quantification Set.
+  Attributes attributes = 4;
 
-    // Additional metadata (optional).
-  Metadata metadata = 4;
+  // Additional metadata (optional).
+  Metadata metadata = 5;
 }
 
 // Top level identifying information
@@ -69,8 +71,11 @@ message RnaQuantification {
   // ID of the containing RnaQuantificationSet.
   string rna_quantification_set_id = 7;
 
+  // A map of additional information about the Quantification.
+  Attributes attributes = 9;
+
   // Additional metadata (optional).
-  Metadata metadata = 9;
+  Metadata metadata = 10;
 }
 
 // The actual numerical quantification for each feature.
@@ -108,6 +113,9 @@ message ExpressionLevel {
   // Upper bound of the confidence interval on the expression value.
   float conf_interval_high = 11;
 
+  // A map of additional information about the Expression Level.
+  Attributes attributes = 12;
+
   // Additional metadata (optional).
-  Metadata metadata = 12;
+  Metadata metadata = 13;
 }

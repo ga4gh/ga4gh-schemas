@@ -8,9 +8,6 @@ syntax = "proto3";
 package ga4gh;
 
 import "ga4gh/common.proto";
-import "ga4gh/assay_metadata.proto";
-import "ga4gh/metadata.proto";
-import "google/protobuf/struct.proto";
 
 // ReadStats can be used to provide summary statistics about read data.
 message ReadStats {
@@ -63,11 +60,11 @@ message ReadGroup {
   // aligned. Required if there are any read alignments.
   string reference_set_id = 13;
 
-  // A map of additional read group information.
-  map<string, google.protobuf.ListValue> info = 14;
+  // A map of additional information about the Read Group.
+  Attributes attributes = 15;
 
   // Additional metadata (optional).
-  Metadata metadata = 15;
+  Metadata metadata = 16;
 }
 
 // A ReadGroupSet is a logical collection of ReadGroups. Typically one
@@ -91,8 +88,11 @@ message ReadGroupSet {
   // NB: we require that all readgroups in the set are mapped to the same
   // referenceSet.
 
+  // A map of additional information about the Read Group Set.
+  Attributes attributes = 6;
+
   // Additional metadata (optional).
-  Metadata metadata = 6;
+  Metadata metadata = 7;
 }
 
 // A linear alignment describes the alignment of a read to a Reference, using a
@@ -205,11 +205,11 @@ message ReadAlignment {
   // read in the fragment. It replaces mate position and mate strand in SAM.
   Position next_mate_position = 15;
 
-  // A map of additional read alignment information.
-  map<string, google.protobuf.ListValue> info = 16;
+  // A map of additional information about the Alignment.
+  Attributes attributes = 17;
 
   // Additional metadata (optional).
-  Metadata metadata = 17;
+  Metadata metadata = 18;
 }
 
 // A single CIGAR operation.
