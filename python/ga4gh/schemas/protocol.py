@@ -71,6 +71,23 @@ def setAttribute(values, value):
         values.add().string_value = str(value)
 
 
+def deepGetAttr(obj, path):
+    """
+    Resolves a dot-delimited path on an object. If path is not found
+    an `AttributeError` will be raised.
+    """
+    return reduce(getattr, path.split('.'), obj)
+
+
+def deepSetAttr(obj, path, val):
+    """
+    Sets a deep attribute on an object by resolving a dot-delimited
+    path. If path does not exist an `AttributeError` will be raised`.
+    """
+    first, _, rest = path.rpartition('.')
+    return setattr(deepGetAttr(obj, first) if first else obj, rest, val)
+
+
 def encodeValue(value):
     """
     TODO
