@@ -99,6 +99,9 @@ message FeatureSet {
   // The source URI describing the file from which this annotation set was
   // generated, if any.
   string source_uri = 5;
+
+  // A map of additional Feature Set information.
+  Attributes attributes = 12;
 }
 
 // This message defines a format for exchanging continuous valued signal data,
