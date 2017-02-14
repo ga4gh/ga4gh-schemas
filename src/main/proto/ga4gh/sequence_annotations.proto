@@ -99,9 +99,6 @@ message FeatureSet {
   // The source URI describing the file from which this annotation set was
   // generated, if any.
   string source_uri = 5;
-
-  // Remaining structured metadata key-value pairs.
-  map<string, google.protobuf.ListValue> info = 6;
 }
 
 // This message defines a format for exchanging continuous valued signal data,
