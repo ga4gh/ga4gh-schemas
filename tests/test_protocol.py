@@ -102,6 +102,38 @@ class TestProtocol(unittest.TestCase):
         self.assertEquals(listResult[0].string_value, listExpected[0])
         self.assertEquals(listResult[1].string_value, listExpected[1])
 
+    def testDeepGetAttr(self):
+        class Object(object):
+            pass
+        b = Object()
+        setattr(b, "c", 42)
+        a = Object()
+        setattr(a, "b", b)
+        obj = Object()
+        setattr(obj, "a", a)
+        setattr(obj, "d", 12)
+        self.assertEquals(protocol.deepGetAttr(obj, "a.b.c"), 42)
+        self.assertEquals(protocol.deepGetAttr(obj, "d"), 12)
+        self.assertRaises(AttributeError,
+                          protocol.deepGetAttr, obj, "a.b.x")
+        self.assertRaises(AttributeError, protocol.deepGetAttr, obj, "e")
+
+    def testDeepSetAttr(self):
+        class Object(object):
+            pass
+        b = Object()
+        setattr(b, "c", 42)
+        a = Object()
+        setattr(a, "b", b)
+        obj = Object()
+        setattr(obj, "a", a)
+        protocol.deepSetAttr(obj, 'a.b.c', 43)
+        self.assertEquals(obj.a.b.c, 43)
+        protocol.deepSetAttr(obj, 'a.b.x', 12)
+        self.assertEquals(obj.a.b.x, 12)
+        self.assertRaises(AttributeError,
+                          protocol.deepSetAttr, obj, "a.x.c", 42)
+
 
 class TestRoundTrip(unittest.TestCase):
     """
