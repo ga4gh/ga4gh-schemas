@@ -135,7 +135,7 @@ message Peer {
   // This example shows a peer that has specified both a base path
   // and a port.
   //   http://myapp.mycloudservice.com:8080/data/ga4gh
-  string uri = 1;
+  string url = 1;
 
   // A map of additional information about the service can be included.
   Attributes attributes = 2;
