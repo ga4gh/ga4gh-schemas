@@ -51,6 +51,13 @@ message Individual {
   // A map of additional information regarding the Individual.
   Attributes attributes = 10;
 
+  // External identifiers representing this individual.
+  // TODO: Define if those are a different representation of the same
+  // record, or also can refer to instances containing this record, e.g.:
+  //  - publication identifiers with this record
+  //  - experimental series, datasets containing this record
+  repeated ExternalIdentifier external_identifiers = 11;
+
 }
 
 
@@ -92,6 +99,9 @@ message Biosample {
 
   // The individual this biosample was derived from.
   string individual_id = 8;
+
+  // External identifiers representing this biosample.
+  repeated ExternalIdentifier external_identifiers = 9;
 
   // A map of additional information about the Biosample.
   Attributes attributes = 10;
