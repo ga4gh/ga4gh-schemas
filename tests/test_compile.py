@@ -68,7 +68,5 @@ class TestCompile(unittest.TestCase):
                 checkedInFilePath)
             tempFileShortPath = self._getDirAndFilenameOfPath(tempFilePath)
             self.assertEqual(checkedInFileShortPath, tempFileShortPath)
-            with open(checkedInFilePath) as checkedInFile, \
-                    open(tempFilePath) as tempFile:
-                for checkedInLine, tempLine in zip(checkedInFile, tempFile):
-                    self.assertEqual(checkedInLine, tempLine)
+            utils.assertFileContentsIdentical(
+                checkedInFilePath, tempFilePath)
