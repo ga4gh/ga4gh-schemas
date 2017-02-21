@@ -158,6 +158,9 @@ message GetRnaQuantificationRequest {
 message SearchExpressionLevelsRequest {
   // The rnaQuantification to restrict search to.
   string rna_quantification_id = 1;
+
+  // Only return expressions with any of the names (strict string matching).
+  repeated string names = 6;
   
   // Only return ExpressionLevel records with expressions exceeding
   // this value.  (Defaults to 0.0)
@@ -171,9 +174,6 @@ message SearchExpressionLevelsRequest {
   // To get the next page of results, set this parameter to the value of
   // 'nextPageToken' from the previous response.
   string page_token = 5;
-
-  // Only return expressions with any of the names.
-  repeated string names = 6;
 }
 
 // This is the response from 'POST /expressionlevels/search' expressed as JSON.
