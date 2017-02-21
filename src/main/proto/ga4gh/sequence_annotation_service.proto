@@ -52,6 +52,42 @@ service SequenceAnnotationService {
       };
     };
 
+  // Gets a list of `ContinuousSet` matching the search criteria.
+  //
+  // `POST /continuoussets/search` must accept a JSON version of
+  // `SearchContinuousSetsRequest` as the post body and will return a JSON
+  // version of `SearchContinuousSetsResponse`.
+  rpc SearchContinuousSets(SearchContinuousSetsRequest)
+    returns (SearchContinuousSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/continuoussets/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `ContinuousSet` by ID.
+  //
+  // `GET /continuoussets/{id}` will return a JSON version of `ContinuousSet`.
+  rpc GetContinuousSet(GetContinuousSetRequest)
+    returns (ContinuousSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/continuoussets/{continuous_set_id}"
+      };
+    };
+
+  // Gets continuous values matching the search criteria.
+  //
+  // `POST /continuous/search` must accept a JSON version of
+  // `SearchContinuousRequest` as the post body and will return a JSON version
+  // of `SearchContinuousResponse`.
+  rpc SearchContinuous(SearchContinuousRequest)
+    returns (SearchContinuousResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/continuous/search"
+        body: "*"
+      };
+    };
+
 }
 
 /******************  /featuresets  *********************/
@@ -156,4 +192,82 @@ message SearchFeaturesResponse {
 message GetFeatureRequest {
   // The ID of the `Feature` to be retrieved.
   string feature_id = 1;
+}
+
+/******************  /continuoussets  *********************/
+/** This request maps to the body of `POST /continuoussets/search` as JSON. */
+message SearchContinuousSetsRequest {
+  // The `Dataset` to search.
+  string dataset_id = 1;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 3;
+}
+
+// This is the response from `POST /continuoussets/search` expressed as JSON.
+message SearchContinuousSetsResponse {
+  // The list of matching feature sets.
+  repeated ContinuousSet continuous_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /continuoussets/{id}`.
+message GetContinuousSetRequest {
+  // The ID of the `ContinuousSet` to be retrieved.
+  string continuous_set_id = 1;
+}
+
+/****************** /continuous *****************/
+// This request maps to the body of `POST /continuous/search` as JSON.
+message SearchContinuousRequest {
+  // The annotation set to search within. Required value.
+  string continuous_set_id = 1;
+
+  // Get continuous values on this reference. Required value.
+  string reference_name = 2;
+
+  // The beginning of the window (0-based, inclusive) for which
+  // continuous values should be returned.
+  // Required value.
+  int64 start = 3;
+
+  // The end of the window (0-based, exclusive) for which continuous
+  // values should be returned. 
+  // Required value.
+  int64 end = 4;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 5;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 6;
+}
+
+// This is the response from `POST /continuous/search` expressed as JSON.
+message SearchContinuousResponse {
+  // The list of matching continuous values, sorted by start position.
+  // All sampled values within the query range are returned.
+  // Unsampled values are assigned 'NaN' value. The values returned
+  // do not necessarily cover the same range as the query as all
+  // unsampled values might not be returned or if the query range extends
+  // beyond the reference range.
+  repeated Continuous continuous = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
 }
