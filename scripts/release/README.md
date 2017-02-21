@@ -20,4 +20,6 @@ Release:
 3. From oss.sontaype.org#stagingRepositories, login and check the release just
    uploaded. If good, use the close button above the repository list to make it
    public. If there is a problem, the drop button will delete the release.
+4. After the release is rsynced to the Maven Central repository, confirm
+   checksums match and verify signatures.
 

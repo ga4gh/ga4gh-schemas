@@ -8,18 +8,22 @@ import "ga4gh/common.proto";
 // This protocol defines annotations on GA4GH genomic sequences It includes two
 // types of annotations: continuous and discrete hierarchical.
 //
-// The discrete hierarchical annotations are derived from the Sequence Ontology
-// (SO) and GFF3 work
+// The discrete hierarchical annotations (called Features) are derived from 
+// the Sequence Ontology (SO) and GFF3 work
 //
 //    http://www.sequenceontology.org/gff3.shtml
 //
 // The goal is to be able to store annotations using the GFF3 and SO conceptual
-// model, although there is not necessarly a one-to-one mapping in Protobuf messages
-// to GFF3 records.
+// model, although there is not necessarly a one-to-one mapping in Protobuf 
+// messages to GFF3 records.
 //
 // The minimum requirement is to be able to accurately represent the current
 // state of the art annotation data and the full SO model.  Feature is the
 // core generic record which corresponds to the a GFF3 record.
+//
+// The continuous data (called Continuous) represents numerical data
+// associated with each base position, such as is stored in BigWig, Wiggle
+// or BedGraph Formats
 
 // Node in the annotation graph that annotates a contiguous region of a
 // sequence.
@@ -79,6 +83,52 @@ message Feature {
 
 // A set of sequence features annotations.
 message FeatureSet {
+  // The ID of this annotation set.
+  string id = 1;
+
+  // The ID of the dataset this annotation set belongs to.
+  string dataset_id = 2;
+
+  // The ID of the reference set which defines the coordinate-space for this
+  // set of annotations.
+  string reference_set_id = 3;
+
+  // The display name for this annotation set.
+  string name = 4;
+
+  // The source URI describing the file from which this annotation set was
+  // generated, if any.
+  string source_uri = 5;
+
+  // A map of additional Feature Set information.
+  Attributes attributes = 12;
+}
+
+// This message defines a format for exchanging continuous valued signal data,
+// such as those produced experimentally (e.g. ChIP-Seq data) or through 
+// calculations (e.g. conservation scores). It can be used, for example,
+// to share data from Wiggle, BigWig, and BedGraph sources.
+message Continuous {
+  // The start position at which this signal occurs (0-based). This
+  // corresponds to the first base of the string of reference bases. Genomic
+  // positions are non-negative integers less than the reference length.
+  int64 start = 1;
+
+  // The contiguous data values. Unsampled bases are given as NaN.
+  repeated double values = 2;
+
+  // Identifier for the containing continous set.
+  string continuous_set_id = 3;
+
+  // The reference on which this signal is defined (e.g. `chr20` or `X`).
+  string reference_name = 4;
+}
+
+// A set of Continous messages. Continuous values can be sent
+// as a single Continuous message containing all values or a series
+// of Continuous messages to either limit the size of the values array
+// or to skip NaN values.
+message ContinuousSet {
   // The ID of this annotation set.
   string id = 1;
 
