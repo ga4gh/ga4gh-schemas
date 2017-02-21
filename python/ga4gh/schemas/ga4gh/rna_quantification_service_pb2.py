@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/rna_quantification_service.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n4ga4gh/schemas/ga4gh/rna_quantification_service.proto\x12\x13ga4gh.schemas.ga4gh\x1a,ga4gh/schemas/ga4gh/rna_quantification.proto\x1a*ga4gh/schemas/google/api/annotations.proto\"_\n\"SearchRnaQuantificationSetsRequest\x12\x12\n\ndataset_id\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"\x8a\x01\n#SearchRnaQuantificationSetsResponse\x12J\n\x17rna_quantification_sets\x18\x01 \x03(\x0b\x32).ga4gh.schemas.ga4gh.RnaQuantificationSet\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"C\n\x1eGetRnaQuantificationSetRequest\x12!\n\x19rna_quantification_set_id\x18\x01 \x01(\t\"\x81\x01\n\x1fSearchRnaQuantificationsRequest\x12!\n\x19rna_quantification_set_id\x18\x01 \x01(\t\x12\x14\n\x0c\x62iosample_id\x18\x04 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"\x80\x01\n SearchRnaQuantificationsResponse\x12\x43\n\x13rna_quantifications\x18\x01 \x03(\x0b\x32&.ga4gh.schemas.ga4gh.RnaQuantification\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"<\n\x1bGetRnaQuantificationRequest\x12\x1d\n\x15rna_quantification_id\x18\x01 \x01(\t\"\x87\x01\n\x1dSearchExpressionLevelsRequest\x12\x1d\n\x15rna_quantification_id\x18\x01 \x01(\t\x12\x11\n\tthreshold\x18\x03 \x01(\x02\x12\x11\n\tpage_size\x18\x04 \x01(\x05\x12\x12\n\npage_token\x18\x05 \x01(\t\x12\r\n\x05names\x18\x06 \x03(\t\"z\n\x1eSearchExpressionLevelsResponse\x12?\n\x11\x65xpression_levels\x18\x01 \x03(\x0b\x32$.ga4gh.schemas.ga4gh.ExpressionLevel\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"8\n\x19GetExpressionLevelRequest\x12\x1b\n\x13\x65xpression_level_id\x18\x01 \x01(\t2\xe5\x08\n\x18RnaQuantificationService\x12\xc3\x01\n\x1bSearchRnaQuantificationSets\x12\x37.ga4gh.schemas.ga4gh.SearchRnaQuantificationSetsRequest\x1a\x38.ga4gh.schemas.ga4gh.SearchRnaQuantificationSetsResponse\"1\x82\xd3\xe4\x93\x02+\"&/v0.6.0a9/rnaquantificationsets/search:\x01*\x12\xbe\x01\n\x17GetRnaQuantificationSet\x12\x33.ga4gh.schemas.ga4gh.GetRnaQuantificationSetRequest\x1a).ga4gh.schemas.ga4gh.RnaQuantificationSet\"C\x82\xd3\xe4\x93\x02=\x12;/v0.6.0a9/rnaquantificationsets/{rna_quantification_set_id}\x12\xb7\x01\n\x18SearchRnaQuantifications\x12\x34.ga4gh.schemas.ga4gh.SearchRnaQuantificationsRequest\x1a\x35.ga4gh.schemas.ga4gh.SearchRnaQuantificationsResponse\".\x82\xd3\xe4\x93\x02(\"#/v0.6.0a9/rnaquantifications/search:\x01*\x12\xae\x01\n\x14GetRnaQuantification\x12\x30.ga4gh.schemas.ga4gh.GetRnaQuantificationRequest\x1a&.ga4gh.schemas.ga4gh.RnaQuantification\"<\x82\xd3\xe4\x93\x02\x36\x12\x34/v0.6.0a9/rnaquantifications/{rna_quantification_id}\x12\xaf\x01\n\x16SearchExpressionLevels\x12\x32.ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest\x1a\x33.ga4gh.schemas.ga4gh.SearchExpressionLevelsResponse\",\x82\xd3\xe4\x93\x02&\"!/v0.6.0a9/expressionlevels/search:\x01*\x12\xa4\x01\n\x12GetExpressionLevel\x12..ga4gh.schemas.ga4gh.GetExpressionLevelRequest\x1a$.ga4gh.schemas.ga4gh.ExpressionLevel\"8\x82\xd3\xe4\x93\x02\x32\x12\x30/v0.6.0a9/expressionlevels/{expression_level_id}b\x06proto3')
+  serialized_pb=_b('\n4ga4gh/schemas/ga4gh/rna_quantification_service.proto\x12\x13ga4gh.schemas.ga4gh\x1a,ga4gh/schemas/ga4gh/rna_quantification.proto\x1a*ga4gh/schemas/google/api/annotations.proto\"_\n\"SearchRnaQuantificationSetsRequest\x12\x12\n\ndataset_id\x18\x01 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"\x8a\x01\n#SearchRnaQuantificationSetsResponse\x12J\n\x17rna_quantification_sets\x18\x01 \x03(\x0b\x32).ga4gh.schemas.ga4gh.RnaQuantificationSet\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"C\n\x1eGetRnaQuantificationSetRequest\x12!\n\x19rna_quantification_set_id\x18\x01 \x01(\t\"\x81\x01\n\x1fSearchRnaQuantificationsRequest\x12!\n\x19rna_quantification_set_id\x18\x01 \x01(\t\x12\x14\n\x0c\x62iosample_id\x18\x04 \x01(\t\x12\x11\n\tpage_size\x18\x02 \x01(\x05\x12\x12\n\npage_token\x18\x03 \x01(\t\"\x80\x01\n SearchRnaQuantificationsResponse\x12\x43\n\x13rna_quantifications\x18\x01 \x03(\x0b\x32&.ga4gh.schemas.ga4gh.RnaQuantification\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"<\n\x1bGetRnaQuantificationRequest\x12\x1d\n\x15rna_quantification_id\x18\x01 \x01(\t\"\x87\x01\n\x1dSearchExpressionLevelsRequest\x12\x1d\n\x15rna_quantification_id\x18\x01 \x01(\t\x12\r\n\x05names\x18\x06 \x03(\t\x12\x11\n\tthreshold\x18\x03 \x01(\x02\x12\x11\n\tpage_size\x18\x04 \x01(\x05\x12\x12\n\npage_token\x18\x05 \x01(\t\"z\n\x1eSearchExpressionLevelsResponse\x12?\n\x11\x65xpression_levels\x18\x01 \x03(\x0b\x32$.ga4gh.schemas.ga4gh.ExpressionLevel\x12\x17\n\x0fnext_page_token\x18\x02 \x01(\t\"8\n\x19GetExpressionLevelRequest\x12\x1b\n\x13\x65xpression_level_id\x18\x01 \x01(\t2\xe5\x08\n\x18RnaQuantificationService\x12\xc3\x01\n\x1bSearchRnaQuantificationSets\x12\x37.ga4gh.schemas.ga4gh.SearchRnaQuantificationSetsRequest\x1a\x38.ga4gh.schemas.ga4gh.SearchRnaQuantificationSetsResponse\"1\x82\xd3\xe4\x93\x02+\"&/v0.6.0a9/rnaquantificationsets/search:\x01*\x12\xbe\x01\n\x17GetRnaQuantificationSet\x12\x33.ga4gh.schemas.ga4gh.GetRnaQuantificationSetRequest\x1a).ga4gh.schemas.ga4gh.RnaQuantificationSet\"C\x82\xd3\xe4\x93\x02=\x12;/v0.6.0a9/rnaquantificationsets/{rna_quantification_set_id}\x12\xb7\x01\n\x18SearchRnaQuantifications\x12\x34.ga4gh.schemas.ga4gh.SearchRnaQuantificationsRequest\x1a\x35.ga4gh.schemas.ga4gh.SearchRnaQuantificationsResponse\".\x82\xd3\xe4\x93\x02(\"#/v0.6.0a9/rnaquantifications/search:\x01*\x12\xae\x01\n\x14GetRnaQuantification\x12\x30.ga4gh.schemas.ga4gh.GetRnaQuantificationRequest\x1a&.ga4gh.schemas.ga4gh.RnaQuantification\"<\x82\xd3\xe4\x93\x02\x36\x12\x34/v0.6.0a9/rnaquantifications/{rna_quantification_id}\x12\xaf\x01\n\x16SearchExpressionLevels\x12\x32.ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest\x1a\x33.ga4gh.schemas.ga4gh.SearchExpressionLevelsResponse\",\x82\xd3\xe4\x93\x02&\"!/v0.6.0a9/expressionlevels/search:\x01*\x12\xa4\x01\n\x12GetExpressionLevel\x12..ga4gh.schemas.ga4gh.GetExpressionLevelRequest\x1a$.ga4gh.schemas.ga4gh.ExpressionLevel\"8\x82\xd3\xe4\x93\x02\x32\x12\x30/v0.6.0a9/expressionlevels/{expression_level_id}b\x06proto3')
   ,
   dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_rna__quantification__pb2.DESCRIPTOR,ga4gh_dot_schemas_dot_google_dot_api_dot_annotations__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -279,30 +279,30 @@ _SEARCHEXPRESSIONLEVELSREQUEST = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='threshold', full_name='ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest.threshold', index=1,
+      name='names', full_name='ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest.names', index=1,
+      number=6, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='threshold', full_name='ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest.threshold', index=2,
       number=3, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='page_size', full_name='ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest.page_size', index=2,
+      name='page_size', full_name='ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest.page_size', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='page_token', full_name='ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest.page_token', index=3,
+      name='page_token', full_name='ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest.page_token', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-    _descriptor.FieldDescriptor(
-      name='names', full_name='ga4gh.schemas.ga4gh.SearchExpressionLevelsRequest.names', index=4,
-      number=6, type=9, cpp_type=9, label=3,
-      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
