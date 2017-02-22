@@ -28,7 +28,7 @@ Attribute             Notes
 *description*         * additional, unstructured information about this Experiment
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601
-*info*                * additional, structured information
+*attributes*          * additional, structured information
 ===================== ==========================================================
 
 .. _assaymetadata_analysis:
@@ -55,5 +55,5 @@ Attribute             Notes
 *description*         * additional, unstructured information about this Analysis
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601
-*info*                * additional, structured information
+*attributes*          * additional, structured information
 ===================== ==========================================================

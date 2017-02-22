@@ -31,7 +31,7 @@ For example, here is the schema definition for Variants (with comments removed):
     int64 end = 8;
     string reference_bases = 9;
     repeated string alternate_bases = 10;
-    map<string, google.protobuf.ListValue> info = 11;
+    Attributes attributes = 13;
     repeated Call calls = 12;
   }
 
@@ -53,10 +53,21 @@ Here is a serialized variant in JSON. It's a bit of an edge case in some respect
           "C",
           "CTATCTT"
       ],
-      "info": {
-          "variantfacts": ["is_interesting", "is_long"],
-          "numberOfPapers": ["11"]
-      },
+      "attributes": {
+          "attr": {
+              "numberOfPapers": {
+                  "values": [
+                      {"int32Value": 11}
+                  ]
+              },
+              "variantFacts": {
+                  "values": [
+                      {"stringValue": "is_long"},
+                      {"stringValue": "is_interesting"}
+                  ]
+              }
+          }
+      }
   }
 
 Things to notice:
