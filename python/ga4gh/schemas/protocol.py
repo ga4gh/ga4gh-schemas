@@ -221,6 +221,12 @@ postMethods = \
      ('/features/search',
       SearchFeaturesRequest,  # noqa
       SearchFeaturesResponse),  # noqa
+     ('/continuoussets/search',
+      SearchContinuousSetsRequest,  # noqa
+      SearchContinuousSetsResponse),  # noqa
+     ('/continuous/search',
+      SearchContinuousRequest,  # noqa
+      SearchContinuousResponse),  # noqa
      ('/variantsets/search',
       SearchVariantSetsRequest,  # noqa
       SearchVariantSetsResponse),  # noqa
