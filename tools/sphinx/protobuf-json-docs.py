@@ -169,6 +169,8 @@ def type_to_string(f, map_types):
                 return kind
     elif f.type in [12]:
         return "bytes"
+    elif f.type in [17]:
+        return "sint32"
     else:
         raise Exception, f.type
 
