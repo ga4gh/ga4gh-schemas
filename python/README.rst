@@ -6,7 +6,7 @@ GA4GH Schemas Python
 ====================
 
 This is the GA4GH schemas compiled as Protocol Buffers descriptors. It can be used 
-describe and serialize genomics data using a standard interchange format.
+to describe and serialize genomics data using a standard interchange format.
 
 You can install the schemas using `pip install ga4gh-schemas`.
 
@@ -16,14 +16,14 @@ You can install the schemas using `pip install ga4gh-schemas`.
     my_variant = variants.Variant(
         reference_name="1",
         start=1832,
-        end=4123,
+        end=1833,
         reference_bases="A",
         alternate_bases=["C"])
 
 Full documentation is available at `read-the-docs.org
 <http://ga4gh-schemas.readthedocs.io/en/stable/>`_.
 
-- To read more about how the GA4GH API uses Protocol Buffers, see here `here <http://ga4gh-schemas.readthedocs.io/en/stable/appendix/proto_intro.html>`_.
+- To read more about how the GA4GH API uses Protocol Buffers, see `here <http://ga4gh-schemas.readthedocs.io/en/stable/appendix/proto_intro.html>`_.
 
 ###########
 Development
@@ -72,5 +72,22 @@ notes for the PyPi package are maintained here.
 Release Notes
 #############
 
-* 0.0.8 2016-11-02
-  * Initial release from dcolligan/ga4gh-schemas
+
+`0.6.0a9.post2 <https://pypi.python.org/pypi/ga4gh-schemas/0.6.0a9.post2>`_ 2016-1-20 
+
+* Set the release version (`#790 <https://github.com/ga4gh/schemas/pull/790>`_).
+
+`0.6.0a9.post1 <https://pypi.python.org/pypi/ga4gh-schemas/0.6.0a9.post1>`_ 2016-1
+
+* Remove protoc from install path (`#781 <https://github.com/ga4gh/schemas/pull/751>`_).
+
+0.6.0a9 2016-1
+
+* "BioSample" refactored to "Biosample" (`#697 <https://github.com/ga4gh/schemas/pull/697>`_).
+* Calls list supports if no genotype is reported (`#735 <https://github.com/ga4gh/schemas/pull/697>`_).
+* Introduces a new versioning scheme to match `ga4gh/schemas <https://github.com/ga4gh/schemas>`_ protocol version.
+* Improve setup process (`#751 <https://github.com/ga4gh/schemas/pull/751>`_, `#746 <https://github.com/ga4gh/schemas/pull/746>`_).
+
+0.0.8 2016-11-02
+
+* Initial release from dcolligan/ga4gh-schemas

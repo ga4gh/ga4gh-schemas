@@ -5,8 +5,9 @@
 GA4GH Schemas
 =============
 
-This is the GA4GH schemas compiled as Protocol Buffers descriptors. It can be used 
-describe and serialize genomics data using a standard interchange format.
+This is the GA4GH schemas compiled as `Protocol Buffers <https://developers.google.com/protocol-buffers/>`_
+descriptors. It can be used to describe and serialize genomics data using a
+standard interchange format.
 
 .. code-block:: python
 
@@ -14,7 +15,7 @@ describe and serialize genomics data using a standard interchange format.
     my_variant = variants.Variant(
         reference_name="1",
         start=1832,
-        end=4123,
+        end=1833,
         reference_bases="A",
         alternate_bases=["C"])
 

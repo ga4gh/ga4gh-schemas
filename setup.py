@@ -1,16 +1,11 @@
 # Don't import __future__ packages here; they make setup fail
 
-# First, we try to use setuptools. If it's not available locally,
-# we fall back on ez_setup.
-import tempfile
-import os
-import fnmatch
-import shutil
-
 import scripts.process_schemas as process_schemas
 
 PROTOCOL_VERSION = "0.6.0a9"
 
+# First, we try to use setuptools. If it's not available locally,
+# we fall back on ez_setup.
 try:
     from setuptools import setup
 except ImportError:
@@ -32,10 +27,22 @@ with open("python/requirements.txt") as requirementsFile:
         pinnedVersion = line.split()[0]
         install_requires.append(pinnedVersion)
 
+dependency_links = []
 try:
-    schemasPath = 'src/main/proto/'
-    process_schemas.createSchemaFiles('python', schemasPath)
-    process_schemas.main([PROTOCOL_VERSION, 'python'])
+    with open("python/constraints.txt") as constraintsFile:
+        for line in constraintsFile:
+            line = line.strip()
+            if len(line) == 0:
+                continue
+            if line[0] == '#':
+                continue
+            dependency_links.append(line)
+except EnvironmentError:
+    print('No constraints file found, proceeding without '
+          'creating dependency links.')
+
+try:
+    process_schemas.main([PROTOCOL_VERSION])
 except Exception:
     print("Couldn't find a good protoc, using precompiled protobuf.")
 
@@ -56,6 +63,7 @@ setup(
     package_dir={'': 'python'},
     long_description=long_description,
     install_requires=install_requires,
+    dependency_links=dependency_links,
     license='Apache License 2.0',
     include_package_data=True,
     zip_safe=True,
