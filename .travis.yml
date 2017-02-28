@@ -20,3 +20,14 @@ script:
     - make docs
     - flake8 setup.py python scripts tests
     - python -mnose tests
+
+# deploy to pypi when there is a new tag in master after a successful build
+deploy:
+    provider: pypi
+    user: dannycolligan
+    password:
+        secure: o3vcJYtfFEN8ZhOdqBKmQya5JM+9TEUd5zmQiAhSjLgESxAfvNeJxKmfQ1u8tN/3n8QGk7EQVSayOr8EZ3Xxl13CjlMrKsGhe/7Q/6niuewVKUrmBfdkoFQy8QjeeEBN5lubNRl8mlBZsGT00KIFNwM5sDjRLnlOSCns+UnLjJw=
+    skip_upload_docs: true
+    on:
+        repo: ga4gh/schemas
+        tags: true
