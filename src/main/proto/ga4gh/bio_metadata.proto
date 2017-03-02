@@ -88,7 +88,7 @@ message Biosample {
 
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases and phenotypes associated with this BioSample.
-  Characteristics characteristics = 5;
+  repeated BioCharacteristic bio_characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
   // was created.
@@ -120,6 +120,12 @@ message BioCharacteristic {
   //   "squamous cell carcinoma, base of tongue, stage 2"
   string description = 1;
 
+  // Class for the logical scope of this BioCharacteristic. Typical examples
+  // could be "phenotype", "disease", "observation".
+  // TODO:  This may be modified into an enumeration or expressed through
+  //        an OntologyTerm.
+  string characteristics_class  = 2;
+
   // The ontologyTerms attribute contains a list of zero (discouraged) or more
   // OntologyTerm objects covering the characteristic (e.g. disease diagnosis,
   // phenotype) reorted here.
@@ -134,7 +140,7 @@ message BioCharacteristic {
   //     termId: "UBERON:0010033",
   //     term: "posterior part of tongue",
   //
-  repeated OntologyTerm ontologyTerms = 2;
+  repeated OntologyTerm ontologyTerms = 3;
 
   // negatedOntologyTerms are used to describe features which are explicitely
   // not part of the BioCharacteristic.
@@ -155,19 +161,6 @@ message BioCharacteristic {
   //      termId: "HP:0001714"
   //      label: "Ventricular hypertrophy"
   //
-  repeated OntologyTerm negatedOntologyTerms = 3;
-
-}
-
-// Characteristics is a wrapper object for the diseases, phenotypes associated
-// with a first class BioMetadata object (Individual, BioSample).
-message Characteristics {
-  // Diseases associated with the parent BioMetadata object (Individual,
-  // BioSample).
-  repeated BioCharacteristic diseases = 1;
-
-  // Phenotypes associated with the parent BioMetadata object (Individual,
-  // BioSample).
-  repeated BioCharacteristic phenotypes = 2;
+  repeated OntologyTerm negatedOntologyTerms = 4;
 
 }
