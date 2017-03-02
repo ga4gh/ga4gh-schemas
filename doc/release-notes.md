@@ -1,10 +1,41 @@
+# Schema Release `v0.6.0a10`
+
+Changes to `ga4gh/schemas` `master` branch since version `0.6.0a9` (Jan 23, 2016)
+
+* Features:
+ * Remove feature_id from ExpressionLevel #818
+ * Added support for BigWig files in a new Continuous Data object #802
+  * Continuous Data: POST /continuoussets/search
+  * Continuous Data: GET /continuoussets/{id}
+  * Continuous Data: POST /continuous/search
+ * Add deep set/get attr to protocol module #816
+ * Changed ontology term “id” to “term_id” #805
+ * Replaced info fields with rich type Attributes fields #700
+ * Add ability to list and join peer server networks #760
+  * Peer: POST /peers/list
+  * Peer: POST /peers/announce
+  * Peer: GET /info
+ * Replace NCBI taxon ID integer with ontology term (#699) 
+
+* Documentation:
+ * Add instructions for viewing the UML diagram #835
+ * Expand on schema usage instructions #786
+ * Expand on release process documentation #753
+
+* Infrastructure:
+ * Automatically deploy tagged releases to Pypi from Travis #825
+ * Add tests to verify constraints files #817
+ * Continued effort to separate out common methods
+
+
+
 # Schema Release `v0.6.0a9`
 
 Changes to `ga4gh/schemas` `master` branch since version `0.6.0a8` (Oct 26, 2016)
 
 * Fixed bugs:
-   * Fixed typo in get: `/v0.6.0a8/variantannotationset/{variant_annotation_set_id}`
-   * Fix to be able to handle VCFs with genotype == `./.`
+  * Fixed typo in get: `/v0.6.0a8/variantannotationset/{variant_annotation_set_id}`
+  * Fix to be able to handle VCFs with genotype == `./.`
 * Upgrade to use protobuf release 3.1
 * Introduced a pip installable schemas package called `ga4gh-schemas`. We have also 
    created pip installable packages for a support library called `ga4gh-common`
