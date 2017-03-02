@@ -1,0 +1,26 @@
+# This file allows our dependencies to be against specific versions
+# or git tags. Each line is similar to a requirements.txt line,
+# except that when installing the dependencies, the constraints.txt
+# is converted into the `dependency_links` of the setuptools
+# packaging script. This allows us to maintain dependencies across
+# repositories.
+#
+# For example, during development we use the development version
+# of common with the line:
+#
+# git+git://github.com/ga4gh/ga4gh-common.git@master#egg=ga4gh_common
+#
+# When one has proposed a common modification, they can change this
+# constraint to point at the branch of their proposed change:
+#
+# git+git://github.com/david4096/ga4gh-common.git@some-branch#egg=ga4gh_common
+#
+# Then, when the change has been accepted at the common repository
+# you can change this to point back at the master branch!
+#
+# When making a release, these constraints are changed to point at
+# the released dependency.
+#
+# ga4gh-common==0.1.0
+#
+git+git://github.com/ga4gh/ga4gh-common.git@master#egg=ga4gh_common

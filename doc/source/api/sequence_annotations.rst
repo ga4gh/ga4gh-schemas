@@ -6,25 +6,26 @@ Sequence Annotations API
 For the Sequence Annotation schema definitions, see `Sequence Annotation schema <../schemas/sequence_annotations.proto.html>`_
 
 
+The Sequence Annotation Schema consists of 'Features' for discontinuous data and 'Continuous' for continuous data.
+
 ------------------------
 Feature Based Hierarchy
 ------------------------
-The central object of the GA4GH Sequence Annotation API is a Feature.  The Feature describes an interval of interest on some reference(s).  It has a span from a start position to a stop position as well as descriptive data.  A Feature can have a parent Feature, and can have an ordered array of child Features, which enables the construction of more complex representations in a hierarchical way.
+A Feature describes an interval of interest on some reference(s).  It has a span from a start position to a stop position as well as descriptive data.  A Feature can have a parent Feature, and can have an ordered array of child Features, which enables the construction of more complex representations in a hierarchical way.
 
 For example, a single gene Feature may be parent to several different transcript Features.  The specific exons for each transcript would have that transcript Feature as parent.  The same physical exon may occur as part of two different transcript Features, but in our notation, it would be
 encoded as two separate exon Features, each with a different parent, both occupying the same genomic coordinates. This structure can also extend to annotating CDS, binding sites or any other sub-gene level features.
 
 
 ------------------------------
-The Sequence Annotation Schema
+The Feature Sequence Annotation Schema
 ------------------------------
 
 This model is similar to that used by the standard `GFF3`_ file format.
 
 .. _GFF3: http://sequenceontology.org/resources/gff3.html
 
-The main differences concern the deprecation and replacement of discontinuous features, the replacing
-of multi-parent features with multiple copies of that feature, and the ability to impose an explicit order on child features.
+The main differences concern the deprecation and replacement of discontinuous features, the replacing of multi-parent features with multiple copies of that feature, and the ability to impose an explicit order on child features.
 
 In the first case, a CDS composed of multiple regions is sometimes encoded as multiple rows of a GFF3 file, each with the same feature ID. This is translated in our hierarchy into a single CDS Feature with an ordered set of CDS_region Feature children, each corresponding to a single row of the original record.
 
@@ -33,6 +34,15 @@ In the second case, as explained above, features with multiple parents in a GFF3
 In the final case, an explicit mechanism is provided for ordering child Features. Most of the time this ordering is trivially derived from the genomic coordinate ordering of the children, but in some biologically important cases this order can differ, such as in non-canonical splicing of exomes into transcripts (also known as back splicing - see below).
 
 A FeatureSet is simply a collection of features from the same source. An implementer may, for example, choose to gather all Features from the same GFF3 file into a common FeatureSet.
+
+
+------------------------------
+The Continuous Sequence Annotation Schema
+------------------------------
+
+'Continuous' defines a format for exchanging continuous valued signal data, such as those produced experimentally (e.g. ChIP-Seq data) or through calculations (e.g. conservation scores). 'Continuous' represents numerical data in which a real value (or NaN) is associated with each base position. This data is often stored in BigWig, Wiggle or BedGraph formats. 
+
+Each Continuous message consists of a start position, defined on a reference, and a list of real values. The first list value applies to the start base position and, the second list value to the base position after the start base, and so forth. The list of values can include NaN values to represent unsampled/unknown base positions. Alternatively, a set of Continuous messages (ContinuousSet), representing non-overlapping base positions, can be used, skipping all or some of the NaN values.
 
 
 --------------------------------------
