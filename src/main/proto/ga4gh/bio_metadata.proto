@@ -134,7 +134,7 @@ message BioCharacteristic {
   //     termId: "UBERON:0010033",
   //     term: "posterior part of tongue",
   //
-  repeated OntologyTerm ontologyTerms = 2;
+  repeated OntologyTerm ontology_terms = 2;
 
   // negatedOntologyTerms are used to describe features which are explicitely
   // not part of the BioCharacteristic.
@@ -155,7 +155,7 @@ message BioCharacteristic {
   //      termId: "HP:0001714"
   //      label: "Ventricular hypertrophy"
   //
-  repeated OntologyTerm negatedOntologyTerms = 3;
+  repeated OntologyTerm negated_ontology_terms = 3;
 
 }
 
