@@ -80,9 +80,6 @@ message ExpressionLevel {
   // Name
   string name = 2;
 
-  // Id of the feature
-  string feature_id = 3;
-
   // The associated RnaQuantification
   string rna_quantification_id = 4;
 
