@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/variants.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n\"ga4gh/schemas/ga4gh/variants.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xa4\x01\n\x12VariantSetMetadata\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\n\n\x02id\x18\x03 \x01(\t\x12\x0c\n\x04type\x18\x04 \x01(\t\x12\x0e\n\x06number\x18\x05 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x06 \x01(\t\x12\x33\n\nattributes\x18\x08 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\"\x8f\x01\n\nVariantSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\ndataset_id\x18\x03 \x01(\t\x12\x18\n\x10reference_set_id\x18\x04 \x01(\t\x12\x39\n\x08metadata\x18\x05 \x03(\x0b\x32\'.ga4gh.schemas.ga4gh.VariantSetMetadata\"\xa9\x01\n\x07\x43\x61llSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0c\x62iosample_id\x18\x03 \x01(\t\x12\x17\n\x0fvariant_set_ids\x18\x04 \x03(\t\x12\x0f\n\x07\x63reated\x18\x05 \x01(\x03\x12\x0f\n\x07updated\x18\x06 \x01(\x03\x12\x33\n\nattributes\x18\x08 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\"\xc4\x01\n\x04\x43\x61ll\x12\x15\n\rcall_set_name\x18\x01 \x01(\t\x12\x13\n\x0b\x63\x61ll_set_id\x18\x02 \x01(\t\x12,\n\x08genotype\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.ListValue\x12\x10\n\x08phaseset\x18\x04 \x01(\t\x12\x1b\n\x13genotype_likelihood\x18\x05 \x03(\x01\x12\x33\n\nattributes\x18\x08 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\"\xe6\x02\n\x07Variant\x12\n\n\x02id\x18\x01 \x01(\t\x12\x16\n\x0evariant_set_id\x18\x02 \x01(\t\x12\r\n\x05names\x18\x03 \x03(\t\x12\x0f\n\x07\x63reated\x18\x04 \x01(\x03\x12\x0f\n\x07updated\x18\x05 \x01(\x03\x12\x16\n\x0ereference_name\x18\x06 \x01(\t\x12\r\n\x05start\x18\x07 \x01(\x03\x12\x0b\n\x03\x65nd\x18\x08 \x01(\x03\x12\x17\n\x0freference_bases\x18\t \x01(\t\x12\x17\n\x0f\x61lternate_bases\x18\n \x03(\t\x12\x33\n\nattributes\x18\r \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\x12(\n\x05\x63\x61lls\x18\x0c \x03(\x0b\x32\x19.ga4gh.schemas.ga4gh.Call\x12\x14\n\x0cvariant_type\x18\x11 \x01(\t\x12\r\n\x05svlen\x18\x12 \x01(\x03\x12\r\n\x05\x63ipos\x18\x13 \x03(\x11\x12\r\n\x05\x63iend\x18\x14 \x03(\x11\x62\x06proto3')
+  serialized_pb=_b('\n\"ga4gh/schemas/ga4gh/variants.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\x1a\x1cgoogle/protobuf/struct.proto\"\xa4\x01\n\x12VariantSetMetadata\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\n\n\x02id\x18\x03 \x01(\t\x12\x0c\n\x04type\x18\x04 \x01(\t\x12\x0e\n\x06number\x18\x05 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x06 \x01(\t\x12\x33\n\nattributes\x18\x08 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\"\x8f\x01\n\nVariantSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x12\n\ndataset_id\x18\x03 \x01(\t\x12\x18\n\x10reference_set_id\x18\x04 \x01(\t\x12\x39\n\x08metadata\x18\x05 \x03(\x0b\x32\'.ga4gh.schemas.ga4gh.VariantSetMetadata\"\xa9\x01\n\x07\x43\x61llSet\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x14\n\x0c\x62iosample_id\x18\x03 \x01(\t\x12\x17\n\x0fvariant_set_ids\x18\x04 \x03(\t\x12\x0f\n\x07\x63reated\x18\x05 \x01(\x03\x12\x0f\n\x07updated\x18\x06 \x01(\x03\x12\x33\n\nattributes\x18\x08 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\"\xc4\x01\n\x04\x43\x61ll\x12\x15\n\rcall_set_name\x18\x01 \x01(\t\x12\x13\n\x0b\x63\x61ll_set_id\x18\x02 \x01(\t\x12,\n\x08genotype\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.ListValue\x12\x10\n\x08phaseset\x18\x04 \x01(\t\x12\x1b\n\x13genotype_likelihood\x18\x05 \x03(\x01\x12\x33\n\nattributes\x18\x08 \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\"\xaf\x03\n\x07Variant\x12\n\n\x02id\x18\x01 \x01(\t\x12\x16\n\x0evariant_set_id\x18\x02 \x01(\t\x12\r\n\x05names\x18\x03 \x03(\t\x12\x0f\n\x07\x63reated\x18\x04 \x01(\x03\x12\x0f\n\x07updated\x18\x05 \x01(\x03\x12\x16\n\x0ereference_name\x18\x06 \x01(\t\x12\r\n\x05start\x18\x07 \x01(\x03\x12\x0b\n\x03\x65nd\x18\x08 \x01(\x03\x12\x17\n\x0freference_bases\x18\t \x01(\t\x12\x17\n\x0f\x61lternate_bases\x18\n \x03(\t\x12\x33\n\nattributes\x18\r \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\x12(\n\x05\x63\x61lls\x18\x0c \x03(\x0b\x32\x19.ga4gh.schemas.ga4gh.Call\x12\x14\n\x0cvariant_type\x18\x11 \x01(\t\x12\r\n\x05svlen\x18\x12 \x01(\x03\x12\r\n\x05\x63ipos\x18\x13 \x03(\x11\x12\r\n\x05\x63iend\x18\x14 \x03(\x11\x12\x17\n\x0f\x66ilters_applied\x18\x0e \x01(\x08\x12\x16\n\x0e\x66ilters_passed\x18\x0f \x01(\x08\x12\x16\n\x0e\x66ilters_failed\x18\x10 \x03(\tb\x06proto3')
   ,
   dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,google_dot_protobuf_dot_struct__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -419,6 +419,27 @@ _VARIANT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='filters_applied', full_name='ga4gh.schemas.ga4gh.Variant.filters_applied', index=16,
+      number=14, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='filters_passed', full_name='ga4gh.schemas.ga4gh.Variant.filters_passed', index=17,
+      number=15, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='filters_failed', full_name='ga4gh.schemas.ga4gh.Variant.filters_failed', index=18,
+      number=16, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -432,7 +453,7 @@ _VARIANT = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=808,
-  serialized_end=1166,
+  serialized_end=1239,
 )
 
 _VARIANTSETMETADATA.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
