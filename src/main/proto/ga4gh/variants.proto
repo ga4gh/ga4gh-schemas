@@ -192,4 +192,16 @@ message Variant {
   // determination of genotype with respect to this variant. `Call`s in this
   // array are implicitly associated with this `Variant`.
   repeated Call calls = 12;
+
+  // True if filters were applied for this variant. VCF column 7 "FILTER" 
+  // any value other than the missing value.
+  bool filters_applied = 14;
+
+  // True if all filters for this variant passed. VCF column 7 "FILTER" 
+  // value PASS.
+  bool filters_passed = 15;
+
+  // Zero or more filters that failed for this variant. VCF column 7 "FILTER" 
+  // shared across all alleles in the same VCF record.
+  repeated string filters_failed = 16;
 }
