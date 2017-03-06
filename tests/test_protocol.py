@@ -29,7 +29,8 @@ class TestProtocol(unittest.TestCase):
 
     def testGetValueListName(self):
         for clazz in protocol.getProtocolClasses():
-            self.assertIsInstance(protocol.getValueListName(clazz), str)
+            if len(clazz.DESCRIPTOR.fields_by_number) > 0:
+                self.assertIsInstance(protocol.getValueListName(clazz), str)
 
     def testConvertDatetime(self):
         datetime_ = datetime.datetime.fromordinal(1234567)
