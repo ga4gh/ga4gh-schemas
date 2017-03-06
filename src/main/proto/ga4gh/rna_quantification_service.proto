@@ -158,10 +158,10 @@ message GetRnaQuantificationRequest {
 message SearchExpressionLevelsRequest {
   // The rnaQuantification to restrict search to.
   string rna_quantification_id = 1;
-  
-  // Only return expressions with any of the specified feature_ids.
-  repeated string feature_ids = 2;
 
+  // Only return expressions with any of the names (strict string matching).
+  repeated string names = 6;
+  
   // Only return ExpressionLevel records with expressions exceeding
   // this value.  (Defaults to 0.0)
   float threshold = 3;
