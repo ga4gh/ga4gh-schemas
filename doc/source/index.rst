@@ -17,5 +17,6 @@ Contents
    intro
    api/index
    schemas/index
+   development
+   changelog
    appendix/index
-
