@@ -14,7 +14,7 @@ service SequenceAnnotationService {
   rpc SearchFeatureSets(SearchFeatureSetsRequest)
     returns (SearchFeatureSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a9/featuresets/search"
+        post: "/v0.6.0a10/featuresets/search"
         body: "*"
       };
     };
@@ -25,7 +25,7 @@ service SequenceAnnotationService {
   rpc GetFeatureSet(GetFeatureSetRequest)
     returns (FeatureSet) {
       option (google.api.http) = {
-        get: "/v0.6.0a9/featuresets/{feature_set_id}"
+        get: "/v0.6.0a10/featuresets/{feature_set_id}"
       };
     };
 
@@ -37,7 +37,7 @@ service SequenceAnnotationService {
   rpc SearchFeatures(SearchFeaturesRequest)
     returns (SearchFeaturesResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a9/features/search"
+        post: "/v0.6.0a10/features/search"
         body: "*"
       };
     };
@@ -48,7 +48,7 @@ service SequenceAnnotationService {
   rpc GetFeature(GetFeatureRequest)
     returns (Feature) {
       option (google.api.http) = {
-        get: "/v0.6.0a9/features/{feature_id}"
+        get: "/v0.6.0a10/features/{feature_id}"
       };
     };
 
