@@ -56,6 +56,12 @@ All of the above steps after the tag is dropped on the target commit are now
 `automated <https://docs.travis-ci.com/user/deployment/pypi/>`_ using
 Travis' capability to deploy to Pypi.
 
+When releasing the package to PyPi, the release manager should guarantee the
+protocol version in ``setup.py`` matches the protocol version being released.
+
+Since PyPi and the source code may provide different minor versions, release
+notes for the PyPi package are maintained in ``python/README.rst``.
+
 +++++++++++++++++++++
 Stable bugfix release
 +++++++++++++++++++++
