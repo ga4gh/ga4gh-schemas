@@ -118,7 +118,7 @@ do this:
 
 ::
 
-$ mvn package
+$ mvn site
 
 The documentation you generate will reside in
 ``target/generated-docs/merged/html``. To view it, open the file
