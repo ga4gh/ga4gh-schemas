@@ -13,7 +13,7 @@ import google.protobuf.message as message
 import ga4gh.schemas.protocol as protocol
 import ga4gh.schemas.ga4gh.common_pb2 as common
 
-from ga4gh.schemas.ga4gh.metadata_pb2 import Dataset
+from ga4gh.schemas.ga4gh.datasets_pb2 import Dataset
 
 
 class TestProtocol(unittest.TestCase):

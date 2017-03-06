@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package ga4gh;
 
-import "ga4gh/metadata.proto";
+import "ga4gh/datasets.proto";
 import "google/api/annotations.proto";
 
-service MetadataService {
+service DatasetService {
   // Gets a list of `Dataset` matching the search criteria.
   //
   // `POST /datasets/search` must accept a JSON version of

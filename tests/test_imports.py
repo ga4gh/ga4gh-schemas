@@ -15,8 +15,8 @@ ga4gh.__path__.insert(0, 'python/ga4gh')
 import ga4gh.schemas._protocol_version as version  # NOQA
 
 import ga4gh.schemas.ga4gh.common_pb2 as common_pb2  # NOQA
-import ga4gh.schemas.ga4gh.metadata_pb2 as metadata_pb2  # NOQA
-import ga4gh.schemas.ga4gh.metadata_service_pb2 as metadata_service_pb2  # NOQA
+import ga4gh.schemas.ga4gh.datasets_pb2 as metadata_pb2  # NOQA
+import ga4gh.schemas.ga4gh.dataset_service_pb2 as metadata_service_pb2  # NOQA
 import ga4gh.schemas.ga4gh.read_service_pb2 as read_service_pb2  # NOQA
 import ga4gh.schemas.ga4gh.reads_pb2 as reads_pb2  # NOQA
 import ga4gh.schemas.ga4gh.reference_service_pb2 as reference_service_pb2  # NOQA

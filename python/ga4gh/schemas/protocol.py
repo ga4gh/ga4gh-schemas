@@ -13,8 +13,8 @@ import array
 
 from _protocol_version import version  # noqa
 from ga4gh.common_pb2 import *  # noqa
-from ga4gh.metadata_pb2 import *  # noqa
-from ga4gh.metadata_service_pb2 import *  # noqa
+from ga4gh.datasets_pb2 import *  # noqa
+from ga4gh.dataset_service_pb2 import *  # noqa
 from ga4gh.read_service_pb2 import *  # noqa
 from ga4gh.reads_pb2 import *  # noqa
 from ga4gh.reference_service_pb2 import *  # noqa
