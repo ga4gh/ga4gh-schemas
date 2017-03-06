@@ -1,3 +1,9 @@
+###########
+Development
+###########
+
+
+
 ***************
 Release process
 ***************
@@ -27,7 +33,7 @@ Making a release entails the following steps:
 
 #. Create a PR against ``master`` that has the following changes:
 
-   #. update the release notes in ``doc/release-notes.md`` with a description of what is in the release
+   #. update the release notes in ``doc/source/changelog.rst`` with a description of what is in the release
    #. modify ``python/requirements.txt`` to pin the ga4gh-common package to a specific version
    #. modify ``python/constraints.txt`` to comment out all the lines referencing ga4gh packages
 
