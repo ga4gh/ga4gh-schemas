@@ -21,8 +21,7 @@ message Reference {
   // excluding all whitespace characters (this is equivalent to SQ:M5 in SAM).
   string md5checksum = 3;
 
-  // The name of this reference. (e.g. '22'). This should be unique within the
-  // Reference Set.
+  // The unique name of this reference within the Reference Set (e.g. '22').
   string name = 4;
 
   // The URI from which the sequence was obtained. Specifies a FASTA format
@@ -106,7 +105,7 @@ message ReferenceSet {
   // additional sequences, or some of the sequences within it are derived
   // (see the definition of `isDerived` in `Reference`).
   bool is_derived = 9;
-  
+
   // A map of additional information.
   Attributes attributes = 11;
 }
