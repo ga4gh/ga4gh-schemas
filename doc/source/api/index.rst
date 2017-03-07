@@ -95,3 +95,12 @@ with genomic features.
 
 .. _SAM/BAM: https://samtools.github.io/hts-specs/SAMv1.pdf
 .. _VCF: https://samtools.github.io/hts-specs/VCFv4.2.pdf
+
+Network
+@@@@@@@
+
+GA4GH services can communicate with each other about the services they offer
+over network protocols. This includes the peer service.
+
+.. toctree::
+   network.rst
