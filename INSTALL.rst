@@ -2,11 +2,11 @@ Installing the GA4GH Schemas
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 The schemas are documents (text files) that formally describe the
-messages that pass between GA4GH reference servers and clients, which we
+messages that pass between GA4GH servers and clients, which we
 also refer to collectively as "the API." The schemas are written in a
 language called `Protocol Buffers 3 <https://developers.google.com/protocol-buffers/>`__.
 
-For instructions on how to install Protocol Buffers 3 in your system,
+For instructions on how to install Protocol Buffers 3 on your system,
 consult the `protocol buffers C++ installation instructions page
 <https://github.com/google/protobuf/blob/master/src/README.md>`__.
 
@@ -105,7 +105,7 @@ Do this once to install all required Python packages:
 
 ::
 
-$ sudo pip install -r python/dev_requirements.txt
+$ sudo pip install -r python/dev_requirements.txt -c python/constraints.txt
 
 Generate the documentation
 @@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -118,7 +118,7 @@ do this:
 
 ::
 
-$ mvn package
+$ mvn site
 
 The documentation you generate will reside in
 ``target/generated-docs/merged/html``. To view it, open the file
