@@ -12,6 +12,27 @@ lists from known network participants.
 
 Network membership is voluntary, in that each peer is free to
 manage its peer list.
+
+To announce a peer simply send a well-formed announce message with the URL
+of the service to be announced.
+
+To assist with more complicated network scenarios a handshake exchange
+will help in forming useful announce messages.
+
+Alice makes a GetInfoRequest to Bob. Bob responds with a GetInfoResponse
+that tells Alice the protocol version he hosts, as well as the address Bob
+is using to identify Alice (by inspecting the incoming request). Then Alice
+views the returned GetInfoResponse and takes the value from the `remote_url`
+field and places into the `url` of an AnnouncePeerRequest. Although the port
+and path that the service is running behind may be different, Alice now
+knows an address that Bob can use to resolve her service.
+
+Alice's AnnouncePeerRequest now contains a hostname or IP that can be used to
+resolve her system from Bob's service. Since we don't require GA4GH services
+to run at the base path of a hostTo guarantee that the path on the
+AnnouncePeerRequest is correct, Alice will have to add the port path that her
+service runs behind: `http://alice:1234/extra/path` to ensure any future
+messages from Bob are routed to the right endpoint.
 */
 
 service PeerService {
@@ -114,6 +135,14 @@ message GetInfoResponse {
   // The string of the protocol version offered by the service. For
   // example, "0.6.0a10".
   string protocol_version = 1;
+
+  // This value is set by the service by observing the incoming request and
+  // returning it to the client. This allows services to reason about their
+  // Internet addresses without relying on third-party services.
+  //
+  // It is used during the peer negotiation process to establish a link to an
+  // announcing service.
+  string remote_url = 3;
 
   // A map of additional information about the service can be included.
   Attributes attributes = 2;
