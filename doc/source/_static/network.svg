@@ -187,7 +187,7 @@
     <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1089.79,744.672 1086.2,755.261 1084.46,749.949 1079.16,748.155 "/>
   </g>
   <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1026" y="486.5">
-    <tspan x="1026" y="486.5">Private healthcare institutionsmay expose</tspan>
+    <tspan x="1026" y="486.5">Private healthcare institutions may expose</tspan>
     <tspan x="1026" y="502.5">a node that aggregates results from its</tspan>
     <tspan x="1026" y="518.5">member hospitals.</tspan>
   </text>

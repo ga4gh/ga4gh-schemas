@@ -27,8 +27,8 @@ Use Cases
 =========
 
 -  Alice would like to join an existing P2P network by announcing to a
-   good known peer. By sending an announce request with the URL of her
-   service to the URL of a known good peer, she has advertised her
+   known peer. By sending an announce request with the URL of her
+   service to the URL of the known good peer, she has advertised her
    services.
 -  Alice would like to create an ad-hoc peer to peer network with Bob.
    She first announces her service to Bob and then adds Bob’s service to
@@ -66,6 +66,7 @@ these results available to the wider scientific community.
 
 .. image:: /_static/network.svg
    :align: center
+   :width: 73%
 
 
 This architecture is not enforced by the protocol and network participants
@@ -76,9 +77,9 @@ Network Membership
 
 Service operators choose whether to respond to announcements, or whether to
 add a peer to their peer list. Since services are free to manage their peer
-list as they please, various network configurations can be achieved. Using a
-known good list of peers a single decentralized, fully connected network
-can be made.
+list as they please, various network configurations can be achieved. A
+ a single decentralized fully connected network can be made by bootstrapping
+ using a list of known good peers.
 
 Public Initial Peers
 ********************
@@ -91,12 +92,14 @@ your peer to be listed immediately.
 Private Networks
 ****************
 
-White listing allows one to create a service that only responds to requests
+"White listing" allows one to create a service that only responds to requests
 from known hosts. By configuring a node to only respond to requests from a
 certain domain, it is placed in a private network.
 
-By white listing only the peers on a service's peer list, it is possible for
-server maintainers to create private network topologies to suit their needs.
+By "white listing" only the peers on a service's peer list, it is possible to
+create private peer to peer networks. These nodes will only respond to requests
+from the managed list of peers. This is considered a detail of implementation,
+the protocol itself does not enforce this.
 
 Methods
 =======
@@ -115,17 +118,18 @@ That service can then respond to the announcement by adding that peer to its
 list of peers.
 
 By reviewing announcements a server operator can control which announcements
-are promoted into peers.
+are promoted into the list of connect peers.
 
 Listing Peers
 *************
 
 Each service, in addition to receiving announcements about the presence of
 other peers, shares its list of peers at the ``peers/list`` endpoint. This
-list can be paged through if the list of peers gets very long. Each entry
+list can be paged through similar to other GA4GH endpoints. Each entry
 in the `ListPeersResponse
-<../schemas/peer_service.proto.html#protobuf.ListPeersResponse>`_ includes a URL to a possible peer. It is up to
-individual services to maintain their list of peers.
+<../schemas/peer_service.proto.html#protobuf.ListPeersResponse>`_ includes a URL
+to a possible peer. It is up to individual services to maintain
+their list of peers.
 
 The endpoint is named off of the ``peers`` path because, in practice, we expect
 implementations to provide ``peers/add`` and ``peers/remove`` methods, however,

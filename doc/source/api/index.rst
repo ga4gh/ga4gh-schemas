@@ -22,7 +22,7 @@ be aligned to a reference sequence.
 .. toctree::
    reads
 
-   
+
 Variants
 @@@@@@@@
 
@@ -100,7 +100,7 @@ Network
 @@@@@@@
 
 GA4GH services can communicate with each other about the services they offer
-over network protocols. This includes the peer service.
+over network protocols. This includes the Peer Service.
 
 .. toctree::
    network.rst
