@@ -19,7 +19,7 @@ Peer Service
 ------------
 
 Two servers, if they are able to communicate over a network connection, can
-form a simple ad-hoc peer to peer relationship by notifying each other of
+form a simple ad-hoc peer-to-peer (P2P) relationship by notifying each other of
 their existence. A network can be formed by allowing services to share their
 list of peers with each other.
 
@@ -30,7 +30,7 @@ Use Cases
    known peer. By sending an announce request with the URL of her
    service to the URL of the known good peer, she has advertised her
    services.
--  Alice would like to create an ad-hoc peer to peer network with Bob.
+-  Alice would like to create an ad-hoc peer-to-peer network with Bob.
    She first announces her service to Bob and then adds Bob’s service to
    her list of peers.
 -  Alice would like to get a list of all the available datasets on a
@@ -78,8 +78,8 @@ Network Membership
 Service operators choose whether to respond to announcements, or whether to
 add a peer to their peer list. Since services are free to manage their peer
 list as they please, various network configurations can be achieved. A
- a single decentralized fully connected network can be made by bootstrapping
- using a list of known good peers.
+single decentralized fully connected network can be made by bootstrapping
+using a list of known good peers.
 
 Public Initial Peers
 ********************
