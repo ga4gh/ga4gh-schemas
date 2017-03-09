@@ -99,8 +99,8 @@ License
 See the `LICENSE <LICENSE>`__
 
 
-.. |Build Status| image:: https://travis-ci.org/ga4gh/schemas.svg?branch=master
-			  :target: https://travis-ci.org/ga4gh/schemas
+.. |Build Status| image:: https://travis-ci.org/ga4gh/ga4gh-schemas.svg?branch=master
+			  :target: https://travis-ci.org/ga4gh/ga4gh-schemas
 .. |Docs| image:: https://readthedocs.org/projects/ga4gh-schemas/badge/
 		  :target: http://ga4gh-schemas.readthedocs.org
 .. |PyPi Release| image:: https://img.shields.io/pypi/v/ga4gh-schemas.svg
