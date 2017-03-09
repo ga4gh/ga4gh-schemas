@@ -57,7 +57,7 @@ setup(
         "ga4gh.schemas.google.api"
     ],
     namespace_packages=["ga4gh"],
-    url="https://github.com/ga4gh/schemas",
+    url="https://github.com/ga4gh/ga4gh-schemas",
     use_scm_version={"write_to": "python/ga4gh/schemas/_version.py"},
     entry_points={},
     package_dir={'': 'python'},

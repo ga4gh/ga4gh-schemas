@@ -57,12 +57,12 @@ G2P servers are planned to be implemented in three different contexts:
 Approach
 --------
 
-We based our original work on the model captured in `ga4gh/schemas
+We based our original work on the model captured in `ga4gh/ga4gh-schemas
 commit of Jul 30,
-2015 <https://github.com/ga4gh/schemas/tree/be171b00a5f164836dfd40ea5ae75ea56924d316>`__.
+2015 <https://github.com/ga4gh/ga4gh-schemas/tree/be171b00a5f164836dfd40ea5ae75ea56924d316>`__.
 This version of the schema predates the `separated genotype to phenotype
 files from
-baseline <https://github.com/ga4gh/schemas/commit/846b711fdcf544bf889cc7dbab19c6c48e9a9428>`__.
+baseline <https://github.com/ga4gh/ga4gh-schemas/commit/846b711fdcf544bf889cc7dbab19c6c48e9a9428>`__.
 After on review of the schemas and code, the team had feedback about
 separation of responsibility in the original API. The API was refactored
 to separate the searches for genotype, phenotype, feature and
@@ -89,10 +89,10 @@ their original context i.e. the source ontology.
 
 Due to the flexibility of the data model, users have a number of options
 for specifying each query term
-`feature <https://github.com/ga4gh/schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/genotypephenotypemethods.avdl#L105>`__,
-`phenotype <https://github.com/ga4gh/schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/genotypephenotypemethods.avdl#L108>`__,
+`feature <https://github.com/ga4gh/ga4gh-schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/genotypephenotypemethods.avdl#L105>`__,
+`phenotype <https://github.com/ga4gh/ga4gh-schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/genotypephenotypemethods.avdl#L108>`__,
 and
-`evidence <https://github.com/ga4gh/schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/genotypephenotypemethods.avdl#L111>`__.
+`evidence <https://github.com/ga4gh/ga4gh-schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/genotypephenotypemethods.avdl#L111>`__.
 
 API
 ---
@@ -152,7 +152,7 @@ Usage
 3. Repeat 1-2 as necessary, collating responses on the client.
 
 Many types rely heavily on the concept of an
-`OntologyTerm <https://github.com/ga4gh/schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/ontologies.avdl#L10>`__
+`OntologyTerm <https://github.com/ga4gh/ga4gh-schemas/blob/be171b00a5f164836dfd40ea5ae75ea56924d316/src/main/resources/avro/ontologies.avdl#L10>`__
 (see end of document for discussion on usage of OntologyTerms).
 
 Implementation
