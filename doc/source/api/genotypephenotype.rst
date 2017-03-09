@@ -166,23 +166,23 @@ Source Code
 ~~~~~~~~~~~
 
 -  `Front
-   End <https://github.com/ga4gh/server/blob/g2p/ga4gh/frontend.py>`__
+   End <https://github.com/ga4gh/ga4gh-server/blob/g2p/ga4gh/frontend.py>`__
    '/features/search', '/datasets/<datasetId>/features/search', '/phenotypes/search',
    '/featurephenotypeassociations/search'
 -  `Back
-   End <https://github.com/ga4gh/server/blob/g2p/ga4gh/backend.py>`__
+   End <https://github.com/ga4gh/ga4gh-server/blob/g2p/ga4gh/backend.py>`__
    'runSearchFeatures', 'runSearchGenotypePhenotypes', 'runSearchPhenotypes',
    'runSearchGenotypes'
--  `Datamodel <https://github.com/ga4gh/server/blob/g2p/ga4gh/datamodel/genotype_phenotype.py>`__
+-  `Datamodel <https://github.com/ga4gh/ga4gh-server/blob/g2p/ga4gh/datamodel/genotype_phenotype.py>`__
    'getAssociations'
-   `Datamodel <https://github.com/ga4gh/server/blob/g2p/ga4gh/datamodel/genotype_phenotype_featureset.py>`__
+   `Datamodel <https://github.com/ga4gh/ga4gh-server/blob/g2p/ga4gh/datamodel/genotype_phenotype_featureset.py>`__
    'getAssociations' (Features)
 
 Tests
 ~~~~~
 
 -  `End to
-   End <https://github.com/ga4gh/server/blob/g2p/tests/end_to_end/test_g2p.py>`__
+   End <https://github.com/ga4gh/ga4gh-server/blob/g2p/tests/end_to_end/test_g2p.py>`__
 
 **Help Wanted:** Any or all use cases and scenarios
 
@@ -442,7 +442,7 @@ Use cases
    phenotype.
 
 For specifics of the json representations, please see the
-``server <https://github.com/ga4gh/server>`` and
+``server <https://github.com/ga4gh/ga4gh-server>`` and
 ``compliance <https://github.com/ga4gh/compliance>`` repositories.
 
 Ontologies
