@@ -29,10 +29,9 @@ knows an address that Bob can use to resolve her service.
 
 Alice's AnnouncePeerRequest now contains a hostname or IP that can be used to
 resolve her system from Bob's service. Since we don't require GA4GH services
-to run at the base path of a hostTo guarantee that the path on the
-AnnouncePeerRequest is correct, Alice will have to add the port path that her
-service runs behind: `http://alice:1234/extra/path` to ensure any future
-messages from Bob are routed to the right endpoint.
+to run at the base path of a host, Alice will have to add the port and path
+that her service runs behind: `http://alice:1234/extra/path` to ensure any
+future messages from Bob are routed to the right endpoint.
 */
 
 service PeerService {
@@ -46,7 +45,7 @@ service PeerService {
   rpc ListPeers(ListPeersRequest)
     returns (ListPeersResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a10/peers/list"
+        post: "/v0.6.0a11/peers/list"
         body: "*"
       };
     };
@@ -64,7 +63,7 @@ service PeerService {
   rpc AnnouncePeer(AnnouncePeerRequest)
     returns (AnnouncePeerResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a10/announce"
+        post: "/v0.6.0a11/announce"
       };
     };
 
@@ -77,7 +76,7 @@ service PeerService {
   rpc Info(GetInfoRequest)
     returns (GetInfoResponse) {
       option (google.api.http) = {
-        get: "/v0.6.0a10/info"
+        get: "/v0.6.0a11/info"
       };
     };
 
@@ -133,7 +132,7 @@ message GetInfoRequest {
 // This is the response from `GET /info`.
 message GetInfoResponse {
   // The string of the protocol version offered by the service. For
-  // example, "0.6.0a10".
+  // example, "0.6.0a11".
   string protocol_version = 1;
 
   // This value is set by the service by observing the incoming request and
