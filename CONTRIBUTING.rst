@@ -5,7 +5,7 @@ Thank you for taking the time to contribute. We appreciate it!
 
 The GA4GH schemas define an API for sharing genomic and phenotypic
 data.  Supporting the schemas is a `reference server
-<https://github.com/ga4gh/server>`__, which acts as a useful, complete
+<https://github.com/ga4gh/ga4gh-server>`__, which acts as a useful, complete
 implementation of the API, and a `compliance suite
 <https://github.com/ga4gh/compliance>`__, which provides data and
 functions to test an API implementation. Development of these three
@@ -23,7 +23,7 @@ Issues
 @@@@@@
 
 The project's `Issues Page
-<https://github.com/ga4gh/schemas/issues>`__ is a forum to discuss
+<https://github.com/ga4gh/ga4gh-schemas/issues>`__ is a forum to discuss
 both major and minor issues related to developing the standards,
 formats, and APIs. It also serves as the means for collaborating with
 the group and discussing contributions that will ultimately lead to

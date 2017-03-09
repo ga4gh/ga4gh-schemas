@@ -8,7 +8,7 @@
 
   <name>GA4GH: Schemas</name>
   <description>Data models and APIs for Genomic data.</description>
-  <url>https://github.com/ga4gh/schemas</url>
+  <url>https://github.com/ga4gh/ga4gh-schemas</url>
   <inceptionYear>2014</inceptionYear>
   <organization>
     <name>Global Alliance for Genomics and Health</name>
@@ -21,9 +21,9 @@
     </license>
   </licenses>
   <scm>
-    <connection>scm:git:https://github.com/ga4gh/schemas</connection>
-    <developerConnection>scm:git:https://github.com/ga4gh/schemas</developerConnection>
-    <url>https://github.com/ga4gh/schemas</url>
+    <connection>scm:git:https://github.com/ga4gh/ga4gh-schemas</connection>
+    <developerConnection>scm:git:https://github.com/ga4gh/ga4gh-schemas</developerConnection>
+    <url>https://github.com/ga4gh/ga4gh-schemas</url>
   </scm>
   <developers>
     <developer>
