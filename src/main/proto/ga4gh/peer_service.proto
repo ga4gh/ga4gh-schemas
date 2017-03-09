@@ -12,6 +12,15 @@ lists from known network participants.
 
 Network membership is voluntary, in that each peer is free to
 manage its peer list.
+
+To announce a service to a peer send an AnnouncePeerRequest to a known
+good peer to the `/announce` endpoint.
+
+To receive information about a peer request a GetInfoResponse from the `/info`
+endpoint.
+
+To get a list of known peers send a ListPeersRequest to the `/peers/list`
+endpoint.
 */
 
 service PeerService {

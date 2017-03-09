@@ -23,7 +23,7 @@ Issues
 @@@@@@
 
 The project's `Issues Page
-<https://github.com/ga4gh/schemas/issues>`__ is a forum to discuss
+<https://github.com/ga4gh/ga4gh-schemas/issues>`__ is a forum to discuss
 both major and minor issues related to developing the standards,
 formats, and APIs. It also serves as the means for collaborating with
 the group and discussing contributions that will ultimately lead to

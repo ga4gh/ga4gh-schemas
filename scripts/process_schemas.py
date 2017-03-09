@@ -38,8 +38,8 @@ def runCommandSplits(splits, silent=False, shell=False):
                     splits, stdout=devnull, stderr=devnull, shell=shell)
         else:
             subprocess.check_call(splits, shell=shell)
-    except OSError, e:
-        if e.errno == 2:  # cmd not found
+    except OSError as exception:
+        if exception.errno == 2:  # cmd not found
             raise Exception(
                 "Can't find command while trying to run {}".format(splits))
         else:
