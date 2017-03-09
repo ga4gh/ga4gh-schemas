@@ -31,3 +31,4 @@ Schemas
    struct.proto.rst
    genotype_phenotype.proto.rst
    genotype_phenotype_service.proto.rst
+   peer_service.proto.rst
