@@ -30,7 +30,7 @@ Features:
   * ReadGroupSet
   * ReadAlignment
   * Reference
-  * ReferrenceSet
+  * ReferenceSet
   * RnaQuantificationSet
   * RnaQuantification
   * ExpressionLevel
