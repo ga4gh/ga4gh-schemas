@@ -105,7 +105,7 @@ Do this once to install all required Python packages:
 
 ::
 
-$ sudo pip install -r python/dev_requirements.txt -c python/constraints.txt
+$ sudo pip install -r python/dev-requirements.txt -c python/constraints.txt
 
 Generate the documentation
 @@@@@@@@@@@@@@@@@@@@@@@@@@
