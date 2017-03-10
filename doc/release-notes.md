@@ -2,31 +2,55 @@
 
 Changes to `ga4gh/schemas` `master` branch since version `0.6.0a9` (Jan 23, 2016)
 
-* Features:
- * Remove feature_id from ExpressionLevel #818
- * Added support for BigWig files in a new Continuous Data object #802
-  * Continuous Data: POST /continuoussets/search
-  * Continuous Data: GET /continuoussets/{id}
-  * Continuous Data: POST /continuous/search
- * Add deep set/get attr to protocol module #816
- * Changed ontology term “id” to “term_id” #805
- * Replaced info fields with rich type Attributes fields #700
- * Add ability to list and join peer server networks #760
-  * Peer: POST /peers/list
-  * Peer: POST /peers/announce
-  * Peer: GET /info
- * Replace NCBI taxon ID integer with ontology term (#699) 
-
-* Documentation:
+Features:
+* Remove feature_id from ExpressionLevel #818  Impacts
+  - `POST /expressionlevels/search`
+  - `GET /expressionlevels/{id}`
+* Added support for BigWig files in a new Continuous Data object #802 Adds the following new endpoints:
+  * Continuous Data: `POST /continuoussets/search`
+  * Continuous Data: `GET /continuoussets/{id}`
+  * Continuous Data: `POST /continuous/search`
+* Add deep set/get attr to protocol module #816
+* Changed ontology term “id” to “term_id” #805 Impacts the following message types:
+  * OntologyTerm
+* Replaced info fields with rich type Attributes fields #700 Impacts the following message types:
+  * TranscriptEffect
+  * VariantAnnotation
+  * Individual
+  * Biosample
+  * Experiment (new)
+  * Analysis (new)
+  * Dataset
+  * ReadGroup
+  * ReadGroupSet
+  * ReadAlignment
+  * Reference
+  * ReferrenceSet
+  * RnaQuantificationSet
+  * RnaQuantification
+  * ExpressionLevel
+  * Feature
+  * VariantSetMetadata
+  * CallSet
+  * Call
+  * Variant
+* Add ability to list and join peer server networks #760 Adds the following new endpoints:
+  * Peer: `POST /peers/list`
+  * Peer: `POST /peers/announce`
+  * Peer: `GET /info`
+* Replace NCBI taxon ID integer with ontology term (#699) Impacts the following message types:
+  * Reference
+  * ReferenceSet
+  
+Documentation:
  * Add instructions for viewing the UML diagram #835
  * Expand on schema usage instructions #786
  * Expand on release process documentation #753
 
-* Infrastructure:
+Infrastructure:
  * Automatically deploy tagged releases to Pypi from Travis #825
  * Add tests to verify constraints files #817
  * Continued effort to separate out common methods
-
 
 
 # Schema Release `v0.6.0a9`
