@@ -25,6 +25,5 @@ in the API, and genetic variations are described as edits to reference
 scaffolds/contigs.  In the API a reference genome is described by a
 *ReferenceSet*. In turn a *ReferenceSet* is composed of a set of
 *Reference* objects, each which represents a scaffold or contig in the
-assembly.  A fairly minimal amount of metadata is associated with the
-*ReferenceSet* and *Reference* objects.
-
+assembly. *Reference* sequences are expected to have unique names within 
+a *ReferenceSet*.

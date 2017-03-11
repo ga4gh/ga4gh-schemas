@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='ga4gh/schemas/ga4gh/bio_metadata.proto',
   package='ga4gh.schemas.ga4gh',
   syntax='proto3',
-  serialized_pb=_b('\n&ga4gh/schemas/ga4gh/bio_metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\"\x8a\x02\n\nIndividual\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07\x63reated\x18\x05 \x01(\t\x12\x0f\n\x07updated\x18\x06 \x01(\t\x12\x32\n\x07species\x18\x07 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12.\n\x03sex\x18\x08 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x33\n\nattributes\x18\n \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\"\xf0\x01\n\tBiosample\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x32\n\x07\x64isease\x18\x05 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x0f\n\x07\x63reated\x18\x06 \x01(\t\x12\x0f\n\x07updated\x18\x07 \x01(\t\x12\x15\n\rindividual_id\x18\x08 \x01(\t\x12\x33\n\nattributes\x18\n \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributesb\x06proto3')
+  serialized_pb=_b('\n&ga4gh/schemas/ga4gh/bio_metadata.proto\x12\x13ga4gh.schemas.ga4gh\x1a ga4gh/schemas/ga4gh/common.proto\"\x8a\x02\n\nIndividual\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x0f\n\x07\x63reated\x18\x05 \x01(\t\x12\x0f\n\x07updated\x18\x06 \x01(\t\x12\x32\n\x07species\x18\x07 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12.\n\x03sex\x18\x08 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x33\n\nattributes\x18\n \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\"\xb0\x02\n\tBiosample\x12\n\n\x02id\x18\x01 \x01(\t\x12\x12\n\ndataset_id\x18\x02 \x01(\t\x12\x0c\n\x04name\x18\x03 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x04 \x01(\t\x12\x32\n\x07\x64isease\x18\x05 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTerm\x12\x0f\n\x07\x63reated\x18\x06 \x01(\t\x12\x0f\n\x07updated\x18\x07 \x01(\t\x12\x15\n\rindividual_id\x18\x08 \x01(\t\x12\x33\n\nattributes\x18\n \x01(\x0b\x32\x1f.ga4gh.schemas.ga4gh.Attributes\x12>\n\x1cindividual_age_at_collection\x18\x0b \x01(\x0b\x32\x18.ga4gh.schemas.ga4gh.Age\"H\n\x03\x41ge\x12\x0b\n\x03\x61ge\x18\x01 \x01(\t\x12\x34\n\tage_class\x18\x02 \x01(\x0b\x32!.ga4gh.schemas.ga4gh.OntologyTermb\x06proto3')
   ,
   dependencies=[ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2.DESCRIPTOR,])
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -185,6 +185,13 @@ _BIOSAMPLE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    _descriptor.FieldDescriptor(
+      name='individual_age_at_collection', full_name='ga4gh.schemas.ga4gh.Biosample.individual_age_at_collection', index=9,
+      number=11, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -198,7 +205,45 @@ _BIOSAMPLE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=367,
-  serialized_end=607,
+  serialized_end=671,
+)
+
+
+_AGE = _descriptor.Descriptor(
+  name='Age',
+  full_name='ga4gh.schemas.ga4gh.Age',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='age', full_name='ga4gh.schemas.ga4gh.Age.age', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='age_class', full_name='ga4gh.schemas.ga4gh.Age.age_class', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=673,
+  serialized_end=745,
 )
 
 _INDIVIDUAL.fields_by_name['species'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ONTOLOGYTERM
@@ -206,8 +251,11 @@ _INDIVIDUAL.fields_by_name['sex'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot
 _INDIVIDUAL.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
 _BIOSAMPLE.fields_by_name['disease'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ONTOLOGYTERM
 _BIOSAMPLE.fields_by_name['attributes'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ATTRIBUTES
+_BIOSAMPLE.fields_by_name['individual_age_at_collection'].message_type = _AGE
+_AGE.fields_by_name['age_class'].message_type = ga4gh_dot_schemas_dot_ga4gh_dot_common__pb2._ONTOLOGYTERM
 DESCRIPTOR.message_types_by_name['Individual'] = _INDIVIDUAL
 DESCRIPTOR.message_types_by_name['Biosample'] = _BIOSAMPLE
+DESCRIPTOR.message_types_by_name['Age'] = _AGE
 
 Individual = _reflection.GeneratedProtocolMessageType('Individual', (_message.Message,), dict(
   DESCRIPTOR = _INDIVIDUAL,
@@ -222,6 +270,13 @@ Biosample = _reflection.GeneratedProtocolMessageType('Biosample', (_message.Mess
   # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.Biosample)
   ))
 _sym_db.RegisterMessage(Biosample)
+
+Age = _reflection.GeneratedProtocolMessageType('Age', (_message.Message,), dict(
+  DESCRIPTOR = _AGE,
+  __module__ = 'ga4gh.schemas.ga4gh.bio_metadata_pb2'
+  # @@protoc_insertion_point(class_scope:ga4gh.schemas.ga4gh.Age)
+  ))
+_sym_db.RegisterMessage(Age)
 
 
 # @@protoc_insertion_point(module_scope)

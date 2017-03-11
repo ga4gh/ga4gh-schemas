@@ -21,4 +21,6 @@ Contents
    api/index
    install
    schemas/index
+   development
+   changelog
    appendix/index
