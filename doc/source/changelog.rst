@@ -17,7 +17,7 @@ Features:
   - Continuous Data: `POST /continuous/search`
  * Add deep set/get attr to protocol module `#816  <https://github.com/ga4gh/ga4gh-schemas/issues/816>`__
  * Changed ontology term “id” to “term_id” `#805  <https://github.com/ga4gh/ga4gh-schemas/issues/805>`__ Impacts the message type OntologyTerm
- * Replaced info fields with rich type Attributes fields #700 Impacts the following message types:
+ * Replaced info fields with rich type Attributes fields `#700   <https://github.com/ga4gh/ga4gh-schemas/issues/700>`__ Impacts the following message types:
   * TranscriptEffect
   * VariantAnnotation
   * Individual
@@ -54,7 +54,9 @@ Documentation:
 Infrastructure:
  * Automatically deploy tagged releases to Pypi from Travis `#825  <https://github.com/ga4gh/ga4gh-schemas/issues/825>`__
  * Add tests to verify constraints files `#817  <https://github.com/ga4gh/ga4gh-schemas/issues/817>`__
- * Continued effort to separate out common methodsSchema Release ``v0.6.0a9``
+ * Continued effort to separate out common methods
+
+Schema Release ``v0.6.0a9``
 ===========================
 
 Changes to ``ga4gh/schemas`` ``master`` branch since version ``0.6.0a8``
