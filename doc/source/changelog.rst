@@ -39,9 +39,9 @@ Features:
   * Call
   * Variant
  * Add ability to list and join peer server networks `#760  <https://github.com/ga4gh/ga4gh-schemas/issues/760>`__ Adds the following new endpoints:
-  * Peer: `POST /peers/list`
-  * Peer: `POST /peers/announce`
-  * Peer: `GET /info`
+  * Peer: ``POST /peers/list``
+  * Peer: ``POST /peers/announce``
+  * Peer: ``GET /info``
  * Replace NCBI taxon ID integer with ontology term `#699  <https://github.com/ga4gh/ga4gh-schemas/issues/699>`__  Impacts the following message types:
   * Reference
   * ReferenceSet
