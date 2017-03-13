@@ -52,7 +52,7 @@ Documentation:
  * Expand on release process documentation `#753  <https://github.com/ga4gh/ga4gh-schemas/issues/753>`__
 
 Infrastructure:
- * Automatically deploy tagged releases to Pypi from Travis `#825  <https://github.com/ga4gh/ga4gh-schemas/issues/825>`__
+ * Automatically deploy tagged releases to PyPi from Travis `#825  <https://github.com/ga4gh/ga4gh-schemas/issues/825>`__
  * Add tests to verify constraints files `#817  <https://github.com/ga4gh/ga4gh-schemas/issues/817>`__
  * Continued effort to separate out common methods
 
