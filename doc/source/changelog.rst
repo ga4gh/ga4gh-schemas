@@ -8,13 +8,13 @@ Schema Release ``v0.6.0a10``
 Changes to ``ga4gh/schemas`` ``master`` branch since version ``0.6.0a9`` (Jan 23, 2016)
 
 Features:
- * Remove feature_id from ExpressionLevel and addeed ability to seearch by Name field. `#818 <https://github.com/ga4gh/ga4gh-schemas/issues/818>`__  Impacts
-  * `POST /expressionlevels/search`
-  * `GET /expressionlevels/{id}`
+ * Remove feature_id from ExpressionLevel and added ability to search by Name field. `#818 <https://github.com/ga4gh/ga4gh-schemas/issues/818>`__  Impacts
+  * ``POST /expressionlevels/search``
+  * ``GET /expressionlevels/{id}``
  - Added support for BigWig files in a new Continuous Data object `#802  <https://github.com/ga4gh/ga4gh-schemas/issues/802>`__ Adds the following new endpoints:
-  - Continuous Data: `POST /continuoussets/search`
-  - Continuous Data: `GET /continuoussets/{id}`
-  - Continuous Data: `POST /continuous/search`
+  - Continuous Data: ``POST /continuoussets/search``
+  - Continuous Data: ``GET /continuoussets/{id}``
+  - Continuous Data: ``POST /continuous/search``
  * Add deep set/get attr to protocol module `#816  <https://github.com/ga4gh/ga4gh-schemas/issues/816>`__
  * Changed ontology term “id” to “term_id” `#805  <https://github.com/ga4gh/ga4gh-schemas/issues/805>`__ Impacts the message type OntologyTerm
  * Replaced info fields with rich type Attributes fields `#700   <https://github.com/ga4gh/ga4gh-schemas/issues/700>`__ Impacts the following message types:
