@@ -2,6 +2,60 @@
 Changelog
 #########
 
+Schema Release ``v0.6.0a10``
+==========================
+
+Changes to ``ga4gh/schemas`` ``master`` branch since version ``0.6.0a9`` (Jan 23, 2016)
+
+Features:
+ * Remove feature_id from ExpressionLevel and added ability to search by Name field. `#818 <https://github.com/ga4gh/ga4gh-schemas/issues/818>`__  Impacts
+  * ``POST /expressionlevels/search``
+  * ``GET /expressionlevels/{id}``
+ - Added support for BigWig files in a new Continuous Data object `#802  <https://github.com/ga4gh/ga4gh-schemas/issues/802>`__ Adds the following new endpoints:
+  - Continuous Data: ``POST /continuoussets/search``
+  - Continuous Data: ``GET /continuoussets/{id}``
+  - Continuous Data: ``POST /continuous/search``
+ * Add deep set/get attr to protocol module `#816  <https://github.com/ga4gh/ga4gh-schemas/issues/816>`__
+ * Changed ontology term “id” to “term_id” `#805  <https://github.com/ga4gh/ga4gh-schemas/issues/805>`__ Impacts the message type OntologyTerm
+ * Replaced info fields with rich type Attributes fields `#700   <https://github.com/ga4gh/ga4gh-schemas/issues/700>`__ Impacts the following message types:
+  * TranscriptEffect
+  * VariantAnnotation
+  * Individual
+  * Biosample
+  * Experiment (new)
+  * Analysis (new)
+  * Dataset
+  * ReadGroup
+  * ReadGroupSet
+  * ReadAlignment
+  * Reference
+  * ReferenceSet
+  * RnaQuantificationSet
+  * RnaQuantification
+  * ExpressionLevel
+  * Feature
+  * VariantSetMetadata
+  * CallSet
+  * Call
+  * Variant
+ * Add ability to list and join peer server networks `#760  <https://github.com/ga4gh/ga4gh-schemas/issues/760>`__ Adds the following new endpoints:
+  * Peer: ``POST /peers/list``
+  * Peer: ``POST /peers/announce``
+  * Peer: ``GET /info``
+ * Replace NCBI taxon ID integer with ontology term `#699  <https://github.com/ga4gh/ga4gh-schemas/issues/699>`__  Impacts the following message types:
+  * Reference
+  * ReferenceSet
+  
+Documentation:
+ * Add instructions for viewing the UML diagram `#835  <https://github.com/ga4gh/ga4gh-schemas/issues/835>`__
+ * Expand on schema usage instructions `#786  <https://github.com/ga4gh/ga4gh-schemas/issues/786>`__
+ * Expand on release process documentation `#753  <https://github.com/ga4gh/ga4gh-schemas/issues/753>`__
+
+Infrastructure:
+ * Automatically deploy tagged releases to PyPi from Travis `#825  <https://github.com/ga4gh/ga4gh-schemas/issues/825>`__
+ * Add tests to verify constraints files `#817  <https://github.com/ga4gh/ga4gh-schemas/issues/817>`__
+ * Continued effort to separate out common methods
+
 Schema Release ``v0.6.0a9``
 ===========================
 
