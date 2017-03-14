@@ -148,10 +148,15 @@ def type_to_string(f, map_types):
         return "uint64"
     elif f.type in [5]:
         return "integer"
+    elif f.type in [6]:
+        return "fixed64"
+    elif f.type in [7]:
+        return "fixed32"
     elif f.type in [8]:
         return "boolean"
     elif f.type in [9]:
         return "string"
+    # missing type 10 - Group
     elif f.type in [11, 14]:
         ref_name = f.ref_type
         if ref_name in map_types:
@@ -169,6 +174,16 @@ def type_to_string(f, map_types):
                 return kind
     elif f.type in [12]:
         return "bytes"
+    elif f.type in [13]:
+        return "uint32"
+    elif f.type in [15]:
+        return "sfixed32"
+    elif f.type in [16]:
+        return "sfixed64"
+    elif f.type in [17]:
+        return "sint32"
+    elif f.type in [18]:
+        return "sint64"
     else:
         raise Exception, f.type
 

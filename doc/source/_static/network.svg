@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="74cm" height="58cm" viewBox="-141 -72 1468 1154" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="380.826" y="482" width="178.35" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="380.826" y="482" width="178.35" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="470.001" y="527.9">
+      <tspan x="470.001" y="527.9">Elixir Nodes</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="718.4" y="265.6" width="172.8" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="718.4" y="265.6" width="172.8" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="804.8" y="303.5">
+      <tspan x="804.8" y="303.5">Genomics Cloud</tspan>
+      <tspan x="804.8" y="319.5">Provider</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="390.8" y="208.6" width="138" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="390.8" y="208.6" width="138" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="459.8" y="254.5">
+      <tspan x="459.8" y="254.5">BRCA Exchange</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="565.8" y="55.6" width="138" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="565.8" y="55.6" width="138" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="634.8" y="101.5">
+      <tspan x="634.8" y="101.5">1kgenomes</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="775.8" y="57.6" width="138" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="775.8" y="57.6" width="138" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="844.8" y="103.5">
+      <tspan x="844.8" y="103.5">DBSnp</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="993.8" y="135.6" width="138" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="993.8" y="135.6" width="138" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1062.8" y="181.5">
+      <tspan x="1062.8" y="181.5">Curated partners</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="763.873" y1="257.043" x2="675.727" y2="148.157"/>
+    <polygon style="fill: #000000" points="768.592,262.873 758.414,258.246 763.873,257.043 766.186,251.954 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="768.592,262.873 758.414,258.246 763.873,257.043 766.186,251.954 "/>
+    <polygon style="fill: #000000" points="671.008,142.327 681.186,146.954 675.727,148.157 673.414,153.246 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="671.008,142.327 681.186,146.954 675.727,148.157 673.414,153.246 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="804.8" y1="265.6" x2="832.155" y2="152.075"/>
+    <polygon style="fill: #000000" points="833.912,144.783 836.431,155.677 832.155,152.075 826.709,153.334 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="833.912,144.783 836.431,155.677 832.155,152.075 826.709,153.334 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 20 8 4 8; stroke: #000000" x1="890.118" y1="264.61" x2="984.11" y2="217.25"/>
+    <polygon style="fill: #000000" points="990.807,213.875 984.127,222.84 984.11,217.25 979.627,213.91 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="990.807,213.875 984.127,222.84 984.11,217.25 979.627,213.91 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="566.481" y1="517.564" x2="748.742" y2="356.989"/>
+    <polygon style="fill: #000000" points="560.854,522.522 565.052,512.16 566.481,517.564 571.662,519.663 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="560.854,522.522 565.052,512.16 566.481,517.564 571.662,519.663 "/>
+    <polygon style="fill: #000000" points="754.369,352.031 750.171,362.393 748.742,356.989 743.561,354.89 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="754.369,352.031 750.171,362.393 748.742,356.989 743.561,354.89 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="539.41" y1="263.753" x2="707.797" y2="291.573"/>
+    <polygon style="fill: #000000" points="532.011,262.53 542.692,259.227 539.41,263.753 541.062,269.094 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="532.011,262.53 542.692,259.227 539.41,263.753 541.062,269.094 "/>
+    <polygon style="fill: #000000" points="715.196,292.796 704.515,296.099 707.797,291.573 706.145,286.233 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="715.196,292.796 704.515,296.099 707.797,291.573 706.145,286.233 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1017" y="241">
+    <tspan x="1017" y="241">DNS white list</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="132.8" y="327.6" width="138" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="132.8" y="327.6" width="138" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="201.8" y="373.5">
+      <tspan x="201.8" y="373.5">Denmark</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="47.8" y="522.6" width="138" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="47.8" y="522.6" width="138" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="116.8" y="568.5">
+      <tspan x="116.8" y="568.5">Ensembl</tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="470.001" y="524">
+    <tspan x="470.001" y="524"></tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="283.8" y="604.6" width="138" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="283.8" y="604.6" width="138" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="352.8" y="650.5">
+      <tspan x="352.8" y="650.5">Norway</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="279.279" y1="416.385" x2="393.817" y2="481.013"/>
+    <polygon style="fill: #000000" points="272.747,412.699 283.914,413.258 279.279,416.385 279,421.968 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="272.747,412.699 283.914,413.258 279.279,416.385 279,421.968 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="196.319" y1="555.459" x2="379.836" y2="534.364"/>
+    <polygon style="fill: #000000" points="188.868,556.316 198.232,550.207 196.319,555.459 199.374,560.141 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="188.868,556.316 198.232,550.207 196.319,555.459 199.374,560.141 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="400.631" y1="596.566" x2="428.898" y2="566.997"/>
+    <polygon style="fill: #000000" points="395.448,601.987 398.744,591.303 400.631,596.566 405.973,598.213 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="395.448,601.987 398.744,591.303 400.631,596.566 405.973,598.213 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="792.55" y="543.6" width="208.85" height="84"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="792.55" y="543.6" width="208.85" height="84"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="896.975" y="581.5">
+      <tspan x="896.975" y="581.5">Private Healthcare Network</tspan>
+      <tspan x="896.975" y="597.5">Aggregator</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="560.177" y1="537.01" x2="781.924" y2="569.002"/>
+    <polygon style="fill: #000000" points="789.347,570.072 778.736,573.593 781.924,569.002 780.164,563.696 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="789.347,570.072 778.736,573.593 781.924,569.002 780.164,563.696 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="640" y="726.5" width="125" height="85"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="640" y="726.5" width="125" height="85"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="702.5" y="772.9">
+      <tspan x="702.5" y="772.9">Hospital A</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="855.8" y="810.1" width="125" height="85"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="855.8" y="810.1" width="125" height="85"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="918.3" y="856.5">
+      <tspan x="918.3" y="856.5">Hospital B</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1072.8" y="657.1" width="125" height="85"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1072.8" y="657.1" width="125" height="85"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1135.3" y="703.5">
+      <tspan x="1135.3" y="703.5">Hospital C</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 20 8 4 8; stroke: #000000" x1="844.3" y1="635.275" x2="755.715" y2="718.815"/>
+    <polygon style="fill: #000000" points="849.756,630.13 845.912,640.628 844.3,635.275 839.051,633.353 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="849.756,630.13 845.912,640.628 844.3,635.275 839.051,633.353 "/>
+    <polygon style="fill: #000000" points="750.259,723.961 754.104,713.463 755.715,718.815 760.964,720.738 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="750.259,723.961 754.104,713.463 755.715,718.815 760.964,720.738 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 20 8 4 8; stroke: #000000" x1="901.184" y1="638.303" x2="914.051" y2="799.4"/>
+    <polygon style="fill: #000000" points="900.587,630.827 906.368,640.397 901.184,638.303 896.399,641.193 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="900.587,630.827 906.368,640.397 901.184,638.303 896.399,641.193 "/>
+    <polygon style="fill: #000000" points="914.648,806.876 908.868,797.306 914.051,799.4 918.836,796.51 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="914.648,806.876 908.868,797.306 914.051,799.4 918.836,796.51 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 20 8 4 8; stroke: #000000" x1="995.624" y1="632.788" x2="1063.02" y2="665.027"/>
+    <polygon style="fill: #000000" points="988.859,629.551 1000.04,629.356 995.624,632.788 995.722,638.377 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="988.859,629.551 1000.04,629.356 995.624,632.788 995.722,638.377 "/>
+    <polygon style="fill: #000000" points="1069.79,668.263 1058.61,668.459 1063.02,665.027 1062.93,659.438 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1069.79,668.263 1058.61,668.459 1063.02,665.027 1062.93,659.438 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 20 8 4 8; stroke: #000000" x1="775.078" y1="797.116" x2="845.722" y2="824.484"/>
+    <polygon style="fill: #000000" points="768.084,794.407 779.215,793.357 775.078,797.116 775.603,802.682 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="768.084,794.407 779.215,793.357 775.078,797.116 775.603,802.682 "/>
+    <polygon style="fill: #000000" points="852.716,827.193 841.585,828.243 845.722,824.484 845.197,818.918 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="852.716,827.193 841.585,828.243 845.722,824.484 845.197,818.918 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 20 8 4 8; stroke: #000000" x1="987.718" y1="845.749" x2="1084.46" y2="749.949"/>
+    <polygon style="fill: #000000" points="982.389,851.027 985.976,840.437 987.718,845.749 993.013,847.543 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="982.389,851.027 985.976,840.437 987.718,845.749 993.013,847.543 "/>
+    <polygon style="fill: #000000" points="1089.79,744.672 1086.2,755.261 1084.46,749.949 1079.16,748.155 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1089.79,744.672 1086.2,755.261 1084.46,749.949 1079.16,748.155 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1026" y="486.5">
+    <tspan x="1026" y="486.5">Private healthcare institutions may expose</tspan>
+    <tspan x="1026" y="502.5">a node that aggregates results from its</tspan>
+    <tspan x="1026" y="518.5">member hospitals.</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1029" y="850">
+    <tspan x="1029" y="850">Within the healthcare network, hospitals</tspan>
+    <tspan x="1029" y="866">can directly connect to each other to query</tspan>
+    <tspan x="1029" y="882">relevant data.</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1044" y="609">
+    <tspan x="1044" y="609">A DNS white list ensures only requests</tspan>
+    <tspan x="1044" y="625">from the aggregator node are responded to.</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="181.736" y1="771.968" x2="471.264" y2="771.032"/>
+    <polygon style="fill: #000000" points="174.236,771.993 184.22,766.96 181.736,771.968 184.252,776.96 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="174.236,771.993 184.22,766.96 181.736,771.968 184.252,776.96 "/>
+    <polygon style="fill: #000000" points="478.764,771.007 468.78,776.04 471.264,771.032 468.748,766.04 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="478.764,771.007 468.78,776.04 471.264,771.032 468.748,766.04 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="152" y="802">
+    <tspan x="152" y="802">Open DNS, both peers expose themselves to any requests</tspan>
+    <tspan x="152" y="818">and both peers list each other</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 20 8 4 8; stroke: #000000" x1="179.736" y1="941.032" x2="469.264" y2="941.968"/>
+    <polygon style="fill: #000000" points="172.236,941.007 182.252,936.04 179.736,941.032 182.22,946.04 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="172.236,941.007 182.252,936.04 179.736,941.032 182.22,946.04 "/>
+    <polygon style="fill: #000000" points="476.764,941.993 466.748,946.96 469.264,941.968 466.78,936.96 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="476.764,941.993 466.748,946.96 469.264,941.968 466.78,936.96 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="123" y="972">
+    <tspan x="123" y="972">White list DNS, both peers accepts requests from white listed</tspan>
+    <tspan x="123" y="988">hostnames and both list each other.</tspan>
+  </text>
+  <text font-size="20.4216" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="560" y="-53">
+    <tspan x="560" y="-53">GA4GH Network Diagram</tspan>
+  </text>
+  <text font-size="20.4216" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="617" y="-19">
+    <tspan x="617" y="-19">March 7, 2017</tspan>
+  </text>
+  <g>
+    <path style="fill: #ffffff" d="M 84.8 349.433 C 91.2,343.933 94.4,342.1 100.8,342.1 C 107.2,342.1 110.4,343.933 116.8,349.433 L 116.8,378.767 C 110.4,384.267 107.2,386.1 100.8,386.1 C 94.4,386.1 91.2,384.267 84.8,378.767 L 84.8,349.433z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 84.8 349.433 C 91.2,343.933 94.4,342.1 100.8,342.1 C 107.2,342.1 110.4,343.933 116.8,349.433 L 116.8,378.767 C 110.4,384.267 107.2,386.1 100.8,386.1 C 94.4,386.1 91.2,384.267 84.8,378.767 L 84.8,349.433"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 84.8 349.433 C 91.2,354.933 94.4,356.767 100.8,356.767 C 107.2,356.767 110.4,354.933 116.8,349.433"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="100.8" y="371.767">
+      <tspan x="100.8" y="371.767"></tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 238.4 630.133 C 244.8,624.633 248,622.8 254.4,622.8 C 260.8,622.8 264,624.633 270.4,630.133 L 270.4,659.467 C 264,664.967 260.8,666.8 254.4,666.8 C 248,666.8 244.8,664.967 238.4,659.467 L 238.4,630.133z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 238.4 630.133 C 244.8,624.633 248,622.8 254.4,622.8 C 260.8,622.8 264,624.633 270.4,630.133 L 270.4,659.467 C 264,664.967 260.8,666.8 254.4,666.8 C 248,666.8 244.8,664.967 238.4,659.467 L 238.4,630.133"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 238.4 630.133 C 244.8,635.633 248,637.467 254.4,637.467 C 260.8,637.467 264,635.633 270.4,630.133"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="254.4" y="652.467">
+      <tspan x="254.4" y="652.467"></tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 593.2 751.233 C 599.6,745.733 602.8,743.9 609.2,743.9 C 615.6,743.9 618.8,745.733 625.2,751.233 L 625.2,780.567 C 618.8,786.067 615.6,787.9 609.2,787.9 C 602.8,787.9 599.6,786.067 593.2,780.567 L 593.2,751.233z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 593.2 751.233 C 599.6,745.733 602.8,743.9 609.2,743.9 C 615.6,743.9 618.8,745.733 625.2,751.233 L 625.2,780.567 C 618.8,786.067 615.6,787.9 609.2,787.9 C 602.8,787.9 599.6,786.067 593.2,780.567 L 593.2,751.233"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 593.2 751.233 C 599.6,756.733 602.8,758.567 609.2,758.567 C 615.6,758.567 618.8,756.733 625.2,751.233"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="609.2" y="773.567">
+      <tspan x="609.2" y="773.567"></tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 1026 687.333 C 1032.4,681.833 1035.6,680 1042,680 C 1048.4,680 1051.6,681.833 1058,687.333 L 1058,716.667 C 1051.6,722.167 1048.4,724 1042,724 C 1035.6,724 1032.4,722.167 1026,716.667 L 1026,687.333z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 1026 687.333 C 1032.4,681.833 1035.6,680 1042,680 C 1048.4,680 1051.6,681.833 1058,687.333 L 1058,716.667 C 1051.6,722.167 1048.4,724 1042,724 C 1035.6,724 1032.4,722.167 1026,716.667 L 1026,687.333"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 1026 687.333 C 1032.4,692.833 1035.6,694.667 1042,694.667 C 1048.4,694.667 1051.6,692.833 1058,687.333"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1042" y="709.667">
+      <tspan x="1042" y="709.667"></tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 809.8 842.933 C 816.2,837.433 819.4,835.6 825.8,835.6 C 832.2,835.6 835.4,837.433 841.8,842.933 L 841.8,872.267 C 835.4,877.767 832.2,879.6 825.8,879.6 C 819.4,879.6 816.2,877.767 809.8,872.267 L 809.8,842.933z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 809.8 842.933 C 816.2,837.433 819.4,835.6 825.8,835.6 C 832.2,835.6 835.4,837.433 841.8,842.933 L 841.8,872.267 C 835.4,877.767 832.2,879.6 825.8,879.6 C 819.4,879.6 816.2,877.767 809.8,872.267 L 809.8,842.933"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 809.8 842.933 C 816.2,848.433 819.4,850.267 825.8,850.267 C 832.2,850.267 835.4,848.433 841.8,842.933"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="825.8" y="865.267">
+      <tspan x="825.8" y="865.267"></tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 733.6 77.0333 C 740,71.5333 743.2,69.7 749.6,69.7 C 756,69.7 759.2,71.5333 765.6,77.0333 L 765.6,106.367 C 759.2,111.867 756,113.7 749.6,113.7 C 743.2,113.7 740,111.867 733.6,106.367 L 733.6,77.0333z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 733.6 77.0333 C 740,71.5333 743.2,69.7 749.6,69.7 C 756,69.7 759.2,71.5333 765.6,77.0333 L 765.6,106.367 C 759.2,111.867 756,113.7 749.6,113.7 C 743.2,113.7 740,111.867 733.6,106.367 L 733.6,77.0333"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 733.6 77.0333 C 740,82.5333 743.2,84.3667 749.6,84.3667 C 756,84.3667 759.2,82.5333 765.6,77.0333"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="749.6" y="99.3667">
+      <tspan x="749.6" y="99.3667"></tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 955.4 158.633 C 961.8,153.133 965,151.3 971.4,151.3 C 977.8,151.3 981,153.133 987.4,158.633 L 987.4,187.967 C 981,193.467 977.8,195.3 971.4,195.3 C 965,195.3 961.8,193.467 955.4,187.967 L 955.4,158.633z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 955.4 158.633 C 961.8,153.133 965,151.3 971.4,151.3 C 977.8,151.3 981,153.133 987.4,158.633 L 987.4,187.967 C 981,193.467 977.8,195.3 971.4,195.3 C 965,195.3 961.8,193.467 955.4,187.967 L 955.4,158.633"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 955.4 158.633 C 961.8,164.133 965,165.967 971.4,165.967 C 977.8,165.967 981,164.133 987.4,158.633"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="971.4" y="180.967">
+      <tspan x="971.4" y="180.967"></tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 287.125 233.5 L 380.875,233.5 C 393.82,233.5 404.313,242.454 404.313,253.5 C 404.313,264.546 393.82,273.5 380.875,273.5 L 287.125,273.5 C 274.181,273.5 263.688,264.546 263.688,253.5 C 263.688,242.454 274.181,233.5 287.125,233.5z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 287.125 233.5 L 380.875,233.5 C 393.82,233.5 404.313,242.454 404.313,253.5 C 404.313,264.546 393.82,273.5 380.875,273.5 L 287.125,273.5 C 274.181,273.5 263.688,264.546 263.688,253.5 C 263.688,242.454 274.181,233.5 287.125,233.5"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="334" y="257.5">
+      <tspan x="334" y="257.5">Genomics API</tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 466.238 75.1 L 559.987,75.1 C 572.932,75.1 583.425,84.0543 583.425,95.1 C 583.425,106.146 572.932,115.1 559.987,115.1 L 466.238,115.1 C 453.293,115.1 442.8,106.146 442.8,95.1 C 442.8,84.0543 453.293,75.1 466.238,75.1z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 466.238 75.1 L 559.987,75.1 C 572.932,75.1 583.425,84.0543 583.425,95.1 C 583.425,106.146 572.932,115.1 559.987,115.1 L 466.238,115.1 C 453.293,115.1 442.8,106.146 442.8,95.1 C 442.8,84.0543 453.293,75.1 466.238,75.1"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="513.112" y="99.1">
+      <tspan x="513.112" y="99.1">Genomics API</tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="141" y="139.5">
+    <tspan x="141" y="139.5">Some nodes expose a beacon over</tspan>
+    <tspan x="141" y="155.5">the Genomics API.</tspan>
+    <tspan x="141" y="171.5"></tspan>
+    <tspan x="141" y="187.5">It is our goal to make beacon the discovery</tspan>
+    <tspan x="141" y="203.5">layer for further GA4GH inquiry.</tspan>
+  </text>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="352.8" y="646.6">
+    <tspan x="352.8" y="646.6"></tspan>
+  </text>
+  <g>
+    <path style="fill: #ffffff" d="M -48.7625 545.6 L 44.9875,545.6 C 57.9317,545.6 68.425,554.554 68.425,565.6 C 68.425,576.646 57.9317,585.6 44.9875,585.6 L -48.7625,585.6 C -61.7067,585.6 -72.2,576.646 -72.2,565.6 C -72.2,554.554 -61.7067,545.6 -48.7625,545.6z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M -48.7625 545.6 L 44.9875,545.6 C 57.9317,545.6 68.425,554.554 68.425,565.6 C 68.425,576.646 57.9317,585.6 44.9875,585.6 L -48.7625,585.6 C -61.7067,585.6 -72.2,576.646 -72.2,565.6 C -72.2,554.554 -61.7067,545.6 -48.7625,545.6"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-1.8875" y="569.6">
+      <tspan x="-1.8875" y="569.6">Genomics API</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="461.768" y1="303.332" x2="468.033" y2="471.268"/>
+    <polygon style="fill: #000000" points="461.488,295.837 466.857,305.644 461.768,303.332 456.864,306.016 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="461.488,295.837 466.857,305.644 461.768,303.332 456.864,306.016 "/>
+    <polygon style="fill: #000000" points="468.313,478.763 462.944,468.956 468.033,471.268 472.937,468.584 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="468.313,478.763 462.944,468.956 468.033,471.268 472.937,468.584 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="523.649" y1="299.527" x2="833.126" y2="536.673"/>
+    <polygon style="fill: #000000" points="517.696,294.965 528.675,297.078 523.649,299.527 522.592,305.016 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="517.696,294.965 528.675,297.078 523.649,299.527 522.592,305.016 "/>
+    <polygon style="fill: #000000" points="839.079,541.235 828.1,539.122 833.126,536.673 834.183,531.184 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="839.079,541.235 828.1,539.122 833.126,536.673 834.183,531.184 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="879.652" y1="533.354" x2="822.123" y2="359.846"/>
+    <polygon style="fill: #000000" points="882.012,540.473 874.119,532.554 879.652,533.354 883.611,529.407 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="882.012,540.473 874.119,532.554 879.652,533.354 883.611,529.407 "/>
+    <polygon style="fill: #000000" points="819.763,352.727 827.656,360.646 822.123,359.846 818.164,363.793 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="819.763,352.727 827.656,360.646 822.123,359.846 818.164,363.793 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="169.8" y1="850.29" x2="469.064" y2="849.322"/>
+    <polygon style="fill: #000000" points="476.564,849.297 466.58,854.33 469.064,849.322 466.548,844.33 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="476.564,849.297 466.58,854.33 469.064,849.322 466.548,844.33 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="149.8" y="880.29">
+    <tspan x="149.8" y="880.29">Open DNS, both peers expose themselves to any requests</tspan>
+    <tspan x="149.8" y="896.29">but the peer on the right does not list the peer on the left.</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 20 8 4 8; stroke: #000000" x1="175" y1="1030.5" x2="464.264" y2="1032.43"/>
+    <polygon style="fill: #000000" points="471.764,1032.49 461.731,1037.42 464.264,1032.43 461.798,1027.42 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="471.764,1032.49 461.731,1037.42 464.264,1032.43 461.798,1027.42 "/>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="144" y="1062.5">
+    <tspan x="144" y="1062.5">White list DNS, the peer on the right does not list the peer</tspan>
+    <tspan x="144" y="1078.5">on the left as a peer. </tspan>
+  </text>
+  <g>
+    <path style="fill: #ffffff" d="M -84.2 758.933 C -77.8,753.433 -74.6,751.6 -68.2,751.6 C -61.8,751.6 -58.6,753.433 -52.2,758.933 L -52.2,788.267 C -58.6,793.767 -61.8,795.6 -68.2,795.6 C -74.6,795.6 -77.8,793.767 -84.2,788.267 L -84.2,758.933z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M -84.2 758.933 C -77.8,753.433 -74.6,751.6 -68.2,751.6 C -61.8,751.6 -58.6,753.433 -52.2,758.933 L -52.2,788.267 C -58.6,793.767 -61.8,795.6 -68.2,795.6 C -74.6,795.6 -77.8,793.767 -84.2,788.267 L -84.2,758.933"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M -84.2 758.933 C -77.8,764.433 -74.6,766.267 -68.2,766.267 C -61.8,766.267 -58.6,764.433 -52.2,758.933"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-68.2" y="781.267">
+      <tspan x="-68.2" y="781.267"></tspan>
+    </text>
+  </g>
+  <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="-131" y="817">
+    <tspan x="-131" y="817">Genomics Database</tspan>
+  </text>
+  <g>
+    <path style="fill: #ffffff" d="M -115.763 870.6 L -22.0125,870.6 C -9.06832,870.6 1.425,879.554 1.425,890.6 C 1.425,901.646 -9.06832,910.6 -22.0125,910.6 L -115.763,910.6 C -128.707,910.6 -139.2,901.646 -139.2,890.6 C -139.2,879.554 -128.707,870.6 -115.763,870.6z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M -115.763 870.6 L -22.0125,870.6 C -9.06832,870.6 1.425,879.554 1.425,890.6 C 1.425,901.646 -9.06832,910.6 -22.0125,910.6 L -115.763,910.6 C -128.707,910.6 -139.2,901.646 -139.2,890.6 C -139.2,879.554 -128.707,870.6 -115.763,870.6"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="-68.8875" y="894.6">
+      <tspan x="-68.8875" y="894.6">Genomics API</tspan>
+    </text>
+  </g>
+</svg>

@@ -13,7 +13,7 @@ service RnaQuantificationService {
   rpc SearchRnaQuantificationSets(SearchRnaQuantificationSetsRequest)
     returns (SearchRnaQuantificationSetsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a9/rnaquantificationsets/search"
+        post: "/v0.6.0a10/rnaquantificationsets/search"
         body: "*"
       };
     };
@@ -25,7 +25,7 @@ service RnaQuantificationService {
   rpc GetRnaQuantificationSet(GetRnaQuantificationSetRequest)
     returns (RnaQuantificationSet) {
       option (google.api.http) = {
-        get: "/v0.6.0a9/rnaquantificationsets/{rna_quantification_set_id}"
+        get: "/v0.6.0a10/rnaquantificationsets/{rna_quantification_set_id}"
       };
     };
 
@@ -36,7 +36,7 @@ service RnaQuantificationService {
   rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
     returns (SearchRnaQuantificationsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a9/rnaquantifications/search"
+        post: "/v0.6.0a10/rnaquantifications/search"
         body: "*"
       };
     };
@@ -48,7 +48,7 @@ service RnaQuantificationService {
   rpc GetRnaQuantification(GetRnaQuantificationRequest)
     returns (RnaQuantification) {
       option (google.api.http) = {
-        get: "/v0.6.0a9/rnaquantifications/{rna_quantification_id}"
+        get: "/v0.6.0a10/rnaquantifications/{rna_quantification_id}"
       };
     };
 
@@ -60,7 +60,7 @@ service RnaQuantificationService {
   rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
     returns (SearchExpressionLevelsResponse) {
       option (google.api.http) = {
-        post: "/v0.6.0a9/expressionlevels/search"
+        post: "/v0.6.0a10/expressionlevels/search"
         body: "*"
       };
     };
@@ -71,7 +71,7 @@ service RnaQuantificationService {
   rpc GetExpressionLevel(GetExpressionLevelRequest)
     returns (ExpressionLevel) {
       option (google.api.http) = {
-        get: "/v0.6.0a9/expressionlevels/{expression_level_id}"
+        get: "/v0.6.0a10/expressionlevels/{expression_level_id}"
       };
     };
 
@@ -158,10 +158,10 @@ message GetRnaQuantificationRequest {
 message SearchExpressionLevelsRequest {
   // The rnaQuantification to restrict search to.
   string rna_quantification_id = 1;
-  
-  // Only return expressions with any of the specified feature_ids.
-  repeated string feature_ids = 2;
 
+  // Only return expressions with any of the names (strict string matching).
+  repeated string names = 6;
+  
   // Only return ExpressionLevel records with expressions exceeding
   // this value.  (Defaults to 0.0)
   float threshold = 3;
