@@ -23,4 +23,4 @@
 #
 # ga4gh-common==0.1.0
 #
-git+git://github.com/ga4gh/ga4gh-common.git@master#egg=ga4gh_common
+#git+git://github.com/ga4gh/ga4gh-common.git@master#egg=ga4gh_common
