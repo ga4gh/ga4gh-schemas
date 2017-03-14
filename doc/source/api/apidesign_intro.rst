@@ -27,10 +27,11 @@ Object Ids
     is still storing that data
 
 * Many objects, including most ‘container’ objects, also have a
-  **name** field. The name is user-defined, isn’t programmatically
-  required to be unique in any given scope (although in practice data
-  owners will often choose unique names), and is intended to be human
+  **name** field. The name is user-defined and is intended to be human
   readable.  This can be thought of as a display name.
+
+* Reference names within a Reference Set are expected to be unique.
+  There are no other uniqueness requirements on names.
 
 Cross-repository data federation will need a standard way to refer to
 a data object, regardless of which repository it’s in. There is no

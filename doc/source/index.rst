@@ -2,10 +2,13 @@
 
 ----
 
-GA4GH API
-!!!!!!!!!
+GA4GH Genomics API
+!!!!!!!!!!!!!!!!!!
 
-This is the documentation for the `GA4GH`_ API.
+The `GA4GH`_ API attempts to gather together protocols and data models useful
+for genomics data interchange. It offers protocols that can be
+implemented over existing Genomics data stores to make these results more
+easily discovered, shared, and replicated.
 
 
 Contents
@@ -16,6 +19,8 @@ Contents
 
    intro
    api/index
+   install
    schemas/index
+   development
+   changelog
    appendix/index
-

@@ -31,6 +31,7 @@ from ga4gh.genotype_phenotype_pb2 import *  # noqa
 from ga4gh.genotype_phenotype_service_pb2 import *  # noqa
 from ga4gh.rna_quantification_pb2 import *  # noqa
 from ga4gh.rna_quantification_service_pb2 import *  # noqa
+from ga4gh.peer_service_pb2 import *  # noqa
 
 import ga4gh.common_pb2 as common
 
