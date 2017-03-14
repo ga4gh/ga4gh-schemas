@@ -16,10 +16,14 @@ Setup:
 
 Release:
 1. Update the version in pom.xml.
-2. mvn deploy
+2. mvn -Prelease deploy
 3. From oss.sontaype.org#stagingRepositories, login and check the release just
    uploaded. If good, use the close button above the repository list to make it
-   public. If there is a problem, the drop button will delete the release.
+   public. If there is a problem, the drop button can be used to delete the 
+   release.
 4. After the release is rsynced to the Maven Central repository, confirm
-   checksums match and verify signatures.
+   checksums match and verify signatures. Then press the release button.
+
+See http://central.sonatype.org/pages/releasing-the-deployment.html for details
+about releasing the deployment from sonatype.
 
