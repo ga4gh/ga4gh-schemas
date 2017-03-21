@@ -94,7 +94,8 @@ message Biosample {
   // was created.
   string created = 6;
 
-  // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record was updated.
+  // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record was 
+  // updated.
   string updated = 7;
 
   // The individual this biosample was derived from.
@@ -106,6 +107,31 @@ message Biosample {
   // A map of additional information about the Biosample.
   Attributes attributes = 10;
 
+  // An age object describing the age of the individual this biosample was
+  // derived from at the time of collection. The Age object allows the encoding
+  // of the age either as ISO8601 duraion or time interval (preferred), or
+  // as ontology term object.
+  Age individual_age_at_collection = 11;
+}
+
+
+// The age object permits both the (considered default) encoding of an age
+// value in ISO8601, with arbitrary granularity; and the representation of an
+// "age class" as qualitative ontology term.
+// If available, a quantitative value should be used & take precedence over the
+// age class, and class assignment should be performed at user/API level.
+
+message Age {
+  // The :ref:`ISO 8601<metadata_date_time>` age of this object as ISO8601
+  // duration or time intervals. The use of time intervals makes an additional
+  // anchor unnecessary (i.e. DOB and age can be represented as start-anchored
+  // time interval, e.g. 1967-11-21/P40Y10M05D)
+  // TODO: Anonymous reference time attribute/pointer?
+  string age = 1;
+
+  // HPO is recommended, for example, subclasses of
+  // http://purl.obolibrary.org/obo/HP_0011007
+  OntologyTerm age_class = 2;
 }
 
 // BioCharacteristic is a prototype wrapper object for single instances

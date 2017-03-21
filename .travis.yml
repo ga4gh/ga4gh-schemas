@@ -26,8 +26,8 @@ deploy:
     provider: pypi
     user: dannycolligan
     password:
-        secure: o3vcJYtfFEN8ZhOdqBKmQya5JM+9TEUd5zmQiAhSjLgESxAfvNeJxKmfQ1u8tN/3n8QGk7EQVSayOr8EZ3Xxl13CjlMrKsGhe/7Q/6niuewVKUrmBfdkoFQy8QjeeEBN5lubNRl8mlBZsGT00KIFNwM5sDjRLnlOSCns+UnLjJw=
+        secure: e3eMudmp3P832hXvcOYd6iGvo9b7zOnNxIvMPcor68t7vnLMhP5xXER87a0hR3Y6WJ9vG1LwkBI9ZwrA6Y+p75jEdRhyTwdJwYjYPGdSYCBI8nLMg5JBEMTWig39eAgoZrfmswyKrT7UwHdLQTHlpp9JYFimtdxnT0AohO9pTWs=
     skip_upload_docs: true
     on:
-        repo: ga4gh/schemas
         tags: true
+        repo: ga4gh/ga4gh-schemas
