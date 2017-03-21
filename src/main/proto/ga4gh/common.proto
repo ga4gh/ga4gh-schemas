@@ -179,7 +179,7 @@ message GeoLocation {
   //  - 34 Washington Blvd, Venice Beach, Los Angeles, CA, United States
   //  - Str Marasesti 5, 300077 Timisoara, Romania
   //  - Heidelberg, Deutschland
-  double geo_label = 1;
+  string geo_label = 1;
 
   // an optional indication of the maximum precision to be derived from the
   // latitude,longitude values
@@ -193,7 +193,7 @@ message GeoLocation {
   // ... indicating that the original location could correspond to any
   // latitude,longitude point value inside the administrative boundaries of
   // the city of Zürich, Switzerland
-  double geo_precision = 2;
+  string geo_precision = 2;
 
   // signed decimal degrees (North, relative to Equator)
   double latitude = 3;
