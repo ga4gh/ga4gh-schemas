@@ -176,7 +176,7 @@ message GeoLocation {
   //  - capture standard data entry parameters
   //  - provide a sanity check for latitude,longitude values
   // Example:
-  //  - 34 Washington Blvd, Venice Beach, Los Angeles, CA, United States
+  //  - 34 Washington Blvd, Marina del Rey, CA  90292, United States
   //  - Str Marasesti 5, 300077 Timisoara, Romania
   //  - Heidelberg, Deutschland
   string geo_label = 1;
