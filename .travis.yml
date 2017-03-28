@@ -9,12 +9,12 @@ install:
     - python setup.py install
 cache:
     directories:
-    - /tmp/proto3.1.0
+    - /tmp/proto3.2.0
 before_install:
     - sudo apt-get update -qq
     - sudo apt-get install graphviz
-    - bash tools/travis-install-protoc.sh 3.1.0
-    - export PATH=/tmp/proto3.1.0/bin:$PATH
+    - bash tools/travis-install-protoc.sh 3.2.0
+    - export PATH=/tmp/proto3.2.0/bin:$PATH
     - pip install -r python/dev-requirements.txt -c python/constraints.txt
 script:
     - make docs
