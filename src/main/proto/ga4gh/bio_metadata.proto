@@ -25,15 +25,15 @@ message Individual {
 
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases and phenotypes associated with this Individual.
-  Characteristics characteristics = 5;
+  Characteristics characteristics = 11;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
   // was created.
-  string created = 6;
+  string created = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual record
   // was updated.
-  string updated = 7;
+  string updated = 6;
 
   // For a representation of an NCBI Taxon ID as an OntologyTerm, see
   // NCBITaxon Ontology
@@ -41,12 +41,12 @@ message Individual {
   // For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
   // this is NCBITaxon:9606, which has the URI
   // http://purl.obolibrary.org/obo/NCBITaxon_9606
-  OntologyTerm species = 8;
+  OntologyTerm species = 7;
 
   // The genetic sex of this individual.
   // Use `null` when unknown or not applicable.
   // Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
-  OntologyTerm sex = 9;
+  OntologyTerm sex = 8;
 
   // The address coded as geolocationplace where the biosample was collected.
   GeoLocation location = 12;
@@ -59,7 +59,7 @@ message Individual {
   // record, or also can refer to instances containing this record, e.g.:
   //  - publication identifiers with this record
   //  - experimental series, datasets containing this record
-  repeated ExternalIdentifier external_identifiers = 11;
+  repeated ExternalIdentifier external_identifiers = 13;
 
 }
 
