@@ -184,7 +184,7 @@ message BioCharacteristic {
   repeated OntologyTerm negated_ontology_terms = 3;
 
   // Label for the logical scope of this BioCharacteristic. Typical examples
-  // could be "phenotype", "disease", "observation".
+  // could be "phenotype", "disease", "observation", "source".
   // TODO:  This may be modified into an enumeration or expressed through
   //        an OntologyTerm.
   string label  = 4;
