@@ -146,12 +146,6 @@ message BioCharacteristic {
   //   "squamous cell carcinoma, base of tongue, stage 2"
   string description = 1;
 
-  // Class for the logical scope of this BioCharacteristic. Typical examples
-  // could be "phenotype", "disease", "observation".
-  // TODO:  This may be modified into an enumeration or expressed through
-  //        an OntologyTerm.
-  string characteristics_class  = 2;
-
   // The ontologyTerms attribute contains a list of zero (discouraged) or more
   // OntologyTerm objects covering the characteristic (e.g. disease diagnosis,
   // phenotype) reorted here.
@@ -187,23 +181,11 @@ message BioCharacteristic {
   //      termId: "HP:0001714"
   //      label: "Ventricular hypertrophy"
   //
-<<<<<<< HEAD
-  repeated OntologyTerm negatedOntologyTerms = 4;
-=======
   repeated OntologyTerm negated_ontology_terms = 3;
 
-}
-
-// Characteristics is a wrapper object for the diseases, phenotypes associated
-// with a first class BioMetadata object (Individual, BioSample).
-message Characteristics {
-  // Diseases associated with the parent BioMetadata object (Individual,
-  // BioSample).
-  repeated BioCharacteristic diseases = 1;
-
-  // Phenotypes associated with the parent BioMetadata object (Individual,
-  // BioSample).
-  repeated BioCharacteristic phenotypes = 2;
->>>>>>> metadata-integration
-
+  // Label for the logical scope of this BioCharacteristic. Typical examples
+  // could be "phenotype", "disease", "observation".
+  // TODO:  This may be modified into an enumeration or expressed through
+  //        an OntologyTerm.
+  string label  = 4;
 }
