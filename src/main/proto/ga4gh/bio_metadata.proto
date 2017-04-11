@@ -25,7 +25,7 @@ message Individual {
 
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases and phenotypes associated with this Individual.
-  Characteristics characteristics = 5;
+  Characteristics characteristics = 11;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
   // was created.
@@ -53,6 +53,9 @@ message Individual {
   // living, not necessarily a current address.
   GeoLocation location = 12;
 
+  // The address coded as geolocationplace where the biosample was collected.
+  GeoLocation location = 12;
+
   // A map of additional information regarding the Individual.
   Attributes attributes = 10;
 
@@ -61,7 +64,7 @@ message Individual {
   // record, or also can refer to instances containing this record, e.g.:
   //  - publication identifiers with this record
   //  - experimental series, datasets containing this record
-  repeated ExternalIdentifier external_identifiers = 11;
+  repeated ExternalIdentifier external_identifiers = 13;
 
 }
 
