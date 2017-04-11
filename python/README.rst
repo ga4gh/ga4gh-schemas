@@ -85,7 +85,7 @@ Release Notes
 
 * "BioSample" refactored to "Biosample" (`#697 <https://github.com/ga4gh/ga4gh-schemas/pull/697>`_).
 * Calls list supports if no genotype is reported (`#735 <https://github.com/ga4gh/ga4gh-schemas/pull/697>`_).
-* Introduces a new versioning scheme to match `ga4gh/schemas <https://github.com/ga4gh/ga4gh-schemas>`_ protocol version.
+* Introduces a new versioning scheme to match `ga4gh/ga4gh-schemas <https://github.com/ga4gh/ga4gh-schemas>`_ protocol version.
 * Improve setup process (`#751 <https://github.com/ga4gh/ga4gh-schemas/pull/751>`_, `#746 <https://github.com/ga4gh/ga4gh-schemas/pull/746>`_).
 
 0.0.8 2016-11-02
