@@ -25,7 +25,7 @@ message Individual {
 
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases and phenotypes associated with this Individual.
-  Characteristics characteristics = 12;
+  repeated BioCharacteristic characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
   // was created.
@@ -93,7 +93,7 @@ message Biosample {
 
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases and phenotypes associated with this BioSample.
-  repeated BioCharacteristic bio_characteristics = 5;
+  repeated BioCharacteristic characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
   // was created.
