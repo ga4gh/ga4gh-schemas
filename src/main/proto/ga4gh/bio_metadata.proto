@@ -53,9 +53,6 @@ message Individual {
   // living, not necessarily a current address.
   GeoLocation location = 12;
 
-  // The address coded as geolocationplace where the biosample was collected.
-  GeoLocation location = 12;
-
   // A map of additional information regarding the Individual.
   Attributes attributes = 10;
 
