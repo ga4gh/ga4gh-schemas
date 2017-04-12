@@ -25,7 +25,7 @@ message Individual {
 
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases and phenotypes associated with this Individual.
-  Characteristics characteristics = 11;
+  Characteristics characteristics = 12;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
   // was created.
@@ -48,8 +48,10 @@ message Individual {
   // Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
   OntologyTerm sex = 8;
 
-  // The address coded as geolocationplace where the biosample was collected.
-  GeoLocation location = 12;
+  // The address coded as geolocation where this individual originated from.
+  // It is recommended that this reflects the place of birth or main place of
+  // living, not necessarily a current address.
+  GeoLocation location = 13;
 
   // A map of additional information regarding the Individual.
   Attributes attributes = 10;
@@ -59,7 +61,7 @@ message Individual {
   // record, or also can refer to instances containing this record, e.g.:
   //  - publication identifiers with this record
   //  - experimental series, datasets containing this record
-  repeated ExternalIdentifier external_identifiers = 13;
+  repeated ExternalIdentifier external_identifiers = 11;
 
 }
 
@@ -104,17 +106,20 @@ message Biosample {
   // The individual this biosample was derived from.
   string individual_id = 8;
 
-  // External identifiers representing this biosample.
-  repeated ExternalIdentifier external_identifiers = 9;
-
   // A map of additional information about the Biosample.
   Attributes attributes = 10;
+
+  // External identifiers representing this biosample.
+  repeated ExternalIdentifier external_identifiers = 11;
 
   // An age object describing the age of the individual this biosample was
   // derived from at the time of collection. The Age object allows the encoding
   // of the age either as ISO8601 duraion or time interval (preferred), or
   // as ontology term object.
-  Age individual_age_at_collection = 11;
+  Age individual_age_at_collection = 12;
+
+  // The address coded as geolocationpl where the biosample was collected.
+  GeoLocation location = 13;
 }
 
 
