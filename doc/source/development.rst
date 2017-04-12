@@ -36,6 +36,7 @@ Making a release entails the following steps:
    #. update the release notes in ``doc/source/changelog.rst`` with a description of what is in the release
    #. modify ``python/requirements.txt`` to pin the ga4gh-common package to a specific version
    #. modify ``python/constraints.txt`` to comment out all the lines referencing ga4gh packages
+   #. modify ``python/constraints.txt.default`` to have the identical contents as ``python/constraints.txt``
 
 #. Once this has been merged, tag the release on GitHub (on the `releases
    <https://github.com/ga4gh/schemas/releases>`_ page) with the
