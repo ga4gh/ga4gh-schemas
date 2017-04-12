@@ -37,7 +37,7 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this Biosample
-*characteristics*     * a Characteristics objects containing lists of phenotypes and diseases specifically associated with this Biosample, in the form of BioCharacteristic objects
+*bio_characteristics* * contains lists of phenotypes, diseases and other information associated with this Biosample, in the form of BioCharacteristic objects
 *individualId*        * the *id* of the *Individual* this Biosample was derived from
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601
@@ -69,7 +69,7 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this Individual
-*characteristics*     * a Characteristics objects containing lists of phenotypes and diseases associated with this Individual, in the form of BioCharacteristic objects
+*bio_characteristics* * contains lists of phenotypes, diseases and other information associated with this Individual, in the form of BioCharacteristic objects
 *species*             * OntologyTerm representing the species (NCBITaxon:9606)
 *sex*                 * OntologyTerm for the genetic sex of this individual.
 *created*             * the time the record was created, in ISO8601
@@ -89,15 +89,5 @@ BioCharacteristic in the GA4GH Schema
 A BioCharacteristic is an object, defining a single phenotype or diagnosis
 through the use of a free text description and a representation by one or
 more "ontologyTerms" objects as well as zero or more "negatedOntologyTerms".
-
-.. _biometadata_Characteristics:
-
-*************************************
-BioMetadata: *Characteristics* Object
-*************************************
-
-Characteristics in the GA4GH Schema
------------------------------------
-
-Characteristics is a wrapper object with attributes (phenotypes, diseases)
-representing lists of BioCharacteristic objects.
+An additional "scope" attribute allows to limit queries e.g. to "disease" type
+objects.
