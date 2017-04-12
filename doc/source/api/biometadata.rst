@@ -37,7 +37,7 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this Biosample
-*bio_characteristics* * contains lists of phenotypes, diseases and other information associated with this Biosample, in the form of BioCharacteristic objects
+*characteristics*     * contains lists of phenotypes, diseases and other information associated with this Biosample, in the form of BioCharacteristic objects
 *individualId*        * the *id* of the *Individual* this Biosample was derived from
 *created*             * the time the record was created, in ISO8601
 *updated*             * the time the record was updated, in ISO8601
@@ -69,7 +69,7 @@ Attribute             Notes
 *name*                * a human readable object label/identifier
                       * not to be used for referencing
 *description*         * additional, unstructured information about this Individual
-*bio_characteristics* * contains lists of phenotypes, diseases and other information associated with this Individual, in the form of BioCharacteristic objects
+*characteristics*     * contains lists of phenotypes, diseases and other information associated with this Individual, in the form of BioCharacteristic objects
 *species*             * OntologyTerm representing the species (NCBITaxon:9606)
 *sex*                 * OntologyTerm for the genetic sex of this individual.
 *created*             * the time the record was created, in ISO8601
