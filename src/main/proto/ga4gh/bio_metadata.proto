@@ -93,7 +93,7 @@ message Biosample {
 
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases and phenotypes associated with this BioSample.
-  Characteristics characteristics = 5;
+  repeated BioCharacteristic bio_characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
   // was created.
@@ -159,13 +159,13 @@ message BioCharacteristic {
   // phenotype) reorted here.
   // Example (for a single diagnosis "squamous cell carcinoma, base of tongue"):
   //
-  //     termId: "DOID:0050865",
+  //     term_id: "DOID:0050865",
   //     term: "tongue squamous cell carcinoma",
   //
-  //     termId: "UBERON:0006919",
+  //     term_id: "UBERON:0006919",
   //     term: "tongue squamous epithelium",
   //
-  //     termId: "UBERON:0010033",
+  //     term_id: "UBERON:0010033",
   //     term: "posterior part of tongue",
   //
   repeated OntologyTerm ontology_terms = 2;
@@ -178,30 +178,22 @@ message BioCharacteristic {
   //
   //   ...  one could use the ontologyTerms
   //
-  //      termId: "HP:0001711"
-  //      label: "Abnormality of the left ventricle"
+  //      term_id: "HP:0001711"
+  //      term: "Abnormality of the left ventricle"
   //
   //      id: "HP:0001707"
-  //      label: "Abnormality of the right ventricle"
+  //      term: "Abnormality of the right ventricle"
   //
   //   ... and add to negatedOntologyTerms
   //
-  //      termId: "HP:0001714"
-  //      label: "Ventricular hypertrophy"
+  //      term_id: "HP:0001714"
+  //      term: "Ventricular hypertrophy"
   //
   repeated OntologyTerm negated_ontology_terms = 3;
 
-}
-
-// Characteristics is a wrapper object for the diseases, phenotypes associated
-// with a first class BioMetadata object (Individual, BioSample).
-message Characteristics {
-  // Diseases associated with the parent BioMetadata object (Individual,
-  // BioSample).
-  repeated BioCharacteristic diseases = 1;
-
-  // Phenotypes associated with the parent BioMetadata object (Individual,
-  // BioSample).
-  repeated BioCharacteristic phenotypes = 2;
-
+  // Logical scope of this BioCharacteristic. Typical examples
+  // could be "phenotype", "disease", "observation", "source".
+  // TODO:  This may be modified into an enumeration or expressed through
+  //        an OntologyTerm.
+  string scope  = 4;
 }
