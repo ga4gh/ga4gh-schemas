@@ -1,0 +1,215 @@
+@namespace("org.ga4gh.beacon")
+
+/**
+
+A Beacon is a web service that accepts a single variant position and nucleotide change in VCF format.
+
+The reply is either nothing (="{}"), indicating that the server has no information about this variant,
+or a key-value dictionary with any information the server has about this variant, split by dataset.
+If the server offers only one dataset, it is called "defaultDataset".
+
+A minimal reply can be {"defaultDataset" : {"exists" : "true" }}, which is very similar to the original 
+beacon proposal of returning only true/false.
+
+# Use case
+
+A typical use case of a beacon is:
+
+* user has a set of called mutations from a patient, usually in VCF format
+* user wants to check which other genetic departments have seen a variant in their cohorts and starts a beacon client
+* the beacon client uses the beacon network to get a list of other beacon
+  servers. Other, internal beacons can be added by the user, if he has received
+  a beacon description (URL) by email from colleagues.
+* the beacon client queries the mutations from the VCF files against all beacon
+  servers and gets back meta information which 
+  is presented to the user. Some meta information will not be transmitted as it
+  is protected clinical information.
+* the user can contact the beacon operators by email to get the protected information.
+
+As can be seen above, beacons are designed for low-throughput data transfer over
+high-latency internet links and for a number of different use cases, as 
+genetic departements store very different types of meta data. Also, they are
+inherently designed for human inspection, not for automated whole-genome
+analysis, which is the domain of the GA4GH variants and reads APIs.
+
+This is why only a single allele can be queried (note: may be extended in the next
+version) and the returned values are strings, which can be shown to the end
+user. The key-value fields are extensible, potentially any information can be shown by the server
+to the user, but some fields do have a clearly defined value and semantic (e.g. frequency).
+Also, all codes or short names transmitted have human readable descriptions
+that can be shown by the client to the user. All values are strings, so they
+can be shown as-is and do not have to serialized to a human-readable format.
+Paging of data is avoided, to keep the delay from request to reply short.
+
+As Javascript or even human clients shall be possible, the wire format is
+normal JSON, not AVRO or binary Google Protobuf.  Although this file follows the AVRO
+AVDL syntax, it is not meant to be used for AVRO generators, but as a mostly
+human-readable API description. Beacons do not speak AVRO but normal JSON, like
+any other RESTful webservice. This is also why a lot of information
+about Beacons is contained in the comments. 
+
+# The data model and transfer
+
+A beacon describes three types of data:
+
+* the variant, on the level of datasets (e.g. "exists", "frequency", etc.)
+* optional: the beacon server (e.g. "description", "organisation", etc)
+* optional: the datasets on the beacon server (e.g. data use conditions, project homepage, etc)
+
+The beacon and dataset descriptions are marked optional at the moment, as beacon server administrators
+can potentially use the beacon network to register and describe their beacon manually or via an API there.
+
+The introduction of datasets complicates the data model to some degree, but it is an essential 
+requirement of genetic data centers like the EBI or NCBI. Without datasets, they would have to 
+setup a separate beacon URL for every accessioned dataset they host, potentially thousands.
+
+A beacon has two endpoints: /allele (required) and /beacon (optional)
+
+* /allele is used to obtain information about one allele
+* /beacon can be used to obtain information about the beacon itself and the datasets it serves
+
+*/
+
+protocol Beacons {
+
+/**
+A request for information about a specific variant
+*/
+record QueryResource {
+
+  /** 
+  The reference bases for this variant, starting from `position`, in the genome
+  described by the field `reference`. (see variants.avdl)
+  The semantics correspond to the field REF in VCF.
+   */
+  string referenceBases;
+
+  /** 
+  The bases that appear instead of the reference bases. (see variants.avdl)
+  The semantics correspond to the field ALT in VCF.
+   */
+  string alternateBases;
+
+  /** The chromosome of the request, without the 'chr' prefix, as in VCF */
+  string chromosome;
+
+  /** 0-based allele position on chromosome, to stay compatible with the other GA4GH APIs 
+  Note: VCF, a common input format for variants, is 1-based.
+  1-based file formats: GFF, SAM, VCF
+  0-based file formats: BED, BAM
+  */
+  long position;
+
+  /** The version of the reference genome, NCBI notation, e.g. GRCh37 or GRCh38 
+  */
+  string reference;
+
+  /** Limit to a set of datasetIds at the target website. An ID is specific to
+      the website that is queried and can be an accession ID, population or any
+      other identifier 
+      The primary aim of this is to limit the size of the reply. If a server hosts
+      thousands of datasets, the client can limit the reply with this optional
+      field.  If a dataset is not specified, all information shall be returned.  If
+      a dataset is not specified but the resulting information is considered too
+      big, the server may create a 'summary' dataset with a summary of the
+      information e.g.  frequency sums or data-use condition subsets or it may send
+      an error message 'datasetRequired'.
+  */
+  union {null, array<string>} datasetIds = null;
+}
+
+/**
+The response to the Beacon query
+*/
+
+record ResponseResource {
+  /** 
+  If the beacon has observed this variant:
+  Any information about the variant.
+  One key-value map per dataset where the variant has been observed.
+
+  Recommended keys per dataset are:
+  'exists'  : can be used to indicate that this variant has been observed before and
+              no other information. Used to implement a beacon0.2-like behavior.
+  'frequency' : frequency of the allele in the dataset, 0.0-1.0, inclusive
+  'callCount' : number of called observations of this allele in the dataset
+  'sampleCount' : number of observations of this allele in the dataset
+  'note' : human-readable description of this variant
+  'url' : URL with more information about a variant
+
+  Recommended VCF INFO keys may also be used, see the VCF specification.
+
+  If there is only one dataset, the dataset name is "defaultDataset".
+  */
+  union{ null, map<map<string>> } info = null;
+  
+}
+
+/**
+BeaconInformationResource
+Information about the beacon server itself and the datasets served
+*/
+{
+    /* keys parsed by the beacon network:
+    id, org, desc, api, datasets, homepage, email, auth, logoUrl
+
+    Recommended keys and their meanings:
+
+    'id' : short unique identifier for the beacon, 
+    'organization' : human-readable name of organisation that hosts the beacon
+    'description' : longer human-readable description of the beacon
+    'datasets' : list of datasets served by the beacon
+    'datasetDescriptions' : list of descriptions of the datasets
+    'homepage' : URL of homepage with additional info about the beacon
+    'email' : contact email for data access requests or questions
+    'authentication' : supported authentication layer, e.g. 'oauth'
+    'logoUrl' : URL with a logo shown e.g. by the beacon network
+    */
+
+    map<array<string>> beaconInfo;
+
+    /**
+    Information about datasets hosted by the beacon, as a key-value map.
+    There is one entry for each datasetId
+    If there is only one dataset, its ID is "defaultDataset"
+
+    Recommended fields:
+    'description': number of variants in dataset
+    'variantCount': number of variants in dataset
+    'created': time in ISO8601 format, e.g. "2007-04-05T14:30"
+    'updated': time in ISO8601 format, e.g. "2007-04-05T14:30"
+    'version': a string to describe the version
+    'callCount' : number of calls in this dataset
+    'sampleCount' : number of samples in this dataset
+    'reference' : number of samples in this dataset
+    'externalUrl' : URL with more information about this dataset
+
+    'dataUsePrimary': list of primary data use conditions
+    'dataUseSecondary': list of secondary data use conditions
+    'dataUseRequirements': list of data use requirements
+    */
+    map<map<array<string>>> datasetInfo;
+}
+
+}
+/**
+ErrorResource
+Sent back to the client if an error occurs.
+*/
+record ErrorResource {
+  /** Error name/code, e.g. "bad_request" or "unauthorized". 
+  Recommended names:
+    "datasetRequired"
+    "invalidPosition"
+    "invalidChromosome"
+    "invalidArgument"
+    "invalidAllele"
+    "invalidDataset"
+  
+  */
+  string name;
+
+  /** Error message. */
+  union{ null, string } description = null;
+}
+
