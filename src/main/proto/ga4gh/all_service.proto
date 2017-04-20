@@ -1,0 +1,1231 @@
+syntax = "proto3";
+
+package ga4gh;
+
+import "google/api/annotations.proto";
+
+import "ga4gh/allele_annotations.proto";
+import "ga4gh/bio_metadata.proto";
+import "ga4gh/metadata.proto";
+import "ga4gh/reads.proto";
+import "ga4gh/references.proto";
+import "ga4gh/rna_quantification.proto";
+import "ga4gh/sequence_annotations.proto";
+import "ga4gh/variants.proto";
+
+
+service AlleleAnnotationService {
+  // Gets a list of `VariantAnnotation` messages matching the search criteria.
+  //
+  // This allows the mining of allele-specific annotations on a VariantSet by
+  // either a region or by a set of genomic features. Where a region is supplied
+  // annotation of all alleles vs all features in the region is returned. Where
+  // a set of features is supplied, only annotations against these features
+  // (matching on featuretype and id) are returned and other overlapping
+  // features are ignored.
+  //
+  // `variantannotationsets/search` returns information on the input to the
+  // annotation. This will be a VariantSet and the reference data and software
+  // versions used in calculating the annotation. It is essential this
+  // information is exhaustive.
+  //
+  // `POST /variantannotations/search` must accept a JSON version of
+  // `SearchVariantAnnotationsRequest` as the post body and will return a JSON
+  // version of `SearchVariantAnnotationsResponse`.
+  rpc SearchVariantAnnotations(SearchVariantAnnotationsRequest)
+    returns (SearchVariantAnnotationsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/variantannotations/search"
+        body: "*"
+      };
+    };
+
+  // Returns a list of available variant annotation sets.
+  //
+  // `POST /variantannotationsets/search` must accept a JSON version of
+  // `SearchVariantAnnotationSetsRequest` as the post body and will return a
+  // JSON version of `SearchVariantAnnotationSetsResponse`.
+  rpc SearchVariantAnnotationSets(SearchVariantAnnotationSetsRequest)
+    returns (SearchVariantAnnotationSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/variantannotationsets/search"
+        body: "*"
+      };
+    };
+
+  // Gets an `VariantAnnotationSet` by ID.
+  //
+  // `GET /variantannotationsets/{variant_annotation_set_id}` will return a JSON
+  // version of `VariantAnnotationSet`.
+  rpc GetVariantAnnotationSet(GetVariantAnnotationSetRequest)
+    returns (VariantAnnotationSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/variantannotationset/{variant_annotation_set_id}"
+      };
+    };
+
+}
+
+/******************  /variantannotations  *********************/
+// This request maps to the body of `POST /variantannotations/search` as JSON.
+message SearchVariantAnnotationsRequest {
+  // Required. The ID of the variant annotation set to search over.
+  string variant_annotation_set_id = 1;
+
+  // Only return variants with reference alleles on the reference with this
+  // name. One of this field or `reference_id` is required.
+  string reference_name = 2;
+
+  // Only return variants with reference alleles on the reference with this
+  // ID. One of this field or `reference_name` is required.
+  string reference_id = 3;
+
+  // Required if reference_name or reference_id supplied. The beginning of the
+  // window (0-based, inclusive) for which variants with overlapping reference
+  // alleles should be returned. Genomic positions are non-negative integers
+  // less than reference length. Requests spanning the join of circular
+  // genomes are represented as two requests one on each side of the join
+  // (position 0).
+  int64 start = 4;
+
+  // Required if reference_name or reference_id supplied. The end of the window
+  // (0-based, exclusive) for which variants with overlapping reference
+  // alleles should be returned.
+  int64 end = 5;
+
+  // This section will be re-instated when features are available in the API
+  //
+  // Only return variant annotations for any of these features.
+  // Features may include specific transcripts or genes. A search by gene will
+  // return information for all transcripts associated with the gene in the
+  // variant annotation set.
+  // This or a location (referenceName/referenceId plus optional start and end)
+  // must be supplied.
+  // If empty, return all variant annotations in specified window.
+  // repeated string feature_ids;
+
+  // This filter allows variant, transcript combinations to be extracted by
+  // effect type(s). Only return variant annotations including any of these
+  // effects and only return transcript effects including any of these
+  // effects. Exact matching across all fields of the Sequence Ontology
+  // OntologyTerm is required. (A transcript effect may have multiple SO
+  // effects which will all be reported.) If empty, return all variant
+  // annotations.
+  repeated OntologyTerm effects = 6;
+
+  // Specifies the maximum number of results to return in a single page. If
+  // unspecified, a system default will be used.
+  int32 page_size = 7;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 8;
+}
+
+// This is the response from `POST /variantannotations/search` expressed as
+// JSON.
+message SearchVariantAnnotationsResponse {
+  // The list of matching variant annotations.
+  repeated VariantAnnotation variant_annotations = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+/******************  /variantannotationsets  *********************/
+// This request maps to the body of `POST /variantannotationsets/search` as
+// JSON.
+message SearchVariantAnnotationSetsRequest {
+  // Required. The `VariantSet` to search.
+  string variant_set_id = 1;
+
+  // Specifies the maximum number of results to return in a single page. If
+  // unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 3;
+}
+
+// This is the response from `POST /variantannotationsets/search` expressed as
+// JSON.
+message SearchVariantAnnotationSetsResponse {
+  // The list of matching variant annotation sets.
+  repeated VariantAnnotationSet variant_annotation_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /variantannotationsets/{id}`.
+message GetVariantAnnotationSetRequest {
+  // The ID of the `VariantAnnotationSet` to be retrieved.
+  string variant_annotation_set_id = 1;
+}
+
+
+service BioMetadataService {
+  // Gets a list of Individuals accessible through the API.
+  // `POST /individuals/search` must accept a JSON version of
+  // `SearchIndividualsRequest` as the post body and will return a JSON version
+  // of `SearchIndividualsResponse`.
+  rpc SearchIndividuals(SearchIndividualsRequest)
+    returns (SearchIndividualsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/individuals/search"
+        body: "*"
+      };
+    };
+
+  // `POST /biosamples/search` must accept a JSON version of
+  // `SearchBioSamplesRequest` as the post body and will return a JSON version
+  // of `SearchBioSamplesResponse`.
+  rpc SearchBioSamples(SearchBioSamplesRequest)
+    returns (SearchBioSamplesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/biosamples/search"
+        body: "*"
+      };
+    };
+
+  // Gets an `Individual` by ID.
+  // `GET /individuals/{id}` will return a JSON version of `Individual`.
+  rpc GetIndividual(GetIndividualRequest)
+    returns (Individual) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/individuals/{individual_id}"
+      };
+    };
+
+  // Gets a `BioSample` by ID.
+  // `GET /biosamples/{id}` will return a JSON version of `BioSample`.
+  rpc GetBioSample(GetBioSampleRequest)
+    returns (BioSample) {
+        option (google.api.http) = {
+          get: "/v0.6.0a8/biosamples/{bio_sample_id}"
+        };
+      };
+}
+// *********************  /individuals ********************************
+// This request maps to the body of `POST /individuals/search` as JSON.
+message SearchIndividualsRequest {
+  // Optionally specify the dataset to search within.
+  string dataset_id = 1;
+
+  // Returns Individuals with the given name found by case-sensitive string matching.
+  string name = 2;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 3;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `nextPageToken` from the previous response.
+  string page_token = 4;
+}
+
+// This request maps to the URL `GET /individuals/{individual_id}`.
+message GetIndividualRequest {
+  // The ID of the individual requested
+  string individual_id = 1;
+}
+
+// This request maps to the URL `GET /biosamples/{bio_sample_id}`.
+message GetBioSampleRequest {
+  // The ID of the biosample requested
+  string bio_sample_id = 1;
+}
+
+//This is the response from `POST /individuals/search` expressed as JSON.
+message SearchIndividualsResponse {
+  // The list of individuals.
+  repeated Individual individuals = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// *********************  /biosamples ********************************
+
+message SearchBioSamplesRequest {
+  // Optionally specify the dataset to search within.
+  string dataset_id = 1;
+
+  // Returns BioSamples with the given name found by case-sensitive string matching.
+  string name = 2;
+
+  // Returns BioSamples for the provided individual ID.
+  string individual_id = 3;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `nextPageToken` from the previous response.
+  string page_token = 5;
+}
+
+//This is the response from `POST /biosamples/search` expressed as JSON.
+
+message SearchBioSamplesResponse {
+  // The list of biosamples.
+  repeated BioSample biosamples = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+
+service MetadataService {
+  // Gets a list of `Dataset` matching the search criteria.
+  //
+  // `POST /datasets/search` must accept a JSON version of
+  // `SearchDatasetsRequest` as the post body and will return a JSON
+  // version of `SearchDatasetsResponse`.
+  rpc SearchDatasets(SearchDatasetsRequest)
+    returns (SearchDatasetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/datasets/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `Dataset` by ID.
+  //
+  // `GET /datasets/{dataset_id}` will return a JSON version of
+  // `Dataset`.
+  rpc GetDataset(GetDatasetRequest)
+    returns (Dataset) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/datasets/{dataset_id}"
+      };
+    };
+
+}
+
+// ****************  /datasets  *******************
+
+// This request maps to the body of `POST /datasets/search` as JSON.
+message SearchDatasetsRequest {
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 2;
+}
+
+// This is the response from `POST /datasets/search` expressed as JSON.
+message SearchDatasetsResponse {
+  // The list of datasets.
+  repeated Dataset datasets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /datasets/{dataset_id}`.
+message GetDatasetRequest {
+  // The ID of the `Dataset` to be retrieved.
+  string dataset_id = 1;
+}
+
+
+service VariantService {
+  // Gets a list of `VariantSet` matching the search criteria.
+  //
+  // `POST /variantsets/search` must accept a JSON version of
+  // `SearchVariantSetsRequest` as the post body and will return a JSON version
+  // of `SearchVariantSetsResponse`.
+  rpc SearchVariantSets(SearchVariantSetsRequest)
+    returns (SearchVariantSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/variantsets/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `VariantSet` by ID.
+  //
+  // `GET /variantsets/{variant_set_id}` will return a JSON version of
+  // `VariantSet`.
+  rpc GetVariantSet(GetVariantSetRequest)
+    returns (VariantSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/variantsets/{variant_set_id}"
+      };
+    };
+
+  // Gets a list of `Variant` matching the search criteria.
+  //
+  // `POST /variants/search` must accept a JSON version of
+  // `SearchVariantsRequest` as the post body and will return a JSON version of
+  // `SearchVariantsResponse`.
+  rpc SearchVariants(SearchVariantsRequest)
+    returns (SearchVariantsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/variants/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `Variant` by ID.
+  //
+  // `GET /variants/{id}` will return a JSON version of `Variant`.
+  rpc GetVariant(GetVariantRequest)
+    returns (Variant) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/variants/{variant_id}"
+      };
+    };
+
+  // Gets a list of call sets matching the search criteria.
+  //
+  // `POST /callsets/search` must accept a JSON version of
+  // `SearchCallSetsRequest` as the post body and will return a JSON version of
+  // `SearchCallSetsResponse`.
+  rpc SearchCallSets(SearchCallSetsRequest)
+    returns (SearchCallSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/callsets/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `CallSet` by ID.
+  //
+  // `GET /callsets/{id}` will return a JSON version of `CallSet`.
+  rpc GetCallSet(GetCallSetRequest)
+    returns (CallSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/callsets/{call_set_id}"
+      };
+    };
+
+}
+
+// ******************  /variantsets  *********************
+// This request maps to the body of `POST /variantsets/search` as JSON.
+message SearchVariantSetsRequest {
+  // The `Dataset` to search.
+  string dataset_id = 1;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets. To
+  // get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 3;
+}
+
+// This is the response from `POST /variantsets/search` expressed as JSON.
+message SearchVariantSetsResponse {
+  // The list of matching variant sets.
+  repeated VariantSet variant_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /variantsets/{id}`.
+message GetVariantSetRequest {
+  // The ID of the `VariantSet` to be retrieved.
+  string variant_set_id = 1;
+}
+
+// ******************  /variants  *********************
+// This request maps to the body of `POST /variants/search` as JSON.
+message SearchVariantsRequest {
+  // The `VariantSet` to search.
+  string variant_set_id = 1;
+
+  // Only return variant calls which belong to call sets with these IDs.
+  // If unspecified, return all variants and no variant call objects.
+  repeated string call_set_ids = 2;
+
+  // Required. Only return variants on this reference.
+  string reference_name = 3;
+
+  // Required. The beginning of the window (0-based, inclusive) for
+  // which overlapping variants should be returned.
+  // Genomic positions are non-negative integers less than reference length.
+  // Requests spanning the join of circular genomes are represented as
+  // two requests one on each side of the join (position 0).
+  int64 start = 4;
+
+  // Required. The end of the window (0-based, exclusive) for which overlapping
+  // variants should be returned.
+  int64 end = 5;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 6;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 7;
+}
+
+// This is the response from `POST /variants/search` expressed as JSON.
+message SearchVariantsResponse {
+  // The list of matching variants.
+  // If the `callSetId` field on the returned calls is not present,
+  // the ordering of the call sets from a `SearchCallSetsRequest`
+  // over the parent `VariantSet` is guaranteed to match the ordering
+  // of the calls on each `Variant`. The number of results will also be
+  // the same.
+  repeated Variant variants = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /variants/{id}`.
+message GetVariantRequest {
+  // The ID of the `Variant` to be retrieved.
+  string variant_id = 1;
+}
+
+// ******************  /callsets  *********************
+// This request maps to the body of `POST /callsets/search` as JSON.
+message SearchCallSetsRequest {
+  // The VariantSet to search.
+  string variant_set_id = 1;
+
+  // Only return call sets with this name (case-sensitive, exact match).
+  string name = 2;
+
+  // Return only call sets generated from the provided BioSample ID.
+  string bio_sample_id = 3;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 5;
+}
+
+// This is the response from `POST /callsets/search` expressed as JSON.
+message SearchCallSetsResponse {
+  // The list of matching call sets.
+  repeated CallSet call_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /callsets/{call_set_id}`.
+message GetCallSetRequest {
+  // The ID of the `CallSet` to be retrieved.
+  string call_set_id = 1;
+}
+
+
+service ReadService {
+  // Gets a list of `ReadGroupSet` matching the search criteria.
+  //
+  // `POST /readgroupsets/search` must accept a JSON version of
+  // `SearchReadGroupSetsRequest` as the post body and will return a JSON
+  // version of `SearchReadGroupSetsResponse` . Only readgroups that
+  // match an optionally supplied bioSampleId will be included in the
+  // response.
+  rpc SearchReadGroupSets(SearchReadGroupSetsRequest)
+    returns (SearchReadGroupSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/readgroupsets/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `ReadGroupSet` by ID.
+  //
+  // `GET /readgroupsets/{read_group_set_id}` will return a JSON version of
+  // `ReadGroupSet`.
+  rpc GetReadGroupSet(GetReadGroupSetRequest)
+    returns (ReadGroupSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/readgroupsets/{read_group_set_id}"
+      };
+    };
+
+  // Gets a list of `ReadAlignment` s for one or more `ReadGroup` s.
+  //
+  // `searchReads` operates over a genomic coordinate space of reference sequence
+  // and position defined by the `Reference` s to which the requested `ReadGroup` s are
+  // aligned.
+  //
+  // If a target positional range is specified, search returns all reads whose
+  // alignment to the reference genome *overlap* the range. A query which specifies
+  // only read group IDs yields all reads in those read groups, including unmapped
+  // reads.
+  //
+  // All reads returned (including reads on subsequent pages) are ordered by genomic
+  // coordinate (by reference sequence, then position). Reads with equivalent genomic
+  // coordinates are returned in an unspecified order. This order must be consistent
+  // for a given repository, such that two queries for the same content (regardless
+  // of page size) yield reads in the same order across their respective streams of
+  // paginated responses.
+  //
+  // `POST /reads/search` must accept a JSON version of `SearchReadsRequest` as
+  // the post body and will return a JSON version of `SearchReadsResponse`.
+  rpc SearchReads(SearchReadsRequest)
+    returns (SearchReadsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/reads/search"
+        body: "*"
+      };
+    };
+}
+
+// ******************  /readgroupsets  *********************/
+
+// This request maps to the body of `POST /readgroupsets/search` as JSON.
+//
+// TODO: Factor this out to a common API patterns section.
+// - If searching by a resource ID, and that resource is not found, the method
+//   will return a `404` HTTP status code (`NOT_FOUND`).
+// - If searching by other attributes, e.g. `name`, and no matches are found, the
+//   method will return a `200` HTTP status code (`OK`) with an empty result list.
+message SearchReadGroupSetsRequest {
+  // The dataset to search.
+  string dataset_id = 1;
+
+  // Only return read group sets with this name (case-sensitive, exact match).
+  string name = 2;
+
+  //  Specifying the id of a BioSample record will return only readgroups
+  //  with the given bioSampleId.
+  string bio_sample_id = 3;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 5;
+}
+
+// This is the response from `POST /readgroupsets/search` expressed as JSON.
+message SearchReadGroupSetsResponse {
+  // The list of matching read group sets.
+  repeated ReadGroupSet read_group_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /readgroupsets/{read_group_set_id}`.
+message GetReadGroupSetRequest {
+  // The ID of the `ReadGroupSet` to be retrieved.
+  string read_group_set_id = 1;
+}
+
+// ******************  /reads  *********************
+// This request maps to the body of `POST /reads/search` as JSON.
+//
+// If a reference is specified, all queried `ReadGroup`s must be aligned
+// to `ReferenceSet`s containing that same `Reference`. If no reference is
+// specified, all `ReadGroup`s must be aligned to the same `ReferenceSet`.
+message SearchReadsRequest {
+  // The ReadGroups to search. At least one id must be specified.
+  repeated string read_group_ids = 1;
+
+  // The reference to query. Leaving blank returns results from all
+  // references, including unmapped reads - this could be very large.
+  string reference_id = 2;
+
+  // The start position (0-based) of this query.
+  // If a reference is specified, this defaults to 0.
+  // Genomic positions are non-negative integers less than reference length.
+  // Requests spanning the join of circular genomes are represented as
+  // two requests one on each side of the join (position 0).
+  int64 start = 3;
+
+  // The end position (0-based, exclusive) of this query.
+  // If a reference is specified, this defaults to the
+  // reference's length.
+  int64 end = 4;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 5;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 6;
+}
+
+// This is the response from `POST /reads/search` expressed as JSON.
+message SearchReadsResponse {
+  // The list of matching alignment messages, sorted by position.
+  // Unmapped reads, which have no position, are returned last.
+  repeated ReadAlignment alignments = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+
+service ReferenceService {
+  // Gets a list of `ReferenceSet` matching the search criteria.
+  //
+  // `POST /referencesets/search` must accept a JSON version of
+  // `SearchReferenceSetsRequest` as the post body and will return a JSON
+  // version of `SearchReferenceSetsResponse`.
+  rpc SearchReferenceSets(SearchReferenceSetsRequest)
+      returns (SearchReferenceSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/referencesets/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `ReferenceSet` by ID.
+  //
+  // `GET /referencesets/{reference_set_id}` will return a JSON version of
+  // `ReferenceSet`.
+  rpc GetReferenceSet(GetReferenceSetRequest)
+    returns (ReferenceSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/referencesets/{reference_set_id}"
+      };
+    };
+
+  // Gets a list of `Reference` matching the search criteria.
+  //
+  // `POST /references/search` must accept a JSON version of
+  // `SearchReferencesRequest` as the post body and will return a JSON
+  // version of `SearchReferencesResponse`.
+  rpc SearchReferences(SearchReferencesRequest)
+    returns (SearchReferencesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/references/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `Reference` by ID.
+  //
+  // `GET /references/{reference_id}` will return a JSON version of
+  // `Reference`.
+  rpc GetReference(GetReferenceRequest)
+    returns (Reference) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/references/{reference_id}"
+      };
+    };
+
+  // Lists `Reference` bases by ID and optional range.
+  //
+  // `POST /listreferencebases` will return a JSON version of
+  // `ListReferenceBasesResponse`.
+  rpc ListReferenceBases(ListReferenceBasesRequest)
+    returns (ListReferenceBasesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/references/{reference_id}/bases"
+        body: "*"
+      };
+    };
+
+}
+
+// ****************  /referencesets  *******************
+// This request maps to the body of `POST /referencesets/search` as JSON.
+message SearchReferenceSetsRequest {
+  // If unset, return the reference sets for which the
+  // `md5checksum` matches this string (case-sensitive, exact match).
+  // See `ReferenceSet::md5checksum` for details.
+  string md5checksum = 1;
+
+  // If unset, return the reference sets for which the `accession`
+  // matches this string (case-sensitive, exact match).
+  string accession = 2;
+
+  // If unset, return the reference sets for which the `assemblyId`
+  // matches this string (case-sensitive, exact match).
+  string assembly_id = 3;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 5;
+}
+
+// This is the response from `POST /referencesets/search` expressed as JSON.
+message SearchReferenceSetsResponse {
+  // The list of matching reference sets.
+  repeated ReferenceSet reference_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /referencesets/{reference_set_id}`.
+message GetReferenceSetRequest {
+  // The ID of the `ReferenceSet` to be retrieved.
+  string reference_set_id = 1;
+}
+
+// ****************  /references  *******************
+// This request maps to the body of `POST /references/search` as JSON.
+message SearchReferencesRequest {
+  // The `ReferenceSet` to search.
+  string reference_set_id = 1;
+
+  // If specified, return the references for which the
+  // `md5checksum` matches this string (case-sensitive, exact match).
+  // See `ReferenceSet::md5checksum` for details.
+  string md5checksum = 2;
+
+  // If specified, return the references for which the `accession`
+  // matches this string (case-sensitive, exact match).
+  string accession = 3;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 5;
+}
+
+// This is the response from `POST /references/search` expressed as JSON.
+message SearchReferencesResponse {
+  // The list of matching references.
+  repeated Reference references = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /references/{reference_id}`.
+message GetReferenceRequest {
+  // The ID of the `Reference` to be retrieved.
+  string reference_id = 1;
+}
+
+// This request retrieves a region of a reference genome when sent to 
+// the `/listreferencebases` endpoint.
+message ListReferenceBasesRequest {
+  // The ID of the `Reference` to be retrieved.
+  string reference_id = 1;
+
+  // The start position (0-based) of this query. Defaults to 0.
+  // Genomic positions are non-negative integers less than reference length.
+  // Requests spanning the join of circular genomes are represented as
+  // two requests one on each side of the join (position 0).
+  int64 start = 2;
+
+  // The end position (0-based, exclusive) of this query. Defaults
+  // to the length of this `Reference`.
+  int64 end = 3;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 4;
+}
+
+// The response from `POST /listreferencebases` expressed as JSON.
+message ListReferenceBasesResponse {
+  // The offset position (0-based) of the given sequence from the start of this
+  // `Reference`. This value will differ for each page in a paginated request.
+  int64 offset = 1;
+
+  // A substring of the bases that make up this reference. Bases are represented
+  // as IUPAC-IUB codes; this string matches the regexp `[ACGTMRWSYKVHDBN]*`.
+  string sequence = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 3;
+}
+
+
+service RnaQuantificationService {
+  // Gets a list of 'RnaQuantificationSet' matching the search criteria.
+  // 'POST /rnaquantificationsets/search' must accept JSON version of
+  // 'SearchRnaQuantificationSetRequest' as the post body and will return a JSON
+  // version of 'SearchRnaQuantificationSetResponse'.
+  rpc SearchRnaQuantificationSets(SearchRnaQuantificationSetsRequest)
+    returns (SearchRnaQuantificationSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/rnaquantificationsets/search"
+        body: "*"
+      };
+    };
+
+
+  // Gets a `RnaQuantificationSet` by ID.
+  // `GET /rnaquantificationsets/{id}` will return a JSON version of
+  // `RnaQuantificationSet`.
+  rpc GetRnaQuantificationSet(GetRnaQuantificationSetRequest)
+    returns (RnaQuantificationSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/rnaquantificationsets/{rna_quantification_set_id}"
+      };
+    };
+
+  // Gets a list of 'RnaQuantification' matching the search criteria.
+  // 'POST /rnaquantifications/search' must accept JSON version of
+  // 'SearchRnaQuantificationsRequest' as the post body and will return a JSON
+  // version of 'SearchRnaQuantificationResponse'.
+  rpc SearchRnaQuantifications(SearchRnaQuantificationsRequest)
+    returns (SearchRnaQuantificationsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/rnaquantifications/search"
+        body: "*"
+      };
+    };
+
+
+  // Gets a `RnaQuantification` by ID.
+  // `GET /rnaquantifications/{id}` will return a JSON version of
+  // `RnaQuantification`.
+  rpc GetRnaQuantification(GetRnaQuantificationRequest)
+    returns (RnaQuantification) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/rnaquantifications/{rna_quantification_id}"
+      };
+    };
+
+  // Gets a list of 'ExpressionLevel' matching the search criteria.
+
+  // 'POST /expressionlevels/search' must accept JSON version of
+  // 'SearchExpressionLevelsRequest' as the post body and will return a JSON
+  // version of 'SearchExpressionLevelsResponse'.
+  rpc SearchExpressionLevels(SearchExpressionLevelsRequest)
+    returns (SearchExpressionLevelsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/expressionlevels/search"
+        body: "*"
+      };
+    };
+
+// Gets a `ExpressionLevel` by ID.
+// `GET /expressionlevels/{id}` will return a JSON version of
+// `ExpressionLevel`.
+  rpc GetExpressionLevel(GetExpressionLevelRequest)
+    returns (ExpressionLevel) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/expressionlevels/{expression_level_id}"
+      };
+    };
+
+}
+// ****************  /rnaquantificationsets/search  *******************
+
+// This request maps to the body of 'POST /rnaquantificationsets/search'
+// as JSON.
+message SearchRnaQuantificationSetsRequest {
+  // The `Dataset` to search.
+  string dataset_id = 1;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string page_token = 3;
+}
+
+// This is the response from 'POST /rnaquantificationsets/search' expressed as JSON.
+message SearchRnaQuantificationSetsResponse {
+  // The list of matching quantification sets.
+  repeated RnaQuantificationSet rna_quantification_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /rnaquantificationsets/{rna_quantification_set_id}`.
+
+message GetRnaQuantificationSetRequest {
+  // The ID of the `RnaQuantificationSet`.
+  string rna_quantification_set_id = 1;
+}
+
+// ****************  /rnaquantifications/search  *******************
+
+// This request maps to the body of 'POST /rnaquantifications/search'
+// as JSON.
+message SearchRnaQuantificationsRequest {
+  // Return only Rna Quantifications which belong to this set.
+  // Must be specified.
+  string rna_quantification_set_id = 1;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string page_token = 3;
+}
+
+// This is the response from 'POST /rnaquantifications/search' expressed as JSON.
+message SearchRnaQuantificationsResponse {
+  // The list of matching quantifications.
+  repeated RnaQuantification rna_quantifications = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /rnaquantification/{rna_quantification_id}`.
+
+message GetRnaQuantificationRequest {
+  // The ID of the `RnaQuantification`.
+  string rna_quantification_id = 1;
+}
+
+// ****************  /expressionlevels/search  *******************
+// This request maps to the body of 'POST /expressionlevels/search'
+// as JSON.
+message SearchExpressionLevelsRequest {
+  // The rnaQuantification to restrict search to.
+  string rna_quantification_id = 1;
+ 
+  // Only return expressions with any of the specified feature_ids.
+  repeated string feature_ids = 2;
+
+  // Only return ExpressionLevel records with expressions exceeding
+  // this value.  (Defaults to 0.0)
+  float threshold = 3;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 4;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string page_token = 5;
+}
+
+// This is the response from 'POST /expressionlevels/search' expressed as JSON.
+message SearchExpressionLevelsResponse {
+  // The list of matching quantifications.
+  repeated ExpressionLevel expression_levels = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // 'nextPageToken' from the previous response.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /expressionlevels/{expression_level_id}`.
+
+message GetExpressionLevelRequest {
+  // The ID of the `ExpressionLevel`.
+  string expression_level_id = 1;
+}
+
+
+service SequenceAnnotationService {
+  // Gets a list of `FeatureSet` matching the search criteria.
+  //
+  // `POST /featuresets/search` must accept a JSON version of
+  // `SearchFeatureSetsRequest` as the post body and will return a JSON version
+  // of `SearchFeatureSetsResponse`.
+  rpc SearchFeatureSets(SearchFeatureSetsRequest)
+    returns (SearchFeatureSetsResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/featuresets/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `FeatureSet` by ID.
+  //
+  // `GET /featuresets/{id}` will return a JSON version of `FeatureSet`.
+  rpc GetFeatureSet(GetFeatureSetRequest)
+    returns (FeatureSet) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/featuresets/{feature_set_id}"
+      };
+    };
+
+  // Gets a list of `Feature` matching the search criteria.
+  //
+  // `POST /features/search` must accept a JSON version of
+  // `SearchFeaturesRequest` as the post body and will return a JSON version of
+  // `SearchFeaturesResponse`.
+  rpc SearchFeatures(SearchFeaturesRequest)
+    returns (SearchFeaturesResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a8/features/search"
+        body: "*"
+      };
+    };
+
+  // Gets a `org.ga4gh.models.Feature` by ID.
+  //
+  // `GET /features/{id}` will return a JSON version of `Feature`.
+  rpc GetFeature(GetFeatureRequest)
+    returns (Feature) {
+      option (google.api.http) = {
+        get: "/v0.6.0a8/features/{feature_id}"
+      };
+    };
+
+}
+
+/******************  /featuresets  *********************/
+/** This request maps to the body of `POST /featuresets/search` as JSON. */
+message SearchFeatureSetsRequest {
+  // The `Dataset` to search.
+  string dataset_id = 1;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 2;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 3;
+}
+
+// This is the response from `POST /featuresets/search` expressed as JSON.
+message SearchFeatureSetsResponse {
+  // The list of matching feature sets.
+  repeated FeatureSet feature_sets = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /featuresets/{id}`.
+message GetFeatureSetRequest {
+  // The ID of the `FeatureSet` to be retrieved.
+  string feature_set_id = 1;
+}
+
+/****************** /features *****************/
+// This request maps to the body of `POST /features/search` as JSON.
+message SearchFeaturesRequest {
+  // The annotation set to search within. Either `feature_set_id` or
+  // `parent_id` must be non-empty.
+  string feature_set_id = 1;
+
+  // Only returns features with this name (case-sensitive, exact match).
+  string name = 2;
+
+  // Only return features with matching the provided gene symbol
+  // (case-sensitive, exact match).
+  // This field may be replaced with a more generic representation
+  // in a future version.
+  string gene_symbol = 3;
+
+  // Restricts the search to direct children of the given parent `feature`
+  // ID. Either `feature_set_id` or `parent_id` must be non-empty.
+  string parent_id = 4;
+
+  // Only return features on the reference with this name
+  // (matched to literal reference name as imported from the GFF3).
+  string reference_name = 5;
+
+  // Required, if name or symbol not provided.
+  // The beginning of the window (0-based, inclusive) for which
+  // overlapping features should be returned.  Genomic positions are
+  // non-negative integers less than reference length.  Requests spanning the
+  // join of circular genomes are represented as two requests one on each side
+  // of the join (position 0).
+  int64 start = 6;
+
+  // Required, if name or symbol not provided.
+  // The end of the window (0-based, exclusive) for which overlapping
+  // features should be returned.
+  int64 end = 7;
+
+  // TODO: To be replaced with a fully featured ontology search
+  // once the Metadata definitions are rounded out.
+  // If specified, this query matches only annotations whose `feature_type`
+  // matches one of the provided ontology terms.
+  repeated string feature_types = 8;
+
+  // Specifies the maximum number of results to return in a single page.
+  // If unspecified, a system default will be used.
+  int32 page_size = 9;
+
+  // The continuation token, which is used to page through large result sets.
+  // To get the next page of results, set this parameter to the value of
+  // `next_page_token` from the previous response.
+  string page_token = 10;
+}
+
+// This is the response from `POST /features/search` expressed as JSON.
+message SearchFeaturesResponse {
+  // The list of matching annotations, sorted by start position. Annotations
+  // which share a start position are returned in a deterministic order.
+  repeated Feature features = 1;
+
+  // The continuation token, which is used to page through large result sets.
+  // Provide this value in a subsequent request to return the next page of
+  // results. This field will be empty if there aren't any additional results.
+  string next_page_token = 2;
+}
+
+// This request maps to the URL `GET /features/{id}`.
+message GetFeatureRequest {
+  // The ID of the `Feature` to be retrieved.
+  string feature_id = 1;
+}
