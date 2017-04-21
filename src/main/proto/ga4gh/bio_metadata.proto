@@ -24,7 +24,7 @@ message Individual {
   string description = 4;
 
   // characteristics object uses lists of BioCharacteristic objects to describe
-  // diseases and phenotypes associated with this Individual.
+
   repeated BioCharacteristic characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
