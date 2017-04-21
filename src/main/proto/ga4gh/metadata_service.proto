@@ -30,6 +30,19 @@ service MetadataService {
       };
     };
 
+  // Adds a `Dataset` by ID.
+  //
+  // `POST /datasets` will return a dataset_id.
+  rpc AddDataset(DataSet)
+    returns (AddDatasetResponse) {
+      option (google.api.http) = {
+        post: "/v0.6.0a10/datasets"
+        body: "*"
+      };
+    };
+
+
+
 }
 
 // ****************  /datasets  *******************
@@ -59,6 +72,12 @@ message SearchDatasetsResponse {
 
 // This request maps to the URL `GET /datasets/{dataset_id}`.
 message GetDatasetRequest {
+  // The ID of the `Dataset` to be retrieved.
+  string dataset_id = 1;
+}
+
+// This request maps to the URL `POST /datasets`.
+message AddDatasetRequest {
   // The ID of the `Dataset` to be retrieved.
   string dataset_id = 1;
 }
