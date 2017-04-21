@@ -38,7 +38,7 @@ What is the minimum attribute requirement for  OntologyTerm in GA4GH?
 
 Conceptually (and consistent with the metadata branch)
 
-:termId:
+:term_id:
   required and implemented as CURIE
   we assume this resolves to a meaningful document, e.g. http://purl.obolibrary.org/obo/SO_0000147, using a prefix mapper, e.g. SO: <=> http://purl.obolibrary.org/obo/SO_
 :term:
@@ -80,187 +80,75 @@ Examples
 Genotypic sex
 =============
 
-<<<<<<< HEAD
-:ontologyId:
-  "http://purl.obolibrary.org/obo/PATO_0020001",
-:term:
-  "male genotypic sex" ,
-:sourceName:
-  "PATO Phenotypic quality",
-=======
-:termId:
+:term_id:
 	"PATO:0020001",
 :term:
   "male genotypic sex" ,
-
->>>>>>> master
 
 
 Sequence Ontology
 =================
 
-:termId:
+:term_id:
   "SO:0001583",
 :term:
-<<<<<<< HEAD
-  "missense_variant",
-:sourceName:
-  "Sequence Ontology",
-:sourceVersion:
-  "release_2.5.3"
-=======
 	"missense_variant",
-
->>>>>>> master
 
 
 Human Phenotype ontology
 ========================
 
-:termId:
+:term_id:
   "HP:0000819",
 :term:
-<<<<<<< HEAD
   "Diabetes mellitus",
-:sourceName:
-  "human_phenotype Ontology",
-:sourceVersion:
-  "release_Jan2016*"
 
 ----
 
-:ontologyId:
-  "http://www.ebi.ac.uk/efo/HP_0012059",
+:term_id:
+  "HP:0012059",
 :term:
   "Lentigo maligna melanoma",
-:sourceName:
-  "human_phenotype_ontology",
-:sourceVersion:
-  "2016-01-14”
-=======
-	"Diabetes mellitus",
-
-
-----
-
-:termId:
-	"HP:0012059",
-:term:
-	"Lentigo maligna melanoma",
-
->>>>>>> master
 
 
 Body part (Uberon)
 ==================
 
-<<<<<<< HEAD
-:ontologyId:
-  "http://www.ebi.ac.uk/efo/UBERON_0003403",
-:term:
-  "skin of forearm",
-:sourceName:
-  "uberon",
-:sourceVersion:
-  "2015-11-23”
-=======
-:termId:
+:term_id:
 	"UBERON:0003403",
 :term:
 	"skin of forearm",
->>>>>>> master
 
 
 Human disease ontology
 ======================
 
-<<<<<<< HEAD
-:ontologyId:
-  "http://purl.obolibrary.org/obo/DOID_9351",
-:term:
-  "diabetes mellitus",
-:sourceName:
-  "disease_ontology",
-:sourceVersion:
-  "2016-01-25"
-=======
-:termId:
+:term_id:
 	"DOID:9351",
 :term:
 	"diabetes mellitus",
->>>>>>> master
 
 
 Experimental factor ontology
 ============================
 
-<<<<<<< HEAD
-:ontologyId:
-  "http://purl.obolibrary.org/obo/EFO_0000400",
-:term:
-  "diabetes mellitus",
-:sourceName:
-  "experimental_factor_ontology",
-:sourceVersion:
-  "V2.68”
-
-----
-
-:ontologyId:
-  "http://www.ebi.ac.uk/efo/EFO_0004422",
-:term:
-  "exome",
-:sourceName:
-  "Experimental Factor Ontology",
-:sourceVersion:
-  "release_2.68"
-
-
-SNOMEDCT representation of ICD-O 3 Cancer Histology
-===================================================
-
-:ontologyId:
-  "http://purl.bioontology.org/ontology/SNMI/M-94703“
-:term:
-  "Medulloblastoma, NOS”
-:sourceName:
-  "SNOMED CT model component”
-:sourceVersion:
-  "2016-01-28"
-
-=======
-:termId:
+:term_id:
 	"EFO:0000400",
 :term:
 	"diabetes mellitus",
 
-
 ----
 
-:termId:
+:term_id:
 	"EFO:0004422",
 :term:
 	"exome",
 
 
->>>>>>> master
-
 Unit Ontology
 =============
 
-<<<<<<< HEAD
-:ontologyId:
-  "http://purl.obolibrary.org/obo/UO_0000016",
-:term:
-  "millimetre",
-:sourceName:
-  "Unit Ontology",
-:sourceVersion:
-  "2015-12-17"
-=======
-:termId:
+:term_id:
 	"UO:0000016",
 :term:
 	"millimetre",
-
->>>>>>> master

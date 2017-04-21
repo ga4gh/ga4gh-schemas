@@ -68,13 +68,9 @@ message Experiment {
   // A description of the experiment.
   string description = 3;
 
-  // The time at which this message was created.
+  // The time at which the record of this experiment was last updated.
   // Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  string message_create_time = 4;
-
-  // The time at which this message was last updated.
-  // Format: ISO 8601, YYYY-MM-DDTHH:MM:SS.SSS (e.g. 2015-02-10T00:03:42.123Z)
-  string message_update_time = 5;
+  string updated = 5;
 
   // The time at which this experiment was performed.
   // Granularity here is variable (e.g. date only).
@@ -107,8 +103,11 @@ message Experiment {
   // Should this be `instrumentData` instead?
   string instrument_data_file = 13;
 
-  // The sequencing center used as part of this experiment.
+  // Name of the laboratory where this experiment was performed.
   string sequencing_center = 14;
+
+  // The address coded as geolocation object of the laboratory.
+  GeoLocation location = 18;
 
   // The platform unit used as part of this experiment. This is a
   // flowcell-barcode
@@ -158,6 +157,52 @@ message OntologyTerm {
 
   // Ontology term - the label of the ontology term the termId is pointing to.
   string term = 2;
+}
+
+// A GeoLocation object provides information about a geographic position
+// related to a record. Examples could be:
+//  - an address, e.g. of a lab performing an analysis
+//  - provenance of an individual, obfuscated to a larger order administrative
+//    entity (Suffolk, U.K.)
+//  - a lat/long/alt position where an environmental sample was collected
+//   The geographic point object uses the default units from the DCMI point scheme
+//  http://dublincore.org/documents/dcmi-point/
+//  and avoids optional representation in non-standard units.
+
+message GeoLocation {
+  // a text representation, preferably using standard geographic identification
+  // elements, of the corresponding latitude,longitude(,altitude)
+  // This representation serves the purposes to
+  //  - capture standard data entry parameters
+  //  - provide a sanity check for latitude,longitude values
+  // Example:
+  //  - 34 Washington Blvd, Marina del Rey, CA  90292, United States
+  //  - Str Marasesti 5, 300077 Timisoara, Romania
+  //  - Heidelberg, Deutschland
+  string geo_label = 1;
+
+  // an optional indication of the maximum precision to be derived from the
+  // latitude,longitude values
+  // Example:
+  // Given a street address "Winterthurerstrasse 190, 8057 Zürich, Switzerland",
+  // a privacy driven (destructive) obfuscation approach could recode this
+  // to
+  //  "latitude": 47.37, "longitude": 8.54
+  //  while providing
+  //  "geo_precision":"city", "geo_label": "Zürich, Switzerland"
+  // ... indicating that the original location could correspond to any
+  // latitude,longitude point value inside the administrative boundaries of
+  // the city of Zürich, Switzerland
+  string geo_precision = 2;
+
+  // signed decimal degrees (North, relative to Equator)
+  double latitude = 3;
+
+  // signed decimal degrees (East, relative to IERS Reference Meridian)
+  double longitude = 4;
+
+  // optional, e.g. for environmental samples
+  double altitude = 5;
 }
 
 // A Program describes software used in data processing or analysis.
