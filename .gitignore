@@ -84,3 +84,5 @@ target/
 
 #********* Java artifacts *******
 *.class
+
+*.py
