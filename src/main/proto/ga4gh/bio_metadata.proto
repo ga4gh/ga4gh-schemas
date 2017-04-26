@@ -23,16 +23,16 @@ message Individual {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
-  // The characteristics attribute uses lists of BioCharacteristic objects to describe
+  // The bio_characteristics attribute uses lists of BioCharacteristic objects to describe
   // diseases, phenotypes ... associated with this Individual. The values here may
   // overlap with values recorded in related records. As general rule, "germline"
   // or non-organ specific afflictions ("Li-fraumeni Syndrome", "Diabetes mellitus"
   // should be recorded here, whereas "Infiltrating duct carcinoma" may be both
   // recorded here (as known disease history)
-  // as well as in the "Biosample.characteristics" attribute.
+  // as well as in the "Biosample.bio_characteristics" attribute.
   // For querying all disease contexts related to an individual, therefore queries
-  // should cover ($in) [Individual.characteristics OR Biosample.characteristics].
-  repeated BioCharacteristic characteristics = 9;
+  // should cover ($in) [Individual.bio_characteristics OR Biosample.bio_characteristics].
+  repeated BioCharacteristic bio_characteristics = 9;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
   // was created.
@@ -102,7 +102,7 @@ message Biosample {
 
   // characteristics object uses lists of BioCharacteristic objects to describe
   // diseases, phenotypes, source ... associated with this BioSample.
-  repeated BioCharacteristic characteristics = 5;
+  repeated BioCharacteristic bio_characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
   // was created.
