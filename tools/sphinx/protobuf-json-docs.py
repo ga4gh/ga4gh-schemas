@@ -121,7 +121,7 @@ def traverse(proto_file):
             place["trailing_comments"] = loc.trailing_comments
     
     # Only message, services, enums, extensions, options
-    if set(tree.keys()).difference(set([4, 5, 6, 7, 8])) != set():
+    if set(tree.keys()).difference(set([4, 5, 6, 7, 8, 12])) != set():
         raise Exception, tree
 
     return {"types":
