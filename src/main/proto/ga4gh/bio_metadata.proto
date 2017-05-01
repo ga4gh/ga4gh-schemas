@@ -65,11 +65,9 @@ message Individual {
   // A map of additional information regarding the Individual.
   Attributes attributes = 10;
 
-  // External identifiers representing this individual.
-  // TODO: Define if those are a different representation of the same
-  // record, or also can refer to instances containing this record, e.g.:
-  //  - publication identifiers with this record
-  //  - experimental series, datasets containing this record
+  // External identifiers representing this individual. These are considered
+  // different representation of the same record, not records which are in some
+  // other relation with the record at hand.
   repeated ExternalIdentifier external_identifiers = 11;
 
 }
@@ -118,7 +116,9 @@ message Biosample {
   // A map of additional information about the Biosample.
   Attributes attributes = 10;
 
-  // External identifiers representing this biosample.
+  // External identifiers representing this biosample. These are considered
+  // different representation of the same record, not records which are in some
+  // other relation with the record at hand.
   repeated ExternalIdentifier external_identifiers = 11;
 
   // An age object describing the age of the individual this biosample was
