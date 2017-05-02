@@ -4,8 +4,6 @@
 Google Protocol Buffers
 ***********************
 
-Apache Avro is a data serialization ecosystem, comparable to Google's Protocol Buffers.
-
 -------------------------------------------------------
 What does the GA4GH web API take from Protocol Buffers?
 -------------------------------------------------------
