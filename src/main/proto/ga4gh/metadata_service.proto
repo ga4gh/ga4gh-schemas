@@ -77,7 +77,7 @@ message GetDatasetRequest {
 }
 
 // This request maps to the URL `POST /datasets`.
-message AddDatasetRequest {
+message AddDatasetResponse {
   // The ID of the `Dataset` to be retrieved.
   string dataset_id = 1;
 }
