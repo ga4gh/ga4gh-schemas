@@ -33,14 +33,13 @@ service MetadataService {
   // Adds a `Dataset` by ID.
   //
   // `POST /datasets` will return a dataset_id.
-  rpc AddDataset(DataSet)
+  rpc AddDataset(Dataset)
     returns (AddDatasetResponse) {
       option (google.api.http) = {
         post: "/v0.6.0a10/datasets"
         body: "*"
       };
     };
-
 
 
 }
