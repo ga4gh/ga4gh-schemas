@@ -1,0 +1,114 @@
+
+syntax = "proto3";
+
+package ga4gh;
+import "google/protobuf/struct.proto";
+
+// Import HTTP RESTful annotations
+// from github.com/googleapis/googleapis
+import "google/api/annotations.proto";
+
+
+///-------------------------------------------------------------------
+// Link: for HATEOAS links (Hypermedia As The Engine Of Application State)
+///-------------------------------------------------------------------
+message Link {
+  string rel = 1;   // Relationship between the document containing the link and the destination resource
+  oneof payload {
+    string url = 2;  // Address of the entity
+    string id = 3;   // Id of the entity
+  }
+  string mime_type = 4;  // Hint for the type of the referenced resource mimetype
+}
+
+
+///-------------------------------------------------------------------
+// Resource: a file, API or other resource
+///-------------------------------------------------------------------
+message DataObject {
+  //REQUIRED
+  string id = 1;
+
+  //REQUIRED
+  string file_name = 2;
+
+  //REQUIRED
+  int64 file_size = 3;
+
+  //REQUIRED
+  // The time at which this object was created in milliseconds from the
+  // epoch.
+  int64 created = 4; // timestamp
+
+  //REQUIRED
+  // The time at which this object was last updated in milliseconds from the
+  // epoch.
+  int64 updated = 5;
+
+  //OPTIONAL
+  string mime_type = 6;
+
+  //OPTIONAL
+  string md5sum =  7;
+
+  //REQUIRED
+  repeated string urls = 8;
+
+  //OPTIONAL
+  string description = 9;
+
+  //OPTIONAL TODO ARE THESE NAMES, IDS, URLS?
+  repeated string aliases = 10;
+
+  //OPTIONAL
+  Provenance provenance = 11;
+
+  //OPTIONAL
+  google.protobuf.Struct info = 12;
+
+  //OPTIONAL
+  // A Resource can optionally be associated with the following linked entities :
+  // relationship  example description
+  // aliquots         https://github.com/NCI-GDC/gdcdictionary/blob/develop/gdcdictionary/schemas/aliquot.yaml
+  // analytes         https://github.com/NCI-GDC/gdcdictionary/blob/develop/gdcdictionary/schemas/analyte.yaml
+  // archives         https://github.com/NCI-GDC/gdcdictionary/blob/develop/gdcdictionary/schemas/archive.yaml
+  // individual (case,donor)   https://github.com/ga4gh/ga4gh-schemas/blob/master/src/main/proto/ga4gh/bio_metadata.proto#L11
+  // centers          https://github.com/NCI-GDC/gdcdictionary/blob/develop/gdcdictionary/schemas/center.yaml
+  // data_formats     https://github.com/NCI-GDC/gdcdictionary/blob/develop/gdcdictionary/schemas/data_format.yaml
+  // dataset          https://github.com/ga4gh/ga4gh-schemas/blob/master/src/main/proto/ga4gh/metadata.proto#L10
+  // derived_files    https://github.com/NCI-GDC/gdcdictionary/blob/develop/gdcdictionary/schemas/file.yaml#L50
+  // platforms        https://github.com/NCI-GDC/gdcdictionary/blob/master/gdcdictionary/schemas/platform.yaml
+  // portions         https://github.com/NCI-GDC/gdcdictionary/blob/master/gdcdictionary/schemas/portion.yaml
+  // project          https://github.com/NCI-GDC/gdcdictionary/blob/master/gdcdictionary/schemas/project.yaml
+  // related_files    https://github.com/NCI-GDC/gdcdictionary/blob/develop/gdcdictionary/schemas/file.yaml#L50
+  // biosample        https://github.com/ga4gh/ga4gh-schemas/blob/master/src/main/proto/ga4gh/bio_metadata.proto#L65
+  // slides           https://github.com/NCI-GDC/gdcdictionary/blob/master/gdcdictionary/schemas/slide.yaml
+  // tags             https://github.com/NCI-GDC/gdcdictionary/blob/master/gdcdictionary/schemas/tag.yaml
+  // repository       http://docs.icgc.org/portal/api-endpoints/#!/repositories/list
+  repeated Link links = 13;
+
+  // OPTIONAL the id of the file as submitted
+  string submitted_id = 14;
+
+  //TODO DISCUSS OTHER GDC fields
+  // # state
+  // # file_state
+  // # error_type
+  // # submitter_id
+
+}
+
+///-------------------------------------------------------------------
+// A description of how the dataobject was created
+///-------------------------------------------------------------------
+
+message Provenance {
+  //REQUIRED
+  // A string defining an operation
+  string operation = 1;
+
+  //OPTIONAL
+  // An array of data_object_id inputs to a operation
+  // TODO append other ideas here e.g. data descriptor
+  repeated string sources = 2;
+}
