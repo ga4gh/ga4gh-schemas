@@ -85,5 +85,3 @@ BioCharacteristic in the GA4GH Schema
 A BioCharacteristic is an object, defining a single phenotype or diagnosis
 through the use of a free text description and a representation by one or
 more "ontologyTerms" objects as well as zero or more "negatedOntologyTerms".
-An additional "scope" attribute allows to limit queries e.g. to "disease" type
-objects.

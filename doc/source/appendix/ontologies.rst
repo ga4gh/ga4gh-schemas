@@ -85,7 +85,6 @@ Genotypic sex
 :term:
   "male genotypic sex" ,
 
-
 Sequence Ontology
 =================
 
@@ -93,7 +92,6 @@ Sequence Ontology
   "SO:0001583",
 :term:
 	"missense_variant",
-
 
 Human Phenotype ontology
 ========================
@@ -110,7 +108,6 @@ Human Phenotype ontology
 :term:
   "Lentigo maligna melanoma",
 
-
 Body part (Uberon)
 ==================
 
@@ -119,7 +116,6 @@ Body part (Uberon)
 :term:
 	"skin of forearm",
 
-
 Human disease ontology
 ======================
 
@@ -127,7 +123,6 @@ Human disease ontology
 	"DOID:9351",
 :term:
 	"diabetes mellitus",
-
 
 Experimental factor ontology
 ============================

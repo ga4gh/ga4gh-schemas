@@ -206,6 +206,10 @@ message GeoLocation {
 
   // optional, e.g. for environmental samples
   double altitude = 5;
+  
+  // A map of additional geographic location data.
+  Attributes attributes = 6;
+
 }
 
 // A Program describes software used in data processing or analysis.

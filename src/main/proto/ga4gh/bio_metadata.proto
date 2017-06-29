@@ -215,4 +215,5 @@ message BioCharacteristic {
   // TODO:  This may be modified into an enumeration or expressed through
   //        an OntologyTerm.
   string scope  = 4;
+
 }
