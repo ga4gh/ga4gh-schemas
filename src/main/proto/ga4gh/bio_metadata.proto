@@ -23,9 +23,16 @@ message Individual {
   // The "description" attributes should not contain any structured data.
   string description = 4;
 
-  // characteristics object uses lists of BioCharacteristic objects to describe
-  // diseases and phenotypes associated with this Individual.
-  Characteristics characteristics = 12;
+  // The bio_characteristics attribute uses lists of BioCharacteristic objects to describe
+  // diseases, phenotypes ... associated with this Individual. The values here may
+  // overlap with values recorded in related records. As general rule, "germline"
+  // or non-organ specific afflictions ("Li-fraumeni Syndrome", "Diabetes mellitus"
+  // should be recorded here, whereas "Infiltrating duct carcinoma" may be both
+  // recorded here (as known disease history)
+  // as well as in the "Biosample.bio_characteristics" attribute.
+  // For querying all disease contexts related to an individual, therefore queries
+  // should cover ($in) [Individual.bio_characteristics OR Biosample.bio_characteristics].
+  repeated BioCharacteristic bio_characteristics = 9;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Individual's record
   // was created.
@@ -58,11 +65,9 @@ message Individual {
   // A map of additional information regarding the Individual.
   Attributes attributes = 10;
 
-  // External identifiers representing this individual.
-  // TODO: Define if those are a different representation of the same
-  // record, or also can refer to instances containing this record, e.g.:
-  //  - publication identifiers with this record
-  //  - experimental series, datasets containing this record
+  // External identifiers representing this individual. These are considered
+  // different representation of the same record, not records which are in some
+  // other relation with the record at hand.
   repeated ExternalIdentifier external_identifiers = 11;
 
 }
@@ -94,8 +99,8 @@ message Biosample {
   string description = 4;
 
   // characteristics object uses lists of BioCharacteristic objects to describe
-  // diseases and phenotypes associated with this BioSample.
-  Characteristics characteristics = 5;
+  // diseases, phenotypes, source ... associated with this BioSample.
+  repeated BioCharacteristic bio_characteristics = 5;
 
   // The :ref:`ISO 8601<metadata_date_time>` time at which this Biosample record
   // was created.
@@ -111,27 +116,36 @@ message Biosample {
   // A map of additional information about the Biosample.
   Attributes attributes = 10;
 
-  // External identifiers representing this biosample.
+  // External identifiers representing this biosample. These are considered
+  // different representation of the same record, not records which are in some
+  // other relation with the record at hand.
   repeated ExternalIdentifier external_identifiers = 11;
 
   // An age object describing the age of the individual this biosample was
   // derived from at the time of collection. The Age object allows the encoding
   // of the age either as ISO8601 duraion or time interval (preferred), or
   // as ontology term object.
+  // Example:
+  //   "individual_age_at_collection": {
+  //     "age": "P12Y0M",
+  //     "age_class": {
+  //         "term": "Juvenile onset",
+  //         "term_id": "HP:0003621"
+  //     }
+  // },
   Age individual_age_at_collection = 12;
 
-  // The address coded as geolocationpl where the biosample was collected.
+  // The address coded as GeoLocation where the biosample was collected.
   GeoLocation location = 13;
 }
-
 
 // The age object permits both the (considered default) encoding of an age
 // value in ISO8601, with arbitrary granularity; and the representation of an
 // "age class" as qualitative ontology term.
 // If available, a quantitative value should be used & take precedence over the
 // age class, and class assignment should be performed at user/API level.
-
 message Age {
+  
   // The :ref:`ISO 8601<metadata_date_time>` age of this object as ISO8601
   // duration or time intervals. The use of time intervals makes an additional
   // anchor unnecessary (i.e. DOB and age can be represented as start-anchored
@@ -140,7 +154,7 @@ message Age {
   string age = 1;
 
   // An age class, e.g. corresponding to the use of "age of onset" in HPO.
-  // HPO is recommended, for example, subclasses of
+  // HPO is recommended, for example, subclasses of "Onnset":
   // http://purl.obolibrary.org/obo/HP_0003674
   // Example:
   //  age_class : { term_id : "HP:0003596", term : "Middle age onset" }
@@ -164,13 +178,13 @@ message BioCharacteristic {
   // phenotype) reorted here.
   // Example (for a single diagnosis "squamous cell carcinoma, base of tongue"):
   //
-  //     termId: "DOID:0050865",
+  //     term_id: "DOID:0050865",
   //     term: "tongue squamous cell carcinoma",
   //
-  //     termId: "UBERON:0006919",
+  //     term_id: "UBERON:0006919",
   //     term: "tongue squamous epithelium",
   //
-  //     termId: "UBERON:0010033",
+  //     term_id: "UBERON:0010033",
   //     term: "posterior part of tongue",
   //
   repeated OntologyTerm ontology_terms = 2;
@@ -183,30 +197,23 @@ message BioCharacteristic {
   //
   //   ...  one could use the ontologyTerms
   //
-  //      termId: "HP:0001711"
-  //      label: "Abnormality of the left ventricle"
+  //      term_id: "HP:0001711"
+  //      term: "Abnormality of the left ventricle"
   //
   //      id: "HP:0001707"
-  //      label: "Abnormality of the right ventricle"
+  //      term: "Abnormality of the right ventricle"
   //
   //   ... and add to negatedOntologyTerms
   //
-  //      termId: "HP:0001714"
-  //      label: "Ventricular hypertrophy"
+  //      term_id: "HP:0001714"
+  //      term: "Ventricular hypertrophy"
   //
   repeated OntologyTerm negated_ontology_terms = 3;
 
-}
-
-// Characteristics is a wrapper object for the diseases, phenotypes associated
-// with a first class BioMetadata object (Individual, BioSample).
-message Characteristics {
-  // Diseases associated with the parent BioMetadata object (Individual,
-  // BioSample).
-  repeated BioCharacteristic diseases = 1;
-
-  // Phenotypes associated with the parent BioMetadata object (Individual,
-  // BioSample).
-  repeated BioCharacteristic phenotypes = 2;
+  // Logical scope of this BioCharacteristic. Typical examples
+  // could be "phenotype", "disease", "observation", "source".
+  // TODO:  This may be modified into an enumeration or expressed through
+  //        an OntologyTerm.
+  string scope  = 4;
 
 }

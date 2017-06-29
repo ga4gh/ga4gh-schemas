@@ -45,7 +45,10 @@ message Position {
   Strand strand = 3;
 }
 
-// Identifier from a public database
+// Identifier from a public database, describing a different representation of
+// the same record (e.g. variant, biosample, individual).
+// TODO: Bring attribute names and descriptions in line with general use, as
+// demonstrated e.g. for OntologyTerm objects.
 message ExternalIdentifier {
   // The source of the identifier, e.g. `Ensembl`.
   string database = 1;
@@ -206,6 +209,7 @@ message GeoLocation {
   
   // A map of additional geographic location data.
   Attributes attributes = 6;
+
 }
 
 // A Program describes software used in data processing or analysis.
