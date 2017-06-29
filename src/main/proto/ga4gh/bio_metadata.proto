@@ -39,13 +39,15 @@ message Individual {
   // NCBITaxon Ontology
   //   http://www.obofoundry.org/ontology/ncbitaxon.html
   // For example, 'Homo sapiens' has the ID 9606. The NCBITaxon ontology ID for
-  // this is NCBITaxon:9606, which has the URI
-  // http://purl.obolibrary.org/obo/NCBITaxon_9606
+  // this is NCBITaxon:9606, and therefore:
+  //   species : { term_id: "NCBITaxon:9606", term : "Homo sapiens" }
   OntologyTerm species = 7;
 
   // The genetic sex of this individual.
   // Use `null` when unknown or not applicable.
-  // Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020001; PATO_0020002
+  // Recommended: PATO http://purl.obolibrary.org/obo/PATO_0020000 ...
+  // Example:
+  //   sex : { term_id: "PATO:0020000", term : "female genetic sex" }
   OntologyTerm sex = 8;
 
   // The address coded as geolocation where this individual originated from.
@@ -137,8 +139,11 @@ message Age {
   // TODO: Anonymous reference time attribute/pointer?
   string age = 1;
 
+  // An age class, e.g. corresponding to the use of "age of onset" in HPO.
   // HPO is recommended, for example, subclasses of
-  // http://purl.obolibrary.org/obo/HP_0011007
+  // http://purl.obolibrary.org/obo/HP_0003674
+  // Example:
+  //  age_class : { term_id : "HP:0003596", term : "Middle age onset" }
   OntologyTerm age_class = 2;
 }
 
