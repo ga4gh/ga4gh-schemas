@@ -80,7 +80,8 @@ instrumentation a well as ontology representations for metadata.
 Naturally, the group interacts heavily with members of most other task
 teams and working groups.
 
-`MTT Wiki <https://github.com/ga4gh/metadata-team/wiki>`__
+The relevant place for finding out about accepted metadata formats is the `*metadata-integration branch* <https://github.com/ga4gh/ga4gh-schemas/tree/metadata-integration>`__
+
 
 How to build
 @@@@@@@@@@@@
