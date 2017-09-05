@@ -182,7 +182,7 @@ message GeoLocation {
   //  - 34 Washington Blvd, Marina del Rey, CA  90292, United States
   //  - Str Marasesti 5, 300077 Timisoara, Romania
   //  - Heidelberg, Deutschland
-  string geo_label = 1;
+  string label = 1;
 
   // an optional indication of the maximum precision to be derived from the
   // latitude,longitude values
@@ -192,11 +192,11 @@ message GeoLocation {
   // to
   //  "latitude": 47.37, "longitude": 8.54
   //  while providing
-  //  "geo_precision":"city", "geo_label": "Zürich, Switzerland"
+  //  "precision":"city", "label": "Zürich, Switzerland"
   // ... indicating that the original location could correspond to any
   // latitude,longitude point value inside the administrative boundaries of
   // the city of Zürich, Switzerland
-  string geo_precision = 2;
+  string precision = 2;
 
   // signed decimal degrees (North, relative to Equator)
   double latitude = 3;
