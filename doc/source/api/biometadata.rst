@@ -53,6 +53,11 @@ An *Individual* is a GA4GH data object representing a biological instance
 (most commonly a human being or other individual organism) on whose *Biosamples*
 experimental analyses are performed.
 
+In the case of metagenome analyses (i.e. when the biosample consists of
+material like patient derived sputum, analyzed for its microbial content), the
+"species" context would still be the host; identified guest species would
+be described in analysis results.
+
 Individual attributes
 =====================
 
