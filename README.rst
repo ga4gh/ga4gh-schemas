@@ -74,13 +74,13 @@ Metadata Task Team
 @@@@@@@@@@@@@@@@@@
 
 The Metadata Task Team (MTT) concerns itself with data structures,
-attributes and values used to describe *everything but the sequence*.
+attributes and values used to describe **everything but the sequence**.
 This includes metadata for individuals, samples, analyses,
 instrumentation a well as ontology representations for metadata.
 Naturally, the group interacts heavily with members of most other task
 teams and working groups.
 
-The relevant place for finding out about accepted metadata formats is the `*metadata-integration branch* <https://github.com/ga4gh/ga4gh-schemas/tree/metadata-integration>`__
+The relevant place for finding out about accepted metadata formats is the `metadata-integration branch <https://github.com/ga4gh/ga4gh-schemas/tree/metadata-integration>`__.
 
 
 How to build
