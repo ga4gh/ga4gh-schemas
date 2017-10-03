@@ -2,6 +2,10 @@
 	    :alt: Image
 
 
+THIS REPOSITORY HAS BEEN DEPRECATED FOR NEW WORK
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Due to a GA4GH move to produce smaller, tightly defined, standards in smaller bites, this repository is no longer suitable as a place for new standards to be added. If further work is required on an existing schema defined within this repository the recommendation is to extract that schema from within this repo and work on it in a separate space. Please see the GA4GH website <https://ga4gh.org> for further details on the GA4GH Connect operational structure (which includes details on Work Streams), lists of existing standards and contact details should you have further queries. 
+
 Schemas for the Data Working Group
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
