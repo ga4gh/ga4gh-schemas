@@ -4,4 +4,4 @@
 # These requirements are read directly into setup.py, so specify them
 # in the order that they should be in in setup.py
 ga4gh-common==0.0.7
-protobuf==3.1.0.post1
+protobuf==3.18.3
